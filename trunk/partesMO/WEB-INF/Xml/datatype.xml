@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE Options SYSTEM "options.dtd">
+
+<Options>
+	<Option key="String" value="String" /> 
+	<Option key="Integer" value="Integer" /> 
+	<Option key="Datetime" value="DateTime" /> 
+	<Option key="double" value="Double" /> 
+	<Option key="bytearray" value="ByteArray" /> 
+	<Option key="short" value="Short" /> 
+	<Option key="long" value="Long" /> 
+	<Option key="float" value="Float" /> 
+	<Option key="date" value="Date" /> 
+	<Option key="time" value="Time" /> 
+</Options>
+
+
