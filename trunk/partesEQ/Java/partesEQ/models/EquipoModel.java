@@ -7,6 +7,7 @@ import java.sql.Statement;
 import infraestructura.controllers.BaseController;
 import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
 
+
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -558,6 +559,7 @@ public class EquipoModel extends DataStore {
 	public void setPage(BaseController pagina) {
 		this._pagina = pagina;
 	}
+	/** Este comentarios es de prueba **/
 	// $ENDCUSTOMMETHODS$
 
 }
