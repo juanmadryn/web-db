@@ -941,7 +941,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	// overwritten if the model is regenerated
 	
 	/**
-	 * Unique instance of the specified class. ?
+	 * Unique instance of the specified class.
 	 * @param tableName
 	 */
 	static public AuditaEstadosCircuitosModel instance(String tableName) {
