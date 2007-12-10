@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!DOCTYPE Options SYSTEM "options.dtd">
+
+<Options>
+	<Option key="HtmlLink" value="Link" /> 
+	<Option key="HtmlSSNComponent" value="SSN Component" /> 
+	<Option key="HtmlCheckBox" value="CheckBox" /> 
+</Options>
+
+
