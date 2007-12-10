@@ -1,0 +1,31 @@
+<?xml encoding="US-ASCII"?>
+
+<!ELEMENT  Tree (TreeItem)*> 
+	<!ATTLIST Tree
+	name CDATA #REQUIRED
+	expandImage CDATA #REQUIRED 
+	contractImage CDATA #REQUIRED
+	nullImage CDATA #REQUIRED
+	showRoot CDATA #IMPLIED
+	selectMode CDATA #IMPLIED
+	treeMode CDATA #IMPLIED
+	target CDATA #REQUIRED
+	>
+
+<!ELEMENT  TreeItem (TreeItemAddImage)*> 
+  <!ATTLIST TreeItem 
+
+     	text CDATA #REQUIRED
+     	href CDATA #IMPLIED
+     	imgsource CDATA #IMPLIED 
+	imgexpsource CDATA #IMPLIED 
+	imghref CDATA #IMPLIED 
+  > 
+
+<!ELEMENT TreeItemAddImage EMPTY>
+	<!ATTLIST TreeItemAddImage 
+		src CDATA #REQUIRED
+		text CDATA #REQUIRED
+		href CDATA #IMPLIED
+		name CDATA #IMPLIED
+	>
