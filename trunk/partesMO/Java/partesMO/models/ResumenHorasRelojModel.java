@@ -958,7 +958,7 @@ public class ResumenHorasRelojModel extends DataStore {
 		}
 		// si no se encontraron todos los partes
 		if (!parteIds.isEmpty()) {
-			// error
+			// error -- throw an exception?
 		}
 	}
 	
