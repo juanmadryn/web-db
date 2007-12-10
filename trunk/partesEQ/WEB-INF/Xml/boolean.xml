@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<!DOCTYPE Options SYSTEM "options.dtd">
-
-<Options>
-	<Option key="1" value="true" /> 
-	<Option key="0" value="false" /> 
-</Options>
-
-
