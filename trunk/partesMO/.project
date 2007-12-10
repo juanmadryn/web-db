@@ -3,6 +3,7 @@
 	<name>partesMO</name>
 	<comment></comment>
 	<projects>
+		<project>infraestructura</project>
 		<project>Salmon Open Framework</project>
 	</projects>
 	<buildSpec>
