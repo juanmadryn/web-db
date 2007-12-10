@@ -1,8 +1,0 @@
-<?xml encoding="US-ASCII"?>
-
-<!ELEMENT  Options (Option)*> 
-<!ELEMENT  Option EMPTY> 
-  <!ATTLIST Option 
-    	key CDATA #REQUIRED 
-    	value CDATA #REQUIRED 
-  > 
