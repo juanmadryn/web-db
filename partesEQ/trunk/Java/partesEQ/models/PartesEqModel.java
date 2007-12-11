@@ -2113,7 +2113,7 @@ public class PartesEqModel extends DataStore {
 		Statement st = null;
 		ResultSet r = null;
 		String SQL;
-		StringBuffer resultado;
+		StringBuilder resultado;
 		boolean ok = false;
 		
 		// verifico si está conectado un usuario
@@ -2155,7 +2155,7 @@ public class PartesEqModel extends DataStore {
 				if (validador != null && validador.length() > 0 && !validador.equalsIgnoreCase("No Validar")){
 					Class claseVal = Class.forName(validador);
 					ValidadorReglasNegocio val = (ValidadorReglasNegocio) claseVal.newInstance();
-					resultado = new StringBuffer("");
+					resultado = new StringBuilder("");
 					if (val.esValido(this,resultado,conexion)) {
 						ok = true;
 					} else{
