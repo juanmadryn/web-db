@@ -9,12 +9,14 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import partesMO.models.ResumenHorasRelojModel;
 import partesMO.reglasNegocio.ValidarTotalRelojPartesMo;
 import infraestructura.controllers.BaseController;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
+import com.salmonllc.html.HtmlOption;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.*;
 
@@ -160,6 +162,14 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				
 		_generaResumenBUT.setAccessKey("v");
 		
+		/*_estadoTE19.addOption(new HtmlOption(_dsResHor.conErroresInClause(),"Partes con errores", true));
+		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_ERROR),ResumenHorasRelojModel.PARTES_ERROR_MSG));
+		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_SIN_FICHADA),ResumenHorasRelojModel.PARTES_SIN_FICHADA_MSG));
+		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.FICHADA_SIN_PARTES),ResumenHorasRelojModel.FICHADA_SIN_PARTES_MSG));
+		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_OK),ResumenHorasRelojModel.PARTES_OK_MSG));		
+		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_VAL),ResumenHorasRelojModel.PARTES_VAL_MSG));
+		_estadoTE19.addOption(new HtmlOption(_dsResHor.todosInClause(),"Todos los resultados"));*/
+		
 		addPageListener(this);
 		_generaResumenBUT.addSubmitListener(this);
 		_buscarBUT16.addSubmitListener(this);		
@@ -216,7 +226,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	 * @throws Exception
 	 */
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
-		String whereFecha = "fecha between '"
+		String whereFecha = " fecha between '"
 				+ _dsPeriodo.getDate("desde").toString() + "' and '"
 				+ _dsPeriodo.getDate("hasta").toString() + "'";
 		
@@ -245,7 +255,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			_dsResHor.reset();
 			_dsResHor.retrieve(_dsQBEResHor.generateSQLFilter(_dsResHor)
 					+ " and " + whereFecha);
-			seteaBotones(1);
+			seteaBotones(_estadoTE19.getSelectedIndex());
 		}
 		
 		// Validar partes seleccionados
@@ -304,7 +314,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				_dsPartes.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"));
 				// recupera resumen
 				_dsResHor.reset();				
-				_dsResHor.retrieve(whereFecha + " and estado in (" + _dsResHor.erroresInClause() +")");
+				_dsResHor.retrieve(whereFecha + " and estado in (" + _dsResHor.conErroresInClause() +")");
 				seteaBotones(1);
 			} catch (DataStoreException ex) {				
 				MessageLog.writeErrorMessage(ex, this);
@@ -355,11 +365,10 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	 */
 	@Override
 	public void pageSubmitEnd(PageEvent p) {
-		// TODO Auto-generated method stub
 		super.pageSubmitEnd(p);
 	}
 	
-	public void seteaBotones(int rowLote) {
+	public void seteaBotones(int opcion) {
 		DBConnection conn = null;
 		Statement st = null;
 		ResultSet r = null;
@@ -367,8 +376,9 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		String estado = null;
 		String prompt = null;
 		int accion = -1;
+		boolean activarVal = true;
 
-		if (rowLote == -1) {
+		if (opcion == -1) {
 			// no hay lote seleccionado, resetea botones
 			_anularParteBUT9.setVisible(false);
 			_validarParteBUT10.setVisible(false);
@@ -376,9 +386,12 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			_seleccionaTodoBUT13.setVisible(false);
 			_desSeleccionaTodoBUT14.setVisible(false);
 		} else {
-			// hay seleccionado un lote, setea botones de acuerdo al estado
-			_anularParteBUT9.setVisible(false);
-			_validarParteBUT10.setVisible(true);
+			if (opcion == ResumenHorasRelojModel.PARTES_VAL) {
+				activarVal = false;
+			}
+			_seleccionParte.setEnabled(activarVal);
+			_validarParteBUT10.setVisible(activarVal);
+			_anularParteBUT9.setVisible(false);			
 			_firmarParteBUT11.setVisible(false);
 			_seleccionaTodoBUT13.setVisible(true);
 			_desSeleccionaTodoBUT14.setVisible(true);

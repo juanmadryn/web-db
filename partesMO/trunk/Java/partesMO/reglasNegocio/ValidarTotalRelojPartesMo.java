@@ -59,7 +59,7 @@ public class ValidarTotalRelojPartesMo extends ValidadorReglasNegocio {
 	}
 	
 	@Override
-	public boolean esValido(Object obj, StringBuffer msg, DBConnection conn) {		
+	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn) {		
 		_dsResHor = (ResumenHorasRelojModel) obj;
 		_dsLogVal = new LogValidacionPartesMoModel(_dsResHor.getAppName(), _dsResHor.getDbProfile());
 		_dsLogVal.setBatchInserts(Boolean.TRUE);		
