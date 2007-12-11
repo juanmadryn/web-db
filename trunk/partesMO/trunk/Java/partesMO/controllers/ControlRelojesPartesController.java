@@ -162,13 +162,14 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				
 		_generaResumenBUT.setAccessKey("v");
 		
-		/*_estadoTE19.addOption(new HtmlOption(_dsResHor.conErroresInClause(),"Partes con errores", true));
-		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_ERROR),ResumenHorasRelojModel.PARTES_ERROR_MSG));
-		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_SIN_FICHADA),ResumenHorasRelojModel.PARTES_SIN_FICHADA_MSG));
-		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.FICHADA_SIN_PARTES),ResumenHorasRelojModel.FICHADA_SIN_PARTES_MSG));
-		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_OK),ResumenHorasRelojModel.PARTES_OK_MSG));		
-		_estadoTE19.addOption(new HtmlOption(String.valueOf(ResumenHorasRelojModel.PARTES_VAL),ResumenHorasRelojModel.PARTES_VAL_MSG));
-		_estadoTE19.addOption(new HtmlOption(_dsResHor.todosInClause(),"Todos los resultados"));*/
+		_estadoTE19.resetOptions();
+		_estadoTE19.addOption(_dsResHor.conErroresInClause(),"Partes con errores");
+		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_ERROR),ResumenHorasRelojModel.PARTES_ERROR_MSG);
+		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_SIN_FICHADA),ResumenHorasRelojModel.PARTES_SIN_FICHADA_MSG);
+		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.FICHADA_SIN_PARTES),ResumenHorasRelojModel.FICHADA_SIN_PARTES_MSG);
+		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_OK),ResumenHorasRelojModel.PARTES_OK_MSG);		
+		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_VAL),ResumenHorasRelojModel.PARTES_VAL_MSG);
+		_estadoTE19.addOption(_dsResHor.todosInClause(),"Todos los resultados");
 		
 		addPageListener(this);
 		_generaResumenBUT.addSubmitListener(this);
@@ -255,7 +256,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			_dsResHor.reset();
 			_dsResHor.retrieve(_dsQBEResHor.generateSQLFilter(_dsResHor)
 					+ " and " + whereFecha);
-			seteaBotones(_estadoTE19.getSelectedIndex());
+			seteaBotones(_estadoTE19.getSelectedIndex());			
 		}
 		
 		// Validar partes seleccionados
@@ -386,7 +387,8 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			_seleccionaTodoBUT13.setVisible(false);
 			_desSeleccionaTodoBUT14.setVisible(false);
 		} else {
-			if (opcion == ResumenHorasRelojModel.PARTES_VAL) {
+			if (_estadoTE19.getOptionKey(opcion).equals(
+					String.valueOf(ResumenHorasRelojModel.PARTES_VAL))) {
 				activarVal = false;
 			}
 			_seleccionParte.setEnabled(activarVal);
