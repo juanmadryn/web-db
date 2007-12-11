@@ -5,12 +5,14 @@ import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Hashtable;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
 public abstract class BaseModel extends DataStore {
+	private static Hashtable<String,AuditaEstadosCircuitosModel> instanciasDeAuditoria;
 
 	/**
 	 * Create a new ProyectoModel object.
@@ -35,25 +37,24 @@ public abstract class BaseModel extends DataStore {
 	}
 
 	/**
-     * @param row n√∫mero de fila sobre la cual se desea hacer la operacion
-     * @param accion accion grabada en la tabla de tarnsici√≥n de estados
-     * @param circuito circuito al cual pertenece la acci√≥n. Permite recuperar la columna de estado
-     * @param pagina P√°gina de la cual se realiza la operaci√≥n
-     * Ejecuta la acci√≥n dada para el informe de devoluci√≥n.
-     * Concentra TODAS las acciones posibles para un informe de devolici√≥n
+     * @param row n˙mero de fila sobre la cual se desea hacer la operacion
+     * @param accion accion grabada en la tabla de tarnsiciÛn de estados
+     * @param circuito circuito al cual pertenece la acciÛn. Permite recuperar la columna de estado
+     * @param pagina P·gina de la cual se realiza la operaciÛn
+     * Ejecuta la acciÛn dada para el informe de devoluciÛn.
+     * Concentra TODAS las acciones posibles para un informe de devoliciÛn
      */
-	public void ejecutaAccion(int row,int accion, String circuito, String remoteAddr, int userId, String nombre_tabla, DBConnection conn, boolean batchInserts) throws DataStoreException{
-		if (!gotoRow(row)){
-			throw new DataStoreException("Fila " + row + " fuera de contexto");
-		}
-		ejecutaAccion(accion,circuito, remoteAddr, userId, nombre_tabla, conn, batchInserts);
-	}
-	
+    public void ejecutaAccion(int row,int accion, String circuito, String remoteAddr, int userId, String nombre_tabla, DBConnection conn, boolean batchInserts) throws DataStoreException{
+   	 if (!gotoRow(row)){
+   		throw new DataStoreException("Fila " + row + " fuera de contexto");
+   	 }
+   	 ejecutaAccion(accion,circuito, remoteAddr, userId, nombre_tabla, conn, batchInserts);
+    }
     /**
-    * @param accion accion grabada en la tabla de tarnsici√≥n de estados
-    * @param circuito circuito al cual pertenece la acci√≥n. Permite recuperar la columna de estado
-    * @param pagina P√°gina de la cual se realiza la operaci√≥n
-    * Ejecuta la acci√≥n dada para el registro actual.
+    * @param accion accion grabada en la tabla de tarnsiciÛn de estados
+    * @param circuito circuito al cual pertenece la acciÛn. Permite recuperar la columna de estado
+    * @param pagina P·gina de la cual se realiza la operaciÛn
+    * Ejecuta la acciÛn dada para el registro actual.
     * Concentra TODAS las acciones posibles para un registro
     */
    public void ejecutaAccion(int accion, String circuito, String remoteAddr, int userId, String nombre_tabla, DBConnection conn, boolean batchInserts) throws DataStoreException{
@@ -62,21 +63,22 @@ public abstract class BaseModel extends DataStore {
 		String nombre_accion = null;
 		String columna_circuito = null;
 		String validador = null;
-		StringBuffer resultado;
+		StringBuilder resultado;
 		boolean ok = false;
 
-		// verifico si est√° conectado un usuario
+		// verifico si est· conectado un usuario
+
 		if (userId == 0){
-			throw new DataStoreException("Debe estar conectado como un usuario de la aplicaci√≥n...");
+			throw new DataStoreException("Debe estar conectado como un usuario de la aplicaciÛn...");
 		}
 
 		// chequeo que el registro este en el contexto correspondiente
 		if (getRow() == -1) {
-			throw new DataStoreException("No hay ning√∫n registro seleccionado");
+			throw new DataStoreException("No hay ning˙n registro seleccionado");
 		}
 
 
-		// recupero toda la informaci√≥n requerida para evaluar la acci√≥n
+		// recupero toda la informaciÛn requerida para evaluar la acciÛn
 		// correspondiente
 		// y ejecutarla
 		try {
@@ -91,8 +93,8 @@ public abstract class BaseModel extends DataStore {
 
 			estado_actual = getEstadoActual();
 
-			// recupero el pr√≥ximo estado y el nombre de la acci√≥n en funci√≥n de
-			// la acci√≥n
+			// recupero el prÛximo estado y el nombre de la acciÛn en funciÛn de
+			// la acciÛn
 			TransicionEstadoModel transicion = new TransicionEstadoModel("infraestructura","infraestructura");
 			transicion.retrieve("estados_origen.circuito = '"+circuito+ "' and estado_origen = '"+estado_actual +"' and transicion_estados.accion = "+Integer.toString(accion) );
 
@@ -102,12 +104,13 @@ public abstract class BaseModel extends DataStore {
 				validador = transicion.getTransicionEstadosValidador();
 			}
 
-			// Verifica rutina de validaci√≥n din√°mica
+			// Verifica rutina de validaciÛn din·mica
 			try {
 				if (validador != null && validador.length() > 0 && !validador.equalsIgnoreCase("No Validar")){
 					Class claseVal = Class.forName(validador);
 					ValidadorReglasNegocio val = (ValidadorReglasNegocio) claseVal.newInstance();
-					resultado = new StringBuffer("");
+
+					resultado = new StringBuilder("");
 					if (val.esValido(this,resultado,conn)) {
 						ok = true;
 					} else{
@@ -116,14 +119,14 @@ public abstract class BaseModel extends DataStore {
 					}
 				}
 				else if (validador == null || validador.length() == 0){
-					throw new DataStoreException(nombre_accion + " -- No tiene implementada Validaci√≥n. Se requiere especificar Validaci√≥n");
+					throw new DataStoreException(nombre_accion + " -- No tiene implementada ValidaciÛn. Se requiere especificar ValidaciÛn");
 				}
 				else if (validador.equalsIgnoreCase("No Validar")){
-					// La regla NO requiere de validaci√≥n
+					// La regla NO requiere de validaciÛn
 					ok = true;
 				}
 				else {
-					throw new DataStoreException(nombre_accion + " -- Situaci√≥n no prevista");
+					throw new DataStoreException(nombre_accion + " -- SituaciÛn no prevista");
 				}
 			} catch (ClassNotFoundException e) {
 				throw new DataStoreException(e.getMessage());
@@ -135,17 +138,28 @@ public abstract class BaseModel extends DataStore {
 
 
 			// si hay cambio de estado al finalizar, independientemente de la
-			// acci√≥n paso al pr√≥ximo
+			// acciÛn paso al prÛximo
 			// estado en el registro y actualizo
-			// Se inserta tambi√©n el registro de auditor√≠a correspondiente s√≥lo
-			// si cambi√≥ estado
+			// Se inserta tambiÈn el registro de auditorÌa correspondiente sÛlo
+			// si cambiÛ estado
 			if (ok && !estado_actual.equalsIgnoreCase(proximo_estado)) {
 
 				setString(nombre_tabla+"." + columna_circuito,proximo_estado);
 				update(conn);
 
-				//AuditaEstadosCircuitosModel auditoriaModel = new AuditaEstadosCircuitosModel("infraestructura","infraestructura");
-				AuditaEstadosCircuitosModel auditoriaModel = AuditaEstadosCircuitosModel.instance(nombre_tabla);
+				AuditaEstadosCircuitosModel auditoriaModel;
+
+				if (instanciasDeAuditoria == null)
+					instanciasDeAuditoria = new Hashtable<String, AuditaEstadosCircuitosModel>();
+
+				if (instanciasDeAuditoria.containsKey(nombre_tabla))
+					auditoriaModel = instanciasDeAuditoria.get(nombre_tabla);
+				else {
+					auditoriaModel = new AuditaEstadosCircuitosModel("infraestructura","infraestructura");
+					instanciasDeAuditoria.put(nombre_tabla, auditoriaModel);
+				}
+
+				auditoriaModel.setBatchInserts(batchInserts);
 
 				auditoriaModel.gotoRow(auditoriaModel.insertRow());
 				auditoriaModel.setAuditaEstadosCircuitosCircuito(circuito);
@@ -159,40 +173,26 @@ public abstract class BaseModel extends DataStore {
 				auditoriaModel.setAuditaEstadosCircuitosAccion(accion);
 
 				auditoriaModel.update(conn);
-
 			}
-			if (!ok)
-				throw new DataStoreException("Fall√≥ la validaci√≥n del registro");
 
-		} catch (SQLException e) {
-			throw new DataStoreException(nombre_accion + " -- " + e.getMessage(), e);
+			if (!ok)
+				throw new DataStoreException("FallÛ la validaciÛn del registro");
+
 		} catch (DataStoreException e) {
-			throw new DataStoreException(nombre_accion + " -- " + e.getMessage(), e);
+			throw new DataStoreException(e.getMessage());
+		}
+		catch (SQLException e) {
+			throw new DataStoreException(nombre_accion + " -- " + e.getMessage());
 		}
 	}
 
-   /**
-    * @param accion accion grabada en la tabla de tarnsici√≥n de estados
-    * @param circuito circuito al cual pertenece la acci√≥n. Permite recuperar la columna de estado
-    * @param pagina P√°gina de la cual se realiza la operaci√≥n
-    * Ejecuta la acci√≥n dada para el registro actual.
-    * Concentra TODAS las acciones posibles para un registro
-    */
-   public void ejecutaAccionBatch(int accion, String circuito,
-			String remoteAddr, int userId, String nombre_tabla,
-			DBConnection conn, boolean batchInserts) throws DataStoreException {
-	   
-	}
-   
-   /**
-    * @return
-    * @throws DataStoreException
-    */
    public abstract String getEstadoActual() throws DataStoreException;
-   
-   /**
-    * Se debe definir en cada Model qu√© valor representa el Id del registro
+
+
+/**
+    * Se debe definir en cada Model quÈ valor representa el Id del registro
     * @return el Id del regsitro actual
     */
    public abstract int getIdRegistro() throws DataStoreException;
+
 }
