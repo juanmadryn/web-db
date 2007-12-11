@@ -56,13 +56,13 @@
                            				text="Estado" font="ColumnCaptionFont" /></td>
                         			<td><salmon:input name="estadoTE19" type="select"
                            				datasource="dsQBEResHor:estado">
-                           				<salmon:option display="Con errores" key="2,3,4"></salmon:option>
+                           					<!-- <salmon:option display="Con errores" key="2,3,4"></salmon:option>
                            					<salmon:option display="Totales no concuerdan" key="2"></salmon:option>
                            					<salmon:option display="No se encontraron fichadas" key="3"></salmon:option>
                            					<salmon:option display="No se encontraron partes" key="4"></salmon:option>
                            					<salmon:option display="Ok" key="1"></salmon:option>
                            					<salmon:option display="Validados" key="5"></salmon:option>
-                           					<salmon:option display="Todos los resultados" key="1,2,3,4"></salmon:option>
+                           					<salmon:option display="Todos los resultados" key="1,2,3,4"></salmon:option>--> 
                         				</salmon:input></td>                        				
 								</tr>
 								<tr>
