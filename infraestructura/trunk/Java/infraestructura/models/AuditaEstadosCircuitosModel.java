@@ -1,7 +1,5 @@
 package infraestructura.models;
 
-import java.util.Hashtable;
-
 import com.salmonllc.sql.*;
 
 //$CUSTOMIMPORTS$
@@ -53,7 +51,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
 	// be overwritten if the model is regenerated
-	static private Hashtable<String, AuditaEstadosCircuitosModel> _auditaModels = new Hashtable<String, AuditaEstadosCircuitosModel>();
+
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -939,20 +937,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
-	
-	/**
-	 * Unique instance of the specified class.
-	 * @param tableName
-	 */
-	static public AuditaEstadosCircuitosModel instance(String tableName) {
-		if (_auditaModels.containsKey(tableName)) {
-			return _auditaModels.get(tableName);
-		} else {
-			_auditaModels.put(tableName, new AuditaEstadosCircuitosModel("infraestructura","infraestructura"));
-			_auditaModels.get(tableName).setBatchInserts(true);
-			return _auditaModels.get(tableName);
-		}		
-	}
+
 	// $ENDCUSTOMMETHODS$
 
 }

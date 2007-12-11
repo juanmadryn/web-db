@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package infraestructura.reglasNegocio;
 
@@ -7,24 +7,24 @@ import com.salmonllc.sql.DBConnection;
 
 /**
  * @author Demian
- * 
- * Formato general para construir reglas de validaci贸n / negocio 
- * para ejecutar din谩micamente en la aplicaci贸n
+ *
+ * Formato general para construir reglas de validaci髇 / negocio
+ * para ejecutar din醡icamente en la aplicaci髇
  */
 public abstract class ValidadorReglasNegocio {
 
 	public ValidadorReglasNegocio(){
-		
+
 	}
-	
+
 	/**
 	 * @param obj --> objeto a validar.
-	 * @param msg --> Mensaje a retornat si el obj es inv谩lido
-	 * @param conn --> conexi贸n, si existe donde se enmarca esta transacci贸n, sino null
-	 * @return Verdadero si el objeto es v谩lido, 
+	 * @param msg --> Mensaje a retornat si el obj es inv醠ido
+	 * @param conn --> conexi髇, si existe donde se enmarca esta transacci髇, sino null
+	 * @return Verdadero si el objeto es v醠ido,
 	 * 		   	sino falso y el mensaje de error correspondiente.
-	 * Quien implementa el m茅todo DEBE saber de que tipo es objeto para validarlo
+	 * Quien implementa el m閠odo DEBE saber de que tipo es objeto para validarlo
 	 */
-	public abstract boolean esValido(Object obj,StringBuffer msg,DBConnection conn);
-	
+	public abstract boolean esValido(Object obj,StringBuilder msg,DBConnection conn);
+
 }
