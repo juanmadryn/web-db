@@ -16,14 +16,14 @@ import com.salmonllc.util.MessageLog;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.*;
 
-
+// Probando SVN
 /**
  * LkpLegajoController: a SOFIA generated controller
  */
 public class LkpLegajoController extends JspController implements SubmitListener, PageListener {
 
 /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 8726736581400826456L;
 	//Visual Components
@@ -104,36 +104,36 @@ public class LkpLegajoController extends JspController implements SubmitListener
        public static final String DSLEGAJO_TIPO_DOCUMENTO_DESC_DOCUMENTO="TIPO_DOCUMENTO.DESC_DOCUMENTO";
 
        public static final String DSQBE_BUSCAR="buscar";
-       
+
        //componentes custom
    	  public com.salmonllc.html.HtmlSubmitButton _buscarBUT1;
 
 
- 
+
 /**
  * Initialize the page. Set up listeners and perform other initialization activities.
  */
 public void initialize(){
-	
+
 	// genera botones custom
 	_buscarBUT1 = new HtmlSubmitButton("buscarBUT1","Buscar",this);
 	_buscarBUT1.setAccessKey("B");
 	_searchformdisplaybox1.addButton(_buscarBUT1);
 
-	
+
      addPageListener(this);
      _buscarBUT1.addSubmitListener(this);
 }
- 
+
 /**
  * Process the given submit event
  * @param event the submit event to be processed
  * @return true to continue processing events, false to stop processing events
- * @throws DataStoreException 
+ * @throws DataStoreException
  */
 public boolean submitPerformed(SubmitEvent event) throws DataStoreException {
 
-	
+
 	if (event.getComponent() == _buscarBUT1) {
 			Props p;
 			String driverTango = null;
@@ -189,12 +189,12 @@ public boolean submitPerformed(SubmitEvent event) throws DataStoreException {
 					whereClause = whereClause + " OR upper(NOMBRE) like '%" + _dsQBE.getString("nombre").toUpperCase() + "%'";
 					whereClause = whereClause + " OR upper(CUIL) like '%" + _dsQBE.getString("nombre").toUpperCase() + "%')";
 				}
-				
+
 				SQL = "select ID_LEGAJO,NRO_LEGAJO,NOMBRE,APELLIDO,CUIL from LEGAJO ";
 				SQL = SQL + " where " + whereClause;
-				
+
 				MessageLog.writeErrorMessage(SQL, null, null);
-				
+
 				debug = "CreateStatement";
 				st = connTango.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
@@ -241,37 +241,37 @@ public boolean submitPerformed(SubmitEvent event) throws DataStoreException {
 					}
 			}
 		}
-	
+
 	return true;
 }
- 
+
 /**
  * Process the page requested event
  * @param event the page event to be processed
  */
 public void pageRequested(PageEvent event) {
 }
- 
+
 /**
  * Process the page request end event
  * @param event the page event to be processed
  */
 public void pageRequestEnd(PageEvent event) {
 }
- 
+
 /**
  * Process the page submit end event
  * @param event the page event to be processed
  */
 public void pageSubmitEnd(PageEvent event) {
 }
- 
+
 /**
  * Process the page submit event
  * @param event the page event to be processed
  */
 public void pageSubmitted(PageEvent event){
-	
+
 }
 
 }
