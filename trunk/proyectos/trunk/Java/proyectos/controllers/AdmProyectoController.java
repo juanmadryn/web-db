@@ -30,7 +30,7 @@ public class AdmProyectoController extends BaseController implements
 		ValueChangedListener {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = -3954862158267321481L;
 
@@ -395,7 +395,7 @@ public class AdmProyectoController extends BaseController implements
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
 	 * activities.
-	 *
+	 * 
 	 * @throws Exception
 	 */
 	public void initialize() throws Exception {
@@ -901,32 +901,28 @@ public class AdmProyectoController extends BaseController implements
 
 		if (e.getComponent() == _tareaEliminarBUT14) {
 			// elimina todas las actividades seleccionadas
-			try {
-				for (int i = 0; i < _dsTareasProyecto.getRowCount(); i++) {
-					if (_dsTareasProyecto.getInt(i, SELECCION_TAREA_FLAG) == 1) {
-						// Rol marcado para selección
-						try {
-							if (!_dsTareasProyecto.deleteRow(i))
-								displayErrorMessage("El proyecto debe tener por lo menos una tarea");
-							_dsTareasProyecto.update();
-						} catch (DataStoreException ex) {
-							displayErrorMessage("No se ha podido eliminar la tarea seleccionada. Error: "
-									+ ex.getMessage());
-							_dsTareasProyecto.unDeleteRow(i);
-							_dsTareasProyecto.setInt(i,
-									SELECCION_ACTIVIDAD_FLAG, 0);
-							return false;
-						} catch (SQLException ex) {
-							displayErrorMessage(ex.getMessage());
-							return false;
-						}
+			for (int i = 0; i < _dsTareasProyecto.getRowCount(); i++) {
+				if (_dsTareasProyecto.getInt(i, SELECCION_TAREA_FLAG) == 1) {
+					// Rol marcado para selección
+					try {
+						if (!_dsTareasProyecto.deleteRow(i))
+							displayErrorMessage("El proyecto debe tener por lo menos una tarea");
+						_dsTareasProyecto.update();
+					} catch (DataStoreException ex) {
+						displayErrorMessage("No se ha podido eliminar la tarea seleccionada. Error: "
+								+ ex.getMessage());
+						_dsTareasProyecto.unDeleteRow(i);
+						_dsTareasProyecto
+								.setInt(i, SELECCION_ACTIVIDAD_FLAG, 0);
+						return false;
+					} catch (SQLException ex) {
+						displayErrorMessage(ex.getMessage());
+						return false;
 					}
 				}
-			} catch (RuntimeException e1) {
-				// TODO Auto-generated catch block
-				displayErrorMessage(e1.getMessage());
 			}
 		}
+
 		// seteo la URL del lookup de actividad proyecto para tareas, para que
 		// la página de lookup muestre sólo actividades asociadas al proyecto.
 		// Esto no se pudo transcribir directamente a la jsp
@@ -941,7 +937,7 @@ public class AdmProyectoController extends BaseController implements
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see com.salmonllc.html.events.ValueChangedListener#valueChanged(com.salmonllc.html.events.ValueChangedEvent)
 	 */
 	public boolean valueChanged(ValueChangedEvent e) throws Exception {
@@ -1043,11 +1039,11 @@ public class AdmProyectoController extends BaseController implements
 	/**
 	 * Genera una tarea nueva para el proyecto actual, con el mismo nombre que
 	 * este
-	 *
+	 * 
 	 * @throws DataStoreException
 	 * @deprecated analizar si conviene mantener la funcionalidad de generar
 	 *             automaticamente una tarea por cada proyecto
-	 *
+	 * 
 	 */
 	private void replicaProyectoEnTarea() throws Exception {
 		if (_dsTareasProyecto.getRowCount() == 0)
@@ -1142,10 +1138,10 @@ public class AdmProyectoController extends BaseController implements
 
 	/**
 	 * Arma la botonera de atributos en función del id de proyecto indicado.
-	 *
+	 * 
 	 * @param p_proyecto_id
 	 *            el id del proyecto para el cual se quieren setear los botones
-	 *
+	 * 
 	 * TODO generalizar este método a un número indefinido de etiquetas para
 	 * atributos
 	 */
@@ -1239,7 +1235,7 @@ public class AdmProyectoController extends BaseController implements
 	/**
 	 * Recupera los atributos correspondientes a la etiqueta del botón
 	 * seleccionado para el objeto .
-	 *
+	 * 
 	 * @param p_objeto_id
 	 *            el id del registro para la cual se desean recuperar los
 	 *            atributos
@@ -1368,7 +1364,7 @@ public class AdmProyectoController extends BaseController implements
 	/**
 	 * Determina si existe un registro en contexto, recupera su estado y arma la
 	 * botonera acorde
-	 *
+	 * 
 	 * @throws DataStoreException
 	 *             TODO generalizar este método para un número indefinido de
 	 *             transiciones entre estados TODO considerar recuperar todo el
