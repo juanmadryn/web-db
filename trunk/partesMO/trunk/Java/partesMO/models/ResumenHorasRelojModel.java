@@ -724,8 +724,8 @@ public class ResumenHorasRelojModel extends DataStore {
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
      /**
       * Find a unique row according to the parameters and makes it the current row. 
-      * @param nroLegajo 
-      * @param fecha 
+      * @param nroLegajo employee file number
+      * @param fecha date
       * @return The new current row in the resultset or -1 if the resulset is empty
       * @throws DataStoreException 
       */
@@ -748,12 +748,12 @@ public class ResumenHorasRelojModel extends DataStore {
      
      /**
       * Insert a new row and make it the current row.
-      * @param nroLegajo 
-      * @param fecha 
-      * @param apeynom
-      * @param quincena
+      * @param nroLegajo employee file number
+      * @param fecha date
+      * @param apeynom last and first name
+      * @param quincena fortnight
       * @return The current row in the resultset or -1 if the resulset is empty.
-      * @throws DataStoreException
+      * @throws DataStoreException 
       */
      public int addResumen(int nroLegajo, Calendar fecha, String apeynom,
 			int quincena) throws DataStoreException {
@@ -774,7 +774,7 @@ public class ResumenHorasRelojModel extends DataStore {
 	}
     
     /**
-     * Add the specifed id into the id's comma separated list.
+     * Add the specifed id into the comma-separated id list.
 	 * @param parteId
 	 * @throws DataStoreException
 	 */
