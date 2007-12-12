@@ -16,7 +16,6 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
-import com.salmonllc.html.HtmlOption;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.*;
 
