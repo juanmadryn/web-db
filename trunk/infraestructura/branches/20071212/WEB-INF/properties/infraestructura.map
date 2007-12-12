@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE sitemap PUBLIC "SOFIA Site Map" "http://www.salmonllc.com/sofiaExamples/sitemap.dtd">
+<siteMap>
+
+  <entry>
+     <name>AdministracionProyectos</name>
+     <uri>../proyectos/Jsp/AdministracionProyectos.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AdministracionPresupuestos</name>
+     <uri>../presupuestos/Jsp/AdministracionPresupuestos.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>MenuSwitchTransaccional</name>
+     <uri>../switchTransaccional/Jsp/MenuSwitchTransaccional.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>MenuPartesMO</name>
+     <uri>../partesMO/Jsp/MenuPartesMO.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>MenuServicios</name>
+     <uri>../switchTransaccional/Jsp/MenuServicios.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcConfiguracion</name>
+     <uri>/Jsp/AbmcConfiguracion.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcEsquemaConfiguracion</name>
+     <uri>/Jsp/AbmcEsquemaConfiguracion.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcEntidadExterna</name>
+     <uri>/Jsp/AbmcEntidadExterna.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcRolEntidad</name>
+     <uri>/Jsp/AbmcRolEntidad.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcClaseListaValorAtributo</name>
+     <uri>/Jsp/AbmcClaseListaValorAtributo.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcAtributoGenerico</name>
+     <uri>/Jsp/AbmcAtributoGenerico.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcClaseAtributoRol</name>
+     <uri>/Jsp/AbmcClaseAtributoRol.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcAccesoMenu</name>
+     <uri>/Jsp/AbmcAccesoMenu.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcAccionesCircuito</name>
+     <uri>/Jsp/AbmcAccionesCircuito.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcAplicaCircuito</name>
+     <uri>/Jsp/AbmcAplicaCircuito.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcCircuitosEstados</name>
+     <uri>/Jsp/AbmcCircuitosEstados.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcDiccionarioAplicacion</name>
+     <uri>/Jsp/AbmcDiccionarioAplicacion.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcDiccionarioAplicacionDetalle</name>
+     <uri>/Jsp/AbmcDiccionarioAplicacionDetalle.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcMenues</name>
+     <uri>/Jsp/AbmcMenues.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcRoles</name>
+     <uri>/Jsp/AbmcRoles.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcTransicionEstados</name>
+     <uri>/Jsp/AbmcTransicionEstados.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcUsuarios</name>
+     <uri>/Jsp/AbmcWebSiteUsers.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>About</name>
+     <uri>/Jsp/AboutPage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>HomePage</name>
+     <uri>../infraestructura/Jsp/HomePage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpAtributosRol</name>
+     <uri>/Jsp/LkpAtributosRol.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpProveedores</name>
+     <uri>/Jsp/LkpProveedores.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpClientes</name>
+     <uri>/Jsp/LkpClientes.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpRolesEntidad</name>
+     <uri>/Jsp/LkpRolesEntidad.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpMenu</name>
+     <uri>/Jsp/LkpMenu.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpRoles</name>
+     <uri>/Jsp/LkpRoles.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpWebSiteUsers</name>
+     <uri>/Jsp/LkpWebSiteUsers.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Login</name>
+     <uri>/Jsp/LoginPage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>true</secure>
+  </entry>
+
+  <entry>
+     <name>Administracion</name>
+     <uri>/Jsp/MenuAdministracion.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>ConfigAplicacion</name>
+     <uri>/Jsp/MenuConfiguraAplicacion.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>ConfigEntidadesExternas</name>
+     <uri>/Jsp/MenuConfiguraEntidadesExternas.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Menues</name>
+     <uri>/Jsp/MenuMenues.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Reportes</name>
+     <uri>/Jsp/MenuReportes.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Usuarios</name>
+     <uri>/Jsp/MenuUsuarios.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Options</name>
+     <uri>/Jsp/OptionsPage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Ayuda</name>
+     <uri>/Html/guiUsusrio.html</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Home</name>
+     <uri>http://www.xxxxx.xxx.ar</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>ImageDirectory</name>
+     <uri>../infraestructura/Jsp/images/</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>SessionExpired</name>
+     <uri>/Jsp/SessionExpired.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>PageExpired</name>
+     <uri>/Jsp/PageExpired.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>DbConnectError</name>
+     <uri>/Jsp/DBConnectError.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>UsuarioInvalidoError</name>
+     <uri>/Jsp/UsuarioInvalidoError.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Birt</name>
+     <uri>birt</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+  
+  <entry>
+     <name>MenuPartesEQ</name>
+     <uri>../partesEQ/Jsp/MenuPartesEQ.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+</siteMap>
