@@ -2742,7 +2742,7 @@ public class PartesMoModel extends BaseModel {
     
     /**
      * Calcula los totales de los partes de mano de obra y actualiza tabla de preproceso
-     * @author Francisco 19/11/2007
+     * @author Francisco
      * @param fechaDesde fecha de inicio del periodo a validar
      * @param fechaHasta fecha de finalizacion del periodo a validar
      * @throws DataStoreException
@@ -3045,14 +3045,15 @@ public class PartesMoModel extends BaseModel {
 
     				// buscamos el resumen
         			resumen = dsResHorRlj.getResumen(nro_legajo, fichada);
-        			// el resumen ya esta validado, lo salteamos
-    				if (dsResHorRlj.getResumenHorasRelojEstado() == ResumenHorasRelojModel.PARTES_VAL) {
-    					nro_fichadas++;
-    					continue;
-    				}   					
     				// no existe
     				if (resumen == -1) {					
     					resumen = dsResHorRlj.addResumen(nro_legajo, fichada, apeynom.toString(), quincena1);
+    				} else {
+            			// el resumen ya esta validado, lo salteamos
+        				if (dsResHorRlj.getResumenHorasRelojEstado() == ResumenHorasRelojModel.PARTES_VAL) {
+        					nro_fichadas++;
+        					continue;
+        				}
     				}
     				
     				// Si no seguimos procesando el mismo parte...
