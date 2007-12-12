@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Java"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/bin/bootstrap.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/bin/commons-daemon.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/bin/commons-launcher.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/bin/commons-logging-api.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/server/lib/catalina.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/mail.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/activation.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/jsp-api.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/portlet-api-1.0.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/server/lib/commons-digester.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/server/lib/tomcat-util.jar"/>
+	<classpathentry kind="lib" path="/usr/share/tomcat5/bin/jmx.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
