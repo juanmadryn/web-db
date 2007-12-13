@@ -1,6 +1,7 @@
 package infraestructura.models;
 
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
+import infraestructura.reglasNegocio.ValidationException;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -57,7 +58,7 @@ public abstract class BaseModel extends DataStore {
     * Ejecuta la acción dada para el registro actual.
     * Concentra TODAS las acciones posibles para un registro
     */
-   public void ejecutaAccion(int accion, String circuito, String remoteAddr, int userId, String nombre_tabla, DBConnection conn, boolean batchInserts) throws DataStoreException{
+   public void ejecutaAccion(int accion, String circuito, String remoteAddr, int userId, String nombre_tabla, DBConnection conn, boolean batchInserts) throws DataStoreException, ValidationException{
 		String estado_actual = null;
 		String proximo_estado = null;
 		String nombre_accion = null;

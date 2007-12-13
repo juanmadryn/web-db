@@ -25,6 +25,6 @@ public abstract class ValidadorReglasNegocio {
 	 * 		   	sino falso y el mensaje de error correspondiente.
 	 * Quien implementa el método DEBE saber de que tipo es objeto para validarlo
 	 */
-	public abstract boolean esValido(Object obj,StringBuilder msg,DBConnection conn);
+	public abstract boolean esValido(Object obj,StringBuilder msg,DBConnection conn) throws ValidationException;
 
 }
