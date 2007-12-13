@@ -45,7 +45,7 @@ import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
 /**
- * este controlador es base para todos los controladores de la aplicación
+ * este controlador es base para todos los controladores de la aplicaciï¿½n
  * implementa un cinunto de activiaddes comunes a todos los controladores el
  * resto de los controladores deben extender a este.
  */
@@ -141,7 +141,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/* Application properties */
 	protected Props _props;
 
-	/* definición de TODOS los DataStore usados en la aplicación */
+	/* definiciï¿½n de TODOS los DataStore usados en la aplicaciï¿½n */
 	public infraestructura.models.AccesoMenuModel _dsAccesoMenu;
 
 	public infraestructura.models.AccionAplicacionModel _dsAccionesAplicacion;
@@ -228,7 +228,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 *             if anything goes wrong
 	 */
 	public void initialize() throws Exception {
-		// lo primero es controlar que se está conectado a la aplicación.
+		// lo primero es controlar que se estï¿½ conectado a la aplicaciï¿½n.
 		// Salvo que sea la home page
 		if (!(getPageName().equalsIgnoreCase("HomePage.jsp")
 				|| getPageName().equalsIgnoreCase("LoginPage.jsp") || !this
@@ -236,12 +236,12 @@ public class BaseController extends JspController implements SubmitListener,
 			WebSiteUser user = getSessionManager().getWebSiteUser();
 			String ip = this.getCurrentRequest().getRemoteAddr();
 			/*
-			 * Si el user es null intenta, por cambio de aplicación si ya lo
+			 * Si el user es null intenta, por cambio de aplicaciï¿½n si ya lo
 			 * tiene seteado
 			 */
 
 			if (user == null) {
-				/* Setea el usuario y la sessión */
+				/* Setea el usuario y la sessiï¿½n */
 				if (_user != null) {
 					if (users != null 
 							&& (users.get(ip) != null)
@@ -325,12 +325,12 @@ public class BaseController extends JspController implements SubmitListener,
 			// Set the login links on the top of the page.
 			WebSiteUser user = getSessionManager().getWebSiteUser();
 			/*
-			 * Si el user es null intenta, por cambio de aplicación si ya lo
+			 * Si el user es null intenta, por cambio de aplicaciï¿½n si ya lo
 			 * tiene seteado
 			 */
 			if (user == null) {
 				if (_user != null) {
-					/* Setea el usuario y la sessión */
+					/* Setea el usuario y la sessiï¿½n */
 					user = _user;
 					getSessionManager().setWebSiteUser(user);
 				}
@@ -383,13 +383,13 @@ public class BaseController extends JspController implements SubmitListener,
 	 * Changes the page appearance.
 	 */
 	/**
-	 * Determina si el menu es accesible para el usario o algún rol que tenga
+	 * Determina si el menu es accesible para el usario o algï¿½n rol que tenga
 	 * 
 	 * @param user_id
-	 *            --> id único que identifica a un usuario de la aplicación
+	 *            --> id ï¿½nico que identifica a un usuario de la aplicaciï¿½n
 	 *            website_user
 	 * @param menu_id
-	 *            --> id único que identifiva al menu (tabla menu)
+	 *            --> id ï¿½nico que identifiva al menu (tabla menu)
 	 */
 	public boolean menuPermitido(String sAppName, WebSiteUser user, int menu_id) {
 		DBConnection conn = null;
@@ -488,19 +488,19 @@ public class BaseController extends JspController implements SubmitListener,
 
 			ds = new MenuModel(getApplicationName(), "infraestructura");
 
-			/* recupera al usuario de la sessión */
+			/* recupera al usuario de la sessiï¿½n */
 			WebSiteUser user = getSessionManager().getWebSiteUser();
 
-			// Recupera menú según padre, si Existe y setéa como submenú
+			// Recupera menï¿½ segï¿½n padre, si Existe y setï¿½a como submenï¿½
 			// si no existen sub menues para dicho grupo, re setea a HomePage
-			// que es el menú principal
+			// que es el menï¿½ principal
 			menuActual = getSiteMapEntryNameForPage();
 
 			if (menuActual == null) {
 				menuActual = "HomePage";
 			}
 
-			// Recupero el menú padre del menu actual, para poder retroceder un
+			// Recupero el menï¿½ padre del menu actual, para poder retroceder un
 			// nivel
 			String descMenuAnterior = null;
 			String urlMenuAnterior = null;
@@ -511,8 +511,8 @@ public class BaseController extends JspController implements SubmitListener,
 			if (ds.gotoFirst())
 				urlMenuAnterior = ds.getString("menu." + GRUPO_FIELD);
 
-			// si el menu anterior no es la página principal, recupero su
-			// descripción
+			// si el menu anterior no es la pï¿½gina principal, recupero su
+			// descripciï¿½n
 			if (urlMenuAnterior != "HomePage") {
 				ds.retrieve("url = " + String.valueOf('"') + urlMenuAnterior
 						+ String.valueOf('"'));
@@ -524,17 +524,17 @@ public class BaseController extends JspController implements SubmitListener,
 			System.out.println("Anterior: " + urlMenuAnterior + " Actual: "
 					+ menuActual);
 
-			// empieza recuperación del resto de los menues correspondientes
+			// empieza recuperaciï¿½n del resto de los menues correspondientes
 			ds.retrieve("grupo = " + String.valueOf('"') + menuActual
 					+ String.valueOf('"'));
 			// Se espera hasta que se recuperen todos los datos
 			ds.waitForRetrieve();
 
-			// Se verifica si recuperó algo, si es así se setea nuevo nivel de
-			// menú
+			// Se verifica si recuperï¿½ algo, si es asï¿½ se setea nuevo nivel de
+			// menï¿½
 			// sino se regresa a HomePage y se recupera nuevamente
 			if (ds.getRowCount() == 0) {
-				// no se recuperaron menues, setea el menú actual al anterior y
+				// no se recuperaron menues, setea el menï¿½ actual al anterior y
 				// recupera
 
 				menuActual = urlMenuAnterior;
@@ -576,7 +576,7 @@ public class BaseController extends JspController implements SubmitListener,
 					&& (urlMenuAnterior != menuActual || (!urlAux
 							.equalsIgnoreCase("HomePage"))))
 				_navbar1.createGroup(PREFIX_NAVBAR_GROUP + urlMenuAnterior,
-						null, "%" + urlMenuAnterior, "Página anterior", 1);
+						null, "%" + urlMenuAnterior, "Pï¿½gina anterior", 1);
 
 			// Populate the navbar with new values.
 			while (ds.gotoNext()) {
@@ -600,9 +600,9 @@ public class BaseController extends JspController implements SubmitListener,
 
 				iID = ds.getInt(MENU_MENU_ID_TFC);
 
-				// verifica el acceso del usuarioal menó si es que estó
+				// verifica el acceso del usuarioal menï¿½ si es que estï¿½
 				// conectado.
-				// si no estó conectado no muestra ningón menó
+				// si no estï¿½ conectado no muestra ningï¿½n menï¿½
 				if (user != null) {
 					menuPermitido = menuPermitido(getApplicationName(), user,
 							iID);
@@ -712,15 +712,15 @@ public class BaseController extends JspController implements SubmitListener,
 		}
 
 		if (e.getComponent() == _menuBUT) {
-			// en función de su valor de texto oculta o muestra el menu
-			if (_menuBUT.getDisplayName().equalsIgnoreCase("Ocultar Menú")) {
-				// oculta el menú y cambia el texto al botón
+			// en funciï¿½n de su valor de texto oculta o muestra el menu
+			if (_menuBUT.getDisplayName().equalsIgnoreCase("Ocultar Menï¿½")) {
+				// oculta el menï¿½ y cambia el texto al botï¿½n
 				_rawAddRow.setHtml("</tr><tr>");
-				_menuBUT.setDisplayName("Ver Menú");
+				_menuBUT.setDisplayName("Ver Menï¿½");
 				_navbarTable.setVisible(false);
-			} else if (_menuBUT.getDisplayName().equalsIgnoreCase("Ver Menú")) {
+			} else if (_menuBUT.getDisplayName().equalsIgnoreCase("Ver Menï¿½")) {
 				_rawAddRow.setHtml("");
-				_menuBUT.setDisplayName("Ocultar Menú");
+				_menuBUT.setDisplayName("Ocultar Menï¿½");
 				_navbarTable.setVisible(true);
 			}
 		}
