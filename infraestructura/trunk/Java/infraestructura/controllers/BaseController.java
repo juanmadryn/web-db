@@ -1,6 +1,5 @@
 package infraestructura.controllers;
 
-
 //The Salmon Open Framework for Internet Applications (SOFIA)
 //Copyright (C) 1999 - 2002, Salmon LLC
 //
@@ -26,6 +25,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Enumeration;
+import java.util.Hashtable;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
@@ -53,7 +53,7 @@ public class BaseController extends JspController implements SubmitListener,
 		PageListener, Constants {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = 3171333702070890884L;
 
@@ -160,14 +160,18 @@ public class BaseController extends JspController implements SubmitListener,
 
 	public infraestructura.models.WebsiteUserModel _dsWebSiteUser;
 
+	// hash table that contains all actually logged user - Added by Juan Manuel
+	// Cortez at 12/12/2007
+	private Hashtable<String, WebSiteUser> users = new Hashtable<String, WebSiteUser>();
+
 	/**
 	 * This method tries to get the string parameter passed into this function
 	 * from the URL. It then checks to see if that "name" parameter is of
 	 * boolean type. The default is FALSE.
-	 *
+	 * 
 	 * @param name -
 	 *            name of the parameter that is being looked up
-	 *
+	 * 
 	 */
 	public boolean getBooleanParameter(String name) {
 		String s = getParameter(name);
@@ -177,14 +181,13 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * Return the text of the request referer, if available, else null.
-	 *
+	 * 
 	 * @param key -
 	 *            name of the cookie
 	 * @return java.lang.String
 	 */
 	public Cookie getCookie(String key) {
 		Cookie ret = null;
-
 		Cookie cookArr[] = getCurrentRequest().getCookies();
 		if (cookArr != null) {
 			for (int i = 0; i < cookArr.length; i++) {
@@ -202,7 +205,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * This method tries to get the integer value from the parameter in the URL
 	 * called passed into this method. If the value of the parameter is not an
 	 * integer, a -1 value will be returned.
-	 *
+	 * 
 	 * @param name -
 	 *            name of the parameter that is being looked up
 	 * @return int - returns the value of the parameter as an int, if the value
@@ -220,31 +223,38 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * This method - creates a SessionManager - adds a page Listener - adds
 	 * listener to the other objects
-	 *
+	 * 
 	 * @throws Exception
 	 *             if anything goes wrong
 	 */
 	public void initialize() throws Exception {
 		// lo primero es controlar que se está conectado a la aplicación.
 		// Salvo que sea la home page
-		if (!(getPageName().equalsIgnoreCase("HomePage.jsp") || getPageName()
-				.equalsIgnoreCase("LoginPage.jsp"))) {
+		if (!(getPageName().equalsIgnoreCase("HomePage.jsp")
+				|| getPageName().equalsIgnoreCase("LoginPage.jsp") || !this
+				.isInitialized())) {
 			WebSiteUser user = getSessionManager().getWebSiteUser();
+			String ip = this.getCurrentRequest().getRemoteAddr();
 			/*
 			 * Si el user es null intenta, por cambio de aplicación si ya lo
 			 * tiene seteado
 			 */
+
 			if (user == null) {
 				/* Setea el usuario y la sessión */
 				if (_user != null) {
-					user = _user;
-					user = getUserFromCookie();
+					if (users != null 
+							&& (users.get(ip) != null)
+							&& (users.get(ip).equals(_user)))
+						user = _user;
 				}
-				//System.out.println("Usuario: " + _user + " Usuario: "+user);
 			} else if (_user == null)
 				/* lo seta ya que nunca fue seteado */
+
 				_user = user;
-			//System.out.println("Usuario: " + _user + " Usuario: "+user);
+			users.put(ip, user);
+
+			// System.out.println("Usuario: " + _user + " Usuario: "+user);
 			if (user == null) {
 				removePagesFromSession();
 				gotoSiteMapPage(SiteMapConstants.USUARIO_INVALIDO_ERROR);
@@ -295,7 +305,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * This method/event will get fired each time a page is requested by the
 	 * browser before Html is generated and sent back.
-	 *
+	 * 
 	 * @param p
 	 *            PageEvent
 	 * @throws Exception
@@ -374,7 +384,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 */
 	/**
 	 * Determina si el menu es accesible para el usario o algún rol que tenga
-	 *
+	 * 
 	 * @param user_id
 	 *            --> id único que identifica a un usuario de la aplicación
 	 *            website_user
@@ -442,7 +452,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * Sets the navigation meno orientation depending on the user preference.
-	 *
+	 * 
 	 * @param iNavBarOrient
 	 */
 	private void customizeNavbar(int iNavBarOrient) {
@@ -459,7 +469,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * This method populates the navigation menu dynamically from the database.
-	 *
+	 * 
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
@@ -604,14 +614,14 @@ public class BaseController extends JspController implements SubmitListener,
 			}
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
-			this.displayErrorMessage(e.getMessage()+"\n"+e.getStackTrace());
+			this.displayErrorMessage(e.getMessage() + "\n" + e.getStackTrace());
 		}
 	}
 
 	/**
 	 * This method/event will get fired each time a page is requested by the
 	 * browser after Html is generated and sent back.
-	 *
+	 * 
 	 * @param p
 	 *            PageEvent
 	 * @throws Exception
@@ -624,7 +634,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * This method occurs each time a page is submitted before submit values are
 	 * copied to components.
-	 *
+	 * 
 	 * @param p
 	 *            PageEvent
 	 */
@@ -637,7 +647,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * This method occurs each time a page is submitted after submit values are
 	 * copied to components.
-	 *
+	 * 
 	 * @param p
 	 *            PageEvent
 	 */
@@ -647,7 +657,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * Replace characters in URL string.
-	 *
+	 * 
 	 * @param s
 	 *            java.lang.String
 	 */
@@ -673,7 +683,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * This method is used to signal that a submit button has been pressed, and
 	 * that the user has intended to submit the descendant class/page.
-	 *
+	 * 
 	 * @param e
 	 *            SubmitEvent
 	 * @throws Exception
@@ -759,7 +769,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * Set the boolean value to check DB connection
-	 *
+	 * 
 	 * @param _checkDB
 	 *            boolean
 	 */
@@ -769,7 +779,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * Set the boolean value to check if user is logged in.
-	 *
+	 * 
 	 * @param _checkUserLogin
 	 *            boolean
 	 */
@@ -865,7 +875,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * Display the error messages in the page. Following objects are dfined in
 	 * the message.jsp. Most of the pages include it.
-	 *
+	 * 
 	 * @param sMessage
 	 */
 	public void displayErrorMessage(String sMessage) {
@@ -876,7 +886,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * Display the error messages in the page. Following objects are dfined in
 	 * the message.jsp. Most of the pages include it.
-	 *
+	 * 
 	 * @param sMessage
 	 *            String
 	 * @param comp
@@ -889,7 +899,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * Display the error messages in the page. Following objects are dfined in
 	 * the message.jsp. Most of the pages include it.
-	 *
+	 * 
 	 * @param sMessage
 	 *            String
 	 * @param comp
@@ -911,7 +921,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * Returns the error count in the validator
-	 *
+	 * 
 	 * @return
 	 */
 	public int getErrorCount() {
@@ -922,7 +932,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	/**
 	 * Returns the sequence generator
-	 *
+	 * 
 	 * @return SequenceGenerator
 	 */
 	public SequenceGenerator getSequenceGenerator() {
@@ -932,7 +942,7 @@ public class BaseController extends JspController implements SubmitListener,
 	/**
 	 * Handle the send request in here. This might be handy if you want to
 	 * append parameres to the query string.
-	 *
+	 * 
 	 * @param sUrl
 	 */
 	public void sendRedirect(String sUrl) throws IOException {
