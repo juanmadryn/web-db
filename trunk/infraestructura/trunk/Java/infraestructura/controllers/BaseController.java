@@ -162,7 +162,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	// hash table that contains all actually logged user - Added by Juan Manuel
 	// Cortez at 12/12/2007
-	private Hashtable<String, WebSiteUser> users = new Hashtable<String, WebSiteUser>();
+	private static Hashtable<String, WebSiteUser> users = new Hashtable<String, WebSiteUser>();
 
 	/**
 	 * This method tries to get the string parameter passed into this function
