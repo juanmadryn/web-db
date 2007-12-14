@@ -944,11 +944,13 @@ public class ResumenHorasRelojModel extends DataStore {
 		return PARTES_OK + "," + conErroresInClause();
 	}
 	
+	
 	/**
-	 * @param dsPartesMo
-	 * @throws DataStoreException 
+	 * Retrieve the ids of the units of work contained in the selected records
+	 * @return a set with the id of all selected units of work
+	 * @throws DataStoreException
 	 */
-	public void getPartesSeleccionados(PartesMoModel dsPartesMo) throws DataStoreException {
+	public Set<Integer> getPartesSeleccionados() throws DataStoreException {
 		Set<Integer> parteIds = new HashSet<Integer>();
 		// parte ids seleccionados en el resumen
 		for (int i = 0; i < getRowCount(); i++) {
@@ -957,18 +959,7 @@ public class ResumenHorasRelojModel extends DataStore {
 				parteIds.add(Integer.valueOf(p));
 			}
 		}
-		dsPartesMo.gotoFirst();
-		// removemos los partes no seleccionados
-		for (int i = 0; i < dsPartesMo.getRowCount(); i++) {
-			if (!parteIds.contains(dsPartesMo.getPartesMoParteId(i))) {
-				dsPartesMo.removeRow(i);
-			} else 
-				parteIds.remove(dsPartesMo.getPartesMoParteId(i));
-		}
-		// si no se encontraron todos los partes
-		if (!parteIds.isEmpty()) {
-			// error
-		}
+		return parteIds;
 	}
 	
      //$ENDCUSTOMMETHODS$
