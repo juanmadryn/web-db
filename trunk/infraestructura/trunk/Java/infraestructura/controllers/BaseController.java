@@ -59,7 +59,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 	private static String menuActual = null;
 
-	private static WebSiteUser _user;
+	// private static WebSiteUser _user;
 
 	public com.salmonllc.jsp.JspContainer _noCache;
 
@@ -230,30 +230,9 @@ public class BaseController extends JspController implements SubmitListener,
 	public void initialize() throws Exception {
 		// lo primero es controlar que se está conectado a la aplicación.
 		// Salvo que sea la home page
-		if (!(getPageName().equalsIgnoreCase("HomePage.jsp")
-				|| getPageName().equalsIgnoreCase("LoginPage.jsp") /*|| !this.isInitialized()*/)) {
-			WebSiteUser user = getSessionManager().getWebSiteUser();
-			String ip = this.getCurrentRequest().getRemoteAddr();
-			/*
-			 * Si el user es null intenta, por cambio de aplicación si ya lo
-			 * tiene seteado
-			 */
-
-			if (user == null) {
-				/* Setea el usuario y la sessión */
-				if (_user != null) {
-					if (users != null 
-							&& (users.get(ip) != null)
-							&& (users.get(ip).equals(_user)))
-						user = _user;
-				}
-			} else if (_user == null)
-				/* lo seta ya que nunca fue seteado */
-
-				_user = user;
-			users.put(ip, user);
-
-			// System.out.println("Usuario: " + _user + " Usuario: "+user);
+		if (!(getPageName().equalsIgnoreCase("HomePage.jsp") || getPageName()
+				.equalsIgnoreCase("LoginPage.jsp") /* || !this.isInitialized() */)) {
+			WebSiteUser user = checkUser();			
 			if (user == null) {
 				removePagesFromSession();
 				gotoSiteMapPage(SiteMapConstants.USUARIO_INVALIDO_ERROR);
@@ -322,21 +301,8 @@ public class BaseController extends JspController implements SubmitListener,
 		if (!isReferredByCurrentPage()) {
 
 			// Set the login links on the top of the page.
-			WebSiteUser user = getSessionManager().getWebSiteUser();
-			/*
-			 * Si el user es null intenta, por cambio de aplicación si ya lo
-			 * tiene seteado
-			 */
-			if (user == null) {
-				if (_user != null) {
-					/* Setea el usuario y la sessión */
-					user = _user;
-					getSessionManager().setWebSiteUser(user);
-				}
-			} else if (_user == null)
-				/* lo seta ya que nunca fue seteado */
-				_user = user;
-
+			WebSiteUser user = checkUser();
+			
 			if (user != null && user.isValid()) {
 				_lnkBannerSignIn.setVisible(false);
 				_lnkBannerSignOut.setVisible(true);
@@ -386,7 +352,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * 
 	 * @param user_id
 	 *            --> id único que identifica a un usuario de la aplicación
-	 *            website_user
+	 *            websitestoredUser
 	 * @param menu_id
 	 *            --> id único que identifiva al menu (tabla menu)
 	 */
@@ -487,9 +453,6 @@ public class BaseController extends JspController implements SubmitListener,
 
 			ds = new MenuModel(getApplicationName(), "infraestructura");
 
-			/* recupera al usuario de la sessión */
-			WebSiteUser user = getSessionManager().getWebSiteUser();
-
 			// Recupera menú según padre, si Existe y setéa como submenú
 			// si no existen sub menues para dicho grupo, re setea a HomePage
 			// que es el menú principal
@@ -519,9 +482,6 @@ public class BaseController extends JspController implements SubmitListener,
 				if (ds.gotoFirst())
 					descMenuAnterior = ds.getString("menu." + NOMBRE_FIELD);
 			}
-
-			System.out.println("Anterior: " + urlMenuAnterior + " Actual: "
-					+ menuActual);
 
 			// empieza recuperación del resto de los menues correspondientes
 			ds.retrieve("grupo = " + String.valueOf('"') + menuActual
@@ -602,6 +562,8 @@ public class BaseController extends JspController implements SubmitListener,
 				// verifica el acceso del usuarioal menó si es que estó
 				// conectado.
 				// si no estó conectado no muestra ningón menó
+				/* recupera al usuario de la sessión */
+				WebSiteUser user = checkUser();
 				if (user != null) {
 					menuPermitido = menuPermitido(getApplicationName(), user,
 							iID);
@@ -706,8 +668,7 @@ public class BaseController extends JspController implements SubmitListener,
 			gotoSiteMapPage(SiteMapConstants.HOME_PAGE);
 			clearAllPagesFromSession();
 			/* limpia el usuario seteado */
-			System.out.println("Usuario: " + _user);
-			_user = null;
+			users.remove(getCurrentRequest().getRemoteAddr());
 		}
 
 		if (e.getComponent() == _menuBUT) {
@@ -734,7 +695,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 */
 	protected void removePagesFromSession() {
 		HttpSession sess = getSession();
-		Enumeration e = sess.getAttributeNames();
+		Enumeration<String> e = sess.getAttributeNames();
 		Object o = null;
 		while (e.hasMoreElements()) {
 			o = sess.getAttribute(e.nextElement().toString());
@@ -973,6 +934,26 @@ public class BaseController extends JspController implements SubmitListener,
 		URL = URL + parametros;
 
 		return URL;
+	}
+	
+	public WebSiteUser checkUser() {
+		WebSiteUser user = getSessionManager().getWebSiteUser();
+		String ip = this.getCurrentRequest().getRemoteAddr();
+		WebSiteUser storedUser = users.get(ip);
+		/*
+		 * Si el user es null intenta, por cambio de aplicación si ya lo
+		 * tiene seteado
+		 */
+
+		if (user == null) {
+			/* Setea el usuario y la sessión */
+			if (storedUser != null) {
+				user = storedUser;
+			}
+		} else if (storedUser == null)
+			/* lo seta ya que nunca fue seteado */
+			users.put(ip, user);
+		return user;
 	}
 
 }
