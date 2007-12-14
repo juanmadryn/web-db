@@ -291,6 +291,8 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				}
 				conexion.commit();	
 				_dsPartes.doValidarPartes(true);
+				seteaBotones(_estadoTE19.findOptionIndexOf(String
+						.valueOf(ResumenHorasRelojModel.PARTES_VAL)));
 			} catch (DataStoreException ex) {				
 				MessageLog.writeErrorMessage(ex, this);
 				displayErrorMessage("Error Autorizando Partes: " + ex.getMessage());
