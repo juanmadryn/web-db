@@ -953,6 +953,7 @@ public class BaseController extends JspController implements SubmitListener,
 		} else if (storedUser == null)
 			/* lo seta ya que nunca fue seteado */
 			users.put(ip, user);
+		getSessionManager().setWebSiteUser(user);
 		return user;
 	}
 
