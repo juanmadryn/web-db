@@ -2710,9 +2710,10 @@ public class PartesMoModel extends BaseModel {
     		st.close();    		
     		conexion.commit();
 
-    		conexion.beginTransaction();    		    		    		
-    		preprocesaPartesMo(fechaDesde, fechaHasta, conexion);    		
-    		preprocesaFichadas(fechaDesde, fechaHasta, conexion);    		
+    		conexion.beginTransaction();    
+    		ResumenHorasRelojModel dsResHorRlj = new ResumenHorasRelojModel(getAppName(),"partesmo");
+    		preprocesaPartesMo(fechaDesde, fechaHasta, conexion, dsResHorRlj);    		
+    		preprocesaFichadas(fechaDesde, fechaHasta, conexion, dsResHorRlj);    		
     		conexion.commit();    		
     	} catch (SQLException e) {    		
     		throw new DataStoreException(
@@ -2744,11 +2745,9 @@ public class PartesMoModel extends BaseModel {
      * @param fechaHasta period end date
      * @throws DataStoreException
      */
-    private void preprocesaPartesMo(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion) throws DataStoreException {    	
-    	ResumenHorasRelojModel dsResHorRlj = null;
-    	    	
+    private void preprocesaPartesMo(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion, ResumenHorasRelojModel dsResHorRlj) throws DataStoreException {    	
+    	    	    	
     	try {
-    		dsResHorRlj = new ResumenHorasRelojModel(getAppName(),"partesmo");
     		dsResHorRlj.retrieve("fecha between '"
 					+ fechaDesde.toString()
 					+ "' and '"
@@ -2949,10 +2948,9 @@ public class PartesMoModel extends BaseModel {
      * @throws DataStoreException 
      */
     private void preprocesaFichadas(java.sql.Date fechaDesde,
-			java.sql.Date fechaHasta, DBConnection conexion)
+			java.sql.Date fechaHasta, DBConnection conexion, ResumenHorasRelojModel dsResHorRlj)
 			throws DataStoreException 
-	{
-    	ResumenHorasRelojModel dsResHorRlj;
+	{    	
     	Connection connTango;    	
     	String SQLtango;    	
     	PreparedStatement pst = null;
@@ -2973,7 +2971,6 @@ public class PartesMoModel extends BaseModel {
     	int resumen;
 
     	try {
-    		dsResHorRlj = new ResumenHorasRelojModel(getAppName(),"partesmo");
     		dsResHorRlj.retrieve("fecha between '"
 					+ fechaDesde.toString()
 					+ "' and '"
