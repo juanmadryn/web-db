@@ -527,7 +527,7 @@ public class AdmProyectoController extends BaseController implements
 		// _dsProyecto.setAutoValidate(true);
 		// _dsAtributos.setAutoValidate(true);
 		// _dsActividadesProyecto.setAutoValidate(true);
-		// _dsTareasProyecto.setAutoValidate(true);
+		_dsTareasProyecto.setAutoValidate(true);
 
 		// setea la página para los datastores
 		// _dsProyecto.setPage(this);
@@ -556,7 +556,7 @@ public class AdmProyectoController extends BaseController implements
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		String remoteAddr = this.getCurrentRequest().getRemoteHost();
 		String nombre_tabla = TABLA_PRINCIPAL;
-		int userId = this.getSessionManager().getWebSiteUser().getUserID();
+		int userId = getSessionManager().getWebSiteUser().getUserID();
 		DBConnection conn = DBConnection.getConnection(getApplicationName());
 		boolean batchInserts = false;
 
@@ -623,7 +623,7 @@ public class AdmProyectoController extends BaseController implements
 			}
 			conn.commit();
 		} catch (ValidationException ex) {
-			conn.rollback();			
+			conn.rollback();
 			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
 			}
@@ -667,7 +667,8 @@ public class AdmProyectoController extends BaseController implements
 
 		// graba atributos de entidad
 		if (e.getComponent() == _grabarAtributoBUT1) {
-			if (("0001.0001".equalsIgnoreCase(_dsProyecto.getProyectosEstado()) || _dsProyecto.getProyectosEstado() == null)) {
+			if (("0001.0001".equalsIgnoreCase(_dsProyecto.getProyectosEstado()) || _dsProyecto
+					.getProyectosEstado() == null)) {
 				try {
 					_dsAtributos.update();
 				} catch (ValidationException ex) {
@@ -794,8 +795,8 @@ public class AdmProyectoController extends BaseController implements
 
 		if (e.getComponent() == _grabarProyectoBUT2) {
 			// si el proyecto esta en estado generado o esta siendo generado
-			if ("0001.0001".equalsIgnoreCase(_dsProyecto.getProyectosEstado()) || _dsProyecto.getProyectosEstado() == null)
-				{
+			if ("0001.0001".equalsIgnoreCase(_dsProyecto.getProyectosEstado())
+					|| _dsProyecto.getProyectosEstado() == null) {
 				int v_objeto_id = 0;
 				try {
 					// grabo todos los datasource
@@ -847,7 +848,7 @@ public class AdmProyectoController extends BaseController implements
 							TABLA_PRINCIPAL);
 				}
 			} else {
-				// si el proyecto no está generado, bloqueo toda modificación				
+				// si el proyecto no está generado, bloqueo toda modificación
 				displayErrorMessage("No puede modificar el proyecto en el estado actual.");
 				return false;
 			}
@@ -1048,11 +1049,7 @@ public class AdmProyectoController extends BaseController implements
 
 			try {
 				int newrow = _dsTareasProyecto.insertRow();
-				/*
-				 * _dsTareasProyecto.setInt(newrow,
-				 * TareasProyectoModel.TAREAS_PROYECTO_TAREA_ID,
-				 * _dsProyecto.getProyectosProyectoId());
-				 */
+
 				_dsTareasProyecto.setInt(newrow,
 						TareasProyectoModel.TAREAS_PROYECTO_PROYECTO_ID,
 						_dsProyecto.getProyectosProyectoId());
@@ -1065,6 +1062,12 @@ public class AdmProyectoController extends BaseController implements
 						.setString(newrow,
 								TareasProyectoModel.TAREAS_PROYECTO_ESTADO,
 								"0001.0001");
+				_dsTareasProyecto.setString(newrow,
+						TareasProyectoModel.TAREAS_PROYECTO_DESCRIPCION,
+						_dsProyecto.getProyectosDescripcion());
+				_dsTareasProyecto.setString(newrow,
+						TareasProyectoModel.TAREAS_PROYECTO_OBSERVACIONES,
+						_dsProyecto.getProyectosObservaciones());
 				_dsTareasProyecto.update();
 
 			} catch (Exception e) {
