@@ -2682,13 +2682,13 @@ public class PartesMoModel extends BaseModel {
     }
     
     /**
-     * Preprocesa partes de mano de obra:
+     * Search for the unit of works in the date range and calculate the total amount of hours worked by each employee per date: 
      * <ol>
-     * <li>Calcula los totales de los partes de mano de obra, teniendo en cuenta aquellos que han sido divididos en dos</li>
-     * <li>Calcula el total de horas trabajadas de acuerdo a los relojes</li>
-     * </ol>
-     * @param fechaDesde
-     * @param fechaHasta
+     * <li>acording with the units of works entered</li>
+     * <li>acording with the clock records from tango database</li> 
+     * </ol> 
+     * @param fechaDesde begin date
+     * @param fechaHasta end date
      * @throws DataStoreException
      */
     public void generaResumenRelojes(java.sql.Date fechaDesde, java.sql.Date fechaHasta) throws DataStoreException {
@@ -2696,13 +2696,12 @@ public class PartesMoModel extends BaseModel {
     	String SQL;    	
     	Statement st = null;
     	ResultSet r = null;
-    	
-    	// partes correspondientes al periodo
+    	   	
     	try {
     		conexion = DBConnection.getConnection("partesMO");
     		
     		conexion.beginTransaction();    		
-    		// elimino resumenes no validados para el período de la tabla de preproceso 
+    		// delete the records which contain non validated units of work 
     		SQL = " delete from resumen_horas_reloj "
     			+ " where fecha between '" + fechaDesde.toString()
     			+ "' and '" + fechaHasta.toString() + "' and estado != " + ResumenHorasRelojModel.PARTES_VAL;
@@ -2710,14 +2709,12 @@ public class PartesMoModel extends BaseModel {
     		st.executeUpdate(SQL);
     		st.close();    		
     		conexion.commit();
-    		
-    		// genero el resumen
+
     		conexion.beginTransaction();    		    		    		
     		preprocesaPartesMo(fechaDesde, fechaHasta, conexion);    		
     		preprocesaFichadas(fechaDesde, fechaHasta, conexion);    		
     		conexion.commit();    		
-    	} catch (SQLException e) {
-    		// además de escribir en el log mando mensaje a la página    		
+    	} catch (SQLException e) {    		
     		throw new DataStoreException(
     				"Error validando partes de mano de obra contra relojes: "
     				+ e.getMessage(), e);
@@ -2741,17 +2738,16 @@ public class PartesMoModel extends BaseModel {
     }
     
     /**
-     * Calcula los totales de los partes de mano de obra y actualiza tabla de preproceso
+     * Calculate the total amount of worked hours per day by each employee according with the units of work, in a specified period
      * @author Francisco
-     * @param fechaDesde fecha de inicio del periodo a validar
-     * @param fechaHasta fecha de finalizacion del periodo a validar
+     * @param fechaDesde period begin date
+     * @param fechaHasta period end date
      * @throws DataStoreException
      */
     private void preprocesaPartesMo(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion) throws DataStoreException {    	
     	ResumenHorasRelojModel dsResHorRlj = null;
     	    	
     	try {
-    		// DataModel para la tabla de resumen
     		dsResHorRlj = new ResumenHorasRelojModel(getAppName(),"partesmo");
     		dsResHorRlj.retrieve("fecha between '"
 					+ fechaDesde.toString()
@@ -2760,16 +2756,15 @@ public class PartesMoModel extends BaseModel {
     		dsResHorRlj.setBatchInserts(Boolean.TRUE);
     		
     		reset();
-    		// El +0 nos ayuda a ordenar correctamente el campo hora_desde (tipo VARCHAR)
+    		// as the order by clause mix varchar and int types, the +0 trick is needed to ensure proper order
 			setOrderBy("partes_mo.nro_legajo asc, partes_mo.fecha asc, partes_mo.hora_desde+0 asc");
-			// Selecciono aquellos partes que NO hayan sido validados ni firmados ni anulados
+			// retrieve units of works which are not validated, signed or canceled
 			retrieve("partes_mo.fecha between '"
 					+ fechaDesde.toString()
 					+ "' and '"
 					+ fechaHasta.toString()
 					+ "' and partes_mo.estado in ('0003.0002','0003.0004','0003.0006')");
 
-			// recorremos todos los partes en el periodo
     		for (int i = 0; i < getRowCount(); i++) {
 
     			int parte_id = getPartesMoParteId(i);
@@ -2797,7 +2792,7 @@ public class PartesMoModel extends BaseModel {
     			int anio1 = cal.get(Calendar.YEAR);
     			int anio2 = anio1;
     			if (hora_h < hora_d) {
-    				// abarca dos días setea hrorario también 
+    				// the unit of work span around two days
     				dia2 = dia1 + 1;
     				hora_d2 = 0;
     				hora_h2 = hora_h;
@@ -2807,12 +2802,12 @@ public class PartesMoModel extends BaseModel {
     				minuto_h = 0;
     			}
     			if (dia2 > cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-    				// se pasó de mes
+    				// next month
     				dia2 = 1;
     				mes2 = mes1 + 1;
     			}
     			if (mes2 > cal.getActualMaximum(Calendar.MONTH)+1) {
-    				// se pasó de año
+    				// next year
     				mes2 = 1;
     				anio2 = anio1 + 1;
     			}
@@ -2825,7 +2820,7 @@ public class PartesMoModel extends BaseModel {
     			int quincena1 = -1;
     			int quincena2 = -1;
 
-    			// determina la quincena
+    			// set fortnight
     			if (dia1 < 16)
     				quincena1 = 1;
     			else
@@ -2836,7 +2831,7 @@ public class PartesMoModel extends BaseModel {
     			else
     				quincena2 = 2;
 
-    			// calcula las horas
+    			// total amount of worked hours
     			double horas1 = 0;
     			double horas2 = 0;
     			horas1 = horasTrabajadas(hora_d, minuto_d, hora_h, minuto_h);
@@ -2844,7 +2839,7 @@ public class PartesMoModel extends BaseModel {
     				horas2 = horasTrabajadas(hora_d2, minuto_d2, hora_h2, minuto_h2);
     			}
     			
-    			// obtenemos los resumenes
+    			// retrieve the correct summary
     			int resumen1 = dsResHorRlj.getResumen(nro_legajo, cal);
     			int resumen2 = -1;
     			if ( resumen1 == -1)
