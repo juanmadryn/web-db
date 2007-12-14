@@ -622,10 +622,9 @@ public class AdmProyectoController extends BaseController implements
 				}
 			}
 			conn.commit();
-		} catch (DataStoreException ex) {
-			conn.rollback();
-			System.out.println(ex.toString());
-			for (String er : ex.toString().split("\n")) {
+		} catch (ValidationException ex) {
+			conn.rollback();			
+			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
 			}
 			return false;
@@ -668,10 +667,7 @@ public class AdmProyectoController extends BaseController implements
 
 		// graba atributos de entidad
 		if (e.getComponent() == _grabarAtributoBUT1) {
-			if (_dsProyecto.getProyectosEstado() != "0001.0001") {
-				displayErrorMessage("No puede modificar el proyecto una vez que lo ha completado");
-				return false;
-			} else {
+			if (("0001.0001".equalsIgnoreCase(_dsProyecto.getProyectosEstado()) || _dsProyecto.getProyectosEstado() == null)) {
 				try {
 					_dsAtributos.update();
 				} catch (ValidationException ex) {
@@ -684,6 +680,9 @@ public class AdmProyectoController extends BaseController implements
 					displayErrorMessage(ex.getMessage());
 					return false;
 				}
+			} else {
+				displayErrorMessage("No puede modificar el proyecto una vez que lo ha completado");
+				return false;
 			}
 		}
 
@@ -795,8 +794,8 @@ public class AdmProyectoController extends BaseController implements
 
 		if (e.getComponent() == _grabarProyectoBUT2) {
 			// si el proyecto esta en estado generado o esta siendo generado
-			if (_dsProyecto.getProyectosEstado().equalsIgnoreCase("0001.0001")
-					|| _dsProyecto.getProyectosEstado() == null) {
+			if ("0001.0001".equalsIgnoreCase(_dsProyecto.getProyectosEstado()) || _dsProyecto.getProyectosEstado() == null)
+				{
 				int v_objeto_id = 0;
 				try {
 					// grabo todos los datasource
@@ -848,9 +847,8 @@ public class AdmProyectoController extends BaseController implements
 							TABLA_PRINCIPAL);
 				}
 			} else {
-				// si el proyecto no está generado, bloqueo toda modificación
-				displayErrorMessage("No puede modificar un proyecto que está en estado "
-						+ _dsProyecto.getEstadosNombre());
+				// si el proyecto no está generado, bloqueo toda modificación				
+				displayErrorMessage("No puede modificar el proyecto en el estado actual.");
 				return false;
 			}
 		}

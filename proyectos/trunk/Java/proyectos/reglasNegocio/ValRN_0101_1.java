@@ -38,12 +38,7 @@ public final class ValRN_0101_1 extends ValidadorReglasNegocio {
 			criteria.append(" and atributos_entidad.nombre_objeto = 'proyectos'");
 			dsAtributos.retrieve(criteria.toString());
 			dsAtributos.validaAtributosUpdate();
-			return true;
-		} catch (ValidationException e) {
-			for (String er : e.getStackErrores()) {
-				msg.append("\n");
-				msg.append(er);
-			}
+			return true;		
 		} catch (DataStoreException e) {
 			msg.append(e.getMessage());
 			e.printStackTrace();
