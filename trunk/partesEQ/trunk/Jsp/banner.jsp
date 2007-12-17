@@ -3,7 +3,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="white">
   <tr> 
     <td align="left" width="40%"><salmon:a href="%HomePage" name="baseLinkAdminSalmon">
-      <salmon:img name="imgMainLogo" src="%ImageDirectory/banner_logo.png" srclocalekey="bannerImageSource"/>
+      <salmon:img name="imgMainLogo" src="%ImageDirectory/banner_logo.jpg" srclocalekey="bannerImageSource"/>
       </salmon:a> </td>
     <td align="right" width="60%" nowrap> 
       <table width="-1%" border="0">

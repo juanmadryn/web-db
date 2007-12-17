@@ -1161,8 +1161,8 @@ public class PartesEqModel extends DataStore {
 		// recupera estado inicial para los partes
 		estado_inicial = getEstadoInicial();
 
-		// realiza las tareas de lookup sobre los datos de tango y completa informaciï¿½n
-		// realiza validaciones varias de consistencia de informaciï¿½n
+		// realiza las tareas de lookup sobre los datos de tango y completa información
+		// realiza validaciones varias de consistencia de información
 		// aplica el tratamiento de horas y rango horario
 		for (int i = 0; i < getRowCount(); i++) {
 			// verifico lookup y actualiza los datos automÃ¡ticos en caso de insertar
