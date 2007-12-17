@@ -31,14 +31,14 @@
   </entry>
   
   <entry>
-     <name>CargaPartesEqPlano</name>
+     <name>EditaParte</name>
      <uri>/Jsp/CargarPartesEqPlano.jsp</uri>
      <useForward>false</useForward>
      <secure>false</secure>
   </entry>
   
   <entry>
-     <name>EditaParte</name>
+     <name>CargaPartesEqPlano</name>
      <uri>/Jsp/CargarPartesEqPlano.jsp</uri>
      <useForward>false</useForward>
      <secure>false</secure>

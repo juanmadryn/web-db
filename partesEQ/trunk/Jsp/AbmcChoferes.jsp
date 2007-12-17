@@ -6,7 +6,7 @@
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
 	<!-- ********************************************************************************************* -->
-	<!-- Agregar definiciï¿½n de DataSource aquï¿½ -->
+	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="buscar" type="complex" columns="*" />
 	</salmon:datasource>
@@ -14,7 +14,7 @@
 		model="partesEQ.models.ChoferesModel" autoretrieve="Never">
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
-	<!-- Agregar cï¿½digo de la pï¿½gina aquï¿½ -->
+	<!-- Agregar código de la página aquí -->
 	<!-- ********************************************************************************************* -->
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table2" width="100%" border="0">
@@ -145,7 +145,7 @@
 			</salmon:datatable>
 		</salmon:listformdisplaybox>
 	</salmon:box>
-	<!-- Fin de cï¿½digo agregado -->
+	<!-- Fin de código agregado -->
 </salmon:form>
 <jsp:include page="templateAfter.jsp" flush="true"></jsp:include>
 <salmon:endpage />
