@@ -37,7 +37,7 @@ public interface Constants {
 	public static final String LANG_PROP_HEADING_HOME_PAGE = "HdngHomePage";
 
 	public static final String DEFAULT_DISPLAY_FORMAT =  "$ #,##0.00";
-	public static final String DEFAULT_HEADING_HOME_PAGE = "Pï¿½gina Principal";
+	public static final String DEFAULT_HEADING_HOME_PAGE = "Página Principal";
 
 
 	//Navigation menu constants

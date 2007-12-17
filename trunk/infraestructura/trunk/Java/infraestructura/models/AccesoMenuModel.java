@@ -78,7 +78,7 @@ public class AccesoMenuModel extends DataStore {
                //add validations
                addLookupRule(WEBSITE_USER_LOGIN_NAME,"website_user","'user_id = ' + acceso_menu.user_id","user_id","website_user.login_name","Usuario inexistente");
                addLookupRule(ROLES_NOMBRE,"roles","'rol_id = ' + acceso_menu.rol_id","rol_id","roles.nombre","Rol inexistente");
-               addLookupRule(MENU_NOMBRE,"menu","'menu_id = ' + acceso_menu.menu_id","menu_id","menu.nombre","Menï¿½ inexistente");
+               addLookupRule(MENU_NOMBRE,"menu","'menu_id = ' + acceso_menu.menu_id","menu_id","menu.nombre","Menú inexistente");
           }
           catch (DataStoreException e) {
                com.salmonllc.util.MessageLog.writeErrorMessage(e,this);

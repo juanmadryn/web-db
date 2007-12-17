@@ -160,9 +160,15 @@ public class BaseController extends JspController implements SubmitListener,
 
 	public infraestructura.models.WebsiteUserModel _dsWebSiteUser;
 
-	// hash table that contains all actually logged user - Added by Juan Manuel
+	// hash table that contains all actually logged users - Added by Juan Manuel
 	// Cortez at 12/12/2007
 	private static Hashtable<String, WebSiteUser> users = new Hashtable<String, WebSiteUser>();
+
+	// In order to manage every session for each application and for each remote
+	// ip, a Hashtable was added containing another Hashtable per ip with the
+	// applications run by the said ip and its corresponding sessions
+
+	private static Hashtable<String, Hashtable<String, HttpSession>> aplications = new Hashtable<String, Hashtable<String, HttpSession>>();
 
 	/**
 	 * This method tries to get the string parameter passed into this function
@@ -231,13 +237,28 @@ public class BaseController extends JspController implements SubmitListener,
 		// lo primero es controlar que se está conectado a la aplicación.
 		// Salvo que sea la home page
 		if (!(getPageName().equalsIgnoreCase("HomePage.jsp") || getPageName()
-				.equalsIgnoreCase("LoginPage.jsp") /* || !this.isInitialized() */)) {
-			WebSiteUser user = checkUser();			
+				.equalsIgnoreCase("LoginPage.jsp"))) {
+
+			// check logged users
+			WebSiteUser user = checkUser();
 			if (user == null) {
-				removePagesFromSession();
+				clearAllPagesFromSession();
 				gotoSiteMapPage(SiteMapConstants.USUARIO_INVALIDO_ERROR);
 			}
 		}
+
+		// save the page's session with the ip and application
+		String appName = getApplicationName();
+		Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
+				.get(getCurrentRequest().getRemoteAddr());
+		
+		if (aplicationsForRemoteAddress == null)
+			aplicationsForRemoteAddress = new Hashtable<String, HttpSession>();
+		
+		aplicationsForRemoteAddress.put(appName, getSession());
+		
+		aplications.put(getCurrentRequest().getRemoteAddr(),
+				aplicationsForRemoteAddress);
 
 		setCheckSessionExpired(true);
 
@@ -302,7 +323,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 			// Set the login links on the top of the page.
 			WebSiteUser user = checkUser();
-			
+
 			if (user != null && user.isValid()) {
 				_lnkBannerSignIn.setVisible(false);
 				_lnkBannerSignOut.setVisible(true);
@@ -665,10 +686,23 @@ public class BaseController extends JspController implements SubmitListener,
 				cookieRemMe.setMaxAge(0);
 				getCurrentResponse().addCookie(cookieRemMe);
 			}
-			gotoSiteMapPage(SiteMapConstants.HOME_PAGE);
-			clearAllPagesFromSession();
+
+			Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
+					.get(getCurrentRequest().getRemoteAddr());
+			
+			Enumeration<HttpSession> aplicaciones = aplicationsForRemoteAddress
+					.elements();
+			HttpSession sess;
+			while (aplicaciones.hasMoreElements()) {
+				sess = aplicaciones.nextElement();
+				//clearAllPagesFromSession(sess);
+				sess.setAttribute(SESSION_VALUE_WEBSITE_USER, null);
+			}
+
 			/* limpia el usuario seteado */
 			users.remove(getCurrentRequest().getRemoteAddr());
+
+			gotoSiteMapPage(SiteMapConstants.HOME_PAGE);
 		}
 
 		if (e.getComponent() == _menuBUT) {
@@ -686,24 +720,6 @@ public class BaseController extends JspController implements SubmitListener,
 		}
 
 		return true;
-	}
-
-	/**
-	 * This method removes the pages from the session. That will force the
-	 * application to re-generate the page HTML. That is necessary since the
-	 * page HTML will change with the different language preferance.
-	 */
-	protected void removePagesFromSession() {
-		HttpSession sess = getSession();
-		Enumeration<String> e = sess.getAttributeNames();
-		Object o = null;
-		while (e.hasMoreElements()) {
-			o = sess.getAttribute(e.nextElement().toString());
-			if (o instanceof JspController) {
-				((JspController) o).clearPageFromSession();
-				e = sess.getAttributeNames();
-			}
-		}
 	}
 
 	/**
@@ -935,14 +951,14 @@ public class BaseController extends JspController implements SubmitListener,
 
 		return URL;
 	}
-	
+
 	public WebSiteUser checkUser() {
 		WebSiteUser user = getSessionManager().getWebSiteUser();
 		String ip = this.getCurrentRequest().getRemoteAddr();
 		WebSiteUser storedUser = users.get(ip);
 		/*
-		 * Si el user es null intenta, por cambio de aplicación si ya lo
-		 * tiene seteado
+		 * Si el user es null intenta, por cambio de aplicación si ya lo tiene
+		 * seteado
 		 */
 
 		if (user == null) {

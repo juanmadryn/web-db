@@ -75,7 +75,7 @@ public class LoginPageController extends BaseController {
 
 			setRememberMe(sUserName,sPwd);
 			
-			// carga nuevamente el menï¿½
+			// carga nuevamente el menú
 			super.populateNavBar();
 			
 			if(sParamReDir==null || sParamReDir.length()<4)

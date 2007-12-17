@@ -40,7 +40,7 @@ public class DDAPSelector extends HtmlTable implements PageListener {
 		setCellSpacing(0);
 		setCellPadding(0);
 
-		// creo componentes para su visualizaciï¿½n en pantalla
+		// creo componentes para su visualización en pantalla
 		_tipos = new HtmlDropDownList("tipos_objeto", p);
 		_objetos = new HtmlDropDownList("nombres_objeto", p);
 		_tipos_detalle = new HtmlDropDownList("tipos_detalle", p);

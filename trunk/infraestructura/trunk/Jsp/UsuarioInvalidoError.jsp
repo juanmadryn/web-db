@@ -15,10 +15,11 @@ o bien no tiene permisos para ejecutar esta página
 <br>
 <br>
 <br>
-Por favor póngase en contacto con el Admisnitardor de Sistemas<br>
+Por favor póngase en contacto con el Administrador de Sistemas<br>
 <br>
 ó con el responsable de la aplicación ...<br>
 <br>
+<salmon:a href="%HomePage" name="a1"><salmon:text name="text3" text="Presione aquí para regresar a la página principal" font="LinkFont"/></salmon:a>
 </salmon:font>
 <salmon:endbody/>
 
