@@ -63,7 +63,7 @@ public class AbmcTransicionEstadoController extends BaseController {
 	public void pageRequested(PageEvent p) throws Exception {
 		super.pageRequested(p);
 		
-		// actualiza los ï¿½tems del tipo select segï¿½n el circuito seleccionado
+		// actualiza los ítems del tipo select según el circuito seleccionado
 		String circuito = _circuitoDD3.getValue();
 		
 		// siempre limpio los dropdown

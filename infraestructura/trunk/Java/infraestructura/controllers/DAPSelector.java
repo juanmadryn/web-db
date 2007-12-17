@@ -36,7 +36,7 @@ public class DAPSelector extends HtmlTable implements PageListener {
 		setCellSpacing(0);
 		setCellPadding(0);
 
-		// creo componentes para su visualizaciï¿½n en pantalla
+		// creo componentes para su visualización en pantalla
 		_tipos = new HtmlDropDownList("tables", p);
 		_objetos = new HtmlDropDownList("columns", p);
 		setComponentAt(0, 0, _tipos);

@@ -141,7 +141,7 @@ public class CircuitosEstadosController extends BaseController {
 		
 		// ante cada requerimiento verifica contexto y determina detalle de
 		// estados y completa FK's
-		// Es row de circuito vï¿½lida?
+		// Es row de circuito válida?
 		try {
 			boolean actualizar = false;
 			String circuito = null;

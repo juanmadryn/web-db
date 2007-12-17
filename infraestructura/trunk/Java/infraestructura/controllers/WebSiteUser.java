@@ -220,7 +220,7 @@ public class WebSiteUser implements Constants, Serializable {
 	
 	/**
 	 * @param rol (id del rol a buscar)
-	 * @return verdadero si el rol estï¿½ en la lista de roles del usuario
+	 * @return verdadero si el rol está en la lista de roles del usuario
 	 */
 	public boolean tieneRol(int rol){
         if (_roles.containsKey(Integer.toString(rol)))

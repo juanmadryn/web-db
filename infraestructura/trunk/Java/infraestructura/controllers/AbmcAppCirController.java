@@ -60,11 +60,11 @@ public class AbmcAppCirController extends BaseController {
 						+ tipo_detalle + "' and nombre_detalle = '"
 						+ nombre_detalle + "'");
 			if (_dsAppCir.getRowCount() == 0) {
-				// no recupera nada, reseteo la selecciï¿½n
+				// no recupera nada, reseteo la selección
 				_circuitoTE5.setSelectedIndex(0);
 			}
 			if (_dsAppCir.getRowCount() == 1){
-				// seleccionï¿½ exï¿½ctamente 1 seteo el valor del drop
+				// seleccionó exáctamente 1 seteo el valor del drop
 				for (int i = 0 ; i < _circuitoTE5.getOptionCount() ; i++) {
 					String circuito = _dsAppCir.getString(0,DSAPPCIR_APLICA_CIRCUITO_CIRCUITO);
 					if (_circuitoTE5.getOptionKey(i) != null &&_circuitoTE5.getOptionKey(i).equalsIgnoreCase(circuito)){
@@ -73,7 +73,7 @@ public class AbmcAppCirController extends BaseController {
 				}
 			}
 			if (_dsAppCir.getRowCount() > 1) {
-				displayErrorMessage("Se recuperï¿½ mas de un circuito para la Columna...");
+				displayErrorMessage("Se recuperó más de un circuito para la Columna...");
 			}
 		}
 		

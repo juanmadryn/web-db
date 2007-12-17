@@ -71,7 +71,7 @@ public class AbmcDAPdetController extends BaseController {
 	public void pageSubmitted(PageEvent p) {
 		super.pageSubmitted(p);
 		
-		// seimpre en funciï¿½n del tipo de objeto lleno la tabla de tipo de ï¿½tem
+		// seimpre en función del tipo de objeto lleno la tabla de tipo de ítem
 		populateTipoItem();
 		
 		// chequeo si corresponde actualizar el tipo y nombre del objeto al insertar

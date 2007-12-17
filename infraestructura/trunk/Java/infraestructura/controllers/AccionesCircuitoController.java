@@ -58,7 +58,7 @@ public class AccionesCircuitoController extends BaseController {
 	public void pageSubmitEnd(PageEvent p) {
 		super.pageSubmitEnd(p);
 		
-		// Verifica contexto y completa informaciï¿½n
+		// Verifica contexto y completa información
 		try {
 			if (_dsAccionesAplicacion.getRowCount() > 0 && 
 				_dsAccionesAplicacion.getRow() != -1 && 
