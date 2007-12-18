@@ -91,7 +91,7 @@ public void initialize() throws Exception{
 public boolean submitPerformed(SubmitEvent e) throws Exception {
 	
 	if (e.getComponent() == _generarBUT) {
-		// genera liquidaci贸n para el mes y anio
+		// genera liquidaci髇 para el mes y anio
 		try {
 			_displaybox1.setHeadingCaption("Resumiendo...");
 			_dsPartes.liquidarPeriodo(_dsPeriodo.getInt("mes"), _dsPeriodo.getInt("anio"));
@@ -102,15 +102,15 @@ public boolean submitPerformed(SubmitEvent e) throws Exception {
 						+" and last_day('"+Integer.toString(_dsPeriodo.getInt("anio"))
 						+"-"+Integer.toString(_dsPeriodo.getInt("mes"))	+"-01')";
 			_dsResHor.retrieve(SQL);
-			_displaybox1.setHeadingCaption("Generaci贸n de resumen mensual de horas");
+			_displaybox1.setHeadingCaption("Generaci髇 de resumen mensual de horas");
 		} catch (DataStoreException ex) {
 			MessageLog.writeErrorMessage(ex, this);
-			_displaybox1.setHeadingCaption("Generaci贸n de resumen mensual de horas");
+			_displaybox1.setHeadingCaption("Generaci髇 de resumen mensual de horas");
 			displayErrorMessage("Error Liquidando Partes: " + ex.getMessage());
 			return false;
 		} catch (Exception ex) {
 			MessageLog.writeErrorMessage(ex, this);
-			_displaybox1.setHeadingCaption("Generaci贸n de resumen mensual de horas");
+			_displaybox1.setHeadingCaption("Generaci髇 de resumen mensual de horas");
 			displayErrorMessage("Error General liquidando: " + ex.getMessage());
 			return false;
 		}

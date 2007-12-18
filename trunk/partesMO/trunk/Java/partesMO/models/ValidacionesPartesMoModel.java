@@ -62,9 +62,9 @@ public class ValidacionesPartesMoModel extends DataStore {
                setOrderBy(computeTableAndFieldName("validaciones_partes_mo.nombre") + " ASC");
 
                //add validations
-               addRequiredRule(VALIDACIONES_PARTES_MO_NOMBRE,"Nombre de validaciÃ³n obligatorio");
-               addRequiredRule(VALIDACIONES_PARTES_MO_TIPO,"Tipo de validaciÃ³n obligatorio");
-               addRequiredRule(VALIDACIONES_PARTES_MO_VALIDADOR,"Rutina de validaciÃ³n obligatoria");
+               addRequiredRule(VALIDACIONES_PARTES_MO_NOMBRE,"Nombre de validación obligatorio");
+               addRequiredRule(VALIDACIONES_PARTES_MO_TIPO,"Tipo de validación obligatorio");
+               addRequiredRule(VALIDACIONES_PARTES_MO_VALIDADOR,"Rutina de validación obligatoria");
           }
           catch (DataStoreException e) {
                com.salmonllc.util.MessageLog.writeErrorMessage(e,this);

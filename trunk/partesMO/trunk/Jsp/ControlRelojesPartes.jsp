@@ -7,7 +7,7 @@
    <%@include file="message.jsp"%>
    </td>
    <!-- ********************************************************************************************* -->
-   <!-- Agregar definiciÃ³n de DataSource aquÃ­ -->
+   <!-- Agregar definición de DataSource aquí -->
    <salmon:datasource name="dsResHor" type="MODEL" dbprofile="partesmo"
       model="partesMO.models.ResumenHorasRelojModel"
       autoretrieve="Never">
@@ -23,7 +23,7 @@
       <salmon:qbecriteria name="estado" type="IN" columns="resumen_horas_reloj.estado" />
    </salmon:datasource>
    <!-- ********************************************************************************************* -->
-   <!-- Agregar cÃ³digo de la pÃ¡gina aquÃ­ -->
+   <!-- Agregar código de la página aquí -->
    <!-- ********************************************************************************************* -->
    <salmon:box name="box1" width="100%">
    		<salmon:table name="table2" width="100%" border="0">
@@ -178,7 +178,7 @@
          </salmon:datatable>
       </salmon:listformdisplaybox>
    </salmon:box>
-   <!-- Fin de cÃ³digo agregado -->
+   <!-- Fin de código agregado -->
 </salmon:form>
 <jsp:include page="templateAfter.jsp" flush="true"></jsp:include>
 <salmon:endpage />

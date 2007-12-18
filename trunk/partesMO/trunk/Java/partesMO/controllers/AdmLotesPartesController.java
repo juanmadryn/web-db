@@ -288,7 +288,7 @@ public class AdmLotesPartesController extends BaseController {
 		}
 		
 		if (e.getComponent() == _lotearPartesSinLotearBUT15 || e.getComponent() == _lotearLoteBUT3) {
-			// recorre el datastore de partes, asignando el parte y ejecutando la acci√≥n de lotear
+			// recorre el datastore de partes, asignando el parte y ejecutando la acciÛn de lotear
 			if (rowLote_actual != -1) {
 				String estado_lote = _dsLotes.getLoteCargaPartesMoEstado(rowLote_actual);
 				try {
@@ -304,7 +304,7 @@ public class AdmLotesPartesController extends BaseController {
 									null,true);									
 						}
 					}
-					// si todo estuvo ok hasta ac√° si el estado del lote es
+					// si todo estuvo ok hasta ac· si el estado del lote es
 					// generado lo cambia a loteado,
 					// sino no hace nada
 					if (estado_lote.equalsIgnoreCase("0004.0001"))
@@ -357,8 +357,8 @@ public class AdmLotesPartesController extends BaseController {
 		}
 		
 		if (e.getComponent() == _validarLoteBUT5) {
-			// ejecuta la validaci√≥n para los partes seleccionados
-			// recorre el datastore de partes, asignando el parte y ejecutando la acci√≥n de validar
+			// ejecuta la validaciÛn para los partes seleccionados
+			// recorre el datastore de partes, asignando el parte y ejecutando la acciÛn de validar
 			if (rowLote_actual != -1) {
 				try {
 					for (int i = 0; i < _dsPartes.getRowCount(); i++) {
@@ -369,7 +369,7 @@ public class AdmLotesPartesController extends BaseController {
 								null,true);				
 					}
 
-					// si todo estuvo ok hasta ac√° si el estado del lote es
+					// si todo estuvo ok hasta ac· si el estado del lote es
 					// generado lo cambia a loteado,
 					// sino no hace nada
 					_dsLotes.ejecutaAccion(rowLote_actual, "7", "0004",
@@ -394,7 +394,7 @@ public class AdmLotesPartesController extends BaseController {
 	@Override
 	public void pageSubmitEnd(PageEvent p) {
 		
-		// ante cada submit de p√°gina verifica contexto y setea componentes visuales comportamiento
+		// ante cada submit de p·gina verifica contexto y setea componentes visuales comportamiento
 		if (_dsLotes.getRow() != -1) {
 			// hay lote seleccionado
 			if (_dsLotes.getRow() != rowLote_actual) {

@@ -295,11 +295,11 @@ public class SupervisoresModel extends DataStore {
 			}
 
 			try {
-				// Se establece la conexi贸n con la base de datos
+				// Se establece la conexi髇 con la base de datos
 				_connTango = DriverManager.getConnection( _urlTango,_userTango,_passWordTango );
 			} catch (Exception e) {
 				MessageLog.writeErrorMessage(e, null);
-				throw new DataStoreException("imposible establecer conexi贸n con la base tango: " + e.getMessage());
+				throw new DataStoreException("imposible establecer conexi髇 con la base tango: " + e.getMessage());
 			}
 		}
 		
@@ -319,12 +319,12 @@ public class SupervisoresModel extends DataStore {
 		String SQL = null;
 		boolean hubo_errores = false;
 
-		// realiza las tareas de lookup sobre los datos de tango y completa informaci贸n
+		// realiza las tareas de lookup sobre los datos de tango y completa informaci髇
  		for (int i = 0; i < getRowCount(); i++) {
-			// verifico lookup y actualiza los datos autom谩ticos en caso de insertar
+			// verifico lookup y actualiza los datos autom醫icos en caso de insertar
  			if (getRowStatus(i) == STATUS_NEW_MODIFIED || getRowStatus(i) == STATUS_MODIFIED) {
  				
- 				// recupera la conexi贸n a tango
+ 				// recupera la conexi髇 a tango
  				connTango = getConexionTango();
  				nro_legajo = getSupervisoresNroLegajo(i);
 
@@ -379,7 +379,7 @@ public class SupervisoresModel extends DataStore {
 
  				} catch (SQLException e) {
  					MessageLog.writeErrorMessage(e, null);
- 					// adem谩s de escribir en el log mando mensaje a la p谩gina
+ 					// adem醩 de escribir en el log mando mensaje a la p醙ina
  					throw new DataStoreException("Error determinando legajo en tango: "	+ e.getMessage());
  				} finally {
  					if (r != null) {

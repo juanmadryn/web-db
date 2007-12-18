@@ -58,8 +58,8 @@ public class CategoriaPersonalModel extends DataStore {
                setOrderBy(computeTableAndFieldName("categoria_personal.categoria") + " ASC");
 
                //add validations
-               addRequiredRule(CATEGORIA_PERSONAL_NOMBRE,"Nombre de la categorÃ­a es obligatorio");
-               addRequiredRule(CATEGORIA_PERSONAL_CATEGORIA,"CÃ³digo de categorÃ­a obligatorio");
+               addRequiredRule(CATEGORIA_PERSONAL_NOMBRE,"Nombre de la categoría es obligatorio");
+               addRequiredRule(CATEGORIA_PERSONAL_CATEGORIA,"Código de categoría obligatorio");
           }
           catch (DataStoreException e) {
                com.salmonllc.util.MessageLog.writeErrorMessage(e,this);

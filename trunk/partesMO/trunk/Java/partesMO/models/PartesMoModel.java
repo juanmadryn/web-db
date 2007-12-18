@@ -1162,7 +1162,7 @@ public class PartesMoModel extends BaseModel {
 		if (hora.length() > 5)
 			return -1;
 
-		// verifico formato si viene con minutos o s√≥lo hora
+		// verifico formato si viene con minutos o sÛlo hora
 		int index2Puntos = hora.indexOf(":");
 		if (index2Puntos == -1)
 			index2Puntos = hora.indexOf(".");
@@ -1201,7 +1201,7 @@ public class PartesMoModel extends BaseModel {
 		if (hora.length() > 5)
 			return -1;
 
-		// verifico formato si viene con minutos o s√≥lo hora
+		// verifico formato si viene con minutos o sÛlo hora
 		int index2Puntos = hora.indexOf(":");
 		if (index2Puntos == -1)
 			index2Puntos = hora.indexOf(".");
@@ -1210,7 +1210,7 @@ public class PartesMoModel extends BaseModel {
 			// horas y minutos extraigo solo las horas
 			try {
 				tmpMinutos = Integer.parseInt(hora.substring(index2Puntos + 1));
-				// si los minutos est√°n expresados con una sola cifra la llevo a dos
+				// si los minutos est·n expresados con una sola cifra la llevo a dos
 				if (hora.substring(index2Puntos + 1).length() == 1)
 					tmpMinutos = tmpMinutos * 10;
 			} catch (Exception e) {
@@ -1247,7 +1247,7 @@ public class PartesMoModel extends BaseModel {
 			try {
 				conexion = DBConnection.getConnection("partesMO","infraestructura");
 
-			   // ahora busco el primer estado posible seg√∫n la m√°quina de estados
+			   // ahora busco el primer estado posible seg˙n la m·quina de estados
 				SQL = "select estado_origen "
 						+ " from transicion_estados "
 						+ " where estado_origen in (select estado from estados where circuito = '0003')"
@@ -1306,11 +1306,11 @@ public class PartesMoModel extends BaseModel {
 			}
 
 			try {
-				// Se establece la conexi√≥n con la base de datos
+				// Se establece la conexiÛn con la base de datos
 				_connTango = DriverManager.getConnection( _urlTango,_userTango,_passWordTango );
 			} catch (Exception e) {
 				MessageLog.writeErrorMessage(e, null);
-				throw new DataStoreException("imposible establecer conexi√≥n con la base tango: " + e.getMessage());
+				throw new DataStoreException("imposible establecer conexiÛn con la base tango: " + e.getMessage());
 			}
 		}
 		
@@ -1387,7 +1387,7 @@ public class PartesMoModel extends BaseModel {
 					proyecto_id = -1;
 				} 
 				else if(f > 0) {
-					setMensajeError(row,"Fecha de parte posterior a finalizaci√≥n del proyecto.");
+					setMensajeError(row,"Fecha de parte posterior a finalizaciÛn del proyecto.");
 					proyecto_id = -1;
 				}
 			}
@@ -1433,7 +1433,7 @@ public class PartesMoModel extends BaseModel {
 		/***********************************************************************
 		 * Calcula, controla y resuelve legajo
 		 **********************************************************************/
-		// recupera la conexi√≥n a tango
+		// recupera la conexiÛn a tango
 		connTango = getConexionTango();
 		nro_legajo = getPartesMoNroLegajo(row);
 
@@ -1489,7 +1489,7 @@ public class PartesMoModel extends BaseModel {
 
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
-			// adem√°s de escribir en el log mando mensaje a la p√°gina
+			// adem·s de escribir en el log mando mensaje a la p·gina
 			throw new DataStoreException("Error determinando legajo en tango: "	+ e.getMessage() + " Debug: " + debug);
 		} finally {
 			if (r != null) {
@@ -1638,7 +1638,7 @@ public class PartesMoModel extends BaseModel {
 			
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
-			// adem√°s de escribir en el log mando mensaje a la p√°gina
+			// adem·s de escribir en el log mando mensaje a la p·gina
 			throw new DataStoreException("Error determinando fecha ingreso egreso en tango: "	+ e.getMessage() + " Debug: " + debug);
 		} finally {
 			if (r != null) {
@@ -1738,12 +1738,12 @@ public class PartesMoModel extends BaseModel {
 			}
 		}
 
-		// si no ingres√≥ horas, calculo las horas seg√∫n desde y hasta,
+		// si no ingresÛ horas, calculo las horas seg˙n desde y hasta,
 		// siempre y cuando no haya errores
 		// de paso se chequea que el rango horario sea correcto
 		if (!hubo_errores && horas <= 0) {
-			// si es l√≠mite de 24 o 0 horas suma a la hora hasta 24
-			// horas para los c√°lculos
+			// si es lÌmite de 24 o 0 horas suma a la hora hasta 24
+			// horas para los c·lculos
 			if (hora_d > 12 && hora_h < 6)
 				hora_h = hora_h + 24;
 			if (hora_d > hora_h) {
@@ -1782,7 +1782,7 @@ public class PartesMoModel extends BaseModel {
 		}
 
 		if (!hubo_errores && hora_hasta == null) {
-			// calculo la hora hasta en funci√≥n de la hora desde y las
+			// calculo la hora hasta en funciÛn de la hora desde y las
 			// horas trabajadas
 			try {
 
@@ -1854,9 +1854,9 @@ public class PartesMoModel extends BaseModel {
 		}
 
 		if (lote_id < 1) {
-			// no est√° seteado el lote a√∫n. determina o crea lote
+			// no est· seteado el lote a˙n. determina o crea lote
 			try {
-				// determina la quincena, seg√∫n la fecha
+				// determina la quincena, seg˙n la fecha
 				cal.setTime(fecha_parte);
 				int diaDelMes = cal.get(Calendar.DAY_OF_MONTH);
 				
@@ -1866,7 +1866,7 @@ public class PartesMoModel extends BaseModel {
 				else 
 					quincena = "Segunda quincena, ";
 				
-				// ahora completo el mes y a√±o
+				// ahora completo el mes y aÒo
 				switch (cal.get(Calendar.MONTH)){
 				case Calendar.JANUARY:
 					quincena = quincena + "Enero ";
@@ -1905,10 +1905,10 @@ public class PartesMoModel extends BaseModel {
 					quincena = quincena + "Diciembre ";
 					break;
 				default:
-					quincena = quincena + "MES y A√ëO NO DETERMINADO";	
+					quincena = quincena + "MES y A—O NO DETERMINADO";	
 				}
 				
-				// completa con el a√±o
+				// completa con el aÒo
 				quincena = quincena + Integer.toString(cal.get(Calendar.YEAR));
 				
 				conexion = DBConnection.getConnection("partesMO","partesmo");
@@ -2002,9 +2002,9 @@ public class PartesMoModel extends BaseModel {
 		ResultSet r = null;
 
 		/***********************************************************************
-		 * Calcula la categoria del legajo ingresado si es que no est√° seteada
+		 * Calcula la categoria del legajo ingresado si es que no est· seteada
 		 **********************************************************************/
-		// recupera la conexi√≥n a tango
+		// recupera la conexiÛn a tango
 		connTango = getConexionTango();
 		nro_legajo = getPartesMoNroLegajo(row);
 		cod_categoria = getPartesMoCategoria(row);
@@ -2030,7 +2030,7 @@ public class PartesMoModel extends BaseModel {
 			} catch (SQLException e) {
 				MessageLog.writeErrorMessage(SQL,e, null);
 				MessageLog.writeErrorMessage(e, null);
-				// adem√°s de escribir en el log mando mensaje a la p√°gina
+				// adem·s de escribir en el log mando mensaje a la p·gina
 				throw new DataStoreException("Error determinando categoria en tango: "	+ e.getMessage());
 			} finally {
 				if (r != null) {
@@ -2074,7 +2074,7 @@ public class PartesMoModel extends BaseModel {
 		
 		// primero controla partes duplicados en el datastore
 		for (int i = 0; i < getRowCount(); i++) {
-			// verifico lookup y actualiza los datos autom√°ticos en caso de insertar
+			// verifico lookup y actualiza los datos autom·ticos en caso de insertar
 			if (i != row && (getRowStatus(i) == STATUS_NEW_MODIFIED || getRowStatus(i) == STATUS_MODIFIED)) {
 
 				Date fechaI = getPartesMoFecha(i);
@@ -2092,18 +2092,18 @@ public class PartesMoModel extends BaseModel {
 				if (fechaRow.equals(fechaI) && nroLegajoRow == nroLegajoI) {
 					if ( (hora_d_abs < hora_h_abs_i) && (hora_h_abs_i<= hora_h_abs)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						return true;
 					}
 					if ( (hora_d_abs_i < hora_h_abs) && (hora_h_abs<= hora_h_abs_i)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						return true;
 					}
 				}
@@ -2114,7 +2114,7 @@ public class PartesMoModel extends BaseModel {
 		PartesMoModel partesDB = new PartesMoModel(getAppName(),getDbProfile());
 		partesDB.retrieve("partes_mo.fecha = '" + fechaRow.toString() + "'");
 		for (int i = 0; i < partesDB.getRowCount(); i++) {
-			// verifico lookup y actualiza los datos autom√°ticos en caso de insertar
+			// verifico lookup y actualiza los datos autom·ticos en caso de insertar
 			if (parteId != partesDB.getPartesMoParteId(i)) {
 
 				Date fechaI = partesDB.getPartesMoFecha(i);
@@ -2132,18 +2132,18 @@ public class PartesMoModel extends BaseModel {
 				if (fechaRow.equals(fechaI) && nroLegajoRow == nroLegajoI) {
 					if ( (hora_d_abs < hora_h_abs_i) && (hora_h_abs_i<= hora_h_abs)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						return true;
 					}
 					if ( (hora_d_abs_i < hora_h_abs) && (hora_h_abs<= hora_h_abs_i)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposici√≥n de horario");
+									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposiciÛn de horario");
 						return true;
 					}
 				}
@@ -2176,7 +2176,7 @@ public class PartesMoModel extends BaseModel {
 				|| hubo_errores_lote
 				|| hubo_errores_dup) 
 		{
-			throw new DataStoreException("Hubo errores procesando partes. Corr√≠jalos y grabe nuevamente");
+			throw new DataStoreException("Hubo errores procesando partes. CorrÌjalos y grabe nuevamente");
 		}
 	}
 		
@@ -2193,11 +2193,11 @@ public class PartesMoModel extends BaseModel {
 		// recupera estado inicial para los partes
 		estado_inicial = getEstadoInicial();
 
-		// realiza las tareas de lookup sobre los datos de tango y completa informaci√≥n
-		// realiza validaciones varias de consistencia de informaci√≥n
+		// realiza las tareas de lookup sobre los datos de tango y completa informaciÛn
+		// realiza validaciones varias de consistencia de informaciÛn
 		// aplica el tratamiento de horas y rango horario
 		for (int i = 0; i < getRowCount(); i++) {
-			// verifico lookup y actualiza los datos autom√°ticos en caso de insertar
+			// verifico lookup y actualiza los datos autom·ticos en caso de insertar
 			if (getRowStatus(i) == STATUS_NEW_MODIFIED
 					|| getRowStatus(i) == STATUS_MODIFIED) {
 
@@ -2235,7 +2235,7 @@ public class PartesMoModel extends BaseModel {
 				|| hubo_errores_supervisor
 				|| hubo_errores_dup) 
 		{
-			throw new DataStoreException("Hubo errores procesando partes. Corr√≠jalos y grabe nuevamente");
+			throw new DataStoreException("Hubo errores procesando partes. CorrÌjalos y grabe nuevamente");
 		}
 
 	}
@@ -2253,14 +2253,14 @@ public class PartesMoModel extends BaseModel {
 		String SQL = null;
 		feriadosModel _dsFeriados = new feriadosModel("partesMO","infraestructura");
 
-		// valida los par√°metros y acomoda el a√±o en funci√≥n de 2 o 4 d√≠gitos
+		// valida los par·metros y acomoda el aÒo en funciÛn de 2 o 4 dÌgitos
 		if (p_mes < 1 || p_mes > 12 )
-			throw new DataStoreException("Error en par√°metro mes debe estar entre 1 y 12");
+			throw new DataStoreException("Error en par·metro mes debe estar entre 1 y 12");
 		
 		if (p_anio < 1980 || p_anio > 2999)
-			throw new DataStoreException("Error en par√°metro a√±o. Debe ser de 4 d√≠gitos");
+			throw new DataStoreException("Error en par·metro aÒo. Debe ser de 4 dÌgitos");
 		
-		// si existe ya existe liquidaci√≥n la borro
+		// si existe ya existe liquidaciÛn la borro
 		try {
 			conexion = DBConnection.getConnection("partesMO");
 			conexion.beginTransaction();
@@ -2268,7 +2268,7 @@ public class PartesMoModel extends BaseModel {
 			// recupera los feriados
 			_dsFeriados.retrieve();
 			
-			// elimino los detalles de resumen para el per√≠odo
+			// elimino los detalles de resumen para el perÌodo
 			SQL = " delete from detalle_resumen_horas "
 				+ " where fecha between '"+Integer.toString(p_anio)+"-" + Integer.toString(p_mes)+"-01' " 
 				+ "                and last_day('"+Integer.toString(p_anio)+"-" + Integer.toString(p_mes)+"-01')";
@@ -2276,7 +2276,7 @@ public class PartesMoModel extends BaseModel {
 			st.executeUpdate(SQL);
 			st.close();
 			
-			// elimino los resumen para el per√≠odo
+			// elimino los resumen para el perÌodo
 			SQL = " delete from resumen_horas "
 				+ " where periodo between '"+Integer.toString(p_anio)+"-" + Integer.toString(p_mes)+"-01' " 
 				+ "                and last_day('"+Integer.toString(p_anio)+"-" + Integer.toString(p_mes)+"-01')";
@@ -2297,7 +2297,7 @@ public class PartesMoModel extends BaseModel {
 			// itero por todos los partes recuperados procesando el resumen
 			
 			for (int i = 0 ; i < getRowCount() ; i++) {
-				// setea todas las variables de uso para determinar reglas de liquidaci√≥n
+				// setea todas las variables de uso para determinar reglas de liquidaciÛn
 				int nro_legajo = getPartesMoNroLegajo(i);
 				String apeynom = getPartesMoApeynom(i);
 				Date fecha = getPartesMoFecha(i);
@@ -2320,7 +2320,7 @@ public class PartesMoModel extends BaseModel {
 				int anio1 = cal.get(Calendar.YEAR);
 				int anio2 = anio1;
 				if (hora_h < hora_d) {
-					// abarca dos d√≠as setea hrorario tambi√©n 
+					// abarca dos dÌas setea hrorario tambiÈn 
 					dia2 = dia1 + 1;
 					hora_d2 = 0;
 					hora_h2 = hora_h;
@@ -2330,12 +2330,12 @@ public class PartesMoModel extends BaseModel {
 					minuto_h = 0;
 				}
 				if (dia2 > cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-					// se pas√≥ de mes
+					// se pasÛ de mes
 					dia2 = 1;
 					mes2 = mes1 + 1;
 				}
 				if (mes2 > cal.getActualMaximum(Calendar.MONTH)+1) {
-					// se pas√≥ de a√±o
+					// se pasÛ de aÒo
 					mes2 = 1;
 					anio2 = anio1 + 1;
 				}
@@ -2358,11 +2358,10 @@ public class PartesMoModel extends BaseModel {
 				else
 					quincena2 = 2;
 
-				// recupera o inserta las cabeceras para dia1 y dia2 (s√≥lo si corresponde)
+				// recupera o inserta las cabeceras para dia1 y dia2 (sÛlo si corresponde)
 				int resumen_id1 = getResumenHoras(1,dia1,mes1,anio1,quincena1,nro_legajo,apeynom);
 				int resumen_id2 = -1;
 				if (dia2 != -1 && (mes2 != mes1 || anio2 != anio1 || quincena2 != quincena1)) {
-					System.out.println("pase");
 					resumen_id2 = getResumenHoras(2,dia2,mes2,anio2,quincena2,nro_legajo,apeynom);
 				}
 				
@@ -2423,7 +2422,7 @@ public class PartesMoModel extends BaseModel {
 							_nocturnas1 = _nocturnas1 + (double)(hora_h - hora_d) + ((double) tmpMinutos1) / 100.00;					
 				}
 				
-				// determina si es feriado y/o domingo o s√°bado despues de las 13
+				// determina si es feriado y/o domingo o s·bado despues de las 13
 				if (_dsFeriados.esFeriado(new Date(cal.getTimeInMillis())) ||
 						cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
 					_al_100_1 = _al_100_1 + horas1;
@@ -2442,7 +2441,7 @@ public class PartesMoModel extends BaseModel {
 				// actualiza la tabla resumen
 				setResumenHoras(resumen_id1,_horas1,_normales1,_al_50_1,_al_100_1,_nocturnas1);
 				
-				// verifico si es d√≠a partido
+				// verifico si es dÌa partido
 				if (resumen_id2 != -1) {
 					_horas2 = _horas2 + horas2;
 					
@@ -2461,7 +2460,7 @@ public class PartesMoModel extends BaseModel {
 								_nocturnas2 = _nocturnas2 + (double)(hora_h2 - hora_d2) + ((double) tmpMinutos2) / 100.00;					
 					}
 
-					// determina si es feriado y/o domingo o s√°bado despues de las 13
+					// determina si es feriado y/o domingo o s·bado despues de las 13
 					if (_dsFeriados.esFeriado(new Date(cal2.getTimeInMillis())) ||
 							cal2.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
 						_al_100_2 = _al_100_2 + horas2;
@@ -2487,8 +2486,8 @@ public class PartesMoModel extends BaseModel {
 			conexion.rollback();
 			conexion.freeConnection();
 			MessageLog.writeErrorMessage(SQL,e, null);
-			// adem√°s de escribir en el log mando mensaje a la p√°gina
-			throw new DataStoreException("Error generando la liquidaci√≥n del periodo " 
+			// adem·s de escribir en el log mando mensaje a la p·gina
+			throw new DataStoreException("Error generando la liquidaciÛn del periodo " 
 					+ Integer.toString(p_mes) + "/" + Integer.toString(p_anio) + ": "	+ e.getMessage());
 		} finally {
 			if (r != null) {
@@ -2531,7 +2530,7 @@ public class PartesMoModel extends BaseModel {
 			conexion = DBConnection.getConnection("partesMO");
 			conexion.beginTransaction();
 
-			// elimino los detalles de resumen para el per√≠odo
+			// elimino los detalles de resumen para el perÌodo
 			SQL = " select resumen_id, horas, normales, al_50, al_100, nocturnas "
 				+ " from resumen_horas "
 				+ " where resumen_horas.periodo = '"+Integer.toString(anio)+"-" 
@@ -2605,7 +2604,7 @@ public class PartesMoModel extends BaseModel {
 			conexion.freeConnection();
 			
 			if (resumen_id == -1) 
-				// no recuper√≥ nada, por lo tanto es error
+				// no recuperÛ nada, por lo tanto es error
 				throw new DataStoreException("Imposible recuperar resumen de horas");
 			
 			return resumen_id;
@@ -2614,7 +2613,7 @@ public class PartesMoModel extends BaseModel {
 			conexion.rollback();
 			conexion.freeConnection();
 			MessageLog.writeErrorMessage(SQL,e, null);
-			// adem√°s de escribir en el log mando mensaje a la p√°gina
+			// adem·s de escribir en el log mando mensaje a la p·gina
 			throw new DataStoreException("Error recuperando resumen de horas: "	+ e.getMessage());
 		} finally {
 			if (r != null) {
@@ -2645,7 +2644,7 @@ public class PartesMoModel extends BaseModel {
 			conexion = DBConnection.getConnection("partesMO");
 			conexion.beginTransaction();
 
-			// elimino los detalles de resumen para el per√≠odo
+			// elimino los detalles de resumen para el perÌodo
 			SQL = " update resumen_horas set "
 				+ "     horas = " + Double.toString(horas) + " ,"
 				+ "     normales = " + Double.toString(normales) + " ,"
@@ -2663,7 +2662,7 @@ public class PartesMoModel extends BaseModel {
 			conexion.rollback();
 			conexion.freeConnection();
 			MessageLog.writeErrorMessage(SQL,e, null);
-			// adem√°s de escribir en el log mando mensaje a la p√°gina
+			// adem·s de escribir en el log mando mensaje a la p·gina
 			throw new DataStoreException("Error actualizando resumen de horas: " + e.getMessage());
 		} finally {
 			if (r != null) {
@@ -2877,7 +2876,7 @@ public class PartesMoModel extends BaseModel {
     				dsResHorRlj.setResumenHorasRelojHorasParte(resumen2, dsResHorRlj.getResumenHorasRelojHorasParte(resumen2) + horas2);
     		} // fin for    		
     	} catch (SQLException e) {
-    		// adem√°s de escribir en el log mando mensaje a la p√°gina
+    		// adem·s de escribir en el log mando mensaje a la p·gina
     		throw new DataStoreException(
     				"Error validando partes de mano de obra contra relojes: "
     				+ e.getMessage(), e);
@@ -2890,8 +2889,8 @@ public class PartesMoModel extends BaseModel {
      * Calcula el total de horas trabajadas
      * @param horaDesde Hora de inicio
      * @param minutoDesde Minuto de inicio
-     * @param horaHasta Hora de finalizaci√≥n
-     * @param minutoHasta Minuto de finalizaci√≥n
+     * @param horaHasta Hora de finalizaciÛn
+     * @param minutoHasta Minuto de finalizaciÛn
      * @return la cantidad de tiempo transcurrido en horas decimales
      */
     private double horasTrabajadas(int horaDesde, int minutoDesde, int horaHasta, int minutoHasta) {
@@ -2918,7 +2917,7 @@ public class PartesMoModel extends BaseModel {
     }
     
     /**
-     * Actualiza la tabla de preprocesos con la informaci√≥n de las fichadas encontradas en el periodo indicado.</br>
+     * Actualiza la tabla de preprocesos con la informaciÛn de las fichadas encontradas en el periodo indicado.</br>
      * Se calculan los totales para los intervalos de las fichadas, y se relacionan con los partes correspondientes.</br>
      * Se ignoran las fichadas intermedias que no tengan asignado un parte diario (condicion ID_PARTE_DIARIO NOT NULL)
      * </p>
@@ -3062,7 +3061,7 @@ public class PartesMoModel extends BaseModel {
     					int minuto_h2 = -1;
 
     					if (hora_h < hora_d) {
-    						// abarca dos d√≠as setea horario tambi√©n 
+    						// abarca dos dÌas setea horario tambiÈn 
     						dia2 = dia1 + 1;
     						hora_d2 = 0;
     						hora_h2 = hora_h;
@@ -3072,12 +3071,12 @@ public class PartesMoModel extends BaseModel {
     						minuto_h = 0;
     					}
     					if (dia2 > fichada.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-    						// se pas√≥ de mes
+    						// se pasÛ de mes
     						dia2 = 1;
     						mes2 = mes1 + 1;
     					}
     					if (mes2 > fichada.getActualMaximum(Calendar.MONTH)+1) {
-    						// se pas√≥ de a√±o
+    						// se pasÛ de aÒo
     						mes2 = 1;
     						anio2 = anio1 + 1;
     					}
@@ -3119,7 +3118,7 @@ public class PartesMoModel extends BaseModel {
     		} // fin if    		
     		dsResHorRlj.cierraResumenesSinFichadas();
     	} catch (SQLException e) {
-    		// adem√°s de escribir en el log mando mensaje a la p√°gina
+    		// adem·s de escribir en el log mando mensaje a la p·gina
     		throw new DataStoreException(
     				"Error validando partes de mano de obra contra relojes: "
     				+ e.getMessage(), e);

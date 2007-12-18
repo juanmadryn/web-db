@@ -7,7 +7,7 @@
    <%@include file="message.jsp"%>
    </td>
    <!-- ********************************************************************************************* -->
-   <!-- Agregar definiciï¿½n de DataSource aquï¿½ -->
+   <!-- Agregar definicián de DataSource aquá -->
    <salmon:datasource name="dsQBE" type="QBE">
       <salmon:qbecriteria name="buscar" type="complex" columns="*" />
    </salmon:datasource>
@@ -15,7 +15,7 @@
       model="partesMO.models.PartesMoModel" autoretrieve="Never">
    </salmon:datasource>
    <!-- ********************************************************************************************* -->
-   <!-- Agregar cï¿½digo de la pï¿½gina aquï¿½ -->
+   <!-- Agregar cádigo de la página aquá -->
    <!-- ********************************************************************************************* -->
    <salmon:box name="box1" width="100%">
       <salmon:table name="table2" width="100%" border="0">
@@ -140,7 +140,7 @@
          </salmon:datatable>
       </salmon:listformdisplaybox>
    </salmon:box>
-   <!-- Fin de cï¿½digo agregado -->
+   <!-- Fin de cádigo agregado -->
 </salmon:form>
 <jsp:include page="templateAfter.jsp" flush="true"></jsp:include>
 <salmon:endpage />

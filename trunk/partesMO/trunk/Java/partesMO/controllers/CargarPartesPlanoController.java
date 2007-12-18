@@ -148,7 +148,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		//refresca la pantalla de partes
 		refrescaPartes();
 		
-		// completa la poplist de categorÃ­as
+		// completa la poplist de categorías
 		try {
 			completaCategorias();
 		} catch (DataStoreException e) {
@@ -161,7 +161,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		_dsPartes.reset();
 		_dsPartes.retrieve("partes_mo.estado = \"0003.0001\"");
 		
-		// si no recuperÃ³ ningÃºn parte en estado generado, inserta al menos un registro
+		// si no recuperó ningún parte en estado generado, inserta al menos un registro
 		_dsPartes.waitForRetrieve();
 		if (_dsPartes.getRowCount() == 0){
 			int row = _dsPartes.insertRow();
@@ -225,7 +225,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 
 			int rowActual = _dsPartes.getRow();
 			int row = _dsPartes.insertRow(0);
-			// si existe row anterior, sï¿½lo copia valores bï¿½sicos
+			// si existe row anterior, sálo copia valores básicos
 			if (row > 1) {
 				// valido el parte que estoy copiando
 				_dsPartes.setPartesMoFecha(row, _dsPartes.getPartesMoFecha(rowActual+1));
@@ -244,7 +244,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 			// elimina todos los partes seleccionados
 			for (int i = 0; i < _dsPartes.getRowCount(); i++) {
 				if (_dsPartes.getInt(i, SELECCION_PARTE_FLAG) == 1) {
-					// Rol marcado para selecciï¿½n
+					// Rol marcado para seleccián
 					_dsPartes.deleteRow(i);
 				}
 			}
@@ -280,7 +280,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 						_dsPartes.setMensajeError(_dsPartes.getRow(), _dsPartes.getMensajeError(_dsPartes.getRow())
 								+ " - Formato de fecha incorrecto.");
 										
-					displayErrorMessage("Hubo errores procesando partes. CorrÃ­jalos y grabe nuevamente.");					
+					displayErrorMessage("Hubo errores procesando partes. Corríjalos y grabe nuevamente.");					
 					
 					return false;
 				}
@@ -308,7 +308,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		userTango = p.getProperty("userTango", "tango");
 		passWordTango = p.getProperty("passWordTango", "tango");
 
-		// realiza una bÃºsqueda custom de los legajos
+		// realiza una búsqueda custom de los legajos
 		try {
 			// Se carga el driver
 			Class.forName(driverTango);
@@ -318,11 +318,11 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		}
 
 		try {
-			// Se establece la conexiÃ³n con la base de datos
+			// Se establece la conexión con la base de datos
 			connTango = DriverManager.getConnection(urlTango, userTango,passWordTango);
 		} catch (Exception e) {
 			MessageLog.writeErrorMessage(e, null);
-			throw new DataStoreException("imposible establecer conexiÃ³n con la base tango: " + e.getMessage());
+			throw new DataStoreException("imposible establecer conexión con la base tango: " + e.getMessage());
 		}
 
 		try {
@@ -344,8 +344,8 @@ public class CargarPartesPlanoController extends BaseController implements Value
 
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
-			// ademï¿½s de escribir en el log mando mensaje a la pï¿½gina
-			throw new DataStoreException("Error determinando categorÃ­as en tango: " + e.getMessage());
+			// además de escribir en el log mando mensaje a la página
+			throw new DataStoreException("Error determinando categorías en tango: " + e.getMessage());
 
 		} finally {
 			if (r != null) {
@@ -369,7 +369,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		int v_parte_id = -1;
 		String v_grp_parte_id = null;
 		
-		// si la pÃ¡gina es requerida por si misma no hago nada
+		// si la página es requerida por si misma no hago nada
 		if (!isReferredByCurrentPage()) {
 			
 			// verifico si tiene parametro
