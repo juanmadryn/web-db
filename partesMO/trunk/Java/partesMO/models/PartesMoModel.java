@@ -2691,29 +2691,35 @@ public class PartesMoModel extends BaseModel {
      * @param fechaHasta end date
      * @throws DataStoreException
      */
-    public void generaResumenRelojes(java.sql.Date fechaDesde, java.sql.Date fechaHasta) throws DataStoreException {
-    	DBConnection conexion = null;
+    public void generaResumenRelojes(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion) throws DataStoreException {
     	String SQL;    	
     	Statement st = null;
     	ResultSet r = null;
     	   	
     	try {
-    		conexion = DBConnection.getConnection("partesMO");
-    		
     		conexion.beginTransaction();    		
     		// delete the records which contain non validated units of work 
     		SQL = " delete from resumen_horas_reloj "
-    			+ " where fecha between '" + fechaDesde.toString()
-    			+ "' and '" + fechaHasta.toString() + "' and estado != " + ResumenHorasRelojModel.PARTES_VAL;
+    			+ " where (fecha between '" + fechaDesde.toString()
+    			+ "' and '" + fechaHasta.toString() + "') and (estado != " + ResumenHorasRelojModel.PARTES_VAL
+    			+ " or estado is null)";
     		st = conexion.createStatement();
     		st.executeUpdate(SQL);
     		st.close();    		
     		conexion.commit();
-
-    		conexion.beginTransaction();    
+    		
+    		// retrieve units of works in the range of dates 
     		ResumenHorasRelojModel dsResHorRlj = new ResumenHorasRelojModel(getAppName(),"partesmo");
+    		dsResHorRlj.retrieve("fecha between '"
+					+ fechaDesde.toString()
+					+ "' and '"
+					+ fechaHasta.toString() + "'");
+    		dsResHorRlj.setBatchInserts(true);
+    		
+    		conexion.beginTransaction();
     		preprocesaPartesMo(fechaDesde, fechaHasta, conexion, dsResHorRlj);    		
-    		preprocesaFichadas(fechaDesde, fechaHasta, conexion, dsResHorRlj);    		
+    		preprocesaFichadas(fechaDesde, fechaHasta, conexion, dsResHorRlj);
+    		dsResHorRlj.update(conexion);
     		conexion.commit();    		
     	} catch (SQLException e) {    		
     		throw new DataStoreException(
@@ -2731,10 +2737,7 @@ public class PartesMoModel extends BaseModel {
     				st.close();
     			} catch (SQLException e) {
     				e.printStackTrace();
-    			}
-    		if (conexion != null)
-    			conexion.rollback();
-    			conexion.freeConnection();
+    			}    		
     	} 		
     }
     
@@ -2748,12 +2751,6 @@ public class PartesMoModel extends BaseModel {
     private void preprocesaPartesMo(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion, ResumenHorasRelojModel dsResHorRlj) throws DataStoreException {    	
     	    	    	
     	try {
-    		dsResHorRlj.retrieve("fecha between '"
-					+ fechaDesde.toString()
-					+ "' and '"
-					+ fechaHasta.toString() + "'");
-    		dsResHorRlj.setBatchInserts(Boolean.TRUE);
-    		
     		reset();
     		// as the order by clause mix varchar and int types, the +0 trick is needed to ensure proper order
 			setOrderBy("partes_mo.nro_legajo asc, partes_mo.fecha asc, partes_mo.hora_desde+0 asc");
@@ -2879,7 +2876,7 @@ public class PartesMoModel extends BaseModel {
     		} // fin for    		
     		
     		// comiteamos los cambios en la tabla de preproceso
-    		dsResHorRlj.update(conexion);
+    		// dsResHorRlj.update(conexion);
     		
     	} catch (SQLException e) {
     		// además de escribir en el log mando mensaje a la página
@@ -2970,14 +2967,7 @@ public class PartesMoModel extends BaseModel {
     	int nro_fichadas;
     	int resumen;
 
-    	try {
-    		dsResHorRlj.retrieve("fecha between '"
-					+ fechaDesde.toString()
-					+ "' and '"
-					+ fechaHasta.toString() + "'");
-    		dsResHorRlj.gotoFirst();
-    		dsResHorRlj.setBatchInserts(Boolean.TRUE);
-    		
+    	try {    		
     		connTango = getConexionTango();
 
     		// fichadas realizadas por el legajo dado entre las fechas especificadas
@@ -3038,7 +3028,7 @@ public class PartesMoModel extends BaseModel {
     				// buscamos el resumen
         			resumen = dsResHorRlj.getResumen(nro_legajo, fichada);
     				// no existe
-    				if (resumen == -1) {					
+    				if (resumen == -1) {
     					resumen = dsResHorRlj.addResumen(nro_legajo, fichada, apeynom.toString(), quincena1);
     				} else {
             			// el resumen ya esta validado, lo salteamos
@@ -3130,7 +3120,7 @@ public class PartesMoModel extends BaseModel {
     			
     		} // fin if    		
     		dsResHorRlj.cierraResumenesSinFichadas();
-    		dsResHorRlj.update(conexion);    		  		
+    		//dsResHorRlj.update(conexion);    		  		
     	} catch (SQLException e) {
     		// además de escribir en el log mando mensaje a la página
     		throw new DataStoreException(
