@@ -8,13 +8,13 @@
    <%@include file="message.jsp"%>
    </td>
    <!-- ********************************************************************************************* -->
-   <!-- Agregar definiciÃ³n de DataSource aquÃ­						      						      -->
+   <!-- Agregar definición de DataSource aquí						      						      -->
    <!-- ********************************************************************************************* -->
    <salmon:datasource name="dsPartes" type="MODEL" dbprofile="partesEQ"
       model="partesEQ.models.PartesEqModel" autoretrieve="Never">
    </salmon:datasource>
    <!-- ********************************************************************************************* -->
-   <!-- Agregar cÃ³digo de la pÃ¡gina aquÃ­							     							  -->
+   <!-- Agregar código de la página aquí							     							  -->
    <!-- ********************************************************************************************* -->
    <salmon:box name="box1" width="100%">
       <salmon:listformdisplaybox mode="Display_single_page"
@@ -162,7 +162,7 @@
          </salmon:datatable>
       </salmon:listformdisplaybox>
    </salmon:box>
-   <!-- Fin de cÃ³digo agregado -->
+   <!-- Fin de código agregado -->
 </salmon:form>
 <jsp:include page="templateAfter.jsp" flush="true"></jsp:include>
 <salmon:endpage/>

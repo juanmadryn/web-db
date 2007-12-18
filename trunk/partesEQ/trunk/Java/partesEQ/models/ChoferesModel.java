@@ -80,7 +80,7 @@ public class ChoferesModel extends DataStore {
 
                //add validations
                addRequiredRule(CHOFERES_CHOFER_ID,"Campo ID del chofer es obligatorio");
-               addRequiredRule(CHOFERES_NRO_LEGAJO,"El n√∫mero de legajo es obligatorio");
+               addRequiredRule(CHOFERES_NRO_LEGAJO,"El n˙mero de legajo es obligatorio");
                addRequiredRule(CHOFERES_PERSONAL_ID,"El id de personal es obligatorio");
                addRequiredRule(CHOFERES_DESDE,"La fecha desde es obligatoria");
                addRequiredRule(CHOFERES_APEYNOM,"Apellido y nombre son obligatorios");
@@ -379,7 +379,7 @@ public class ChoferesModel extends DataStore {
      public void validarChofer() throws DataStoreException, SQLException {    	 
     	 boolean hubo_errores_legajo = controlaLegajoTango(getRow()); 
     	 if (hubo_errores_legajo) {
-    		 throw new DataStoreException("Hubo errores procesando el chofer. Corr√≠jalos y grabe nuevamente");
+    		 throw new DataStoreException("Hubo errores procesando el chofer. CorrÌjalos y grabe nuevamente");
     	 }
      }
      
@@ -406,11 +406,11 @@ public class ChoferesModel extends DataStore {
  			}
 
  			try {
- 				// Se establece la conexi√≥n con la base de datos
+ 				// Se establece la conexiÛn con la base de datos
  				_connTango = DriverManager.getConnection( _urlTango,_userTango,_passWordTango );
  			} catch (Exception e) {
  				MessageLog.writeErrorMessage(e, null);
- 				throw new DataStoreException("imposible establecer conexi√≥n con la base tango: " + e.getMessage());
+ 				throw new DataStoreException("imposible establecer conexiÛn con la base tango: " + e.getMessage());
  			}
  		}
  		
@@ -434,7 +434,7 @@ public class ChoferesModel extends DataStore {
  		/***********************************************************************
  		 * Calcula, controla y resuelve legajo
  		 **********************************************************************/
- 		// recupera la conexi√≥n a tango
+ 		// recupera la conexiÛn a tango
  		connTango = getConexionTango(); 		
  		nro_legajo = getChoferesNroLegajo(row);
 
@@ -490,7 +490,7 @@ public class ChoferesModel extends DataStore {
 
  		} catch (SQLException e) {
  			MessageLog.writeErrorMessage(e, null);
- 			// adem√°s de escribir en el log mando mensaje a la p√°gina
+ 			// adem·s de escribir en el log mando mensaje a la p·gina
  			throw new DataStoreException("Error determinando legajo en tango: "	+ e.getMessage() + " Debug: " + debug);
  		} finally {
  			if (r != null) {
@@ -513,7 +513,7 @@ public class ChoferesModel extends DataStore {
  		if (!hubo_errores) {
  			// Verifica que la fecha del parte coincida con un periodo de vigencia del legajo
  			if ( (getChoferesHasta(row) != null) && (!getChoferesHasta(row).after(getChoferesDesde(row))) ) {
- 				setMensajeError(row, "Combinaci√≥n de fechas inv√°lida");
+ 				setMensajeError(row, "CombinaciÛn de fechas inv·lida");
  				hubo_errores = true;
  			} 
  			else if (!controlaFechaIngresoEgreso(this.getChoferesDesde(row), this.getChoferesHasta(row), personal_id)) {			
@@ -572,7 +572,7 @@ public class ChoferesModel extends DataStore {
  			
  		} catch (SQLException e) {
  			MessageLog.writeErrorMessage(e, null);
- 			// adem√°s de escribir en el log mando mensaje a la p√°gina
+ 			// adem·s de escribir en el log mando mensaje a la p·gina
  			throw new DataStoreException("Error determinando fecha ingreso egreso en tango: "	+ e.getMessage() + " Debug: " + debug);
  		} finally {
  			if (r != null) {
