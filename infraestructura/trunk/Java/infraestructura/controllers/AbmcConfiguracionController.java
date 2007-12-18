@@ -133,7 +133,7 @@ public class AbmcConfiguracionController extends BaseController {
 		_dsConf.setAutoValidate(true);
 		_dsAttr.setAutoValidate(true);
 		
-		// Agrega columna de seleccion para lso datasource de ConfiguraciÃ³n y atributos
+		// Agrega columna de seleccion para lso datasource de Configuración y atributos
 		_dsConf.addBucket(SELECCION_FLAG1, DataStore.DATATYPE_INT);
 		_seleccion1.setColumn(_dsConf, SELECCION_FLAG1);
 		_seleccion1.setFalseValue(null);
@@ -142,24 +142,24 @@ public class AbmcConfiguracionController extends BaseController {
 		_seleccion2.setColumn(_dsAttr, SELECCION_FLAG2);
 		_seleccion2.setFalseValue(null);
 		
-		// completa con la invocaciÃ³n al base controller
+		// completa con la invocación al base controller
 		super.initialize();
 	}
 
     @Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 
-		// Nuevo registro de configuraciÃ³n
+		// Nuevo registro de configuración
 		if (e.getComponent() == _agregarBUT2){
 			
 			if (_dsEsquema.getRow() == -1) {
-				displayErrorMessage("Debe estar en el contexto de un Esquema de configuraciÃ³n para agregar una configuraciÃ³n");
+				displayErrorMessage("Debe estar en el contexto de un Esquema de configuración para agregar una configuración");
 				return false;
 			}
 			
 			int v_esquema_id = _dsEsquema.getEsquemaConfiguracionEsquemaConfiguracionId();
 			if (v_esquema_id < 1) {
-				displayErrorMessage("Debe existir un esquema para agregar una confioguraciÃ³n");
+				displayErrorMessage("Debe existir un esquema para agregar una confioguración");
 				return false;
 			}
 			
@@ -178,12 +178,12 @@ public class AbmcConfiguracionController extends BaseController {
 			_nombreConfTE2.setFocus();
 		}
 		
-		// borro registros de configuraciÃ³n (baja fÃ­sica)
+		// borro registros de configuración (baja fÃ­sica)
 		if (e.getComponent() == _eliminarBUT3){
 			// recorro el datastore y seteo como anulado a los registros
 			for (int i = 0 ; i < _dsConf.getRowCount() ; i++) {
 				if (_dsConf.getInt(i, SELECCION_FLAG1) == 1) {
-					// Entidad marcado para selecciÃ³n
+					// Entidad marcado para selección
 					_dsConf.deleteRow(i);
 					// dessetea el flag
 					_dsConf.setInt(i, SELECCION_FLAG1, 0);
@@ -208,7 +208,7 @@ public class AbmcConfiguracionController extends BaseController {
 			}
 		}
 		
-		// cancela operaciÃ³n de ConfiguraciÃ³n
+		// cancela operación de Configuración
 		if (e.getComponent() == _cancelarBUT5) {
 			_dsAttr.resetStatus();
 			_dsAttr.reset();
@@ -218,17 +218,17 @@ public class AbmcConfiguracionController extends BaseController {
 			_dsConf.gotoFirst();
 		}
 		
-		// agrega atributo a la configuraciÃ³n
+		// agrega atributo a la configuración
 		if (e.getComponent() == _agregarAttrBUT6){
 			
 			if (_dsConf.getRow() == -1) {
-				displayErrorMessage("Debe estar en el contexto de una configuraciÃ³n para agregar una definiciÃ³n de atributo");
+				displayErrorMessage("Debe estar en el contexto de una configuración para agregar una definición de atributo");
 				return false;
 			}
 			
 			int v_configuracion_id = _dsConf.getConfiguracionConfiguracionId();
 			if (v_configuracion_id < 1) {
-				displayErrorMessage("Debe existir una configuraciÃ³n para poder agregar un atributo");
+				displayErrorMessage("Debe existir una configuración para poder agregar un atributo");
 				return false;
 			}
 			
@@ -249,7 +249,7 @@ public class AbmcConfiguracionController extends BaseController {
 			// recorro el datastore y seteo como anulado a los registros
 			for (int i = 0 ; i < _dsAttr.getRowCount() ; i++) {
 				if (_dsAttr.getInt(i, SELECCION_FLAG2) == 1) {
-					// Entidad marcado para selecciÃ³n
+					// Entidad marcado para selección
 					_dsAttr.deleteRow(i);
 					// dessetea el flag
 					_dsAttr.setInt(i, SELECCION_FLAG2, 0);
@@ -266,15 +266,15 @@ public class AbmcConfiguracionController extends BaseController {
 		// graba los datos del datastore de atributos
 		if (e.getComponent() == _actualizarAttrBUT8) {
 
-			// garantiza que se estÃ© en elÃ± contexto de una configuraciÃ³n
+			// garantiza que se estÃ© en elÃ± contexto de una configuración
 			if (_dsConf.getRow() == -1) {
-				displayErrorMessage("Debe estar en el contexto de una configuraciÃ³n para grabar una definiciÃ³n de atributo");
+				displayErrorMessage("Debe estar en el contexto de una configuración para grabar una definición de atributo");
 				return false;
 			}
 			
 			int v_configuracion_id = _dsConf.getConfiguracionConfiguracionId();
 			if (v_configuracion_id < 1) {
-				displayErrorMessage("Debe existir una configuraciÃ³n para poder grabar un atributo");
+				displayErrorMessage("Debe existir una configuración para poder grabar un atributo");
 				return false;
 			}
 
@@ -282,8 +282,8 @@ public class AbmcConfiguracionController extends BaseController {
 				// graba los datos del datastore de atributos
 				_dsAttr.update();
 				
-				// re-ejecuta la recuperaciÃ³n de los atributos para garantizar que estan todos
-				// para poder contar la cardinalidad y re-setearla en la configuraciÃ³n
+				// re-ejecuta la recuperación de los atributos para garantizar que estan todos
+				// para poder contar la cardinalidad y re-setearla en la configuración
 				_dsAttr.setCriteria("atributos_configuracion.configuracion_id = " + Integer.toString(v_configuracion_id));
 				_dsAttr.reset();
 				_dsAttr.retrieve();
@@ -300,7 +300,7 @@ public class AbmcConfiguracionController extends BaseController {
 			}
 		}
 		
-		// cancela operaciÃ³n de atributos de configuracion
+		// cancela operación de atributos de configuracion
 		if (e.getComponent() == _cancelarBUT5) {
 			_dsAttr.resetStatus();
 			_dsAttr.reset();
@@ -327,9 +327,9 @@ public class AbmcConfiguracionController extends BaseController {
 				_dsConf.reset();
 				_dsEsquema.reset();
 			} else {
-				// verifica si cambiÃ³n el contexto
+				// verifica si cambión el contexto
 				if (tmp_esquema_configuracion_id != v_esquema_configuracion_id) {
-					// cambiÃ³ contexto, actualizo informaciÃ³n
+					// cambió contexto, actualizo información
 					v_esquema_configuracion_id = tmp_esquema_configuracion_id;
 					_dsEsquema.setCriteria("esquema_configuracion.esquema_configuracion_id = "
 									+ Integer.toString(v_esquema_configuracion_id));
@@ -340,7 +340,7 @@ public class AbmcConfiguracionController extends BaseController {
 						// controla que se recupera estrictamente 1 registro y luego se para en el
 						_dsEsquema.waitForRetrieve();
 						if (_dsEsquema.getRowCount() != 1) {
-							displayErrorMessage("RecuperÃ³ mas de un esquema...Llame a su adminsitrador de sistema");
+							displayErrorMessage("Recuperó mas de un esquema...Llame a su adminsitrador de sistema");
 							return;
 						}
 						_dsEsquema.gotoFirst();
@@ -358,7 +358,7 @@ public class AbmcConfiguracionController extends BaseController {
 			}
 		}
 
-		// verifica si cambio la configuraciÃ³n
+		// verifica si cambio la configuración
 		if (_dsConf.getRow() != -1) {
 			int tmp_configuracion_id = _dsConf.getConfiguracionConfiguracionId();
 			if (tmp_configuracion_id != v_configuracion_id) {
@@ -370,7 +370,7 @@ public class AbmcConfiguracionController extends BaseController {
 				_dsAttr.gotoFirst();
 			}
 		} else {
-			// No estÃ¡ en ninguna configuraciÃ³n reseteo variables y datastore
+			// No estÃ¡ en ninguna configuración reseteo variables y datastore
 			v_configuracion_id = -2;
 			_dsAttr.setCriteria(null);
 			_dsAttr.reset();

@@ -75,7 +75,7 @@ public class AbmcEsquemaConfiguracionController extends BaseController {
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 
-		// configura el esquema de configuraciÃ³n
+		// configura el esquema de configuración
 		if (e.getComponent() == _configuraEsquemaBUT1) {
 			
 			int esquema = _dsEsquema.getEsquemaConfiguracionEsquemaConfiguracionId();

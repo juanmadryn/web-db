@@ -72,7 +72,7 @@ public class EsquemaConfiguracionModel extends DataStore {
                addRequiredRule(ESQUEMA_CONFIGURACION_NOMBRE,"El nombre del esquema es obligatorio");
                addRequiredRule(ESQUEMA_CONFIGURACION_TIPO_OBJETO,"El tipo de objeto es obligatorio");
                addRequiredRule(ESQUEMA_CONFIGURACION_NOMBRE_OBJETO,"EL nombre del objeto es obligatorio");
-               addLookupRule(ESQUEMA_CONFIGURACION_NOMBRE_OBJETO,"diccionario_aplicacion","'tipo_objeto = \"TABLA\" AND nombre_objeto = \"' + esquema_configuracion.nombre_objeto + '\"'",null,null,"Objeto de Aplicación inexistente");
+               addLookupRule(ESQUEMA_CONFIGURACION_NOMBRE_OBJETO,"diccionario_aplicacion","'tipo_objeto = \"TABLA\" AND nombre_objeto = \"' + esquema_configuracion.nombre_objeto + '\"'",null,null,"Objeto de Aplicaci�n inexistente");
                addExpressionRule(ESQUEMA_CONFIGURACION_NOMBRE,new ConvierteMayusculasValidation(ESQUEMA_CONFIGURACION_NOMBRE),"",false);
           }
           catch (DataStoreException e) {
@@ -323,7 +323,7 @@ public class EsquemaConfiguracionModel extends DataStore {
  		for (int i = 0; i < getRowCount(); i++) {
 			// verifico lookup y actualiza los datos automáticos en caso de insertar
  			if (getRowStatus(i) == STATUS_NEW_MODIFIED || getRowStatus(i) == STATUS_MODIFIED) {
- 				// el registro está marcado para actualizar. veriofico la condición de las columnas autogeneradas
+ 				// el registro está marcado para actualizar. veriofico la condici�n de las columnas autogeneradas
  				
  				// tipo objeto va con TABLA
  				String v_tipo_objeto = getEsquemaConfiguracionTipoObjeto(i);

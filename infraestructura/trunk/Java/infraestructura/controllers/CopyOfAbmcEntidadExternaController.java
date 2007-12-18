@@ -165,11 +165,11 @@ public boolean submitPerformed(SubmitEvent e) throws Exception {
 	}
 	
 	if (e.getComponent() == _borrarRolBUT3) {
-		// Recorro todos los registros y para aquelos marcados les doy la baja l贸gica
-		// por ahora anulado hasta futura implementaci贸n
+		// Recorro todos los registros y para aquelos marcados les doy la baja l骻ica
+		// por ahora anulado hasta futura implementaci髇
 		for (int i = 0; false && i < _dsRoles.getRowCount(); i++) {
 			if (_dsRoles.getInt(i, SELECCION_FLAG) == 1) {
-				// Rol marcado para selecci贸n
+				// Rol marcado para selecci髇
 				_dsRoles.deleteRow(i);
 				try {
 					_dsRoles.update();
@@ -182,7 +182,7 @@ public boolean submitPerformed(SubmitEvent e) throws Exception {
 	}
 	
 	if (e.getComponent() == _activarEntidadBUT5) {
-		//TODO: IMPORTANTE: Se debe completar la funcionalidad de Reglas de negocio de activaci贸n en el modelo ante el UPDATE
+		//TODO: IMPORTANTE: Se debe completar la funcionalidad de Reglas de negocio de activaci髇 en el modelo ante el UPDATE
 		// activa la entidad corriente
 		if (_dsEntidad.getRow() != -1) {
 			_dsEntidad.setEntidadExternaActivo("V");
@@ -196,13 +196,13 @@ public boolean submitPerformed(SubmitEvent e) throws Exception {
 	}
 	
 	if (e.getComponent() == _activarRolBUT4) {
-		//TODO: IMPORTANTE: Se debe completar la funcionalidad de Reglas de negocio de activaci贸n en el modelo ante el UPDATE
+		//TODO: IMPORTANTE: Se debe completar la funcionalidad de Reglas de negocio de activaci髇 en el modelo ante el UPDATE
 
 		// activa la entidad corriente
 		// Recorro todos los registros y para aquelos marcados llos activo
 		for (int i = 0; i < _dsRoles.getRowCount(); i++) {
 			if (_dsRoles.getInt(i, SELECCION_FLAG) == 1) {
-				// Rol marcado para selecci贸n
+				// Rol marcado para selecci髇
 				_dsRoles.setRolesEntidadActivo(i, "V");
 				// dessetea el flag
 				_dsRoles.setInt(i, SELECCION_FLAG, 0);
@@ -240,7 +240,7 @@ public void pageSubmitEnd(PageEvent event) {
 			{
 				// Ya existe detalle de roles?
 				if (_dsRoles.getRowCount() > 0 ) {
-					// es el mismo contexto? --> recupero la entidad del detalle para verificaci贸n, siempre del primer registro
+					// es el mismo contexto? --> recupero la entidad del detalle para verificaci髇, siempre del primer registro
 					entidad_id_roles = _dsRoles.getRolesEntidadEntidadId(0);
 					if (entidad_id_roles == 0)
 						actualizar = true;

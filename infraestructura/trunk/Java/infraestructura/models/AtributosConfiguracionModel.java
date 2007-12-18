@@ -73,7 +73,7 @@ public class AtributosConfiguracionModel extends DataStore {
 
                //add validations
                addRequiredRule(ATRIBUTOS_CONFIGURACION_ATRIBUTO_ID,"El atributo es obligatorio");
-               addRequiredRule(ATRIBUTOS_CONFIGURACION_CONFIGURACION_ID,"La configuraciÃ³n es obligatoria");
+               addRequiredRule(ATRIBUTOS_CONFIGURACION_CONFIGURACION_ID,"La configuración es obligatoria");
                addRequiredRule(ATRIBUTOS_CONFIGURACION_VALOR,"El valor para el atributo es obligatorio");
                
           }

@@ -70,7 +70,7 @@ public class EstadoModel extends DataStore {
               setOrderBy(computeTableAndFieldName("estados.estado") + " ASC," + computeTableAndFieldName("estados.nombre") + " DESC");
 
               // add validatios
-              addRequiredRule(ESTADOS_ESTADO,"El cÃ³digo de estado es obligatorio");
+              addRequiredRule(ESTADOS_ESTADO,"El código de estado es obligatorio");
               addRequiredRule(ESTADOS_CIRCUITO,"El circuito al que pertenece el estado es obligatorio");
               addRequiredRule(ESTADOS_NOMBRE,"El nombre es obligatorio");
               addExpressionRule(ESTADOS_ESTADO, new ConvierteMayusculasValidation(ESTADOS_ESTADO), "",false);

@@ -65,14 +65,14 @@ public class BaseController extends JspController implements SubmitListener,
 
 	private boolean _checkSessionExpired = false;
 
-	private boolean _checkPageExpired = false;
+	private boolean _checkPageExpired = true;
 
 	private boolean _checkUserLogin = false;
 
 	private boolean _redirected = true;
 
 	private boolean _checkDB = true;
-
+	
 	/* Search objects */
 	// public com.salmonllc.html.HtmlSubmitButton _btnSearch;
 	// public com.salmonllc.html.HtmlTextEdit _teSearch;
@@ -170,6 +170,8 @@ public class BaseController extends JspController implements SubmitListener,
 
 	private static Hashtable<String, Hashtable<String, HttpSession>> aplications = new Hashtable<String, Hashtable<String, HttpSession>>();
 
+	private static Hashtable<String, Long> timeStart = new Hashtable<String, Long>();
+	
 	/**
 	 * This method tries to get the string parameter passed into this function
 	 * from the URL. It then checks to see if that "name" parameter is of
@@ -234,42 +236,42 @@ public class BaseController extends JspController implements SubmitListener,
 	 *             if anything goes wrong
 	 */
 	public void initialize() throws Exception {
+		setCheckSessionExpired(true);
+		setCheckPageExpired(true);
 		// lo primero es controlar que se está conectado a la aplicación.
 		// Salvo que sea la home page
+		WebSiteUser user = checkUser();
 		if (!(getPageName().equalsIgnoreCase("HomePage.jsp") || getPageName()
 				.equalsIgnoreCase("LoginPage.jsp"))) {
 
 			// check logged users
-			WebSiteUser user = checkUser();
+			
 			if (user == null) {
 				clearAllPagesFromSession();
 				gotoSiteMapPage(SiteMapConstants.USUARIO_INVALIDO_ERROR);
 			}
-		}
+		} else 
+			if (user == null)
+				setCheckPageExpired(false);
 
 		// save the page's session with the ip and application
 		String appName = getApplicationName();
+		String ip = getCurrentRequest().getRemoteAddr();
 		Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
-				.get(getCurrentRequest().getRemoteAddr());
+				.get(ip);
 		
 		if (aplicationsForRemoteAddress == null)
 			aplicationsForRemoteAddress = new Hashtable<String, HttpSession>();
 		
 		aplicationsForRemoteAddress.put(appName, getSession());
 		
-		aplications.put(getCurrentRequest().getRemoteAddr(),
+		aplications.put(ip,
 				aplicationsForRemoteAddress);
-
-		setCheckSessionExpired(true);
 
 		// Populate the navigation menu dynamically
 
-		try {
-			populateNavBar();
-		} catch (RuntimeException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-		}
+		populateNavBar();
+		
 		_lnkBannerSignOut.addSubmitListener(this);
 		_lnkBannerSignOut.setVisible(false);
 		_menuBUT.addSubmitListener(this);
@@ -297,8 +299,10 @@ public class BaseController extends JspController implements SubmitListener,
 		if (_dsUsuarioRoles != null)
 			_dsUsuarioRoles.setAutoValidate(true);
 		if (_dsWebSiteUser != null)
-			_dsWebSiteUser.setAutoValidate(true);
-
+			_dsWebSiteUser.setAutoValidate(true);	
+			
+		if (timeStart.get(ip) == null)
+			timeStart.put(ip,System.currentTimeMillis());
 	}
 
 	/**
@@ -463,8 +467,7 @@ public class BaseController extends JspController implements SubmitListener,
 		try {
 			boolean menuPermitido = false;
 
-			if (_navbar1 == null) {
-				System.out.println("navbar null");
+			if (_navbar1 == null) {				
 				return;
 			}
 			/*
@@ -678,7 +681,7 @@ public class BaseController extends JspController implements SubmitListener,
 		if (e.getComponent() == _lnkBannerSignOut) {
 			// Remove the website user object from the session and flip the
 			// "Sign in" and "Sign out" links on the banner
-			getSessionManager().setWebSiteUser(null);
+			//getSessionManager().setWebSiteUser(null);
 			_lnkBannerSignIn.setVisible(true);
 			_lnkBannerSignOut.setVisible(false);
 			Cookie cookieRemMe = getCookie(COOKIE_REMEMBER_ME);
@@ -687,17 +690,7 @@ public class BaseController extends JspController implements SubmitListener,
 				getCurrentResponse().addCookie(cookieRemMe);
 			}
 
-			Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
-					.get(getCurrentRequest().getRemoteAddr());
-			
-			Enumeration<HttpSession> aplicaciones = aplicationsForRemoteAddress
-					.elements();
-			HttpSession sess;
-			while (aplicaciones.hasMoreElements()) {
-				sess = aplicaciones.nextElement();
-				//clearAllPagesFromSession(sess);
-				sess.setAttribute(SESSION_VALUE_WEBSITE_USER, null);
-			}
+			removeSessionsForIp();
 
 			/* limpia el usuario seteado */
 			users.remove(getCurrentRequest().getRemoteAddr());
@@ -720,6 +713,21 @@ public class BaseController extends JspController implements SubmitListener,
 		}
 
 		return true;
+	}
+
+	private void removeSessionsForIp() {
+		// Remove the WebSiteUser and clear all pages from all sessions of applications that were initialized
+		Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
+				.get(getCurrentRequest().getRemoteAddr());
+		
+		Enumeration<HttpSession> aplicaciones = aplicationsForRemoteAddress
+				.elements();
+		HttpSession sess;
+		while (aplicaciones.hasMoreElements()) {
+			sess = aplicaciones.nextElement();
+			clearAllPagesFromSession(sess);
+			sess.setAttribute(SESSION_VALUE_WEBSITE_USER, null);
+		}		
 	}
 
 	/**
@@ -767,27 +775,36 @@ public class BaseController extends JspController implements SubmitListener,
 	 * This method will do some safety checks in the page requested methods.
 	 */
 	private void checkPageRedirect() {
-
+		String ip = getCurrentRequest().getRemoteAddr();
 		try {
 			// Sequence of the cehecs are important here. If you check the user
 			// Loggin first, session expiration will not be cheched. That may
 			// cause errors...
+			
 			_redirected = false;
-			if (_checkSessionExpired) {
+			
+			if (_checkPageExpired) {
+				Long time = System.currentTimeMillis();				
+				Props props = getPageProperties();
+				int i = Integer.parseInt(props.getThemeProperty(null, "SegundosTimer"));
+								
+				if (((time-timeStart.get(ip))/1000) > i) {
+					_redirected = true;
+					
+					removeSessionsForIp();
+					users.remove(ip);
+					gotoSiteMapPage(SiteMapConstants.SESSION_EXPIRED);
+					return;
+				}
+				
+			}
+			/*if (_checkSessionExpired) {
 				if (isSessionExpired()) {
 					_redirected = true;
 					gotoSiteMapPage(SiteMapConstants.SESSION_EXPIRED);
 					return;
 				}
-			}
-
-			if (_checkPageExpired) {
-				if (isExpired()) {
-					_redirected = true;
-					gotoSiteMapPage(SiteMapConstants.PAGE_EXPIRED);
-					return;
-				}
-			}
+			}*/		
 
 			if (_checkDB) {
 				DBConnection conn = null;
@@ -814,6 +831,8 @@ public class BaseController extends JspController implements SubmitListener,
 		} catch (Exception e) {
 			MessageLog.writeErrorMessage("checkPageRedirect()", e, this);
 		}
+		
+		timeStart.put(ip,System.currentTimeMillis());
 	}
 
 	/**

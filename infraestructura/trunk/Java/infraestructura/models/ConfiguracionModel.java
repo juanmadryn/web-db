@@ -73,8 +73,8 @@ public class ConfiguracionModel extends DataStore {
 
                //add validations
                addRequiredRule(CONFIGURACION_CARDINALIDAD,"La cardinalidad es obligatoria");
-               addRequiredRule(CONFIGURACION_ESQUEMA_CONFIGURACION_ID,"El esquema de configuraciÃ³n es Obligatorio");
-               addRequiredRule(CONFIGURACION_NOMBRE,"El nombre de la configuraciÃ³n es obligatorio");
+               addRequiredRule(CONFIGURACION_ESQUEMA_CONFIGURACION_ID,"El esquema de configuración es Obligatorio");
+               addRequiredRule(CONFIGURACION_NOMBRE,"El nombre de la configuración es obligatorio");
                addRequiredRule(CONFIGURACION_PRIORIDAD,"La prioridad es obligatoria");
                
                // setea autoincremento para el id y no update

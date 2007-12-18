@@ -144,7 +144,7 @@ public void pageSubmitEnd(PageEvent event) {
 			{
 				// Ya existe detalle de atributos?
 				if (_dsAttrRol.getRowCount() > 0 ) {
-					// es el mismo contexto? --> recupero el rol del detalle para verificaciÃ³n, siempre del primer registro
+					// es el mismo contexto? --> recupero el rol del detalle para verificación, siempre del primer registro
 					rol_attr = _dsAttrRol.getAtributosRolRol(0);
 					if (rol_attr == null)
 						actualizar = true;

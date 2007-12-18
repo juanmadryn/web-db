@@ -361,9 +361,9 @@ public class EntidadExternaModel extends DataStore {
 
      /** 
       * Completa las columnas por default para evitar probelmas con la base de datos
-      * Sólo setea el default si no está definido aún 
+      * S�lo setea el default si no está definido aún 
       * @author demian
-      * @param row indica sobre que fila del datastor se realiza la operación
+      * @param row indica sobre que fila del datastor se realiza la operaci�n
       */
      public void setColumnasDefault(int row) throws DataStoreException {
     	 // solo setea las columnas si son null
@@ -376,7 +376,7 @@ public class EntidadExternaModel extends DataStore {
      }
      
      /**
-      * Realiza el proceso de activación de una entidad
+      * Realiza el proceso de activaci�n de una entidad
       * @param row registro dentro del datastor que se desea activar
       * @throws DataStoreException
       * @throws SQLException

@@ -444,12 +444,12 @@ public class RolesEntidadModel extends DataStore {
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
      /** 
       * Completa las columnas por default para evitar probelmas con la base de datos
-      * Sólo setea el default si no está definido aún 
+      * S�lo setea el default si no está definido aún 
       * @author demian
-      * @param row indica sobre que fila del datastor se realiza la operación
+      * @param row indica sobre que fila del datastor se realiza la operaci�n
       */
      public void setColumnasDefault(int row, int entidad_id) throws DataStoreException {
-    	 // le asigno la entidad (maestro), sólo si no está seteada aún
+    	 // le asigno la entidad (maestro), s�lo si no está seteada aún
     	 int v_entidad_id = getRolesEntidadEntidadId(row);
     	 if (v_entidad_id < 1)
     		 setRolesEntidadEntidadId(row, entidad_id);
@@ -464,7 +464,7 @@ public class RolesEntidadModel extends DataStore {
      }
      
      /**
-      * Realiza el proceso de activación de una entidad
+      * Realiza el proceso de activaci�n de una entidad
       * @param row registro dentro del datastor que se desea activar
       * @throws DataStoreException
       * @throws SQLException

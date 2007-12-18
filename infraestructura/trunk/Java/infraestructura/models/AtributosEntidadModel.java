@@ -1299,7 +1299,6 @@ public class AtributosEntidadModel extends DataStore {
 				cond = "clase_atributo_rol.etiqueta == '" + p_etiqueta + "'";
 			filter(cond);
 			gotoFirst();
-
 		} catch (Exception e) {
 			throw new DataStoreException(e.getMessage());
 		}
@@ -1319,8 +1318,6 @@ public class AtributosEntidadModel extends DataStore {
 	public void recuperaAtributosEtiquetaEntidad(String p_etiqueta,
 			int p_entidad_id) throws SQLException, DataStoreException {
 
-		System.out.println("etiqueta: " + p_entidad_id);
-
 		if (this.getRowCount() == 0) {
 			StringBuilder criteria = new StringBuilder();
 			criteria.append("atributos_entidad.entidad_id = ");
@@ -1339,8 +1336,7 @@ public class AtributosEntidadModel extends DataStore {
 				cond = "clase_atributo_rol.etiqueta == '" + p_etiqueta + "'";
 
 			filter(cond);
-			gotoFirst();
-			System.out.println(cond);
+			gotoFirst();			
 		} catch (Exception e) {
 			throw new DataStoreException(e.getMessage());
 		}
@@ -1381,7 +1377,6 @@ public class AtributosEntidadModel extends DataStore {
 			// recorro el DataStore mientras haya elementos
 			while (dsAtributos.gotoNext()) {
 				etiqueta = dsAtributos.getClaseAtributoRolEtiqueta();
-				System.out.println(etiqueta);
 				if (etiqueta == null)
 					etiqueta = " ";
 				if (!etiquetas.contains(etiqueta))
@@ -1612,7 +1607,7 @@ public class AtributosEntidadModel extends DataStore {
 		criteria.append(" and atributos_entidad.atributo_id = ");
 		criteria.append(getAtributosEntidadAtributoId(i));
 
-		criteria.append(" and atributo_entidad.valor = '");
+		criteria.append(" and atributos_entidad.valor = '");
 		criteria.append(getAtributosEntidadValor(i));
 		criteria.append("'");
 
@@ -1631,9 +1626,9 @@ public class AtributosEntidadModel extends DataStore {
 		criteria.append("atributos_entidad.entidad_id is not null");
 
 		if (getAtributosRolRol(i) == null)
-			criteria.append(" and atributos_rol.rol is null");
+			criteria.append(" and atributos_entidad.rol is null");
 		else {
-			criteria.append(" and atributos_rol.rol = '");
+			criteria.append(" and atributos_entidad.rol = '");
 			criteria.append(getAtributosRolRol(i));
 			criteria.append("'");
 		}
@@ -1641,7 +1636,7 @@ public class AtributosEntidadModel extends DataStore {
 		criteria.append(" and atributos_entidad.atributo_id = ");
 		criteria.append(getAtributosEntidadAtributoId(i));
 
-		criteria.append(" and atributo_entidad.valor = '");
+		criteria.append(" and atributos_entidad.valor = '");
 		criteria.append(getAtributosEntidadValor(i));
 		criteria.append("'");
 

@@ -109,7 +109,7 @@ public class AtributosRolModel extends DataStore {
                addLookupRule(ATRIBUTOS_ROL_ROL,"rol_entidad","'rol = ' + '\"' + atributos_rol.rol + '\"'","nombre","rol_entidad.nombre","Rol de entidad inexistente");
                addRequiredRule(ATRIBUTOS_ROL_DESDE,"Se requiere la fecha desde cuando est'avigente el rol");
                addLookupRule(ATRIBUTOS_ROL_CLASE_ATRIBUTO_ROL_ID,"clase_atributo_rol","'clase_atributo_rol_id = ' + atributos_rol.clase_atributo_rol_id","etiqueta","clase_atributo_rol.etiqueta","Clase de atributo inexistente");
-               addLookupRule(ATRIBUTOS_ROL_NOMBRE_OBJETO,"diccionario_aplicacion","'tipo_objeto = \"' + atributos_rol.tipo_objeto + '\" AND nombre_objeto = \"' + atributos_rol.nombre_objeto + '\"'",null,null,"Objeto de AplicaciÃ³n inexistente");
+               addLookupRule(ATRIBUTOS_ROL_NOMBRE_OBJETO,"diccionario_aplicacion","'tipo_objeto = \"' + atributos_rol.tipo_objeto + '\" AND nombre_objeto = \"' + atributos_rol.nombre_objeto + '\"'",null,null,"Objeto de Aplicación inexistente");
                addExpressionRule(ATRIBUTOS_ROL_NOMBRE,new ConvierteMayusculasValidation(ATRIBUTOS_ROL_NOMBRE),"",false);
           }
           catch (DataStoreException e) {
