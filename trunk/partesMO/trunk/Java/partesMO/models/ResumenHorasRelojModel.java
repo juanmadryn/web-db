@@ -739,7 +739,7 @@ public class ResumenHorasRelojModel extends DataStore {
 				" && resumen_horas_reloj.fecha.getYear() == ").append(
 				fecha.get(Calendar.YEAR)).append(
 				") && resumen_horas_reloj.nro_legajo == ").append(nroLegajo);
-		setFindExpression(sb.toString());
+		setFindExpression(sb.toString());		
 		if (findFirst())
 			return getRow();
 		else
@@ -919,13 +919,13 @@ public class ResumenHorasRelojModel extends DataStore {
 	 * 
 	 * @throws DataStoreException
 	 */
-	public void cierraResumenesSinFichadas() throws DataStoreException {
-		setFindExpression(RESUMEN_HORAS_RELOJ_FICHADA_IDS + " == null");
-		gotoFirst();
-		while (findNext()) {
-			setResumenHorasRelojEstado(ResumenHorasRelojModel.PARTES_SIN_FICHADA);
-			setResumenHorasRelojObservaciones(ResumenHorasRelojModel.PARTES_SIN_FICHADA_MSG);
-		}			
+	public void cierraResumenesSinFichadas() throws DataStoreException {		
+		filter(RESUMEN_HORAS_RELOJ_FICHADA_IDS + " == null");
+		for (int i = 0; i < getRowCount(); i++ ) {
+			setResumenHorasRelojEstado(i, ResumenHorasRelojModel.PARTES_SIN_FICHADA);
+			setResumenHorasRelojObservaciones(i, ResumenHorasRelojModel.PARTES_SIN_FICHADA_MSG);							
+		}		
+		filter(null);
 	}
 	
 	

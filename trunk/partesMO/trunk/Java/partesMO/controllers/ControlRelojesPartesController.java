@@ -311,9 +311,10 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		
 		// Genera el resumen
 		if (e.getComponent() == _generaResumenBUT) {			
-			try {				
+			try {			
+				conexion = DBConnection.getConnection(getApplicationName(),"partesmo");
 				// Preprocesa las partes y las fichadas en tango para facilitar la validación
-				_dsPartes.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"));
+				_dsPartes.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"),conexion);				
 				// recupera resumen
 				_dsResHor.reset();				
 				_dsResHor.retrieve(whereFecha + " and estado in (" + _dsResHor.conErroresInClause() +")");
