@@ -28,8 +28,7 @@ public class ValidaActividadProyecto implements DataStoreExpression,
 		//_dsActividadesProyecto.setCriteria();
 		try {
 			_dsActividadesProyecto.retrieve("proyecto_id = "+proyecto_id+ " and "+ "actividad_id = "+actividad_id);
-			System.out.println("proyecto_id = "+proyecto_id+ " and "+ "actividad_id = "+actividad_id);
-			System.out.println(""+_dsActividadesProyecto.getRowCount());
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

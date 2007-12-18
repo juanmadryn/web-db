@@ -1429,8 +1429,10 @@ public class AdmProyectoController extends BaseController implements
 						boton.setDisplayName(r.getString(1));
 						boton.setDisplayNameLocaleKey(Integer.toString(r
 								.getInt(2)));
+						//boton.setButtonBgColor("RED");
+						boton.setButtonFontStyle("font-weight:bold; COLOR: red");
 					}
-					nombre_boton = "customBUT" + i * 100;
+					/*nombre_boton = "customBUT" + i * 100;
 					boton = (com.salmonllc.html.HtmlSubmitButton) this
 							.getComponent(nombre_boton);
 					if (boton != null) {
@@ -1438,7 +1440,7 @@ public class AdmProyectoController extends BaseController implements
 						boton.setDisplayName(r.getString(1));
 						boton.setDisplayNameLocaleKey(Integer.toString(r
 								.getInt(2)));
-					}
+					}*/
 					i = i + 10;
 				} while (r.next() && i < 150);
 			}
