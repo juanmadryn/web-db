@@ -87,7 +87,7 @@ public class PartesMoModel extends BaseModel {
 	 private double _nocturnas1 = 0;
 	 private double _nocturnas2 = 0;
 	 
-	 private boolean validarPartes = true;
+	 private boolean _validarPartes = true;
 	 	 
 	 //$ENDCUSTOMVARS$
      
@@ -1140,17 +1140,19 @@ public class PartesMoModel extends BaseModel {
      
  	@Override
 	public void update(DBConnection conn, boolean handleTrans) throws DataStoreException, SQLException {
-		if (validarPartes)
+		if (_validarPartes)
 			validarPartes();			
 		super.update(conn, handleTrans);
 	}	
  	
  	/**
  	 * Habilita el control de los atributos del parte al llamar al metodo update del modelo.
+ 	 * Si se setea en true, estos atributos son verificados automaticamente al llamar a update.
+ 	 * Si es false, los metodos correspondientes deben ser invocados manualmente.
  	 * @param validar true para controlar los atributos, false para saltar el control.
  	 */
  	public void doValidarPartes(boolean validar) {
- 		validarPartes = validar; 		
+ 		_validarPartes = validar; 		
  	}
  	
 	private int parserHora(String hora) {
@@ -2682,7 +2684,7 @@ public class PartesMoModel extends BaseModel {
     }
     
     /**
-     * Search for the unit of works in the date range and calculate the total amount of hours worked by each employee per date: 
+     * Search for the unit of works in the date range and compute the total amount of hours worked by each employee per date: 
      * <ol>
      * <li>acording with the units of works entered</li>
      * <li>acording with the clock records from tango database</li> 
@@ -2874,10 +2876,6 @@ public class PartesMoModel extends BaseModel {
     			if (dia2 != -1)
     				dsResHorRlj.setResumenHorasRelojHorasParte(resumen2, dsResHorRlj.getResumenHorasRelojHorasParte(resumen2) + horas2);
     		} // fin for    		
-    		
-    		// comiteamos los cambios en la tabla de preproceso
-    		// dsResHorRlj.update(conexion);
-    		
     	} catch (SQLException e) {
     		// además de escribir en el log mando mensaje a la página
     		throw new DataStoreException(
@@ -3120,7 +3118,6 @@ public class PartesMoModel extends BaseModel {
     			
     		} // fin if    		
     		dsResHorRlj.cierraResumenesSinFichadas();
-    		//dsResHorRlj.update(conexion);    		  		
     	} catch (SQLException e) {
     		// además de escribir en el log mando mensaje a la página
     		throw new DataStoreException(
