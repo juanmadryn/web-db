@@ -321,9 +321,9 @@ public class EsquemaConfiguracionModel extends DataStore {
 		// autocompleta columnas en el data store
  		
  		for (int i = 0; i < getRowCount(); i++) {
-			// verifico lookup y actualiza los datos automÃ¡ticos en caso de insertar
+			// verifico lookup y actualiza los datos automáticos en caso de insertar
  			if (getRowStatus(i) == STATUS_NEW_MODIFIED || getRowStatus(i) == STATUS_MODIFIED) {
- 				// el registro estÃ¡ marcado para actualizar. veriofico la condición de las columnas autogeneradas
+ 				// el registro está marcado para actualizar. veriofico la condición de las columnas autogeneradas
  				
  				// tipo objeto va con TABLA
  				String v_tipo_objeto = getEsquemaConfiguracionTipoObjeto(i);

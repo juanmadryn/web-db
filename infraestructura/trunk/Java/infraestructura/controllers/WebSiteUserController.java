@@ -99,7 +99,7 @@ public class WebSiteUserController extends BaseController {
 		
 		// ante cada requerimiento verifica contexto y determina detalle de
 		// estados y completa FK's
-		// Es row de usuario v√°lida?
+		// Es row de usuario v·lida?
 		
 		try {
 			boolean actualizar = false;

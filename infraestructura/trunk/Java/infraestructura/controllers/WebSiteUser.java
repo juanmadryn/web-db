@@ -96,12 +96,12 @@ public class WebSiteUser implements Constants, Serializable {
 				if (sPassword != null && sPassword.equals(_userPassword)) {
 					_isValid = true;
 
-				} else // no es un usuario v√°lido
+				} else // no es un usuario v·lido
 					_isValid = false;
 			}
 			
 			if (_isValid){
-				// si llegamos hasta ac√° y el usuario es v√°lido, 
+				// si llegamos hasta ac· y el usuario es v·lido, 
 				// recupero sus roles 
 				SQL = "SELECT u.rol_id,r.nombre FROM usuario_roles u"
 					+ " inner join roles r using (rol_id)"
@@ -198,7 +198,7 @@ public class WebSiteUser implements Constants, Serializable {
 	}
 
 	/**
-	 * retorna la lista de roles separados por coma entre par√©ntesis
+	 * retorna la lista de roles separados por coma entre parÈntesis
 	 * @return String
 	 */
 	public String getSetRoles(){

@@ -130,7 +130,7 @@ public void pageSubmitEnd(PageEvent event) {
 	
 	// ante cada requerimiento verifica contexto y determina detalle de
 	// atributos y completa FK's
-	// Es row de rol v√°lida?
+	// Es row de rol v·lida?
 	try {
 		boolean actualizar = false;
 		String rol = null;
@@ -138,7 +138,7 @@ public void pageSubmitEnd(PageEvent event) {
 		if (_dsRolEntidad.getRow() != -1) {
 			// recupera el rol del registro actual de roles
 			rol = _dsRolEntidad.getRolEntidadRol();
-			// si se est√° insertando un nuevo registro de atributos, no se actualiza
+			// si se est· insertando un nuevo registro de atributos, no se actualiza
 			if (!(_dsAttrRol.getRowStatus() == DataStoreBuffer.STATUS_NEW || 
 					_dsAttrRol.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) 
 			{
