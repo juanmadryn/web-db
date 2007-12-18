@@ -523,13 +523,21 @@ public class JspController extends HtmlPage implements Constants {
 		_pageClearedFromSession = true;
 
 	}
-
+	
 	/**
 	 * This method removes the pages from the session. That will force the
 	 * application to reinitialize the pages the next time they are visited.
 	 */
 	public void clearAllPagesFromSession() {
 		HttpSession sess = getSession();
+		clearAllPagesFromSession(sess);
+	}
+	
+	/**
+	 * This method removes the pages from the session. That will force the
+	 * application to reinitialize the pages the next time they are visited.
+	 */
+	public void clearAllPagesFromSession(HttpSession sess) {
 		Enumeration e = sess.getAttributeNames();
 		Object o = null;
 		while (e.hasMoreElements()) {
@@ -1182,7 +1190,6 @@ public class JspController extends HtmlPage implements Constants {
 	 */
 	public boolean isExpired() {
 		return _pageExp;
-
 	}
 
 	/**
