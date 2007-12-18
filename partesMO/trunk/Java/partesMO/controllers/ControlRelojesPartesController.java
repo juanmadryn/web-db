@@ -232,7 +232,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		
 		// chequeo las fechas
 		if (_dsPeriodo.getDate("hasta").compareTo(_dsPeriodo.getDate("desde")) < 0 )  {
-			displayErrorMessage("Error Controlando Relojes: combinaciÃ³n de fechas invÃ¡lida");
+			displayErrorMessage("Error Controlando Relojes: combinación de fechas inválida");
 			return false;
 		}
 		
@@ -313,7 +313,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		if (e.getComponent() == _generaResumenBUT) {			
 			try {			
 				conexion = DBConnection.getConnection(getApplicationName(),"partesmo");
-				// Preprocesa las partes y las fichadas en tango para facilitar la validaciÃ³n
+				// Preprocesa las partes y las fichadas en tango para facilitar la validación
 				_dsPartes.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"),conexion);				
 				// recupera resumen
 				_dsResHor.reset();				
@@ -345,7 +345,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				// No movemos el nuevo valor al dataStore,pero evitamos 
 				// que sea eliminado la proxima vez que la pagina sea mostrada					
 				e.setAcceptValue(ValueChangedEvent.PROCESSING_KEEP_CHANGE_IN_QUEUE);
-				displayErrorMessage("Error Controlando Relojes: fecha o formato de fecha invÃ¡lido");
+				displayErrorMessage("Error Controlando Relojes: fecha o formato de fecha inválido");
 				return false;				
 			}
 		}
@@ -355,7 +355,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				// No movemos el nuevo valor al dataStore,pero evitamos 
 				// que sea eliminado la proxima vez que la pagina sea mostrada					
 				e.setAcceptValue(ValueChangedEvent.PROCESSING_KEEP_CHANGE_IN_QUEUE);
-				displayErrorMessage("Error Controlando Relojes: fecha o formato de fecha invÃ¡lido");					
+				displayErrorMessage("Error Controlando Relojes: fecha o formato de fecha inválido");					
 				return false;				
 			}
 		}

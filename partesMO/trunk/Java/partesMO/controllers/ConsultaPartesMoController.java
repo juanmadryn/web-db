@@ -120,7 +120,7 @@ public class ConsultaPartesMoController extends BaseController {
 	public void pageRequested(PageEvent p) throws Exception {
 		int v_nro_legajo = -1;   		
 
-		// si la p√°gina es requerida por si misma no hago nada
+		// si la p·gina es requerida por si misma no hago nada
 		if (!isReferredByCurrentPage()) {
 			// verifico si tiene parametro
 			v_nro_legajo = getIntParameter("v_nro_legajo");

@@ -286,10 +286,10 @@ public class LoteCargaPartesMoModel extends DataStore {
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
      /**
-      * @param row nro de registro sobre el que se ejecuta la acciÃ³n
-      * @param accion accion grabada en la tabla de tarnsiciÃ³n de estados
-      * @param circuito circuito al cual pertenece la acciÃ³n. Permite recuperar la columna de estado
-      * Ejecuta la acciÃ³n dada para parte y lo cambia de estado segÃºn corresponda.
+      * @param row nro de registro sobre el que se ejecuta la acción
+      * @param accion accion grabada en la tabla de tarnsición de estados
+      * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
+      * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
       * Concentra TODAS las acciones posibles para un parte de MO
       * @throws DataStoreException 
       */
@@ -304,9 +304,9 @@ public class LoteCargaPartesMoModel extends DataStore {
 
      	
      /**
-      * @param accion accion grabada en la tabla de tarnsiciÃ³n de estados
-      * @param circuito circuito al cual pertenece la acciÃ³n. Permite recuperar la columna de estado
-      * Ejecuta la acciÃ³n dada para parte y lo cambia de estado segÃºn corresponda.
+      * @param accion accion grabada en la tabla de tarnsición de estados
+      * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
+      * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
       * Concentra TODAS las acciones posibles para un parte de MO
       * @throws DataStoreException 
       */
@@ -322,14 +322,14 @@ public class LoteCargaPartesMoModel extends DataStore {
  		StringBuilder resultado;
  		boolean ok = false;
  		
- 		// verifico si estÃ¡ conectado un usuario
+ 		// verifico si está conectado un usuario
  		if (user == null){
- 			throw new DataStoreException("Debe estar conectado como un usuario de la aplicaciÃ³n...");
+ 			throw new DataStoreException("Debe estar conectado como un usuario de la aplicación...");
  		}
  		
- 		// chequeo que el informe estÃ¡ en contexto de informe
+ 		// chequeo que el informe está en contexto de informe
  		if (getRow() == -1) {
- 			throw new DataStoreException("No hay seleccionado ningÃºn parte");
+ 			throw new DataStoreException("No hay seleccionado ningún parte");
  		}
  		
  		// correspondiente y ejecutarla
@@ -339,7 +339,7 @@ public class LoteCargaPartesMoModel extends DataStore {
 
  			estado_actual = getLoteCargaPartesMoEstado();
 
- 			// recupero el prÃ³ximo estado y el nombre de la acciÃ³n en funciÃ³n dela acciÃ³n
+ 			// recupero el próximo estado y el nombre de la acción en función dela acción
  			SQL = "SELECT t.estado_destino,a.nombre,t.validador "
  					+ " FROM infraestructura.transicion_estados t "
  					+ " left join infraestructura.estados e on t.estado_origen = e.estado "
@@ -356,7 +356,7 @@ public class LoteCargaPartesMoModel extends DataStore {
  				validador = r.getString(3);
  			}
 
- 			// Verifica rutina de validaciÃ³n dinmica
+ 			// Verifica rutina de validación dinmica
  			try {
  				if (validador != null && validador.length() > 0 && !validador.equalsIgnoreCase("No Validar")){
  					Class claseVal = Class.forName(validador);
@@ -369,14 +369,14 @@ public class LoteCargaPartesMoModel extends DataStore {
  					}
  				}
  				else if (validador == null || validador.length() == 0){
- 					throw new DataStoreException(nombre_accion + " -- No tiene implementada ValidaciÃ³n. Se requiere especificar ValidaciÃ³n");
+ 					throw new DataStoreException(nombre_accion + " -- No tiene implementada Validación. Se requiere especificar Validación");
  				}
  				else if (validador.equalsIgnoreCase("No Validar")){
- 					// La regla NO requiere de validaciÃ³n
+ 					// La regla NO requiere de validación
  					ok = true;
  				}
  				else {
- 					throw new DataStoreException(nombre_accion + " -- SituaciÃ³n no prevista");
+ 					throw new DataStoreException(nombre_accion + " -- Situación no prevista");
  				}
  			} catch (ClassNotFoundException e) {
  				MessageLog.writeErrorMessage(e, null);
@@ -391,8 +391,8 @@ public class LoteCargaPartesMoModel extends DataStore {
  			
 
  			// si hay cambio de estado al finalizar, independientemente de la
- 			// acciÃ“n paso al prÃ³ximo estado  y actualizo
- 			// Se inserta tambiÃ©n el registro de auditorÃ­a correspondiente sÃ³lo si cambiï¿½ estado
+ 			// acción paso al próximo estado  y actualizo
+ 			// Se inserta también el registro de auditoría correspondiente sólo si cambiá estado
  			if (ok && !estado_actual.equalsIgnoreCase(proximo_estado)) {
  				setLoteCargaPartesMoEstado(proximo_estado);
  				
