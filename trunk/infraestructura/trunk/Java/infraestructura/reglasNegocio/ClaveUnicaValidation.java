@@ -57,7 +57,7 @@ public class ClaveUnicaValidation implements DataStoreExpression,Serializable {
 		try {
 			conexion = DBConnection.getConnection(_appName,_connectName);
 
-		   // ahora busco el primer estado posible segÃºn la mÃ¡quina de estados
+		   // ahora busco el primer estado posible según la máquina de estados
 			SQL = "select 'x' "
 					+ " from " + _tableName
 					+ " where " + _colName + " = '" + columna + "'"; 

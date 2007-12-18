@@ -178,7 +178,7 @@ public class AbmcConfiguracionController extends BaseController {
 			_nombreConfTE2.setFocus();
 		}
 		
-		// borro registros de configuración (baja fÃ­sica)
+		// borro registros de configuración (baja física)
 		if (e.getComponent() == _eliminarBUT3){
 			// recorro el datastore y seteo como anulado a los registros
 			for (int i = 0 ; i < _dsConf.getRowCount() ; i++) {
@@ -244,7 +244,7 @@ public class AbmcConfiguracionController extends BaseController {
 				_datatable3.setPage(_datatable3.getPage(row));
 		}
 		
-		// borro registros de atributos (baja fÃ­sica)
+		// borro registros de atributos (baja física)
 		if (e.getComponent() == _eliminarAttrBUT7){
 			// recorro el datastore y seteo como anulado a los registros
 			for (int i = 0 ; i < _dsAttr.getRowCount() ; i++) {
@@ -266,7 +266,7 @@ public class AbmcConfiguracionController extends BaseController {
 		// graba los datos del datastore de atributos
 		if (e.getComponent() == _actualizarAttrBUT8) {
 
-			// garantiza que se estÃ© en elÃ± contexto de una configuración
+			// garantiza que se esté en el contexto de una configuración
 			if (_dsConf.getRow() == -1) {
 				displayErrorMessage("Debe estar en el contexto de una configuración para grabar una definición de atributo");
 				return false;
@@ -314,15 +314,15 @@ public class AbmcConfiguracionController extends BaseController {
 
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
-		// verifico parÃ¡metros y seteo criterio de bÃºsqueda
+		// verifico parámetros y seteo criterio de búsqueda
 
-		// si la pÃ¡gina es requerida por si misma no hago nada
+		// si la página es requerida por si misma no hago nada
 		if (!isReferredByCurrentPage()) {
 			int tmp_esquema_configuracion_id = getIntParameter("p_esquema_configuracion_id",-1);
 			
 			if (tmp_esquema_configuracion_id == -1) {
-				// debe venir con parÃ¡metro
-				displayErrorMessage("La pÃ¡gina debe ser invocada con un parÃ¡metro");
+				// debe venir con parámetro
+				displayErrorMessage("La página debe ser invocada con un parámetro");
 				_dsAttr.reset();
 				_dsConf.reset();
 				_dsEsquema.reset();
@@ -370,7 +370,7 @@ public class AbmcConfiguracionController extends BaseController {
 				_dsAttr.gotoFirst();
 			}
 		} else {
-			// No estÃ¡ en ninguna configuración reseteo variables y datastore
+			// No está en ninguna configuración reseteo variables y datastore
 			v_configuracion_id = -2;
 			_dsAttr.setCriteria(null);
 			_dsAttr.reset();

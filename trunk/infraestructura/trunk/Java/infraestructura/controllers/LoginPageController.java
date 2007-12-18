@@ -54,7 +54,7 @@ public class LoginPageController extends BaseController {
 			}
 
 			if(sPwd==null || sPwd.length()<1){
-				displayErrorMessage("Por favor ingrese su cl√°ve de seguridad.", _passwordField);
+				displayErrorMessage("Por favor ingrese su cl·ve de seguridad.", _passwordField);
 			}
 
 			if(getErrorCount()>0)
@@ -62,7 +62,7 @@ public class LoginPageController extends BaseController {
 
 			WebSiteUser user = new WebSiteUser(getApplicationName(), sUserName, sPwd);
 			if(!user.isValid()){
-				displayErrorMessage("Usuario o cl√°ve inv√°lida. Por favor intente nuevamente.",_userField);
+				displayErrorMessage("Usuario o cl·ve inv·lida. Por favor intente nuevamente.",_userField);
 				return false;
 			}
 

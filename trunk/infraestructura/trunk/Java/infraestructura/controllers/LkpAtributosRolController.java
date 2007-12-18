@@ -95,13 +95,13 @@ public void pageRequestEnd(PageEvent event) {
  * @param event the page event to be processed
  */
 public void pageSubmitEnd(PageEvent event) {
-	// verifico par√°metros y seteo criterio de b√∫squeda
-	// si la p√°gina es requerida por si misma no hago nada
+	// verifico par·metros y seteo criterio de b˙squeda
+	// si la p·gina es requerida por si misma no hago nada
 	if (!isReferredByCurrentPage()) {
 		rol = getParameter("rol",null);
 		nombre_objeto = getParameter("nombre_objeto",null);
 		
-		// si no tiene par√°metros reseteo el criterio de b√∫squeda y las variables globales
+		// si no tiene par·metros reseteo el criterio de b˙squeda y las variables globales
 		if (rol == null && nombre_objeto == null)
 				_dsAttr.setCriteria(null);
 		else {

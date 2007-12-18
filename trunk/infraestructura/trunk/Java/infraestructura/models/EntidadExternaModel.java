@@ -361,7 +361,7 @@ public class EntidadExternaModel extends DataStore {
 
      /** 
       * Completa las columnas por default para evitar probelmas con la base de datos
-      * Sólo setea el default si no estÃ¡ definido aÃºn 
+      * Sólo setea el default si no está definido aún 
       * @author demian
       * @param row indica sobre que fila del datastor se realiza la operación
       */
@@ -384,7 +384,7 @@ public class EntidadExternaModel extends DataStore {
      public void activarEntidad(int row) throws DataStoreException, SQLException {
 		String estado = getEntidadExternaActivo(row);
 		if (estado == "V") {
-			throw new DataStoreException("La entidad YA estÃ¡ activa");
+			throw new DataStoreException("La entidad YA está activa");
 		}
 		
 		//TODO: Se debe completar con las validaciones "reglas de negocio" para activar a una entidad

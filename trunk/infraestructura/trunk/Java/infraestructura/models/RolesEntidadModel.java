@@ -444,12 +444,12 @@ public class RolesEntidadModel extends DataStore {
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
      /** 
       * Completa las columnas por default para evitar probelmas con la base de datos
-      * Sólo setea el default si no estÃ¡ definido aÃºn 
+      * Sólo setea el default si no está definido aún 
       * @author demian
       * @param row indica sobre que fila del datastor se realiza la operación
       */
      public void setColumnasDefault(int row, int entidad_id) throws DataStoreException {
-    	 // le asigno la entidad (maestro), sólo si no estÃ¡ seteada aÃºn
+    	 // le asigno la entidad (maestro), sólo si no está seteada aún
     	 int v_entidad_id = getRolesEntidadEntidadId(row);
     	 if (v_entidad_id < 1)
     		 setRolesEntidadEntidadId(row, entidad_id);
@@ -472,7 +472,7 @@ public class RolesEntidadModel extends DataStore {
      public void activarEntidad(int row) throws DataStoreException, SQLException {
 		String estado = getRolesEntidadActivo(row);
 		if (estado == "V") {
-			throw new DataStoreException("El rol para la entidad YA estÃ¡ activa");
+			throw new DataStoreException("El rol para la entidad YA está activa");
 		}
 		
 		//TODO: Se debe completar con las validaciones "reglas de negocio" para activar a una entidad

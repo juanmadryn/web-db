@@ -182,7 +182,7 @@ public void pageSubmitEnd(PageEvent p) {
 
 	// ante cada requerimiento verifica contexto y determina detalle de
 	// la clase de valores de atributos y completa FK's
-	// Es row de rol v√°lida?
+	// Es row de rol v·lida?
 	try {
 		boolean actualizar = false;
 		int clase = -1;
@@ -192,13 +192,13 @@ public void pageSubmitEnd(PageEvent p) {
 				clase = _dsClaseLOV
 						.getClaseListaValoresAtributoClaseListaValoresAtributoId();
 
-				// si la clase anterior no fue seteada la setea y contin√∫a, sino
+				// si la clase anterior no fue seteada la setea y contin˙a, sino
 				// la compara para ver cambio de contexto
 				if (clase_ant == -1)
 					clase_ant = clase;
 
 				if (clase_ant == clase) {
-					// si se est√° insertando un nuevo registro de valores, no se
+					// si se est· insertando un nuevo registro de valores, no se
 					// actualiza
 					if (!(_dsLOV.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsLOV
 							.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) {

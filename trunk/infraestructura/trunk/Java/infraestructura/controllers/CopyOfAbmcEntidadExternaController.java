@@ -226,7 +226,7 @@ public boolean submitPerformed(SubmitEvent e) throws Exception {
 public void pageSubmitEnd(PageEvent event) {
 	// ante cada requerimiento verifica contexto y determina detalle de
 	// atributos y completa FK's
-	// Es row de rol v√°lida?
+	// Es row de rol v·lida?
 	try {
 		boolean actualizar = false;
 		int entidad_id = 0;
@@ -234,7 +234,7 @@ public void pageSubmitEnd(PageEvent event) {
 		if (_dsEntidad.getRow() != -1) {
 			// recupera la entidad de contexto
 			entidad_id = _dsEntidad.getEntidadExternaEntidadId();
-			// si se est√° insertando un nuevo registro de rol, no se actualiza
+			// si se est· insertando un nuevo registro de rol, no se actualiza
 			if (!(_dsRoles.getRowStatus() == DataStoreBuffer.STATUS_NEW || 
 					_dsRoles.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) 
 			{
