@@ -1165,7 +1165,7 @@ public class PartesEqModel extends DataStore {
 		// realiza validaciones varias de consistencia de información
 		// aplica el tratamiento de horas y rango horario
 		for (int i = 0; i < getRowCount(); i++) {
-			// verifico lookup y actualiza los datos automÃ¡ticos en caso de insertar
+			// verifico lookup y actualiza los datos automáticos en caso de insertar
 			if (getRowStatus(i) == STATUS_NEW_MODIFIED
 					|| getRowStatus(i) == STATUS_MODIFIED) {
 
@@ -1208,7 +1208,7 @@ public class PartesEqModel extends DataStore {
 				|| hubo_errores_lote 
 				|| hubo_errores_dup) 
 		{
-			throw new DataStoreException("Hubo errores procesando partes. CorrÃ­jalos y grabe nuevamente");
+			throw new DataStoreException("Hubo errores procesando partes. Corríjalos y grabe nuevamente");
 		}
 
 	}
@@ -1229,9 +1229,9 @@ public class PartesEqModel extends DataStore {
 		}
 
 		if (lote_id < 1) {
-			// no estÃ¡ seteado el lote aÃºn. determina o crea lote
+			// no está seteado el lote aún. determina o crea lote
 			try {
-				// determina la quincena, segÃºn la fecha
+				// determina la quincena, según la fecha
 				cal.setTime(fecha_parte);
 				int diaDelMes = cal.get(Calendar.DAY_OF_MONTH);
 				
@@ -1241,7 +1241,7 @@ public class PartesEqModel extends DataStore {
 				else 
 					quincena = "Segunda quincena, ";
 				
-				// ahora completo el mes y aÃ±o
+				// ahora completo el mes y año
 				switch (cal.get(Calendar.MONTH)){
 				case Calendar.JANUARY:
 					quincena = quincena + "Enero ";
@@ -1280,10 +1280,10 @@ public class PartesEqModel extends DataStore {
 					quincena = quincena + "Diciembre ";
 					break;
 				default:
-					quincena = quincena + "MES y AÃ±O NO DETERMINADO";	
+					quincena = quincena + "MES y AñO NO DETERMINADO";	
 				}
 				
-				// completa con el aÃ±o
+				// completa con el año
 				quincena = quincena + Integer.toString(cal.get(Calendar.YEAR));
 				
 				conexion = DBConnection.getConnection("partesEQ","partesEQ");
@@ -1391,7 +1391,7 @@ public class PartesEqModel extends DataStore {
 		// primero controla partes duplicados en el datastore
 		for (int i = 0; i < getRowCount(); i++) {
 	
-			// verifico lookup y actualiza los datos automÃ¡ticos en caso de insertar
+			// verifico lookup y actualiza los datos automáticos en caso de insertar
 			if (i != row && (getRowStatus(i) == STATUS_NEW_MODIFIED || getRowStatus(i) == STATUS_MODIFIED)) {
 
 				Date fechaI = getPartesEqFecha(i);
@@ -1409,18 +1409,18 @@ public class PartesEqModel extends DataStore {
 				if (fechaRow.equals(fechaI) && idEquipoRow == idEquipoI) {
 					if ( (hora_d_abs < hora_h_abs_i) && (hora_h_abs_i<= hora_h_abs)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el equipo fecha con mismo horario o superposiciÃ³n de horario");
+							setMensajeError(row, "Ya existe un parte para el equipo fecha con mismo horario o superposición de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el equipo fecha con mismo horario o superposiciÃ³n de horario");
+									+ " - Ya existe un parte para el equipo fecha con mismo horario o superposición de horario");
 						return true;
 					}
 					if ( (hora_d_abs_i < hora_h_abs) && (hora_h_abs<= hora_h_abs_i)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el equipo fecha con mismo horario o superposiciÃ³n de horario");
+							setMensajeError(row, "Ya existe un parte para el equipo fecha con mismo horario o superposición de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el equipo fecha con mismo horario o superposiciÃ³n de horario");
+									+ " - Ya existe un parte para el equipo fecha con mismo horario o superposición de horario");
 						return true;
 					}
 				}
@@ -1431,7 +1431,7 @@ public class PartesEqModel extends DataStore {
 		PartesEqModel partesDB = new PartesEqModel(getAppName(),getDbProfile());
 		partesDB.retrieve("partes_eq.fecha = '" + fechaRow.toString() + "'");
 		for (int i = 0; i < partesDB.getRowCount(); i++) {
-			// verifico lookup y actualiza los datos automÃ¡ticos en caso de insertar
+			// verifico lookup y actualiza los datos automáticos en caso de insertar
 			if (parteId != partesDB.getPartesEqParteId(i)) {
 			
 				Date fechaI = partesDB.getPartesEqFecha(i);
@@ -1449,18 +1449,18 @@ public class PartesEqModel extends DataStore {
 				if (fechaRow.equals(fechaI) && idEquipoRow == idEquipoI) {
 					if ( (hora_d_abs < hora_h_abs_i) && (hora_h_abs_i<= hora_h_abs)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposiciÃ³n de horario");
+							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposiciÃ³n de horario");
+									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
 						return true;
 					}
 					if ( (hora_d_abs_i < hora_h_abs) && (hora_h_abs<= hora_h_abs_i)) {
 						if (getMensajeError(row) == null)
-							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposiciÃ³n de horario");
+							setMensajeError(row, "Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
 						else
 							setMensajeError(row, getMensajeError(row)
-									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposiciÃ³n de horario");
+									+ " - Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
 						return true;
 					}
 				}
@@ -1552,12 +1552,12 @@ public class PartesEqModel extends DataStore {
 			}
 		}
 
-		// si no ingresÃº horas, calculo las horas segÃºn desde y hasta,
+		// si no ingresú horas, calculo las horas según desde y hasta,
 		// siempre y cuando no haya errores
 		// de paso se chequea que el rango horario sea correcto
 		if (!hubo_errores && horas <= 0) {
-			// si es lÃ­mite de 24 o 0 horas suma a la hora hasta 24
-			// horas para los cÃ¡lculos
+			// si es límite de 24 o 0 horas suma a la hora hasta 24
+			// horas para los cálculos
 			if (hora_d > 12 && hora_h < 6)
 				hora_h = hora_h + 24;
 			if (hora_d > hora_h) {
@@ -1596,7 +1596,7 @@ public class PartesEqModel extends DataStore {
 		}
 
 		if (!hubo_errores && hora_hasta == null) {
-			// calculo la hora hasta en funciÃ³n de la hora desde y las
+			// calculo la hora hasta en función de la hora desde y las
 			// horas trabajadas
 			try {
 
@@ -1653,7 +1653,7 @@ public class PartesEqModel extends DataStore {
 	}
 	
 	/**
-	 * TODO Tomado de PartesMoModel. LÃ³gica duplicada.
+	 * TODO Tomado de PartesMoModel. Lógica duplicada.
 	 * @param hora
 	 * @return
 	 */
@@ -1664,7 +1664,7 @@ public class PartesEqModel extends DataStore {
 		if (hora.length() > 5)
 			return -1;
 
-		// verifico formato si viene con minutos o sÃ³lo hora
+		// verifico formato si viene con minutos o sólo hora
 		int index2Puntos = hora.indexOf(":");
 		if (index2Puntos == -1)
 			index2Puntos = hora.indexOf(".");
@@ -1697,7 +1697,7 @@ public class PartesEqModel extends DataStore {
 	}
 
 	/**
-	 * TODO Tomado de PartesMoModel. LÃ³gica duplicada.
+	 * TODO Tomado de PartesMoModel. Lógica duplicada.
 	 * @param hora
 	 * @return
 	 */
@@ -1708,7 +1708,7 @@ public class PartesEqModel extends DataStore {
 		if (hora.length() > 5)
 			return -1;
 
-		// verifico formato si viene con minutos o sÃ³lo hora
+		// verifico formato si viene con minutos o sólo hora
 		int index2Puntos = hora.indexOf(":");
 		if (index2Puntos == -1)
 			index2Puntos = hora.indexOf(".");
@@ -1717,7 +1717,7 @@ public class PartesEqModel extends DataStore {
 			// horas y minutos extraigo solo las horas
 			try {
 				tmpMinutos = Integer.parseInt(hora.substring(index2Puntos + 1));
-				// si los minutos estÃ¡n expresados con una sola cifra la llevo a dos
+				// si los minutos están expresados con una sola cifra la llevo a dos
 				if (hora.substring(index2Puntos + 1).length() == 1)
 					tmpMinutos = tmpMinutos * 10;
 			} catch (Exception e) {
@@ -1850,7 +1850,7 @@ public class PartesEqModel extends DataStore {
 				conexion = DBConnection.getConnection("partesEQ",
 						"infraestructura");
 
-				// ahora busco el primer estado posible segÃºn la mÃ¡quina de estados
+				// ahora busco el primer estado posible según la máquina de estados
 				SQL = "select estado_origen "
 						+ " from transicion_estados "
 						+ " where estado_origen in (select estado from estados where circuito = '0005')"
@@ -1924,12 +1924,12 @@ public class PartesEqModel extends DataStore {
 				|| hubo_errores_lote 
 				|| hubo_errores_dup) 
 		{
-			throw new DataStoreException("Hubo errores procesando partes. CorrÃ­jalos y grabe nuevamente");
+			throw new DataStoreException("Hubo errores procesando partes. Corríjalos y grabe nuevamente");
 		}
 	}
 	
 	/**
-	 * Retorna el id de equipo a partir del cÃ³digo de inventario ingresado en la pantalla de carga
+	 * Retorna el id de equipo a partir del código de inventario ingresado en la pantalla de carga
 	 * @param row 
 	 * @return id del equipo
 	 * @throws DataStoreException
@@ -2080,10 +2080,10 @@ public class PartesEqModel extends DataStore {
 	}
 	
 	/**
-     * @param row nro de registro sobre el que se ejecuta la acciÃ³n
-     * @param accion accion grabada en la tabla de tarnsiciÃ³n de estados
-     * @param circuito circuito al cual pertenece la acciÃ³n. Permite recuperar la columna de estado
-     * Ejecuta la acciÃ³n dada para parte y lo cambia de estado segÃºn corresponda.
+     * @param row nro de registro sobre el que se ejecuta la acción
+     * @param accion accion grabada en la tabla de tarnsición de estados
+     * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
+     * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
      * Concentra TODAS las acciones posibles para un parte de MO
      * @throws DataStoreException 
      */
@@ -2098,9 +2098,9 @@ public class PartesEqModel extends DataStore {
 
     	
     /**
-     * @param accion accion grabada en la tabla de transiciÃ³n de estados
-     * @param circuito circuito al cual pertenece la acciÃ³n. Permite recuperar la columna de estado
-     * Ejecuta la acciÃ³n dada para parte y lo cambia de estado segÃºn corresponda.
+     * @param accion accion grabada en la tabla de transición de estados
+     * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
+     * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
      * Concentra TODAS las acciones posibles para un parte de MO
      * @throws DataStoreException 
      */
@@ -2116,14 +2116,14 @@ public class PartesEqModel extends DataStore {
 		StringBuilder resultado;
 		boolean ok = false;
 		
-		// verifico si estÃ¡ conectado un usuario
+		// verifico si está conectado un usuario
 		if (user == null){
-			throw new DataStoreException("Debe estar conectado como un usuario de la aplicaciÃ³n...");
+			throw new DataStoreException("Debe estar conectado como un usuario de la aplicación...");
 		}
 		
-		// chequeo que el informe estÃ¡ en contexto de informe
+		// chequeo que el informe está en contexto de informe
 		if (getRow() == -1) {
-			throw new DataStoreException("No hay seleccionado ningÃºn parte");
+			throw new DataStoreException("No hay seleccionado ningún parte");
 		}
 		
 		// correspondiente y ejecutarla
@@ -2133,7 +2133,7 @@ public class PartesEqModel extends DataStore {
 
 			estado_actual = getPartesEqEstado();
 
-			// recupero el prÃ³ximo estado y el nombre de la acciÃ³n en funciÃ³n dela acciÃ³n
+			// recupero el próximo estado y el nombre de la acción en función dela acción
 			SQL = "SELECT t.estado_destino,a.nombre,t.validador "
 					+ " FROM infraestructura.transicion_estados t "
 					+ " left join infraestructura.estados e on t.estado_origen = e.estado "
@@ -2150,7 +2150,7 @@ public class PartesEqModel extends DataStore {
 				validador = r.getString(3);
 			}
 
-			// Verifica rutina de validaciÃ³n dinmica
+			// Verifica rutina de validación dinmica
 			try {
 				if (validador != null && validador.length() > 0 && !validador.equalsIgnoreCase("No Validar")){
 					Class claseVal = Class.forName(validador);
@@ -2164,15 +2164,15 @@ public class PartesEqModel extends DataStore {
 					}
 				}
 				else if (validador == null || validador.length() == 0){
-					setMensajeError(nombre_accion + " -- No tiene implementada ValidaciÃ³n. Se requiere especificar ValidaciÃ³n");
+					setMensajeError(nombre_accion + " -- No tiene implementada Validación. Se requiere especificar Validación");
 					ok = false;
 				}
 				else if (validador.equalsIgnoreCase("No Validar")){
-					// La regla NO requiere de validaciÃ³n
+					// La regla NO requiere de validación
 					ok = true;
 				}
 				else {
-					setMensajeError(nombre_accion + " -- SituaciÃ³n no prevista");
+					setMensajeError(nombre_accion + " -- Situación no prevista");
 					ok = false;
 				}
 			} catch (ClassNotFoundException e) {
@@ -2188,8 +2188,8 @@ public class PartesEqModel extends DataStore {
 			
 
 			// si hay cambio de estado al finalizar, independientemente de la
-			// acciÃ³n paso al prÃ³ximo estado  y actualizo
-			// Se inserta tambiÃ©n el registro de auditorÃ­a correspondiente sÃ³lo si cambiÃ³ estado
+			// acción paso al próximo estado  y actualizo
+			// Se inserta también el registro de auditoría correspondiente sólo si cambió estado
 			if (ok && !estado_actual.equalsIgnoreCase(proximo_estado)) {
 				setPartesEqEstado(proximo_estado);
 				

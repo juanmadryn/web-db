@@ -142,7 +142,7 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 		_dsPartes.reset();
 		_dsPartes.retrieve("partes_eq.estado = \"0005.0001\"");
 		
-		// si no recuperÃ¡ ningÃºn parte en estado generado, inserta al menos un registro
+		// si no recuperá ningún parte en estado generado, inserta al menos un registro
 		_dsPartes.waitForRetrieve();
 		if (_dsPartes.getRowCount() == 0){
 			int row = _dsPartes.insertRow();
@@ -191,7 +191,7 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 				
 				_dsPartes.setPartesEqFecha(row, _dsPartes.getPartesEqFecha(rowActual + 1));
 				_dsPartes.setEquiposCodigoInventario(row, _dsPartes.getEquiposCodigoInventario(rowActual + 1));
-				// Copiamos el nÃºmero de legajo solo si este fue especificado				
+				// Copiamos el número de legajo solo si este fue especificado				
 				if (_dsPartes.getChoferesNroLegajo(rowActual + 1) > 0) {
 					_dsPartes.setChoferesNroLegajo(row, _dsPartes.getChoferesNroLegajo(rowActual + 1));
 				}				
@@ -216,7 +216,7 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 		if (e.getComponent() == _nuevoParteNuevoBUT2 || e.getComponent() == _nuevoBUT92) {
 			int rowActual = _dsPartes.getRow();
 			int row = _dsPartes.insertRow(0);
-			// si existe row anterior, sÃ³lo copia valores bÃ¡sicos
+			// si existe row anterior, sólo copia valores básicos
 			if (row > 1) {
 				// valido el parte que estoy copiando
 				_dsPartes.setPartesEqFecha(row, _dsPartes.getPartesEqFecha(rowActual+1));
@@ -236,7 +236,7 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 			// elimina todos los partes seleccionados
 			for (int i = 0; i < _dsPartes.getRowCount(); i++) {
 				if (_dsPartes.getInt(i, SELECCION_PARTE_FLAG) == 1) {
-					// Rol marcado para selecciÃ³n
+					// Rol marcado para selección
 					_dsPartes.deleteRow(i);
 				}
 			}
@@ -273,7 +273,7 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 						_dsPartes.setMensajeError(_dsPartes.getRow(), _dsPartes.getMensajeError(_dsPartes.getRow())
 								+ " - Formato de fecha incorrecto.");
 										
-					displayErrorMessage("Hubo errores procesando partes. CorrÃ­jalos y grabe nuevamente.");					
+					displayErrorMessage("Hubo errores procesando partes. Corríjalos y grabe nuevamente.");					
 					
 					
 					return false;
@@ -287,10 +287,10 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 	public void pageRequested(PageEvent p) throws Exception {
 		int v_parte_id = -1;
 
-		// si la pÃ¡gina es requerida por si misma no hago nada
+		// si la página es requerida por si misma no hago nada
 		if (!isReferredByCurrentPage()) {
 			
-			// verifico si tiene parÃ¡metro
+			// verifico si tiene parámetro
 			v_parte_id = getIntParameter("p_parte_id"); 
 			if (v_parte_id > 0){
 				// Viene seteado el parte. lo recupero sino no se hace nada
@@ -298,7 +298,7 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 				// resetea todos los datasource
 				_dsPartes.reset();
 
-				// recupera toda la informaciÃ³n del parte
+				// recupera toda la información del parte
 				_dsPartes.retrieve("partes_eq.parte_id = " + Integer.toString(v_parte_id));
 				_dsPartes.gotoFirst();
 				_fechaTE3.setFocus(true);

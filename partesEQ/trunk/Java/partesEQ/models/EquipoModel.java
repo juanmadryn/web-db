@@ -490,12 +490,12 @@ public class EquipoModel extends DataStore {
 
 			r.first();
 			if (r.getString("inventariable").equalsIgnoreCase("V")) {
-				// si es inventariable, chequeo q se haya especificado un c贸digo
+				// si es inventariable, chequeo q se haya especificado un c骴igo
 				// de inventario
 				if (this.getEquiposCodigoInventario() == null) {
-					// si no hay c贸digo de inventario mando mensaje a la p谩gina
+					// si no hay c骴igo de inventario mando mensaje a la p醙ina
 					// y freno el update
-					_pagina.displayErrorMessage("Debe especificar un c贸digo de inventario para este tipo de equipo.");
+					_pagina.displayErrorMessage("Debe especificar un c骴igo de inventario para este tipo de equipo.");
 					r.close();
 					st.close();
 					return;
@@ -504,7 +504,7 @@ public class EquipoModel extends DataStore {
 			r.close();
 			st.close();
 
-			// chequeo si el c贸digo de inventario escrito es 煤nico para ese tipo
+			// chequeo si el c骴igo de inventario escrito es 鷑ico para ese tipo
 			// de equipo
 			SQL = 	"select count(*) "
 					+ "  from equipos "
@@ -517,18 +517,18 @@ public class EquipoModel extends DataStore {
 			// si la cuenta da 1, el codigo de inventario ya fue usado
 			r.first();
 			if (r.getInt(1)==1){
-				// mando mensaje a la p谩gina y freno el update
-				_pagina.displayErrorMessage("El c贸digo de inventario especificado ya se ha usado para este tipo de equipo." );
+				// mando mensaje a la p醙ina y freno el update
+				_pagina.displayErrorMessage("El c骴igo de inventario especificado ya se ha usado para este tipo de equipo." );
 				r.close();
 				st.close();
 				return;
 			}
 
 		} catch (SQLException e) {
-			// si surge alg煤n error, escribo mensaje en el log
+			// si surge alg鷑 error, escribo mensaje en el log
 			MessageLog.writeErrorMessage(e, null);
 
-			// adem谩s de escribir en el log mando mensaje a la p谩gina
+			// adem醩 de escribir en el log mando mensaje a la p醙ina
 			_pagina.displayErrorMessage("Error determinando inventariabilidad del tipo de equipo");
 		} finally {
 			if (r != null) {
