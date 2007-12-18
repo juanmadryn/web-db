@@ -61,7 +61,7 @@ public class LkpClientesController extends JspController implements SubmitListen
  */
 public void initialize(){
 	
-	// seteo la condiciÃ³n de sÃ³lo rol de cliente
+	// seteo la condición de sólo rol de cliente
 	_dsCliente.setCriteria("entidad_id in (select entidad_id from infraestructura.roles_entidad where rol = \"CLIE\")");
      addPageListener(this);
 }

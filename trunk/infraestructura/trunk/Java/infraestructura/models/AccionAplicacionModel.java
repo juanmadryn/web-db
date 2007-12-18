@@ -70,9 +70,8 @@ public class AccionAplicacionModel extends DataStore {
 					CIRCUITOS_ESTADOS_NOMBRE);
 
 			// add validations
-			addRequiredRule(ACCIONES_APLICACION_ACCION,"El c贸digo de la acci贸n es obligatorio");
-			addRequiredRule(ACCIONES_APLICACION_NOMBRE,"El nombre de la acci贸n es obligatoria");
-			addRequiredRule(ACCIONES_APLICACION_CIRCUITO,"EL circuito al que pertenece la acci贸n es obligatorio");
+			addRequiredRule(ACCIONES_APLICACION_NOMBRE,"El nombre de la acci髇 es obligatoria");
+			addRequiredRule(ACCIONES_APLICACION_CIRCUITO,"EL circuito al que pertenece la acci髇 es obligatorio");
 			addExpressionRule(ACCIONES_APLICACION_NOMBRE, new ConvierteMayusculasValidation(ACCIONES_APLICACION_NOMBRE), "", false);
 
 			// add joins
@@ -81,7 +80,7 @@ public class AccionAplicacionModel extends DataStore {
 			// $CUSTOMCONSTRUCTOR$
 			// Put custom constructor code between these comments, otherwise it
 			// be overwritten if the model is regenerated
-
+			setAutoIncrement(ACCIONES_APLICACION_ACCION, true);
 			// $ENDCUSTOMCONSTRUCTOR$
 
 		} catch (DataStoreException e) {

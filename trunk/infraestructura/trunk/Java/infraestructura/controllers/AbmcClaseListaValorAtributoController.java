@@ -159,7 +159,7 @@ public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// Recorro todos los registros y para aquelos marcados les doy la baja
 		for (int i = 0; i < _dsLOV.getRowCount(); i++) {
 			if (_dsLOV.getInt(i, SELECCION_FLAG) == 1) {
-				// Rol marcado para selecciÃ³n
+				// Rol marcado para selección
 				_dsLOV.deleteRow(i);
 				try {
 					_dsLOV.update();
@@ -205,7 +205,7 @@ public void pageSubmitEnd(PageEvent p) {
 						// Ya existe detalle de atributos?
 						if (_dsLOV.getRowCount() > 0) {
 							// es el mismo contexto? --> recupero el rol del
-							// detalle para verificaciÃ³n, siempre del primer
+							// detalle para verificación, siempre del primer
 							// registro
 							valor_clase = _dsLOV.getListaValoresAtributoClaseLovAtributoId(0);
 							if (valor_clase == -1)

@@ -61,7 +61,7 @@ public class LkpProveedoresController extends JspController implements SubmitLis
  */
 public void initialize(){
 	
-	// seteo la condiciÃ³n de sÃ³lo rol de cliente
+	// seteo la condición de sólo rol de cliente
 	_dsProveedores.setCriteria("entidad_id in (select entidad_id from infraestructura.roles_entidad where rol = \"PROV\")");
      addPageListener(this);
 }

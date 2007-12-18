@@ -647,7 +647,6 @@ public class AbmcEntidadExternaController extends BaseController {
 						actualizar = true;
 					}
 
-					System.out.println("entidad "+entidad_id_roles+" "+entidad_id +" cuenta " + actualizar+" "+_dsAtributos.getRowCount());
 					// Ya existe detalle de atributos?
 					if (_dsAtributos.getRowCount() > 0) {
 						// es el mismo contexto? --> recupero la entidad del
@@ -797,8 +796,7 @@ public class AbmcEntidadExternaController extends BaseController {
 			break;
 		case 2:
 			_dsAtributos.recuperaAtributosEtiquetaEntidad(_atributoEtiquetaBUT2
-					.getDisplayName(), p_entidad_id);
-			System.out.println("boton "+_atributoEtiquetaBUT2.getDisplayName()+ "entidad "+p_entidad_id);
+					.getDisplayName(), p_entidad_id);			
 			break;
 		case 3:
 			_dsAtributos.recuperaAtributosEtiquetaEntidad(_atributoEtiquetaBUT3
