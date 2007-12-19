@@ -692,7 +692,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 			removeSessionsForIp();
 
-			/* limpia el usuario seteado */
+			// removes the user
 			users.remove(getCurrentRequest().getRemoteAddr());
 
 			gotoSiteMapPage(SiteMapConstants.HOME_PAGE);
@@ -716,7 +716,7 @@ public class BaseController extends JspController implements SubmitListener,
 	}
 
 	private void removeSessionsForIp() {
-		// Remove the WebSiteUser and clear all pages from all sessions of applications that were initialized
+		// Removes the WebSiteUser and clear all pages from all sessions of applications that were initialized
 		Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
 				.get(getCurrentRequest().getRemoteAddr());
 		
@@ -784,13 +784,18 @@ public class BaseController extends JspController implements SubmitListener,
 			_redirected = false;
 			
 			if (_checkPageExpired) {
-				Long time = System.currentTimeMillis();				
+				// Get the now time
+				Long time = System.currentTimeMillis();
+				// Get the timer from .properties to check if page expired
 				Props props = getPageProperties();
 				int i = Integer.parseInt(props.getThemeProperty(null, "SegundosTimer"));
 								
+				// compares the elapsed time since page was requested with the timer
 				if (((time-timeStart.get(ip))/1000) > i) {
+					
 					_redirected = true;
 					
+					// remove sessions and users
 					removeSessionsForIp();
 					users.remove(ip);
 					gotoSiteMapPage(SiteMapConstants.SESSION_EXPIRED);
@@ -971,23 +976,25 @@ public class BaseController extends JspController implements SubmitListener,
 		return URL;
 	}
 
+	/**
+	 * Checks if there are an conected user.
+	 * @return	the user conected or null if there isn't
+	 */
 	public WebSiteUser checkUser() {
 		WebSiteUser user = getSessionManager().getWebSiteUser();
 		String ip = this.getCurrentRequest().getRemoteAddr();
 		WebSiteUser storedUser = users.get(ip);
-		/*
-		 * Si el user es null intenta, por cambio de aplicación si ya lo tiene
-		 * seteado
-		 */
 
+		// If user is null, check if there are a stored user into users' hashtable.
 		if (user == null) {
-			/* Setea el usuario y la sessión */
+			// If user is in users' hashtable, set it as actual user
 			if (storedUser != null) {
 				user = storedUser;
 			}
+		// If user isn't null put it in users hashtable	
 		} else if (storedUser == null)
-			/* lo seta ya que nunca fue seteado */
 			users.put(ip, user);
+		// save user in the session
 		getSessionManager().setWebSiteUser(user);
 		return user;
 	}
