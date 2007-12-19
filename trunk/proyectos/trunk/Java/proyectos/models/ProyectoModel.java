@@ -1,6 +1,8 @@
 package proyectos.models;
 
+import infraestructura.models.AplicaCircuitoModel;
 import infraestructura.models.BaseModel;
+import infraestructura.models.TransicionEstadoModel;
 import infraestructura.reglasNegocio.ClaveUnicaValidation;
 import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
 
@@ -30,7 +32,7 @@ public class ProyectoModel extends BaseModel {
 	}
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = -2122265661780466721L;
 
@@ -69,7 +71,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Create a new ProyectoModel object.
-	 *
+	 * 
 	 * @param appName
 	 *            The SOFIA application name
 	 */
@@ -79,7 +81,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Create a new ProyectoModel object.
-	 *
+	 * 
 	 * @param appName
 	 *            The SOFIA application name
 	 * @param profile
@@ -137,11 +139,9 @@ public class ProyectoModel extends BaseModel {
 			// add joins
 
 			addJoin(computeTableAndFieldName("proyectos.estado"),
-					computeTableAndFieldName("estados.estado"),
-					true);
+					computeTableAndFieldName("estados.estado"), true);
 
-			addJoin(
-					computeTableAndFieldName("proyectos.entidad_id"),
+			addJoin(computeTableAndFieldName("proyectos.entidad_id"),
 					computeTableAndFieldName("entidad_externa.entidad_id"),
 					true);
 
@@ -161,13 +161,16 @@ public class ProyectoModel extends BaseModel {
 					PROYECTOS_ESTADO,
 					"infraestructura.estados",
 					"'infraestructura.estados.estado = \"' + proyectos.estado + '\"' ",
-					"nombre", computeTableAndFieldName("estados.nombre"), "Estado inexistente");
+					"nombre", computeTableAndFieldName("estados.nombre"),
+					"Estado inexistente");
 
 			addLookupRule(
 					PROYECTOS_ENTIDAD_ID,
 					"infraestructura.entidad_externa",
 					"'infraestructura.entidad_externa.entidad_id = ' + proyectos.entidad_id",
-					"nombre", computeTableAndFieldName("entidad_externa.nombre"), "Cliente inexistente");
+					"nombre",
+					computeTableAndFieldName("entidad_externa.nombre"),
+					"Cliente inexistente");
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -197,7 +200,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.proyecto_id column for the current
 	 * row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -208,7 +211,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.proyecto_id column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -220,7 +223,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.proyecto_id column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -231,7 +234,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.proyecto_id column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -245,7 +248,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the proyectos.proyecto column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -256,7 +259,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.proyecto column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -268,7 +271,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.proyecto column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -279,7 +282,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.proyecto column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -293,7 +296,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the proyectos.nombre column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -303,7 +306,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the proyectos.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -315,7 +318,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -326,7 +329,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -341,7 +344,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.descripcion column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -352,7 +355,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.descripcion column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -364,7 +367,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.descripcion column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -376,7 +379,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.descripcion column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -391,7 +394,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.observaciones column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -402,7 +405,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.observaciones column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -414,7 +417,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.observaciones column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -427,7 +430,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Set the value of the proyectos.observaciones column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -441,7 +444,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the proyectos.estado column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -451,7 +454,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the proyectos.estado column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -463,7 +466,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.estado column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -474,7 +477,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.estado column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -488,7 +491,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the proyectos.plantilla column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -499,7 +502,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.plantilla column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -511,7 +514,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.plantilla column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -523,7 +526,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.plantilla column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -538,7 +541,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.entidad_id column for the current
 	 * row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -549,7 +552,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.entidad_id column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -561,7 +564,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.entidad_id column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -572,7 +575,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.entidad_id column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -587,7 +590,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.vigencia_desde column for the current
 	 * row.
-	 *
+	 * 
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -598,7 +601,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.vigencia_desde column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return java.sql.Date
@@ -611,7 +614,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.vigencia_desde column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -624,7 +627,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Set the value of the proyectos.vigencia_desde column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -639,7 +642,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.vigencia_hasta column for the current
 	 * row.
-	 *
+	 * 
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -650,7 +653,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the proyectos.vigencia_hasta column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return java.sql.Date
@@ -663,7 +666,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the proyectos.vigencia_hasta column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -676,7 +679,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Set the value of the proyectos.vigencia_hasta column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -690,7 +693,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the estados.nombre column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -700,7 +703,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the estados.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -712,7 +715,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the estados.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -723,7 +726,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the estados.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -738,7 +741,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the entidad_externa.codigo column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -749,7 +752,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the entidad_externa.codigo column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -761,7 +764,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the entidad_externa.codigo column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -773,7 +776,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the entidad_externa.codigo column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -788,7 +791,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the entidad_externa.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -799,7 +802,7 @@ public class ProyectoModel extends BaseModel {
 	/**
 	 * Retrieve the value of the entidad_externa.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -811,7 +814,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the entidad_externa.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -823,7 +826,7 @@ public class ProyectoModel extends BaseModel {
 
 	/**
 	 * Set the value of the entidad_externa.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -845,47 +848,53 @@ public class ProyectoModel extends BaseModel {
 		ResultSet r = null;
 		String columna = null;
 		String circuito = null;
-		String SQL = null;
+		StringBuilder criteria = new StringBuilder();
 		String estado_inicial = null;
 
 		try {
 			conexion = DBConnection.getConnection(getAppName(),
 					"infraestructura");
 
+			AplicaCircuitoModel dsAplicaCircuito = new AplicaCircuitoModel(
+					getAppName(), "infraestructura");
 			// primero busco el circuito y la columna asociada a los proyectos
-			SQL = "select nombre_detalle, circuito "
-					+ "  from aplica_circuito "
-					+ " where tipo_objeto = \"TABLA\" "
-					+ "  and nombre_objeto = \"proyectos\" "
-					+ "  and tipo_detalle = \"COLUMNA\" ";
-			st = conexion.createStatement();
-			r = st.executeQuery(SQL);
 
-			if (r.first()) {
-				columna = r.getString("nombre_detalle");
-				circuito = r.getString("circuito");
+			dsAplicaCircuito
+					.retrieve("tipo_objeto = 'TABLA' and nombre_objeto = 'proyectos'  and tipo_detalle = 'COLUMNA' ");
+
+			if (dsAplicaCircuito.gotoFirst()) {
+				columna = dsAplicaCircuito.getAplicaCircuitoNombreDetalle();
+				circuito = dsAplicaCircuito.getAplicaCircuitoCircuito();
 			}
-			r.close();
-			st.close();
 
 			// ahora busco el primer estado posible según la máquina de estados
-			SQL = "select estado_origen "
-					+ " from transicion_estados "
-					+ "where estado_origen in (select estado from estados where circuito = \""
-					+ circuito
-					+ "\") "
-					+ "  and estado_origen not in (select estado_destino from transicion_estados)";
-			st = conexion.createStatement();
-			r = st.executeQuery(SQL);
+			TransicionEstadoModel dsTransicionEstados = new TransicionEstadoModel(
+					getAppName(), "infraestructura");
 
-			if (r.first()) {
-				estado_inicial = r.getString("estado_origen");
+			criteria
+					.append(
+							"estado_origen in (select estado from estados where circuito = '")
+					.append(circuito)
+					.append(
+							"')  and estado_origen not in (select estado_destino from transicion_estados)");
+			dsTransicionEstados.retrieve(criteria.toString());
+
+			if (dsTransicionEstados.gotoFirst()) {
+				estado_inicial = dsTransicionEstados
+						.getTransicionEstadosEstadoOrigen();
 			}
-
+		} catch (DataStoreException e) {
+			MessageLog.writeErrorMessage(e, null);
+			// además de escribir en el log mando mensaje a la página
+			throw new DataStoreException(
+					"Error determinando circuito y estado inicial para los proyectos",
+					e);
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
 			// además de escribir en el log mando mensaje a la página
-			throw new DataStoreException("Error determinando circuito y estado inicial para los proyectos",e);
+			throw new DataStoreException(
+					"Error determinando circuito y estado inicial para los proyectos",
+					e);
 		} finally {
 			if (r != null) {
 				try {
@@ -906,14 +915,8 @@ public class ProyectoModel extends BaseModel {
 		}
 
 		for (int i = 0; i < getRowCount(); i++) {
-			// actualiza los datos automáticos en caso de insertar
-			if (getRowStatus(i) == STATUS_NEW_MODIFIED) {
-				// require completar el estado. Para ello busco circuito
-				// asociado para conocer el estado inicial
-
-				if (estado_inicial != null) {
-					setString("proyectos." + columna, estado_inicial);
-				}
+			if (getProyectosEstado(i) == null) {
+				setProyectosEstado("0001.0001");
 			}
 		}
 
@@ -921,7 +924,7 @@ public class ProyectoModel extends BaseModel {
 	}
 
 	@Override
-	public String getEstadoActual() throws DataStoreException{
+	public String getEstadoActual() throws DataStoreException {
 		// TODO Auto-generated method stub
 		return getProyectosEstado();
 	}
