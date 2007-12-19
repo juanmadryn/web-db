@@ -49,11 +49,14 @@ public class ClaveUnicaValidation implements DataStoreExpression,Serializable {
 		Statement st = null;
 		ResultSet r = null;
 
+		
 		String columna = dsBuf.getString(row, _colName);
 		
-		if (_convierteMayuscula)
-			columna = columna.toUpperCase();
+		if (columna == null)
+			return true;
 		
+		if (_convierteMayuscula)
+			columna = columna.toUpperCase();		
 		try {
 			conexion = DBConnection.getConnection(_appName,_connectName);
 
