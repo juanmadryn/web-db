@@ -524,7 +524,7 @@ public class AdmProyectoController extends BaseController implements
 		_seleccionTarea.setFalseValue(null);
 
 		// seteo la validación para los datasource
-		// _dsProyecto.setAutoValidate(true);
+		_dsProyecto.setAutoValidate(true);
 		// _dsAtributos.setAutoValidate(true);
 		// _dsActividadesProyecto.setAutoValidate(true);
 		_dsTareasProyecto.setAutoValidate(true);
@@ -800,6 +800,8 @@ public class AdmProyectoController extends BaseController implements
 				int v_objeto_id = 0;
 				try {
 					// grabo todos los datasource
+					if (_dsProyecto.getRow() == -1)
+						return false;
 					_dsProyecto.update();
 					// me aseguro que cada proyecto tenga por lo menos una tarea
 					// asociada, con el mismo nombre del proyecto
