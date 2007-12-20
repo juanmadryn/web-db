@@ -157,7 +157,7 @@ public boolean submitPerformed(SubmitEvent event) throws DataStoreException {
 			String apellido = null;
 			String cuil = null;
 
-			// realiza una b√∫squeda custom de los legajos
+			// realiza una b˙squeda custom de los legajos
 			try {
 				// Se carga el driver
 				Class.forName(driverTango);
@@ -169,13 +169,13 @@ public boolean submitPerformed(SubmitEvent event) throws DataStoreException {
 			}
 
 			try {
-				// Se establece la conexi√≥n con la base de datos
+				// Se establece la conexiÛn con la base de datos
 				connTango = DriverManager.getConnection(urlTango, userTango,
 						passWordTango);
 			} catch (Exception e) {
 				MessageLog.writeErrorMessage(e, null);
 				throw new DataStoreException(
-						"imposible establecer conexi√≥n con la base tango: "
+						"imposible establecer conexiÛn con la base tango: "
 								+ e.getMessage());
 			}
 
@@ -220,7 +220,7 @@ public boolean submitPerformed(SubmitEvent event) throws DataStoreException {
 
 			} catch (SQLException e) {
 				MessageLog.writeErrorMessage(e, null);
-				// adem√°s de escribir en el log mando mensaje a la p√°gina
+				// adem·s de escribir en el log mando mensaje a la p·gina
 				throw new DataStoreException(
 						"Error determinando legajo en tango: " + e.getMessage()
 								+ " Debug: " + debug);
