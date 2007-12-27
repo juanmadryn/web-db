@@ -33,6 +33,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 	//Visual Components
       public com.salmonllc.html.HtmlDropDownList _categoriaTE2;
       public com.salmonllc.html.HtmlDropDownList _proyectoTE3;
+      public com.salmonllc.html.HtmlLookUpComponent _tareasProyectoLU1;
       public com.salmonllc.html.HtmlDropDownList _sectorTE7;
       public com.salmonllc.html.HtmlDropDownList _supervisorTE8;
       public com.salmonllc.html.HtmlLookUpComponent _legajoTE1;
@@ -48,6 +49,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
       public com.salmonllc.html.HtmlText _mensajesCAP10;
       public com.salmonllc.html.HtmlText _mensajesTE19;
       public com.salmonllc.html.HtmlText _proyectoCAP4;
+      public com.salmonllc.html.HtmlText _tareaCAP11;
       public com.salmonllc.html.HtmlText _sectorCAP7;
       public com.salmonllc.html.HtmlText _supervisorCAP8;
       public com.salmonllc.html.HtmlTextEdit _fechaTE3;
@@ -63,9 +65,13 @@ public class CargarPartesPlanoController extends BaseController implements Value
   	  public com.salmonllc.html.HtmlSubmitButton _grabarParteBUT3;
   	  public com.salmonllc.html.HtmlSubmitButton _eliminaParteBUT4;
   	  public com.salmonllc.html.HtmlSubmitButton _refrescarBUT5;
+  	  public com.salmonllc.jsp.JspTableCell _proyectoTableTD;
+	  public com.salmonllc.jsp.JspTableCell _proyectoHeaderTD;
+  	  public com.salmonllc.jsp.JspTableCell _tareaProyectoTableTD;
+  	  public com.salmonllc.jsp.JspTableCell _tareaProyectoHeaderTD;
 
 //DataSources
-      public partesMO.models.PartesMoModel _dsPartes;
+      public partesMO.models.PartesMoModel _dsPartes;      
 
 //DataSource Column Constants
        public static final String DSPARTES_PARTES_MO_PARTE_ID="partes_mo.parte_id";
@@ -104,7 +110,7 @@ public class CargarPartesPlanoController extends BaseController implements Value
 	 */
 	public void initialize() throws Exception {
 		super.initialize();
-		
+	
 		// genera botones custom
 		_grabarParteBUT3 = new HtmlSubmitButton("grabarParteBUT3","Grabar",this);
 		_grabarParteBUT3.setAccessKey("G");
@@ -144,6 +150,16 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		_fechaTE3.addValueChangedListener(this);
 
 		_dsPartes.setAutoValidate(true);
+		
+		// hide tarea lookup if disabled in properties file
+		if("false".equalsIgnoreCase(Props.getProps("partesmo",null).getProperty("ShowTareaLookup"))) {
+			_tareaProyectoTableTD.setEnabled(false);
+			_tareaProyectoTableTD.setVisible(false);
+			_tareaProyectoHeaderTD.setEnabled(false);
+			_tareaProyectoHeaderTD.setVisible(false);
+			_proyectoHeaderTD.setColSpan(2);
+			_proyectoTableTD.setColSpan(2);
+		}
 		
 		//refresca la pantalla de partes
 		refrescaPartes();

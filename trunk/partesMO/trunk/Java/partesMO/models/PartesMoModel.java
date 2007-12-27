@@ -1,5 +1,8 @@
 package partesMO.models;
 
+import infraestructura.models.BaseModel;
+import infraestructura.models.feriadosModel;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -7,15 +10,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
-import infraestructura.controllers.WebSiteUser;
-import infraestructura.models.BaseModel;
-import infraestructura.models.feriadosModel;
-import infraestructura.reglasNegocio.ValidadorReglasNegocio;
+import proyectos.models.TareasProyectoModel;
 
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
@@ -62,6 +60,8 @@ public class PartesMoModel extends BaseModel {
      public static final String LOTE_CARGA_PARTES_MO_FECHA_CIERRE="lote_carga_partes_mo.fecha_cierre";
      public static final String PROYECTOS_PROYECTO="proyectos.proyecto";
      public static final String PROYECTOS_NOMBRE="proyectos.nombre";
+     public static final String TAREAS_PROYECTO_NOMBRE="tareas_proyecto.nombre";
+     public static final String TAREAS_PROYECTOS_DESCRIPCION="tareas_proyecto.descripcion";
 
      //constants for buckets
      public static final String MENSAJE_ERROR="mensaje_error";
@@ -116,6 +116,7 @@ public class PartesMoModel extends BaseModel {
                addTableAlias(computeTableName("supervisores"),"supervisores");
                addTableAlias(computeTableName("infraestructura.estados"),"estados");
                addTableAlias(computeTableName("proyectos.proyectos"),"proyectos");
+               addTableAlias(computeTableName("proyectos.tareas_proyecto"),"tareas");
 
                //add columns
                addColumn(computeTableName("partes_mo"),"parte_id",DataStore.DATATYPE_INT,true,true,PARTES_MO_PARTE_ID);
@@ -142,6 +143,8 @@ public class PartesMoModel extends BaseModel {
                addColumn(computeTableName("lote_carga_partes_mo"),"fecha_cierre",DataStore.DATATYPE_DATE,false,false,LOTE_CARGA_PARTES_MO_FECHA_CIERRE);
                addColumn(computeTableName("proyectos.proyectos"),"proyecto",DataStore.DATATYPE_STRING,false,false,PROYECTOS_PROYECTO);
                addColumn(computeTableName("proyectos.proyectos"),"nombre",DataStore.DATATYPE_STRING,false,false,PROYECTOS_NOMBRE);
+               addColumn(computeTableName("tareas"),"nombre",DataStore.DATATYPE_STRING,false,false,TAREAS_PROYECTO_NOMBRE);
+               addColumn(computeTableName("tareas"),"descripcion",DataStore.DATATYPE_STRING,false,false,TAREAS_PROYECTOS_DESCRIPCION);
 
                //add buckets
                addBucket(MENSAJE_ERROR,DataStore.DATATYPE_STRING);
@@ -152,21 +155,36 @@ public class PartesMoModel extends BaseModel {
                addJoin(computeTableAndFieldName("partes_mo.sector_id"),computeTableAndFieldName("sector_trabajo.sector_id"),true);
                addJoin(computeTableAndFieldName("partes_mo.estado"),computeTableAndFieldName("estados.estado"),true);
                addJoin(computeTableAndFieldName("partes_mo.proyecto_id"),computeTableAndFieldName("proyectos.proyecto_id"),true);
+               addJoin(computeTableAndFieldName("partes_mo.tarea_id"),computeTableAndFieldName("tareas.tarea_id"),true);
 
                //add validations
                addRequiredRule(PARTES_MO_FECHA,"La fecha del partes es obligatoria");
                addRequiredRule(PARTES_MO_HORA_DESDE,"Hora desde es obligatoria para el parte");
                addRequiredRule(PARTES_MO_HORA_HASTA,"Hora hasta es obligatoria para el parte");
                addRequiredRule(PARTES_MO_HORAS,"La cantidad de horas trabajadas es obligatoria para el parte");
-               addLookupRule(PARTES_MO_LOTE_ID,"lote_carga_partes_mo","'lote_carga_partes_mo.lote_id = ' + partes_mo.lote_id","estado","lote_carga_partes_mo.estado","Lote inexistente");
-               addLookupRule(PARTES_MO_SUPERVISOR,"supervisores","'supervisores.nro_legajo = ' + partes_mo.supervisor","apeynom","sector_trabajo.nombre","Supervisor inexistente");
-               addLookupRule(PARTES_MO_SECTOR_ID,"sector_trabajo","'sector_trabajo.sector_id = ' + partes_mo.sector_id","nombre","sector_trabajo.nombre","Sector inexistente");
                addRequiredRule(PARTES_MO_PROYECTO_ID,"El proyecto (OT) es obligatorio en el parte");
+               addRequiredRule(PARTES_MO_TAREA_ID,"La tarea es obligatoria en el parte");
                addRequiredRule(PARTES_MO_PERSONAL_ID,"Se debe indicar un legajo para el parte");
                addRequiredRule(PARTES_MO_NRO_LEGAJO,"Se debe indicar un legajo para el parte");
                addRequiredRule(PARTES_MO_APEYNOM,"Se debe indicar un legajo para el parte");
                addRequiredRule(PARTES_MO_ESTADO,"Se debe indicar un estado para el parte");
-               addLookupRule(PARTES_MO_ESTADO,"infraestructura.estados","'infraestructura.estados.estado = \"' + partes_mo.estado + '\"' ","nombre","estados.nombre","Estado inexistente");
+
+               //add lookups
+               addLookupRule(PARTES_MO_LOTE_ID, "lote_carga_partes_mo",
+					"'lote_carga_partes_mo.lote_id = ' + partes_mo.lote_id",
+					"estado", "lote_carga_partes_mo.estado", "Lote inexistente");
+               addLookupRule(PARTES_MO_SUPERVISOR, "supervisores",
+					"'supervisores.nro_legajo = ' + partes_mo.supervisor",
+					"apeynom", "sector_trabajo.nombre",
+					"Supervisor inexistente");
+               addLookupRule(PARTES_MO_SECTOR_ID, "sector_trabajo",
+					"'sector_trabajo.sector_id = ' + partes_mo.sector_id",
+					"nombre", "sector_trabajo.nombre", "Sector inexistente");
+               addLookupRule(
+					PARTES_MO_ESTADO,
+					"infraestructura.estados",
+					"'infraestructura.estados.estado = \"' + partes_mo.estado + '\"' ",
+					"nombre", "estados.nombre", "Estado inexistente");
                
                // order by
                setOrderBy(PARTES_MO_PARTE_ID + " desc");
@@ -1134,6 +1152,86 @@ public class PartesMoModel extends BaseModel {
           setString(row,MENSAJE_ERROR, newValue);
      }
      
+     // ---
+     
+     /**
+      * Retrieve the value of the tareas_proyecto.nombre column for the current row.
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public String getTareasProyectoNombre() throws DataStoreException {
+          return  getString(TAREAS_PROYECTO_NOMBRE);
+     }
+
+     /**
+      * Retrieve the value of the tareas_proyecto.nombre column for the specified row.
+      * @param row which row in the table
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public String getTareasProyectoNombre(int row) throws DataStoreException {
+          return  getString(row,TAREAS_PROYECTO_NOMBRE);
+     }
+
+     /**
+      * Set the value of the tareas_proyecto.nombre column for the current row.
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setTareasProyectoNombre(String newValue) throws DataStoreException {
+          setString(TAREAS_PROYECTO_NOMBRE, newValue);
+     }
+
+     /**
+      * Set the value of the tareas_proyecto.nombre column for the specified row.
+      * @param row which row in the table
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setTareasProyectoNombre(int row,String newValue) throws DataStoreException {
+          setString(row,TAREAS_PROYECTO_NOMBRE, newValue);
+     }
+     
+     // --
+     
+     /**
+      * Retrieve the value of the tareas_proyecto.descripcion column for the current row.
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public String getTareasProyectoDescripcion() throws DataStoreException {
+          return  getString(TAREAS_PROYECTOS_DESCRIPCION);
+     }
+
+     /**
+      * Retrieve the value of the tareas_proyecto.descripcion column for the specified row.
+      * @param row which row in the table
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public String getTareasProyectoDescripcion(int row) throws DataStoreException {
+          return  getString(row,TAREAS_PROYECTOS_DESCRIPCION);
+     }
+
+     /**
+      * Set the value of the tareas_proyecto.descripcion column for the current row.
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setTareasProyectoDescripcion(String newValue) throws DataStoreException {
+          setString(TAREAS_PROYECTOS_DESCRIPCION, newValue);
+     }
+
+     /**
+      * Set the value of the tareas_proyecto.descripcion column for the specified row.
+      * @param row which row in the table
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setTareasProyectoDescripcion(int row,String newValue) throws DataStoreException {
+          setString(row,TAREAS_PROYECTOS_DESCRIPCION, newValue);
+     }
+     
     // $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
@@ -1230,7 +1328,6 @@ public class PartesMoModel extends BaseModel {
 		// todo ok regreso la hora
 		return tmpMinutos;
 	}
-	//$ENDCUSTOMMETHODS$
 	
 	public boolean validaParte(int row){
 		
@@ -1298,7 +1395,7 @@ public class PartesMoModel extends BaseModel {
 			_passWordTango = _p.getProperty("passWordTango", "tango");
 			
 			try {
-			    // Se carga el driver JTDS --JDBC-ODBC
+			    // Se carga el driver JTDS (JDBC-ODBC si no es encontrado)
 				Class.forName( _driverTango );
 			} catch (ClassNotFoundException e) {
 				MessageLog.writeErrorMessage(e, null);
@@ -1371,22 +1468,21 @@ public class PartesMoModel extends BaseModel {
 
 				if (conexion != null)
 					conexion.freeConnection();
-			}
-			
+			}			
+ 			
 			// setea las columnas
 			if (proyecto_id != -1) {  
 				// controlamos la fecha de vigencia del proyecto
 				int f = verificaFechaPeriodo(getPartesMoFecha(row), vigenciaDesde, vigenciaHasta);
-				if(f == 0) {				
+				if (f == 0) {				
 					setPartesMoProyectoId(row, proyecto_id);
-					setPartesMoProyectoNombre(row, nombre);		
-					setPartesMoTareaId(row, proyecto_id);	// tarea_id == proyecto_id				
+					setPartesMoProyectoNombre(row, nombre);
 				}
-				else if(f < 0) {
+				else if (f < 0) {
 					setMensajeError(row,"Fecha de parte anterior a comienzo del proyecto.");
 					proyecto_id = -1;
 				} 
-				else if(f > 0) {
+				else if (f > 0) {
 					setMensajeError(row,"Fecha de parte posterior a finalización del proyecto.");
 					proyecto_id = -1;
 				}
@@ -1400,6 +1496,49 @@ public class PartesMoModel extends BaseModel {
 		}
 
 		return proyecto_id;
+	}
+	
+	/**
+	 * @param row
+	 * @return
+	 * @throws DataStoreException
+	 */
+	public int getDatosTarea(int row) throws DataStoreException {		
+		TareasProyectoModel dsTareasProyecto = new TareasProyectoModel(getAppName(),"proyectos");
+		int proyectoId = getPartesMoProyectoId(row);
+		int tareaId = -1;
+		String tareaProyectoNombre = getTareasProyectoNombre(row);
+		StringBuilder whereClause = new StringBuilder(50);
+		
+		try {
+			// check if a task was specified
+			if ((tareaProyectoNombre != null) && (tareaProyectoNombre.trim().length() > 0)) {
+				whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_NOMBRE + " = '" + tareaProyectoNombre + "' and ");				
+			}			
+			whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_PROYECTO_ID + " = " + proyectoId);
+			// the first task added to the project on top
+			dsTareasProyecto.setOrderBy(TareasProyectoModel.TAREAS_PROYECTO_TAREA_ID + " asc");
+			
+			dsTareasProyecto.retrieve(whereClause.toString());
+			dsTareasProyecto.gotoFirst();
+			tareaId = dsTareasProyecto.getRow();
+			
+			if (tareaId != -1) {
+				setPartesMoTareaId(row, dsTareasProyecto.getTareasProyectoTareaId());
+				setTareasProyectoNombre(row, dsTareasProyecto.getTareasProyectoNombre());
+				setTareasProyectoDescripcion(row, dsTareasProyecto.getTareasProyectoDescripcion());
+			} else {
+				if (getMensajeError(row) == null)
+					setMensajeError(row, "Tarea inexistente");
+				else
+					setMensajeError(row, getMensajeError(row) + " - Tarea inexistente");
+			}
+			
+			return tareaId;
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
+			throw new DataStoreException("Error determinando proyecto: " + e.getMessage(), e);
+		}		
 	}
 
 	/**
@@ -2157,6 +2296,7 @@ public class PartesMoModel extends BaseModel {
 		boolean hubo_errores_legajo = false;
 		boolean hubo_errores_horario = false;
 		boolean hubo_errores_proyecto = false;
+		boolean hubo_errores_tarea = false;
 		boolean hubo_errores_lote = false;
 		boolean hubo_errores_dup = false;
 
@@ -2166,6 +2306,7 @@ public class PartesMoModel extends BaseModel {
 		hubo_errores_legajo = controlaLegajoTango(row);
 		getCategoriaLegajo(row);
 		hubo_errores_proyecto = (getDatosProyecto(row) == -1);
+		hubo_errores_tarea = (getDatosTarea(row) == -1);
 		hubo_errores_lote = (getLote(row) == -1);
 		hubo_errores_horario = controlaHorario(row);
 		hubo_errores_dup = parteDuplicado(row);
@@ -2173,6 +2314,7 @@ public class PartesMoModel extends BaseModel {
 		if (hubo_errores_legajo 
 				|| hubo_errores_horario 
 				|| hubo_errores_proyecto 
+				|| hubo_errores_tarea
 				|| hubo_errores_lote
 				|| hubo_errores_dup) 
 		{
@@ -2185,6 +2327,7 @@ public class PartesMoModel extends BaseModel {
 		boolean hubo_errores_legajo = false;
 		boolean hubo_errores_horario = false;
 		boolean hubo_errores_proyecto = false;
+		boolean hubo_errores_tarea = false;
 		boolean hubo_errores_lote = false;
 		boolean hubo_errores_dup = false;
 		boolean hubo_errores_supervisor = false;
@@ -2209,16 +2352,18 @@ public class PartesMoModel extends BaseModel {
 				// limpio mensajes de error que pueden haber quedado
 				setMensajeError(i, "");
 
-				if (hubo_errores_legajo || hubo_errores_horario || hubo_errores_proyecto) {
+				if (hubo_errores_legajo || hubo_errores_horario || hubo_errores_proyecto || hubo_errores_tarea) {
 					controlaLegajoTango(i);
 					getCategoriaLegajo(i);
 					getDatosProyecto(i);
+					getDatosTarea(i);
 					controlaHorario(i);					
 					parteDuplicado(i);
 				} else {
 					hubo_errores_legajo = controlaLegajoTango(i);
 					getCategoriaLegajo(i);
 					hubo_errores_proyecto = (getDatosProyecto(i) == -1);
+					hubo_errores_tarea = (getDatosTarea(i) == -1);
 					hubo_errores_lote = (getLote(i) == -1);
 					hubo_errores_horario = controlaHorario(i);
 					hubo_errores_supervisor = controlaSupervisor(i);
@@ -2231,6 +2376,7 @@ public class PartesMoModel extends BaseModel {
 		if (hubo_errores_legajo 
 				|| hubo_errores_horario 
 				|| hubo_errores_proyecto 
+				|| hubo_errores_tarea
 				|| hubo_errores_lote
 				|| hubo_errores_supervisor
 				|| hubo_errores_dup) 
@@ -2730,7 +2876,8 @@ public class PartesMoModel extends BaseModel {
     		if (r != null) {
     			try {
     				r.close();
-    			} catch (Exception ex) {
+    			} catch (Exception e) {
+    				e.printStackTrace();
     			}
     		}
     		if (st != null)
@@ -3152,4 +3299,6 @@ public class PartesMoModel extends BaseModel {
 	public int getIdRegistro() throws DataStoreException {
 		return getPartesMoParteId();
 	}
+	
+	//$ENDCUSTOMMETHODS$
 }

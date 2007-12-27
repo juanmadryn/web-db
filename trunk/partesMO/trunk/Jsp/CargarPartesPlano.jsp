@@ -32,8 +32,12 @@
                      <salmon:text name="legajoCAP1" text="Legajo"
                         font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td>
+                  <salmon:td name="proyectoHeaderTD">
                      <salmon:text name="proyectoCAP4" text="Proyecto"
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td name="tareaProyectoHeaderTD">
+                     <salmon:text name="tareaCAP11" text="Tarea"
                         font="TableHeadingFont" />
                   </salmon:td>
                   <salmon:td>
@@ -59,7 +63,7 @@
                      <salmon:text name="sectorCAP7" text="Sector"
                         font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td>
+                  <salmon:td colspan="2">
                      <salmon:text name="supervisorCAP8"
                         text="Supervisor" font="TableHeadingFont" />
                   </salmon:td>
@@ -99,13 +103,23 @@
                         text="apeynom goes here" font="DefaultFont"
                         datasource="dsPartes:partes_mo.apeynom" />
                   </salmon:td>
-                  <salmon:td width="250">
+                  <salmon:td name="proyectoTableTD">
                      <salmon:lookup
                         browseimage="%ImageDirectory/Browse.gif"
                         lookupurl="%LkpProyectos" name="proyectoTE3"
                         size="6" maxlength="15"
                         datasource="dsPartes:proyectos.proyecto"
                         descriptiondatasource="dsPartes:proyectos.nombre"
+                        popupheight="450" popupwidth="500"
+                        usepopup="true" showdescription="True"></salmon:lookup>
+                  </salmon:td>
+                  <salmon:td name="tareaProyectoTableTD">
+                     <salmon:lookup
+                        browseimage="%ImageDirectory/Browse.gif"
+                        lookupurl="%LkpTareasProyecto" name="tareasProyectoLU1"
+                        size="10" maxlength="90"
+                        datasource="dsPartes:tareas.nombre"
+                        descriptiondatasource="dsPartes:tareas.descripcion"
                         popupheight="450" popupwidth="500"
                         usepopup="true" showdescription="True"></salmon:lookup>
                   </salmon:td>
@@ -144,7 +158,7 @@
                            displaycolumn="nombre" nulloption="true"></salmon:option>
                      </salmon:input>
                   </salmon:td>
-                  <salmon:td>
+                  <salmon:td colspan="2">
                      <salmon:input type="select" name="supervisorTE8"
                         datasource="dsPartes:partes_mo.supervisor">
                         <salmon:option display="abc" key="123"
