@@ -133,11 +133,12 @@ public class ConsultaPartesMoController extends BaseController {
 				if (whereClause.length() > 0)
 					whereClause.append(" and ");
 				whereClause.append("partes_mo.fecha = '" + v_fecha + "'");
+			}			
+			if (whereClause.length() > 0) {
+				_dsPartes.reset();
+				_dsPartes.retrieve(whereClause.toString());
+				_dsPartes.gotoFirst();
 			}
-			
-			_dsPartes.reset();
-			_dsPartes.retrieve(whereClause.toString());
-			_dsPartes.gotoFirst();
 		}
 		super.pageRequested(p);
 	}

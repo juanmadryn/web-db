@@ -1,14 +1,22 @@
 package partesMO.models;
 
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.*;
+import com.salmonllc.util.MessageLog;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -33,7 +41,6 @@ public class ResumenHorasRelojModel extends DataStore {
      public static final String RESUMEN_HORAS_RELOJ_FECHA="resumen_horas_reloj.fecha";
      public static final String RESUMEN_HORAS_RELOJ_NRO_LEGAJO="resumen_horas_reloj.nro_legajo";
      public static final String RESUMEN_HORAS_RELOJ_APEYNOM="resumen_horas_reloj.apeynom";
-     public static final String RESUMEN_HORAS_RELOJ_QUINCENA="resumen_horas_reloj.quincena";
      public static final String RESUMEN_HORAS_RELOJ_PARTE_D="resumen_horas_reloj.parte_d";
      public static final String RESUMEN_HORAS_RELOJ_PARTE_H="resumen_horas_reloj.parte_h";
      public static final String RESUMEN_HORAS_RELOJ_HORAS_PARTE="resumen_horas_reloj.horas_parte";
@@ -83,7 +90,6 @@ public class ResumenHorasRelojModel extends DataStore {
           addColumn(computeTableName("resumen_horas_reloj"),"fecha",DataStore.DATATYPE_DATE,false,true,RESUMEN_HORAS_RELOJ_FECHA);
           addColumn(computeTableName("resumen_horas_reloj"),"nro_legajo",DataStore.DATATYPE_INT,false,true,RESUMEN_HORAS_RELOJ_NRO_LEGAJO);
           addColumn(computeTableName("resumen_horas_reloj"),"apeynom",DataStore.DATATYPE_STRING,false,true,RESUMEN_HORAS_RELOJ_APEYNOM);
-          addColumn(computeTableName("resumen_horas_reloj"),"quincena",DataStore.DATATYPE_INT,false,true,RESUMEN_HORAS_RELOJ_QUINCENA);
           addColumn(computeTableName("resumen_horas_reloj"),"parte_d",DataStore.DATATYPE_DOUBLE,false,true,RESUMEN_HORAS_RELOJ_PARTE_D);
           addColumn(computeTableName("resumen_horas_reloj"),"parte_h",DataStore.DATATYPE_DOUBLE,false,true,RESUMEN_HORAS_RELOJ_PARTE_H);
           addColumn(computeTableName("resumen_horas_reloj"),"horas_parte",DataStore.DATATYPE_DOUBLE,false,true,RESUMEN_HORAS_RELOJ_HORAS_PARTE);
@@ -262,44 +268,6 @@ public class ResumenHorasRelojModel extends DataStore {
       */ 
      public void setResumenHorasRelojApeynom(int row,String newValue) throws DataStoreException {
           setString(row,RESUMEN_HORAS_RELOJ_APEYNOM, newValue);
-     }
-
-     /**
-      * Retrieve the value of the resumen_horas_reloj.quincena column for the current row.
-      * @return int
-      * @throws DataStoreException
-      */ 
-     public int getResumenHorasRelojQuincena() throws DataStoreException {
-          return  getInt(RESUMEN_HORAS_RELOJ_QUINCENA);
-     }
-
-     /**
-      * Retrieve the value of the resumen_horas_reloj.quincena column for the specified row.
-      * @param row which row in the table
-      * @return int
-      * @throws DataStoreException
-      */ 
-     public int getResumenHorasRelojQuincena(int row) throws DataStoreException {
-          return  getInt(row,RESUMEN_HORAS_RELOJ_QUINCENA);
-     }
-
-     /**
-      * Set the value of the resumen_horas_reloj.quincena column for the current row.
-      * @param newValue the new item value
-      * @throws DataStoreException
-      */ 
-     public void setResumenHorasRelojQuincena(int newValue) throws DataStoreException {
-          setInt(RESUMEN_HORAS_RELOJ_QUINCENA, newValue);
-     }
-
-     /**
-      * Set the value of the resumen_horas_reloj.quincena column for the specified row.
-      * @param row which row in the table
-      * @param newValue the new item value
-      * @throws DataStoreException
-      */ 
-     public void setResumenHorasRelojQuincena(int row,int newValue) throws DataStoreException {
-          setInt(row,RESUMEN_HORAS_RELOJ_QUINCENA, newValue);
      }
 
      /**
@@ -755,13 +723,11 @@ public class ResumenHorasRelojModel extends DataStore {
       * @return The current row in the resultset or -1 if the resulset is empty.
       * @throws DataStoreException 
       */
-     public int addResumen(int nroLegajo, Calendar fecha, String apeynom,
-			int quincena) throws DataStoreException {
+     public int addResumen(int nroLegajo, Calendar fecha, String apeynom) throws DataStoreException {
 		if (gotoRow(insertRow())) {
 			setResumenHorasRelojFecha(new java.sql.Date(fecha.getTimeInMillis()));
 			setResumenHorasRelojApeynom(apeynom);
 			setResumenHorasRelojNroLegajo(nroLegajo);
-			setResumenHorasRelojQuincena(quincena);
 			setResumenHorasRelojParteD(0.0);
 			setResumenHorasRelojParteH(0.0);
 			setResumenHorasRelojHorasParte(0.0);
@@ -894,10 +860,13 @@ public class ResumenHorasRelojModel extends DataStore {
 				double parte_desde = getResumenHorasRelojParteD(row);
 				double parte_hasta = getResumenHorasRelojParteH(row);
 				double fichada_desde = getResumenHorasRelojFichadaD(row);
-				double fichada_hasta = getResumenHorasRelojFichadaH(row);				
+				double fichada_hasta = getResumenHorasRelojFichadaH(row);
+				double totalParte = getResumenHorasRelojHorasParte(row);
+				double totalFichada = getResumenHorasRelojHorasFichada(row);
 				
 				if ( (Math.abs(parte_desde - fichada_desde) <= toleranciad) &&
-						(Math.abs(parte_hasta - fichada_hasta) <= toleranciah) )
+						(Math.abs(parte_hasta - fichada_hasta) <= toleranciah) &&
+						(Math.abs(totalParte - totalFichada) <= (toleranciad + toleranciah)) )
 				{					
 					// actualizo las observaciones para indicar que este conjunto de partes esta ok
 					setResumenHorasRelojEstado(row, ResumenHorasRelojModel.PARTES_OK);
@@ -962,6 +931,470 @@ public class ResumenHorasRelojModel extends DataStore {
 		return parteIds;
 	}
 	
-     //$ENDCUSTOMMETHODS$
+	/**
+     * Search for the unit of works in the date range and compute the total amount of hours worked by each employee per date: 
+     * <ol>
+     * <li>acording with the units of works entered</li>
+     * <li>acording with the clock records from tango database</li> 
+     * </ol> 
+     * @param fechaDesde begin date
+     * @param fechaHasta end date
+     * @throws DataStoreException
+     */
+    public void generaResumenRelojes(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion) throws DataStoreException {
+    	String SQL;    	
+    	Statement st = null;
+    	ResultSet r = null;
+    	   	
+    	try {
+    		conexion.beginTransaction();    		
+    		// delete the records which contain non validated units of work 
+    		SQL = " delete from resumen_horas_reloj "
+    			+ " where (fecha between '" + fechaDesde.toString()	+ "' and '" + fechaHasta.toString() + "')" 
+    			+ " and (estado != " + ResumenHorasRelojModel.PARTES_VAL + " or estado is null)";
+    		st = conexion.createStatement();
+    		st.executeUpdate(SQL);
+    		st.close();    		
+    		conexion.commit();
+    		
+    		// retrieve units of works in the range of dates
+    		retrieve("fecha between '"
+					+ fechaDesde.toString()
+					+ "' and '"
+					+ fechaHasta.toString() + "'");
+    		setBatchInserts(true);
+    		
+    		conexion.beginTransaction();
+    		preprocesaPartesMo(fechaDesde, fechaHasta, conexion);
+    		preprocesaFichadas(fechaDesde, fechaHasta, conexion);    		
+    		update(conexion);
+    		conexion.commit();    		
+    	} catch (SQLException e) {    		
+    		throw new DataStoreException(
+    				"Error validando partes de mano de obra contra relojes: "
+    				+ e.getMessage(), e);
+    	} finally {
+    		if (r != null) {
+    			try {
+    				r.close();
+    			} catch (Exception e) {
+    				e.printStackTrace();
+    			}
+    		}
+    		if (st != null)
+    			try {
+    				st.close();
+    			} catch (SQLException e) {
+    				e.printStackTrace();
+    			}    		
+    	} 		
+    }
+    
+    /**
+     * Calculate the total amount of worked hours per day by each employee according with the units of work, in a specified period
+     * @author Francisco
+     * @param fechaDesde period begin date
+     * @param fechaHasta period end date
+     * @throws DataStoreException
+     */
+    private void preprocesaPartesMo(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion) throws DataStoreException {    	
+    	PartesMoModel _dsPartesMo;    
+    	
+    	try {
+    		_dsPartesMo = new PartesMoModel(getAppName(),"partesmo");    		
+    		_dsPartesMo.reset();
+    		// as the order by clause mix varchar and int types, the +0 trick is needed to ensure proper order
+    		_dsPartesMo.setOrderBy("partes_mo.nro_legajo asc, partes_mo.fecha asc, partes_mo.hora_desde+0 asc");
+			// retrieve units of works which are not validated, signed or canceled
+    		_dsPartesMo.retrieve("partes_mo.fecha between '"
+					+ fechaDesde.toString()	+ "' and '"	+ fechaHasta.toString()
+					+ "' and partes_mo.estado in ('0003.0002','0003.0004','0003.0006')");
+
+    		for (int i = 0; i < _dsPartesMo.getRowCount(); i++) {
+
+    			int parte_id = _dsPartesMo.getPartesMoParteId(i);
+    			int nro_legajo = _dsPartesMo.getPartesMoNroLegajo(i);
+    			String apeynom = _dsPartesMo.getPartesMoApeynom(i);
+    			Date fecha = _dsPartesMo.getPartesMoFecha(i);
+    			String horaDesde = _dsPartesMo.getPartesMoHoraDesde(i);
+    			String horaHasta = _dsPartesMo.getPartesMoHoraHasta(i);   			
+
+    			int hora_d = _dsPartesMo.parserHora(horaDesde);
+    			int minuto_d = _dsPartesMo.parserMinutos(horaDesde);
+    			int hora_h = _dsPartesMo.parserHora(horaHasta);
+    			int minuto_h = _dsPartesMo.parserMinutos(horaHasta);
+    			int hora_d2 = -1;
+    			int minuto_d2 = -1;
+    			int hora_h2 = -1;
+    			int minuto_h2 = -1;
+    			GregorianCalendar cal = new GregorianCalendar();
+    			cal.setTime(fecha);
+
+    			int dia1 = cal.get(Calendar.DAY_OF_MONTH);
+    			int dia2 = -1;
+    			int mes1 = cal.get(Calendar.MONTH)+1;
+    			int mes2 = mes1;
+    			int anio1 = cal.get(Calendar.YEAR);
+    			int anio2 = anio1;
+    			if (hora_h < hora_d) {
+    				// the unit of work span around two days
+    				dia2 = dia1 + 1;
+    				hora_d2 = 0;
+    				hora_h2 = hora_h;
+    				minuto_d2 = 0;
+    				minuto_h2 = minuto_h;
+    				hora_h = 24;
+    				minuto_h = 0;
+    			}
+    			if (dia2 > cal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+    				// next month
+    				dia2 = 1;
+    				mes2 = mes1 + 1;
+    			}
+    			if (mes2 > cal.getActualMaximum(Calendar.MONTH)+1) {
+    				// next year
+    				mes2 = 1;
+    				anio2 = anio1 + 1;
+    			}
+    			GregorianCalendar cal2 = null;
+    			if (dia2 != -1) {
+    				cal2 = new GregorianCalendar();
+    				cal2.set(anio2, mes2 - 1, dia2);
+    			}   			
+    			
+    			// total amount of worked hours
+    			double horas1 = 0;
+    			double horas2 = 0;
+    			horas1 = horasTrabajadas(hora_d, minuto_d, hora_h, minuto_h);
+    			if (dia2 != -1) {
+    				horas2 = horasTrabajadas(hora_d2, minuto_d2, hora_h2, minuto_h2);
+    			}
+    			
+    			// retrieve the correct summary
+    			int resumen1 = getResumen(nro_legajo, cal);
+    			int resumen2 = -1;
+    			if ( resumen1 == -1)
+    				resumen1 = addResumen(nro_legajo, cal, apeynom.toString());
+    			if (dia2 != -1) {
+    				resumen2 = getResumen(nro_legajo, cal2);
+    				if ( resumen2 == -1)
+        				resumen2 = addResumen(nro_legajo, cal2, apeynom.toString());
+    			}
+
+    			// aprovechamos el orden del query y seteamos el hora desde del dia
+    			if (getResumenHorasRelojParteIds(resumen1) == null) {
+    				setResumenHorasRelojParteD(resumen1, (double) hora_d + ((double) minuto_d * 100 / 60 ) / 100.00 );    				
+    			}
+    			// agregamos el id del parte procesado
+    			addParteId(parte_id, resumen1);
+    			
+    			if (getResumenHorasRelojParteH(resumen1) <= hora_h)    				
+    				setResumenHorasRelojParteH(resumen1, (double) hora_h + ((double) minuto_h * 100 / 60 ) / 100.00 );
+
+    			// dia partido
+    			if (dia2 != -1) {
+        			// aprovechamos el orden del query y seteamos el hora desde del dia
+    				if (getResumenHorasRelojParteIds(resumen2) == null) {
+        				setResumenHorasRelojParteD(resumen2, (double) hora_d2 + ((double) minuto_d2 * 100 / 60 ) / 100.00 );    				
+        			}
+        			// agregamos el id del parte procesado
+        			addParteId(parte_id, resumen2);
+        			
+    				if (getResumenHorasRelojParteH(resumen2) <= hora_h2) 
+        				setResumenHorasRelojParteH(resumen2, (double) hora_h2 + ((double) minuto_h2 * 100 / 60 ) / 100.00 );    					    					
+    			}
+
+    			// suma las horas del parte al total    			
+    			setResumenHorasRelojHorasParte(resumen1, getResumenHorasRelojHorasParte(resumen1) + horas1);
+    			if (dia2 != -1)
+    				setResumenHorasRelojHorasParte(resumen2, getResumenHorasRelojHorasParte(resumen2) + horas2);
+    		} // fin for    		
+    	} catch (SQLException e) {
+    		// además de escribir en el log mando mensaje a la página
+    		throw new DataStoreException(
+    				"Error validando partes de mano de obra contra relojes: "
+    				+ e.getMessage(), e);
+    	} finally {
+    		// empty
+    	}
+    }
+    
+    /**
+     * Calcula el total de horas trabajadas
+     * @param horaDesde Hora de inicio
+     * @param minutoDesde Minuto de inicio
+     * @param horaHasta Hora de finalización
+     * @param minutoHasta Minuto de finalización
+     * @return la cantidad de tiempo transcurrido en horas decimales
+     */
+    private double horasTrabajadas(int horaDesde, int minutoDesde, int horaHasta, int minutoHasta) {
+    	int tmpHoras = 0;
+		int tmpMinutosRemanentesDesde = 0;
+		int tmpMinutosRemanentesHasta = 0;
+		int tmpMinutos = 0;
+		double horas = 0;
+		
+		// calcula horas 			
+		tmpHoras = horaHasta - (horaDesde + 1);
+		tmpMinutosRemanentesDesde = 60 - minutoDesde;
+		tmpMinutosRemanentesHasta = minutoHasta;
+		tmpMinutos = tmpMinutosRemanentesDesde + tmpMinutosRemanentesHasta;
+		if (tmpMinutos > 59) {
+			tmpMinutos = tmpMinutos - 60;
+			tmpHoras = tmpHoras + 1;
+		}
+		tmpMinutos = (tmpMinutos * 100 / 60);
+		
+		horas = (double) tmpHoras + ((double) tmpMinutos) / 100.00;
+		
+		return horas;
+    }
+    
+    /**
+     * Actualiza la tabla de preprocesos con la información de las fichadas encontradas en el periodo indicado.</br>
+     * Se calculan los totales para los intervalos de las fichadas, y se relacionan con los partes correspondientes.</br>
+     * Se ignoran las fichadas intermedias que no tengan asignado un parte diario (condicion ID_PARTE_DIARIO NOT NULL)
+     * </p>
+     * Dadas las fichadas: A.a, B.b, C.c y D.d (HORA.minuto):
+     * </p>
+     *  
+     * 	nro_fichadas	fichada	hda	mda		hd	md	hh	mh	</br>
+     * 		0			A.a		A	a		A	a	A	a	</br>
+	 *  	1			B.b		A	a		A	a	B	b	</br>
+	 *  	2			C.c		C	c		C	c	C	c	</br>
+	 *  	3			D.d		C	c		C	c	D	d	</br>
+	 *  
+	 * 0 y 2 daran totales nulos, y 1 y 3 los totales reales.
+	 * </p>
+	 * Para un numero de fichadas impar > 1 da el total excluyendo la ultima fichada. Si la cantidad = 1, total nulo.  
+	 * Todas los id de las fichadas, sumen o no al total, son incluidos en fichada_ids  
+     * 
+     * @author Francisco 18/11/2007 
+     * @param fechaDesde fecha de inicio del periodo a validar
+     * @param fechaHasta fecha de finalizacion del periodo a validar
+     * @param conexion Conexion
+     * @throws DataStoreException 
+     */
+    private void preprocesaFichadas(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion)
+			throws DataStoreException 
+	{    	
+    	Connection connTango;    	
+    	String SQLtango;    	
+    	PreparedStatement pst = null;
+    	ResultSet r = null;
+    	
+    	// variables para almacenar datos de la fichada en proceso
+    	int nro_legajo;
+    	int id_fichada;
+    	int id_parte;
+    	StringBuilder apeynom;    	
+		GregorianCalendar fichada = new GregorianCalendar(); 
+    	
+    	// variables para almacenar datos de la fichada procesada inmediata anterior
+    	int hora_d_ant;
+    	int minuto_d_ant;
+    	int id_parte_ant;   
+    	int nro_fichadas;
+    	int resumen;
+
+    	try {    		
+    		connTango = getConexionTango();
+
+    		// fichadas realizadas por el legajo dado entre las fechas especificadas
+    		SQLtango = "SELECT F.ID_FICHADA, F.ID_PARTE_DIARIO, "
+    			+ " F.FICHADA, L.NRO_LEGAJO, L.APELLIDO, L.NOMBRE, F.ORIGEN_FICHADA "
+    			+ " FROM FICHADA F "
+    			+ " INNER JOIN LEGAJO L ON F.ID_LEGAJO = L.ID_LEGAJO "    			    				
+    			+ " WHERE cast(CONVERT(varchar(8), F.FICHADA, 112) AS datetime) BETWEEN ? AND ? "
+    			+ " AND F.ID_PARTE_DIARIO IS NOT NULL"
+    			+ " ORDER BY L.NRO_LEGAJO ASC, F.FICHADA ASC, F.ID_FICHADA ASC ";
+
+    		pst = connTango.prepareStatement(
+    				SQLtango, ResultSet.TYPE_SCROLL_SENSITIVE,
+    				ResultSet.CONCUR_READ_ONLY);
+
+    		pst.setDate(1, fechaDesde);
+    		pst.setDate(2, fechaHasta);
+    		r = pst.executeQuery();
+    		
+    		// Si el resulset no esta vacio 			
+    		if (r.isBeforeFirst()) {
+
+    			hora_d_ant = -1;
+    			minuto_d_ant = -1;    			
+    			id_parte_ant = -1;
+    			resumen = -1;
+    			nro_fichadas = 0;
+    			
+    			while(r.next()) {
+
+    				id_fichada = r.getInt(1); // F.ID_FICHADA
+    				id_parte = r.getInt(2); // F.ID_PARTE_DIARIO    				
+    				// obtengo fecha y hora de la fichada
+    				fichada.setTime(r.getTimestamp(3)); // F.FICHADA
+    				nro_legajo = r.getInt(4); // L.NRO_LEGAJO
+    				
+    				apeynom = new StringBuilder(50);
+    				apeynom.append(r.getString(5)).append(", ").append(r.getString(6)); // L.APELLIDO, L.NOMBRE
+    				
+    				int dia1 = fichada.get(Calendar.DAY_OF_MONTH);
+    				int dia2 = -1;
+    				int mes1 = fichada.get(Calendar.MONTH)+1;
+    				int mes2 = mes1;
+    				int anio1 = fichada.get(Calendar.YEAR);
+    				int anio2 = anio1;
+
+    				int hora_d;
+    				int minuto_d;    			
+
+    				// buscamos el resumen
+        			resumen = getResumen(nro_legajo, fichada);
+    				// no existe
+    				if (resumen == -1) {
+    					resumen = addResumen(nro_legajo, fichada, apeynom.toString());
+    				} else {
+            			// el resumen ya esta validado, lo salteamos
+        				if (getResumenHorasRelojEstado() == ResumenHorasRelojModel.PARTES_VAL) {
+        					nro_fichadas++;
+        					continue;
+        				}
+    				}
+    				
+    				// Si no seguimos procesando el mismo parte...
+    				if (id_parte_ant != id_parte ) {
+    					nro_fichadas = 0;			
+    				}    				
+    				// Calcula las horas de un par de fichadas E/S y lo agrega al total
+    				if ((nro_fichadas % 2) == 0) {    						
+    					// Hora de inicio igual a la de la fichada actual
+    					hora_d = fichada.get(Calendar.HOUR_OF_DAY);
+    					minuto_d = fichada.get(Calendar.MINUTE);
+    					hora_d_ant = hora_d;
+    					minuto_d_ant = minuto_d;
+    				} else {
+    					// Mantengo los valores de la fichada anterior
+    					hora_d = hora_d_ant;
+    					minuto_d = minuto_d_ant;
+
+    					// Hora de finalizacion
+    					int hora_h = fichada.get(Calendar.HOUR_OF_DAY);
+    					int minuto_h = fichada.get(Calendar.MINUTE);				
+
+    					int hora_d2 = -1;
+    					int minuto_d2 = -1;
+    					int hora_h2 = -1;
+    					int minuto_h2 = -1;
+
+    					if (hora_h < hora_d) {
+    						// abarca dos días setea horario también 
+    						dia2 = dia1 + 1;
+    						hora_d2 = 0;
+    						hora_h2 = hora_h;
+    						minuto_d2 = 0;
+    						minuto_h2 = minuto_h;
+    						hora_h = 24;
+    						minuto_h = 0;
+    					}
+    					if (dia2 > fichada.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+    						// se pasó de mes
+    						dia2 = 1;
+    						mes2 = mes1 + 1;
+    					}
+    					if (mes2 > fichada.getActualMaximum(Calendar.MONTH)+1) {
+    						// se pasó de año
+    						mes2 = 1;
+    						anio2 = anio1 + 1;
+    					}
+    					
+    					double horas1 = 0;
+    					double horas2 = 0;		
+
+    					horas1 = horasTrabajadas(hora_d, minuto_d, hora_h, minuto_h);
+    	    			if (dia2 != -1) {
+    	    				horas2 = horasTrabajadas(hora_d2, minuto_d2, hora_h2, minuto_h2);
+    	    			}
+    	    			
+    					// seteamos el hora hasta segun haya dia partido o no    	    			
+    					if (hora_h2 != -1) {
+    						if (getResumenHorasRelojFichadaH() >= hora_h2)
+    							setResumenHorasRelojFichadaH( (double) hora_h2 + ((double) minuto_h2 * 100 / 60 ) / 100.00 );
+    					} else {
+    						if (getResumenHorasRelojFichadaH() <= hora_h)
+    							setResumenHorasRelojFichadaH( (double) hora_h + ((double) minuto_h * 100 / 60 ) / 100.00 );
+    					}
+    					// suma las horas del parte al total
+    					setResumenHorasRelojHorasFichada(getResumenHorasRelojHorasFichada() + horas1 + horas2);
+    				} // fin if  
+
+    				if (getResumenHorasRelojFichadaIds() == null) {
+        				setResumenHorasRelojFichadaD( (double) hora_d + ((double) minuto_d * 100 / 60 ) / 100.00 );    				
+        			}
+    				// Agrego el id de fichada que se proceso
+        			addFichadaId(id_fichada);
+    				// Agrego el horario
+        			addHorario(new java.sql.Date(fichada.getTimeInMillis()));
+					// Cierro el resumen calculando las horas
+        			cierraResumen();            			
+
+        			nro_fichadas++;
+    				id_parte_ant = id_parte; // F.ID_PARTE_DIARIO    				    				
+    			} // fin while
+    			
+    		} // fin if    		
+    		cierraResumenesSinFichadas();
+    	} catch (SQLException e) {
+    		// además de escribir en el log mando mensaje a la página
+    		throw new DataStoreException(
+    				"Error validando partes de mano de obra contra relojes: "
+    				+ e.getMessage(), e);
+    	} finally {
+    		if (r != null) {
+    			try {
+    				r.close();
+    			} catch (Exception e) {
+    				throw new DataStoreException(
+    	    				"Error validando partes de mano de obra contra relojes: "
+    	    				+ e.getMessage(), e);
+    			}
+    		}
+    		if (pst != null)
+    			try {
+    				pst.close();
+    			} catch (SQLException e) {
+    				throw new DataStoreException(
+    	    				"Error validando partes de mano de obra contra relojes: "
+    	    				+ e.getMessage(), e);
+    			}    		
+    	}
+    }    
+    
+    public Connection getConexionTango() throws DataStoreException {
+    	Connection connTango = null;
+
+    	Props p = Props.getProps("partesMO", null);
+    	String driverTango = p.getProperty("driverTango");
+    	String urlTango = p.getProperty("urlTango");
+    	String userTango = p.getProperty("userTango");
+    	String passWordTango = p.getProperty("passWordTango");
+
+    	try {
+    		// Se carga el driver JTDS (JDBC-ODBC si no es encontrado)
+    		Class.forName( driverTango );
+    	} catch (ClassNotFoundException e) {
+    		MessageLog.writeErrorMessage(e, null);
+    		throw new DataStoreException("Imposible cargar el driver para Tango: " + e.getMessage());
+    	}
+
+    	try {
+    		// Se establece la conexión con la base de datos
+    		connTango = DriverManager.getConnection(urlTango,userTango,passWordTango);
+    	} catch (Exception e) {
+    		MessageLog.writeErrorMessage(e, null);
+    		throw new DataStoreException("imposible establecer conexión con la base tango: " + e.getMessage());
+    	}
+    	return connTango;
+	}
+
+    //$ENDCUSTOMMETHODS$
      
 }
