@@ -129,7 +129,7 @@
                   <salmon:td>
                    <salmon:a href="none" name="lnkpartes1"
                         onclick="document.forms['bannerForm'].submit();"
-                        datasource="dsResHor:'%EditaParte?p_grp_parte_id='+resumen_horas_reloj.parte_ids">                     
+                        datasource="dsResHor:'%ConsultaPartes?v_fecha='+resumen_horas_reloj.fecha+'&v_nro_legajo='+resumen_horas_reloj.nro_legajo">
                      <salmon:text name="periodoTE10" text="Periodo"
                         font="DefaultFont" displayformat="dd/MM/yyyy"
                         datasource="dsResHor:resumen_horas_reloj.fecha" />
@@ -138,7 +138,7 @@
                   <salmon:td>
                   	 <salmon:a href="none" name="lnkpartes2"
                         onclick="document.forms['bannerForm'].submit();"
-                        datasource="dsResHor:'%ConsultaPartes?v_nro_legajo='+resumen_horas_reloj.nro_legajo">
+                        datasource="dsResHor:'%EditaParte?p_grp_parte_id='+resumen_horas_reloj.parte_ids">                        
                      	<salmon:text name="nroLegajoTE12" text="nro_legajo"
                         	font="DefaultFont"
                         	datasource="dsResHor:resumen_horas_reloj.nro_legajo"/>
