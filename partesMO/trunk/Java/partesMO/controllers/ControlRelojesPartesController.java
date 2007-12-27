@@ -309,7 +309,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			try {			
 				conexion = DBConnection.getConnection(getApplicationName(),"partesmo");
 				// Preprocesa las partes y las fichadas en tango para facilitar la validación
-				_dsPartes.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"),conexion);				
+				_dsResHor.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"),conexion);				
 				
 				_dsResHor.reset();				
 				_dsResHor.retrieve(whereFecha + " and estado in (" + _dsResHor.conErroresInClause() +")");
