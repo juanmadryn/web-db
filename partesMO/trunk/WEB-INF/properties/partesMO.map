@@ -64,6 +64,13 @@
      <useForward>false</useForward>
      <secure>false</secure>
   </entry>
+  
+  <entry>
+     <name>LkpTareasProyecto</name>
+     <uri>/Jsp/LkpTareasProyecto.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
 
   <entry>
      <name>LkpLegajo</name>

@@ -124,14 +124,14 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	public com.salmonllc.html.HtmlCheckBox _seleccionParte;
 	public com.salmonllc.html.HtmlText _selParteCAP18;
 	
-	public com.salmonllc.html.HtmlSubmitButton _anularParteBUT9;
 	public com.salmonllc.html.HtmlSubmitButton _validarParteBUT10;
-	public com.salmonllc.html.HtmlSubmitButton _firmarParteBUT11;
 	public com.salmonllc.html.HtmlSubmitButton _seleccionaTodoBUT13;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT14;
 	
 	// Custom
-	private DBConnection conexion = null;	
+	private DBConnection conexion = null;
+	private static int HIDEBUTTONS = -1;
+	private static int SHOWBUTTONS = 1;
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -144,15 +144,9 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		_buscarBUT16.setAccessKey("b");
 		_searchformdisplaybox1.addButton(_buscarBUT16);
 		
-		_anularParteBUT9 = new HtmlSubmitButton("anularParteBUT9","Anular",this);
-		_listformdisplaybox1.addButton(_anularParteBUT9);		
-
 		_validarParteBUT10 = new HtmlSubmitButton("validarParteBUT10","Validar",this);
 		_listformdisplaybox1.addButton(_validarParteBUT10);
 
-		_firmarParteBUT11 = new HtmlSubmitButton("firmarParteBUT11","Firmar",this);
-		_listformdisplaybox1.addButton(_firmarParteBUT11);
-		
 		_seleccionaTodoBUT13 = new HtmlSubmitButton("seleccionaTodoBUT13","Seleccionar",this);
 		_listformdisplaybox1.addButton(_seleccionaTodoBUT13);
 		
@@ -173,9 +167,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		addPageListener(this);
 		_generaResumenBUT.addSubmitListener(this);
 		_buscarBUT16.addSubmitListener(this);		
-		_anularParteBUT9.addSubmitListener(this);
 		_validarParteBUT10.addSubmitListener(this);
-		_firmarParteBUT11.addSubmitListener(this);
 		_seleccionaTodoBUT13.addSubmitListener(this);
 		_desSeleccionaTodoBUT14.addSubmitListener(this);
 		// validar fecha antes de ser enviada al DataStore
@@ -193,7 +185,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		_seleccionParte.setColumn(_dsResHor, SELECCION_RESUMEN_FLAG);
 		_seleccionParte.setFalseValue(null);
 		
-		seteaBotones(-1);
+		seteaBotones(HIDEBUTTONS);
 	} 
 	
 	/**
@@ -250,12 +242,12 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			}
 		}
 		
-		// Buscar
+		// Find
 		if (e.getComponent() == _buscarBUT16) {			
 			_dsResHor.reset();
 			_dsResHor.retrieve(_dsQBEResHor.generateSQLFilter(_dsResHor)
 					+ " and " + whereFecha);
-			seteaBotones(_estadoTE19.getSelectedIndex());			
+			seteaBotones(_estadoTE19.getSelectedIndex());									
 		}
 		
 		// Validar partes seleccionados
@@ -291,8 +283,11 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				}
 				conexion.commit();	
 				_dsPartes.doValidarPartes(true);
-				seteaBotones(_estadoTE19.findOptionIndexOf(String
-						.valueOf(ResumenHorasRelojModel.PARTES_VAL)));
+				
+				int idx = _estadoTE19.findOptionIndexOf(String
+						.valueOf(ResumenHorasRelojModel.PARTES_VAL));
+				seteaBotones(idx);
+				_estadoTE19.setSelectedIndex(idx);
 			} catch (DataStoreException ex) {				
 				MessageLog.writeErrorMessage(ex, this);
 				displayErrorMessage("Error Autorizando Partes: " + ex.getMessage());
@@ -315,10 +310,13 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				conexion = DBConnection.getConnection(getApplicationName(),"partesmo");
 				// Preprocesa las partes y las fichadas en tango para facilitar la validación
 				_dsPartes.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"),conexion);				
-				// recupera resumen
+				
 				_dsResHor.reset();				
 				_dsResHor.retrieve(whereFecha + " and estado in (" + _dsResHor.conErroresInClause() +")");
-				seteaBotones(1);
+				_estadoTE19.setSelectedIndex(_estadoTE19
+						.findOptionIndexOf(String
+								.valueOf(ResumenHorasRelojModel.PARTES_ERROR)));				
+				seteaBotones(SHOWBUTTONS);
 			} catch (DataStoreException ex) {				
 				MessageLog.writeErrorMessage(ex, this);
 				displayErrorMessage("Error Controlando Relojes: " + ex.getMessage());
@@ -381,22 +379,20 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		int accion = -1;
 		boolean activarVal = true;
 
-		if (opcion == -1) {
-			// no hay lote seleccionado, resetea botones
-			_anularParteBUT9.setVisible(false);
+		if (opcion == HIDEBUTTONS) {
 			_validarParteBUT10.setVisible(false);
-			_firmarParteBUT11.setVisible(false);
 			_seleccionaTodoBUT13.setVisible(false);
 			_desSeleccionaTodoBUT14.setVisible(false);
 		} else {
 			if (_estadoTE19.getOptionKey(opcion).equals(
-					String.valueOf(ResumenHorasRelojModel.PARTES_VAL))) {
+					String.valueOf(ResumenHorasRelojModel.PARTES_VAL))
+					|| _estadoTE19.getOptionKey(opcion).equals(
+							String.valueOf(ResumenHorasRelojModel.FICHADA_SIN_PARTES))
+					|| _estadoTE19.getOptionKey(opcion).equals(_dsResHor.todosInClause())) {
 				activarVal = false;
 			}
 			_seleccionParte.setEnabled(activarVal);
 			_validarParteBUT10.setVisible(activarVal);
-			_anularParteBUT9.setVisible(false);			
-			_firmarParteBUT11.setVisible(false);
 			_seleccionaTodoBUT13.setVisible(true);
 			_desSeleccionaTodoBUT14.setVisible(true);
 		
