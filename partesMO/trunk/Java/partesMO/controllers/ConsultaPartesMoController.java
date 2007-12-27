@@ -119,20 +119,25 @@ public class ConsultaPartesMoController extends BaseController {
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
 		int v_nro_legajo = -1;   		
+		String v_fecha = null; 
+		StringBuilder whereClause = new StringBuilder(50);
 
-		// si la página es requerida por si misma no hago nada
+		// si la pagina no es referida por si misma
 		if (!isReferredByCurrentPage()) {
-			// verifico si tiene parametro
-			v_nro_legajo = getIntParameter("v_nro_legajo");
-			// Viene seteado el nro de legajo?
-			if (v_nro_legajo > 0) {
-				_buscarTE3.setValue(String.valueOf(v_nro_legajo));
-				// resetea todos los datasource
-				_dsPartes.reset();
-				// recupera toda la informacion del parte
-				_dsPartes.retrieve("partes_mo.nro_legajo = " + Integer.toString(v_nro_legajo));
-				_dsPartes.gotoFirst();   				
+			v_nro_legajo = getIntParameter("v_nro_legajo");			
+			if (v_nro_legajo > 0)
+				whereClause.append("partes_mo.nro_legajo = " + Integer.toString(v_nro_legajo));
+			
+			v_fecha = getParameter("v_fecha");
+			if (v_fecha != null) {
+				if (whereClause.length() > 0)
+					whereClause.append(" and ");
+				whereClause.append("partes_mo.fecha = '" + v_fecha + "'");
 			}
+			
+			_dsPartes.reset();
+			_dsPartes.retrieve(whereClause.toString());
+			_dsPartes.gotoFirst();
 		}
 		super.pageRequested(p);
 	}
