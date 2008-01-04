@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE sitemap PUBLIC "SOFIA Site Map" "http://www.salmonllc.com/sofiaExamples/sitemap.dtd">
+<siteMap>
+  <entry>
+     <name>AbmcClaseArticulo</name>
+     <uri>/Jsp/AbmcClaseArticulo.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>MenuInventario</name>
+     <uri>/Jsp/MenuInventario.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>About</name>
+     <uri>/../infraestructura/Jsp/AboutPage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>HomePage</name>
+     <uri>/../infraestructura/Jsp/HomePage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpWebSiteUsers</name>
+     <uri>/../infraestructura/Jsp/LkpWebSiteUsers.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Login</name>
+     <uri>/../infraestructura/Jsp/LoginPage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>true</secure>
+  </entry>
+
+  <entry>
+     <name>Options</name>
+     <uri>/../infraestructura/Jsp/OptionsPage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Ayuda</name>
+     <uri>/Html/guiUsusrio.html</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Home</name>
+     <uri>http://www.xxxxx.xxx.ar</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>ImageDirectory</name>
+     <uri>/../infraestructura/Jsp/images/</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>SessionExpired</name>
+     <uri>/../infraestructura/Jsp/SessionExpired.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>PageExpired</name>
+     <uri>/../infraestructura/Jsp/PageExpired.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>DbConnectError</name>
+     <uri>/../infraestructura/Jsp/DBConnectError.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>UsuarioInvalidoError</name>
+     <uri>/../infraestructura/Jsp/UsuarioInvalidoError.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>Birt</name>
+     <uri>/birt</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+</siteMap>
