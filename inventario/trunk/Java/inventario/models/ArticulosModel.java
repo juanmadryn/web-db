@@ -1,18 +1,17 @@
 package inventario.models;
 
-import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
-
 import com.salmonllc.sql.*;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
-
+import infraestructura.models.BaseModel;
+import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
 //$ENDCUSTOMIMPORTS$
 
 /**
  * ArticulosModel: A SOFIA generated model
  */
-public class ArticulosModel extends DataStore {
+public class ArticulosModel extends BaseModel {
 
 	/**
 	 * 
@@ -599,7 +598,16 @@ public class ArticulosModel extends DataStore {
 
 	//$CUSTOMMETHODS$
 	//Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
+	@Override
+	public String getEstadoActual() throws DataStoreException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
+	@Override
+	public int getIdRegistro() throws DataStoreException {
+		return getArticulosArticuloId();
+	}
 	//$ENDCUSTOMMETHODS$
 
 }
