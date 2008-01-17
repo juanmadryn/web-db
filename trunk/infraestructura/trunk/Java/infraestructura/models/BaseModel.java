@@ -108,7 +108,7 @@ public abstract class BaseModel extends DataStore {
 			// Verifica rutina de validación dinámica
 			try {
 				if (validador != null && validador.length() > 0 && !validador.equalsIgnoreCase("No Validar")){
-					Class claseVal = Class.forName(validador);
+					Class<?> claseVal = Class.forName(validador);
 					ValidadorReglasNegocio val = (ValidadorReglasNegocio) claseVal.newInstance();
 
 					resultado = new StringBuilder("");

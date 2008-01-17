@@ -205,7 +205,7 @@ public class WebSiteUser implements Constants, Serializable {
 		boolean primero = true;
 		String aux = "(";
 		
-		for (Enumeration e = _roles.keys() ; e.hasMoreElements() ;) {
+		for (Enumeration<String> e = _roles.keys() ; e.hasMoreElements() ;) {
 			if (! primero)
 				aux = aux +",";
 			else
@@ -237,7 +237,7 @@ public class WebSiteUser implements Constants, Serializable {
 		return _sEmail;
 	}
 	
-	public Hashtable getRoles(){
+	public Hashtable<String, String> getRoles(){
 		return _roles;
 	}
 
