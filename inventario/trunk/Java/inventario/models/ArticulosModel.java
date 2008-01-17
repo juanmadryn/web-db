@@ -81,11 +81,11 @@ public class ArticulosModel extends BaseModel {
 			setOrderBy(computeTableAndFieldName("articulos.nombre") + " ASC");
 
 			//add validations
-			addRequiredRule(ARTICULOS_ARTICULO_ID,"El Id del artÃ­culo es obligatorio");
-			addRequiredRule(ARTICULOS_CLASE_ARTICULO_ID,"La clase a la que pertenece el artÃ­culo es obligatoria");
-			addRequiredRule(ARTICULOS_NOMBRE,"El nombre del artÃ­culo es obligatorio");
-			addRequiredRule(ARTICULOS_ACTIVO,"Debe especificar si el artÃ­culo esta activo o no");
-			addRequiredRule(ARTICULOS_ANULADO,"Debe especificar si el artÃ­culo esta anulado o no");
+			addRequiredRule(ARTICULOS_ARTICULO_ID,"El Id del artí­culo es obligatorio");
+			addRequiredRule(ARTICULOS_CLASE_ARTICULO_ID,"La clase a la que pertenece el artículo es obligatoria");
+			addRequiredRule(ARTICULOS_NOMBRE,"El nombre del artículo es obligatorio");
+			addRequiredRule(ARTICULOS_ACTIVO,"Debe especificar si el artí­culo esta activo o no");
+			addRequiredRule(ARTICULOS_ANULADO,"Debe especificar si el artí­culo esta anulado o no");
 		}
 		catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
