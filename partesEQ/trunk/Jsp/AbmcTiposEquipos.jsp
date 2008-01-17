@@ -45,7 +45,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td><salmon:text name="nombreCAP14" text="Nombre"
+								<td><salmon:text name="nombreCAP14" text="Nombre Genérico"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text" name="nombreTE6"
 									size="40" maxlength="90"
