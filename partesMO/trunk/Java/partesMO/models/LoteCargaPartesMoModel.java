@@ -1,14 +1,9 @@
 package partesMO.models;
 
-import infraestructura.controllers.WebSiteUser;
-import infraestructura.reglasNegocio.ValidadorReglasNegocio;
+import infraestructura.models.BaseModel;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
-import com.salmonllc.sql.*;
-import com.salmonllc.util.MessageLog;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -18,7 +13,7 @@ import com.salmonllc.util.MessageLog;
 /**
  * LoteCargaPartesMoModel: A SOFIA generated model
  */
-public class LoteCargaPartesMoModel extends DataStore {
+public class LoteCargaPartesMoModel extends BaseModel {
 
      /**
 	 * 
@@ -283,160 +278,17 @@ public class LoteCargaPartesMoModel extends DataStore {
           setDate(row,LOTE_CARGA_PARTES_MO_FECHA_CIERRE, newValue);
      }
      
-     //$CUSTOMMETHODS$
-     //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
-     /**
-      * @param row nro de registro sobre el que se ejecuta la acción
-      * @param accion accion grabada en la tabla de tarnsición de estados
-      * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
-      * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
-      * Concentra TODAS las acciones posibles para un parte de MO
-      * @throws DataStoreException 
-      */
-     public void ejecutaAccion(int row, String accion, String circuito, WebSiteUser user, String host) throws DataStoreException {
-    	 if (!gotoRow(row)){
- 		 throw new DataStoreException("Fila " + row + " fuera de contexto para el lote");
- 	 }
- 	 
- 	 ejecutaAccion(accion,circuito,user,host);
+	@Override
+	public String getEstadoActual() throws DataStoreException {
+		// TODO Auto-generated method stub
+		return getLoteCargaPartesMoEstado();
+	}
 
-     }
-
-     	
-     /**
-      * @param accion accion grabada en la tabla de tarnsición de estados
-      * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
-      * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
-      * Concentra TODAS las acciones posibles para un parte de MO
-      * @throws DataStoreException 
-      */
-     public void ejecutaAccion(String accion, String circuito, WebSiteUser user, String host) throws DataStoreException {
- 		String estado_actual = null;
- 		String proximo_estado = null;
- 		String nombre_accion = null;
- 		String validador = null;
- 		DBConnection conn = null;
- 		Statement st = null;
- 		ResultSet r = null;
- 		String SQL;
- 		StringBuilder resultado;
- 		boolean ok = false;
- 		
- 		// verifico si está conectado un usuario
- 		if (user == null){
- 			throw new DataStoreException("Debe estar conectado como un usuario de la aplicación...");
- 		}
- 		
- 		// chequeo que el informe está en contexto de informe
- 		if (getRow() == -1) {
- 			throw new DataStoreException("No hay seleccionado ningún parte");
- 		}
- 		
- 		// correspondiente y ejecutarla
- 		try {
- 			conn = DBConnection.getConnection("partesMO");
- 			conn.beginTransaction();
-
- 			estado_actual = getLoteCargaPartesMoEstado();
-
- 			// recupero el próximo estado y el nombre de la acción en función dela acción
- 			SQL = "SELECT t.estado_destino,a.nombre,t.validador "
- 					+ " FROM infraestructura.transicion_estados t "
- 					+ " left join infraestructura.estados e on t.estado_origen = e.estado "
- 					+ " left join infraestructura.acciones_apps a on a.accion = t.accion "
- 					+ " where e.circuito = '" + circuito + "'"
- 					+ " and t.estado_origen = '" + estado_actual + "'"
- 					+ " and t.accion = " + accion;
- 			st = conn.createStatement();
- 			r = st.executeQuery(SQL);
-
- 			if (r.first()) {
- 				proximo_estado = r.getString(1);
- 				nombre_accion = r.getString(2);
- 				validador = r.getString(3);
- 			}
-
- 			// Verifica rutina de validación dinmica
- 			try {
- 				if (validador != null && validador.length() > 0 && !validador.equalsIgnoreCase("No Validar")){
- 					Class claseVal = Class.forName(validador);
- 					ValidadorReglasNegocio val = (ValidadorReglasNegocio) claseVal.newInstance();
- 					resultado = new StringBuilder("");
- 					if (val.esValido(this,resultado,conn)) {
- 						ok = true;
- 					} else{
- 						ok = false;
- 					}
- 				}
- 				else if (validador == null || validador.length() == 0){
- 					throw new DataStoreException(nombre_accion + " -- No tiene implementada Validación. Se requiere especificar Validación");
- 				}
- 				else if (validador.equalsIgnoreCase("No Validar")){
- 					// La regla NO requiere de validación
- 					ok = true;
- 				}
- 				else {
- 					throw new DataStoreException(nombre_accion + " -- Situación no prevista");
- 				}
- 			} catch (ClassNotFoundException e) {
- 				MessageLog.writeErrorMessage(e, null);
- 				throw new DataStoreException("ClassNotFoundException: " + e.getMessage());
- 			} catch (InstantiationException e) {
- 				MessageLog.writeErrorMessage(e, null);
- 				throw new DataStoreException("InstantiationException: " + e.getMessage());
- 			} catch (IllegalAccessException e) {
- 				MessageLog.writeErrorMessage(e, null);
- 				throw new DataStoreException("IllegalAccessException: " + e.getMessage());
- 			}
- 			
-
- 			// si hay cambio de estado al finalizar, independientemente de la
- 			// acción paso al próximo estado  y actualizo
- 			// Se inserta también el registro de auditoría correspondiente sólo si cambiá estado
- 			if (ok && !estado_actual.equalsIgnoreCase(proximo_estado)) {
- 				setLoteCargaPartesMoEstado(proximo_estado);
- 				
- 				update(conn);
-
- 				SQL = "insert into audita_estados_circuitos"
- 						+ " (circuito,fecha,de_estado,a_estado,user_id,clave_primaria,host,accion) values"
- 						+ " ('" + circuito + "',now(),'" + estado_actual
- 						+ "','" + proximo_estado + "'," + user.getUserID()
- 						+ "," + getLoteCargaPartesMoLoteId() 
- 						+ ",'" + host	
- 						+ "'," + accion + ")";
- 				st = conn.createStatement();
- 				st.executeUpdate(SQL);
- 				
- 			}
- 			if (ok)
- 				conn.commit();
- 			else
- 				conn.rollback();
-
- 		} catch (SQLException e) {
- 			MessageLog.writeErrorMessage(e, null);
- 		} finally {
- 			if (r != null) {
- 				try {
- 					r.close();
- 				} catch (Exception ex) {
- 				}
- 			}
-
- 			if (st != null)
- 				try {
- 					st.close();
- 				} catch (SQLException e) {
- 					e.printStackTrace();
- 				}
-
- 			if (conn != null) {
- 				conn.rollback();
- 				conn.freeConnection();
- 			}
- 		}
- 	}
+	@Override
+	public int getIdRegistro() throws DataStoreException {
+		// TODO Auto-generated method stub
+		return getLoteCargaPartesMoLoteId();
+	}
      
      //$ENDCUSTOMMETHODS$
      
