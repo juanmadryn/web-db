@@ -1,0 +1,1 @@
+GRANT ALL ON infraestructura.atributos_entidad TO 'inventario'@'localhost'
