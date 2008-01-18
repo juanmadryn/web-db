@@ -1914,7 +1914,7 @@ public class PartesEqModel extends DataStore {
 			return tareaId;
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
-			throw new DataStoreException("Error determinando proyecto: " + e.getMessage(), e);
+			throw new DataStoreException("Error determinando tarea: " + e.getMessage(), e);
 		}		
 	}
 	
