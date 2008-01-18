@@ -139,69 +139,81 @@ public class AdmLotesPartesController extends BaseController {
 
 	public com.salmonllc.html.HtmlCheckBox _seleccionParte;
 	private String SELECCION_PARTE_FLAG = "SELECCION_PARTE_FLAG";
-	
+
 	// Variables que indical el lote corriente
 	private int rowLote_actual = -1;
 
 	@Override
 	public void initialize() throws Exception {
-		_buscarLotesBUT16 = new HtmlSubmitButton("buscarLotesBUT16","Buscar",this);
+		_buscarLotesBUT16 = new HtmlSubmitButton("buscarLotesBUT16", "Buscar",
+				this);
 		_buscarLotesBUT16.setAccessKey("B");
 		_searchformdisplaybox1.addButton(_buscarLotesBUT16);
 
-		_nuevoLoteBUT1 = new HtmlSubmitButton("nuevoLoteBUT1","Nuevo lote",this);
+		_nuevoLoteBUT1 = new HtmlSubmitButton("nuevoLoteBUT1", "Nuevo lote",
+				this);
 		_nuevoLoteBUT1.setAccessKey("N");
 		_listformdisplaybox1.addButton(_nuevoLoteBUT1);
 
-		_grabarLoteBUT2 = new HtmlSubmitButton("grabarLoteBUT2","Grabar",this);
+		_grabarLoteBUT2 = new HtmlSubmitButton("grabarLoteBUT2", "Grabar", this);
 		_grabarLoteBUT2.setAccessKey("G");
 		_listformdisplaybox1.addButton(_grabarLoteBUT2);
 
-		_buscarPartesSinLotearBUT12 = new HtmlSubmitButton("buscarPartesSinLotearBUT12","Partes sin lotear",this);
+		_buscarPartesSinLotearBUT12 = new HtmlSubmitButton(
+				"buscarPartesSinLotearBUT12", "Partes sin lotear", this);
 		_buscarPartesSinLotearBUT12.setAccessKey("P");
 		_listformdisplaybox1.addButton(_buscarPartesSinLotearBUT12);
 
-		_lotearLoteBUT3 = new HtmlSubmitButton("lotearLoteBUT3","Lotear",this);
+		_lotearLoteBUT3 = new HtmlSubmitButton("lotearLoteBUT3", "Lotear", this);
 		_listformdisplaybox1.addButton(_lotearLoteBUT3);
 
-		_anularLoteBUT4 = new HtmlSubmitButton("anularLoteBUT4","Anular",this);
+		_anularLoteBUT4 = new HtmlSubmitButton("anularLoteBUT4", "Anular", this);
 		_listformdisplaybox1.addButton(_anularLoteBUT4);
 
-		_validarLoteBUT5 = new HtmlSubmitButton("validarLoteBUT5","Validar",this);
+		_validarLoteBUT5 = new HtmlSubmitButton("validarLoteBUT5", "Validar",
+				this);
 		_listformdisplaybox1.addButton(_validarLoteBUT5);
 
-		_reLotearLoteBUT6 = new HtmlSubmitButton("reLotearLoteBUT6","Re-Lotear",this);
+		_reLotearLoteBUT6 = new HtmlSubmitButton("reLotearLoteBUT6",
+				"Re-Lotear", this);
 		_listformdisplaybox1.addButton(_reLotearLoteBUT6);
 
-		_firmarLoteBUT7 = new HtmlSubmitButton("firmarLoteBUT7","Firmar",this);
+		_firmarLoteBUT7 = new HtmlSubmitButton("firmarLoteBUT7", "Firmar", this);
 		_listformdisplaybox1.addButton(_firmarLoteBUT7);
 
-		_lotearParteBUT8 = new HtmlSubmitButton("lotearParteBUT8","Lotear",this);
+		_lotearParteBUT8 = new HtmlSubmitButton("lotearParteBUT8", "Lotear",
+				this);
 		_listformdisplaybox2.addButton(_lotearParteBUT8);
 
-		_anularParteBUT9 = new HtmlSubmitButton("anularParteBUT9","Anular",this);
+		_anularParteBUT9 = new HtmlSubmitButton("anularParteBUT9", "Anular",
+				this);
 		_listformdisplaybox2.addButton(_anularParteBUT9);
 
-		_validarParteBUT10 = new HtmlSubmitButton("validarParteBUT10","Validar",this);
+		_validarParteBUT10 = new HtmlSubmitButton("validarParteBUT10",
+				"Validar", this);
 		_listformdisplaybox2.addButton(_validarParteBUT10);
 
-		_firmarParteBUT11 = new HtmlSubmitButton("firmarParteBUT11","Firmar",this);
+		_firmarParteBUT11 = new HtmlSubmitButton("firmarParteBUT11", "Firmar",
+				this);
 		_listformdisplaybox2.addButton(_firmarParteBUT11);
-		
-		_seleccionaTodoBUT13 = new HtmlSubmitButton("seleccionaTodoBUT13","Seleccionar",this);
+
+		_seleccionaTodoBUT13 = new HtmlSubmitButton("seleccionaTodoBUT13",
+				"Seleccionar", this);
 		_listformdisplaybox2.addButton(_seleccionaTodoBUT13);
-		
-		_desSeleccionaTodoBUT14 = new HtmlSubmitButton("desSeleccionaTodoBUT14","Deseleccionar",this);
+
+		_desSeleccionaTodoBUT14 = new HtmlSubmitButton(
+				"desSeleccionaTodoBUT14", "Deseleccionar", this);
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT14);
-		
-		_lotearPartesSinLotearBUT15 = new HtmlSubmitButton("lotearPartesSinLotearBUT15","Lotear",this);
+
+		_lotearPartesSinLotearBUT15 = new HtmlSubmitButton(
+				"lotearPartesSinLotearBUT15", "Lotear", this);
 		_listformdisplaybox2.addButton(_lotearPartesSinLotearBUT15);
-		
+
 		// Agrega columna de seleccion al datasource de informes
 		_dsPartes.addBucket(SELECCION_PARTE_FLAG, DataStore.DATATYPE_INT);
 		_seleccionParte.setColumn(_dsPartes, SELECCION_PARTE_FLAG);
 		_seleccionParte.setFalseValue(null);
-		
+
 		_dsPartes.setAutoValidate(true);
 		addPageListener(this);
 		_nuevoLoteBUT1.addSubmitListener(this);
@@ -220,10 +232,10 @@ public class AdmLotesPartesController extends BaseController {
 		_desSeleccionaTodoBUT14.addSubmitListener(this);
 		_lotearPartesSinLotearBUT15.addSubmitListener(this);
 		_buscarLotesBUT16.addSubmitListener(this);
-		
-		// inicialmente oculta todos los botones de accioners 
+
+		// inicialmente oculta todos los botones de accioners
 		seteaBotones(-1);
-		
+
 		// adicionalmente hace invisible el boton de partes sin lotes
 		_lotearPartesSinLotearBUT15.setVisible(false);
 
@@ -239,7 +251,7 @@ public class AdmLotesPartesController extends BaseController {
 			_dsLotes.reset();
 			_dsLotes.retrieve(whereClause);
 		}
-		
+
 		if (e.getComponent() == _nuevoLoteBUT1) {
 			// se solicita crear un nuevo lote
 			int row = _dsLotes.insertRow();
@@ -251,28 +263,30 @@ public class AdmLotesPartesController extends BaseController {
 				_dsLotes.update();
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
-				displayErrorMessage("Error SQL recuperando partes del lote: " + ex.getMessage());
+				displayErrorMessage("Error SQL recuperando partes del lote: "
+						+ ex.getMessage());
 			}
 			// hace foco en el registro
 			_datatable1.setPage(_datatable1.getPage(row));
 			_descripcionTE11.setFocus(row, true);
 		}
-		
+
 		if (e.getComponent() == _grabarLoteBUT2) {
 			// graba las modificaciones al lote
 			try {
 				_dsLotes.update();
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
-				displayErrorMessage("Error SQL recuperando partes del lote: " + ex.getMessage());
+				displayErrorMessage("Error SQL recuperando partes del lote: "
+						+ ex.getMessage());
 				return false;
 			}
 			// hace foco en el registro
 			if (rowLote_actual != -1)
-			_datatable1.setPage(_datatable1.getPage(rowLote_actual));
+				_datatable1.setPage(_datatable1.getPage(rowLote_actual));
 			_descripcionTE11.setFocus(rowLote_actual, true);
 		}
-		
+
 		if (e.getComponent() == _buscarPartesSinLotearBUT12) {
 			// recupera los partes que no tienen asignados lote
 			_dsPartes.reset();
@@ -286,31 +300,38 @@ public class AdmLotesPartesController extends BaseController {
 				_box3.setVisible(false);
 			}
 		}
-		
-		if (e.getComponent() == _lotearPartesSinLotearBUT15 || e.getComponent() == _lotearLoteBUT3) {
-			// recorre el datastore de partes, asignando el parte y ejecutando la acción de lotear
+
+		if (e.getComponent() == _lotearPartesSinLotearBUT15
+				|| e.getComponent() == _lotearLoteBUT3) {
+			// recorre el datastore de partes, asignando el parte y ejecutando
+			// la acción de lotear
 			if (rowLote_actual != -1) {
-				String estado_lote = _dsLotes.getLoteCargaPartesMoEstado(rowLote_actual);
+				String estado_lote = _dsLotes
+						.getLoteCargaPartesMoEstado(rowLote_actual);
+				int userId = getSessionManager().getWebSiteUser().getUserID();
+				String remoteAdd = getCurrentRequest().getRemoteAddr();
 				try {
 					for (int i = 0; i < _dsPartes.getRowCount(); i++) {
 						if (_dsPartes.getInt(i, SELECCION_PARTE_FLAG) == 1) {
 							// parte marcado para lotear
-							_dsPartes.setPartesMoLoteId(i,
-									_dsLotes.getLoteCargaPartesMoLoteId(rowLote_actual));
-							_dsPartes.ejecutaAccion(i, 5, "0003",
-									getCurrentRequest().getRemoteAddr(),
-									getSessionManager().getWebSiteUser().getUserID(),
-									"lote_cargas_partes_mo",
-									null,true);									
+							_dsPartes
+									.setPartesMoLoteId(
+											i,
+											_dsLotes
+													.getLoteCargaPartesMoLoteId(rowLote_actual));
+							_dsPartes
+									.ejecutaAccion(i, 5, "0003", remoteAdd,
+											userId, "lote_cargas_partes_mo",
+											null, true);
 						}
 					}
 					// si todo estuvo ok hasta acá si el estado del lote es
 					// generado lo cambia a loteado,
 					// sino no hace nada
 					if (estado_lote.equalsIgnoreCase("0004.0001"))
-						_dsLotes.ejecutaAccion(rowLote_actual, "6", "0004",
-								getSessionManager().getWebSiteUser(),
-								getCurrentRequest().getRemoteAddr());
+						_dsLotes.ejecutaAccion(rowLote_actual, 6, "0004",
+								remoteAdd, userId, "lote_cargas_partes_mo",
+								null, true);
 					_dsPartes.update();
 					_dsLotes.update();
 				} catch (DataStoreException ex) {
@@ -320,18 +341,24 @@ public class AdmLotesPartesController extends BaseController {
 				}
 
 				try {
-					_dsPartes.retrieve("partes_mo.lote_id = " + Integer.toString(_dsLotes.getLoteCargaPartesMoLoteId(rowLote_actual)));
+					_dsPartes
+							.retrieve("partes_mo.lote_id = "
+									+ Integer
+											.toString(_dsLotes
+													.getLoteCargaPartesMoLoteId(rowLote_actual)));
 				} catch (SQLException ex) {
 					MessageLog.writeErrorMessage(ex, null);
-					displayErrorMessage("Error SQL recuperando partes del lote: " + ex.getMessage());
+					displayErrorMessage("Error SQL recuperando partes del lote: "
+							+ ex.getMessage());
 					return false;
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
-					displayErrorMessage("Error de DataStore recuperando partes del lote: " + ex.getMessage());
+					displayErrorMessage("Error de DataStore recuperando partes del lote: "
+							+ ex.getMessage());
 					return false;
 				}
 				_lotearPartesSinLotearBUT15.setVisible(false);
-				
+
 				if (_dsPartes.getRowCount() > 0)
 					_box3.setVisible(true);
 				else
@@ -339,42 +366,41 @@ public class AdmLotesPartesController extends BaseController {
 
 			} else
 				displayErrorMessage("Debe seleccionar un lote");
-				return false;
+			return false;
 		}
-		
+
 		if (e.getComponent() == _seleccionaTodoBUT13) {
 			// marca todos los partes del datasource como seleccionados
 			for (int i = 0; i < _dsPartes.getRowCount(); i++) {
-				_dsPartes.setInt(i, SELECCION_PARTE_FLAG,1);
+				_dsPartes.setInt(i, SELECCION_PARTE_FLAG, 1);
 			}
 		}
 
 		if (e.getComponent() == _desSeleccionaTodoBUT14) {
 			// marca todos los partes del datasource como seleccionados
 			for (int i = 0; i < _dsPartes.getRowCount(); i++) {
-				_dsPartes.setInt(i, SELECCION_PARTE_FLAG,0);
+				_dsPartes.setInt(i, SELECCION_PARTE_FLAG, 0);
 			}
 		}
-		
+
 		if (e.getComponent() == _validarLoteBUT5) {
 			// ejecuta la validación para los partes seleccionados
-			// recorre el datastore de partes, asignando el parte y ejecutando la acción de validar
+			// recorre el datastore de partes, asignando el parte y ejecutando
+			// la acción de validar
 			if (rowLote_actual != -1) {
+				int userId = getSessionManager().getWebSiteUser().getUserID();
+				String remoteAdd = getCurrentRequest().getRemoteAddr();
 				try {
 					for (int i = 0; i < _dsPartes.getRowCount(); i++) {
-						_dsPartes.ejecutaAccion(i, 11, "0003",
-								getCurrentRequest().getRemoteAddr(),
-								getSessionManager().getWebSiteUser().getUserID(),
-								"partes_mo",
-								null,true);				
+						_dsPartes.ejecutaAccion(i, 11, "0003", remoteAdd,
+								userId, "partes_mo", null, true);
 					}
 
 					// si todo estuvo ok hasta acá si el estado del lote es
 					// generado lo cambia a loteado,
 					// sino no hace nada
-					_dsLotes.ejecutaAccion(rowLote_actual, "7", "0004",
-							getSessionManager().getWebSiteUser(),
-							getCurrentRequest().getRemoteAddr());
+					_dsLotes.ejecutaAccion(rowLote_actual, 7, "0004",
+							remoteAdd, userId, "partes_mo", null, true);
 
 					_dsPartes.update();
 					_dsLotes.update();
@@ -385,31 +411,38 @@ public class AdmLotesPartesController extends BaseController {
 				}
 			} else
 				displayErrorMessage("Debe seleccionar un lote");
-				return false;
+			return false;
 		}
 
 		return super.submitPerformed(e);
 	}
-	
+
 	@Override
 	public void pageSubmitEnd(PageEvent p) {
-		
-		// ante cada submit de página verifica contexto y setea componentes visuales comportamiento
+
+		// ante cada submit de página verifica contexto y setea componentes
+		// visuales comportamiento
 		if (_dsLotes.getRow() != -1) {
 			// hay lote seleccionado
 			if (_dsLotes.getRow() != rowLote_actual) {
 				// cambio el lote, reseteo partes y busco los nuevos
-				rowLote_actual = _dsLotes.getRow(); 
+				rowLote_actual = _dsLotes.getRow();
 				_dsPartes.reset();
 				try {
-					_dsPartes.retrieve("partes_mo.lote_id = " + Integer.toString(_dsLotes.getLoteCargaPartesMoLoteId(rowLote_actual)));
+					_dsPartes
+							.retrieve("partes_mo.lote_id = "
+									+ Integer
+											.toString(_dsLotes
+													.getLoteCargaPartesMoLoteId(rowLote_actual)));
 				} catch (SQLException e) {
 					MessageLog.writeErrorMessage(e, null);
-					displayErrorMessage("Error SQL recuperando partes del lote: " + e.getMessage());
+					displayErrorMessage("Error SQL recuperando partes del lote: "
+							+ e.getMessage());
 					e.printStackTrace();
 				} catch (DataStoreException e) {
 					MessageLog.writeErrorMessage(e, null);
-					displayErrorMessage("Error de DataStore recuperando partes del lote: " + e.getMessage());
+					displayErrorMessage("Error de DataStore recuperando partes del lote: "
+							+ e.getMessage());
 					e.printStackTrace();
 				}
 			}
@@ -417,14 +450,14 @@ public class AdmLotesPartesController extends BaseController {
 			rowLote_actual = -1;
 			_dsPartes.reset();
 		}
-		
+
 		// en todos los casos reseteo los botones
 		seteaBotones(rowLote_actual);
 
 		super.pageSubmitEnd(p);
 	}
-	
-	public void seteaBotones(int rowLote){
+
+	public void seteaBotones(int rowLote) {
 		DBConnection conn = null;
 		Statement st = null;
 		ResultSet r = null;
@@ -444,7 +477,7 @@ public class AdmLotesPartesController extends BaseController {
 			_anularParteBUT9.setVisible(false);
 			_validarParteBUT10.setVisible(false);
 			_firmarParteBUT11.setVisible(false);
-			
+
 			// tambien oculto el box de los partes
 			_box3.setVisible(false);
 		} else {
@@ -459,54 +492,57 @@ public class AdmLotesPartesController extends BaseController {
 			_anularParteBUT9.setVisible(false);
 			_validarParteBUT10.setVisible(false);
 			_firmarParteBUT11.setVisible(false);
-			
+
 			try {
 				conn = DBConnection.getConnection(getApplicationName());
 
 				// determino el estado actual del lote
 				estado = _dsLotes.getLoteCargaPartesMoEstado(rowLote);
 
-				// recorro los estados  y seteo los botones
+				// recorro los estados y seteo los botones
 				SQL = " SELECT prompt_accion,accion "
-					+ " FROM infraestructura.transicion_estados t "
-					+ " left join infraestructura.estados e on t.estado_origen = e.estado "
-					+ " where e.circuito = '0004' "
-					+ " and t.estado_origen = '" + estado + "'";
+						+ " FROM infraestructura.transicion_estados t "
+						+ " left join infraestructura.estados e on t.estado_origen = e.estado "
+						+ " where e.circuito = '0004' "
+						+ " and t.estado_origen = '" + estado + "'";
 				st = conn.createStatement();
 				r = st.executeQuery(SQL);
 
 				while (r.next()) {
 					prompt = r.getString(1);
 					accion = r.getInt(2);
-					
-					if (prompt.equalsIgnoreCase("lotear")){
-						_lotearLoteBUT3.setDisplayNameLocaleKey(Integer.toString(accion));
+
+					if (prompt.equalsIgnoreCase("lotear")) {
+						_lotearLoteBUT3.setDisplayNameLocaleKey(Integer
+								.toString(accion));
 						_lotearLoteBUT3.setVisible(true);
-					}
-					else if (prompt.equalsIgnoreCase("anular")){
-						_anularLoteBUT4.setDisplayNameLocaleKey(Integer.toString(accion));
+					} else if (prompt.equalsIgnoreCase("anular")) {
+						_anularLoteBUT4.setDisplayNameLocaleKey(Integer
+								.toString(accion));
 						_anularLoteBUT4.setVisible(true);
-					}
-					else if (prompt.equalsIgnoreCase("validar")){
-						_validarLoteBUT5.setDisplayNameLocaleKey(Integer.toString(accion));
+					} else if (prompt.equalsIgnoreCase("validar")) {
+						_validarLoteBUT5.setDisplayNameLocaleKey(Integer
+								.toString(accion));
 						_validarLoteBUT5.setVisible(true);
-					}
-					else if (prompt.equalsIgnoreCase("re-lotear")){
-						_reLotearLoteBUT6.setDisplayNameLocaleKey(Integer.toString(accion));
+					} else if (prompt.equalsIgnoreCase("re-lotear")) {
+						_reLotearLoteBUT6.setDisplayNameLocaleKey(Integer
+								.toString(accion));
 						_reLotearLoteBUT6.setVisible(true);
-					}
-					else if (prompt.equalsIgnoreCase("firmar")){
-						_firmarLoteBUT7.setDisplayNameLocaleKey(Integer.toString(accion));
+					} else if (prompt.equalsIgnoreCase("firmar")) {
+						_firmarLoteBUT7.setDisplayNameLocaleKey(Integer
+								.toString(accion));
 						_firmarLoteBUT7.setVisible(true);
 					}
 				}
-				
+
 			} catch (SQLException e) {
 				MessageLog.writeErrorMessage(e, null);
-				displayErrorMessage("Error SQL armando botonera: " + e.getMessage());
+				displayErrorMessage("Error SQL armando botonera: "
+						+ e.getMessage());
 			} catch (DataStoreException e) {
 				MessageLog.writeErrorMessage(e, null);
-				displayErrorMessage("Error de DataStore armando botonera: " + e.getMessage());
+				displayErrorMessage("Error de DataStore armando botonera: "
+						+ e.getMessage());
 				e.printStackTrace();
 			} finally {
 				if (r != null) {
