@@ -1186,6 +1186,10 @@
             	<required>false</required>
        	</attribute>
        	<attribute>
+	      	<name>bordercolor</name>
+            	<required>false</required>
+       	</attribute>
+       	<attribute>
 	      	<name>cellpadding</name>
             	<required>false</required>
        	</attribute>
