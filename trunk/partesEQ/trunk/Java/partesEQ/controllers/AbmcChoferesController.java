@@ -33,8 +33,6 @@ public class AbmcChoferesController extends BaseController {
 	public com.salmonllc.html.HtmlTextEdit _buscarTE3;
 	public com.salmonllc.html.HtmlTextEdit _desdeTE6;
 	public com.salmonllc.html.HtmlTextEdit _hastaTE6;
-	public com.salmonllc.html.HtmlText _mensajesCAP19;
-	public com.salmonllc.html.HtmlText _mensajesTE19;	
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
@@ -63,8 +61,8 @@ public class AbmcChoferesController extends BaseController {
 	 * @throws Exception 
 	 */
 	public void initialize() throws Exception {		
-			super.initialize();
-			_dsChofer.setPage(this);				
+		super.initialize();
+		_dsChofer.setPage(this);				
 	}
 
 
