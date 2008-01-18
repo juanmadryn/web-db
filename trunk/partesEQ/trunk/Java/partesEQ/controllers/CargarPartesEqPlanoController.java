@@ -2,15 +2,17 @@
 package partesEQ.controllers;
 
 //Salmon import statements
-import java.sql.SQLException;
-
 import infraestructura.controllers.BaseController;
 
-import com.salmonllc.jsp.*;
+import java.sql.SQLException;
+
+import com.salmonllc.html.HtmlSubmitButton;
+import com.salmonllc.html.events.PageEvent;
+import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.html.events.ValueChangedEvent;
+import com.salmonllc.html.events.ValueChangedListener;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
-import com.salmonllc.html.HtmlSubmitButton;
-import com.salmonllc.html.events.*;
 
 /**
  * CargarPartesEqPlanoController: a SOFIA generated controller

@@ -4,8 +4,7 @@ package partesEQ.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 
-import com.salmonllc.jsp.*;
-import com.salmonllc.html.events.*;
+import com.salmonllc.html.events.PageEvent;
 
 /**
  * AbmcTiposEquiposController: a SOFIA generated controller

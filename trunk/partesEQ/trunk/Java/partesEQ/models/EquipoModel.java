@@ -1,11 +1,11 @@
 package partesEQ.models;
 
+import infraestructura.controllers.BaseController;
+import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import infraestructura.controllers.BaseController;
-import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;

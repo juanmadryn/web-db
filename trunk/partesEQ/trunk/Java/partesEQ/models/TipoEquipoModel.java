@@ -1,11 +1,9 @@
 package partesEQ.models;
 
-import com.salmonllc.sql.*;
-
-//$CUSTOMIMPORTS$
-//Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
 import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
-//$ENDCUSTOMIMPORTS$
+
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 /**
  * TipoEquipoModel: A SOFIA generated model
