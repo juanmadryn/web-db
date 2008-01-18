@@ -3,6 +3,13 @@
 <siteMap>
 
   <entry>
+     <name>MenuInventario</name>
+     <uri>../inventario/Jsp/MenuInventario.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
      <name>AdministracionProyectos</name>
      <uri>../proyectos/Jsp/AdministracionProyectos.jsp</uri>
      <useForward>false</useForward>
