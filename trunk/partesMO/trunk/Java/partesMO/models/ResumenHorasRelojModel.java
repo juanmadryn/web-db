@@ -15,7 +15,9 @@ import java.util.Locale;
 import java.util.Set;
 
 import com.salmonllc.properties.Props;
-import com.salmonllc.sql.*;
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
 //$CUSTOMIMPORTS$

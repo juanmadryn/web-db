@@ -5,7 +5,8 @@ package partesMO.controllers;
 import infraestructura.controllers.BaseController;
 
 import com.salmonllc.html.HtmlSubmitButton;
-import com.salmonllc.html.events.*;
+import com.salmonllc.html.events.PageEvent;
+import com.salmonllc.html.events.SubmitEvent;
 
 
 /**

@@ -1,5 +1,7 @@
 package partesMO.reglasNegocio;
 
+import infraestructura.reglasNegocio.ValidadorReglasNegocio;
+
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.StringTokenizer;
@@ -10,8 +12,6 @@ import partesMO.models.ValidacionesPartesMoModel;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
-
-import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 
 /**
  * 
