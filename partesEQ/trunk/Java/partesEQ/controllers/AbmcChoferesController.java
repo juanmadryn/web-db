@@ -2,6 +2,8 @@
 package partesEQ.controllers;
 
 //Salmon import statements
+import com.salmonllc.html.events.PageEvent;
+
 import infraestructura.controllers.BaseController;
 
 
@@ -65,5 +67,9 @@ public class AbmcChoferesController extends BaseController {
 		_dsChofer.setPage(this);				
 	}
 
-
+	@Override
+	public void pageRequested(PageEvent p) throws Exception {
+		_detailformdisplaybox1.setVisible((_dsChofer.getRow() == -1) ? false : true);		
+		super.pageRequested(p);
+	}
 }
