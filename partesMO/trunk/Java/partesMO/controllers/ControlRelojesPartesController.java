@@ -3,6 +3,8 @@ package partesMO.controllers;
 
 //Salmon import statements
 
+import infraestructura.controllers.BaseController;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -11,13 +13,16 @@ import java.util.GregorianCalendar;
 
 import partesMO.models.ResumenHorasRelojModel;
 import partesMO.reglasNegocio.ValidarTotalRelojPartesMo;
-import infraestructura.controllers.BaseController;
+
+import com.salmonllc.html.HtmlSubmitButton;
+import com.salmonllc.html.events.PageEvent;
+import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.html.events.ValueChangedEvent;
+import com.salmonllc.html.events.ValueChangedListener;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
-import com.salmonllc.html.HtmlSubmitButton;
-import com.salmonllc.html.events.*;
 
 /**
  * ControlRelojesPartesController: a SOFIA generated controller
