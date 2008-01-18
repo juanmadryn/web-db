@@ -23,7 +23,7 @@
          <salmon:tr>
             <salmon:td valign="Top">
                <salmon:searchformdisplaybox name="searchformdisplaybox1"
-                  caption="Partes de Equipos" qbebuilder="dsQBE">
+                  caption="Partes de Equipos" qbebuilder="dsQBE" addbuttonvisible="false">
                   <table width="100%">
                      <tr>
                         <td><salmon:text name="buscarCAP1"

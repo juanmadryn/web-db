@@ -68,14 +68,6 @@
 								<td><salmon:input type="text" name="hastaTE6"
 									size="10" maxlength="10" displayformat="dd/MM/yyyy"
 									datasource="dsChofer:choferes.hasta"></salmon:input></td>
-							</tr>							
-							<tr>
-								<td><salmon:text name="mensajesCAP19" text=""
-									font="ColumnCaptionFont" /></td>
-								<td>
-							   		<salmon:text name="mensajesTE19" text="mensaje_error goes here"
-                        				font="DefaultFont" datasource="dsChofer:mensaje_error" />
-								</td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
