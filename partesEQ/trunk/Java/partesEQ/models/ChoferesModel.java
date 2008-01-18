@@ -1,15 +1,17 @@
 package partesEQ.models;
 
+import infraestructura.controllers.BaseController;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import infraestructura.controllers.BaseController;
-
 import com.salmonllc.properties.Props;
-import com.salmonllc.sql.*;
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
 //$CUSTOMIMPORTS$

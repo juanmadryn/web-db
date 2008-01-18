@@ -2,9 +2,9 @@
 package partesEQ.controllers;
 
 //Salmon import statements
-import com.salmonllc.html.events.PageEvent;
-
 import infraestructura.controllers.BaseController;
+
+import com.salmonllc.html.events.PageEvent;
 
 
 /**
