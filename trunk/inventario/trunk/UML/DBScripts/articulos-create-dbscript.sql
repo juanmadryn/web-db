@@ -1,3 +1,5 @@
+﻿CREATE SCHEMA IF NOT EXISTS inventario;
+
 -- ------------------------------------------------------------
 -- Define al almacen y su localización. Se deberán impelemtar atributos asociados a los almacenes para indicar funcionalidad, comportamiento y/o segmentación de los almacenes
 -- ------------------------------------------------------------
