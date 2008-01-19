@@ -38,7 +38,7 @@ public class ChoferesModel extends DataStore {
      //$CUSTOMVARS$
      //Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
      private static final long serialVersionUID = -6980805910579451863L; 
- 	 private BaseController _pagina;
+ 	 //private BaseController _pagina;
  	 
  	 private Connection _connTango = null;	 
 	 private Props  _p = null;
@@ -385,9 +385,9 @@ public class ChoferesModel extends DataStore {
     	 }
      }
      
-     public void setPage(BaseController pagina) {
+     /*public void setPage(BaseController pagina) {
  		this._pagina = pagina;
-     }
+     }*/
      
      public Connection getConexionTango() throws DataStoreException {
 
