@@ -63,9 +63,9 @@ public class AbmcChoferesController extends BaseController {
 	 * @throws Exception 
 	 */
 	public void initialize() throws Exception {		
-		super.initialize();
-		_dsChofer.setPage(this);				
+		super.initialize();				
 	}
+
 
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
