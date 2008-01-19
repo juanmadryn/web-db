@@ -1,7 +1,6 @@
 package partesEQ.models;
 
-import infraestructura.controllers.WebSiteUser;
-import infraestructura.reglasNegocio.ValidadorReglasNegocio;
+import infraestructura.models.BaseModel;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ import com.salmonllc.util.MessageLog;
 /**
  * java: A SOFIA generated model
  */
-public class PartesEqModel extends DataStore {
+public class PartesEqModel extends BaseModel {
 
 	//constants for columns
 	public static final String PARTES_EQ_PARTE_ID = "partes_eq.parte_id";
@@ -59,7 +58,6 @@ public class PartesEqModel extends DataStore {
 	public static final String ESTADOS_NOMBRE = "estados.nombre";
 	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
 	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
-	public static final String TAREAS_PROYECTO_NOMBRE="tareas_proyecto.nombre";
 
 	private String _estado_inicial = null;
 	//$ENDCUSTOMVARS$
@@ -87,8 +85,7 @@ public class PartesEqModel extends DataStore {
 			addTableAlias(computeTableName("lote_carga_partes_eq"),"lote_carga_partes_eq");
 			addTableAlias(computeTableName("choferes"), "choferes");
 			addTableAlias(computeTableName("infraestructura.estados"),"estados");
-			addTableAlias(computeTableName("proyectos.proyectos"), "proyectos");
-			addTableAlias(computeTableName("proyectos.tareas_proyecto"),"tareas");
+			addTableAlias(computeTableName("proyectos.proyectos"), "proyectos"); 
 
 			//add columns
 			addColumn(computeTableName("partes_eq"), "parte_id",
@@ -140,8 +137,6 @@ public class PartesEqModel extends DataStore {
 					DataStore.DATATYPE_STRING, false, false, PROYECTOS_PROYECTO);
 			addColumn(computeTableName("proyectos.proyectos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
-			
-			addColumn(computeTableName("tareas"),"nombre",DataStore.DATATYPE_STRING,false,false,TAREAS_PROYECTO_NOMBRE);
 
 			//add buckets
 			addBucket(MENSAJE_ERROR, DataStore.DATATYPE_STRING);
@@ -158,8 +153,6 @@ public class PartesEqModel extends DataStore {
 					computeTableAndFieldName("estados.estado"), true);
 			addJoin(computeTableAndFieldName("partes_eq.proyecto_id"),
 					computeTableAndFieldName("proyectos.proyecto_id"), true);
-			
-			addJoin(computeTableAndFieldName("partes_eq.tarea_id"),computeTableAndFieldName("tareas.tarea_id"),true);
 
 			//set order by
 			setOrderBy(computeTableAndFieldName("partes_eq.tarea_id") + " DESC");
@@ -1147,44 +1140,6 @@ public class PartesEqModel extends DataStore {
     public void setProyectosNombre(int row,String newValue) throws DataStoreException {
          setString(row,PROYECTOS_NOMBRE, newValue);
     }
-    
-    /**
-     * Retrieve the value of the tareas_proyecto.nombre column for the current row.
-     * @return int
-     * @throws DataStoreException
-     */ 
-    public String getTareasProyectoNombre() throws DataStoreException {
-         return  getString(TAREAS_PROYECTO_NOMBRE);
-    }
-
-    /**
-     * Retrieve the value of the tareas_proyecto.nombre column for the specified row.
-     * @param row which row in the table
-     * @return int
-     * @throws DataStoreException
-     */ 
-    public String getTareasProyectoNombre(int row) throws DataStoreException {
-         return  getString(row,TAREAS_PROYECTO_NOMBRE);
-    }
-
-    /**
-     * Set the value of the tareas_proyecto.nombre column for the current row.
-     * @param newValue the new item value
-     * @throws DataStoreException
-     */ 
-    public void setTareasProyectoNombre(String newValue) throws DataStoreException {
-         setString(TAREAS_PROYECTO_NOMBRE, newValue);
-    }
-
-    /**
-     * Set the value of the tareas_proyecto.nombre column for the specified row.
-     * @param row which row in the table
-     * @param newValue the new item value
-     * @throws DataStoreException
-     */ 
-    public void setTareasProyectoNombre(int row,String newValue) throws DataStoreException {
-         setString(row,TAREAS_PROYECTO_NOMBRE, newValue);
-    }
 
 	//$CUSTOMMETHODS$
 	//Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
@@ -1202,7 +1157,6 @@ public class PartesEqModel extends DataStore {
 		boolean hubo_errores_horario = false;
 		boolean hubo_errores_equipo = false;
 		boolean hubo_errores_proyecto = false;
-		boolean hubo_errores_tarea = false;
 		boolean hubo_errores_lote = false;
 		boolean hubo_errores_dup = false;
 		String estado_inicial = null;
@@ -1229,13 +1183,12 @@ public class PartesEqModel extends DataStore {
 				// limpio mensajes de error que pueden haber quedado
 				setMensajeError(i, "");
 
-				if (hubo_errores_horario || hubo_errores_proyecto || hubo_errores_tarea || hubo_errores_equipo || hubo_errores_chofer ) {
+				if (hubo_errores_horario || hubo_errores_proyecto || hubo_errores_equipo || hubo_errores_chofer ) {
 					//controlaLegajoTango(i);
 					//getCategoriaLegajo(i);
 					getDatosChofer(i);
 					getDatosEquipo(i);
 					getDatosProyecto(i);
-					getDatosTarea(i);
 					controlaHorario(i);
 					parteDuplicado(i);
 				} else {
@@ -1244,7 +1197,6 @@ public class PartesEqModel extends DataStore {
 					hubo_errores_equipo = (getDatosEquipo(i) == -1);
 					hubo_errores_chofer = getDatosChofer(i);
 					hubo_errores_proyecto = (getDatosProyecto(i) == -1);
-					hubo_errores_tarea = (getDatosTarea(i) == -1);
 					hubo_errores_lote = (getLote(i) == -1);
 					hubo_errores_horario = controlaHorario(i);
 					hubo_errores_dup = parteDuplicado(i);
@@ -1254,7 +1206,6 @@ public class PartesEqModel extends DataStore {
 
 		if (hubo_errores_horario 
 				|| hubo_errores_proyecto 
-				|| hubo_errores_tarea
 				|| hubo_errores_equipo 
 				|| hubo_errores_chofer
 				|| hubo_errores_lote 
@@ -1854,7 +1805,7 @@ public class PartesEqModel extends DataStore {
 				if(f == 0) {				
 					setProyectosNombre(row, nombre);
 					setPartesEqProyectoId(row, proyecto_id);		
-					//setPartesEqTareaId(row, proyecto_id);	// tarea_id == proyecto_id				
+					setPartesEqTareaId(row, proyecto_id);	// tarea_id == proyecto_id				
 				}
 				else if(f < 0) {
 					setMensajeError(row,"Fecha de parte anterior a comienzo del proyecto.");
@@ -1874,48 +1825,6 @@ public class PartesEqModel extends DataStore {
 		}
 
 		return proyecto_id;
-	}
-	
-	/**
-	 * @param row
-	 * @return
-	 * @throws DataStoreException
-	 */
-	public int getDatosTarea(int row) throws DataStoreException {		
-		TareasProyectoModel dsTareasProyecto = new TareasProyectoModel(getAppName(),"proyectos");
-		int proyectoId = getPartesEqProyectoId(row);
-		int tareaId = -1;
-		String tareaProyectoNombre = getTareasProyectoNombre(row);
-		StringBuilder whereClause = new StringBuilder(50);
-		
-		try {
-			// check if a task was specified
-			if ((tareaProyectoNombre != null) && (tareaProyectoNombre.trim().length() > 0)) {
-				whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_NOMBRE + " = '" + tareaProyectoNombre + "' and ");				
-			}			
-			whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_PROYECTO_ID + " = " + proyectoId);
-			// the first task added to the project on top
-			dsTareasProyecto.setOrderBy(TareasProyectoModel.TAREAS_PROYECTO_TAREA_ID + " asc");
-			
-			dsTareasProyecto.retrieve(whereClause.toString());
-			dsTareasProyecto.gotoFirst();
-			tareaId = dsTareasProyecto.getRow();
-			
-			if (tareaId != -1) {
-				setPartesEqTareaId(row, dsTareasProyecto.getTareasProyectoTareaId());
-				setTareasProyectoNombre(row, dsTareasProyecto.getTareasProyectoNombre());				
-			} else {
-				if (getMensajeError(row) == null)
-					setMensajeError(row, "Tarea inexistente");
-				else
-					setMensajeError(row, getMensajeError(row) + " - Tarea inexistente");
-			}
-			
-			return tareaId;
-		} catch (SQLException e) {
-			MessageLog.writeErrorMessage(e, null);
-			throw new DataStoreException("Error determinando tarea: " + e.getMessage(), e);
-		}		
 	}
 	
 	/**
@@ -1998,7 +1907,6 @@ public class PartesEqModel extends DataStore {
 		boolean hubo_errores_legajo = false;
 		boolean hubo_errores_horario = false;
 		boolean hubo_errores_proyecto = false;
-		boolean hubo_errores_tarea = false;
 		boolean hubo_errores_lote = false;
 		boolean hubo_errores_dup = false;
 		boolean hubo_errores_equipo = false;
@@ -2008,7 +1916,6 @@ public class PartesEqModel extends DataStore {
 
 		hubo_errores_equipo = (getDatosEquipo(row) == -1);
 		hubo_errores_proyecto = (getDatosProyecto(row) == -1);
-		hubo_errores_tarea = (getDatosTarea(row) == -1);
 		hubo_errores_lote = (getLote(row) == -1);
 		hubo_errores_horario = controlaHorario(row);
 		hubo_errores_dup = parteDuplicado(row);
@@ -2016,7 +1923,6 @@ public class PartesEqModel extends DataStore {
 		if (hubo_errores_legajo 
 				|| hubo_errores_horario 
 				|| hubo_errores_proyecto
-				|| hubo_errores_tarea
 				|| hubo_errores_equipo
 				|| hubo_errores_lote 
 				|| hubo_errores_dup) 
@@ -2174,162 +2080,18 @@ public class PartesEqModel extends DataStore {
 		}
 					
 		return hubo_errores;
+	}	
+
+	@Override
+	public String getEstadoActual() throws DataStoreException {
+		// TODO Auto-generated method stub
+		return getPartesEqEstado();
 	}
-	
-	/**
-     * @param row nro de registro sobre el que se ejecuta la acción
-     * @param accion accion grabada en la tabla de tarnsición de estados
-     * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
-     * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
-     * Concentra TODAS las acciones posibles para un parte de MO
-     * @throws DataStoreException 
-     */
-    public void ejecutaAccion(int row, String accion, String circuito, WebSiteUser user, String host) throws DataStoreException {
-   	 if (!gotoRow(row)){
-		 throw new DataStoreException("Fila " + row + " fuera de contexto para el parte");
-	 }
-	 
-	 ejecutaAccion(accion,circuito,user,host);
 
-    }
-
-    	
-    /**
-     * @param accion accion grabada en la tabla de transición de estados
-     * @param circuito circuito al cual pertenece la acción. Permite recuperar la columna de estado
-     * Ejecuta la acción dada para parte y lo cambia de estado según corresponda.
-     * Concentra TODAS las acciones posibles para un parte de MO
-     * @throws DataStoreException 
-     */
-    public void ejecutaAccion(String accion, String circuito, WebSiteUser user, String host) throws DataStoreException {
-		String estado_actual = null;
-		String proximo_estado = null;
-		String nombre_accion = null;
-		String validador = null;
-		DBConnection conexion = null;
-		Statement st = null;
-		ResultSet r = null;
-		String SQL;
-		StringBuilder resultado;
-		boolean ok = false;
-		
-		// verifico si está conectado un usuario
-		if (user == null){
-			throw new DataStoreException("Debe estar conectado como un usuario de la aplicación...");
-		}
-		
-		// chequeo que el informe está en contexto de informe
-		if (getRow() == -1) {
-			throw new DataStoreException("No hay seleccionado ningún parte");
-		}
-		
-		// correspondiente y ejecutarla
-		try {
-			conexion = DBConnection.getConnection("partesEQ");
-			conexion.beginTransaction();
-
-			estado_actual = getPartesEqEstado();
-
-			// recupero el próximo estado y el nombre de la acción en función dela acción
-			SQL = "SELECT t.estado_destino,a.nombre,t.validador "
-					+ " FROM infraestructura.transicion_estados t "
-					+ " left join infraestructura.estados e on t.estado_origen = e.estado "
-					+ " left join infraestructura.acciones_apps a on a.accion = t.accion "
-					+ " where e.circuito = '" + circuito + "'"
-					+ " and t.estado_origen = '" + estado_actual + "'"
-					+ " and t.accion = " + accion;
-			st = conexion.createStatement();
-			r = st.executeQuery(SQL);
-
-			if (r.first()) {
-				proximo_estado = r.getString(1);
-				nombre_accion = r.getString(2);
-				validador = r.getString(3);
-			}
-
-			// Verifica rutina de validación dinmica
-			try {
-				if (validador != null && validador.length() > 0 && !validador.equalsIgnoreCase("No Validar")){
-					Class claseVal = Class.forName(validador);
-					ValidadorReglasNegocio val = (ValidadorReglasNegocio) claseVal.newInstance();
-					resultado = new StringBuilder("");
-					if (val.esValido(this,resultado,conexion)) {
-						ok = true;
-					} else{
-						ok = false;
-						setMensajeError(resultado.toString());
-					}
-				}
-				else if (validador == null || validador.length() == 0){
-					setMensajeError(nombre_accion + " -- No tiene implementada Validación. Se requiere especificar Validación");
-					ok = false;
-				}
-				else if (validador.equalsIgnoreCase("No Validar")){
-					// La regla NO requiere de validación
-					ok = true;
-				}
-				else {
-					setMensajeError(nombre_accion + " -- Situación no prevista");
-					ok = false;
-				}
-			} catch (ClassNotFoundException e) {
-				MessageLog.writeErrorMessage(e, null);
-				throw new DataStoreException("ClassNotFoundException: " + e.getMessage());
-			} catch (InstantiationException e) {
-				MessageLog.writeErrorMessage(e, null);
-				throw new DataStoreException("InstantiationException: " + e.getMessage());
-			} catch (IllegalAccessException e) {
-				MessageLog.writeErrorMessage(e, null);
-				throw new DataStoreException("IllegalAccessException: " + e.getMessage());
-			}
-			
-
-			// si hay cambio de estado al finalizar, independientemente de la
-			// acción paso al próximo estado  y actualizo
-			// Se inserta también el registro de auditoría correspondiente sólo si cambió estado
-			if (ok && !estado_actual.equalsIgnoreCase(proximo_estado)) {
-				setPartesEqEstado(proximo_estado);
-				
-				update(conexion);
-
-				SQL = "insert into audita_estados_circuitos"
-						+ " (circuito,fecha,de_estado,a_estado,user_id,clave_primaria,host,accion) values"
-						+ " ('" + circuito + "',now(),'" + estado_actual
-						+ "','" + proximo_estado + "'," + user.getUserID()
-						+ "," + getPartesEqParteId() 
-						+ ",'" + host	
-						+ "'," + accion + ")";
-				st = conexion.createStatement();
-				st.executeUpdate(SQL);
-				
-			}
-			if (ok)
-				conexion.commit();
-			else
-				conexion.rollback();
-
-		} catch (SQLException e) {
-			MessageLog.writeErrorMessage(e, null);
-		} finally {
-			if (r != null) {
-				try {
-					r.close();
-				} catch (Exception ex) {
-				}
-			}
-
-			if (st != null)
-				try {
-					st.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-			if (conexion != null) {
-				conexion.rollback();
-				conexion.freeConnection();
-			}
-		}
+	@Override
+	public int getIdRegistro() throws DataStoreException {
+		// TODO Auto-generated method stub
+		return getPartesEqParteId();
 	}
 
 
