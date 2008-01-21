@@ -8,7 +8,8 @@
    <%@include file="message.jsp"%>
    </td>
    <!-- ********************************************************************************************* -->
-   <!-- Agregar definición de DataSource aquí -->
+   <!-- Agregar definición de DataSource aquí 														  -->
+   <!-- ********************************************************************************************* -->
    <salmon:datasource name="dsPartes" type="MODEL" dbprofile="partesmo"
       model="partesMO.models.PartesMoModel" autoretrieve="Never">
    </salmon:datasource>
