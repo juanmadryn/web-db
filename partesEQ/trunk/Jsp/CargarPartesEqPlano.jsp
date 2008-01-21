@@ -56,11 +56,14 @@
                </salmon:tr>
                <salmon:tr>
                   <salmon:td/>
-                  <salmon:td>
+                  <salmon:td name="choferHeaderTD">
                      <salmon:text name="choferCAP7" text="Chofer"
                         font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td/>                                    
+                  <salmon:td name="tareaProyectoHeaderTD">
+                  	<salmon:text name="tareaCAP7" text="Tarea"
+                        font="TableHeadingFont" />
+                  </salmon:td>                                    
                   <salmon:td>
                      <salmon:text name="accionesCAP9" text="Acciones"
                         font="TableHeadingFont" />
@@ -130,7 +133,7 @@
                </salmon:tr>
                <salmon:tr>
                   <salmon:td/>                                    
-                  <salmon:td>
+                  <salmon:td name="choferTableTD">
                         <salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 							lookupurl="%LkpChoferes" name="choferTE1" size="10" 
 							maxlength="15" displayformat="##########0" 
@@ -141,7 +144,16 @@
                         	text="apeynom goes here" font="DefaultFont"
                         	datasource="dsPartes:choferes.apeynom" />
                   </salmon:td>
-                  <salmon:td/>
+                  <salmon:td name="tareaProyectoTableTD">
+                     <salmon:lookup
+                        browseimage="%ImageDirectory/Browse.gif"
+                        lookupurl="%LkpTareasProyecto" name="tareasProyectoLU1"
+                        size="10" maxlength="90"
+                        datasource="dsPartes:tareas.nombre"
+                        descriptiondatasource="dsPartes:tareas.descripcion"
+                        popupheight="450" popupwidth="500"
+                        usepopup="true" showdescription="True"></salmon:lookup>
+                  </salmon:td>
                   <salmon:td>
                      <salmon:input type="submit" name="nuevoBUT91"
                         value="Copiar" accesskey="c">
