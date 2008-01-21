@@ -11,6 +11,10 @@ import com.salmonllc.html.events.PageEvent;
  */
 public class AbmcTiposEquiposController extends BaseController {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8015683221204279432L;
 	//Visual Components
 	public com.salmonllc.html.HtmlDropDownList _inventariableTE10;
 	public com.salmonllc.html.HtmlText _buscarCAP5;

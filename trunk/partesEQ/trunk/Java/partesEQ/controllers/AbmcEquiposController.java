@@ -4,6 +4,7 @@ package partesEQ.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 
+import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitListener;
 
