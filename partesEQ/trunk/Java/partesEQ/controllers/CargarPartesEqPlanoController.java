@@ -11,6 +11,7 @@ import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.ValueChangedEvent;
 import com.salmonllc.html.events.ValueChangedListener;
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
@@ -56,6 +57,11 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 	public com.salmonllc.html.HtmlSubmitButton _grabarParteBUT3;
 	public com.salmonllc.html.HtmlSubmitButton _eliminaParteBUT4;
 	public com.salmonllc.html.HtmlSubmitButton _refrescarBUT5;
+	
+	public com.salmonllc.jsp.JspTableCell _choferTableTD;
+	public com.salmonllc.jsp.JspTableCell _choferHeaderTD;
+	public com.salmonllc.jsp.JspTableCell _tareaProyectoTableTD;
+	public com.salmonllc.jsp.JspTableCell _tareaProyectoHeaderTD;
 
 	// DataSources
 	public partesEQ.models.PartesEqModel _dsPartes;
@@ -134,6 +140,16 @@ public class CargarPartesEqPlanoController extends BaseController implements Val
 		_fechaTE3.addValueChangedListener(this);
 		
 		_dsPartes.setAutoValidate(true);	
+		
+		// hide tarea lookup if disabled in properties file
+		if("false".equalsIgnoreCase(Props.getProps("parteseq",null).getProperty("ShowTareaLookup"))) {
+			_tareaProyectoTableTD.setEnabled(false);
+			_tareaProyectoTableTD.setVisible(false);
+			_tareaProyectoHeaderTD.setEnabled(false);
+			_tareaProyectoHeaderTD.setVisible(false);
+			_choferHeaderTD.setColSpan(2);
+			_choferTableTD.setColSpan(2);
+		}
 		
 		//refresca la pantalla de partes
 		refrescaPartes();
