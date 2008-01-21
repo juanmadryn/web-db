@@ -52,6 +52,13 @@
   </entry>
 
   <entry>
+     <name>LkpTareasProyecto</name>
+     <uri>/Jsp/LkpTareasProyecto.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
      <name>LkpTiposEquipos</name>
      <uri>/Jsp/LkpTiposEquipos.jsp</uri>
      <useForward>false</useForward>
