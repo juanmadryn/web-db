@@ -1,5 +1,7 @@
 package inventario.models;
 
+import java.sql.SQLException;
+
 import com.salmonllc.sql.*;
 
 //$CUSTOMIMPORTS$
@@ -607,6 +609,39 @@ public class ArticulosModel extends BaseModel {
 	@Override
 	public int getIdRegistro() throws DataStoreException {
 		return getArticulosArticuloId();
+	}
+	
+	@Override
+	public void update(DBConnection conn, boolean handleTrans)
+			throws DataStoreException, SQLException {
+		validarArticulos();
+		super.update(conn, handleTrans);
+	}
+	
+	public void validarArticulos() throws SQLException, DataStoreException {		
+		boolean hubo_errores_clase_articulo;
+		if (getRowStatus() == STATUS_NEW_MODIFIED
+				|| getRowStatus() == STATUS_MODIFIED) {
+			hubo_errores_clase_articulo = (validarClaseArticulo() == -1);
+		}
+	}
+	
+	public int validarClaseArticulo() throws SQLException, DataStoreException {
+		ClaseArticuloModel dsClaseArticulo = new ClaseArticuloModel(getAppName(),"inventario");
+		
+		if (getClaseArticuloNombre() == null) 
+			throw new DataStoreException("Debe especificar una clase de artículo.");	
+		
+		dsClaseArticulo.retrieve(ClaseArticuloModel.CLASE_ARTICULO_NOMBRE + " = '" + getClaseArticuloNombre() + "'");
+		dsClaseArticulo.gotoFirst();
+		
+		int claseId = dsClaseArticulo.getRow();		
+		if (claseId != -1) {
+			setArticulosClaseArticuloId(dsClaseArticulo.getClaseArticuloClaseArticuloId());
+		} else {
+			throw new DataStoreException("Error determinando clase de artículo");
+		}		
+		return claseId;
 	}
 	//$ENDCUSTOMMETHODS$
 
