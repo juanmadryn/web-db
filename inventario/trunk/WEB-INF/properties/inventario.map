@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE sitemap PUBLIC "SOFIA Site Map" "http://www.salmonllc.com/sofiaExamples/sitemap.dtd">
 <siteMap>
+
+  <entry>
+     <name>ConfigurarInventario</name>
+     <uri>/Jsp/ConfigurarInventario.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+  
+  <entry>
+     <name>AbmcAtributoArticulo</name>
+     <uri>../infraestructura/Jsp/AbmcAtributoGenerico.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>ConsultaArticulos</name>
+     <uri>/Jsp/ConsultaArticulos.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>LkpClaseArticulo</name>
+     <uri>/Jsp/LkpClaseArticulo.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcArticulo</name>
+     <uri>/Jsp/AbmcArticulo.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
   <entry>
      <name>AbmcClaseArticulo</name>
      <uri>/Jsp/AbmcClaseArticulo.jsp</uri>
