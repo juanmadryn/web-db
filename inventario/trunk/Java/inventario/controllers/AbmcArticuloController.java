@@ -101,7 +101,7 @@ public class AbmcArticuloController extends BaseController {
 	public HtmlSubmitButton _grabarArticuloBUT;
 	public HtmlSubmitButton _nuevoArticuloBUT;
 	public HtmlSubmitButton _eliminaArticuloBUT;
-	public HtmlSubmitButton _refrescarBUT;
+	public HtmlSubmitButton _recargarBUT;
 	public HtmlSubmitButton _grabarAtributoBUT1;
 	public HtmlSubmitButton _atributoGenerarAtributosBUT11;
 	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT1;
@@ -112,6 +112,7 @@ public class AbmcArticuloController extends BaseController {
 	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT6;
 	
 	private int botonSeleccionado = -1;
+	private boolean recargar = false;
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -133,9 +134,9 @@ public class AbmcArticuloController extends BaseController {
 		_eliminaArticuloBUT.setAccessKey("e");
 		_detailformdisplaybox1.addButton(_eliminaArticuloBUT);
 		
-		_refrescarBUT = new HtmlSubmitButton("refrescarBUT5","Recargar",this);
-		_refrescarBUT.setAccessKey("r");
-		_detailformdisplaybox1.addButton(_refrescarBUT);
+		_recargarBUT = new HtmlSubmitButton("recargarBUT5","Recargar",this);
+		_recargarBUT.setAccessKey("r");
+		_detailformdisplaybox1.addButton(_recargarBUT);
 		
 		// botones para atributos
 		_grabarAtributoBUT1 = new HtmlSubmitButton("grabarAtributoBUT1",
@@ -168,7 +169,7 @@ public class AbmcArticuloController extends BaseController {
 		_grabarArticuloBUT.addSubmitListener(this);
 		_nuevoArticuloBUT.addSubmitListener(this);
 		_eliminaArticuloBUT.addSubmitListener(this);
-		_refrescarBUT.addSubmitListener(this);
+		_recargarBUT.addSubmitListener(this);
 		_grabarAtributoBUT1.addSubmitListener(this);
 		_atributoGenerarAtributosBUT11.addSubmitListener(this);
 		_atributoEtiquetaBUT1.addSubmitListener(this);
@@ -183,7 +184,8 @@ public class AbmcArticuloController extends BaseController {
 		_estadoCB9.setFalseValue("F");
 		_estadoCB9.setTrueValue("V");
 		
-		_dsArticulo.reset();
+		_dsAtributos.reset();
+		_dsArticulo.reset();		
 		_dsArticulo.insertRow();
 		_dsArticulo.gotoFirst();
 		
@@ -200,20 +202,53 @@ public class AbmcArticuloController extends BaseController {
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		
+		// Save the item
 		if (e.getComponent() == _grabarArticuloBUT) {
 			// grabo todos los datasource
+			int v_objeto_id = 0;
 			try {
 				if (_dsArticulo.getRow() == -1)
 					return false;
-				_dsArticulo.update();				
+				_dsArticulo.update();		
+				
+				// genero atributos faltantes si los hubiera, es decir, los
+				// inserto en la tabla de atributos con sus valores en null				
+				v_objeto_id = _dsArticulo.getArticulosArticuloId();
+				if (_dsAtributos.getRow() == -1) {
+					if (v_objeto_id < 1) {
+						displayErrorMessage("Debe seleccionar un artículo para poder generar sus atributos");
+						return false;
+					}
+					// manda a generar los atributos de la entidad
+					_dsAtributos.generaAtributosObjetoAplicacion(
+							v_objeto_id, TABLA_PRINCIPAL);
+				}
+				
+				// actulizo atributos
+				_dsAtributos.update();
+				// recupero atributos "Generales"
+				_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
+						null, v_objeto_id, TABLA_PRINCIPAL);
+				
 			} catch (DataStoreException ex) {
 				displayErrorMessage(ex.getMessage());
 				return false;
+			} finally {
+				seteaBotonesAtributos(v_objeto_id);
+				recuperaAtributosBotonSeleccionado(v_objeto_id,
+						TABLA_PRINCIPAL);
 			}
 		}
 		
+		if (e.getComponent() == _recargarBUT) {
+			this.recargar = false;
+			pageRequested(new PageEvent(this));
+		}
+		
 		if (e.getComponent() == _nuevoArticuloBUT) {
-			_dsArticulo.insertRow();
+			_dsAtributos.reset();
+			_dsArticulo.reset();			
+			_dsArticulo.gotoRow(_dsArticulo.insertRow());			
 		}
 		
 		if (e.getComponent() == _eliminaArticuloBUT) {					
@@ -351,24 +386,36 @@ public class AbmcArticuloController extends BaseController {
 		int v_articulo_id = -1;
 
 		// si la página es requerida por si misma no hago nada
-		if (!isReferredByCurrentPage()) {
+		if (!isReferredByCurrentPage() || this.recargar) {
+			_dsAtributos.reset();
+			_dsArticulo.reset();					
 			
-			// verifico si tiene parámetro
-			v_articulo_id = getIntParameter("p_articulo_id"); 
+			v_articulo_id = this.recargar ? _dsArticulo.getArticulosArticuloId()
+					: getIntParameter("p_articulo_id");
+			
 			if (v_articulo_id > 0){				
-				// resetea todos los datasource
-				_dsArticulo.reset();
-				// recupera toda la información del parte
+				// recupera toda la información del artículo
 				_dsArticulo.retrieve(ArticulosModel.ARTICULOS_ARTICULO_ID + " = " + Integer.toString(v_articulo_id));
 				_dsArticulo.gotoFirst();				
+				// genero atributos si faltan
+				_dsAtributos.generaAtributosObjetoAplicacion(v_articulo_id,
+						TABLA_PRINCIPAL);
+				// setea los botones de los atributos
+				seteaBotonesAtributos(v_articulo_id);
+				seteaNuevoBoton(botonSeleccionado);
+
+				// recupera la información del boton seleccionado
+				recuperaAtributosBotonSeleccionado(v_articulo_id,
+						TABLA_PRINCIPAL);
+				_dsAtributos.gotoFirst();
 			}
 			else {
-				_dsArticulo.reset();
 				_dsArticulo.insertRow();
 				_dsArticulo.gotoFirst();
 			}
 			_nombreTE1.setFocus();
 		}
+		
 		super.pageRequested(p);
 	}	
 	

@@ -109,7 +109,7 @@
 								
 				<salmon:td align="left" valign="Top">
 					<salmon:listformdisplaybox name="listformdisplaybox1"
-						mode="Display_single_page" caption="Atributos del Artículo"
+						mode="Display_single_page" caption="Atributos"
 						width="100%" datasource="dsAtributos" addbuttonvisible="false"
 						savebuttonvisible="true">
 						<salmon:datatable name="datatable1" width="100%"
