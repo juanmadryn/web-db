@@ -84,10 +84,13 @@ public class ArticulosModel extends BaseModel {
 
 			//add validations
 			addRequiredRule(ARTICULOS_ARTICULO_ID,"El Id del artí­culo es obligatorio");
-			addRequiredRule(ARTICULOS_CLASE_ARTICULO_ID,"La clase a la que pertenece el artículo es obligatoria");
+			addRequiredRule(ARTICULOS_CLASE_ARTICULO_ID,"La clase del artículo es obligatoria");
 			addRequiredRule(ARTICULOS_NOMBRE,"El nombre del artículo es obligatorio");
 			addRequiredRule(ARTICULOS_ACTIVO,"Debe especificar si el artí­culo esta activo o no");
 			addRequiredRule(ARTICULOS_ANULADO,"Debe especificar si el artí­culo esta anulado o no");
+			
+            // establece la columna de autoincrement
+            setAutoIncrement(ARTICULOS_ARTICULO_ID, true);
 		}
 		catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
@@ -630,7 +633,7 @@ public class ArticulosModel extends BaseModel {
 		ClaseArticuloModel dsClaseArticulo = new ClaseArticuloModel(getAppName(),"inventario");
 		
 		if (getClaseArticuloNombre() == null) 
-			throw new DataStoreException("Debe especificar una clase de artículo.");	
+			throw new DataStoreException("La clase del artículo es obligatoria.");	
 		
 		dsClaseArticulo.retrieve(ClaseArticuloModel.CLASE_ARTICULO_NOMBRE + " = '" + getClaseArticuloNombre() + "'");
 		dsClaseArticulo.gotoFirst();
