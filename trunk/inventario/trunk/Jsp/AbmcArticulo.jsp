@@ -64,18 +64,6 @@
 								<td><salmon:input type="textarea" name="descripcionCompTE4"
 									cols="90" rows="10" wrap="soft" datasource="dsArticulo:articulos.descripcion_completa">									
 									</salmon:input></td>									
-							</tr>							
-							<tr>
-								<td><salmon:text name="estadoCAP8" text="Activo" 
-									font="ColumnCaptionFont"/></td>
-								<td><salmon:input name="estadoCB8" type="checkbox"
-									checked="false" datasource="dsArticulo:articulos.activo"/></td>									
-							</tr>			
-							<tr>
-								<td><salmon:text name="estadoCAP9" text="Anulado" 
-									font="ColumnCaptionFont"/></td>
-								<td><salmon:input name="estadoCB9" type="checkbox"
-									checked="false" datasource="dsArticulo:articulos.anulado"/></td>									
 							</tr>
 							<tr>
 								<td><salmon:text name="claveExtCAP5" text="Claves Externas" 
@@ -95,7 +83,25 @@
 									<salmon:input name="claveExtTE7" type="text"
 									maxlength="20" size="10" datasource="dsArticulo:articulos.clave_externa3">
 									</salmon:input></td>
-							</tr>
+							</tr>							
+							<tr>
+								<td><salmon:text name="estadoCAP8" text="Activo" 
+									font="ColumnCaptionFont"/></td>
+								<td><salmon:input name="estadoSE8" type="select"
+									datasource="dsArticulo:articulos.activo">									
+									<salmon:option display="No" key="F"></salmon:option>
+									<salmon:option display="Si" key="V"></salmon:option>
+									</salmon:input></td>									
+							</tr>										
+							<tr>
+								<td><salmon:text name="estadoCAP9" text="Anulado" 
+									font="ColumnCaptionFont"/></td>
+								<td><salmon:input name="anuladoSE9" type="select"
+									datasource="dsArticulo:articulos.anulado">									
+									<salmon:option display="No" key="F"></salmon:option>
+									<salmon:option display="Si" key="V"></salmon:option>
+									</salmon:input></td>																		
+							</tr>							
 							<tr>
 								<td><salmon:text name="idCAP5" text="ID"
 									font="ColumnCaptionFont" /></td>
