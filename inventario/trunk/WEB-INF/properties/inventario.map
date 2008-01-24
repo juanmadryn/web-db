@@ -3,6 +3,27 @@
 <siteMap>
 
   <entry>
+     <name>AbmcCentroCosto</name>
+     <uri>/Jsp/AbmcCentroCosto.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcTipoMovimientoArticulo</name>
+     <uri>/Jsp/AbmcTipoMovimientoArticulo.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
+     <name>AbmcAlmacenes</name>
+     <uri>/Jsp/AbmcAlmacenes.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
      <name>ConfigurarInventario</name>
      <uri>/Jsp/ConfigurarInventario.jsp</uri>
      <useForward>false</useForward>
