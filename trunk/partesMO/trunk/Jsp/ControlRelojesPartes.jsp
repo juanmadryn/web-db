@@ -28,52 +28,33 @@
    <salmon:box name="box1" width="100%">
    		<salmon:table name="table2" width="100%" border="0">
 			<salmon:tr>
-				<salmon:td valign="Top">		
-   					<salmon:displaybox name="displaybox1" caption="Control de relojes para Partes de Mano de Obra">
-      					<salmon:displayboxcontents>
-      						<table width="100%">
-         						<tr>
-            						<td><salmon:text name="fechadesdeCAP1" text="Fecha desde" font="ColumnCaptionFont" /></td>
-            						<td><salmon:input type="text" name="fechadesdeTE1" size="10" displayformat="dd/MM/yyyy" 
-            							datasource="dsPeriodo:desde" maxlength="10"></salmon:input>
-            						</td>
-            						<td><salmon:text name="fechahastaCAP2" text="Fecha hasta" font="ColumnCaptionFont" /></td>
-            						<td><salmon:input type="text" name="fechahastaTE2" size="10" displayformat="dd/MM/yyyy" 
-            							datasource="dsPeriodo:hasta" maxlength="10"></salmon:input>
-            						</td>
-            						<td><salmon:input name="generaResumenBUT" type="submit" value="Generar Resumen"></salmon:input></td>
-         						</tr>                           
-      						</table>
-      					</salmon:displayboxcontents>
-   					</salmon:displaybox>
-   				</salmon:td>      
-   				<salmon:td valign="Top">
-   					<salmon:searchformdisplaybox caption="Buscar" name="searchformdisplaybox1" width="100%"
+				<salmon:td valign="Top">
+   					<salmon:searchformdisplaybox caption="Control de Relojes Partes MO" name="searchformdisplaybox1"
    						searchbuttonvisible="False" addbuttonvisible="False" qbebuilder="dsQBEResHor">
-							<table width="100%">								
+							<table width="100%">
 								<tr>
 									<td><salmon:text name="estadoCAP19"
                            				text="Estado" font="ColumnCaptionFont" /></td>
-                        			<td><salmon:input name="estadoTE19" type="select"
-                           				datasource="dsQBEResHor:estado">
-                           					<!-- <salmon:option display="Con errores" key="2,3,4"></salmon:option>
-                           					<salmon:option display="Totales no concuerdan" key="2"></salmon:option>
-                           					<salmon:option display="No se encontraron fichadas" key="3"></salmon:option>
-                           					<salmon:option display="No se encontraron partes" key="4"></salmon:option>
-                           					<salmon:option display="Ok" key="1"></salmon:option>
-                           					<salmon:option display="Validados" key="5"></salmon:option>
-                           					<salmon:option display="Todos los resultados" key="1,2,3,4"></salmon:option>--> 
-                        				</salmon:input></td>                        				
+                        			<td colspan="2"><salmon:input name="estadoTE19" type="select"
+                           				datasource="dsQBEResHor:estado"></salmon:input></td>                        				
+								</tr>
+								<tr>
+            						<td><salmon:text name="fechadesdeCAP1" text="Fecha desde" font="ColumnCaptionFont" /></td>
+            						<td><salmon:input type="text" name="fechadesdeTE1" size="10" displayformat="dd/MM/yyyy" 
+            							datasource="dsPeriodo:desde" maxlength="10"></salmon:input></td>
+            						<td><salmon:text name="fechahastaCAP2" text="Fecha hasta" font="ColumnCaptionFont" /></td>
+            						<td><salmon:input type="text" name="fechahastaTE2" size="10" displayformat="dd/MM/yyyy" 
+            							datasource="dsPeriodo:hasta" maxlength="10"></salmon:input></td>							
 								</tr>
 								<tr>
 									<td><salmon:text name="buscarCAP16" text="Nro de Legajo"
 										font="ColumnCaptionFont" /></td>
-									<td><salmon:input type="text" name="buscarTE3" size="30" 
+									<td colspan="2"><salmon:input type="text" name="buscarTE3" size="30" 
             							datasource="dsQBEResHor:nrolegajo" maxlength="50"></salmon:input></td>
 								</tr>
 							</table>
 					</salmon:searchformdisplaybox>   					
-   				</salmon:td>
+   				</salmon:td>   				
    			</salmon:tr>
    		</salmon:table>
    </salmon:box>
