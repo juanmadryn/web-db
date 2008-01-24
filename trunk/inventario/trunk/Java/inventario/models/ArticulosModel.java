@@ -82,8 +82,7 @@ public class ArticulosModel extends BaseModel {
 			//set order by
 			setOrderBy(computeTableAndFieldName("articulos.nombre") + " ASC");
 
-			//add validations
-			addRequiredRule(ARTICULOS_ARTICULO_ID,"El Id del artí­culo es obligatorio");
+			//add validations			
 			addRequiredRule(ARTICULOS_CLASE_ARTICULO_ID,"La clase del artículo es obligatoria");
 			addRequiredRule(ARTICULOS_NOMBRE,"El nombre del artículo es obligatorio");
 			addRequiredRule(ARTICULOS_ACTIVO,"Debe especificar si el artí­culo esta activo o no");
