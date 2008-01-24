@@ -206,14 +206,9 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 				
-		cal.add(Calendar.MONTH, -1);
-		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));		
-		java.sql.Date hasta = new java.sql.Date(cal.getTimeInMillis());
-		_dsPeriodo.setDate("hasta", hasta);		
-		
-		cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-		java.sql.Date desde = new java.sql.Date(cal.getTimeInMillis());
-		_dsPeriodo.setDate("desde", desde);		
+		java.sql.Date today = new java.sql.Date(cal.getTimeInMillis());
+		_dsPeriodo.setDate("hasta", today);
+		_dsPeriodo.setDate("desde", today);		
 	}
 
 	/**
