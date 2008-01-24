@@ -36,8 +36,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	// Visual Components
 	public com.salmonllc.html.HtmlImage _bannerDividerImage;
 	public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	public com.salmonllc.html.HtmlImage _imgMainLogo;
-	public com.salmonllc.html.HtmlSubmitButton _generaResumenBUT;
+	public com.salmonllc.html.HtmlImage _imgMainLogo;	
 	public com.salmonllc.html.HtmlText _fechahastaCAP2;
 	public com.salmonllc.html.HtmlText _apeynomTE12;
 	public com.salmonllc.html.HtmlText _guionTE12;
@@ -68,7 +67,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable2;
-	public com.salmonllc.jsp.JspDisplayBox _displaybox1;
+	//public com.salmonllc.jsp.JspDisplayBox _displaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspForm _bannerForm;
 	public com.salmonllc.jsp.JspForm _pageForm;
@@ -128,6 +127,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT16;	
 	public com.salmonllc.html.HtmlCheckBox _seleccionParte;
 	public com.salmonllc.html.HtmlText _selParteCAP18;
+	public com.salmonllc.html.HtmlSubmitButton _generaResumenBUT;
 	
 	public com.salmonllc.html.HtmlSubmitButton _validarParteBUT10;
 	public com.salmonllc.html.HtmlSubmitButton _seleccionaTodoBUT13;
@@ -157,8 +157,10 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		
 		_desSeleccionaTodoBUT14 = new HtmlSubmitButton("desSeleccionaTodoBUT14","Deseleccionar",this);
 		_listformdisplaybox1.addButton(_desSeleccionaTodoBUT14);
-				
+		
+		_generaResumenBUT = new HtmlSubmitButton("generaResumenBUT","Generar Resumen",this);		
 		_generaResumenBUT.setAccessKey("v");
+		_searchformdisplaybox1.addButton(_generaResumenBUT);
 		
 		_estadoTE19.resetOptions();
 		_estadoTE19.addOption(_dsResHor.conErroresInClause(),"Partes con errores");
@@ -252,7 +254,8 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			_dsResHor.reset();
 			_dsResHor.retrieve(_dsQBEResHor.generateSQLFilter(_dsResHor)
 					+ " and " + whereFecha);
-			seteaBotones(_estadoTE19.getSelectedIndex());									
+			if (_dsResHor.getRowCount() > 0) 
+				seteaBotones(_estadoTE19.getSelectedIndex());									
 		}
 		
 		// Validar partes seleccionados
