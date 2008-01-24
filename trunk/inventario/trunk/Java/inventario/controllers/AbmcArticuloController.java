@@ -185,6 +185,8 @@ public class AbmcArticuloController extends BaseController {
 		_estadoCB9.setFalseValue("F");
 		_estadoCB9.setTrueValue("V");
 		
+		_dsArticulo.setAutoValidate(true);
+		
 		_dsAtributos.reset();
 		_dsArticulo.reset();		
 		_dsArticulo.insertRow();
@@ -232,8 +234,15 @@ public class AbmcArticuloController extends BaseController {
 						null, v_objeto_id, TABLA_PRINCIPAL);
 				
 			} catch (DataStoreException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());				
+			} catch (SQLException ex) {
+				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
-				return false;
+			} catch (Exception ex) {
+				MessageLog.writeErrorMessage(ex, _dsArticulo);
+				displayErrorMessage(ex.getMessage());
+				
 			} finally {
 				seteaBotonesAtributos(v_objeto_id);
 				recuperaAtributosBotonSeleccionado(v_objeto_id,
