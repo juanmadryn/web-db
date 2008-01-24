@@ -29,8 +29,10 @@ public class AbmcArticuloController extends BaseController {
 	private static final String TABLA_PRINCIPAL = "articulos";
 	
 	//Visual Components
-	public com.salmonllc.html.HtmlCheckBox _estadoCB8;
-	public com.salmonllc.html.HtmlCheckBox _estadoCB9;
+	// public com.salmonllc.html.HtmlCheckBox _estadoCB8;
+	// public com.salmonllc.html.HtmlCheckBox _estadoCB9;
+	public com.salmonllc.html.HtmlDropDownList _activoSE8;
+	public com.salmonllc.html.HtmlDropDownList _anuladoSE9;
 	public com.salmonllc.html.HtmlLookUpComponent _claseTE4;
 	public com.salmonllc.html.HtmlLookUpComponent _valorTE11;
 	public com.salmonllc.html.HtmlMultiLineTextEdit _descripcionCompTE4;
@@ -179,11 +181,6 @@ public class AbmcArticuloController extends BaseController {
 		_atributoEtiquetaBUT4.addSubmitListener(this);
 		_atributoEtiquetaBUT5.addSubmitListener(this);
 		_atributoEtiquetaBUT6.addSubmitListener(this);
-		
-		_estadoCB8.setFalseValue("F");
-		_estadoCB8.setTrueValue("V");
-		_estadoCB9.setFalseValue("F");
-		_estadoCB9.setTrueValue("V");
 		
 		_dsArticulo.setAutoValidate(true);
 		
