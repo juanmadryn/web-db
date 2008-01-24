@@ -48,19 +48,19 @@
 								<td><salmon:text name="observacionesCAP2" text="Observación"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text" name="observacionesTE2"
-									size="70" maxlength="255"
+									size="60" maxlength="255"
 									datasource="dsArticulo:articulos.observaciones"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="descripcionCAP3" text="Descripción"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text" name="descripcionTE3"
-									size="70" maxlength="255" width="100%"
+									size="60" maxlength="255" width="100%"
 									datasource="dsArticulo:articulos.descripcion"></salmon:input></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="descripcionCompCAP4" text="Descripción completa"
-									font="ColumnCaptionFont" /></td>
+								<td valign="top"><salmon:text name="descripcionCompCAP4" text="Descripción completa"
+									font="ColumnCaptionFont"/></td>
 								<td><salmon:input type="textarea" name="descripcionCompTE4"
 									cols="90" rows="10" wrap="soft" datasource="dsArticulo:articulos.descripcion_completa">									
 									</salmon:input></td>									

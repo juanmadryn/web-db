@@ -12,6 +12,7 @@ import inventario.models.ArticulosModel;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.sql.DataStoreBuffer;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
@@ -633,7 +634,59 @@ public class AbmcArticuloController extends BaseController {
 			seteaNuevoBoton(1);
 		} else
 			seteaNuevoBoton(-1);
-
 	}
 	
+	@Override
+	public void pageSubmitEnd(PageEvent p) {
+		super.pageSubmitEnd(p);
+		// ante cada requerimiento verifica contexto y determina detalle de
+		// atributos y completa FK's
+		// Es row de rol válida?
+		try {
+			boolean actualizar = false;
+			int row = _dsArticulo.getRow();
+			int articulo_id = 0;
+			int articulo_id_atributos = 0;
+			if (row != -1) {
+				// recupera el id del proyecto de contexto
+				articulo_id = _dsArticulo.getArticulosArticuloId();
+				// si se está insertando un nuevo registro de rol, no se
+				// actualiza
+				if (!(_dsAtributos.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsAtributos
+						.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) {
+					// Ya existe detalle de atributos?
+					if (_dsAtributos.getRowCount() > 0) {
+						// es el mismo contexto? --> recupero la entidad del
+						// detalle para verificación, siempre del primer
+						// registro
+						articulo_id_atributos = _dsAtributos
+								.getAtributosEntidadObjetoId(0);
+						if (articulo_id_atributos == 0)
+							actualizar = true;
+						if (articulo_id_atributos != articulo_id) {
+							// Es distinto el contexto del rol de atributo
+							actualizar = true;
+						}
+					} else {
+						actualizar = true;
+					}
+				}
+			}
+			if (actualizar) {
+				actualizarDetalles(articulo_id);
+			}
+		} catch (DataStoreException e) {
+			displayErrorMessage(e.getMessage());
+		} catch (SQLException e) {
+			displayErrorMessage(e.getMessage());
+		}
+
+	}
+
+	public void actualizarDetalles(int p_articulo_id) throws SQLException,
+			DataStoreException {
+		_dsAtributos.reset();
+		seteaBotonesAtributos(p_articulo_id);
+		recuperaAtributosBotonSeleccionado(p_articulo_id, TABLA_PRINCIPAL);
+	}	
 }
