@@ -1,7 +1,5 @@
 package partesMO.util;
 
-import java.util.Date;
-
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +12,13 @@ import org.quartz.TriggerUtils;
 import org.quartz.ee.servlet.QuartzInitializerServlet;
 import org.quartz.impl.StdSchedulerFactory;
 
+/**
+ * Set the jobs and start the scheduler. 
+ * See http://www.opensymphony.com/quartz/api/ for details.
+ * 
+ * @author Francisco Ezequiel Paez
+ * 
+ */
 public class QuartzInit extends HttpServlet implements Servlet {
 	 
 	/**
@@ -31,12 +36,25 @@ public class QuartzInit extends HttpServlet implements Servlet {
 			StdSchedulerFactory factory = (StdSchedulerFactory) 
 		      getServletContext().getAttribute(QuartzInitializerServlet.QUARTZ_FACTORY_KEY);
 			
-			JobDetail jobDetail = new JobDetail("RetryJob", null, GeneraResumenRelojQuartzJob.class);
-			Trigger trigger = TriggerUtils.makeDailyTrigger(1, 0);			
-			trigger.setStartTime(new Date());
-			trigger.setName("MyTrigger");
+			JobDetail generaResumenRelojDetail = new JobDetail(
+					"generaResumenRelojQuartzJob", null,
+					GeneraResumenRelojQuartzJob.class);
+			// Launch the trigger everyday at 1 am
+			Trigger generaResumenRelojTrigger = TriggerUtils.makeDailyTrigger(
+					1, 0);			
+			generaResumenRelojTrigger.setName("generaResumenRelojTrigger");
+			
+			JobDetail liquidarPeriodoJobDetail = new JobDetail(
+					"liquidarPeriodoQuartzJob", null,
+					LiquidarPeriodoQuartzJob.class);
+			// Launch the trigger the 15th day of each month at 1 am
+			Trigger liquidarPeriodoTrigger = TriggerUtils.makeMonthlyTrigger(15,
+					1, 0);			
+			liquidarPeriodoTrigger.setName("liquidarPeriodoTrigger");
+			
 			Scheduler scheduler = factory.getScheduler();
-			scheduler.scheduleJob(jobDetail, trigger);
+			scheduler.scheduleJob(generaResumenRelojDetail, generaResumenRelojTrigger);
+			
 			scheduler.start();
 			
 			System.out.println("Quartz start succesful");
