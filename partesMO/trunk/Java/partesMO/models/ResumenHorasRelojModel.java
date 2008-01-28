@@ -1243,8 +1243,8 @@ public class ResumenHorasRelojModel extends DataStore {
     				int dia2 = -1;
     				int mes1 = fichada.get(Calendar.MONTH)+1;
     				int mes2 = mes1;
-    				int anio1 = fichada.get(Calendar.YEAR);
-    				int anio2 = anio1;
+    				//int anio1 = fichada.get(Calendar.YEAR);
+    				//int anio2 = anio1;
 
     				int hora_d;
     				int minuto_d;    			
@@ -1305,7 +1305,7 @@ public class ResumenHorasRelojModel extends DataStore {
     					if (mes2 > fichada.getActualMaximum(Calendar.MONTH)+1) {
     						// se pasó de año
     						mes2 = 1;
-    						anio2 = anio1 + 1;
+    						//anio2 = anio1 + 1;
     					}
     					
     					double horas1 = 0;
