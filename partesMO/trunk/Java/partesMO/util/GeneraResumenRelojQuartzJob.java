@@ -41,7 +41,6 @@ public class GeneraResumenRelojQuartzJob implements Job {
 				conexion.freeConnection();				 
 			}
 		}
-		System.out.println("Hellooooo");
 	}
 
 }
