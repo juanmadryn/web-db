@@ -22,9 +22,6 @@ public class LiquidarPeriodoQuartzJob implements Job {
 			conexion = DBConnection.getConnection("partesmo","partesmo");
 			PartesMoModel dsParteMo = new PartesMoModel("partesmo","partesmo");
 
-			// The calendar is not really necessary, as we could just
-			// substract (24L * 3600L * 1000L) but i put it anyway only 
-			// to avoid any WTF situation.			
 			GregorianCalendar c = new GregorianCalendar();
 			c.setTime(ctx.getFireTime());
 			c.roll(Calendar.MONTH, false);
@@ -39,7 +36,6 @@ public class LiquidarPeriodoQuartzJob implements Job {
 				conexion.freeConnection();				 
 			}
 		}
-		System.out.println("Hellooooo");
 	}
 
 }
