@@ -846,10 +846,10 @@ public class ProyectoModel extends BaseModel {
 		DBConnection conexion = null;
 		Statement st = null;
 		ResultSet r = null;
-		String columna = null;
+		//String columna = null;
 		String circuito = null;
 		StringBuilder criteria = new StringBuilder();
-		String estado_inicial = null;
+		//String estado_inicial = null;
 
 		try {
 			conexion = DBConnection.getConnection(getAppName(),
@@ -863,7 +863,7 @@ public class ProyectoModel extends BaseModel {
 					.retrieve("tipo_objeto = 'TABLA' and nombre_objeto = 'proyectos'  and tipo_detalle = 'COLUMNA' ");
 
 			if (dsAplicaCircuito.gotoFirst()) {
-				columna = dsAplicaCircuito.getAplicaCircuitoNombreDetalle();
+				//columna = dsAplicaCircuito.getAplicaCircuitoNombreDetalle();
 				circuito = dsAplicaCircuito.getAplicaCircuitoCircuito();
 			}
 
@@ -880,8 +880,7 @@ public class ProyectoModel extends BaseModel {
 			dsTransicionEstados.retrieve(criteria.toString());
 
 			if (dsTransicionEstados.gotoFirst()) {
-				estado_inicial = dsTransicionEstados
-						.getTransicionEstadosEstadoOrigen();
+				//estado_inicial = dsTransicionEstados.getTransicionEstadosEstadoOrigen();
 			}
 		} catch (DataStoreException e) {
 			MessageLog.writeErrorMessage(e, null);
