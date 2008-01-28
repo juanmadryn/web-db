@@ -550,13 +550,13 @@ public class AbmcArticuloController extends BaseController {
 	/**
 	 * Arma la botonera de atributos en función del id de proyecto indicado.
 	 * 
-	 * @param p_proyecto_id
+	 * @param p_articulo_id
 	 *            el id del proyecto para el cual se quieren setear los botones
 	 * 
 	 * TODO generalizar este método a un número indefinido de etiquetas para
 	 * atributos
 	 */
-	private void seteaBotonesAtributos(int p_proyecto_id) {
+	private void seteaBotonesAtributos(int p_articulo_id) {
 
 		ArrayList<String> et = null;
 
@@ -569,7 +569,7 @@ public class AbmcArticuloController extends BaseController {
 		_atributoEtiquetaBUT6.setVisible(false);
 
 		// si no hay seteado proyecto termina
-		if (p_proyecto_id < 1)
+		if (p_articulo_id < 1)
 			return;
 
 		// setea los botones de los atributos según las etiquetas
