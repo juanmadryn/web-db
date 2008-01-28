@@ -5,7 +5,6 @@ package proyectos.reglasNegocio;
 
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
-import infraestructura.reglasNegocio.ValidationException;
 
 import java.sql.SQLException;
 
