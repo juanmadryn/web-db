@@ -4,8 +4,7 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 
-import com.salmonllc.jsp.*;
-import com.salmonllc.html.events.*;
+import com.salmonllc.html.events.PageEvent;
 
 /**
  * AbmcAlmacenesController: a SOFIA generated controller

@@ -5,7 +5,6 @@ package inventario.controllers;
 import infraestructura.controllers.BaseController;
 
 import com.salmonllc.html.events.PageEvent;
-import com.salmonllc.html.events.SubmitEvent;
 
 /**
  * AbmcCentroCostoController: a SOFIA generated controller
