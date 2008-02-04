@@ -33,7 +33,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
 	public static final String ESTADOS_NOMBRE = "estados.nombre";
-	public static final String WEBSITE_USER_NOMBRE_COMPLETO = "website_user.nombre_completo";
+	public static final String WEBSITE_USER_RETIRA_NOMBRE_COMPLETO = "website_user.nombre_completo";
+	public static final String WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO = "website_user.nombre_completo";
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -89,16 +90,22 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 
 		//$CUSTOMCONSTRUCTOR$
 		//Put custom constructor code between these comments, otherwise it be overwritten if the model is regenerated
+		//add aliases
 		addTableAlias(computeTableName("infraestructura.estados"),"estados");
-		addTableAlias(computeTableName("infraestructura.website_user"),"website_user");
+		addTableAlias(computeTableName("infraestructura.website_user"),"website_user_retira");
+		addTableAlias(computeTableName("infraestructura.website_user"),"website_user_preparador");
 		
+		//add columns
 		addColumn(computeTableName("estados"),"nombre",DataStore.DATATYPE_STRING, false, false, ESTADOS_NOMBRE);
-		addColumn(computeTableName("website_user"),"nombre_completo",DataStore.DATATYPE_STRING, false, false, WEBSITE_USER_NOMBRE_COMPLETO);
+		addColumn(computeTableName("website_user_retira"),"nombre_completo",DataStore.DATATYPE_STRING, false, false, WEBSITE_USER_RETIRA_NOMBRE_COMPLETO);
+		addColumn(computeTableName("website_user_preparador"),"nombre_completo",DataStore.DATATYPE_STRING, false, false, WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO);
 		
+		//add joins
 		addJoin(computeTableAndFieldName("comprobante_movimiento_articulo.estado"),computeTableAndFieldName("estados.estado"), true);
 		addJoin(computeTableAndFieldName("comprobante_movimiento_articulo.user_id_retira"),computeTableAndFieldName("website_user.user_id"), true);
 		addJoin(computeTableAndFieldName("comprobante_movimiento_articulo.user_id_preparador"),computeTableAndFieldName("website_user.user_id"), true);
 		
+		//add lookup rules
 		try {
 			addLookupRule(
 					COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO,
@@ -110,13 +117,13 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_PREPARADOR,
 					"infraestructura.website_user",
 					"'infraestructura.website_user.user_id = \"' + comprobante_movimiento_articulo.user_id_preparador + '\"' ",
-					"nombre_completo", computeTableAndFieldName("website_user.nombre_completo"),
+					"nombre_completo", WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO,
 					"Usuario inexistente");
 			addLookupRule(
 					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_RETIRA,
 					"infraestructura.website_user",
 					"'infraestructura.website_user.user_id = \"' + comprobante_movimiento_articulo.user_id_retira + '\"' ",
-					"nombre_completo", computeTableAndFieldName("website_user.nombre_completo"),
+					"nombre_completo", WEBSITE_USER_RETIRA_NOMBRE_COMPLETO,
 					"Usuario inexistente");
 		} catch (DataStoreException e) {			
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
@@ -472,8 +479,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	//$CUSTOMMETHODS$
 	//Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
 	@Override
-	public String getEstadoActual() throws DataStoreException {
-		// TODO Auto-generated method stub
+	public String getEstadoActual() throws DataStoreException {	
 		return null;
 	}
 

@@ -12,7 +12,11 @@ import com.salmonllc.sql.*;
  */
 public class MovimientoArticuloModel extends DataStore {
 
-     //constants for columns
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9185545827130310022L;
+	//constants for columns
      public static final String MOVIMIENTO_ARTICULO_MOVIMIENTO_ARTICULO_ID="movimiento_articulo.movimiento_articulo_id";
      public static final String MOVIMIENTO_ARTICULO_CENTRO_COSTO_ID="movimiento_articulo.centro_costo_id";
      public static final String MOVIMIENTO_ARTICULO_PROYECTO_ID="movimiento_articulo.proyecto_id";

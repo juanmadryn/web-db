@@ -70,3 +70,8 @@ BEGIN
 	  	
 	COMMIT;
 END$$
+
+CREATE PROCEDURE parteMO.procesaFichadasRlj (desde DATE, hasta DATE)
+BEGIN
+	
+END 
