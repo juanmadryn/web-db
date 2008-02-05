@@ -3,22 +3,14 @@ USE infraestructura;
 START TRANSACTION;
 
 INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (70, 'Inventario','Control de Inventario','MenuInventario','HomePage');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (7010, 'Clase de Articulo','ABMC Clase de Articulo','AbmcClaseArticulo','MenuInventario');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (7020, 'Carga de Articulos','ABMC de Articulo','AbmcArticulo','MenuInventario');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (7030, 'Consulta Artículos','Consulta de Artículos','ConsultaArticulos','MenuInventario');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (7005, 'Configuración','Configuración de Inventarios','ConfigurarInventario','MenuInventario');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (7040, 'Almacenes','ABMC de Almacenes','AbmcAlmacenes','MenuInventario');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (700505, 'Atributos','ABMC de Atributos para Artículos','AbmcAtributoArticulo','ConfigurarInventario');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (700510, 'Tipo Movimientos','ABMC de Tipo de Movimientos de Artículos','AbmcTipoMovimientoArticulo','ConfigurarInventario');
-INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
+  (70, 'Inventario','Control de Inventario','MenuInventario','HomePage'),
+  (7010, 'Clase de Articulo','ABMC Clase de Articulo','AbmcClaseArticulo','MenuInventario'),
+  (7020, 'Carga de Articulos','ABMC de Articulo','AbmcArticulo','MenuInventario'),
+  (7030, 'Consulta Artículos','Consulta de Artículos','ConsultaArticulos','MenuInventario'),
+  (7005, 'Configuración','Configuración de Inventarios','ConfigurarInventario','MenuInventario'),
+  (7040, 'Almacenes','ABMC de Almacenes','AbmcAlmacenes','MenuInventario'),
+  (700505, 'Atributos','ABMC de Atributos para Artículos','AbmcAtributoArticulo','ConfigurarInventario'),
+  (700510, 'Tipo Movimientos','ABMC de Tipo de Movimientos de Artículos','AbmcTipoMovimientoArticulo','ConfigurarInventario'),
   (700520, 'Centro de Costos','ABMC de Centro de Costos','AbmcCentroCosto','ConfigurarInventario');
 
 INSERT INTO acceso_menu (menu_id,rol_id,user_id,acceso_menu_id) VALUES
