@@ -19,7 +19,7 @@ import org.quartz.impl.StdSchedulerFactory;
  * @author Francisco Ezequiel Paez
  * 
  */
-public class QuartzInit extends HttpServlet implements Servlet {
+public class PartesMoQuartzInit extends HttpServlet implements Servlet {
 	 
 	/**
 	 * 
@@ -30,7 +30,7 @@ public class QuartzInit extends HttpServlet implements Servlet {
 	public void init() throws ServletException {	
 		super.init();
 		
-		System.out.println("Quartz initializing...");
+		System.out.println("PatesMO: Quartz initializing...");
 				
 		try {
 			StdSchedulerFactory factory = (StdSchedulerFactory) 
@@ -57,10 +57,10 @@ public class QuartzInit extends HttpServlet implements Servlet {
 			
 			scheduler.start();
 			
-			System.out.println("Quartz start succesful");
+			System.out.println("PartesMO: Quartz start successful!");
 		} catch (SchedulerException e) {
 			e.printStackTrace();
-			System.out.println("Quartz error");
+			System.out.println("PartesMO: Quartz initialization error");
 		}
 
 	}
