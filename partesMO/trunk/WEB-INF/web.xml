@@ -19,8 +19,8 @@
   	</servlet>
  	
   	<servlet>
-    	<servlet-name>QuartzInit</servlet-name>
-    	<servlet-class>partesMO.util.QuartzInit</servlet-class>
+    	<servlet-name>PartesMoQuartzInit</servlet-name>
+    	<servlet-class>partesMO.util.PartesMoQuartzInit</servlet-class>
     	<load-on-startup>2</load-on-startup>
   	</servlet>
   	-->
