@@ -15,16 +15,17 @@ import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
 /**
- * Quartz job for periodically execute generaResumenRelojes
+ * Quartz job for periodically execute getFichadasFromTango
  * 
- * @author fep
+ * @author Francisco Ezequiel Paez
  *
  */
-public class GeneraResumenRelojQuartzJob implements Job {
+public class GetFichadasQuartzJob implements Job {
 
-	public void execute(JobExecutionContext ctx) throws JobExecutionException {
+	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		DBConnection conexion = null;
-		try {
+		
+		try {			
 			conexion = DBConnection.getConnection("partesmo","partesmo");
 			ResumenHorasRelojModel dsResHorRlj = new ResumenHorasRelojModel("partesmo","partesmo");
 
@@ -32,21 +33,22 @@ public class GeneraResumenRelojQuartzJob implements Job {
 			// substract (24L * 3600L * 1000L) but i put it anyway only 
 			// to avoid any WTF situation.			
 			GregorianCalendar c = new GregorianCalendar();
-			c.setTime(ctx.getFireTime());
+			c.setTime(arg0.getFireTime());
 			c.roll(Calendar.DAY_OF_MONTH, false);			
-			java.sql.Date fecha = new java.sql.Date(c.getTimeInMillis());
+			java.sql.Date sfecha = new java.sql.Date(c.getTimeInMillis());
 
-			dsResHorRlj.generaResumenRelojes(fecha,fecha,conexion);		
-		} catch (DataStoreException ex) {
-			MessageLog.writeErrorMessage(ex, null);
-		} catch (SQLException ex) {
-			MessageLog.writeErrorMessage(ex, null);
+			conexion.beginTransaction();
+			dsResHorRlj.getFichadasFromTango(sfecha, sfecha, conexion);
+			conexion.commit();		
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
+		} catch (DataStoreException e) {
+			MessageLog.writeErrorMessage(e, null);
 		} finally {
 			if (conexion != null) {
 				conexion.rollback();
-				conexion.freeConnection();				 
+				conexion.freeConnection();
 			}
 		}
 	}
-
 }
