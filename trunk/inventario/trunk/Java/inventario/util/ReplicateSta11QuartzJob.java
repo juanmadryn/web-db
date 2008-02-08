@@ -15,12 +15,25 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
+/**
+ * Dummy class for replicate SQL Server STA11 table contents into MySQL.  
+ * 
+ * @author Francisco Ezequiel Paez
+ */
 public class ReplicateSta11QuartzJob implements Job {
 
+	private static final String no_inventariable = "TANGO_NOINV";
+	private static final String inventariable = "TANGO";
+
+	/**
+	 * Replicate SQL Server STA11 table contents into MySQL.  
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
 	public void replicate() throws DataStoreException, SQLException {
 		Connection connTango = null;
 		DBConnection connInv = null;
-		PreparedStatement pst = null, pst2 = null;
+		PreparedStatement psTango = null, pstMysql = null;
 		ResultSet r = null;
 		int clase_articulo_inv = 0, clase_articulo_noinv = 0;
 
@@ -28,41 +41,41 @@ public class ReplicateSta11QuartzJob implements Job {
 			connTango = getConexionTango();
 			connInv = DBConnection.getConnection("inventario", "inventario");
 
+			// Get the primary keys for setting clase_articulo_id accordingly
 			String SQLclaseArticulo = "SELECT clase_articulo_id FROM clase_articulo WHERE nombre = ?";
-			pst2 = connInv.prepareStatement(SQLclaseArticulo);
-			pst2.setString(1, "TANGO");
-			r = pst2.executeQuery();
+			pstMysql = connInv.prepareStatement(SQLclaseArticulo);
+			pstMysql.setString(1, inventariable);
+			r = pstMysql.executeQuery();
 			if (r.first()) {
 				clase_articulo_inv = r.getInt(1);
 				System.out.println(clase_articulo_inv);
 			}
-			pst2.setString(1, "TANGO_NOINV");
-			r = pst2.executeQuery();
+			pstMysql.setString(1, no_inventariable);
+			r = pstMysql.executeQuery();
 			if (r.first()) {
 				clase_articulo_noinv = r.getInt(1);
 				System.out.println(clase_articulo_noinv);
 			}
 
 			String SQLarticulo = "INSERT INTO inventario.articulos " +
-					"(clase_articulo_id,nombre,descripcion,clave_externa1,observaciones) " +
-					"VALUES (?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE clase_articulo_id = ?, " +
-					"nombre = ?, descripcion = ?, clave_externa1 = ?, observaciones = ?";
-			pst2 = connInv.prepareStatement(SQLarticulo);
+					"(clase_articulo_id,nombre,descripcion,clave_externa1) VALUES (?, ?, ?, ?) " +
+					"ON DUPLICATE KEY UPDATE values(clase_articulo_id), values(nombre)," +
+					"values(descripcion), values(clave_externa1)";
+			pstMysql = connInv.prepareStatement(SQLarticulo);
 
 			String SQLtango = "SELECT COD_ARTICU,DESC_ADIC,DESCRIPCIO,STOCK,STOCK_MAXI FROM STA11";
-			pst = connTango
+			psTango = connTango
 					.prepareStatement(SQLtango,
 							ResultSet.TYPE_SCROLL_SENSITIVE,
 							ResultSet.CONCUR_READ_ONLY);
-			r = pst.executeQuery();
+			r = psTango.executeQuery();
 
 			String cod_articu = "";
 			String desc_adic = "";
 			String descripcio = "";
 			int stock = 0;
-			int stock_maxi = 0;
-
-			// Si el resulset no esta vacio
+			
+			// If the resulset is not empty
 			if (r.isBeforeFirst()) {
 				connInv.beginTransaction();
 
@@ -70,27 +83,14 @@ public class ReplicateSta11QuartzJob implements Job {
 					cod_articu = r.getString(1);
 					desc_adic = r.getString(2);
 					descripcio = r.getString(3);
-					stock = r.getInt(4);
-					stock_maxi = r.getInt(5);
+					stock = r.getInt(4);					
 
-					if (stock > 0) { // inventariable
-						pst2.setInt(1, clase_articulo_inv);
-						pst2.setInt(6, clase_articulo_inv);
-					} else {
-						pst2.setInt(1, clase_articulo_noinv);
-						pst2.setInt(6, clase_articulo_noinv);
-					}
-
-					pst2.setString(2, descripcio + " [" + cod_articu + "]");
-					pst2.setString(7, descripcio + " [" + cod_articu + "]");
-					pst2.setString(3, desc_adic);
-					pst2.setString(8, desc_adic);
-					pst2.setString(4, cod_articu);
-					pst2.setString(9, cod_articu);
-					pst2.setString(5, "Stock maximo = " + stock_maxi);
-					pst2.setString(10, "Stock maximo = " + stock_maxi);
-
-					pst2.executeUpdate();
+					pstMysql.setInt(1, (stock > 0) ? clase_articulo_inv : clase_articulo_noinv );
+					pstMysql.setString(2, descripcio + " [" + cod_articu + "]");					
+					pstMysql.setString(3, desc_adic);					
+					pstMysql.setString(4, cod_articu);					
+					
+					pstMysql.executeUpdate();
 				}
 
 				connInv.commit();
@@ -103,15 +103,15 @@ public class ReplicateSta11QuartzJob implements Job {
 					throw new DataStoreException("Error: " + e.getMessage(), e);
 				}
 			}
-			if (pst != null)
+			if (psTango != null)
 				try {
-					pst.close();
+					psTango.close();
 				} catch (SQLException e) {
 					throw new DataStoreException("Error: " + e.getMessage(), e);
 				}
-			if (pst2 != null)
+			if (pstMysql != null)
 				try {
-					pst2.close();
+					pstMysql.close();
 				} catch (SQLException e) {
 					throw new DataStoreException("Error: " + e.getMessage(), e);
 				}
