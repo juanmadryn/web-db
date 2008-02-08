@@ -179,8 +179,8 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		_desSeleccionaTodoBUT14.addSubmitListener(this);
 		// validar fecha antes de ser enviada al DataStore
 		_fechadesdeTE1.addValueChangedListener(this);		
-		_fechahastaTE2.addValueChangedListener(this);		
-		
+		_fechahastaTE2.addValueChangedListener(this);	
+				
 		_dsPeriodo.reset();
 		_dsPeriodo.insertRow();				
 		seteaPeriodo(); // valores por defecto para el periodo de fechas		
@@ -307,24 +307,17 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			}
 		}
 		
-		// Genera el resumen
-		if (e.getComponent() == _generaResumenBUT) {			
-			try {			
+		// genera el resumen
+		if (e.getComponent() == _generaResumenBUT) {
+			try {
 				conexion = DBConnection.getConnection(getApplicationName(),"partesmo");
-				// Preprocesa las partes y las fichadas en tango para facilitar la validación
-				_dsResHor.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"),conexion);				
-				
+				_dsResHor.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"), conexion);
+
 				_dsResHor.reset();				
 				_dsResHor.retrieve(whereFecha + " and estado in (" + _dsResHor.conErroresInClause() +")");
-				_estadoTE19.setSelectedIndex(_estadoTE19
-						.findOptionIndexOf(String
-								.valueOf(ResumenHorasRelojModel.PARTES_ERROR)));				
+				_estadoTE19.setSelectedIndex(0);				
 				seteaBotones(SHOWBUTTONS);
-			} catch (DataStoreException ex) {				
-				MessageLog.writeErrorMessage(ex, this);
-				displayErrorMessage("Error Controlando Relojes: " + ex.getMessage());
-				return false;
-			} catch (Exception ex) {				
+			} catch(DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, this);
 				displayErrorMessage("Error Controlando Relojes: " + ex.getMessage());
 				return false;
@@ -333,8 +326,8 @@ public class ControlRelojesPartesController extends BaseController implements Va
 					conexion.rollback();
 					conexion.freeConnection();
 				}
-			}
-		}	
+			}			
+		}
 		
 		return super.submitPerformed(e);
 	}
