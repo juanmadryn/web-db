@@ -1,1 +1,1 @@
-GRANT SELECT ON infraestructura.* TO 'inventario'@'localhost'
+GRANT SELECT ON proyectos.* TO 'inventario'@'localhost'
