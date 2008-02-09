@@ -182,9 +182,9 @@ public class ProyectoModel extends BaseModel {
 			addExpressionRule(PROYECTOS_PROYECTO,
 					new ConvierteMayusculasValidation(PROYECTOS_PROYECTO), "",
 					false);
-			addExpressionRule(PROYECTOS_PROYECTO, new ClaveUnicaValidation(
+			/*addExpressionRule(PROYECTOS_PROYECTO, new ClaveUnicaValidation(
 					"proyectos", PROYECTOS_PROYECTO, true, "proyectos",
-					"proyectos"), "El número de proyecto YA existe.", false);
+					"proyectos"), "El número de proyecto YA existe.", false);*/
 
 			// setea el autoincrement y protege la PK
 			setAutoIncrement(PROYECTOS_PROYECTO_ID, true);
@@ -918,7 +918,9 @@ public class ProyectoModel extends BaseModel {
 				setProyectosEstado("0001.0001");
 			}
 		}
-
+		
+		
+		
 		super.update(conn, handleTrans);
 	}
 
