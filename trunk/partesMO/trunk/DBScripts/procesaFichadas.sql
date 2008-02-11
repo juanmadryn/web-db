@@ -44,6 +44,7 @@ BEGIN
 		-- If a new 'parte diario' is being processed, then update the start time
 		IF parteAnt != id_parte_diario THEN
 			SET horaFichadaI = horaFichada;
+			SET horaFichadaAnt = 0;
 		END IF;
 
 		-- If two records n (start mark) and n+1 (end mark), were found,
@@ -56,7 +57,7 @@ BEGIN
 		UPDATE resumen_horas_reloj SET
 			fichada_d = horaFichadaI,
 			fichada_h = horaFichada,
-			horas_fichada = horas_fichada + totalHoras,
+			horas_fichada = COALESCE(horas_fichada,0.00) + totalHoras,
 			fichada_ids = concat_ws(',',fichada_ids,id_fichada),
 			horarios = concat_ws(' - ',horarios,date_format(fichada,'%H:%i'))
 		WHERE nro_legajo = nrolegajo AND fecha = DATE(fichada) AND estado IS NULL;
