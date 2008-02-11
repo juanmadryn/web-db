@@ -1,5 +1,5 @@
 -- Allow user partesMO to create stored procedures and functions
-GRANT CREATE RUTINE ON partesMO.* TO 'partesMO'@'localhost';
+GRANT CREATE ROUTINE ON partesMO.* TO 'partesMO'@'localhost';
 
 -- The following sentences are not needed if automatic_sp_privileges != 0
 -- GRANT EXECUTE ON PROCEDURE partesmo.myproc TO 'partesMO'@'localhost';
