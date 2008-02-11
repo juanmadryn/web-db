@@ -1498,8 +1498,9 @@ public class PartesMoModel extends BaseModel {
 	}
 	
 	/**
-	 * @param row
-	 * @return
+	 * Add a task to a unit of work. If no task was specified set the first one related to the project. 
+	 * @param row The datastore row
+	 * @return The task id
 	 * @throws DataStoreException
 	 */
 	public int getDatosTarea(int row) throws DataStoreException {		
@@ -1510,18 +1511,20 @@ public class PartesMoModel extends BaseModel {
 		StringBuilder whereClause = new StringBuilder(50);
 		
 		try {
-			// check if a task was specified
-			if ((tareaProyectoNombre != null) && (tareaProyectoNombre.trim().length() > 0)) {
+			// check if a task was specified and use it, if tarea lookup is not disabled
+			if ( (tareaProyectoNombre != null) && (tareaProyectoNombre.trim().length() > 0) &&
+					("true".equalsIgnoreCase(Props.getProps("partesmo",null).getProperty("ShowTareaLookup")))) {
 				whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_NOMBRE + " = '" + tareaProyectoNombre + "' and ");				
 			}			
 			whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_PROYECTO_ID + " = " + proyectoId);
-			// the first task added to the project on top
+			// the first task added to the project on top (useful when no task was specified)
 			dsTareasProyecto.setOrderBy(TareasProyectoModel.TAREAS_PROYECTO_TAREA_ID + " asc");
 			
 			dsTareasProyecto.retrieve(whereClause.toString());
 			dsTareasProyecto.gotoFirst();
 			tareaId = dsTareasProyecto.getRow();
 			
+			// set the retrieved task as the unit-of-work's one
 			if (tareaId != -1) {
 				setPartesMoTareaId(row, dsTareasProyecto.getTareasProyectoTareaId());
 				setTareasProyectoNombre(row, dsTareasProyecto.getTareasProyectoNombre());
