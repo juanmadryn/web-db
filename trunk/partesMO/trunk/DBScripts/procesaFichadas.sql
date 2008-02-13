@@ -47,6 +47,7 @@ BEGIN
 		IF parteAnt != id_parte_diario THEN
 			SET horaFichadaI = horaFichada;
 			SET horaFichadaAnt = 0.00;
+			SET contadorFichadas = 1;
 		END IF;
 
 		-- If two records n (start mark) and n+1 (end mark), were found,
