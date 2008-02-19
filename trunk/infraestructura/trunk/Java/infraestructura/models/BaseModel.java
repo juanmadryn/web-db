@@ -6,15 +6,12 @@ import infraestructura.reglasNegocio.ValidationException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Hashtable;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
 public abstract class BaseModel extends DataStore {
-	private static Hashtable<String, AuditaEstadosCircuitosModel> instanciasDeAuditoria;
-
 	/**
 	 * Create a new ProyectoModel object.
 	 * 
@@ -168,18 +165,8 @@ public abstract class BaseModel extends DataStore {
 				setString(nombre_tabla + "." + columna_circuito, proximo_estado);
 				update(conn);
 
-				AuditaEstadosCircuitosModel auditoriaModel;
-
-				if (instanciasDeAuditoria == null)
-					instanciasDeAuditoria = new Hashtable<String, AuditaEstadosCircuitosModel>();
-
-				if (instanciasDeAuditoria.containsKey(nombre_tabla))
-					auditoriaModel = instanciasDeAuditoria.get(nombre_tabla);
-				else {
-					auditoriaModel = new AuditaEstadosCircuitosModel(
-							"infraestructura", "infraestructura");
-					instanciasDeAuditoria.put(nombre_tabla, auditoriaModel);
-				}
+				AuditaEstadosCircuitosModel auditoriaModel = new AuditaEstadosCircuitosModel(
+						"infraestructura", "infraestructura");
 
 				auditoriaModel.setBatchInserts(batchInserts);
 
