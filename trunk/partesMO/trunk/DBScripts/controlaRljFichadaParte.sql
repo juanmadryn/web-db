@@ -35,6 +35,6 @@ BEGIN
 		observaciones = 'Valores no concuerdan'
 	WHERE
 		estado IS NULL
-		AND fecha BETWEEN fecha_desde AND fecha_hasta;		
+		AND fecha BETWEEN fecha_desde AND fecha_hasta;	
 END$$
 DELIMITER ;$$

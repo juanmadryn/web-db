@@ -839,7 +839,7 @@ public class ResumenHorasRelojModel extends DataStore {
 	 * @return
 	 */
 	public String todosInClause() {
-		return PARTES_OK + "," + conErroresInClause();
+		return PARTES_OK + "," + PARTES_VAL + "," + conErroresInClause();
 	}
 	
 	

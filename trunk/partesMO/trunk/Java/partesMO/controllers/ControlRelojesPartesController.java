@@ -250,7 +250,11 @@ public class ControlRelojesPartesController extends BaseController implements Va
 			_dsResHor.retrieve(_dsQBEResHor.generateSQLFilter(_dsResHor)
 					+ " and " + whereFecha);
 			if (_dsResHor.getRowCount() > 0) 
-				seteaBotones(_estadoTE19.getSelectedIndex());									
+				seteaBotones(_estadoTE19.getSelectedIndex());
+			else {
+				displayErrorMessage("No se encontraron resumenes de partes");
+				return false;
+			}
 		}
 		
 		// Validar partes seleccionados
@@ -266,9 +270,8 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				// actualiza el estado de resumenes seleccionados 
 				autorizarPartesMo.esValido(_dsResHor, null, conexion);			
 
-				_dsResHor.gotoFirst();			
-				// intervalo de partes a validar
-				_dsPartes.retrieve(whereFecha);
+				_dsResHor.gotoFirst();
+				_dsPartes.retrieve(whereFecha);	// intervalo de partes a validar
 				_dsPartes.setBatchInserts(true);
 				_dsPartes.doValidarPartes(false);
 
@@ -286,6 +289,11 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				}
 				conexion.commit();	
 				_dsPartes.doValidarPartes(true);
+				
+				// deseleccionamos los resumenes
+				for (int i = 0; i < _dsResHor.getRowCount(); i++) {
+					_dsResHor.setInt(i, SELECCION_RESUMEN_FLAG,0);
+				}
 				
 				int idx = _estadoTE19.findOptionIndexOf(String
 						.valueOf(ResumenHorasRelojModel.PARTES_VAL));
