@@ -58,9 +58,9 @@ public class ReplicateSta11QuartzJob implements Job {
 			}
 
 			String SQLarticulo = "INSERT INTO inventario.articulos " +
-					"(clase_articulo_id,nombre,descripcion,clave_externa1) VALUES (?, ?, ?, ?) " +
+					"(clase_articulo_id,nombre,descripcion,descripcion_completa,clave_externa1) VALUES (?, ?, ?, ?, ?) " +
 					"ON DUPLICATE KEY UPDATE values(clase_articulo_id), values(nombre)," +
-					"values(descripcion), values(clave_externa1)";
+					"values(descripcion), values(descripcion_completa), values(clave_externa1)";
 			pstMysql = connInv.prepareStatement(SQLarticulo);
 
 			String SQLtango = "SELECT COD_ARTICU,DESC_ADIC,DESCRIPCIO,STOCK,STOCK_MAXI FROM STA11";
@@ -86,9 +86,10 @@ public class ReplicateSta11QuartzJob implements Job {
 					stock = r.getInt(4);					
 
 					pstMysql.setInt(1, (stock > 0) ? clase_articulo_inv : clase_articulo_noinv );
-					pstMysql.setString(2, descripcio + " [" + cod_articu + "]");					
-					pstMysql.setString(3, desc_adic);					
-					pstMysql.setString(4, cod_articu);					
+					pstMysql.setString(2, cod_articu);					
+					pstMysql.setString(3, descripcio);					
+					pstMysql.setString(3, desc_adic);
+					pstMysql.setString(5, cod_articu);
 					
 					pstMysql.executeUpdate();
 				}
