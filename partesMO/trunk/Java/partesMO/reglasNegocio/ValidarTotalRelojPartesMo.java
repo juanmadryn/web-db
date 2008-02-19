@@ -4,7 +4,6 @@ import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.StringTokenizer;
 
 import partesMO.models.LogValidacionPartesMoModel;
 import partesMO.models.ResumenHorasRelojModel;
@@ -28,8 +27,7 @@ public class ValidarTotalRelojPartesMo extends ValidadorReglasNegocio {
 	private Timestamp fechaEjecValidacion;
 	private String estado_valido = "0003.0003"; // valido	
 
-	public ValidarTotalRelojPartesMo() {		
-	}
+	public ValidarTotalRelojPartesMo() { }
 
 	private boolean doValidacion() throws SQLException, DataStoreException {
 		// obtiene el id de la entrada de la clase en la tabla de validaciones
@@ -41,13 +39,13 @@ public class ValidarTotalRelojPartesMo extends ValidadorReglasNegocio {
 		fechaEjecValidacion = new Timestamp(System.currentTimeMillis());
 		
 		for (int i = 0; i < _dsResHor.getRowCount(); i++) {
-			StringTokenizer st = new StringTokenizer(_dsResHor.getResumenHorasRelojParteIds(i),",");
-			while (st.hasMoreElements()) {
+			String[] st = _dsResHor.getResumenHorasRelojParteIds(i).split(",");
+			for (String id : st) {
 				int row = _dsLogVal.insertRow();
 				_dsLogVal.setLogValidacionPartesMoFecha(row, fechaEjecValidacion);
 				_dsLogVal.setLogValidacionPartesMoEstado(row, estado_valido);
 				_dsLogVal.setLogValidacionPartesMoValidacionId(row, validacion_id);
-				_dsLogVal.setLogValidacionPartesMoParteId(row, Integer.valueOf(st.nextToken()));
+				_dsLogVal.setLogValidacionPartesMoParteId(row, Integer.valueOf(id));
 			}
 			_dsResHor.setResumenHorasRelojEstado(i, ResumenHorasRelojModel.PARTES_VAL);
 			_dsResHor.setResumenHorasRelojObservaciones(i, ResumenHorasRelojModel.PARTES_VAL_MSG);
@@ -67,10 +65,8 @@ public class ValidarTotalRelojPartesMo extends ValidadorReglasNegocio {
 		try {
 			return doValidacion();			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DataStoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		return false;
