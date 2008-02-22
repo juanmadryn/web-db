@@ -63,8 +63,8 @@
 									text="¿Genérico?" font="ColumnCaptionFont" /></td>
 								<td><salmon:input name="inventariableTE10" type="select"
 									datasource="dsClase:clase_articulo.generico">
-									<salmon:option display="Si" key="V"></salmon:option>
 									<salmon:option display="No" key="F"></salmon:option>
+									<salmon:option display="Si" key="V"></salmon:option>									
 								</salmon:input></td>
 							</tr>
 						</table>

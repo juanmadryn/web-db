@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
    extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page controller="infraestructura.controllers.BaseController" />
+<salmon:page controller="inventario.controllers.ConsultaArticulosController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
    <%@include file="message.jsp"%>
@@ -10,7 +10,8 @@
    <!-- Agregar definición de DataSource aquí														  -->
    <!-- ********************************************************************************************* -->
    <salmon:datasource name="dsQBE" type="QBE">
-      <salmon:qbecriteria name="buscar" type="complex" columns="*" />
+      <salmon:qbecriteria name="buscar" type="complex" columns="*"/>
+      <salmon:qbecriteria name="anulado" type="not_equeals" columns="articulos.anulado"/>
    </salmon:datasource>
    <salmon:datasource name="dsArticulos" type="MODEL" dbprofile="inventario"
       model="inventario.models.ArticulosModel" autoretrieve="Never">
@@ -23,14 +24,14 @@
          <salmon:tr>
             <salmon:td valign="Top">
                <salmon:searchformdisplaybox name="searchformdisplaybox1"
-                  caption="Artículos" qbebuilder="dsQBE" addbuttonvisible="false">
+                  caption="Artículos" qbebuilder="dsQBE" searchbuttonvisible="false" addbuttonvisible="false">
                   <table width="100%">
                      <tr>
                         <td><salmon:text name="buscarCAP1"
                            text="Buscar" font="ColumnCaptionFont" /></td>
                         <td><salmon:input type="text"
-                           name="buscarTE3" size="60" maxlength="90"
-                           datasource="dsQBE:buscar"></salmon:input></td>
+                           name="buscarTE3" size="60" maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
+                        <td><salmon:input type="hidden" name="anuladoHV" value="V" datasource="dsQBE:anulado"/></td>
                      </tr>
                   </table>
                </salmon:searchformdisplaybox>

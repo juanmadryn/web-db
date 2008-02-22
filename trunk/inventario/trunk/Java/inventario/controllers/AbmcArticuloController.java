@@ -6,12 +6,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import infraestructura.controllers.BaseController;
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.ArticulosModel;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreBuffer;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
@@ -29,10 +31,8 @@ public class AbmcArticuloController extends BaseController {
 	private static final String TABLA_PRINCIPAL = "articulos";
 	
 	//Visual Components
-	// public com.salmonllc.html.HtmlCheckBox _estadoCB8;
-	// public com.salmonllc.html.HtmlCheckBox _estadoCB9;
-	public com.salmonllc.html.HtmlDropDownList _activoSE8;
-	public com.salmonllc.html.HtmlDropDownList _anuladoSE9;
+	public com.salmonllc.html.HtmlCheckBox _activoSE8;
+	public com.salmonllc.html.HtmlCheckBox _anuladoSE9;
 	public com.salmonllc.html.HtmlLookUpComponent _claseTE4;
 	public com.salmonllc.html.HtmlLookUpComponent _valorTE11;
 	public com.salmonllc.html.HtmlMultiLineTextEdit _descripcionCompTE4;
@@ -45,8 +45,8 @@ public class AbmcArticuloController extends BaseController {
 	public com.salmonllc.html.HtmlText _claveExtTCAP7;
 	public com.salmonllc.html.HtmlText _descripcionCAP3;
 	public com.salmonllc.html.HtmlText _descripcionCompCAP4;
-	public com.salmonllc.html.HtmlText _estadoCAP8;
-	public com.salmonllc.html.HtmlText _estadoCAP9;
+	public com.salmonllc.html.HtmlText _activoCAP8;
+	public com.salmonllc.html.HtmlText _anuladoCAP9;
 	public com.salmonllc.html.HtmlText _idCAP5;
 	public com.salmonllc.html.HtmlText _idTXT5;
 	public com.salmonllc.html.HtmlText _nombreCAP1;
@@ -62,6 +62,7 @@ public class AbmcArticuloController extends BaseController {
 	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
+	public com.salmonllc.html.HtmlSubmitButton _customBUT100;
 		
 	//DataSources
 	public infraestructura.models.AtributosEntidadModel _dsAtributos;
@@ -181,6 +182,12 @@ public class AbmcArticuloController extends BaseController {
 		_atributoEtiquetaBUT4.addSubmitListener(this);
 		_atributoEtiquetaBUT5.addSubmitListener(this);
 		_atributoEtiquetaBUT6.addSubmitListener(this);
+		_customBUT100.addSubmitListener(this);
+		
+		_activoSE8.setTrueValue("V");
+		_activoSE8.setFalseValue("F");
+		_anuladoSE9.setTrueValue("V");
+		_anuladoSE9.setFalseValue("F");
 		
 		_dsArticulo.setAutoValidate(true);
 		
@@ -201,49 +208,99 @@ public class AbmcArticuloController extends BaseController {
 	 */
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
+		DBConnection conn = DBConnection.getConnection(getApplicationName());
+				
+		// activate/deactivate the item
+		conn.beginTransaction();
+		try {
+			if (e.getComponent() == _customBUT100) {
+				if (_customBUT100.getDisplayName().equalsIgnoreCase("Activar")) {
+					AtributosEntidadModel dsAtributos = new AtributosEntidadModel(
+							"infraestructura", "infraestructura");
+					StringBuilder criteria = new StringBuilder();
+					criteria.append("atributos_entidad.objeto_id = ");
+					criteria.append(_dsArticulo.getArticulosArticuloId());
+					criteria.append(" and atributos_entidad.tipo_objeto = 'TABLA'");
+					criteria.append(" and atributos_entidad.nombre_objeto = 'articulos'");
+					dsAtributos.retrieve(criteria.toString());
+					dsAtributos.validaAtributosUpdate();
+					_dsArticulo.setArticulosActivo("V");
+					_dsArticulo.update(conn);
+					armaBotonera();
+				} else {
+					_dsArticulo.reloadRow();
+					_dsArticulo.setArticulosActivo("F");
+					_dsArticulo.update(conn);
+					armaBotonera();
+				}
+			}
+			conn.commit();
+		} catch (ValidationException ex) {			
+			for (String er : ex.getStackErrores()) {
+				displayErrorMessage(er);
+			}
+			return false;
+		} catch (DataStoreException ex) {
+			MessageLog.writeErrorMessage(ex, null);
+			displayErrorMessage(ex.getMessage());
+		} catch (SQLException ex) {
+			MessageLog.writeErrorMessage(ex, null);
+			displayErrorMessage(ex.getMessage());
+		}
+		finally {
+			conn.rollback();
+			conn.freeConnection();
+		}
 		
 		// Save the item
 		if (e.getComponent() == _grabarArticuloBUT) {
-			// grabo todos los datasource
-			int v_objeto_id = 0;
-			try {
-				if (_dsArticulo.getRow() == -1)
-					return false;
-				_dsArticulo.update();		
-				
-				// genero atributos faltantes si los hubiera, es decir, los
-				// inserto en la tabla de atributos con sus valores en null				
-				v_objeto_id = _dsArticulo.getArticulosArticuloId();
-				if (_dsAtributos.getRow() == -1) {
-					if (v_objeto_id < 1) {
-						displayErrorMessage("Debe seleccionar un artículo para poder generar sus atributos");
-						return false;
+			if (!"V".equalsIgnoreCase(_dsArticulo.getArticulosActivo())) {
+				// grabo todos los datasource
+				int v_objeto_id = 0;
+				try {
+					if (_dsArticulo.getRow() == -1)
+						return false;	
+					_activoSE8.setValue("F");
+					_anuladoSE9.setValue("F");
+					_dsArticulo.update();
+
+					// genero atributos faltantes si los hubiera, es decir, los
+					// inserto en la tabla de atributos con sus valores en null
+					v_objeto_id = _dsArticulo.getArticulosArticuloId();
+					if (_dsAtributos.getRow() == -1) {
+						if (v_objeto_id < 1) {
+							displayErrorMessage("Debe seleccionar un artículo para poder generar sus atributos");
+							return false;
+						}
+						// manda a generar los atributos de la entidad
+						_dsAtributos.generaAtributosObjetoAplicacion(
+								v_objeto_id, TABLA_PRINCIPAL);
 					}
-					// manda a generar los atributos de la entidad
-					_dsAtributos.generaAtributosObjetoAplicacion(
-							v_objeto_id, TABLA_PRINCIPAL);
+
+					// actulizo atributos
+					_dsAtributos.update();
+					// recupero atributos "Generales"
+					_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
+							null, v_objeto_id, TABLA_PRINCIPAL);
+
+				} catch (DataStoreException ex) {
+					MessageLog.writeErrorMessage(ex, null);
+					displayErrorMessage(ex.getMessage());
+				} catch (SQLException ex) {
+					MessageLog.writeErrorMessage(ex, null);
+					displayErrorMessage(ex.getMessage());
+				} catch (Exception ex) {
+					MessageLog.writeErrorMessage(ex, _dsArticulo);
+					displayErrorMessage(ex.getMessage());
+				} finally {
+					seteaBotonesAtributos(v_objeto_id);
+					recuperaAtributosBotonSeleccionado(v_objeto_id,
+							TABLA_PRINCIPAL);
 				}
-				
-				// actulizo atributos
-				_dsAtributos.update();
-				// recupero atributos "Generales"
-				_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-						null, v_objeto_id, TABLA_PRINCIPAL);
-				
-			} catch (DataStoreException ex) {
-				MessageLog.writeErrorMessage(ex, null);
-				displayErrorMessage(ex.getMessage());				
-			} catch (SQLException ex) {
-				MessageLog.writeErrorMessage(ex, null);
-				displayErrorMessage(ex.getMessage());
-			} catch (Exception ex) {
-				MessageLog.writeErrorMessage(ex, _dsArticulo);
-				displayErrorMessage(ex.getMessage());
-				
-			} finally {
-				seteaBotonesAtributos(v_objeto_id);
-				recuperaAtributosBotonSeleccionado(v_objeto_id,
-						TABLA_PRINCIPAL);
+			} else {
+				// articulo ya activado, se bloquean las modificaciones
+				displayErrorMessage("No puede modificar el artículo en el estado actual.");
+				return false;
 			}
 		}
 		
@@ -252,18 +309,25 @@ public class AbmcArticuloController extends BaseController {
 			pageRequested(new PageEvent(this));
 		}
 		
+		// new item
 		if (e.getComponent() == _nuevoArticuloBUT) {
 			_dsAtributos.reset();
 			_dsArticulo.reset();			
-			_dsArticulo.gotoRow(_dsArticulo.insertRow());			
+			_dsArticulo.gotoRow(_dsArticulo.insertRow());
 		}
 		
-		if (e.getComponent() == _eliminaArticuloBUT) {					
-			_dsArticulo.deleteRow();			
-			_dsArticulo.update();				
-			_dsArticulo.reset();
+		// the record isn't removed from the db, instead anulado field is set to true
+		if (e.getComponent() == _eliminaArticuloBUT) {
+			if (!(_dsArticulo.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsArticulo
+					.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) { 
+				_dsArticulo.setArticulosAnulado("V");			
+				_dsArticulo.update();			
+			}
+			_dsAtributos.reset();
+			_dsArticulo.reset();			
+			_dsArticulo.gotoRow(_dsArticulo.insertRow());
 		}
-
+		
 		// controla el efecto de solapa de los botones y recupera los atributos
 		// correspondientes
 		if (e.getComponent() == _atributoEtiquetaBUT1) {
@@ -350,16 +414,22 @@ public class AbmcArticuloController extends BaseController {
 		
 		// graba atributos de entidad
 		if (e.getComponent() == _grabarAtributoBUT1) {
-			try {
-				_dsAtributos.update();
-			} catch (ValidationException ex) {
-				for (String er : ex.getStackErrores())
-					displayErrorMessage(er);
-				MessageLog.writeErrorMessage(ex, null);
-				return false;
+			if ("F".equalsIgnoreCase(_dsArticulo.getArticulosActivo())) {
+				try {
+					_dsAtributos.update();
+				} catch (ValidationException ex) {
+					for (String er : ex.getStackErrores())
+						displayErrorMessage(er);
+					MessageLog.writeErrorMessage(ex, null);
+					return false;
 
-			} catch (DataStoreException ex) {
-				displayErrorMessage(ex.getMessage());
+				} catch (DataStoreException ex) {
+					displayErrorMessage(ex.getMessage());
+					return false;
+				}
+			} else {
+				// articulo ya activado, se bloquean las modificaciones
+				displayErrorMessage("No puede modificar el artículo en el estado actual.");
 				return false;
 			}
 		}
@@ -384,46 +454,51 @@ public class AbmcArticuloController extends BaseController {
 			seteaBotonesAtributos(v_objeto_id);
 			recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
 		}
-		
+	
+		armaBotonera();
 		return super.submitPerformed(e);
 	}
 	
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
-		int v_articulo_id = -1;
-
-		// si la página es requerida por si misma no hago nada
-		if (!isReferredByCurrentPage() || this.recargar) {
-			_dsAtributos.reset();
-			_dsArticulo.reset();					
-			
-			v_articulo_id = this.recargar ? _dsArticulo.getArticulosArticuloId()
-					: getIntParameter("p_articulo_id");
-			
-			if (v_articulo_id > 0){				
-				// recupera toda la información del artículo
-				_dsArticulo.retrieve(ArticulosModel.ARTICULOS_ARTICULO_ID + " = " + Integer.toString(v_articulo_id));
-				_dsArticulo.gotoFirst();				
-				// genero atributos si faltan
-				_dsAtributos.generaAtributosObjetoAplicacion(v_articulo_id,
-						TABLA_PRINCIPAL);
-				// setea los botones de los atributos
-				seteaBotonesAtributos(v_articulo_id);
-				seteaNuevoBoton(botonSeleccionado);
-
-				// recupera la información del boton seleccionado
-				recuperaAtributosBotonSeleccionado(v_articulo_id,
-						TABLA_PRINCIPAL);
-				_dsAtributos.gotoFirst();
-			}
-			else {
-				_dsArticulo.insertRow();
-				_dsArticulo.gotoFirst();
-			}
-			_nombreTE1.setFocus();
-		}
-		
 		super.pageRequested(p);
+		try {
+			int v_articulo_id = -1;
+
+			// si la página es requerida por si misma no hago nada
+			if (!isReferredByCurrentPage() || this.recargar) {
+				v_articulo_id = this.recargar ? _dsArticulo
+						.getArticulosArticuloId()
+						: getIntParameter("p_articulo_id");
+
+				if (v_articulo_id > 0) {
+					_dsAtributos.reset();
+					_dsArticulo.reset();
+
+					// recupera toda la información del artículo
+					_dsArticulo.retrieve(ArticulosModel.ARTICULOS_ARTICULO_ID
+							+ " = " + Integer.toString(v_articulo_id));
+					_dsArticulo.gotoFirst();
+					// genero atributos si faltan
+					_dsAtributos.generaAtributosObjetoAplicacion(v_articulo_id,
+							TABLA_PRINCIPAL);
+					// setea los botones de los atributos
+					seteaBotonesAtributos(v_articulo_id);
+					seteaNuevoBoton(botonSeleccionado);
+
+					// recupera la información del boton seleccionado
+					recuperaAtributosBotonSeleccionado(v_articulo_id,
+							TABLA_PRINCIPAL);
+					_dsAtributos.gotoFirst();
+				}
+				_nombreTE1.setFocus();
+			}
+
+			recargar = false;
+			armaBotonera();
+		} catch (DataStoreException e) {
+			displayErrorMessage(e.getMessage());
+		}
 	}	
 	
 	private void seteaNuevoBoton(int nuevoBoton) {
@@ -695,4 +770,23 @@ public class AbmcArticuloController extends BaseController {
 		seteaBotonesAtributos(p_articulo_id);
 		recuperaAtributosBotonSeleccionado(p_articulo_id, TABLA_PRINCIPAL);
 	}	
+	
+	private void armaBotonera() throws DataStoreException {
+		// resetea todos los botones
+		_customBUT100.setVisible(false);
+
+		// controla estar dentro de un contexto de Informe
+		if (_dsArticulo.getRow() == -1) {
+			throw new DataStoreException(
+					"Debe seleccionar un artículo para recuperar su estado");
+		}		
+		
+		if (!(_dsArticulo.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsArticulo
+				.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) {
+			_customBUT100.setVisible(true);
+			_customBUT100.setDisplayName("V".equalsIgnoreCase(_dsArticulo
+					.getArticulosActivo()) ? "Desactivar" : "Activar");
+			_customBUT100.setButtonFontStyle("font-weight:bold; COLOR: red");
+		}
+	}
 }
