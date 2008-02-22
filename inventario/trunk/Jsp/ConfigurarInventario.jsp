@@ -9,13 +9,13 @@
 	<tr> 
   		<td> <table width="100%">
       		<tr> 
-        		<td> <salmon:text name="text1" text="Bienvenido a la Aplicación Proyectos" textlocalekey="textWelcome" font="SectionHeadingFont"/> <BR>
-					 <FONT STYLE="FONT-FAMILY:Times New Roman, Times, Verdana,Helvetica,sans-serif; FONT-SIZE:12pt;" COLOR="BLACK"><I> Aplicación para Administrar Proyectos </I> </FONT>
+        		<td> <salmon:text name="text1" text="Bienvenido a la Aplicación Inventario" textlocalekey="textWelcome" font="SectionHeadingFont"/> <BR>
+					 <FONT STYLE="FONT-FAMILY:Times New Roman, Times, Verdana,Helvetica,sans-serif; FONT-SIZE:12pt;" COLOR="BLACK"><I> Aplicación para Administrar Inventario </I> </FONT>
 				</td>
       		</tr>
       		<tr> 
-        		<td><br><br><salmon:text name="text2" text="Menú para Configurar Proyectos" textlocalekey="textWelcome" font="PageHeadingFont"/> <BR>
-					 <FONT STYLE="FONT-FAMILY:Times New Roman, Times, Verdana,Helvetica,sans-serif; FONT-SIZE:12pt;" COLOR="BLACK"><I> Menú principal de la Administración de proyectos </I> </FONT><br><br>
+        		<td><br><br><salmon:text name="text2" text="Menú para Configurar Inventarios" textlocalekey="textWelcome" font="PageHeadingFont"/> <BR>
+					 <FONT STYLE="FONT-FAMILY:Times New Roman, Times, Verdana,Helvetica,sans-serif; FONT-SIZE:12pt;" COLOR="BLACK"><I> Menú principal de la Administración de Inventario </I> </FONT><br><br>
 				</td>
       		</tr>
     	</table></td>

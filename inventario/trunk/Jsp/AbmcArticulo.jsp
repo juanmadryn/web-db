@@ -26,14 +26,23 @@
 						buttondisplaylocation="BELOW_TABLE" addbuttonvisible="false"
 						cancelbuttonvisible="false" savebuttonvisible="false"
 						deletebuttonvisible="false">
-						<table width="100%" > 							
+						<salmon:input name="customBUT100" type="submit" value="boton 1"
+							accesskey="1" visible="False"></salmon:input>
+						<table width="100%" >
+							<tr>
+								<td><salmon:text name="idCAP5" text="ID"
+									font="ColumnCaptionFont" /></td>
+								<td><salmon:text name="idTXT5" text="id Goes Here"
+									font="DefaultFont" 
+									datasource="dsArticulo:articulos.articulo_id" /></td>
+							</tr> 							
 							<tr>
 								<td width="20%"><salmon:text name="claseCAP1" text="Clase de Artículo"
 									font="ColumnCaptionFont" /></td>
-								<td width="300"><salmon:lookup
+								<td><salmon:lookup
 									browseimage="%ImageDirectory/Browse.gif"
-									lookupurl="%LkpClaseArticulo" name="claseTE4" size="6"
-									maxlength="10"
+									lookupurl="%LkpClaseArticulo" name="claseTE4" size="15"
+									maxlength="90"
 									descriptiondatasource="dsArticulo:clase_articulo.descripcion"
 									datasource="dsArticulo:clase_articulo.nombre" popupheight="450"
 									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup></td>
@@ -48,7 +57,7 @@
 								<td><salmon:text name="observacionesCAP2" text="Observación"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text" name="observacionesTE2"
-									size="60" maxlength="255"
+									size="60" maxlength="255" width="100%"
 									datasource="dsArticulo:articulos.observaciones"></salmon:input></td>
 							</tr>
 							<tr>
@@ -59,16 +68,31 @@
 									datasource="dsArticulo:articulos.descripcion"></salmon:input></td>
 							</tr>
 							<tr>
-								<td valign="top"><salmon:text name="descripcionCompCAP4" text="Descripción completa"
+								<td colspan="2" valign="top"><salmon:text name="descripcionCompCAP4" text="Descripción completa"
 									font="ColumnCaptionFont"/></td>
-								<td><salmon:input type="textarea" name="descripcionCompTE4"
-									cols="90" rows="10" wrap="soft" datasource="dsArticulo:articulos.descripcion_completa">									
+							</tr>
+							<tr>
+								<td colspan="2"><salmon:input type="textarea" name="descripcionCompTE4"
+									cols="100" rows="15" wrap="soft" datasource="dsArticulo:articulos.descripcion_completa">									
 									</salmon:input></td>									
+							</tr>														
+							<tr>
+								<td><salmon:text name="estadoCAP9" text="Estado"
+									font="ColumnCaptionFont"/></td>
+								<td><salmon:input name="activoSE8" type="checkbox" enabled="false"
+										readonly="true"	datasource="dsArticulo:articulos.activo">									
+									</salmon:input>
+									<salmon:text name="activoCAP8" text="Activo" font="ColumnCaptionFont"/>
+									<salmon:input name="anuladoSE9" type="checkbox" 
+										readonly="true"	datasource="dsArticulo:articulos.anulado" visible="false">
+									</salmon:input>
+									<salmon:text name="anuladoCAP9" text="Anulado" font="ColumnCaptionFont" visible="false"/>									
+									</td>																		
 							</tr>
 							<tr>
 								<td><salmon:text name="claveExtCAP5" text="Claves Externas" 
-									font="ColumnCaptionFont"/></td>
-								<td colspan="1"><salmon:text name="claveExtTCAP5" text="1" 
+									font="ColumnCaptionFont"/></td>							
+								<td><salmon:text name="claveExtTCAP5" text="1" 
 									font="ColumnCaptionFont"/>
 									<salmon:input name="claveExtTE5" type="text"
 									maxlength="20" size="10" datasource="dsArticulo:articulos.clave_externa1">
@@ -83,32 +107,8 @@
 									<salmon:input name="claveExtTE7" type="text"
 									maxlength="20" size="10" datasource="dsArticulo:articulos.clave_externa3">
 									</salmon:input></td>
-							</tr>							
-							<tr>
-								<td><salmon:text name="estadoCAP8" text="Activo" 
-									font="ColumnCaptionFont"/></td>
-								<td><salmon:input name="estadoSE8" type="select"
-									datasource="dsArticulo:articulos.activo">									
-									<salmon:option display="No" key="F"></salmon:option>
-									<salmon:option display="Si" key="V"></salmon:option>
-									</salmon:input></td>									
-							</tr>										
-							<tr>
-								<td><salmon:text name="estadoCAP9" text="Anulado" 
-									font="ColumnCaptionFont"/></td>
-								<td><salmon:input name="anuladoSE9" type="select"
-									datasource="dsArticulo:articulos.anulado">									
-									<salmon:option display="No" key="F"></salmon:option>
-									<salmon:option display="Si" key="V"></salmon:option>
-									</salmon:input></td>																		
-							</tr>							
-							<tr>
-								<td><salmon:text name="idCAP5" text="ID"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:text name="idTXT5" text="id Goes Here"
-									font="DefaultFont"
-									datasource="dsArticulo:articulos.articulo_id" /></td>
 							</tr>
+							<tr></tr>														
 						</table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>

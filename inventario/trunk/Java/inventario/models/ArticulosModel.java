@@ -36,7 +36,10 @@ public class ArticulosModel extends BaseModel {
 
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
-
+	public static final int ARTICULO_ACTIVO=1;
+	public static final int ARTICULO_INACTIVO=0;
+	public static final int ARTICULO_ANULADO=1;
+	public static final int ARTICULO_NO_ANULADO=0;
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -96,7 +99,7 @@ public class ArticulosModel extends BaseModel {
 		}
 
 		//$CUSTOMCONSTRUCTOR$
-		//Put custom constructor code between these comments, otherwise it be overwritten if the model is regenerated
+		//Put custom constructor code between these comments, otherwise it be overwritten if the model is regenerated		
 		try {
 			addExpressionRule(ARTICULOS_NOMBRE,new ConvierteMayusculasValidation(ARTICULOS_NOMBRE),"",false);
 		} catch (DataStoreException e) {
@@ -622,6 +625,7 @@ public class ArticulosModel extends BaseModel {
 	
 	public void validarArticulos() throws SQLException, DataStoreException {		
 		boolean hubo_errores_clase_articulo;
+		
 		if (getRowStatus() == STATUS_NEW_MODIFIED
 				|| getRowStatus() == STATUS_MODIFIED) {
 			hubo_errores_clase_articulo = (validarClaseArticulo() == -1);
@@ -644,7 +648,8 @@ public class ArticulosModel extends BaseModel {
 			throw new DataStoreException("Error determinando clase de artículo");
 		}		
 		return claseId;
-	}
+	}	
+	
 	//$ENDCUSTOMMETHODS$
 
 }
