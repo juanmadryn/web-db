@@ -2,13 +2,14 @@
 package inventario.controllers;
 
 //Salmon import statements
-import java.sql.SQLException;
-import java.util.ArrayList;
-
 import infraestructura.controllers.BaseController;
 import infraestructura.models.AtributosEntidadModel;
+import infraestructura.reglasNegocio.EjecutaReglaNegocio;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.ArticulosModel;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -60,7 +61,8 @@ public class AbmcArticuloController extends BaseController {
 	public com.salmonllc.html.HtmlTextEdit _observacionesTE2;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
-	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
+	//public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
+	public infraestructura.controllers.JspDetailFormDisplayBoxCustomAction _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.html.HtmlSubmitButton _customBUT100;
 		
@@ -104,7 +106,6 @@ public class AbmcArticuloController extends BaseController {
 	// Custom (not present in the JSP)
 	public HtmlSubmitButton _grabarArticuloBUT;
 	public HtmlSubmitButton _nuevoArticuloBUT;
-	public HtmlSubmitButton _eliminaArticuloBUT;
 	public HtmlSubmitButton _recargarBUT;
 	public HtmlSubmitButton _grabarAtributoBUT1;
 	public HtmlSubmitButton _atributoGenerarAtributosBUT11;
@@ -122,25 +123,24 @@ public class AbmcArticuloController extends BaseController {
 	 * Initialize the page. Set up listeners and perform other initialization activities.
 	 * @throws Exception 
 	 */
-	public void initialize() throws Exception {
-		super.initialize();
+	public void initialize() throws Exception {		
+		super.initialize();		
+		// set customized actions for detail box buttons
+		_detailformdisplaybox1.setDeleteAction(new AccionBorrar());
+		_detailformdisplaybox1.setCancelAction(new AccionCancelar());
 		
 		// genera botones custom
 		_grabarArticuloBUT = new HtmlSubmitButton("grabarParteBUT3","Grabar",this);
 		_grabarArticuloBUT.setAccessKey("g");
-		_detailformdisplaybox1.addButton(_grabarArticuloBUT);
+		_detailformdisplaybox1.addButton(0, _grabarArticuloBUT);		
 				
 		_nuevoArticuloBUT = new HtmlSubmitButton("nuevoParteNuevoBUT2","Nuevo Artículo",this);
 		_nuevoArticuloBUT.setAccessKey("n");
-		_detailformdisplaybox1.addButton(_nuevoArticuloBUT);
-		
-		_eliminaArticuloBUT = new HtmlSubmitButton("eliminaParteBUT4","Eliminar",this);
-		_eliminaArticuloBUT.setAccessKey("e");
-		_detailformdisplaybox1.addButton(_eliminaArticuloBUT);
+		_detailformdisplaybox1.addButton(1,_nuevoArticuloBUT);
 		
 		_recargarBUT = new HtmlSubmitButton("recargarBUT5","Recargar",this);
 		_recargarBUT.setAccessKey("r");
-		_detailformdisplaybox1.addButton(_recargarBUT);
+		_detailformdisplaybox1.addButton(3,_recargarBUT);
 		
 		// botones para atributos
 		_grabarAtributoBUT1 = new HtmlSubmitButton("grabarAtributoBUT1",
@@ -172,7 +172,6 @@ public class AbmcArticuloController extends BaseController {
 		// listeners
 		_grabarArticuloBUT.addSubmitListener(this);
 		_nuevoArticuloBUT.addSubmitListener(this);
-		_eliminaArticuloBUT.addSubmitListener(this);
 		_recargarBUT.addSubmitListener(this);
 		_grabarAtributoBUT1.addSubmitListener(this);
 		_atributoGenerarAtributosBUT11.addSubmitListener(this);
@@ -305,24 +304,12 @@ public class AbmcArticuloController extends BaseController {
 		}
 		
 		if (e.getComponent() == _recargarBUT) {
-			this.recargar = false;
+			this.recargar = true;
 			pageRequested(new PageEvent(this));
 		}
 		
 		// new item
 		if (e.getComponent() == _nuevoArticuloBUT) {
-			_dsAtributos.reset();
-			_dsArticulo.reset();			
-			_dsArticulo.gotoRow(_dsArticulo.insertRow());
-		}
-		
-		// the record isn't removed from the db, instead anulado field is set to true
-		if (e.getComponent() == _eliminaArticuloBUT) {
-			if (!(_dsArticulo.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsArticulo
-					.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) { 
-				_dsArticulo.setArticulosAnulado("V");			
-				_dsArticulo.update();			
-			}
 			_dsAtributos.reset();
 			_dsArticulo.reset();			
 			_dsArticulo.gotoRow(_dsArticulo.insertRow());
@@ -787,6 +774,44 @@ public class AbmcArticuloController extends BaseController {
 			_customBUT100.setDisplayName("V".equalsIgnoreCase(_dsArticulo
 					.getArticulosActivo()) ? "Desactivar" : "Activar");
 			_customBUT100.setButtonFontStyle("font-weight:bold; COLOR: red");
+		}
+	}
+	
+	/**
+	 * Implements the delete action for the detail box delete button
+	 * @author fep
+	 *
+	 */
+	private class AccionBorrar extends EjecutaReglaNegocio {
+		// the record isn't removed from the db, instead anulado field is set to true
+		@Override
+		public void ejecutaAccion() throws Exception {
+			if (!(_dsArticulo.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsArticulo
+					.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) { 
+				_dsArticulo.setArticulosAnulado("V");
+				_dsArticulo.update();
+			}			
+			_dsAtributos.reset();
+			_dsArticulo.reset();			
+			_dsArticulo.gotoRow(_dsArticulo.insertRow());
+		}
+	}
+	
+	/**
+	 * Implements the cancel action for the detail box cancel button
+	 * @author fep
+	 *
+	 */
+	private class AccionCancelar extends EjecutaReglaNegocio {
+		@Override
+		public void ejecutaAccion() throws Exception {
+			if ((_dsArticulo.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsArticulo
+					.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) { 
+				_dsAtributos.reset();
+				_dsArticulo.reset();			
+				_dsArticulo.gotoRow(_dsArticulo.insertRow());
+			}
+			recargar = true;			
 		}
 	}
 }

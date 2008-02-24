@@ -24,8 +24,8 @@
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
 						caption="Artículo" width="100%" datasource="dsArticulo"
 						buttondisplaylocation="BELOW_TABLE" addbuttonvisible="false"
-						cancelbuttonvisible="false" savebuttonvisible="false"
-						deletebuttonvisible="false">
+						cancelbuttonvisible="true" savebuttonvisible="false"
+						deletebuttonvisible="true" detailformclass="infraestructura.controllers.JspDetailFormDisplayBoxCustomAction">
 						<salmon:input name="customBUT100" type="submit" value="boton 1"
 							accesskey="1" visible="False"></salmon:input>
 						<table width="100%" >
