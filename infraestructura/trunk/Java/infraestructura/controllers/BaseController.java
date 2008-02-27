@@ -998,5 +998,9 @@ public class BaseController extends JspController implements SubmitListener,
 		getSessionManager().setWebSiteUser(user);
 		return user;
 	}
+	
+	public WebSiteUser getUserFromSession(String ip) {
+		return users.get(ip);
+	}
 
 }
