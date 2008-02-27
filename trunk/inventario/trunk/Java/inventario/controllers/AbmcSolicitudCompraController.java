@@ -277,6 +277,8 @@ public class AbmcSolicitudCompraController extends BaseController implements
 						}
 					}
 
+					_dsSolicitudCompra.reloadRow(); 
+					
 					_tarea3.resetOptions();
 					_tarea3.setCriteria("proyecto_id = "
 							+ _dsSolicitudCompra
@@ -324,11 +326,13 @@ public class AbmcSolicitudCompraController extends BaseController implements
 
 		if (event.getComponent() == _articulosAgregarBUT1) {
 			// crea un nuevo registro de tarea
-			try {				
+			try {		
+				
 				int solicitud_id = _dsSolicitudCompra
 						.getSolicitudesCompraSolicitudCompraId();
+				System.out.println(solicitud_id);
 				if (solicitud_id > 0) {
-					System.out.println();
+					
 					int reg = _dsDetalleSC.insertRow();
 					_dsDetalleSC.gotoRow(reg);
 
