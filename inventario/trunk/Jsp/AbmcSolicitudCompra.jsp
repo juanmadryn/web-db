@@ -177,7 +177,7 @@
 						</salmon:td>
 						<salmon:td align="RIGHT">
 							<salmon:input type="text" name="monto_unitario2" size="15"
-								maxlength="15" displayformat="###.###.##0,00"
+								maxlength="15" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 						</salmon:td>
 						<salmon:td align="RIGHT">
