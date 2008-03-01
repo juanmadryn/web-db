@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 
 import proyectos.models.TareasProyectoModel;
 
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -1928,21 +1929,24 @@ public class PartesEqModel extends BaseModel {
 		StringBuilder whereClause = new StringBuilder(50);
 		
 		try {
-			// check if a task was specified
-			if ((tareaProyectoNombre != null) && (tareaProyectoNombre.trim().length() > 0)) {
+			// check if a task was specified and use it, if tarea lookup is not disabled
+			if ( (tareaProyectoNombre != null) && (tareaProyectoNombre.trim().length() > 0) &&
+					("true".equalsIgnoreCase(Props.getProps(getAppName(),null).getProperty("ShowTareaLookup")))) {
 				whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_NOMBRE + " = '" + tareaProyectoNombre + "' and ");				
 			}			
 			whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_PROYECTO_ID + " = " + proyectoId);
-			// the first task added to the project on top
+			// the first task added to the project on top (useful when no task was specified)
 			dsTareasProyecto.setOrderBy(TareasProyectoModel.TAREAS_PROYECTO_TAREA_ID + " asc");
 			
 			dsTareasProyecto.retrieve(whereClause.toString());
 			dsTareasProyecto.gotoFirst();
 			tareaId = dsTareasProyecto.getRow();
 			
+			// set the retrieved task as the unit-of-work's one
 			if (tareaId != -1) {
 				setPartesEqTareaId(row, dsTareasProyecto.getTareasProyectoTareaId());
-				setTareasProyectoNombre(row, dsTareasProyecto.getTareasProyectoNombre());				
+				setTareasProyectoNombre(row, dsTareasProyecto.getTareasProyectoNombre());
+				setTareasProyectoDescripcion(row, dsTareasProyecto.getTareasProyectoDescripcion());
 			} else {
 				if (getMensajeError(row) == null)
 					setMensajeError(row, "Tarea inexistente");
