@@ -36,10 +36,9 @@ public class ArticulosModel extends BaseModel {
 
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
-	public static final int ARTICULO_ACTIVO=1;
-	public static final int ARTICULO_INACTIVO=0;
-	public static final int ARTICULO_ANULADO=1;
-	public static final int ARTICULO_NO_ANULADO=0;
+	public static final String ARTICULO_ACTIVO="V";
+	public static final String ARTICULO_INACTIVO="F";
+	public static final String ARTICULO_ANULADO="V";
 	//$ENDCUSTOMVARS$
 
 	/**
