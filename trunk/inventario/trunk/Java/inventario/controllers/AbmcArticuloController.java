@@ -106,7 +106,7 @@ public class AbmcArticuloController extends BaseController {
 	// Custom (not present in the JSP)
 	public HtmlSubmitButton _grabarArticuloBUT;
 	public HtmlSubmitButton _nuevoArticuloBUT;
-	public HtmlSubmitButton _recargarBUT;
+	public HtmlSubmitButton _copiarBUT;
 	public HtmlSubmitButton _grabarAtributoBUT1;
 	public HtmlSubmitButton _atributoGenerarAtributosBUT11;
 	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT1;
@@ -134,13 +134,13 @@ public class AbmcArticuloController extends BaseController {
 		_grabarArticuloBUT.setAccessKey("g");
 		_detailformdisplaybox1.addButton(0, _grabarArticuloBUT);		
 				
-		_nuevoArticuloBUT = new HtmlSubmitButton("nuevoParteNuevoBUT2","Nuevo Artículo",this);
+		_nuevoArticuloBUT = new HtmlSubmitButton("nuevoParteNuevoBUT2","Nuevo",this);
 		_nuevoArticuloBUT.setAccessKey("n");
 		_detailformdisplaybox1.addButton(1,_nuevoArticuloBUT);
 		
-		_recargarBUT = new HtmlSubmitButton("recargarBUT5","Recargar",this);
-		_recargarBUT.setAccessKey("r");
-		_detailformdisplaybox1.addButton(3,_recargarBUT);
+		_copiarBUT = new HtmlSubmitButton("recargarBUT5","Copiar",this);
+		_copiarBUT.setAccessKey("r");
+		_detailformdisplaybox1.addButton(3,_copiarBUT);
 		
 		// botones para atributos
 		_grabarAtributoBUT1 = new HtmlSubmitButton("grabarAtributoBUT1",
@@ -172,7 +172,7 @@ public class AbmcArticuloController extends BaseController {
 		// listeners
 		_grabarArticuloBUT.addSubmitListener(this);
 		_nuevoArticuloBUT.addSubmitListener(this);
-		_recargarBUT.addSubmitListener(this);
+		_copiarBUT.addSubmitListener(this);
 		_grabarAtributoBUT1.addSubmitListener(this);
 		_atributoGenerarAtributosBUT11.addSubmitListener(this);
 		_atributoEtiquetaBUT1.addSubmitListener(this);
@@ -223,15 +223,13 @@ public class AbmcArticuloController extends BaseController {
 					criteria.append(" and atributos_entidad.nombre_objeto = 'articulos'");
 					dsAtributos.retrieve(criteria.toString());
 					dsAtributos.validaAtributosUpdate();
-					_dsArticulo.setArticulosActivo("V");
-					_dsArticulo.update(conn);
-					armaBotonera();
+					_dsArticulo.setArticulosActivo(ArticulosModel.ARTICULO_ACTIVO);					
 				} else {
 					_dsArticulo.reloadRow();
-					_dsArticulo.setArticulosActivo("F");
-					_dsArticulo.update(conn);
-					armaBotonera();
+					_dsArticulo.setArticulosActivo(ArticulosModel.ARTICULO_INACTIVO);
 				}
+				_dsArticulo.update(conn);
+				armaBotonera();
 			}
 			conn.commit();
 		} catch (ValidationException ex) {			
@@ -251,61 +249,61 @@ public class AbmcArticuloController extends BaseController {
 			conn.freeConnection();
 		}
 		
-		// Save the item
+		// Save / Copy the item
 		if (e.getComponent() == _grabarArticuloBUT) {
-			if (!"V".equalsIgnoreCase(_dsArticulo.getArticulosActivo())) {
-				// grabo todos los datasource
-				int v_objeto_id = 0;
-				try {
-					if (_dsArticulo.getRow() == -1)
-						return false;	
-					_activoSE8.setValue("F");
-					_anuladoSE9.setValue("F");
-					_dsArticulo.update();
-
-					// genero atributos faltantes si los hubiera, es decir, los
-					// inserto en la tabla de atributos con sus valores en null
-					v_objeto_id = _dsArticulo.getArticulosArticuloId();
-					if (_dsAtributos.getRow() == -1) {
-						if (v_objeto_id < 1) {
-							displayErrorMessage("Debe seleccionar un artículo para poder generar sus atributos");
-							return false;
-						}
-						// manda a generar los atributos de la entidad
-						_dsAtributos.generaAtributosObjetoAplicacion(
-								v_objeto_id, TABLA_PRINCIPAL);
-					}
-
-					// actulizo atributos
-					_dsAtributos.update();
-					// recupero atributos "Generales"
-					_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-							null, v_objeto_id, TABLA_PRINCIPAL);
-
-				} catch (DataStoreException ex) {
-					MessageLog.writeErrorMessage(ex, null);
-					displayErrorMessage(ex.getMessage());
-				} catch (SQLException ex) {
-					MessageLog.writeErrorMessage(ex, null);
-					displayErrorMessage(ex.getMessage());
-				} catch (Exception ex) {
-					MessageLog.writeErrorMessage(ex, _dsArticulo);
-					displayErrorMessage(ex.getMessage());
-				} finally {
-					seteaBotonesAtributos(v_objeto_id);
-					recuperaAtributosBotonSeleccionado(v_objeto_id,
-							TABLA_PRINCIPAL);
-				}
-			} else {
-				// articulo ya activado, se bloquean las modificaciones
+			// is the item already activated?
+			if (ArticulosModel.ARTICULO_ACTIVO.equalsIgnoreCase(_dsArticulo.getArticulosActivo())) {
 				displayErrorMessage("No puede modificar el artículo en el estado actual.");
 				return false;
 			}
+			
+			// grabo todos los datasource
+			int v_objeto_id = 0;
+			try {
+				if (_dsArticulo.getRow() == -1)
+					return false;
+				_dsArticulo.update();
+
+				// genero atributos faltantes si los hubiera, es decir, los
+				// inserto en la tabla de atributos con sus valores en null
+				v_objeto_id = _dsArticulo.getArticulosArticuloId();
+				if (_dsAtributos.getRow() == -1) {
+					if (v_objeto_id < 1) {
+						displayErrorMessage("Debe seleccionar un artículo para poder generar sus atributos");
+						return false;
+					}
+					// manda a generar los atributos de la entidad
+					_dsAtributos.generaAtributosObjetoAplicacion(v_objeto_id,
+							TABLA_PRINCIPAL);
+				}
+
+				// actulizo atributos
+				_dsAtributos.update();
+				// recupero atributos "Generales"
+				_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(null,
+						v_objeto_id, TABLA_PRINCIPAL);
+
+			} catch (DataStoreException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+			} catch (SQLException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+			} catch (Exception ex) {
+				MessageLog.writeErrorMessage(ex, _dsArticulo);
+				displayErrorMessage(ex.getMessage());
+			} finally {
+				seteaBotonesAtributos(v_objeto_id);
+				recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
+			}			
 		}
 		
-		if (e.getComponent() == _recargarBUT) {
-			this.recargar = true;
-			pageRequested(new PageEvent(this));
+		if (e.getComponent() == _copiarBUT) {
+			// TODO: implement copy item functionality
+			/*
+			 * The item should be saved and the its values copied into
+			 * the new item. 
+			 */
 		}
 		
 		// new item
@@ -788,7 +786,7 @@ public class AbmcArticuloController extends BaseController {
 		public void ejecutaAccion() throws Exception {
 			if (!(_dsArticulo.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsArticulo
 					.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) { 
-				_dsArticulo.setArticulosAnulado("V");
+				_dsArticulo.setArticulosAnulado(ArticulosModel.ARTICULO_ANULADO);
 				_dsArticulo.update();
 			}			
 			_dsAtributos.reset();
