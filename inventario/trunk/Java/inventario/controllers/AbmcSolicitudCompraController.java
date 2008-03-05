@@ -29,7 +29,7 @@ public class AbmcSolicitudCompraController extends BaseController implements
 	private static final long serialVersionUID = 6985914806600939656L;
 	// Visual Components
 	public com.salmonllc.html.HtmlCheckBox _seleccion_detalle2;
-	public com.salmonllc.html.HtmlDropDownList _tarea3;
+	public com.salmonllc.html.HtmlLookUpComponent _tarea3;
 	public com.salmonllc.html.HtmlLookUpComponent _proyecto2;
 	public com.salmonllc.html.HtmlMultiLineTextEdit _observaciones2;
 	public com.salmonllc.html.HtmlText _articuloId1;
@@ -161,7 +161,7 @@ public class AbmcSolicitudCompraController extends BaseController implements
 	public HtmlSubmitButton _grabarSolicitudCompraBUT1;
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
-	//public HtmlSubmitButton _articulosGrabarBUT1;
+	// public HtmlSubmitButton _articulosGrabarBUT1;
 
 	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
 
@@ -194,17 +194,18 @@ public class AbmcSolicitudCompraController extends BaseController implements
 		_articulosEliminarBUT1.setAccessKey("E");
 		_listformdisplaybox2.addButton(_articulosEliminarBUT1);
 
-		/*_articulosGrabarBUT1 = new HtmlSubmitButton("articulosGrabarBUT1",
-				"Grabar", this);
-		_articulosGrabarBUT1.setAccessKey("C");
-		_listformdisplaybox2.addButton(_articulosGrabarBUT1);*/
+		/*
+		 * _articulosGrabarBUT1 = new HtmlSubmitButton("articulosGrabarBUT1",
+		 * "Grabar", this); _articulosGrabarBUT1.setAccessKey("C");
+		 * _listformdisplaybox2.addButton(_articulosGrabarBUT1);
+		 */
 
 		// agrega los listener a lso botones
 		_nuevaSolicitudCompraBUT1.addSubmitListener(this);
 		_grabarSolicitudCompraBUT1.addSubmitListener(this);
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
-		//_articulosGrabarBUT1.addSubmitListener(this);
+		// _articulosGrabarBUT1.addSubmitListener(this);
 
 		// _monto_unitario2.addValueChangedListener(this);
 		// _cantidad_solicitada2.addValueChangedListener(this);
@@ -248,7 +249,7 @@ public class AbmcSolicitudCompraController extends BaseController implements
 		}
 
 		if (event.getComponent() == _grabarSolicitudCompraBUT1) {
-			// si el proyecto esta en estado generado o esta siendo generado			
+			// si la solicitud esta en estado generado o esta siendo generado
 			if ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
 					.getSolicitudesCompraEstado())
 					|| _dsSolicitudCompra.getSolicitudesCompraEstado() == null) {
@@ -270,38 +271,20 @@ public class AbmcSolicitudCompraController extends BaseController implements
 
 					if (_dsDetalleSC.getRow() != -1) {
 						_dsDetalleSC.update();
-						for(int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
-							if(_dsDetalleSC.getDetalleScMontoUnitario(row) == 0)
-								_dsDetalleSC.setDetalleScMontoUnitario(row, _dsDetalleSC.getDetalleScMontoUltimaCompra(row));
+						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+							if (_dsDetalleSC.getDetalleScMontoUnitario(row) == 0)
+								_dsDetalleSC
+										.setDetalleScMontoUnitario(
+												row,
+												_dsDetalleSC
+														.getDetalleScMontoUltimaCompra(row));
 							_dsDetalleSC.setMontoTotal(row);
 						}
 					}
 
-					_dsSolicitudCompra.reloadRow(); 
-					
-					_tarea3.resetOptions();
-					_tarea3.setCriteria("proyecto_id = "
-							+ _dsSolicitudCompra
-									.getSolicitudesCompraProyectoId());
-					_tarea3.populateDropdownOptions();
+					_dsSolicitudCompra.reloadRow();
 
-					/*
-					 * // genero atributos faltantes si los hubiera, es decir,
-					 * los // inserto en la tabla de atributos con sus valores
-					 * en null setRow_id(_dsProyecto.getProyectosProyectoId());
-					 * if (_dsAtributos.getRow() == -1) {
-					 * 
-					 * if (getRow_id() < 1) { displayErrorMessage("Debe
-					 * seleccionar un proyecto para poder generar sus
-					 * atributos"); return false; } // manda a generar los
-					 * atributos de la entidad
-					 * _dsAtributos.generaAtributosObjetoAplicacion(
-					 * getRow_id(), getTabla_principal()); } // actulizo
-					 * atributos _dsAtributos.update(); // recupero atributos
-					 * "Generales"
-					 * _dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-					 * null, getRow_id(), getTabla_principal());
-					 */
+					setTareaLookupURL();			
 
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
@@ -326,23 +309,20 @@ public class AbmcSolicitudCompraController extends BaseController implements
 
 		if (event.getComponent() == _articulosAgregarBUT1) {
 			// crea un nuevo registro de tarea
-			try {		
-				
+			try {
+
 				int solicitud_id = _dsSolicitudCompra
 						.getSolicitudesCompraSolicitudCompraId();
 				System.out.println(solicitud_id);
 				if (solicitud_id > 0) {
-					
+
 					int reg = _dsDetalleSC.insertRow();
 					_dsDetalleSC.gotoRow(reg);
 
 					_dsDetalleSC.setDetalleScSolicitudCompraId(solicitud_id);
 
-					_tarea3.resetOptions();
-					_tarea3.setCriteria("proyecto_id = "
-							+ _dsSolicitudCompra
-									.getSolicitudesCompraProyectoId());
-					_tarea3.populateDropdownOptions();
+					setTareaLookupURL();
+					
 				}
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
@@ -377,54 +357,44 @@ public class AbmcSolicitudCompraController extends BaseController implements
 			}
 		}
 
-		/*if (event.getComponent() == _articulosGrabarBUT1) {
-			// si el proyecto esta en estado generado o esta siendo generado
-			if ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
-					.getSolicitudesCompraEstado())
-					|| _dsSolicitudCompra.getSolicitudesCompraEstado() == null) {
-				try {
-					// actualizo los detalles tareas
-					if (_dsDetalleSC.getRow() != -1)
-						_dsDetalleSC.update();*/
+		/*
+		 * if (event.getComponent() == _articulosGrabarBUT1) { // si el proyecto
+		 * esta en estado generado o esta siendo generado if
+		 * ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
+		 * .getSolicitudesCompraEstado()) ||
+		 * _dsSolicitudCompra.getSolicitudesCompraEstado() == null) { try { //
+		 * actualizo los detalles tareas if (_dsDetalleSC.getRow() != -1)
+		 * _dsDetalleSC.update();
+		 */
 
-					/*
-					 * // genero atributos faltantes si los hubiera, es decir,
-					 * los // inserto en la tabla de atributos con sus valores
-					 * en null setRow_id(_dsProyecto.getProyectosProyectoId());
-					 * if (_dsAtributos.getRow() == -1) {
-					 * 
-					 * if (getRow_id() < 1) { displayErrorMessage("Debe
-					 * seleccionar un proyecto para poder generar sus
-					 * atributos"); return false; } // manda a generar los
-					 * atributos de la entidad
-					 * _dsAtributos.generaAtributosObjetoAplicacion(
-					 * getRow_id(), getTabla_principal()); } // actulizo
-					 * atributos _dsAtributos.update(); // recupero atributos
-					 * "Generales"
-					 * _dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-					 * null, getRow_id(), getTabla_principal());
-					 */
+		/*
+		 * // genero atributos faltantes si los hubiera, es decir, los //
+		 * inserto en la tabla de atributos con sus valores en null
+		 * setRow_id(_dsProyecto.getProyectosProyectoId()); if
+		 * (_dsAtributos.getRow() == -1) {
+		 * 
+		 * if (getRow_id() < 1) { displayErrorMessage("Debe seleccionar un
+		 * proyecto para poder generar sus atributos"); return false; } // manda
+		 * a generar los atributos de la entidad
+		 * _dsAtributos.generaAtributosObjetoAplicacion( getRow_id(),
+		 * getTabla_principal()); } // actulizo atributos _dsAtributos.update(); //
+		 * recupero atributos "Generales"
+		 * _dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion( null,
+		 * getRow_id(), getTabla_principal());
+		 */
 
-				/*} catch (DataStoreException ex) {
-					MessageLog.writeErrorMessage(ex, null);
-					displayErrorMessage(ex.getMessage());
-					return false;
-				} catch (SQLException ex) {
-					MessageLog.writeErrorMessage(ex, null);
-					displayErrorMessage(ex.getMessage());
-					return false;
-				} catch (Exception ex) {
-					MessageLog.writeErrorMessage(ex, _dsDetalleSC);
-					displayErrorMessage(ex.getMessage());
-					return false;
-				}
-			} else {
-				// si la solicitud no está generada, bloqueo toda modificación
-				displayErrorMessage("No puede modificar la solicitud en el estado actual.");
-				return false;
-			}
-
-		}*/
+		/*
+		 * } catch (DataStoreException ex) { MessageLog.writeErrorMessage(ex,
+		 * null); displayErrorMessage(ex.getMessage()); return false; } catch
+		 * (SQLException ex) { MessageLog.writeErrorMessage(ex, null);
+		 * displayErrorMessage(ex.getMessage()); return false; } catch
+		 * (Exception ex) { MessageLog.writeErrorMessage(ex, _dsDetalleSC);
+		 * displayErrorMessage(ex.getMessage()); return false; } } else { // si
+		 * la solicitud no está generada, bloqueo toda modificación
+		 * displayErrorMessage("No puede modificar la solicitud en el estado
+		 * actual."); return false; }
+		 *  }
+		 */
 
 		return super.submitPerformed(event);
 
@@ -465,9 +435,10 @@ public class AbmcSolicitudCompraController extends BaseController implements
 					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = "
 							+ Integer.toString(solicitud_compra_id));
 					if (_dsDetalleSC.gotoFirst()) {
-						for(int i = 0; i < _dsDetalleSC.getRowCount(); i++)
+						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++)
 							_dsDetalleSC.setMontoTotal(i);
 					}
+					setTareaLookupURL();
 
 				}
 			}
@@ -510,5 +481,10 @@ public class AbmcSolicitudCompraController extends BaseController implements
 
 	public boolean valueChanged(ValueChangedEvent event) throws Exception {
 		return false;
+	}
+
+	public void setTareaLookupURL() throws DataStoreException{
+		_tarea3.setLookUpPageURL("%LkpTareasProyecto?proyecto_id="
+				+ _dsSolicitudCompra.getSolicitudesCompraProyectoId());
 	}
 }
