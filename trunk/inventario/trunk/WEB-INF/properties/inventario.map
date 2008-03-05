@@ -2,6 +2,52 @@
 <!DOCTYPE sitemap PUBLIC "SOFIA Site Map" "http://www.salmonllc.com/sofiaExamples/sitemap.dtd">
 <siteMap>
 
+	<entry>
+     	<name>AbmcCadenasAprobacion</name>
+    	<uri>/Jsp/AbmcCadenasAprobacion.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+
+<entry>
+     <name>LkpFirmantes</name>
+     <uri>/Jsp/LkpFirmantes.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+	<entry>
+     <name>LkpTareasProyecto</name>
+     <uri>/Jsp/LkpTareasProyecto.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+  
+	<entry>
+     <name>LkpCentroCosto</name>
+     <uri>/Jsp/LkpCentroCosto.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+	<entry>
+     <name>LkpProyectos</name>
+     <uri>/Jsp/LkpProyectos.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+  <entry>
+     <name>AbmcSolicitudCompra</name>
+     <uri>/Jsp/AbmcSolicitudCompra.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+  <entry>
+     <name>ConsultaSolicitudCompra</name>
+     <uri>/Jsp/ConsultaSolicitudCompra.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
   <entry>
      <name>AbmcCentroCosto</name>
      <uri>/Jsp/AbmcCentroCosto.jsp</uri>
