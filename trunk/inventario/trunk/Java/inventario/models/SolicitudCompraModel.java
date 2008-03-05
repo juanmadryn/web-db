@@ -1091,6 +1091,11 @@ public class SolicitudCompraModel extends DataStore {
 	@Override
 	public void update() throws DataStoreException, SQLException {
 		// TODO Auto-generated method stub
+		
+		if (!(getSolicitudesCompraCentroCostoId() == 0 ^ getProyectosProyecto() == null))
+			throw new DataStoreException("Debe imputar la solicitud a un Centro de costo o a un Proyecto.");
+		
+		
 		if (getSolicitudesCompraEstado() == null)
 			setSolicitudesCompraEstado("0006.0001");
 
@@ -1106,6 +1111,8 @@ public class SolicitudCompraModel extends DataStore {
 			setSolicitudesCompraFechaSolicitud(new Date((Calendar.getInstance()
 					.getTimeInMillis())));
 
+		
+		
 		super.update();
 
 	}

@@ -1,7 +1,10 @@
 package inventario.models;
 
 import java.math.RoundingMode;
+import java.sql.SQLException;
 import java.text.NumberFormat;
+
+import proyectos.models.TareasProyectoModel;
 
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -41,6 +44,8 @@ public class DetalleSCModel extends DataStore {
 	// $CUSTOMVARS$
 	public static final String TAREA_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
 	public static final String DETALLE_SC_MONTO_TOTAL = "monto_total";
+	public static final String CLASE_ARTICULO_NOMBRE = "clase_articulo.nombre";
+	public static final String CLASE_ARTICULO_DESCRIPCION = "clase_articulo.descripcion";
 
 	// $ENDCUSTOMVARS$
 
@@ -106,10 +111,15 @@ public class DetalleSCModel extends DataStore {
 					DataStore.DATATYPE_INT, false, true,
 					ARTICULOS_CLASE_ARTICULO_ID);
 			addColumn(computeTableName("articulos"), "nombre",
-					DataStore.DATATYPE_STRING, false, true, ARTICULOS_NOMBRE);
+					DataStore.DATATYPE_STRING, false, false, ARTICULOS_NOMBRE);
 			addColumn(computeTableName("articulos"), "descripcion",
-					DataStore.DATATYPE_STRING, false, true,
+					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION);
+			addColumn(computeTableName("clase_articulo"), "nombre",
+					DataStore.DATATYPE_STRING, false, false, CLASE_ARTICULO_NOMBRE);
+			addColumn(computeTableName("clase_articulo"), "descripcion",
+					DataStore.DATATYPE_STRING, false, false,
+					CLASE_ARTICULO_DESCRIPCION);
 			addColumn(computeTableName("detalle_sc"), "tarea_id",
 					DataStore.DATATYPE_INT, false, true, DETALLE_SC_TAREA_ID);
 			addColumn(computeTableName("detalle_sc"), "monto_unitario",
@@ -128,6 +138,8 @@ public class DetalleSCModel extends DataStore {
 			// add joins
 			addJoin(computeTableAndFieldName("detalle_sc.articulo_id"),
 					computeTableAndFieldName("articulos.articulo_id"), false);
+			addJoin(computeTableAndFieldName("articulos.clase_articulo_id"),
+					computeTableAndFieldName("clase_articulo.clase_articulo_id"), false);
 			addJoin(computeTableAndFieldName("detalle_sc.tarea_id"),
 					computeTableAndFieldName("tareas_proyecto.tarea_id"),
 					true);
@@ -139,8 +151,12 @@ public class DetalleSCModel extends DataStore {
 			
 			// add lookups
 			addLookupRule(TAREA_PROYECTO_NOMBRE, "proyectos.tareas_proyecto",
-					"'proyectos.tareas_proyecto.tareas_id = ' + detalle_sc.tarea_id",
+					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
 					"nombre", TAREA_PROYECTO_NOMBRE, "Proyecto inexistente");
+			addLookupRule(ARTICULOS_CLASE_ARTICULO_ID, "inventario.clase_articulo",
+					"'inventario.clase_articulo.clase_articulo_id = ' + detalle_sc.clase_articulo_id",
+					"nombre", ARTICULOS_CLASE_ARTICULO_ID, "Proyecto inexistente");
+			
 			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
@@ -1111,6 +1127,24 @@ public class DetalleSCModel extends DataStore {
 			setMontoTotal(row, numberFormat.format(total));	
 		}
 	}
+
+	@Override
+	public void update() throws DataStoreException, SQLException {
+		for (int i = 0; i < getRowCount(); i++)
+		if (getDetalleScTareaId(i) != 0) {
+		SolicitudCompraModel solicitud = new SolicitudCompraModel("inventario", "inventario");
+		solicitud.retrieve("solicitud_compra_id = "+getDetalleScSolicitudCompraId(i));
+		solicitud.gotoFirst();
+		
+		TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
+		"proyectos");
+		if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = " + solicitud.getSolicitudesCompraProyectoId() + " AND tareas_proyecto.tarea_id = "+getDetalleScTareaId(i))== 0)
+			throw new DataStoreException("La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+		}			
+		
+		super.update();
+	}
+	
 	// $ENDCUSTOMMETHODS$
 
 }
