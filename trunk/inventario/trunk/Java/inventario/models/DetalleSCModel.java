@@ -49,6 +49,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String CLASE_ARTICULO_DESCRIPCION = "clase_articulo.descripcion";
 	public static final String SOLICITUDES_COMPRA_ESTADO = "solicitudes_compra.estado";	
 
+	
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -130,7 +131,7 @@ public class DetalleSCModel extends DataStore {
 					DETALLE_SC_MONTO_UNITARIO);
 			addColumn(computeTableName("detalle_sc"), "monto_ultima_compra",
 					DataStore.DATATYPE_FLOAT, false, true,
-					DETALLE_SC_MONTO_ULTIMA_COMPRA);
+					DETALLE_SC_MONTO_ULTIMA_COMPRA);			
 			addColumn(computeTableName("tareas_proyecto"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					TAREA_PROYECTO_NOMBRE);
@@ -142,8 +143,8 @@ public class DetalleSCModel extends DataStore {
 					DETALLE_SC_FECHA_ULTIMA_COMPRA);
 
 			// add bucket
-			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_STRING);
-
+			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_STRING);						
+			
 			// add joins
 			addJoin(computeTableAndFieldName("detalle_sc.articulo_id"),
 					computeTableAndFieldName("articulos.articulo_id"), false);
@@ -163,13 +164,12 @@ public class DetalleSCModel extends DataStore {
 			addLookupRule(TAREA_PROYECTO_NOMBRE, "proyectos.tareas_proyecto",
 					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
 					"nombre", TAREA_PROYECTO_NOMBRE, "Proyecto inexistente");
-			/*addLookupRule(ARTICULOS_CLASE_ARTICULO_ID, "inventario.clase_articulo",
+			addLookupRule(CLASE_ARTICULO_NOMBRE, "inventario.clase_articulo",
 					"'inventario.clase_articulo.clase_articulo_id = ' + articulos.clase_articulo_id",
-					"nombre", ARTICULOS_CLASE_ARTICULO_ID, "Clase de artículo inexistente");*/
+					"nombre", CLASE_ARTICULO_NOMBRE, "Proyecto inexistente");
 			addLookupRule(SOLICITUDES_COMPRA_ESTADO, "solicitudes_compra",
 					"'solicitudes_compra.solicitud_compra_id = ' + detalle_sc.solicitud_compra_id",
 					"estado", SOLICITUDES_COMPRA_ESTADO, "Solicitud de compra inexistente");			
-			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -1236,23 +1236,30 @@ public class DetalleSCModel extends DataStore {
 
 	@Override
 	public void update() throws DataStoreException, SQLException {
-		for (int i = 0; i < getRowCount(); i++)
-			if (getDetalleScTareaId(i) != 0) {
-				SolicitudCompraModel solicitud = new SolicitudCompraModel(
-						"inventario", "inventario");
-				solicitud.retrieve("solicitud_compra_id = "
-						+ getDetalleScSolicitudCompraId(i));
-				solicitud.gotoFirst();
-
-				TareasProyectoModel dsTareas = new TareasProyectoModel(
-						"proyectos", "proyectos");
-				if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = "
-								+ solicitud.getSolicitudesCompraProyectoId()
-								+ " AND tareas_proyecto.tarea_id = "
-								+ getDetalleScTareaId(i)) == 0)
-					throw new DataStoreException(
-							"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
-			}
+		for (int row = 0; row < getRowCount(); row++){
+		if (getDetalleScTareaId(row) != 0) {
+		SolicitudCompraModel solicitud = new SolicitudCompraModel("inventario", "inventario");
+		solicitud.retrieve("solicitud_compra_id = "+getDetalleScSolicitudCompraId(row));
+		solicitud.gotoFirst();
+		
+		TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
+		"proyectos");
+		if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = " + solicitud.getSolicitudesCompraProyectoId() + " AND tareas_proyecto.tarea_id = "+getDetalleScTareaId(row))== 0)
+			throw new DataStoreException("La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+		}
+		ArticulosModel articulos;
+		if(getDetalleScArticuloId(row) == 0 && getArticulosNombre() != null) {
+			articulos = new ArticulosModel("inventario","inventario");
+			articulos.retrieve("nombre like '"+getArticulosNombre() );
+			if (!articulos.gotoFirst())
+				throw new DataStoreException("El código de articulo ingresado no corresponde a ninguno registrado");;
+			setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
+		}
+		}			
+		
+		
+		
+		
 		super.update();
 	}
 	
