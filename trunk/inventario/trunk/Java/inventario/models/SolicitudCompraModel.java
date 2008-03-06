@@ -42,8 +42,8 @@ public class SolicitudCompraModel extends DataStore {
 	public static final String ESTADO_NOMBRE = "estados.nombre";
 	public static final String WEBSITE_USER_NOMBRE_SOLICITANTE = "nombre_completo_solicitante";
 	public static final String WEBSITE_USER_NOMBRE_COMPRADOR = "nombre_completo_comprador";
-	public static final String PROYECTOS_PROYECTO = "proyetos.proyecto";
-	public static final String PROYECTOS_NOMBRE = "proyetos.nombre";
+	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
+	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
 	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
 
 	// $ENDCUSTOMVARS$
