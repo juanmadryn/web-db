@@ -45,7 +45,7 @@ public class ReplicateSta11QuartzJob implements Job {
 			// Now attempt to create a database connection with MySQL
 			Class.forName("com.mysql.jdbc.Driver");
 			connInv = DriverManager.getConnection ("jdbc:mysql://localhost:3306/inventario", 
-					"inventario", "inventario");			
+					"root", "root");			
 			connInv.setAutoCommit(false);
 						
 			// Get the item classes
