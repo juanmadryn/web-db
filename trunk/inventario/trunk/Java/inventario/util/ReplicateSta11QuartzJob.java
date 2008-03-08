@@ -47,7 +47,7 @@ public class ReplicateSta11QuartzJob implements Job {
 			connInv = DriverManager.getConnection ("jdbc:mysql://localhost:3306/inventario", 
 					"inventario", "inventario");			
 			connInv.setAutoCommit(false);
-			
+						
 			// Get the item classes
 			String SQLclaseArticuloTango = 
 				"SELECT t.clase FROM (SELECT substring(COD_ARTICU,1,5) as clase FROM STA11) t group by t.clase";
@@ -127,19 +127,14 @@ public class ReplicateSta11QuartzJob implements Job {
 					
 					pstMySql.executeUpdate();					
 				}
-				//connInv.commit();
 			}
-			
-			// Finally, set the correct fk for each item
-			/*String SQLupdateFk = "update articulos set clase_articulo_id = (select c.clase_articulo_id " +
-					"from clase_articulo c where substring(articulos.nombre,1,5) = c.nombre)";*/
 			
 			// Finally, remove the legacy records which contains the item descriptions...
 			String SQLremoveLegacyRec = "delete from articulos where substring(nombre,6,8) = '999'";
 			pstMySql = connInv.prepareStatement(SQLremoveLegacyRec);
 			pstMySql.executeUpdate();
 			
-			connInv.commit();
+			connInv.commit();			
 			
 			/***
 			 *  importa precio/fecha ultima compra
@@ -171,41 +166,72 @@ public class ReplicateSta11QuartzJob implements Job {
 				}				
 			}
 			
-			// now update the date and amount properties
-			String SQLupdMonto = "update infraestructura.atributos_entidad a" +
-				"inner join " +
-				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " + 
-				"FROM tmp_fechaprecio t, articulos a WHERE t.cod_articu = a.nombre order by a.articulo_id) t1 on a.objeto_id = t1.articulo_id " +
-				"set a.valor_real = t1.precio_net, a.valor = truncate(t1.precio_net,2) " +
-				"where a.atributo_id = 3";
-			String SQLupdFecha = "update infraestructura.atributos_entidad a" +
-				"inner join " +
-				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " + 
-				"FROM tmp_fechaprecio t, articulos a WHERE t.cod_articu = a.nombre order by a.articulo_id) t1 on a.objeto_id = t1.articulo_id " +
-				"set a.valor_fecha = t1.fecha_mov, a.valor = date_format(date(t1.fecha_mov),'%d/%m/%Y') " +
-				"where a.atributo_id = 4"; 
+			// Sospecho que hay una forma mucho mas eficiente, elegante y mas mejor,  
+			// posiblemente utilizando el comando INSERT ... ON DUPLICATE KEY UPDATE ...
+			// Sin embargo lo que sigue es la 1er solucion, esa que llega para quedarse (?)
+			
+			// now update the date and amount properties already stored
+			String SQLupdMonto = 
+				"update infraestructura.atributos_entidad a " +
+				"inner join " + 
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
+				"WHERE t.cod_articu = a.nombre order by a.articulo_id) " +
+				"t1 on a.objeto_id = t1.articulo_id and a.tipo_objeto = 'TABLA' " + 
+				"and a.nombre_objeto = 'articulos' and a.atributo_id = 7 " +
+				"set a.valor_real = t1.precio_net, a.valor = truncate(t1.precio_net,2)";
+			String SQLupdFecha = 
+				"update infraestructura.atributos_entidad a inner join " +
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
+				"WHERE t.cod_articu = a.nombre order by a.articulo_id) t1 " +
+				"on a.objeto_id = t1.articulo_id and a.tipo_objeto = 'TABLA' " +
+				"and a.nombre_objeto = 'articulos' and a.atributo_id = 3 " +
+				"set a.valor_fecha = date(t1.fecha_mov), " +
+				"a.valor = date_format(date(t1.fecha_mov),'%d/%m/%Y')"; 
+			
 			pstMySql = connInv.prepareStatement(SQLupdMonto);
 			pstMySql.executeUpdate();
 			pstMySql = connInv.prepareStatement(SQLupdFecha);
+			pstMySql.executeUpdate();			
+			
+			// insert properties for new items
+			String SQLinsertMonto = 
+				"insert into infraestructura.atributos_entidad " +
+				"(valor,valor_fecha,atributo_id,objeto_id,tipo_objeto,nombre_objeto) " +
+				"select " +
+				"date_format(date(t1.fecha_mov),'%d/%m/%Y') as valor, " + 
+				"date(t1.fecha_mov) as valor_fecha, 3 as atributo_id, t1.articulo_id as objeto_id, " + 
+				"'TABLA' as tipo_objeto, 'articulos' as nombre_objeto " +
+				"from " +
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
+				"WHERE t.cod_articu = a.nombre order by a.articulo_id) as t1 " +
+				"left outer join infraestructura.atributos_entidad as a1 " +
+				"on t1.articulo_id = a1.objeto_id and a1.tipo_objeto = 'TABLA' " + 
+				"and a1.nombre_objeto = 'articulos' and atributo_id = 3 " +
+				"where a1.objeto_id is null ";			
+			String SQLinsertFecha = 
+				"insert into infraestructura.atributos_entidad " +
+				"(valor,valor_fecha,atributo_id,objeto_id,tipo_objeto,nombre_objeto) " +
+				"select " +
+				"truncate(t1.precio_net,2) as valor, t1.precio_net as valor_real, " + 
+				"7 as atributo_id, t1.articulo_id as objeto_id, " +
+				"a1.tipo_objeto, a1.nombre_objeto " +
+				"from " +
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
+				"WHERE t.cod_articu = a.nombre order by a.articulo_id) as t1 " +
+				"left outer join infraestructura.atributos_entidad as a1 " +
+				"on t1.articulo_id = a1.objeto_id and a1.tipo_objeto = 'TABLA' " + 
+				"and a1.nombre_objeto = 'articulos' and atributo_id = 7 " +
+				"where a1.objeto_id is null	";
+			
+			pstMySql = connInv.prepareStatement(SQLinsertMonto);
+			pstMySql.executeUpdate();
+			pstMySql = connInv.prepareStatement(SQLinsertFecha);
 			pstMySql.executeUpdate();
 			
-			/*
-			insert into infraestructura.atributos_entidad(valor,valor_fecha,atributo_id,objeto_id,tipo_objeto,nombre_objeto)
-			select date_format(date(t1.fecha_mov),'%d/%m/%Y') as valor, t1.fecha_mov as valor_fecha, 3 as atributo_id, t1.articulo_id as objeto_id,
-			'TABLA' as tipo_objeto, 'articulos' as nombre_objecto from
-			(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done
-			FROM tmp_fechaprecio t, articulos a WHERE t.cod_articu = a.nombre order by a.articulo_id) as t1
-			left outer join infraestructura.atributos_entidad as a1 on t1.articulo_id = a1.objeto_id
-			where a1.objeto_id is null
-
-			insert into infraestructura.atributos_entidad (valor,valor_real,atributo_id,objeto_id,tipo_objeto,nombre_objeto)
-			select truncate(t1.precio_net,2) as valor, t1.precio_net as valor_real, 3 as atributo_id, t1.articulo_id as objeto_id,
-			'TABLA' as tipo_objeto, 'articulos' as nombre_objeto from
-			(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done
-			FROM tmp_fechaprecio t, articulos a WHERE t.cod_articu = a.nombre order by a.articulo_id) as t1
-			left outer join infraestructura.atributos_entidad as a1 on t1.articulo_id = a1.objeto_id
-			where a1.objeto_id is null or a1.atributo_id != 3			
-			*/
 			connInv.commit();			
 		} finally {
 			if (r != null)

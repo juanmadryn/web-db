@@ -138,9 +138,9 @@ public class AbmcArticuloController extends BaseController {
 		_nuevoArticuloBUT.setAccessKey("n");
 		_detailformdisplaybox1.addButton(1,_nuevoArticuloBUT);
 		
-		_copiarBUT = new HtmlSubmitButton("recargarBUT5","Copiar",this);
+		/*_copiarBUT = new HtmlSubmitButton("recargarBUT5","Copiar",this);
 		_copiarBUT.setAccessKey("r");
-		_detailformdisplaybox1.addButton(3,_copiarBUT);
+		_detailformdisplaybox1.addButton(3,_copiarBUT);*/
 		
 		// botones para atributos
 		_grabarAtributoBUT1 = new HtmlSubmitButton("grabarAtributoBUT1",
@@ -172,7 +172,7 @@ public class AbmcArticuloController extends BaseController {
 		// listeners
 		_grabarArticuloBUT.addSubmitListener(this);
 		_nuevoArticuloBUT.addSubmitListener(this);
-		_copiarBUT.addSubmitListener(this);
+		//_copiarBUT.addSubmitListener(this);
 		_grabarAtributoBUT1.addSubmitListener(this);
 		_atributoGenerarAtributosBUT11.addSubmitListener(this);
 		_atributoEtiquetaBUT1.addSubmitListener(this);
