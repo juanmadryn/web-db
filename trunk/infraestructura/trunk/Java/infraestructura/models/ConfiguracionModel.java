@@ -1,5 +1,14 @@
 package infraestructura.models;
 
+import infraestructura.utils.AtributoConfiguracion;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
@@ -478,6 +487,8 @@ public class ConfiguracionModel extends DataStore {
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
      
+    
+		
      //$ENDCUSTOMMETHODS$
      
 }

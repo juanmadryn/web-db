@@ -47,7 +47,7 @@ public abstract class BaseModel extends DataStore {
 	 */
 	public void ejecutaAccion(int row, int accion, String circuito,
 			String remoteAddr, int userId, String nombre_tabla,
-			DBConnection conn, boolean batchInserts) throws DataStoreException {
+			DBConnection conn, boolean batchInserts) throws DataStoreException, SQLException, ValidationException {
 		if (!gotoRow(row)) {
 			throw new DataStoreException("Fila " + row + " fuera de contexto");
 		}
@@ -66,7 +66,7 @@ public abstract class BaseModel extends DataStore {
 	 */
 	public void ejecutaAccion(int accion, String circuito, String remoteAddr,
 			int userId, String nombre_tabla, DBConnection conn,
-			boolean batchInserts) throws DataStoreException,
+			boolean batchInserts) throws DataStoreException, SQLException,
 			ValidationException {
 		String estado_actual = null;
 		String proximo_estado = null;
@@ -75,7 +75,7 @@ public abstract class BaseModel extends DataStore {
 		String validador = null;
 		StringBuilder resultado;
 		boolean ok = false;
-
+		
 		// verifico si está conectado un usuario
 
 		if (userId == 0) {
@@ -92,11 +92,12 @@ public abstract class BaseModel extends DataStore {
 		// correspondiente
 		// y ejecutarla
 		try {
+			
 			AplicaCircuitoModel aplicaCircuito = new AplicaCircuitoModel(
 					"infraestructura", "infraestructura");
 			aplicaCircuito.retrieve("aplica_circuito.circuito = '" + circuito
 					+ "'");
-
+			System.out.println("EJECUTA");
 			if (aplicaCircuito.gotoFirst()) {
 				columna_circuito = aplicaCircuito
 						.getAplicaCircuitoNombreDetalle();
@@ -105,7 +106,7 @@ public abstract class BaseModel extends DataStore {
 			}
 
 			estado_actual = getEstadoActual();
-
+		
 			// recupero el próximo estado y el nombre de la acción en función de
 			// la acción
 			TransicionEstadoModel transicion = new TransicionEstadoModel(
@@ -120,7 +121,7 @@ public abstract class BaseModel extends DataStore {
 				nombre_accion = transicion.getTransicionEstadosPromptAccion();
 				validador = transicion.getTransicionEstadosValidador();
 			}
-
+		
 			// Verifica rutina de validación dinámica
 			try {
 				if (validador != null && validador.length() > 0
@@ -160,6 +161,7 @@ public abstract class BaseModel extends DataStore {
 			// estado en el registro y actualizo
 			// Se inserta también el registro de auditoría correspondiente sólo
 			// si cambió estado
+			
 			if (ok && !estado_actual.equalsIgnoreCase(proximo_estado)) {
 
 				setString(nombre_tabla + "." + columna_circuito, proximo_estado);
