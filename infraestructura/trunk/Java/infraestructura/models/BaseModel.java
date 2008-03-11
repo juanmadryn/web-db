@@ -76,13 +76,12 @@ public abstract class BaseModel extends DataStore {
 		StringBuilder resultado;
 		boolean ok = false;
 		
-		// verifico si está conectado un usuario
-
+		// verifico si está conectado un usuario		
 		if (userId == 0) {
 			throw new DataStoreException(
 					"Debe estar conectado como un usuario de la aplicación...");
 		}
-
+		
 		// chequeo que el registro este en el contexto correspondiente
 		if (getRow() == -1) {
 			throw new DataStoreException("No hay ningún registro seleccionado");
@@ -160,7 +159,7 @@ public abstract class BaseModel extends DataStore {
 			// acción paso al próximo
 			// estado en el registro y actualizo
 			// Se inserta también el registro de auditoría correspondiente sólo
-			// si cambió estado
+			// si cambió estado			
 			
 			if (ok && !estado_actual.equalsIgnoreCase(proximo_estado)) {
 
@@ -189,7 +188,6 @@ public abstract class BaseModel extends DataStore {
 
 				auditoriaModel.update(conn);
 			}
-
 			if (!ok)
 				throw new DataStoreException("Falló la validación del registro");
 
