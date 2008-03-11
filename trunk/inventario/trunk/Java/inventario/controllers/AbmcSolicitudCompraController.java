@@ -414,7 +414,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 																_dsDetalleSC
 																		.getDetalleScArticuloId(row),
 																"TABLA",
-																"articulos", "real"));
+																"articulos", null));
 								}catch (NullPointerException e) {
 									
 								}
@@ -606,7 +606,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				.getWebSiteUser().getUserID());
 		_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
 				.parseInt(getPageProperties().getThemeProperty(null,
-						"EsquemaConfiguracionIdSolicitudesCompra")));
+						"EsquemaConfiguracionIdSolicitudesCompra").trim()));
 		_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
 				.getAtributoTotalSolicitud());
 
