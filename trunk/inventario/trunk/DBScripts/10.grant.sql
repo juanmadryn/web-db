@@ -1,0 +1,1 @@
+GRANT ALL ON infraestructura.audita_estados_circuitos TO 'inventario'@'localhost'
