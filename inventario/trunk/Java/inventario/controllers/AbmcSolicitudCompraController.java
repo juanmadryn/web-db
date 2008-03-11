@@ -2,10 +2,15 @@
 package inventario.controllers;
 
 //Salmon import statements
-import infraestructura.controllers.BaseController;
+import infraestructura.controllers.BaseEntityController;
+import infraestructura.models.AtributosEntidadModel;
+import infraestructura.reglasNegocio.ValidationException;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
+import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
@@ -13,6 +18,7 @@ import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.SubmitListener;
 import com.salmonllc.html.events.ValueChangedEvent;
 import com.salmonllc.html.events.ValueChangedListener;
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
@@ -20,14 +26,16 @@ import com.salmonllc.util.MessageLog;
 /**
  * AbmcSolicitudCompraController: a SOFIA generated controller
  */
-public class AbmcSolicitudCompraController extends BaseController implements
-		SubmitListener, PageListener, ValueChangedListener {
+public class AbmcSolicitudCompraController extends BaseEntityController
+		implements SubmitListener, PageListener, ValueChangedListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 6985914806600939656L;
 	// Visual Components
+	public com.salmonllc.html.HtmlText _observacionX1;
+	public com.salmonllc.html.HtmlMultiLineTextEdit _observacionX2;
 	public com.salmonllc.html.HtmlCheckBox _seleccion_detalle2;
 	public com.salmonllc.html.HtmlLookUpComponent _tarea3;
 	public com.salmonllc.html.HtmlLookUpComponent _proyecto2;
@@ -161,9 +169,22 @@ public class AbmcSolicitudCompraController extends BaseController implements
 	public HtmlSubmitButton _grabarSolicitudCompraBUT1;
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
-	// public HtmlSubmitButton _articulosGrabarBUT1;
+
+	public com.salmonllc.html.HtmlSubmitButton _customBUT100;
+
+	public com.salmonllc.html.HtmlSubmitButton _customBUT110;
+
+	public com.salmonllc.html.HtmlSubmitButton _customBUT120;
+
+	public com.salmonllc.html.HtmlSubmitButton _customBUT130;
+
+	public com.salmonllc.html.HtmlSubmitButton _customBUT140;
+
+	public com.salmonllc.html.HtmlSubmitButton _customBUT150;
 
 	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
+
+	private static final String CIRCUITO = "0006";
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -206,6 +227,12 @@ public class AbmcSolicitudCompraController extends BaseController implements
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
 		// _articulosGrabarBUT1.addSubmitListener(this);
+		_customBUT150.addSubmitListener(this);
+		_customBUT140.addSubmitListener(this);
+		_customBUT130.addSubmitListener(this);
+		_customBUT120.addSubmitListener(this);
+		_customBUT110.addSubmitListener(this);
+		_customBUT100.addSubmitListener(this);
 
 		// _monto_unitario2.addValueChangedListener(this);
 		// _cantidad_solicitada2.addValueChangedListener(this);
@@ -228,6 +255,8 @@ public class AbmcSolicitudCompraController extends BaseController implements
 
 		addPageListener(this);
 		_menuBUT.addSubmitListener(this);
+
+		setTabla_principal("solicitudes_compra");
 	}
 
 	/**
@@ -239,17 +268,107 @@ public class AbmcSolicitudCompraController extends BaseController implements
 	 *         events
 	 */
 	public boolean submitPerformed(SubmitEvent event) throws Exception {
+		String remoteAddr = this.getCurrentRequest().getRemoteHost();
+		String nombre_tabla = getTabla_principal();
+		int userId = getSessionManager().getWebSiteUser().getUserID();
+		DBConnection conn = DBConnection.getConnection(getApplicationName());
+		boolean batchInserts = false;
 
-		if (event.getComponent() == _nuevaSolicitudCompraBUT1) {
+		conn.beginTransaction();
+		HtmlComponent component = event.getComponent();
+
+		setDatosBasicosSolicitud();
+
+		try {
+			if (component == _customBUT100) {
+				if (CIRCUITO != null) {
+					_dsSolicitudCompra.ejecutaAccion(Integer
+							.parseInt(_customBUT100.getDisplayNameLocaleKey()),
+							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
+							batchInserts);
+					armaBotonera();
+
+				}
+			}
+
+			if (component == _customBUT110) {
+				if (CIRCUITO != null) {
+					_dsSolicitudCompra.ejecutaAccion(Integer
+							.parseInt(_customBUT110.getDisplayNameLocaleKey()),
+							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
+							batchInserts);
+					armaBotonera();
+
+				}
+			}
+
+			if (component == _customBUT120) {
+				if (CIRCUITO != null) {
+					_dsSolicitudCompra.ejecutaAccion(Integer
+							.parseInt(_customBUT120.getDisplayNameLocaleKey()),
+							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
+							batchInserts);
+					armaBotonera();
+
+				}
+			}
+
+			if (component == _customBUT130) {
+				if (CIRCUITO != null) {
+					_dsSolicitudCompra.ejecutaAccion(Integer
+							.parseInt(_customBUT130.getDisplayNameLocaleKey()),
+							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
+							batchInserts);
+					armaBotonera();
+
+				}
+			}
+
+			if (component == _customBUT140) {
+				if (CIRCUITO != null) {
+					_dsSolicitudCompra.ejecutaAccion(Integer
+							.parseInt(_customBUT140.getDisplayNameLocaleKey()),
+							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
+							batchInserts);
+					armaBotonera();
+
+				}
+			}
+
+			if (component == _customBUT150) {
+				if (CIRCUITO != null) {
+					_dsSolicitudCompra.ejecutaAccion(Integer
+							.parseInt(_customBUT150.getDisplayNameLocaleKey()),
+							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
+							batchInserts);
+					armaBotonera();
+
+				}
+			}
+			conn.commit();
+		} catch (DataStoreException ex) {
+			conn.rollback();
+			displayErrorMessage(ex.getMessage());
+			return false;
+		} catch (ValidationException ex) {
+			conn.rollback();
+			for (String er : ex.getStackErrores()) {
+				displayErrorMessage(er);
+			}
+			return false;
+		} finally {
+			conn.freeConnection();
+		}
+
+		if (component == _nuevaSolicitudCompraBUT1) {
 			// genero un nuevo proyecto vacio.
 			_dsSolicitudCompra.reset();
 			_dsDetalleSC.reset();
-
 			_dsSolicitudCompra.gotoRow(_dsSolicitudCompra.insertRow());
 		}
 
-		if (event.getComponent() == _grabarSolicitudCompraBUT1) {
-			// si la solicitud esta en estado generado o esta siendo generado
+		if (component == _grabarSolicitudCompraBUT1) {
+			// si la solicitud esta en estado generado o esta siendo generada
 			if ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
 					.getSolicitudesCompraEstado())
 					|| _dsSolicitudCompra.getSolicitudesCompraEstado() == null) {
@@ -272,6 +391,34 @@ public class AbmcSolicitudCompraController extends BaseController implements
 					if (_dsDetalleSC.getRow() != -1) {
 						_dsDetalleSC.update();
 						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+							if (_dsDetalleSC.getDetalleScMontoUltimaCompra(row) == 0) {
+								try {
+									_dsDetalleSC
+								
+										.setDetalleScMontoUltimaCompra(
+												row,
+												Float
+														.parseFloat(AtributosEntidadModel
+																.getValorAtributoObjeto(
+																		"MONTO_ULTIMA_COMPRA",
+																		_dsDetalleSC
+																				.getDetalleScArticuloId(row),
+																		"TABLA",
+																		"articulos", "real")));
+								_dsDetalleSC
+										.setDetalleScFechaUltimaCompra(
+												row,
+												AtributosEntidadModel
+														.getValorAtributoObjeto(
+																"FECHA_ULTIMA_COMPRA",
+																_dsDetalleSC
+																		.getDetalleScArticuloId(row),
+																"TABLA",
+																"articulos", "real"));
+								}catch (NullPointerException e) {
+									
+								}
+							}
 							if (_dsDetalleSC.getDetalleScMontoUnitario(row) == 0)
 								_dsDetalleSC
 										.setDetalleScMontoUnitario(
@@ -281,10 +428,10 @@ public class AbmcSolicitudCompraController extends BaseController implements
 							_dsDetalleSC.setMontoTotal(row);
 						}
 					}
-
+					
 					_dsSolicitudCompra.reloadRow();
 
-					setTareaLookupURL();			
+					setTareaLookupURL();
 
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
@@ -307,13 +454,13 @@ public class AbmcSolicitudCompraController extends BaseController implements
 
 		}
 
-		if (event.getComponent() == _articulosAgregarBUT1) {
+		if (component == _articulosAgregarBUT1) {
 			// crea un nuevo registro de tarea
 			try {
 
 				int solicitud_id = _dsSolicitudCompra
 						.getSolicitudesCompraSolicitudCompraId();
-				System.out.println(solicitud_id);
+
 				if (solicitud_id > 0) {
 
 					int reg = _dsDetalleSC.insertRow();
@@ -322,7 +469,7 @@ public class AbmcSolicitudCompraController extends BaseController implements
 					_dsDetalleSC.setDetalleScSolicitudCompraId(solicitud_id);
 
 					setTareaLookupURL();
-					
+
 				}
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
@@ -335,7 +482,7 @@ public class AbmcSolicitudCompraController extends BaseController implements
 			}
 		}
 
-		if (event.getComponent() == _articulosEliminarBUT1) {
+		if (component == _articulosEliminarBUT1) {
 			// elimina todas las actividades seleccionadas
 			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 				if (_dsDetalleSC.getInt(i, SELECCION_DETALLE_FLAG) == 1) {
@@ -357,45 +504,7 @@ public class AbmcSolicitudCompraController extends BaseController implements
 			}
 		}
 
-		/*
-		 * if (event.getComponent() == _articulosGrabarBUT1) { // si el proyecto
-		 * esta en estado generado o esta siendo generado if
-		 * ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
-		 * .getSolicitudesCompraEstado()) ||
-		 * _dsSolicitudCompra.getSolicitudesCompraEstado() == null) { try { //
-		 * actualizo los detalles tareas if (_dsDetalleSC.getRow() != -1)
-		 * _dsDetalleSC.update();
-		 */
-
-		/*
-		 * // genero atributos faltantes si los hubiera, es decir, los //
-		 * inserto en la tabla de atributos con sus valores en null
-		 * setRow_id(_dsProyecto.getProyectosProyectoId()); if
-		 * (_dsAtributos.getRow() == -1) {
-		 * 
-		 * if (getRow_id() < 1) { displayErrorMessage("Debe seleccionar un
-		 * proyecto para poder generar sus atributos"); return false; } // manda
-		 * a generar los atributos de la entidad
-		 * _dsAtributos.generaAtributosObjetoAplicacion( getRow_id(),
-		 * getTabla_principal()); } // actulizo atributos _dsAtributos.update(); //
-		 * recupero atributos "Generales"
-		 * _dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion( null,
-		 * getRow_id(), getTabla_principal());
-		 */
-
-		/*
-		 * } catch (DataStoreException ex) { MessageLog.writeErrorMessage(ex,
-		 * null); displayErrorMessage(ex.getMessage()); return false; } catch
-		 * (SQLException ex) { MessageLog.writeErrorMessage(ex, null);
-		 * displayErrorMessage(ex.getMessage()); return false; } catch
-		 * (Exception ex) { MessageLog.writeErrorMessage(ex, _dsDetalleSC);
-		 * displayErrorMessage(ex.getMessage()); return false; } } else { // si
-		 * la solicitud no está generada, bloqueo toda modificación
-		 * displayErrorMessage("No puede modificar la solicitud en el estado
-		 * actual."); return false; }
-		 *  }
-		 */
-
+		armaBotonera();
 		return super.submitPerformed(event);
 
 	}
@@ -435,17 +544,19 @@ public class AbmcSolicitudCompraController extends BaseController implements
 					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = "
 							+ Integer.toString(solicitud_compra_id));
 					if (_dsDetalleSC.gotoFirst()) {
-						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++)
+						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i);
+						}
 					}
+					setDatosBasicosSolicitud();
 					setTareaLookupURL();
-
 				}
 			}
 
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
 		}
+		armaBotonera();
 		super.pageRequested(event);
 	}
 
@@ -483,8 +594,131 @@ public class AbmcSolicitudCompraController extends BaseController implements
 		return false;
 	}
 
-	public void setTareaLookupURL() throws DataStoreException{
+	public void setTareaLookupURL() throws DataStoreException {
 		_tarea3.setLookUpPageURL("%LkpTareasProyecto?proyecto_id="
 				+ _dsSolicitudCompra.getSolicitudesCompraProyectoId());
+	}
+
+	private void setDatosBasicosSolicitud() throws DataStoreException,
+			SQLException {
+		setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
+		_dsSolicitudCompra.setCurrentWebsiteUserId(getSessionManager()
+				.getWebSiteUser().getUserID());
+		_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
+				.parseInt(getPageProperties().getThemeProperty(null,
+						"EsquemaConfiguracionIdSolicitudesCompra")));
+		_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
+				.getAtributoTotalSolicitud());
+
+		_detailformdisplaybox1
+				.setHeadingCaption("Solicitud de Compra (Estado: "
+						+ _dsSolicitudCompra.getEstadoNombre() + ")");
+
+		String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
+		if ("0006.0002".equalsIgnoreCase(estado)
+				|| "0006.0003".equalsIgnoreCase(estado)
+				|| "0006.0003".equalsIgnoreCase(estado)) {
+			_observacionX1.setVisible(true);
+			_observacionX2.setVisible(true);
+		}
+
+	}
+
+	/**
+	 * Determina si existe un registro en contexto, recupera su estado y arma la
+	 * botonera acorde
+	 * 
+	 * @throws DataStoreException
+	 *             TODO generalizar este método para un número indefinido de
+	 *             transiciones entre estados TODO considerar recuperar todo el
+	 *             circuito para la entidad actual y recuperar los estados de un
+	 *             mismo model. Se reducirían las interacciones con la BD.
+	 */
+	private void armaBotonera() throws DataStoreException {
+		DBConnection conn = null;
+		Statement st = null;
+		ResultSet r = null;
+		String SQL;
+		String nombre_boton;
+		String estado = null;
+
+		// resetea todos los botones
+		_customBUT100.setVisible(false);
+		_customBUT110.setVisible(false);
+		_customBUT120.setVisible(false);
+		_customBUT130.setVisible(false);
+		_customBUT140.setVisible(false);
+		_customBUT150.setVisible(false);
+
+		// controla estar dentro de un contexto de Informe
+		if (_dsSolicitudCompra.getRow() == -1) {
+			throw new DataStoreException(
+					"Debe seleccionar una solicitud de compra para recuperar su estado");
+		}
+
+		try {
+			conn = DBConnection.getConnection("infraestructura");
+
+			// determina datos para evaluar las transiciones y acciones del
+			// circuiro
+			// recupero la columna para el circuito
+			// Si no existe configuración no hace nada
+			SQL = "select nombre_detalle from infraestructura.aplica_circuito where circuito = '"
+					+ CIRCUITO + "'";
+			st = conn.createStatement();
+			r = st.executeQuery(SQL);
+
+			// en función de la columna del circuito, determino el estado actual
+			estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
+
+			// recorro los estados y seteo los botones
+			SQL = "SELECT prompt_accion,accion FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado "
+					+ "where e.circuito = '"
+					+ CIRCUITO
+					+ "' and t.estado_origen = '" + estado + "'";
+			st = conn.createStatement();
+			r = st.executeQuery(SQL);
+
+			if (r.first()) {
+				int i = 100;
+				com.salmonllc.html.HtmlSubmitButton boton;
+				do {
+					nombre_boton = "customBUT" + i;
+					boton = (com.salmonllc.html.HtmlSubmitButton) this
+							.getComponent(nombre_boton);
+					if (boton != null) {
+						boton.setVisible(true);
+						boton.setDisplayName(r.getString(1));
+						boton.setDisplayNameLocaleKey(Integer.toString(r
+								.getInt(2)));
+						boton
+								.setButtonFontStyle("font-weight:bold; COLOR: red");
+					}
+
+					i = i + 10;
+				} while (r.next() && i < 150);
+			}
+
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			if (conn != null)
+				conn.freeConnection();
+		}
+
 	}
 }
