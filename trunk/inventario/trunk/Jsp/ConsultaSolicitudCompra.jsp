@@ -56,12 +56,12 @@
 								<td><salmon:text name="fechadesde1" text="Fecha SC desde"
 									font="ColumnCaptionFont" /></td>
 								<td colspan="3"><salmon:input type="text"
-									name="fechadesde2" size="10" displayformat="dd/MM/yyyy"
+									name="fechadesde2" size="10"
 									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
 								<td><salmon:text name="fechahasta1" text="Fecha SC hasta"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text" name="fechahasta2" size="10"
-									displayformat="dd/MM/yyyy" datasource="dsQBE:hasta"
+									datasource="dsQBE:hasta"
 									maxlength="10"></salmon:input></td>
 							</tr>
 							<tr>

@@ -28,10 +28,22 @@
 						datasource="dsSolicitudCompra" buttondisplaylocation="BELOW_TABLE"
 						addbuttonvisible="false" cancelbuttonvisible="false"
 						savebuttonvisible="false" deletebuttonvisible="false">
+						<salmon:input name="customBUT100" type="submit" value="boton 1"
+							accesskey="1" visible="False"></salmon:input>
+						<salmon:input name="customBUT110" type="submit" value="boton 2"
+							accesskey="2" visible="False"></salmon:input>
+						<salmon:input name="customBUT120" type="submit" value="boton 3"
+							accesskey="3" visible="False"></salmon:input>
+						<salmon:input name="customBUT130" type="submit" value="boton 4"
+							accesskey="4" visible="False"></salmon:input>
+						<salmon:input name="customBUT140" type="submit" value="boton 5"
+							accesskey="5" visible="False"></salmon:input>
+						<salmon:input name="customBUT150" type="submit" value="boton 6"
+							accesskey="6" visible="False"></salmon:input>
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="n1" text="Nº"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:text name="n2" text="" font="ColumnCaptionFont"
 									datasource="dsSolicitudCompra:solicitudes_compra.solicitud_compra_id" />
 								</td>
@@ -109,10 +121,27 @@
 									cols="40" rows="3" wrap="HARD" size="40" maxlength="255"
 									datasource="dsSolicitudCompra:solicitudes_compra.observaciones"></salmon:input></td>
 							</tr>
+							<tr>
+								<td><salmon:text name="total_solicitud1" text="Total"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="total_solicitud2" text=""
+									datasource="dsSolicitudCompra:total_solicitud_compra"></salmon:text></td>
+							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>
 				<salmon:td width="50%">
+					<table width="100%">
+						<tr>
+							<td><salmon:text name="observacionX1" text="OBSERVACIONES"
+								font="TableHeadingFont" visible="false" /></td>
+						</tr>
+						<tr>
+							<td><salmon:input type="textarea" name="observacionX2"
+								cols="70" rows="20" wrap="HARD" size="40" maxlength="255"
+								datasource="dsSolicitudCompra:observaciones" visible="false"></salmon:input></td>
+						</tr>
+					</table>
 				</salmon:td>
 			</salmon:tr>
 		</salmon:table>
@@ -143,10 +172,11 @@
 								text="Cantidad solicitada" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="monto_unitario1" text="Monto unitario"
+							<salmon:text name="monto_fecha_ultima_compra1"
+								text="Precio unitario - Fecha última compra"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td align="CENTER">
 							<salmon:text name="monto_total1" text="Total"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -180,9 +210,12 @@
 								checkedtruevalue="1"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="articulo2" size="15"
-								font="DefaultFont"
-								datasource="dsDetalleSC:detalle_sc.articulo_id" />
+							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+								lookupurl="%LkpArticulos" name="articulo2" size="6"
+								maxlength="15" datasource="dsDetalleSC:articulos.nombre"
+								descriptiondatasource="dsDetalleSC:articulos.descripcion"
+								popupheight="450" popupwidth="500" usepopup="true"
+								showdescription="true"></salmon:lookup>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="descripcion4" size="30"
@@ -194,9 +227,13 @@
 								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="monto_unitario2" size="15"
-								maxlength="15" displayformat="###,###,##0.00" align="RIGHT"
+							<salmon:input type="text" name="monto_unitario1" size="15"
+								maxlength="15" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
+							<salmon:text name="text2" text=" - " font="DefaultFont" />
+							<salmon:text name="monto_fecha_ultima_compra2" text=""
+								displayformat="dd/MM/aa"
+								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
 							<salmon:text name="monto_total2" text=""
@@ -207,12 +244,12 @@
 						<salmon:td></salmon:td>
 						<salmon:td name="tarea2">
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-								lookupurl="%LkpTareasProyecto" name="tarea3"
-								size="10" maxlength="90" datasource="dsDetalleSC:detalle_sc.tarea_id"
+								lookupurl="%LkpTareasProyecto" name="tarea3" size="10"
+								maxlength="90" datasource="dsDetalleSC:detalle_sc.tarea_id"
 								descriptiondatasource="dsPartes:tareas_proyecto.nombre"
 								popupheight="450" popupwidth="500" usepopup="true"
 								showdescription="FALSE"></salmon:lookup>
-							<salmon:text name="text1" text=" - "></salmon:text>
+							<salmon:text name="text3" text=" - "></salmon:text>
 							<salmon:text name="tarea4" text=""
 								datasource="dsDetalleSC:tareas_proyecto.nombre"></salmon:text>
 						</salmon:td>
@@ -222,11 +259,11 @@
 								datasource="dsDetalleSC:detalle_sc.observaciones"></salmon:input>
 						</salmon:td>
 
-						<salmon:td>
+						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_pedida2" text=""
 								datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:text>
 						</salmon:td>
-						<salmon:td>
+						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_recibida2" text=""
 								datasource="dsDetalleSC:detalle_sc.cantidad_recibida"></salmon:text>
 						</salmon:td>
