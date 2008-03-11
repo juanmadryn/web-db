@@ -1,14 +1,13 @@
 package inventario.models;
 
+import infraestructura.models.BaseModel;
+import infraestructura.utils.ConvierteMayusculasValidation;
+
 import java.sql.SQLException;
 
-import com.salmonllc.sql.*;
-
-//$CUSTOMIMPORTS$
-//Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
-import infraestructura.models.BaseModel;
-import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
-//$ENDCUSTOMIMPORTS$
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 /**
  * ArticulosModel: A SOFIA generated model
