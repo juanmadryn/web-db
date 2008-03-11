@@ -3,18 +3,25 @@
 <siteMap>
 
 	<entry>
+     	<name>LkpArticulos</name>
+     	<uri>/Jsp/LkpArticulos.jsp</uri>
+     	<useForward>false</useForward>
+     	<secure>false</secure>
+  	</entry>
+
+	<entry>
      	<name>AbmcCadenasAprobacion</name>
     	<uri>/Jsp/AbmcCadenasAprobacion.jsp</uri>
 		<useForward>false</useForward>
 		<secure>false</secure>
 	</entry>
 
-<entry>
-     <name>LkpFirmantes</name>
-     <uri>/Jsp/LkpFirmantes.jsp</uri>
-     <useForward>false</useForward>
-     <secure>false</secure>
-  </entry>
+	<entry>
+    	<name>LkpFirmantes</name>
+     	<uri>/Jsp/LkpFirmantes.jsp</uri>
+     	<useForward>false</useForward>
+     	<secure>false</secure>
+  	</entry>
 
 	<entry>
      <name>LkpTareasProyecto</name>
