@@ -1,8 +1,6 @@
 package inventario.models;
 
-import java.math.RoundingMode;
 import java.sql.SQLException;
-import java.text.NumberFormat;
 
 import proyectos.models.TareasProyectoModel;
 
@@ -143,7 +141,7 @@ public class DetalleSCModel extends DataStore {
 					DETALLE_SC_FECHA_ULTIMA_COMPRA);
 
 			// add bucket
-			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_STRING);						
+			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_FLOAT);						
 			
 			// add joins
 			addJoin(computeTableAndFieldName("detalle_sc.articulo_id"),
@@ -1053,8 +1051,8 @@ public class DetalleSCModel extends DataStore {
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getMontoTotal() throws DataStoreException {
-		return getString(DETALLE_SC_MONTO_TOTAL);
+	public Float getMontoTotal() throws DataStoreException {
+		return getFloat(DETALLE_SC_MONTO_TOTAL);
 	}
 
 	/**
@@ -1065,8 +1063,8 @@ public class DetalleSCModel extends DataStore {
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getMontoTotal(int row) throws DataStoreException {
-		return getString(row, DETALLE_SC_MONTO_TOTAL);
+	public Float getMontoTotal(int row) throws DataStoreException {
+		return getFloat(row, DETALLE_SC_MONTO_TOTAL);
 	}
 
 	/**
@@ -1076,8 +1074,8 @@ public class DetalleSCModel extends DataStore {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setMontoTotal(String newValue) throws DataStoreException {
-		setString(DETALLE_SC_MONTO_TOTAL, newValue);
+	public void setMontoTotal(Float newValue) throws DataStoreException {
+		setFloat(DETALLE_SC_MONTO_TOTAL, newValue);
 	}
 
 	/**
@@ -1089,9 +1087,9 @@ public class DetalleSCModel extends DataStore {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setMontoTotal(int row, String newValue)
+	public void setMontoTotal(int row, float newValue)
 			throws DataStoreException {
-		setString(row, DETALLE_SC_MONTO_TOTAL, newValue);
+		setFloat(row, DETALLE_SC_MONTO_TOTAL, newValue);
 	}
 	
 	/**
@@ -1202,11 +1200,11 @@ public class DetalleSCModel extends DataStore {
 		Float cantidad_solicitada = getDetalleScCantidadSolicitada();
 		if (monto_unitario != null && cantidad_solicitada != null) {
 			Float total = (monto_unitario * cantidad_solicitada);
-			NumberFormat numberFormat = NumberFormat.getInstance();
+			/*NumberFormat numberFormat = NumberFormat.getInstance();
 			numberFormat.setRoundingMode(RoundingMode.HALF_UP);
 			numberFormat.setMaximumFractionDigits(2);
-			numberFormat.setMinimumFractionDigits(2);
-			setMontoTotal(numberFormat.format(total));			
+			numberFormat.setMinimumFractionDigits(2);*/
+			setMontoTotal(total/*numberFormat.format(total)*/);			
 		}
 	}
 	
@@ -1225,12 +1223,12 @@ public class DetalleSCModel extends DataStore {
 		Float cantidad_solicitada = getDetalleScCantidadSolicitada(row);
 		if (monto_unitario != null && cantidad_solicitada != null) {
 			Float total = monto_unitario * cantidad_solicitada;
-			NumberFormat numberFormat = NumberFormat.getInstance();
+			/*NumberFormat numberFormat = NumberFormat.getInstance();
 			numberFormat.setRoundingMode(RoundingMode.HALF_UP);
 			numberFormat.setMaximumFractionDigits(2);
 			numberFormat.setMinimumFractionDigits(2);
-			numberFormat.format(total);					
-			setMontoTotal(row, numberFormat.format(total));	
+			numberFormat.format(total);*/					
+			setMontoTotal(row, total/*numberFormat.format(total)*/);	
 		}
 	}
 
@@ -1250,7 +1248,7 @@ public class DetalleSCModel extends DataStore {
 		ArticulosModel articulos;
 		if(getDetalleScArticuloId(row) == 0 && getArticulosNombre() != null) {
 			articulos = new ArticulosModel("inventario","inventario");
-			articulos.retrieve("nombre like '"+getArticulosNombre() );
+			articulos.retrieve("articulos.nombre like '"+getArticulosNombre() +"'");
 			if (!articulos.gotoFirst())
 				throw new DataStoreException("El código de articulo ingresado no corresponde a ninguno registrado");;
 			setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
