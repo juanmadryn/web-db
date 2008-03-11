@@ -1,6 +1,7 @@
 package inventario.models;
 
-import com.salmonllc.sql.*;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
