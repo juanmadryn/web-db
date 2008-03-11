@@ -26,7 +26,7 @@ import com.salmonllc.util.SalmonDateFormat;
 public class AtributosEntidadModel extends DataStore {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = -1192786751287119153L;
 
@@ -73,7 +73,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Create a new AtributosEntidadModel object.
-	 *
+	 * 
 	 * @param appName
 	 *            The SOFIA application name
 	 */
@@ -83,7 +83,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Create a new AtributosEntidadModel object.
-	 *
+	 * 
 	 * @param appName
 	 *            The SOFIA application name
 	 * @param profile
@@ -202,7 +202,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.atributo_entidad_id column
 	 * for the current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -213,7 +213,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.atributo_entidad_id column
 	 * for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -227,7 +227,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.atributo_entidad_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -240,7 +240,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.atributo_entidad_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -255,7 +255,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.atributo_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -266,7 +266,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.atributo_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -279,7 +279,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.atributo_id column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -292,7 +292,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.atributo_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -307,7 +307,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.entidad_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -318,7 +318,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.entidad_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -331,7 +331,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.entidad_id column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -344,7 +344,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.entidad_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -359,7 +359,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.objeto_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -370,7 +370,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.objeto_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -383,7 +383,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.objeto_id column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -396,7 +396,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.objeto_id column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -411,7 +411,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.tipo_objeto column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -422,7 +422,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.tipo_objeto column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -436,7 +436,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.tipo_objeto column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -449,7 +449,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.tipo_objeto column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -464,7 +464,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.nombre_objeto column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -475,7 +475,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.nombre_objeto column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -489,7 +489,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.nombre_objeto column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -502,7 +502,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.nombre_objeto column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -517,7 +517,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -528,7 +528,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -540,7 +540,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Set the value of the atributos_entidad.valor column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -553,7 +553,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -568,7 +568,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_entero column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -579,7 +579,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_entero column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -593,7 +593,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_entero column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -606,7 +606,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_entero column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -621,7 +621,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_real column for the
 	 * current row.
-	 *
+	 * 
 	 * @return double
 	 * @throws DataStoreException
 	 */
@@ -632,7 +632,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_real column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return double
@@ -646,7 +646,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_real column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -659,7 +659,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_real column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -674,7 +674,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_fecha column for the
 	 * current row.
-	 *
+	 * 
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -686,7 +686,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_fecha column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return java.sql.Date
@@ -700,7 +700,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_fecha column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -713,7 +713,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_fecha column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -728,7 +728,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_logico column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -739,7 +739,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_entidad.valor_logico column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -753,7 +753,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_logico column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -766,7 +766,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_entidad.valor_logico column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -781,7 +781,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_rol.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -792,7 +792,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_rol.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -804,7 +804,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Set the value of the atributos_rol.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -816,7 +816,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Set the value of the atributos_rol.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -830,7 +830,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the atributos_rol.rol column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -840,7 +840,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the atributos_rol.rol column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -852,7 +852,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Set the value of the atributos_rol.rol column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -863,7 +863,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Set the value of the atributos_rol.rol column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -878,7 +878,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the entidad_externa.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -889,7 +889,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the entidad_externa.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -901,7 +901,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Set the value of the entidad_externa.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -913,7 +913,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Set the value of the entidad_externa.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -928,7 +928,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the clase_atributo_rol.etiqueta column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -939,7 +939,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the clase_atributo_rol.etiqueta column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -953,7 +953,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the clase_atributo_rol.etiqueta column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -966,7 +966,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the clase_atributo_rol.etiqueta column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -981,7 +981,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_rol.nombre_objeto column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -992,7 +992,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_rol.nombre_objeto column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -1006,7 +1006,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_rol.nombre_objeto column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -1019,7 +1019,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_rol.nombre_objeto column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -1034,7 +1034,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_rol.tipo_objeto column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1045,7 +1045,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Retrieve the value of the atributos_rol.tipo_objeto column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -1058,7 +1058,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_rol.tipo_objeto column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -1071,7 +1071,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * Set the value of the atributos_rol.tipo_objeto column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -1091,7 +1091,7 @@ public class AtributosEntidadModel extends DataStore {
 	 * Inserta todos los atributos definidos para el objecto de la aplicacción
 	 * según p_objeto_id, p_tabla, Sólo completa los atributos que faltan.
 	 * Dejando intactos los atributos existente para el objeto
-	 *
+	 * 
 	 * @param p_objeto_id
 	 *            --> id del objeto
 	 * @param p_tabla
@@ -1168,7 +1168,7 @@ public class AtributosEntidadModel extends DataStore {
 	 * Inserta todos los atributos definidos para una entidad según p_entidad_id
 	 * Sólo completa los atributos que faltan. Dejando intactos los atributos
 	 * existente para la entidad
-	 *
+	 * 
 	 * @param p_entidad_id
 	 *            --> id de la entidad donde hay que insertar los atributos
 	 * @throws DataStoreException
@@ -1264,7 +1264,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * recupera los atributos de un objeto de la aplicación según la etiqueta
 	 * pasada como parámetro
-	 *
+	 * 
 	 * @param p_etiqueta
 	 *            --> Etiqueta a recuperar
 	 * @param p_objeto_id
@@ -1307,7 +1307,7 @@ public class AtributosEntidadModel extends DataStore {
 	/**
 	 * recupera los atributos de una entidad según la etiqueta pasada como
 	 * parámetro
-	 *
+	 * 
 	 * @param p_etiqueta
 	 *            --> Etiqueta a recuperar
 	 * @param p_entidad_id
@@ -1336,7 +1336,7 @@ public class AtributosEntidadModel extends DataStore {
 				cond = "clase_atributo_rol.etiqueta == '" + p_etiqueta + "'";
 
 			filter(cond);
-			gotoFirst();			
+			gotoFirst();
 		} catch (Exception e) {
 			throw new DataStoreException(e.getMessage());
 		}
@@ -1346,15 +1346,15 @@ public class AtributosEntidadModel extends DataStore {
 	 * Recupera la lista completa de etiquetas para las definiciones de los
 	 * atributos de una tabla (objeto de la aplicación) Este procedimiento
 	 * permite armar los labels de los botones para la carga de atributos
-	 *
+	 * 
 	 * @param p_tabla
 	 *            la tabla de la aplicación para la cual se desea recuperar las
 	 *            etiquetas correspondientes
 	 * @return etiquetas ArrayList conteniendo las etiquetas correspondientes a
 	 *         la tabla indicada
 	 */
-	public ArrayList<String> recuperaEtiquetasAtributosObjetoAplicacion(String p_tabla)
-			throws SQLException, DataStoreException {
+	public ArrayList<String> recuperaEtiquetasAtributosObjetoAplicacion(
+			String p_tabla) throws SQLException, DataStoreException {
 		ArrayList<String> etiquetas = new ArrayList<String>();
 
 		String etiqueta;
@@ -1369,7 +1369,6 @@ public class AtributosEntidadModel extends DataStore {
 							+ p_tabla
 							+ "')	or  (atributos_rol.rol is null and atributos_rol.tipo_objeto is null and atributos_rol.nombre_objeto is null)");
 			dsAtributos.waitForRetrieve();
-
 
 			// seteo la fila actual en -1
 			dsAtributos.clearSelectedRow();
@@ -1398,7 +1397,7 @@ public class AtributosEntidadModel extends DataStore {
 	 * Recupera la lista completa de etiquetas para una Entidad. Para ello
 	 * recupera todos los roles de la misma Este procedimiento permite armar los
 	 * labels de los botones para la carga de atributos a una entidad
-	 *
+	 * 
 	 * @param p_tabla
 	 * @return ArrayList conteniendo las etiquetas
 	 */
@@ -1666,6 +1665,214 @@ public class AtributosEntidadModel extends DataStore {
 			return false;
 		return true;
 	}
+
+	public static String getValorAtributoObjeto(int atributoId, int objetoId,
+			String tipoObjeto, String nombreObjeto, String tipo)
+			throws DataStoreException, SQLException {
+
+		DBConnection conexion = null;
+		Statement st = null;
+		ResultSet r = null;
+		String sql = null;
+
+		try {
+			conexion = DBConnection.getConnection("infraestructura",
+					"infraestructura");
+
+			sql = "SELECT valor FROM infraestructura.atributos_entidad WHERE atributo_id = "
+					+ atributoId
+					+ " AND objeto_id = "
+					+ objetoId
+					+ " AND tipo_objeto LIKE '"
+					+ tipoObjeto
+					+ "' AND nombre_objeto LIKE '" + nombreObjeto + "'";
+
+			st = conexion.createStatement();
+			r = st.executeQuery(sql);
+
+			if (r.first()) {
+				String valor = r.getString(1);
+				return valor;
+			} else {
+				if ("real".equalsIgnoreCase(tipo))
+					return "0";
+				return null;
+			}
+		} finally {
+			conexion.freeConnection();
+		}
+
+	}
+
+	public static String getValorAtributoObjeto(String nombreAtributo,
+			int objetoId, String tipoObjeto, String nombreObjeto, String tipo)
+			throws DataStoreException, SQLException {
+
+		DBConnection conexion = null;
+		Statement st = null;
+		ResultSet r = null;
+		String sql = null;
+
+		try {
+			conexion = DBConnection.getConnection("infraestructura",
+					"infraestructura");
+
+			sql = "SELECT atributo_id FROM infraestructura.atributos_rol WHERE nombre LIKE '"
+					+ nombreAtributo + "'";
+
+			st = conexion.createStatement();
+			r = st.executeQuery(sql);
+
+			if (r.first())
+				return getValorAtributoObjeto(r.getInt(1), objetoId,
+						tipoObjeto, nombreObjeto, tipo);
+			else
+				return null;
+
+		} finally {
+			conexion.freeConnection();
+		}
+	}
+
+	public static void setValorAtributoObjeto(String valor, int atributoId,
+			int objetoId, String tipoObjeto, String nombreObjeto)
+			throws DataStoreException, SQLException {
+
+		DBConnection conexion = null;
+		Statement st = null;
+		String sql = null;
+
+		try {
+			conexion = DBConnection.getConnection("infraestructura",
+					"infraestructura");
+
+			sql = "INSERT INTO infraestructura.atributos_entidad (valor, atributo_id, objeto_id, tipo_objeto, nombre_objeto) "
+					+ "VALUES ('"
+					+ valor
+					+ "',"
+					+ atributoId
+					+ ","
+					+ objetoId
+					+ ",'"
+					+ tipoObjeto
+					+ "','"
+					+ nombreObjeto
+					+ "') ON DUPLICATE KEY UPDATE "
+					+ "valor = '"
+					+ valor
+					+ "', atributo_id = "
+					+ atributoId
+					+ ", objeto_id = "
+					+ objetoId
+					+ ", tipo_objeto ='"
+					+ tipoObjeto
+					+ "', nombre_objeto = '" + nombreObjeto + "'";
+
+			st = conexion.createStatement();
+			st.execute(sql);
+		} finally {
+			conexion.freeConnection();
+		}
+
+	}
+
+	public static void setValorAtributoObjeto(String valor,
+			String nombreAtributo, int objetoId, String tipoObjeto,
+			String nombreObjeto) throws DataStoreException, SQLException {
+
+		DBConnection conexion = null;
+		Statement st = null;
+		ResultSet r = null;
+		String sql = null;
+
+		conexion = DBConnection.getConnection("infraestructura",
+				"infraestructura");
+
+		sql = "SELECT atributo_id FROM infraestructura.atributos_rol WHERE nombre LIKE '"
+				+ nombreAtributo + "'";
+
+		st = conexion.createStatement();
+		r = st.executeQuery(sql);
+		r.first();
+
+		setValorAtributoObjeto(valor, r.getInt(1), objetoId, tipoObjeto,
+				nombreObjeto);
+	}
+
+	public static void updateValorAtributoObjeto(String valor, int atributoId,
+			int objetoId, String tipoObjeto, String nombreObjeto)
+			throws DataStoreException, SQLException {
+
+		DBConnection conexion = null;
+		Statement st = null;
+		String sql = null;
+
+		try {
+			conexion = DBConnection.getConnection("infraestructura",
+					"infraestructura");
+
+			sql = "UPDATE infraestructura.atributos_entidad SET valor = "
+					+ valor + " WHERE atributo_id = " + atributoId
+					+ " AND objeto_id = " + objetoId
+					+ " AND tipo_objeto LIKE '" + tipoObjeto
+					+ "' AND nombre_objeto LIKE '" + nombreObjeto + "'";
+
+			st = conexion.createStatement();
+			st.execute(sql);
+		} finally {
+			conexion.freeConnection();
+		}
+	}
+
+	public static void updateValorAtributoObjeto(String valor,
+			String nombreAtributo, int objetoId, String tipoObjeto,
+			String nombreObjeto) throws DataStoreException, SQLException {
+
+		DBConnection conexion = null;
+		Statement st = null;
+		ResultSet r = null;
+		String sql = null;
+
+		try {
+			conexion = DBConnection.getConnection("infraestructura",
+					"infraestructura");
+
+			sql = "SELECT atributo_id FROM infraestructura.atributos_rol WHERE nombre LIKE '"
+					+ nombreAtributo + "'";
+
+			st = conexion.createStatement();
+			r = st.executeQuery(sql);
+			r.first();
+
+			updateValorAtributoObjeto(valor, r.getInt(1), objetoId, tipoObjeto,
+					nombreObjeto);
+		} finally {
+			conexion.freeConnection();
+		}
+	}
+
+	public static String getTipoAtributo(int atributoId) throws SQLException {
+		DBConnection conexion = null;
+		Statement st = null;
+		ResultSet r = null;
+		String sql = null;
+
+		try {
+			conexion = DBConnection.getConnection("infraestructura",
+					"infraestructura");
+
+			sql = "SELECT tipo_dato FROM infraestructura.atributos_rol WHERE atributo_id = "
+					+ atributoId;
+
+			st = conexion.createStatement();
+			r = st.executeQuery(sql);
+			r.first();
+			return r.getString(1);
+		} finally {
+			conexion.freeConnection();
+		}
+	}
+
 	// $ENDCUSTOMMETHODS$
 
 }

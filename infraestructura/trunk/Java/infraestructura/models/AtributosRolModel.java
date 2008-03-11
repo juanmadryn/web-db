@@ -1,6 +1,8 @@
 package infraestructura.models;
 
-import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
+import java.sql.SQLException;
+
+import infraestructura.utils.ConvierteMayusculasValidation;
 
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -882,9 +884,23 @@ public class AtributosRolModel extends DataStore {
      public void setClaseListaValoresAtributoNombre(int row,String newValue) throws DataStoreException {
           setString(row,CLASE_LOV_ATRIBUTO_NOMBRE, newValue);
      }
+
+
      
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
+     
+ 	@Override
+	public void update() throws DataStoreException, SQLException {
+		// TODO Auto-generated method stub
+ 		for(int row = 0; row < getRowCount(); row++) {
+ 			if(getAtributosRolAnulado(row) == null)
+ 				setAtributosRolAnulado(row, "F");
+ 		if(getAtributosRolObligatorio(row) == null)
+				setAtributosRolObligatorio(row, "F");
+ 		}
+		super.update();
+	}
      
      //$ENDCUSTOMMETHODS$
      
