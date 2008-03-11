@@ -1,5 +1,8 @@
 package inventario.models;
 
+import infraestructura.models.AtributosEntidadModel;
+import infraestructura.models.BaseModel;
+
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -17,7 +20,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * java: A SOFIA generated model
  */
-public class SolicitudCompraModel extends DataStore {
+public class SolicitudCompraModel extends BaseModel {
 
 	/**
 	 * 
@@ -42,9 +45,13 @@ public class SolicitudCompraModel extends DataStore {
 	public static final String ESTADO_NOMBRE = "estados.nombre";
 	public static final String WEBSITE_USER_NOMBRE_SOLICITANTE = "nombre_completo_solicitante";
 	public static final String WEBSITE_USER_NOMBRE_COMPRADOR = "nombre_completo_comprador";
-	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
-	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
+	public static final String PROYECTOS_PROYECTO = "proyetos.proyecto";
+	public static final String PROYECTOS_NOMBRE = "proyetos.nombre";
 	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
+	public static final String CURRENT_WEBSITE_USER_ID = "website_user.user_id";
+	public static final String ESQUEMA_CONFIGURACION_ID = "esquema_configuracion_id";
+	public static final String TOTAL_SOLICITUD = "total_solicitud_compra";
+	public static final String OBSERVACIONES = "observaciones";
 
 	// $ENDCUSTOMVARS$
 
@@ -132,6 +139,12 @@ public class SolicitudCompraModel extends DataStore {
 			addColumn(computeTableName("centro_costo"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					CENTRO_COSTO_NOMBRE);
+
+			// add buckets
+			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
+			addBucket(ESQUEMA_CONFIGURACION_ID, DATATYPE_INT);
+			addBucket(TOTAL_SOLICITUD, DATATYPE_FLOAT);
+			addBucket(OBSERVACIONES, DATATYPE_STRING);
 
 			// add joins
 
@@ -1088,14 +1101,138 @@ public class SolicitudCompraModel extends DataStore {
 		setString(row, CENTRO_COSTO_NOMBRE, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the current website user id bucket
+	 * 
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getCurrentWebsiteUserId() throws DataStoreException {
+		return getInt(CURRENT_WEBSITE_USER_ID);
+	}
+
+	/**
+	 * Set the value of the current website user id bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCurrentWebsiteUserId(int newValue) throws DataStoreException {
+		setInt(CURRENT_WEBSITE_USER_ID, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the current website user id bucket
+	 * 
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getEsquemaConfiguracionId() throws DataStoreException {
+		return getInt(ESQUEMA_CONFIGURACION_ID);
+	}
+
+	/**
+	 * Set the value of the current website user id bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEsquemaConfiguracionId(int newValue)
+			throws DataStoreException {
+		setInt(ESQUEMA_CONFIGURACION_ID, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the total_solicitud bucket
+	 * 
+	 * 
+	 * @return float
+	 * @throws DataStoreException
+	 */
+	public float getTotalSolicitud() throws DataStoreException {
+		return getFloat(TOTAL_SOLICITUD);
+	}
+
+	/**
+	 * Set the value of the total_solicitud bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTotalSolicitud(float newValue) throws DataStoreException {
+		setFloat(TOTAL_SOLICITUD, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the observaciones bucket
+	 * 
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getObservaciones() throws DataStoreException {
+		return getString(OBSERVACIONES);
+	}
+
+	/**
+	 * Set the value of the observaciones bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setObservaciones(String newValue) throws DataStoreException {
+		setString(OBSERVACIONES, newValue);
+	}
+	
+	public float getAtributoTotalSolicitud() throws DataStoreException,
+			SQLException {
+
+		int solicitud_id = getSolicitudesCompraSolicitudCompraId();
+
+		String stringTotal = AtributosEntidadModel.getValorAtributoObjeto(
+				"TOTAL_SOLICITUD", solicitud_id, "TABLA", "solicitudes_compra", "real");
+
+		float total = stringTotal != null ? Float.parseFloat(stringTotal) : 0;
+
+		if (total == 0) {
+
+			DetalleSCModel detalles = new DetalleSCModel("inventario",
+					"inventario");
+			detalles.retrieve("detalle_sc.solicitud_compra_id = "
+					+ solicitud_id);
+
+			for (int row = 0; row < detalles.getRowCount(); row++) {
+				detalles.setMontoTotal(row);
+				total += detalles.getMontoTotal(row);
+			}
+			AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
+					"TOTAL_SOLICITUD", solicitud_id, "TABLA",
+					"solicitudes_compra");
+
+		} else {
+			AtributosEntidadModel.updateValorAtributoObjeto(String
+					.valueOf(total), "TOTAL_SOLICITUD", solicitud_id, "TABLA",
+					"solicitudes_compra");
+		}
+
+		return total;
+
+	}
+
 	@Override
 	public void update() throws DataStoreException, SQLException {
 		// TODO Auto-generated method stub
-		
+
 		if (!(getSolicitudesCompraCentroCostoId() == 0 ^ getProyectosProyecto() == null))
-			throw new DataStoreException("Debe imputar la solicitud a un Centro de costo o a un Proyecto.");
-		
-		
+			throw new DataStoreException(
+					"Debe imputar la solicitud a un Centro de costo o a un Proyecto.");
+
 		if (getSolicitudesCompraEstado() == null)
 			setSolicitudesCompraEstado("0006.0001");
 
@@ -1111,11 +1248,22 @@ public class SolicitudCompraModel extends DataStore {
 			setSolicitudesCompraFechaSolicitud(new Date((Calendar.getInstance()
 					.getTimeInMillis())));
 
-		
-		
 		super.update();
 
 	}
+
 	// $ENDCUSTOMMETHODS$
+
+	@Override
+	public String getEstadoActual() throws DataStoreException {
+		// TODO Auto-generated method stub
+		return getSolicitudesCompraEstado();
+	}
+
+	@Override
+	public int getIdRegistro() throws DataStoreException {
+		// TODO Auto-generated method stub
+		return getSolicitudesCompraSolicitudCompraId();
+	}
 
 }
