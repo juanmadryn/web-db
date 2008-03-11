@@ -6,7 +6,6 @@
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
    <%@include file="message.jsp"%>
-   </td>
    <!-- ********************************************************************************************* -->
    <!-- Agregar definición de DataSource aquí -->
    <salmon:datasource name="dsEsquema" type="MODEL"
@@ -169,7 +168,11 @@
                            font="TableHeadingFont" />
                      </salmon:td>
                      <salmon:td>
-                        <salmon:text name="valorAttrCAP5" text="Valor"
+                        <salmon:text name="valorAttrCAP5" text="Valor desde"
+                           font="TableHeadingFont" />
+                     </salmon:td>
+                     <salmon:td>
+                        <salmon:text name="valorAttrCAP6" text="Valor hasta"
                            font="TableHeadingFont" />
                      </salmon:td>
                   </salmon:tr>
@@ -193,6 +196,11 @@
                      <salmon:td>
                         <salmon:input name="valorAttrTE6"
                            type="text" size="20" maxlength="255" datasource="dsAttr:atributos_configuracion.valor">
+                        </salmon:input>
+                     </salmon:td>
+                      <salmon:td>
+                        <salmon:input name="valorAttrTE7"
+                           type="text" size="20" maxlength="255" datasource="dsAttr:atributos_configuracion.valor_hasta">
                         </salmon:input>
                      </salmon:td>
                   </salmon:tr>
