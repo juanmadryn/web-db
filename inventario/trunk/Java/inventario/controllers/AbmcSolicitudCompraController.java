@@ -636,7 +636,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				.getWebSiteUser().getUserID());
 		_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
 				.parseInt(getPageProperties().getThemeProperty(null,
-						"EsquemaConfiguracionIdSolicitudesCompra")));
+						"EsquemaConfiguracionIdSolicitudesCompra").trim()));
 		_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
 				.getAtributoTotalSolicitud());
 

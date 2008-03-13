@@ -3,6 +3,7 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
+import inventario.util.ReplicateSta11QuartzJob;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.SubmitEvent;
@@ -58,7 +59,8 @@ public class ConsultaArticulosController extends BaseController {
 	public static final String DSARTICULOS_CLASE_ARTICULO_DESCRIPCION = "clase_articulo.descripcion";
 	
 	// custom components
-	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;	
+	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
+	public com.salmonllc.html.HtmlSubmitButton _replicaFromTangoBUT;	
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -71,6 +73,11 @@ public class ConsultaArticulosController extends BaseController {
 		_buscarBUT.addSubmitListener(this);
 		_searchformdisplaybox1.addButton(_buscarBUT);
 		
+		// Test the import process
+		_replicaFromTangoBUT = new HtmlSubmitButton("replicaFromTangoBUT","Replicar desde Tango",this);
+		_replicaFromTangoBUT.addSubmitListener(this);
+		_searchformdisplaybox1.addButton(_replicaFromTangoBUT);
+		
 		// do not retrieve disallowed items
 		_dsQBE.addCriteria("anulado", QBEBuilder.CRITERIA_TYPE_NOT_EQUALS, "articulos.anulado");
 		_dsQBE.setString("anulado", "V");
@@ -80,6 +87,18 @@ public class ConsultaArticulosController extends BaseController {
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// Find
 		if (e.getComponent() == _buscarBUT) {		
+			_dsArticulos.reset();		
+			_dsArticulos.retrieve(_dsQBE);
+			if (_dsArticulos.getRowCount() <= 0) { 
+				displayErrorMessage("No se encontraron articulos");
+				return false;
+			}
+		}
+		
+		// Call ReplicateSta11QuartzJob manually
+		if (e.getComponent() == _replicaFromTangoBUT) {
+			ReplicateSta11QuartzJob replicateSta11 = new ReplicateSta11QuartzJob();
+			replicateSta11.replicate();
 			_dsArticulos.reset();		
 			_dsArticulos.retrieve(_dsQBE);
 			if (_dsArticulos.getRowCount() <= 0) { 
