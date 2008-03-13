@@ -45,9 +45,8 @@ public class DetalleSCModel extends DataStore {
 	public static final String DETALLE_SC_MONTO_TOTAL = "monto_total";
 	public static final String CLASE_ARTICULO_NOMBRE = "clase_articulo.nombre";
 	public static final String CLASE_ARTICULO_DESCRIPCION = "clase_articulo.descripcion";
-	public static final String SOLICITUDES_COMPRA_ESTADO = "solicitudes_compra.estado";	
+	public static final String SOLICITUDES_COMPRA_ESTADO = "solicitudes_compra.estado";
 
-	
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -76,8 +75,10 @@ public class DetalleSCModel extends DataStore {
 			// add aliases
 			addTableAlias(computeTableName("detalle_sc"), "detalle_sc");
 			addTableAlias(computeTableName("articulos"), "articulos");
-			addTableAlias(computeTableName("proyectos.tareas_proyecto"), "tareas_proyecto");
-			addTableAlias(computeTableName("solicitudes_compra"),"solicitudes_compra");
+			addTableAlias(computeTableName("proyectos.tareas_proyecto"),
+					"tareas_proyecto");
+			addTableAlias(computeTableName("solicitudes_compra"),
+					"solicitudes_compra");
 
 			// add columns
 			addColumn(computeTableName("detalle_sc"), "detalle_SC_id",
@@ -118,7 +119,8 @@ public class DetalleSCModel extends DataStore {
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION);
 			addColumn(computeTableName("clase_articulo"), "nombre",
-					DataStore.DATATYPE_STRING, false, false, CLASE_ARTICULO_NOMBRE);
+					DataStore.DATATYPE_STRING, false, false,
+					CLASE_ARTICULO_NOMBRE);
 			addColumn(computeTableName("clase_articulo"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
 					CLASE_ARTICULO_DESCRIPCION);
@@ -129,7 +131,7 @@ public class DetalleSCModel extends DataStore {
 					DETALLE_SC_MONTO_UNITARIO);
 			addColumn(computeTableName("detalle_sc"), "monto_ultima_compra",
 					DataStore.DATATYPE_FLOAT, false, true,
-					DETALLE_SC_MONTO_ULTIMA_COMPRA);			
+					DETALLE_SC_MONTO_ULTIMA_COMPRA);
 			addColumn(computeTableName("tareas_proyecto"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					TAREA_PROYECTO_NOMBRE);
@@ -141,33 +143,45 @@ public class DetalleSCModel extends DataStore {
 					DETALLE_SC_FECHA_ULTIMA_COMPRA);
 
 			// add bucket
-			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_FLOAT);						
-			
+			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_FLOAT);
+
 			// add joins
 			addJoin(computeTableAndFieldName("detalle_sc.articulo_id"),
 					computeTableAndFieldName("articulos.articulo_id"), false);
-			addJoin(computeTableAndFieldName("articulos.clase_articulo_id"),
-					computeTableAndFieldName("clase_articulo.clase_articulo_id"), false);
+			addJoin(
+					computeTableAndFieldName("articulos.clase_articulo_id"),
+					computeTableAndFieldName("clase_articulo.clase_articulo_id"),
+					false);
 			addJoin(computeTableAndFieldName("detalle_sc.tarea_id"),
-					computeTableAndFieldName("tareas_proyecto.tarea_id"),true);
-			addJoin(computeTableAndFieldName("detalle_sc.solicitud_compra_id"),
-					computeTableAndFieldName("solicitudes_compra.solicitud_compra_id"), false);
-			
+					computeTableAndFieldName("tareas_proyecto.tarea_id"), true);
+			addJoin(
+					computeTableAndFieldName("detalle_sc.solicitud_compra_id"),
+					computeTableAndFieldName("solicitudes_compra.solicitud_compra_id"),
+					false);
 
 			// add validations
+			addRequiredRule(ARTICULOS_NOMBRE,
+					"Especifique el código del artículo.");
 			addRequiredRule(DETALLE_SC_CANTIDAD_SOLICITADA,
 					"Especifique la cantidad a pedir del artículo.");
-			
+
 			// add lookups
-			addLookupRule(TAREA_PROYECTO_NOMBRE, "proyectos.tareas_proyecto",
+			addLookupRule(
+					TAREA_PROYECTO_NOMBRE,
+					"proyectos.tareas_proyecto",
 					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
 					"nombre", TAREA_PROYECTO_NOMBRE, "Proyecto inexistente");
-			addLookupRule(CLASE_ARTICULO_NOMBRE, "inventario.clase_articulo",
+			addLookupRule(
+					CLASE_ARTICULO_NOMBRE,
+					"inventario.clase_articulo",
 					"'inventario.clase_articulo.clase_articulo_id = ' + articulos.clase_articulo_id",
 					"nombre", CLASE_ARTICULO_NOMBRE, "Proyecto inexistente");
-			addLookupRule(SOLICITUDES_COMPRA_ESTADO, "solicitudes_compra",
+			addLookupRule(
+					SOLICITUDES_COMPRA_ESTADO,
+					"solicitudes_compra",
 					"'solicitudes_compra.solicitud_compra_id = ' + detalle_sc.solicitud_compra_id",
-					"estado", SOLICITUDES_COMPRA_ESTADO, "Solicitud de compra inexistente");			
+					"estado", SOLICITUDES_COMPRA_ESTADO,
+					"Solicitud de compra inexistente");
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -1091,7 +1105,7 @@ public class DetalleSCModel extends DataStore {
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_MONTO_TOTAL, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the estado column for the current row.
 	 * 
@@ -1121,7 +1135,8 @@ public class DetalleSCModel extends DataStore {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setSolicitudCompraEstado(String newValue) throws DataStoreException {
+	public void setSolicitudCompraEstado(String newValue)
+			throws DataStoreException {
 		setString(SOLICITUDES_COMPRA_ESTADO, newValue);
 	}
 
@@ -1138,7 +1153,7 @@ public class DetalleSCModel extends DataStore {
 			throws DataStoreException {
 		setString(row, SOLICITUDES_COMPRA_ESTADO, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the fecha_ultima_compra column for the current row.
 	 * 
@@ -1150,14 +1165,16 @@ public class DetalleSCModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the fecha_ultima_compra column for the specified row.
+	 * Retrieve the value of the fecha_ultima_compra column for the specified
+	 * row.
 	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getDetalleScFechaUltimaCompra(int row) throws DataStoreException {
+	public String getDetalleScFechaUltimaCompra(int row)
+			throws DataStoreException {
 		return getString(row, DETALLE_SC_FECHA_ULTIMA_COMPRA);
 	}
 
@@ -1168,7 +1185,8 @@ public class DetalleSCModel extends DataStore {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setDetalleScFechaUltimaCompra(String newValue) throws DataStoreException {
+	public void setDetalleScFechaUltimaCompra(String newValue)
+			throws DataStoreException {
 		setString(DETALLE_SC_FECHA_ULTIMA_COMPRA, newValue);
 	}
 
@@ -1200,14 +1218,9 @@ public class DetalleSCModel extends DataStore {
 		Float cantidad_solicitada = getDetalleScCantidadSolicitada();
 		if (monto_unitario != null && cantidad_solicitada != null) {
 			Float total = (monto_unitario * cantidad_solicitada);
-			/*NumberFormat numberFormat = NumberFormat.getInstance();
-			numberFormat.setRoundingMode(RoundingMode.HALF_UP);
-			numberFormat.setMaximumFractionDigits(2);
-			numberFormat.setMinimumFractionDigits(2);*/
-			setMontoTotal(total/*numberFormat.format(total)*/);			
-		}
+			setMontoTotal(total);
+		}		
 	}
-	
 
 	/**
 	 * Calculate the value of the monto_total column for the specified row.
@@ -1223,44 +1236,60 @@ public class DetalleSCModel extends DataStore {
 		Float cantidad_solicitada = getDetalleScCantidadSolicitada(row);
 		if (monto_unitario != null && cantidad_solicitada != null) {
 			Float total = monto_unitario * cantidad_solicitada;
-			/*NumberFormat numberFormat = NumberFormat.getInstance();
-			numberFormat.setRoundingMode(RoundingMode.HALF_UP);
-			numberFormat.setMaximumFractionDigits(2);
-			numberFormat.setMinimumFractionDigits(2);
-			numberFormat.format(total);*/					
-			setMontoTotal(row, total/*numberFormat.format(total)*/);	
+			setMontoTotal(row, total);
 		}
 	}
 
 	@Override
 	public void update() throws DataStoreException, SQLException {
-		for (int row = 0; row < getRowCount(); row++){
-		if (getDetalleScTareaId(row) != 0) {
-		SolicitudCompraModel solicitud = new SolicitudCompraModel("inventario", "inventario");
-		solicitud.retrieve("solicitud_compra_id = "+getDetalleScSolicitudCompraId(row));
-		solicitud.gotoFirst();
-		
-		TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
-		"proyectos");
-		if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = " + solicitud.getSolicitudesCompraProyectoId() + " AND tareas_proyecto.tarea_id = "+getDetalleScTareaId(row))== 0)
-			throw new DataStoreException("La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+		for (int row = 0; row < getRowCount(); row++) {
+			if (getDetalleScTareaId(row) != 0) {
+				SolicitudCompraModel solicitud = new SolicitudCompraModel(
+						"inventario", "inventario");
+				solicitud.retrieve("solicitud_compra_id = "
+						+ getDetalleScSolicitudCompraId(row));
+				solicitud.gotoFirst();
+
+				TareasProyectoModel dsTareas = new TareasProyectoModel(
+						"proyectos", "proyectos");
+				if (dsTareas
+						.estimateRowsRetrieved("tareas_proyecto.proyecto_id = "
+								+ solicitud.getSolicitudesCompraProyectoId()
+								+ " AND tareas_proyecto.tarea_id = "
+								+ getDetalleScTareaId(row)) == 0)
+					throw new DataStoreException(
+							"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+			}
+			ArticulosModel articulos;
+			if (getArticulosNombre() != null) {
+				articulos = new ArticulosModel("inventario", "inventario");
+				articulos.retrieve("articulos.nombre LIKE '"
+						+ getArticulosNombre() + "'");
+				if (!articulos.gotoFirst())
+					throw new DataStoreException(
+							"El código de articulo ingresado no corresponde a ninguno registrado");
+				;
+				setDetalleScArticuloId(row, articulos.getArticulosArticuloId());				
+			}
+			if(getDetalleScDescripcion(row) == null && getArticulosDescripcion() != null)
+				setDetalleScDescripcion(row, getArticulosDescripcion());
+			
+				
 		}
-		ArticulosModel articulos;
-		if(getDetalleScArticuloId(row) == 0 && getArticulosNombre() != null) {
-			articulos = new ArticulosModel("inventario","inventario");
-			articulos.retrieve("articulos.nombre like '"+getArticulosNombre() +"'");
-			if (!articulos.gotoFirst())
-				throw new DataStoreException("El código de articulo ingresado no corresponde a ninguno registrado");;
-			setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
-		}
-		}			
-		
-		
-		
-		
+
 		super.update();
 	}
-	
+
+	public boolean chequeaTotalesDetallesSolicitud(int solicitud_id)
+			throws DataStoreException, SQLException {
+		retrieve("detalle_sc.solicitud_compra_id = " + solicitud_id);
+		for (int row = 0; row < getRowCount(); row++) {
+			if (getDetalleScMontoUnitario(row) == 0)
+				return false;
+		}
+		return true;
+	}
+
 	// $ENDCUSTOMMETHODS$
 
 }
