@@ -29,7 +29,8 @@ public class InstanciasAprobacionModel extends DataStore {
 	public static final String INSTANCIAS_APROBACION_ESTADO = "instancias_aprobacion.estado";
 	public static final String INSTANCIAS_APROBACION_FECHA_ENTRADA = "instancias_aprobacion.fecha_entrada";
 	public static final String INSTANCIAS_APROBACION_FECHA_ACCION = "instancias_aprobacion.fecha_accion";
-
+	public static final String INSTANCIAS_APROBACION_MENSAJE = "instancias_aprobacion.mensaje";
+	
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
 	// be overwritten if the model is regenerated
@@ -80,6 +81,10 @@ public class InstanciasAprobacionModel extends DataStore {
 		addColumn(computeTableName("instancias_aprobacion"), "fecha_accion",
 				DataStore.DATATYPE_DATE, false, true,
 				INSTANCIAS_APROBACION_FECHA_ACCION);
+		addColumn(computeTableName("instancias_aprobacion"), "mensaje",
+				DataStore.DATATYPE_STRING, false, true,
+				INSTANCIAS_APROBACION_MENSAJE);
+		
 
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
@@ -411,6 +416,61 @@ public class InstanciasAprobacionModel extends DataStore {
 		setDate(row, INSTANCIAS_APROBACION_FECHA_ACCION, newValue);
 	}
 
+
+	/**
+	 * Retrieve the value of the instancias_aprobacion.mensaje column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getInstanciasAprobacionMensaje() throws DataStoreException {
+		return getString(INSTANCIAS_APROBACION_MENSAJE);
+	}
+
+	/**
+	 * Retrieve the value of the instancias_aprobacion.mensaje column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getInstanciasAprobacionMensaje(int row)
+			throws DataStoreException {
+		return getString(row, INSTANCIAS_APROBACION_MENSAJE);
+	}
+
+	/**
+	 * Set the value of the instancias_aprobacion.mensaje column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setInstanciasAprobacionMensaje(String newValue)
+			throws DataStoreException {
+		setString(INSTANCIAS_APROBACION_MENSAJE, newValue);
+	}
+
+	/**
+	 * Set the value of the instancias_aprobacion.mensaje column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setInstanciasAprobacionMensaje(int row, String newValue)
+			throws DataStoreException {
+		setString(row, INSTANCIAS_APROBACION_MENSAJE, newValue);
+	}
+
+	
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated

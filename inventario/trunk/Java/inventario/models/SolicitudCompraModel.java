@@ -1195,12 +1195,7 @@ public class SolicitudCompraModel extends BaseModel {
 
 		int solicitud_id = getSolicitudesCompraSolicitudCompraId();
 
-		String stringTotal = AtributosEntidadModel.getValorAtributoObjeto(
-				"TOTAL_SOLICITUD", solicitud_id, "TABLA", "solicitudes_compra", "real");
-
-		float total = stringTotal != null ? Float.parseFloat(stringTotal) : 0;
-
-		if (total == 0) {
+		float total = 0;
 
 			DetalleSCModel detalles = new DetalleSCModel("inventario",
 					"inventario");
@@ -1211,15 +1206,10 @@ public class SolicitudCompraModel extends BaseModel {
 				detalles.setMontoTotal(row);
 				total += detalles.getMontoTotal(row);
 			}
+			
 			AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
 					"TOTAL_SOLICITUD", solicitud_id, "TABLA",
 					"solicitudes_compra");
-
-		} else {
-			AtributosEntidadModel.updateValorAtributoObjeto(String
-					.valueOf(total), "TOTAL_SOLICITUD", solicitud_id, "TABLA",
-					"solicitudes_compra");
-		}
 
 		return total;
 
@@ -1252,6 +1242,13 @@ public class SolicitudCompraModel extends BaseModel {
 
 	}
 
+	public void setObservaciones() throws DataStoreException, SQLException{
+		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel("inventario","inventario");
+		instancia.retrieve("solicitud_compra_id ="+getSolicitudesCompraSolicitudCompraId()+ " AND estado ="+"'0007.0001'");
+		if (instancia.gotoFirst())
+			setObservaciones(instancia.getInstanciasAprobacionMensaje());
+		
+	}
 	// $ENDCUSTOMMETHODS$
 
 	@Override
