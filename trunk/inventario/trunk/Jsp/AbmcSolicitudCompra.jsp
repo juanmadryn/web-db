@@ -22,7 +22,7 @@
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
 			<salmon:tr>
-				<salmon:td valign="Top" width="50%">
+				<salmon:td valign="Top" width="70%" colspan="2">
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
 						caption="Solicitud de compra" width="100%"
 						datasource="dsSolicitudCompra" buttondisplaylocation="BELOW_TABLE"
@@ -130,7 +130,9 @@
 						</table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>
-				<salmon:td width="50%">
+				<salmon:td>
+				</salmon:td>
+				<salmon:td width="30%">
 					<table width="100%">
 						<tr>
 							<td><salmon:text name="observacionX1" text="OBSERVACIONES"
@@ -138,7 +140,7 @@
 						</tr>
 						<tr>
 							<td><salmon:input type="textarea" name="observacionX2"
-								cols="70" rows="20" wrap="HARD" size="40" maxlength="255"
+								cols="50" rows="20" wrap="HARD" size="40" maxlength="255"
 								datasource="dsSolicitudCompra:observaciones" visible="false"></salmon:input></td>
 						</tr>
 					</table>
@@ -169,11 +171,11 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="cantidad_solicitada1"
-								text="Cantidad solicitada" font="TableHeadingFont" />
+								text="Cantidad" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="monto_fecha_ultima_compra1"
-								text="Precio unitario - Fecha última compra"
+								text="Precio unitario"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td align="CENTER">
@@ -222,12 +224,12 @@
 								maxlength="255" datasource="dsDetalleSC:detalle_sc.descripcion"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="cantidad_solicitada2" size="15"
+							<salmon:input type="text" name="cantidad_solicitada2" size="8"
 								maxlength="15" displayformat="##0"
 								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="monto_unitario1" size="15"
+							<salmon:input type="text" name="monto_unitario1" size="8"
 								maxlength="15" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
