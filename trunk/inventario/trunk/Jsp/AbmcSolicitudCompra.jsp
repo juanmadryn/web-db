@@ -95,6 +95,7 @@
 										showdescription="TRUE"></salmon:lookup>
 								</salmon:td>
 							</tr>
+							<tr>
 							<td><salmon:text name="centro_costo1" text="Centro de costo"
 								font="TableHeadingFont" /></td>
 							<salmon:td name="centroCostoTableTD">
@@ -124,7 +125,7 @@
 							<tr>
 								<td><salmon:text name="total_solicitud1" text="Total"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="total_solicitud2" text=""
+								<td><salmon:text name="total_solicitud2" text="" displayformat="###,###,##0.00"
 									datasource="dsSolicitudCompra:total_solicitud_compra"></salmon:text></td>
 							</tr>
 						</table>
@@ -140,7 +141,7 @@
 						</tr>
 						<tr>
 							<td><salmon:input type="textarea" name="observacionX2"
-								cols="50" rows="20" wrap="HARD" size="40" maxlength="255"
+								cols="40" rows="20" wrap="HARD" size="40" maxlength="255"
 								datasource="dsSolicitudCompra:observaciones" visible="false"></salmon:input></td>
 						</tr>
 					</table>
@@ -213,7 +214,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-								lookupurl="%LkpArticulos" name="articulo2" size="6"
+								lookupurl="%LkpArticulos" name="articulo2" size="8"
 								maxlength="15" datasource="dsDetalleSC:articulos.nombre"
 								descriptiondatasource="dsDetalleSC:articulos.descripcion"
 								popupheight="450" popupwidth="500" usepopup="true"
@@ -224,21 +225,21 @@
 								maxlength="255" datasource="dsDetalleSC:detalle_sc.descripcion"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="cantidad_solicitada2" size="8"
+							<salmon:input type="text" name="cantidad_solicitada2" size="10"
 								maxlength="15" displayformat="##0"
 								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="monto_unitario1" size="8"
+							<salmon:input type="text" name="monto_unitario1" size="10"
 								maxlength="15" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
-							<salmon:text name="monto_fecha_ultima_compra2" text=""
+							<!--<salmon:text name="monto_fecha_ultima_compra2" text=""
 								displayformat="dd/MM/aa"
-								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
+								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>-->
 						</salmon:td>
 						<salmon:td align="RIGHT">
-							<salmon:text name="monto_total2" text=""
+							<salmon:text name="monto_total2" text="" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:monto_total"></salmon:text>
 						</salmon:td>
 					</salmon:tr>

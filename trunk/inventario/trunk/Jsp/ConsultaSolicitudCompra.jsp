@@ -5,7 +5,6 @@
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
-	</td>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
@@ -225,9 +224,7 @@
 							<salmon:a href="none" name="lnksolicitud1"
 								onclick="document.forms['bannerForm'].submit();"
 								datasource="dsSolicitudes:'%AbmcSolicitudCompra?solicitud_compra_id='+solicitudes_compra.solicitud_compra_id">
-								<salmon:input type="submit" name="botonEditar" value="Editar"
-									accesskey="E">
-								</salmon:input>
+								<salmon:text name="editar" text="Editar" />
 							</salmon:a>
 						</salmon:td>
 					</salmon:tr>
