@@ -36,28 +36,31 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 
 		try {
 			SolicitudCompraModel ds = (SolicitudCompraModel) obj;
-			DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
-			
+			DetalleSCModel detalles = new DetalleSCModel("inventario",
+					"inventario");
+
 			int solicitudCompraId = ds.getSolicitudesCompraSolicitudCompraId();
 
-			InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
-					"inventario", "inventario");
-			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
-					+ " AND estado = 0007.0001");
-			if (instancia.gotoFirst()) {				
-				return true;
-			}
-			
-			if (detalles.estimateRowsRetrieved("detalle_sc.solicitud_compra_id ="
+			if (detalles
+					.estimateRowsRetrieved("detalle_sc.solicitud_compra_id ="
 							+ solicitudCompraId) == 0) {
 				msg.append("Debe detallar por lo menos un artículo a comprar");
 				return false;
 			}
 			if (!detalles.chequeaTotalesDetallesSolicitud(solicitudCompraId)) {
-				msg.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");
+				msg
+						.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");
 				return false;
 			}
-			
+
+			InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
+					"inventario", "inventario");
+			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
+					+ " AND estado = 0007.0001");
+			if (instancia.gotoFirst()) {
+				return true;
+			}
+
 			String valorAtributo = AtributosEntidadModel
 					.getValorAtributoObjeto("CONFIGURACION_ID",
 							solicitudCompraId, "TABLA", "solicitudes_compra");
@@ -80,7 +83,7 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 			}
 
 			CadenasAprobacionModel cadena = new CadenasAprobacionModel(
-					"inventario", "inventario");			
+					"inventario", "inventario");
 
 			cadena.retrieve("configuracion_id = " + configuracion_id);
 
@@ -88,9 +91,7 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 				msg.append("No se recupero ninguna cadena de aprobación!");
 				return false;
 			}
-			
-			
-			
+
 			Iterator<Integer> siguientesFirmantes = cadena
 					.getSiguientesFirmantes(false, ds.getCurrentWebsiteUserId());
 
