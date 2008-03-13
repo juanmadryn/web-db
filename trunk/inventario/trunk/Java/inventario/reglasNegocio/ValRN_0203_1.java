@@ -11,10 +11,7 @@ import inventario.models.CadenasAprobacionModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.SolicitudCompraModel;
 
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Iterator;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
@@ -23,7 +20,7 @@ import com.salmonllc.sql.DataStoreException;
  * @author Demian
  * 
  */
-public final class ValRN_0202_1 extends ValidadorReglasNegocio {
+public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 
 	/*
 	 * (non-Javadoc)
@@ -39,6 +36,12 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 			connection.beginTransaction();
 
 			SolicitudCompraModel ds = (SolicitudCompraModel) obj;
+
+			if (ds.getObservaciones() == null) {
+				msg
+						.append("Debe completar el cuadro de observaciones para marcar la solicitud como observada");
+				return false;
+			}
 
 			int solicitudCompraId = ds.getSolicitudesCompraSolicitudCompraId();
 
@@ -76,42 +79,16 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 
 			int currentWebsiteUser = ds.getCurrentWebsiteUserId();
 
-			if (instancia.estimateRowsRetrieved("solicitud_compra_id ="
-					+ solicitudCompraId + " AND user_firmante ="
-					+ currentWebsiteUser + " AND estado = 0007.0001") == 0) {
+			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
+					+ " AND user_firmante =" + currentWebsiteUser
+					+ " AND estado = 0007.0001");
+			if (!instancia.gotoFirst()) {
 				msg.append("Su aprobación no se encuentra pendiente!");
 				return false;
 			}
+			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
+			instancia.update();
 
-			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId);
-			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
-					connection);
-
-			Iterator<Integer> siguientesFirmantes = cadena
-					.getSiguientesFirmantes(true, currentWebsiteUser);
-
-			if (siguientesFirmantes == null) {
-				ds.setSolicitudesCompraFechaAprobacion(new Date(
-						(Calendar.getInstance().getTimeInMillis())));
-				ds.update();
-				connection.commit();
-				connection.freeConnection();
-				return true;
-			}
-
-			while (siguientesFirmantes.hasNext()) {
-				instancia.gotoRow(instancia.insertRow());
-				instancia.setInstanciasAprobacionEstado("0007.0001");
-				instancia.setInstanciasAprobacionFechaEntrada(new Date(
-						(Calendar.getInstance().getTimeInMillis())));
-				instancia
-						.setInstanciasAprobacionSolicitudCompraId(solicitudCompraId);
-				instancia
-						.setInstanciasAprobacionUserFirmante(siguientesFirmantes
-								.next());
-			}
-			instancia.update(connection);
-			connection.commit();
 		} catch (DataStoreException ex) {
 			connection.rollback();
 			msg
@@ -129,7 +106,6 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 			if (connection != null)
 				connection.freeConnection();
 		}
-		return false;
+		return true;
 	}
-
 }
