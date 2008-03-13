@@ -11,6 +11,7 @@ import java.util.Iterator;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
+import com.salmonllc.util.MessageLog;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -82,8 +83,8 @@ public class AtributosConfiguracionModel extends DataStore {
 			addColumn(computeTableName("atributos_configuracion"), "valor",
 					DataStore.DATATYPE_STRING, false, true,
 					ATRIBUTOS_CONFIGURACION_VALOR);
-			addColumn(computeTableName("atributos_configuracion"), "valor_hasta",
-					DataStore.DATATYPE_STRING, false, true,
+			addColumn(computeTableName("atributos_configuracion"),
+					"valor_hasta", DataStore.DATATYPE_STRING, false, true,
 					ATRIBUTOS_CONFIGURACION_VALOR_HASTA);
 			addColumn(computeTableName("atributos_rol"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
@@ -123,7 +124,7 @@ public class AtributosConfiguracionModel extends DataStore {
 			addRequiredRule(ATRIBUTOS_CONFIGURACION_VALOR,
 					"El valor para el atributo es obligatorio");
 			addRequiredRule(ATRIBUTOS_CONFIGURACION_VALOR_HASTA,
-			"El valor hasta para el atributo es obligatorio");
+					"El valor hasta para el atributo es obligatorio");
 
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
@@ -297,7 +298,6 @@ public class AtributosConfiguracionModel extends DataStore {
 		setString(row, ATRIBUTOS_CONFIGURACION_VALOR, newValue);
 	}
 
-
 	/**
 	 * Retrieve the value of the atributos_configuracion.valor column for the
 	 * current row.
@@ -305,7 +305,8 @@ public class AtributosConfiguracionModel extends DataStore {
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getAtributosConfiguracionValorHasta() throws DataStoreException {
+	public String getAtributosConfiguracionValorHasta()
+			throws DataStoreException {
 		return getString(ATRIBUTOS_CONFIGURACION_VALOR_HASTA);
 	}
 
@@ -350,7 +351,7 @@ public class AtributosConfiguracionModel extends DataStore {
 			throws DataStoreException {
 		setString(row, ATRIBUTOS_CONFIGURACION_VALOR_HASTA, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the atributos_rol.nombre column for the current
 	 * row.
@@ -508,24 +509,28 @@ public class AtributosConfiguracionModel extends DataStore {
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
 
-	 public static Iterator<AtributoConfiguracion> determinaAtributosConfiguración(int esquema_configuracion_id, int objeto_id, String tipo_objeto, String nombre_objeto) throws DataStoreException, SQLException{
-	     
-			ArrayList<AtributoConfiguracion> atributosConfiguracion = new ArrayList<AtributoConfiguracion>();
-			AtributoConfiguracion atributo = new AtributoConfiguracion();
+	public static Iterator<AtributoConfiguracion> determinaAtributosConfiguración(
+			int esquema_configuracion_id, int objeto_id, String tipo_objeto,
+			String nombre_objeto) throws DataStoreException, SQLException {
 
-			DBConnection conexion = null;
-			Statement st = null;
-			ResultSet r = null;
-			String sql = null;
+		ArrayList<AtributoConfiguracion> atributosConfiguracion = new ArrayList<AtributoConfiguracion>();
+		AtributoConfiguracion atributo = new AtributoConfiguracion();
 
+		DBConnection conexion = null;
+		Statement st = null;
+		ResultSet r = null;
+		String sql = null;
+
+		try {
 			conexion = DBConnection.getConnection("infraestructura",
 					"infraestructura");
 
 			// Selecciona todos los id's de atributos utilizados para determinar
 			// cadenas de aprobación de solicitudes de compra
-			sql = "SELECT DISTINCT atributo_id " +
-				"FROM atributos_configuracion NATURAL JOIN configuracion " +
-				"WHERE esquema_configuracion_id = "+esquema_configuracion_id;
+			sql = "SELECT DISTINCT atributo_id "
+					+ "FROM atributos_configuracion NATURAL JOIN configuracion "
+					+ "WHERE esquema_configuracion_id = "
+					+ esquema_configuracion_id;
 
 			st = conexion.createStatement();
 			r = st.executeQuery(sql);
@@ -534,19 +539,38 @@ public class AtributosConfiguracionModel extends DataStore {
 			while (r.next()) {
 				atributo.setAtributo_id(r.getInt(1));
 				atributo.setAtributo_valor(AtributosEntidadModel
-						.getValorAtributoObjeto(r.getInt(1), objeto_id, tipo_objeto,
-								nombre_objeto, null));
+						.getValorAtributoObjeto(r.getInt(1), objeto_id,
+								tipo_objeto, nombre_objeto));
 				atributosConfiguracion.add(atributo);
 			}
 
-			if (atributosConfiguracion.size() == 0) {			
+			if (atributosConfiguracion.size() == 0) {
 				return null;
 			}
-			
-			return atributosConfiguracion.iterator();
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {					
+				}
+			}
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					MessageLog.writeErrorMessage(e, null);
+				}
 
-	     }
-	
+			if (conexion != null)
+				conexion.freeConnection();
+		}
+
+		return atributosConfiguracion.iterator();
+
+	}
+
 	// $ENDCUSTOMMETHODS$
 
 }
