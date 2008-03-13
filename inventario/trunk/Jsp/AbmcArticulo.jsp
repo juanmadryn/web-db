@@ -73,7 +73,7 @@
 							</tr>
 							<tr>
 								<td colspan="2"><salmon:input type="textarea" name="descripcionCompTE4"
-									cols="100" rows="15" wrap="soft" datasource="dsArticulo:articulos.descripcion_completa">									
+									cols="60" rows="15" wrap="soft" datasource="dsArticulo:articulos.descripcion_completa">									
 									</salmon:input></td>									
 							</tr>														
 							<tr>
