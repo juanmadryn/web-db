@@ -186,6 +186,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 	private static final String CIRCUITO = "0006";
 
+	private boolean recargar = false;
+
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
 	 * activities.
@@ -368,10 +370,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _grabarSolicitudCompraBUT1) {
+			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
 			// si la solicitud esta en estado generado o esta siendo generada
-			if ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
-					.getSolicitudesCompraEstado())
-					|| _dsSolicitudCompra.getSolicitudesCompraEstado() == null) {
+			if ("0006.0001".equalsIgnoreCase(estado)
+					|| "0006.0005".equalsIgnoreCase(estado) || estado == null) {
 				try {
 
 					// grabo todos los datasource
@@ -394,29 +396,29 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 							if (_dsDetalleSC.getDetalleScMontoUltimaCompra(row) == 0) {
 								try {
 									_dsDetalleSC
-								
-										.setDetalleScMontoUltimaCompra(
-												row,
-												Float
-														.parseFloat(AtributosEntidadModel
-																.getValorAtributoObjeto(
-																		"MONTO_ULTIMA_COMPRA",
-																		_dsDetalleSC
-																				.getDetalleScArticuloId(row),
-																		"TABLA",
-																		"articulos", "real")));
-								_dsDetalleSC
-										.setDetalleScFechaUltimaCompra(
-												row,
-												AtributosEntidadModel
-														.getValorAtributoObjeto(
-																"FECHA_ULTIMA_COMPRA",
-																_dsDetalleSC
-																		.getDetalleScArticuloId(row),
-																"TABLA",
-																"articulos", null));
-								}catch (NullPointerException e) {
-									
+
+											.setDetalleScMontoUltimaCompra(
+													row,
+													Float
+															.parseFloat(AtributosEntidadModel
+																	.getValorAtributoObjeto(
+																			"MONTO_ULTIMA_COMPRA",
+																			_dsDetalleSC
+																					.getDetalleScArticuloId(row),
+																			"TABLA",
+																			"articulos")));
+									_dsDetalleSC
+											.setDetalleScFechaUltimaCompra(
+													row,
+													AtributosEntidadModel
+															.getValorAtributoObjeto(
+																	"FECHA_ULTIMA_COMPRA",
+																	_dsDetalleSC
+																			.getDetalleScArticuloId(row),
+																	"TABLA",
+																	"articulos"));
+								} catch (NullPointerException e) {
+
 								}
 							}
 							if (_dsDetalleSC.getDetalleScMontoUnitario(row) == 0)
@@ -428,9 +430,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 							_dsDetalleSC.setMontoTotal(row);
 						}
 					}
-					
-					_dsSolicitudCompra.reloadRow();
 
+					_dsSolicitudCompra.reloadRow();
+					
 					setTareaLookupURL();
 
 				} catch (DataStoreException ex) {
@@ -449,6 +451,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			} else {
 				// si la solicitud no está generada, bloqueo toda modificación
 				displayErrorMessage("No puede modificar la solicitud en el estado actual.");
+				setRecargar(true);
+				pageRequested(new PageEvent(this));
 				return false;
 			}
 
@@ -457,19 +461,31 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		if (component == _articulosAgregarBUT1) {
 			// crea un nuevo registro de tarea
 			try {
+				String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
+				if ("0006.0001".equalsIgnoreCase(estado)
+						|| "0006.0005".equalsIgnoreCase(estado)
+						|| estado == null) {
+					int solicitud_id = _dsSolicitudCompra
+							.getSolicitudesCompraSolicitudCompraId();
 
-				int solicitud_id = _dsSolicitudCompra
-						.getSolicitudesCompraSolicitudCompraId();
+					if (solicitud_id > 0) {
 
-				if (solicitud_id > 0) {
+						int reg = _dsDetalleSC.insertRow();
+						_dsDetalleSC.gotoRow(reg);
 
-					int reg = _dsDetalleSC.insertRow();
-					_dsDetalleSC.gotoRow(reg);
+						_dsDetalleSC
+								.setDetalleScSolicitudCompraId(solicitud_id);
 
-					_dsDetalleSC.setDetalleScSolicitudCompraId(solicitud_id);
+						setTareaLookupURL();
 
-					setTareaLookupURL();
-
+					}					
+				} else {
+					// si la solicitud no está generada, bloqueo toda
+					// modificación
+					displayErrorMessage("No puede modificar la solicitud en el estado actual.");
+					setRecargar(true);
+					pageRequested(new PageEvent(this));
+					return false;
 				}
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
@@ -483,24 +499,34 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _articulosEliminarBUT1) {
-			// elimina todas las actividades seleccionadas
-			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-				if (_dsDetalleSC.getInt(i, SELECCION_DETALLE_FLAG) == 1) {
-					// Rol marcado para selección
-					try {
-						_dsDetalleSC.deleteRow(i);
-						_dsDetalleSC.update();
-					} catch (DataStoreException ex) {
-						displayErrorMessage("No se ha podido eliminar el artículo seleccionado. Error: "
-								+ ex.getMessage());
-						_dsDetalleSC.unDeleteRow(i);
-						_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG, 0);
-						return false;
-					} catch (SQLException ex) {
-						displayErrorMessage(ex.getMessage());
-						return false;
+			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
+			if ("0006.0001".equalsIgnoreCase(estado)
+					|| "0006.0005".equalsIgnoreCase(estado) || estado == null) {
+				// elimina todas las actividades seleccionadas
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					if (_dsDetalleSC.getInt(i, SELECCION_DETALLE_FLAG) == 1) {
+						// Rol marcado para selección
+						try {
+							_dsDetalleSC.deleteRow(i);
+							_dsDetalleSC.update();
+						} catch (DataStoreException ex) {
+							displayErrorMessage("No se ha podido eliminar el artículo seleccionado. Error: "
+									+ ex.getMessage());
+							_dsDetalleSC.unDeleteRow(i);
+							_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG, 0);
+							return false;
+						} catch (SQLException ex) {
+							displayErrorMessage(ex.getMessage());
+							return false;
+						}
 					}
 				}
+			} else {
+				// si la solicitud no está generada, bloqueo toda modificación
+				displayErrorMessage("No puede modificar la solicitud en el estado actual.");
+				setRecargar(true);
+				pageRequested(new PageEvent(this));
+				return false;
 			}
 		}
 
@@ -518,13 +544,15 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public void pageRequested(PageEvent event) throws Exception {
 
 		try {
-			int solicitud_compra_id = -1;
 			// si la página es requerida por si misma o está en proceso de
 			// recargar un proyecto no hago nada
-			if (!isReferredByCurrentPage()) {
+			if (!isReferredByCurrentPage() || isRecargar()) {
 				// verifico si tiene parámetro
-				solicitud_compra_id = getIntParameter("solicitud_compra_id");
-				if (solicitud_compra_id > 0) {
+				setRow_id(getIntParameter("solicitud_compra_id"));
+				if (isRecargar())
+					setRow_id(_dsSolicitudCompra
+							.getSolicitudesCompraSolicitudCompraId());
+				if (getRow_id() > 0) {
 					// Viene seteado el proyecto. lo recupero sino no se hace
 					// nada
 
@@ -535,14 +563,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					// recupera toda la información para el proyecto
 					_dsSolicitudCompra
 							.retrieve("solicitudes_compra.solicitud_compra_id = "
-									+ Integer.toString(solicitud_compra_id));
+									+ Integer.toString(getRow_id()));
 					_dsSolicitudCompra.gotoFirst();
 
 					// sigue recuperando información del resto de los detalles
 					// (actividades y tareas)
 
 					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = "
-							+ Integer.toString(solicitud_compra_id));
+							+ Integer.toString(getRow_id()));
 					if (_dsDetalleSC.gotoFirst()) {
 						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i);
@@ -552,10 +580,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					setTareaLookupURL();
 				}
 			}
+			setRecargar(false);
 
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
 		}
+		setDatosBasicosSolicitud();
 		armaBotonera();
 		super.pageRequested(event);
 	}
@@ -606,20 +636,22 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				.getWebSiteUser().getUserID());
 		_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
 				.parseInt(getPageProperties().getThemeProperty(null,
-						"EsquemaConfiguracionIdSolicitudesCompra").trim()));
+						"EsquemaConfiguracionIdSolicitudesCompra")));
 		_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
 				.getAtributoTotalSolicitud());
 
-		_detailformdisplaybox1
-				.setHeadingCaption("Solicitud de Compra (Estado: "
-						+ _dsSolicitudCompra.getEstadoNombre() + ")");
-
 		String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
+		if (!"0006.0002".equalsIgnoreCase(estado))
+			_dsSolicitudCompra.setObservaciones();
+
 		if ("0006.0002".equalsIgnoreCase(estado)
-				|| "0006.0003".equalsIgnoreCase(estado)
-				|| "0006.0003".equalsIgnoreCase(estado)) {
+				|| "0006.0004".equalsIgnoreCase(estado)
+				|| "0006.0005".equalsIgnoreCase(estado)) {
 			_observacionX1.setVisible(true);
 			_observacionX2.setVisible(true);
+		} else {
+			_observacionX1.setVisible(false);
+			_observacionX2.setVisible(false);
 		}
 
 	}
@@ -720,5 +752,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				conn.freeConnection();
 		}
 
+	}
+
+	public boolean isRecargar() {
+		return recargar;
+	}
+
+	public void setRecargar(boolean recargar) {
+		this.recargar = recargar;
 	}
 }
