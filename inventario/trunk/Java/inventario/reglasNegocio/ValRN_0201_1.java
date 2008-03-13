@@ -8,6 +8,7 @@ import infraestructura.models.AtributosEntidadModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.utils.DeterminaConfiguracionServicio;
 import inventario.models.CadenasAprobacionModel;
+import inventario.models.DetalleSCModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.SolicitudCompraModel;
 
@@ -33,18 +34,37 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 	 */
 	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn) {
 
-		try {			
+		try {
 			SolicitudCompraModel ds = (SolicitudCompraModel) obj;
-						
+			DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
+			
 			int solicitudCompraId = ds.getSolicitudesCompraSolicitudCompraId();
+
+			InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
+					"inventario", "inventario");
+			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
+					+ " AND estado = 0007.0001");
+			if (instancia.gotoFirst()) {				
+				return true;
+			}
+			
+			if (detalles.estimateRowsRetrieved("detalle_sc.solicitud_compra_id ="
+							+ solicitudCompraId) == 0) {
+				msg.append("Debe detallar por lo menos un artículo a comprar");
+				return false;
+			}
+			if (!detalles.chequeaTotalesDetallesSolicitud(solicitudCompraId)) {
+				msg.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");
+				return false;
+			}
 			
 			String valorAtributo = AtributosEntidadModel
 					.getValorAtributoObjeto("CONFIGURACION_ID",
-							solicitudCompraId, "TABLA", "solicitudes_compra", null);
+							solicitudCompraId, "TABLA", "solicitudes_compra");
 
 			int configuracion_id;
 
-			if (valorAtributo != null)
+			if (valorAtributo != null && valorAtributo != "0")
 				configuracion_id = Integer.parseInt(valorAtributo);
 			else {
 				configuracion_id = DeterminaConfiguracionServicio
@@ -53,16 +73,14 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 										.getEsquemaConfiguracionId(),
 										solicitudCompraId, "TABLA",
 										"solicitudes_compra"));
-			
+
 				AtributosEntidadModel.setValorAtributoObjeto(String
 						.valueOf(configuracion_id), "CONFIGURACION_ID",
 						solicitudCompraId, "TABLA", "solicitudes_compra");
 			}
 
 			CadenasAprobacionModel cadena = new CadenasAprobacionModel(
-					"inventario", "inventario");
-			InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
-					"inventario", "inventario");
+					"inventario", "inventario");			
 
 			cadena.retrieve("configuracion_id = " + configuracion_id);
 
@@ -77,10 +95,11 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 					.getSiguientesFirmantes(false, ds.getCurrentWebsiteUserId());
 
 			if (siguientesFirmantes == null) {
-				msg.append("No se recuperó la lista de firmantes correspondiente");
+				msg
+						.append("No se recuperó la lista de firmantes correspondiente");
 				return false;
 			}
-			
+
 			while (siguientesFirmantes.hasNext()) {
 				instancia.gotoRow(instancia.insertRow());
 				instancia.setInstanciasAprobacionEstado("0007.0001");
@@ -90,8 +109,8 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 						.setInstanciasAprobacionSolicitudCompraId(solicitudCompraId);
 				instancia
 						.setInstanciasAprobacionUserFirmante(siguientesFirmantes
-							.next());
-				
+								.next());
+
 			}
 			instancia.update();
 			return true;
