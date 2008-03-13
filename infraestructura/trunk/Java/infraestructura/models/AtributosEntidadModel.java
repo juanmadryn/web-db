@@ -2,6 +2,7 @@ package infraestructura.models;
 
 import infraestructura.reglasNegocio.ValidationException;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -1540,13 +1541,12 @@ public class AtributosEntidadModel extends DataStore {
 											+ lov_atributo);
 						;
 					}
-					if (tipo.equalsIgnoreCase("entero"))
+					if ("entero".equalsIgnoreCase(tipo))
 						setAtributosEntidadValorEntero(i, Integer
 								.parseInt(valor));
-					else if (tipo.equalsIgnoreCase("real"))
-						setAtributosEntidadValorReal(i, Double
-								.parseDouble(valor));
-					else if (tipo.equalsIgnoreCase("fecha"))
+					else if ("real".equalsIgnoreCase(tipo))
+						setAtributosEntidadValorReal(i, Float.parseFloat(valor));
+					else if ("fecha".equalsIgnoreCase(tipo))
 						try {
 							setAtributosEntidadValorFecha(i, java.sql.Date
 									.valueOf(valor));
@@ -1561,7 +1561,7 @@ public class AtributosEntidadModel extends DataStore {
 								throw new NumberFormatException();
 							}
 						}
-					else if (tipo.equalsIgnoreCase("lógico"))
+					else if ("logico".equalsIgnoreCase(tipo))
 						if (valor.equalsIgnoreCase("V")
 								|| valor.equalsIgnoreCase("F"))
 							setAtributosEntidadValorLogico(i, valor);
@@ -1581,6 +1581,7 @@ public class AtributosEntidadModel extends DataStore {
 						.add("Ha introducido valores indebidos para el atributo "
 								+ nombre_rol);
 			}
+			update();
 		}
 
 		filter(popCriteria());
@@ -1667,45 +1668,71 @@ public class AtributosEntidadModel extends DataStore {
 	}
 
 	public static String getValorAtributoObjeto(int atributoId, int objetoId,
-			String tipoObjeto, String nombreObjeto, String tipo)
-			throws DataStoreException, SQLException {
+			String tipoObjeto, String nombreObjeto) throws DataStoreException,
+			SQLException {
 
 		DBConnection conexion = null;
 		Statement st = null;
 		ResultSet r = null;
 		String sql = null;
+		String valor = null;
+		String tipo = getTipoAtributo(atributoId);
 
 		try {
 			conexion = DBConnection.getConnection("infraestructura",
 					"infraestructura");
 
-			sql = "SELECT valor FROM infraestructura.atributos_entidad WHERE atributo_id = "
-					+ atributoId
-					+ " AND objeto_id = "
-					+ objetoId
-					+ " AND tipo_objeto LIKE '"
-					+ tipoObjeto
+			if ("entero".equalsIgnoreCase(tipo))
+				tipo = "valor_entero";
+			else if ("real".equalsIgnoreCase(tipo))
+				tipo = "valor_real";
+			else if ("fecha".equalsIgnoreCase(tipo))
+				tipo = "valor_fecha";
+			else if ("logico".equalsIgnoreCase(tipo))
+				tipo = "valor_logico";
+			else
+				tipo = "valor";
+
+			sql = "SELECT "
+					+ tipo
+					+ " FROM infraestructura.atributos_entidad WHERE atributo_id = "
+					+ atributoId + " AND objeto_id = " + objetoId
+					+ " AND tipo_objeto LIKE '" + tipoObjeto
 					+ "' AND nombre_objeto LIKE '" + nombreObjeto + "'";
 
 			st = conexion.createStatement();
 			r = st.executeQuery(sql);
+			if (r.first())
+				valor = r.getString(1);
 
-			if (r.first()) {
-				String valor = r.getString(1);
-				return valor;
-			} else {
-				if ("real".equalsIgnoreCase(tipo))
-					return "0";
-				return null;
-			}
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
 		} finally {
-			conexion.freeConnection();
-		}
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					MessageLog.writeErrorMessage(e, null);
+				}
 
+			if (conexion != null)
+				conexion.freeConnection();
+		}
+		if (valor == null
+				&& ("valor_entero".equalsIgnoreCase(tipo) || "valor_real"
+						.equalsIgnoreCase(tipo)))
+			return "0";
+		return valor;
 	}
 
 	public static String getValorAtributoObjeto(String nombreAtributo,
-			int objetoId, String tipoObjeto, String nombreObjeto, String tipo)
+			int objetoId, String tipoObjeto, String nombreObjeto)
 			throws DataStoreException, SQLException {
 
 		DBConnection conexion = null;
@@ -1725,13 +1752,27 @@ public class AtributosEntidadModel extends DataStore {
 
 			if (r.first())
 				return getValorAtributoObjeto(r.getInt(1), objetoId,
-						tipoObjeto, nombreObjeto, tipo);
-			else
-				return null;
-
+						tipoObjeto, nombreObjeto);
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
 		} finally {
-			conexion.freeConnection();
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					MessageLog.writeErrorMessage(e, null);
+				}
+
+			if (conexion != null)
+				conexion.freeConnection();
 		}
+		return null;
 	}
 
 	public static void setValorAtributoObjeto(String valor, int atributoId,
@@ -1739,39 +1780,54 @@ public class AtributosEntidadModel extends DataStore {
 			throws DataStoreException, SQLException {
 
 		DBConnection conexion = null;
-		Statement st = null;
-		String sql = null;
+		PreparedStatement st = null;
 
 		try {
 			conexion = DBConnection.getConnection("infraestructura",
 					"infraestructura");
 
-			sql = "INSERT INTO infraestructura.atributos_entidad (valor, atributo_id, objeto_id, tipo_objeto, nombre_objeto) "
-					+ "VALUES ('"
-					+ valor
-					+ "',"
-					+ atributoId
-					+ ","
-					+ objetoId
-					+ ",'"
-					+ tipoObjeto
-					+ "','"
-					+ nombreObjeto
-					+ "') ON DUPLICATE KEY UPDATE "
-					+ "valor = '"
-					+ valor
-					+ "', atributo_id = "
-					+ atributoId
-					+ ", objeto_id = "
-					+ objetoId
-					+ ", tipo_objeto ='"
-					+ tipoObjeto
-					+ "', nombre_objeto = '" + nombreObjeto + "'";
+			if ((new AtributosEntidadModel("infraestructura", "infraestructura"))
+					.estimateRowsRetrieved("atributos_entidad.atributo_id ="
+							+ atributoId + " AND atributos_entidad.objeto_id="
+							+ objetoId
+							+ " AND atributos_entidad.tipo_objeto LIKE '"
+							+ tipoObjeto
+							+ "' AND atributos_entidad.nombre_objeto LIKE '"
+							+ nombreObjeto + "'") == 0)
+				st = conexion
+						.prepareStatement("INSERT INTO infraestructura.atributos_entidad (valor, atributo_id, objeto_id, tipo_objeto, nombre_objeto) VALUES (?, ?, ?, ?, ?)");
+			else
+				st = conexion
+						.prepareStatement("UPDATE infraestructura.atributos_entidad SET valor = ? WHERE atributo_id = ? AND objeto_id = ? AND tipo_objeto = ? AND nombre_objeto = ?");
 
-			st = conexion.createStatement();
-			st.execute(sql);
+			st.setString(1, valor);
+			st.setInt(2, atributoId);
+			st.setInt(3, objetoId);
+			st.setString(4, tipoObjeto);
+			st.setString(5, nombreObjeto);
+			st.executeUpdate();
+
+			AtributosEntidadModel atributo = new AtributosEntidadModel(
+					"infraestructura", "infraestructura");
+			atributo.retrieve("atributos_entidad.atributo_id =" + atributoId
+					+ " AND atributos_entidad.objeto_id=" + objetoId
+					+ " AND atributos_entidad.tipo_objeto LIKE '" + tipoObjeto
+					+ "' AND atributos_entidad.nombre_objeto LIKE '"
+					+ nombreObjeto + "'");
+			atributo.validaAtributosUpdate();
+
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
 		} finally {
-			conexion.freeConnection();
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					MessageLog.writeErrorMessage(e, null);
+				}
+
+			if (conexion != null)
+				conexion.freeConnection();
 		}
 
 	}
@@ -1784,55 +1840,6 @@ public class AtributosEntidadModel extends DataStore {
 		Statement st = null;
 		ResultSet r = null;
 		String sql = null;
-
-		conexion = DBConnection.getConnection("infraestructura",
-				"infraestructura");
-
-		sql = "SELECT atributo_id FROM infraestructura.atributos_rol WHERE nombre LIKE '"
-				+ nombreAtributo + "'";
-
-		st = conexion.createStatement();
-		r = st.executeQuery(sql);
-		r.first();
-
-		setValorAtributoObjeto(valor, r.getInt(1), objetoId, tipoObjeto,
-				nombreObjeto);
-	}
-
-	public static void updateValorAtributoObjeto(String valor, int atributoId,
-			int objetoId, String tipoObjeto, String nombreObjeto)
-			throws DataStoreException, SQLException {
-
-		DBConnection conexion = null;
-		Statement st = null;
-		String sql = null;
-
-		try {
-			conexion = DBConnection.getConnection("infraestructura",
-					"infraestructura");
-
-			sql = "UPDATE infraestructura.atributos_entidad SET valor = "
-					+ valor + " WHERE atributo_id = " + atributoId
-					+ " AND objeto_id = " + objetoId
-					+ " AND tipo_objeto LIKE '" + tipoObjeto
-					+ "' AND nombre_objeto LIKE '" + nombreObjeto + "'";
-
-			st = conexion.createStatement();
-			st.execute(sql);
-		} finally {
-			conexion.freeConnection();
-		}
-	}
-
-	public static void updateValorAtributoObjeto(String valor,
-			String nombreAtributo, int objetoId, String tipoObjeto,
-			String nombreObjeto) throws DataStoreException, SQLException {
-
-		DBConnection conexion = null;
-		Statement st = null;
-		ResultSet r = null;
-		String sql = null;
-
 		try {
 			conexion = DBConnection.getConnection("infraestructura",
 					"infraestructura");
@@ -1844,10 +1851,26 @@ public class AtributosEntidadModel extends DataStore {
 			r = st.executeQuery(sql);
 			r.first();
 
-			updateValorAtributoObjeto(valor, r.getInt(1), objetoId, tipoObjeto,
+			setValorAtributoObjeto(valor, r.getInt(1), objetoId, tipoObjeto,
 					nombreObjeto);
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
 		} finally {
-			conexion.freeConnection();
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					MessageLog.writeErrorMessage(e, null);
+				}
+
+			if (conexion != null)
+				conexion.freeConnection();
 		}
 	}
 
@@ -1868,9 +1891,26 @@ public class AtributosEntidadModel extends DataStore {
 			r = st.executeQuery(sql);
 			r.first();
 			return r.getString(1);
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
 		} finally {
-			conexion.freeConnection();
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					MessageLog.writeErrorMessage(e, null);
+				}
+
+			if (conexion != null)
+				conexion.freeConnection();
 		}
+		return null;
 	}
 
 	// $ENDCUSTOMMETHODS$
