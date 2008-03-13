@@ -1244,7 +1244,7 @@ public class SolicitudCompraModel extends BaseModel {
 
 	public void setObservaciones() throws DataStoreException, SQLException{
 		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel("inventario","inventario");
-		instancia.retrieve("solicitud_compra_id ="+getSolicitudesCompraSolicitudCompraId()+ " AND estado ="+"'0007.0001'");
+		instancia.retrieve("solicitud_compra_id ="+getSolicitudesCompraSolicitudCompraId()+ " AND estado ="+"'0007.0001' AND mensaje IS NOT NULL");
 		if (instancia.gotoFirst())
 			setObservaciones(instancia.getInstanciasAprobacionMensaje());
 		
