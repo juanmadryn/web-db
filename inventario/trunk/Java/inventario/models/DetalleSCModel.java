@@ -47,6 +47,8 @@ public class DetalleSCModel extends DataStore {
 	public static final String CLASE_ARTICULO_DESCRIPCION = "clase_articulo.descripcion";
 	public static final String SOLICITUDES_COMPRA_ESTADO = "solicitudes_compra.estado";
 
+	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
+	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -187,7 +189,22 @@ public class DetalleSCModel extends DataStore {
 		}
 
 		// $CUSTOMCONSTRUCTOR$
-
+		addTableAlias(computeTableName("proyectos.proyectos"), "proyectos");
+		addTableAlias(computeTableName("centro_costo"), "centro_costo");
+			
+		addColumn(computeTableName("proyectos"), "nombre",
+				DataStore.DATATYPE_STRING, false, false,
+				PROYECTOS_NOMBRE);
+		addColumn(computeTableName("centro_costo"), "nombre",
+				DataStore.DATATYPE_STRING, false, false,
+				CENTRO_COSTO_NOMBRE);
+				
+		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
+				computeTableAndFieldName("proyectos.proyecto_id"), true);
+		addJoin(computeTableAndFieldName("solicitudes_compra.centro_costo_id"),
+				computeTableAndFieldName("centro_costo.centro_costo_id"), true);
+		
+		
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -1289,7 +1306,101 @@ public class DetalleSCModel extends DataStore {
 		}
 		return true;
 	}
+	
+	/**
+	 * Retrieve the value of the fecha_ultima_compra column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosProyecto() throws DataStoreException {
+		return getString(PROYECTOS_NOMBRE);
+	}
 
+	/**
+	 * Retrieve the value of the fecha_ultima_compra column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosProyecto(int row) throws DataStoreException {
+		return getString(row, PROYECTOS_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the estado fecha_ultima_compra for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosProyecto(String newValue) throws DataStoreException {
+		setString(PROYECTOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the estado fecha_ultima_compra for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosProyecto(int row, String newValue)
+			throws DataStoreException {
+		setString(row, PROYECTOS_NOMBRE, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the centro_costo.nombre column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getCentroCostoNombre() throws DataStoreException {
+		return getString(CENTRO_COSTO_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the centro_costo.nombre column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getCentroCostoNombre(int row) throws DataStoreException {
+		return getString(row, CENTRO_COSTO_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the centro_costo.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCentroCostoNombre(String newValue) throws DataStoreException {
+		setString(CENTRO_COSTO_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the centro_costo.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCentroCostoNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, CENTRO_COSTO_NOMBRE, newValue);
+	}
 	// $ENDCUSTOMMETHODS$
 
 }
