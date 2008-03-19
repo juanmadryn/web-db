@@ -1,7 +1,13 @@
 package infraestructura.models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
+import com.salmonllc.util.MessageLog;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -300,6 +306,15 @@ public class UsuarioRolesModel extends DataStore {
      
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
+     
+     public boolean isRolUsuario(int user_id, String nombreRol) throws DataStoreException, SQLException {
+ 		retrieve("usuario_roles.user_id ="+user_id);
+ 		for(int row = 0; row < getRowCount(); row++) {
+ 			if  (nombreRol.equalsIgnoreCase(getRolesNombre(row)))
+ 				return true;
+ 		}
+ 		return false;
+     }
      
      //$ENDCUSTOMMETHODS$
      
