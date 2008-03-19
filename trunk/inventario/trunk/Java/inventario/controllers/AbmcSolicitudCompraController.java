@@ -489,7 +489,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				String URL = armarUrlReporte("PDF", "solicitud_compra",
 						"&Parameter_solicitud_compra_id=" + getRow_id());
 				System.out.println(URL);
-
+				sendRedirect(URL);
 			} else {
 				displayErrorMessage("Debe seleccionar una solicitud");
 			}
