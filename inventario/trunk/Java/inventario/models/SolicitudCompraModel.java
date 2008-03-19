@@ -1233,6 +1233,8 @@ public class SolicitudCompraModel extends BaseModel {
 			dsProyecto.gotoFirst();
 			setSolicitudesCompraProyectoId(dsProyecto.getProyectosProyectoId());
 		}
+		else 
+			setSolicitudesCompraProyectoId(0);
 
 		if (getSolicitudesCompraFechaSolicitud() == null)
 			setSolicitudesCompraFechaSolicitud(new Date((Calendar.getInstance()
