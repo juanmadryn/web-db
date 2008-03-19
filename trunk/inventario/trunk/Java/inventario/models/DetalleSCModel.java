@@ -39,6 +39,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String DETALLE_SC_MONTO_UNITARIO = "detalle_sc.monto_unitario";
 	public static final String DETALLE_SC_MONTO_ULTIMA_COMPRA = "detalle_sc.monto_ultima_compra";
 	public static final String DETALLE_SC_FECHA_ULTIMA_COMPRA = "detalle_sc.fecha_ultima_compra";
+	public static final String DETALLE_SC_UNIDAD_DE_MEDIDA = "detalle_sc.unidad_medida";
 
 	// $CUSTOMVARS$
 	public static final String TAREA_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
@@ -1025,6 +1026,56 @@ public class DetalleSCModel extends DataStore {
 		setFloat(row, DETALLE_SC_MONTO_ULTIMA_COMPRA, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the detalle_sc.unidad_medida column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getDetalleScUnidadMedida() throws DataStoreException {
+		return getString(DETALLE_SC_UNIDAD_DE_MEDIDA);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.unidad_medida column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getDetalleScUnidadMedida(int row) throws DataStoreException {
+		return getString(row, DETALLE_SC_UNIDAD_DE_MEDIDA);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.unidad_medida column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScUnidadMedida(String newValue)
+			throws DataStoreException {
+		setString(DETALLE_SC_UNIDAD_DE_MEDIDA, newValue);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.unidad_medida column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScUnidadMedida(int row, String newValue)
+			throws DataStoreException {
+		setString(row, DETALLE_SC_UNIDAD_DE_MEDIDA, newValue);
+	}
+	
 	// $CUSTOMMETHODS$
 	/**
 	 * Retrieve the value of the tareas_proyecto.nombre column for the current
@@ -1305,7 +1356,8 @@ public class DetalleSCModel extends DataStore {
 				return false;
 		}
 		return true;
-	}
+	}	
+	
 	
 	/**
 	 * Retrieve the value of the fecha_ultima_compra column for the current row.
