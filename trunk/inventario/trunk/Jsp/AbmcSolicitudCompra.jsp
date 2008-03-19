@@ -22,7 +22,7 @@
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
 			<salmon:tr>
-				<salmon:td valign="Top" width="70%" colspan="2">
+				<salmon:td valign="Top">
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
 						caption="Solicitud de compra" width="100%"
 						datasource="dsSolicitudCompra" buttondisplaylocation="BELOW_TABLE"
@@ -42,24 +42,19 @@
 							accesskey="6" visible="False"></salmon:input>
 						<table width="100%">
 							<tr>
-								<td><salmon:text name="n1" text="Nº"
-									font="TableHeadingFont" /></td>
-								<td><salmon:text name="n2" text="" font="ColumnCaptionFont"
-									datasource="dsSolicitudCompra:solicitudes_compra.solicitud_compra_id" />
-								</td>
-							</tr>
-							<tr>
 								<td><salmon:text name="nombre_completo_solicitante1"
 									text="Solicitante" font="TableHeadingFont" /></td>
-								<td><salmon:text name="nombre_completo_solicitante2"
-									text=""
-									datasource="dsSolicitudCompra:nombre_completo_solicitante"></salmon:text></td>
-							</tr>
-							<tr>
+								<td><salmon:input type="select" name="nombre_completo_solicitante2" size="30"
+									datasource="dsSolicitudCompra:solicitudes_compra.user_id_solicita">
+									<salmon:option display="abc" key="123"
+										table="inventario.solicitantes" keycolumn="user_id"
+										displaycolumn="nombre_completo" nulloption="false"></salmon:option>
+								</salmon:input></td>
 								<td><salmon:text name="nombre_completo_comprador1"
 									text="Comprador" font="TableHeadingFont" /></td>
 								<td><salmon:text name="nombre_completo_comprador2" text=""
 									datasource="dsSolicitudCompra:nombre_completo_comprador"></salmon:text></td>
+								<td width="10"></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_solicitud1"
@@ -67,15 +62,11 @@
 								<td><salmon:text name="fecha_solicitud2" text=""
 									displayformat="dd/MM/yyyy"
 									datasource="dsSolicitudCompra:solicitudes_compra.fecha_solicitud"></salmon:text></td>
-							</tr>
-							<tr>
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_aprobacion2" text=""
 									displayformat="dd/MM/yyyy"
 									datasource="dsSolicitudCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
-							</tr>
-							<tr>
 								<td><salmon:text name="fecha_oc1" text="Fecha de OC"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_oc2" text=""
@@ -83,8 +74,8 @@
 									datasource="dsSolicitudCompra:solicitudes_compra.fecha_oc"></salmon:text></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="proyecto1" text="Proyecto"
-									font="TableHeadingFont" /></td>
+								<td colspan="1"><salmon:text name="proyecto1"
+									text="Proyecto" font="TableHeadingFont" /></td>
 								<salmon:td name="proyectoTableTD">
 									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 										lookupurl="%LkpProyectos" name="proyecto2" size="15"
@@ -94,19 +85,18 @@
 										popupheight="450" popupwidth="500" usepopup="TRUE"
 										showdescription="TRUE"></salmon:lookup>
 								</salmon:td>
-							</tr>
-							<tr>
-							<td><salmon:text name="centro_costo1" text="Centro de costo"
-								font="TableHeadingFont" /></td>
-							<salmon:td name="centroCostoTableTD">
-								<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-									lookupurl="%LkpCentroCosto" name="centro_costo2" size="15"
-									maxlength="15"
-									datasource="dsSolicitudCompra:solicitudes_compra.centro_costo_id"
-									descriptiondatasource="dsSolicitudCompra:centro_costo.nombre"
-									popupheight="450" popupwidth="500" usepopup="TRUE"
-									showdescription="TRUE"></salmon:lookup>
-							</salmon:td>
+								<td><salmon:text name="centro_costo1"
+									text="Centro de costo" font="TableHeadingFont" /></td>
+								<salmon:td name="centroCostoTableTD">
+									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpCentroCosto" name="centro_costo2" size="15"
+										maxlength="15"
+										datasource="dsSolicitudCompra:solicitudes_compra.centro_costo_id"
+										descriptiondatasource="dsSolicitudCompra:centro_costo.nombre"
+										popupheight="450" popupwidth="500" usepopup="TRUE"
+										showdescription="TRUE"></salmon:lookup>
+								</salmon:td>
+								<td width="10"></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="descripcion1" text="Descripcion"
@@ -114,26 +104,25 @@
 								<td><salmon:input type="text" name="descripcion2" size="40"
 									maxlength="255"
 									datasource="dsSolicitudCompra:solicitudes_compra.descripcion"></salmon:input></td>
-							</tr>
-							<tr>
 								<td><salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="textarea" name="observaciones2"
-									cols="40" rows="3" wrap="HARD" size="40" maxlength="255"
+									cols="40" rows="1" wrap="HARD" maxlength="255"
 									datasource="dsSolicitudCompra:solicitudes_compra.observaciones"></salmon:input></td>
+								<td width="10"></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="total_solicitud1" text="Total"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="total_solicitud2" text="" displayformat="###,###,##0.00"
+								<td><salmon:text name="total_solicitud2" text=""
 									datasource="dsSolicitudCompra:total_solicitud_compra"></salmon:text></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>
+			</salmon:tr>
+			<salmon:tr>
 				<salmon:td>
-				</salmon:td>
-				<salmon:td width="30%">
 					<table width="100%">
 						<tr>
 							<td><salmon:text name="observacionX1" text="OBSERVACIONES"
@@ -141,7 +130,7 @@
 						</tr>
 						<tr>
 							<td><salmon:input type="textarea" name="observacionX2"
-								cols="40" rows="20" wrap="HARD" size="40" maxlength="255"
+								cols="120" rows="4" wrap="HARD" size="40" maxlength="255"
 								datasource="dsSolicitudCompra:observaciones" visible="false"></salmon:input></td>
 						</tr>
 					</table>
@@ -171,13 +160,16 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="cantidad_solicitada1"
-								text="Cantidad" font="TableHeadingFont" />
+							<salmon:text name="unidad_medida1" text="UM"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="cantidad_solicitada1" text="Cantidad"
+								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="monto_fecha_ultima_compra1"
-								text="Precio unitario"
-								font="TableHeadingFont" />
+								text="Precio unitario" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td align="CENTER">
 							<salmon:text name="monto_total1" text="Total"
@@ -190,7 +182,7 @@
 						<salmon:td>
 							<salmon:text name="tarea1" text="Tarea" font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td colspan="2">
+						<salmon:td colspan="3">
 							<salmon:text name="observaciones3" text="Obsevaciones"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -214,7 +206,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-								lookupurl="%LkpArticulos" name="articulo2" size="8"
+								lookupurl="%LkpArticulos" name="articulo2" size="6"
 								maxlength="15" datasource="dsDetalleSC:articulos.nombre"
 								descriptiondatasource="dsDetalleSC:articulos.descripcion"
 								popupheight="450" popupwidth="500" usepopup="true"
@@ -225,21 +217,31 @@
 								maxlength="255" datasource="dsDetalleSC:detalle_sc.descripcion"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="cantidad_solicitada2" size="10"
+							<salmon:input type="select" name="unidad_medida2"
+								datasource="dsDetalleSC:detalle_sc.unidad_medida">
+								<salmon:option display="Piezas" key="Piezas"></salmon:option>
+								<salmon:option display="Kgs" key="Kgs"></salmon:option>
+								<salmon:option display="Grs" key="Grs"></salmon:option>
+								<salmon:option display="Mts" key="Mts"></salmon:option>
+								<salmon:option display="Lts" key="Lts"></salmon:option>
+							</salmon:input>
+						</salmon:td>
+						<salmon:td>
+							<salmon:input type="text" name="cantidad_solicitada2" size="8"
 								maxlength="15" displayformat="##0"
 								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="monto_unitario1" size="10"
+							<salmon:input type="text" name="monto_unitario1" size="8"
 								maxlength="15" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
-							<!--<salmon:text name="monto_fecha_ultima_compra2" text=""
+							<salmon:text name="monto_fecha_ultima_compra2" text=""
 								displayformat="dd/MM/aa"
-								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>-->
+								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
-							<salmon:text name="monto_total2" text="" displayformat="###,###,##0.00"
+							<salmon:text name="monto_total2" text=""
 								datasource="dsDetalleSC:monto_total"></salmon:text>
 						</salmon:td>
 					</salmon:tr>
@@ -256,7 +258,7 @@
 							<salmon:text name="tarea4" text=""
 								datasource="dsDetalleSC:tareas_proyecto.nombre"></salmon:text>
 						</salmon:td>
-						<salmon:td colspan="2">
+						<salmon:td colspan="3">
 							<salmon:input type="text" name="observaciones4" size="60"
 								maxlength="255"
 								datasource="dsDetalleSC:detalle_sc.observaciones"></salmon:input>
