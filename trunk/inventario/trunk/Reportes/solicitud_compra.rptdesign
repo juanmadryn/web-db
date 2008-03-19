@@ -1,0 +1,1264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
+    <property name="units">cm</property>
+    <text-property name="title">Solicitud de compra</text-property>
+    <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">fixed layout</property>
+    <parameters>
+        <scalar-parameter name="Parameter_solicitud_compra_id" id="136">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese el número de solicitud de compra</text-property>
+            <property name="controlType">text-box</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="MySQL - Inventario" id="6">
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/inventario</property>
+            <property name="odaUser">inventario</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">aW52ZW50YXJpbw==</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set - solicitudes_compra" id="7">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">Total</property>
+                    <expression name="expression">row["cantidad_solicitada"]*row["monto_unitario"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">TotalSolicitud</property>
+                    <expression name="expression">row["Total"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">solicitud_compra_id</property>
+                    <property name="displayName">solicitud_compra_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">user_id_comprador</property>
+                    <property name="displayName">user_id_comprador</property>
+                </structure>
+                <structure>
+                    <property name="columnName">user_id_solicita</property>
+                    <property name="displayName">user_id_solicita</property>
+                </structure>
+                <structure>
+                    <property name="columnName">fecha_solicitud</property>
+                    <property name="displayName">fecha_solicitud</property>
+                </structure>
+                <structure>
+                    <property name="columnName">fecha_aprobacion</property>
+                    <property name="displayName">fecha_aprobacion</property>
+                </structure>
+                <structure>
+                    <property name="columnName">descripcion</property>
+                    <property name="displayName">descripcion</property>
+                </structure>
+                <structure>
+                    <property name="columnName">observaciones</property>
+                    <property name="displayName">observaciones</property>
+                </structure>
+                <structure>
+                    <property name="columnName">centro_costo_id</property>
+                    <property name="displayName">centro_costo_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">proyecto_id</property>
+                    <property name="displayName">proyecto_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_completo</property>
+                    <property name="displayName">nombre_completo</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre</property>
+                    <property name="displayName">nombre</property>
+                </structure>
+                <structure>
+                    <property name="columnName">proyecto</property>
+                    <property name="displayName">proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">detalle_SC_id</property>
+                    <property name="displayName">detalle_SC_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">articulo_id</property>
+                    <property name="displayName">articulo_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">cantidad_solicitada</property>
+                    <property name="displayName">cantidad_solicitada</property>
+                </structure>
+                <structure>
+                    <property name="columnName">clase_articulo_id</property>
+                    <property name="displayName">clase_articulo_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">tarea_id</property>
+                    <property name="displayName">tarea_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">monto_unitario</property>
+                    <property name="displayName">monto_unitario</property>
+                </structure>
+                <structure>
+                    <property name="columnName">unidad_medida</property>
+                    <property name="displayName">unidad_medida</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">solicitud_compra_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">user_id_comprador</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">user_id_solicita</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">fecha_solicitud</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">fecha_aprobacion</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">observaciones</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">centro_costo_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">proyecto_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">nombre_completo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">nombre_completo_11</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">nombre_14</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">detalle_SC_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">articulo_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">solicitud_compra_id_17</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">cantidad_solicitada</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">descripcion_19</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">observaciones_20</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">clase_articulo_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">nombre_22</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">descripcion_23</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">tarea_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">monto_unitario</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">unidad_medida</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">nombre_27</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">Total</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">TotalSolicitud</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">MySQL - Inventario</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">solicitud_compra_id_param</property>
+                    <property name="paramName">Parameter_solicitud_compra_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="position">1</property>
+                    <expression name="defaultValue">0</expression>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">solicitud_compra_id</property>
+                    <property name="nativeName">solicitud_compra_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">user_id_comprador</property>
+                    <property name="nativeName">user_id_comprador</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">user_id_solicita</property>
+                    <property name="nativeName">user_id_solicita</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">fecha_solicitud</property>
+                    <property name="nativeName">fecha_solicitud</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">fecha_aprobacion</property>
+                    <property name="nativeName">fecha_aprobacion</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">descripcion</property>
+                    <property name="nativeName">descripcion</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">observaciones</property>
+                    <property name="nativeName">observaciones</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">centro_costo_id</property>
+                    <property name="nativeName">centro_costo_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">proyecto_id</property>
+                    <property name="nativeName">proyecto_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">nombre_completo</property>
+                    <property name="nativeName">nombre_completo</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">nombre_completo_11</property>
+                    <property name="nativeName">nombre_completo</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">nombre</property>
+                    <property name="nativeName">nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">proyecto</property>
+                    <property name="nativeName">proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">nombre_14</property>
+                    <property name="nativeName">nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">detalle_SC_id</property>
+                    <property name="nativeName">detalle_SC_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">articulo_id</property>
+                    <property name="nativeName">articulo_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">solicitud_compra_id_17</property>
+                    <property name="nativeName">solicitud_compra_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">cantidad_solicitada</property>
+                    <property name="nativeName">cantidad_solicitada</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">7</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">descripcion_19</property>
+                    <property name="nativeName">descripcion</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">observaciones_20</property>
+                    <property name="nativeName">observaciones</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">clase_articulo_id</property>
+                    <property name="nativeName">clase_articulo_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">nombre_22</property>
+                    <property name="nativeName">nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">descripcion_23</property>
+                    <property name="nativeName">descripcion</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">tarea_id</property>
+                    <property name="nativeName">tarea_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">monto_unitario</property>
+                    <property name="nativeName">monto_unitario</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">unidad_medida</property>
+                    <property name="nativeName">unidad_medida</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">nombre_27</property>
+                    <property name="nativeName">nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.user_id_comprador,solicitudes_compra.user_id_solicita,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion,solicitudes_compra.observaciones,solicitudes_compra.centro_costo_id,solicitudes_compra.proyecto_id,website_user_solicitante.nombre_completo,website_user_comprador.nombre_completo,proyectos.nombre,proyectos.proyecto,centro_costo.nombre, detalle_sc.detalle_SC_id,detalle_sc.articulo_id,detalle_sc.solicitud_compra_id,detalle_sc.cantidad_solicitada,detalle_sc.descripcion,detalle_sc.observaciones,articulos.clase_articulo_id,articulos.nombre,articulos.descripcion,detalle_sc.tarea_id,detalle_sc.monto_unitario,detalle_sc.unidad_medida,tareas_proyecto.nombre
+FROM  inventario.solicitudes_compra solicitudes_compra
+left outer join infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id
+left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id
+left outer join centro_costo centro_costo ON solicitudes_compra.centro_costo_id = centro_costo.centro_costo_id
+left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id
+left outer join inventario.detalle_sc detalle_SC ON detalle_SC.solicitud_compra_id = solicitudes_compra.solicitud_compra_id
+left outer join inventario.articulos articulos ON articulos.articulo_id = detalle_SC.articulo_id
+left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tarea_id = detalle_SC.tarea_id where solicitudes_compra.solicitud_compra_id = ?</property>
+        </oda-data-set>
+    </data-sets>
+    <styles>
+        <style name="crosstab-cell" id="4">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="orientation">landscape</property>
+            <property name="topMargin">1cm</property>
+            <property name="leftMargin">2cm</property>
+            <property name="rightMargin">1cm</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="141">
+            <property name="height">2.0625in</property>
+            <property name="width">5.9895833333in</property>
+            <column id="142">
+                <property name="width">2.2in</property>
+            </column>
+            <column id="143"/>
+            <row id="144">
+                <cell id="145">
+                    <data id="140">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <property name="canShrink">false</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">solicitud_compra_id</property>
+                                <expression name="expression">"Solicitud Nº "+dataSetRow["solicitud_compra_id"]</expression>
+                                <property name="dataType">any</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">solicitud_compra_id</property>
+                    </data>
+                </cell>
+                <cell id="146"/>
+            </row>
+            <row id="147">
+                <cell id="148">
+                    <label id="361">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Solicitante</text-property>
+                    </label>
+                </cell>
+                <cell id="149">
+                    <data id="385">
+                        <property name="fontSize">x-large</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">nombre_completo</property>
+                                <expression name="expression">dataSetRow["nombre_completo"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">nombre_completo</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="150">
+                <cell id="151">
+                    <label id="368">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Fecha de la solicitud</text-property>
+                    </label>
+                </cell>
+                <cell id="152">
+                    <data id="367">
+                        <property name="fontSize">x-large</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">fecha_solicitud</property>
+                                <expression name="expression">dataSetRow["fecha_solicitud"]</expression>
+                                <property name="dataType">date</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">fecha_solicitud</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="364">
+                <cell id="365">
+                    <label id="369">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Fecha de aprobación</text-property>
+                    </label>
+                </cell>
+                <cell id="366">
+                    <data id="370">
+                        <property name="fontSize">x-large</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">fecha_aprobacion</property>
+                                <expression name="expression">dataSetRow["fecha_aprobacion"]</expression>
+                                <property name="dataType">date</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">fecha_aprobacion</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="657">
+                <cell id="658">
+                    <label id="663">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Descripción</text-property>
+                    </label>
+                </cell>
+                <cell id="659">
+                    <data id="665">
+                        <property name="fontSize">x-large</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">descripcion</property>
+                                <expression name="expression">dataSetRow["descripcion"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">descripcion</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="660">
+                <cell id="661">
+                    <label id="664">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Observaciones</text-property>
+                    </label>
+                </cell>
+                <cell id="662">
+                    <data id="666">
+                        <property name="fontSize">x-large</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">observaciones</property>
+                                <expression name="expression">dataSetRow["observaciones"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">observaciones</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="371">
+                <cell id="372">
+                    <label id="382">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Proyecto</text-property>
+                    </label>
+                </cell>
+                <cell id="373">
+                    <data id="384">
+                        <property name="fontSize">x-large</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">proyecto</property>
+                                <expression name="expression">dataSetRow["proyecto"]</expression>
+                                <property name="dataType">string</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">proyecto</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="374">
+                <cell id="375">
+                    <label id="381">
+                        <property name="fontSize">x-large</property>
+                        <property name="fontWeight">bold</property>
+                        <text-property name="text">Centro de costo</text-property>
+                    </label>
+                </cell>
+                <cell id="376">
+                    <data id="380">
+                        <property name="fontSize">x-large</property>
+                        <property name="dataSet">Data Set - solicitudes_compra</property>
+                        <list-property name="boundDataColumns">
+                            <structure>
+                                <property name="name">centro_costo_id</property>
+                                <expression name="expression">dataSetRow["centro_costo_id"]</expression>
+                                <property name="dataType">integer</property>
+                            </structure>
+                        </list-property>
+                        <property name="resultSetColumn">centro_costo_id</property>
+                    </data>
+                </cell>
+            </row>
+            <row id="377">
+                <property name="height">0.4895833333in</property>
+                <cell id="378"/>
+                <cell id="379"/>
+            </row>
+        </grid>
+        <table id="615">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set - solicitudes_compra</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">solicitud_compra_id</property>
+                    <expression name="expression">dataSetRow["solicitud_compra_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">user_id_comprador</property>
+                    <expression name="expression">dataSetRow["user_id_comprador"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">user_id_solicita</property>
+                    <expression name="expression">dataSetRow["user_id_solicita"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">fecha_solicitud</property>
+                    <expression name="expression">dataSetRow["fecha_solicitud"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">fecha_aprobacion</property>
+                    <expression name="expression">dataSetRow["fecha_aprobacion"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">descripcion</property>
+                    <expression name="expression">dataSetRow["descripcion"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">observaciones</property>
+                    <expression name="expression">dataSetRow["observaciones"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">centro_costo_id</property>
+                    <expression name="expression">dataSetRow["centro_costo_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">proyecto_id</property>
+                    <expression name="expression">dataSetRow["proyecto_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_completo</property>
+                    <expression name="expression">dataSetRow["nombre_completo"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_completo_11</property>
+                    <expression name="expression">dataSetRow["nombre_completo_11"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre</property>
+                    <expression name="expression">dataSetRow["nombre"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">proyecto</property>
+                    <expression name="expression">dataSetRow["proyecto"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_14</property>
+                    <expression name="expression">dataSetRow["nombre_14"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">detalle_SC_id</property>
+                    <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">articulo_id</property>
+                    <expression name="expression">dataSetRow["articulo_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">solicitud_compra_id_17</property>
+                    <expression name="expression">dataSetRow["solicitud_compra_id_17"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">cantidad_solicitada</property>
+                    <expression name="expression">dataSetRow["cantidad_solicitada"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">descripcion_19</property>
+                    <expression name="expression">dataSetRow["descripcion_19"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">observaciones_20</property>
+                    <expression name="expression">dataSetRow["observaciones_20"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">clase_articulo_id</property>
+                    <expression name="expression">dataSetRow["clase_articulo_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_22</property>
+                    <expression name="expression">dataSetRow["nombre_22"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">descripcion_23</property>
+                    <expression name="expression">dataSetRow["descripcion_23"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">tarea_id</property>
+                    <expression name="expression">dataSetRow["tarea_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">monto_unitario</property>
+                    <expression name="expression">dataSetRow["monto_unitario"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">unidad_medida</property>
+                    <expression name="expression">dataSetRow["unidad_medida"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_27</property>
+                    <expression name="expression">dataSetRow["nombre_27"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Total</property>
+                    <expression name="expression">dataSetRow["Total"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">TotalSolicitud</property>
+                    <expression name="expression">dataSetRow["TotalSolicitud"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <column id="637">
+                <property name="width">0.7in</property>
+            </column>
+            <column id="638">
+                <property name="width">3in</property>
+            </column>
+            <column id="640">
+                <property name="width">0.5in</property>
+                <property name="repeat">1</property>
+            </column>
+            <column id="639">
+                <property name="width">0.8in</property>
+            </column>
+            <column id="641">
+                <property name="width">3cm</property>
+            </column>
+            <column id="642">
+                <property name="width">3cm</property>
+            </column>
+            <header>
+                <row id="616">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                    <cell id="617">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="643">
+                            <property name="fontFamily">serif</property>
+                            <property name="fontSize">large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="textAlign">center</property>
+                            <property name="orphans">2</property>
+                            <property name="whiteSpace">normal</property>
+                            <text-property name="text">Articulo</text-property>
+                        </label>
+                    </cell>
+                    <cell id="618">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="644">
+                            <property name="fontFamily">serif</property>
+                            <property name="fontSize">large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="textAlign">center</property>
+                            <property name="orphans">2</property>
+                            <property name="whiteSpace">normal</property>
+                            <text-property name="text">Descripción</text-property>
+                        </label>
+                    </cell>
+                    <cell id="620">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="646">
+                            <property name="fontFamily">serif</property>
+                            <property name="fontSize">large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="textAlign">center</property>
+                            <property name="orphans">2</property>
+                            <property name="whiteSpace">normal</property>
+                            <text-property name="text">UM</text-property>
+                        </label>
+                    </cell>
+                    <cell id="619">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="645">
+                            <property name="fontFamily">serif</property>
+                            <property name="fontSize">large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="textAlign">center</property>
+                            <property name="orphans">2</property>
+                            <property name="whiteSpace">normal</property>
+                            <text-property name="text">Cantidad</text-property>
+                        </label>
+                    </cell>
+                    <cell id="621">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="647">
+                            <property name="fontFamily">serif</property>
+                            <property name="fontSize">large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="textAlign">center</property>
+                            <property name="orphans">2</property>
+                            <property name="whiteSpace">normal</property>
+                            <text-property name="text">Precio unitario</text-property>
+                        </label>
+                    </cell>
+                    <cell id="622">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="648">
+                            <property name="fontFamily">serif</property>
+                            <property name="fontSize">large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="fontStyle">normal</property>
+                            <property name="fontVariant">normal</property>
+                            <property name="textAlign">center</property>
+                            <property name="orphans">2</property>
+                            <property name="whiteSpace">normal</property>
+                            <text-property name="text">Precio total</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="623">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">medium</property>
+                    <cell id="624">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="649">
+                            <property name="resultSetColumn">nombre_22</property>
+                        </data>
+                    </cell>
+                    <cell id="625">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="650">
+                            <property name="resultSetColumn">descripcion_23</property>
+                        </data>
+                    </cell>
+                    <cell id="627">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="652">
+                            <property name="resultSetColumn">unidad_medida</property>
+                        </data>
+                    </cell>
+                    <cell id="626">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="651">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">#,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="whiteSpace">normal</property>
+                            <property name="resultSetColumn">cantidad_solicitada</property>
+                        </data>
+                    </cell>
+                    <cell id="628">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="653">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">#,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">monto_unitario</property>
+                        </data>
+                    </cell>
+                    <cell id="629">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="654">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">#,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">Total</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="630">
+                    <cell id="631"/>
+                    <cell id="632"/>
+                    <cell id="634"/>
+                    <cell id="633"/>
+                    <cell id="635">
+                        <label id="656">
+                            <property name="fontWeight">bold</property>
+                            <property name="paddingTop">20pt</property>
+                            <text-property name="text">TOTAL</text-property>
+                        </label>
+                    </cell>
+                    <cell id="636">
+                        <data id="655">
+                            <property name="paddingTop">20pt</property>
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">#,##0.00</property>
+                            </structure>
+                            <property name="textAlign">right</property>
+                            <property name="resultSetColumn">TotalSolicitud</property>
+                        </data>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+        <table id="667">
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set - solicitudes_compra</property>
+            <column id="681">
+                <property name="width">40%</property>
+            </column>
+            <column id="674"/>
+            <column id="684">
+                <property name="width">40%</property>
+            </column>
+            <header>
+                <row id="689">
+                    <cell id="690"/>
+                    <cell id="691">
+                        <property name="paddingTop">80pt</property>
+                    </cell>
+                    <cell id="692"/>
+                </row>
+            </header>
+            <footer>
+                <row id="685">
+                    <cell id="686"/>
+                    <cell id="687">
+                        <label id="675">
+                            <property name="fontSize">x-large</property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textOverline">none</property>
+                            <property name="borderTopColor">#000000</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">medium</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingBottom">1pt</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Firma</text-property>
+                        </label>
+                    </cell>
+                    <cell id="688"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
