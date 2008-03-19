@@ -959,20 +959,25 @@ public class BaseController extends JspController implements SubmitListener,
 		return new SessionManager(getSession());
 	}
 
-	public String armarUrlReporte(String tipo, String reporte, String parametros) {
+	public String armarUrlReporte(String tipo, String reporte, String parametros){
 		String URL = getServerURL();
-		URL = URL + getPageProperties().getProperty(BIRT_PATH);
-		URL = URL + getPageProperties().getProperty(REPORT_PATH) + reporte;
+		
+		if (tipo == null)
+			URL += getPageProperties().getProperty(BIRT_FRAMESET_PATH);
+		else
+			URL += getPageProperties().getProperty(BIRT_RUN_PATH);
+		
+		URL += getPageProperties().getProperty(REPORT_PATH)+ reporte+".rptdesign";
 
-		if (tipo.equalsIgnoreCase("PDF"))
+		if (tipo != null && "PDF".equalsIgnoreCase(tipo))
 			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_PDF);
-		else if (tipo.equalsIgnoreCase("HTML"))
+		else if (tipo != null && "HTML".equalsIgnoreCase(tipo))
 			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_HTML);
 		else
 			URL = URL + "";
-
+		
 		URL = URL + parametros;
-
+		
 		return URL;
 	}
 

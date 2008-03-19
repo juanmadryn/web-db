@@ -101,7 +101,8 @@ public interface Constants {
 	static final String	SEQ_ID_FIELD = "seq_id";
 
 	// Prodiedades Custom
-	static final String BIRT_PATH = "BirtPath";
+	static final String BIRT_RUN_PATH = "BirtRunPath";
+	static final String BIRT_FRAMESET_PATH = "BirtFramesetPath";
 	static final String REPORT_PATH = "ReportPath";
 	static final String REPORT_PARAMETROS_PDF = "ParametrosReportePDF";
 	static final String REPORT_PARAMETROS_HTML = "ParametrosReporteHTML";
