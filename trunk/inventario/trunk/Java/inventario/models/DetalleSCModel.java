@@ -192,20 +192,32 @@ public class DetalleSCModel extends DataStore {
 		// $CUSTOMCONSTRUCTOR$
 		addTableAlias(computeTableName("proyectos.proyectos"), "proyectos");
 		addTableAlias(computeTableName("centro_costo"), "centro_costo");
+		addTableAlias(computeTableName("ordenes_compra"), "ordenes_compra");
 			
 		addColumn(computeTableName("proyectos"), "nombre",
 				DataStore.DATATYPE_STRING, false, false,
 				PROYECTOS_NOMBRE);
 		addColumn(computeTableName("centro_costo"), "nombre",
 				DataStore.DATATYPE_STRING, false, false,
-				CENTRO_COSTO_NOMBRE);
+				CENTRO_COSTO_NOMBRE);		
 				
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);
 		addJoin(computeTableAndFieldName("solicitudes_compra.centro_costo_id"),
 				computeTableAndFieldName("centro_costo.centro_costo_id"), true);
+		addJoin(computeTableAndFieldName("detalle_sc.orden_compra_id"),
+				computeTableAndFieldName("ordenes_compra.orden_compra_id"), true);
 		
-		
+		try {
+			addLookupRule(
+					DETALLE_SC_ORDEN_COMPRA_ID,
+					"ordenes_compra",
+					"'ordenes_compra.orden_compra_id = ' + detalle_sc.orden_compra_id",
+					"orden_compra_id", DETALLE_SC_ORDEN_COMPRA_ID,
+					"Orden de compra inexistente");
+		} catch (DataStoreException e) {
+			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
+		}
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -1342,7 +1354,11 @@ public class DetalleSCModel extends DataStore {
 			if(getDetalleScDescripcion(row) == null && getArticulosDescripcion() != null)
 				setDetalleScDescripcion(row, getArticulosDescripcion());
 			
-				
+			// if the detail has an oc asigned, check that the amount ordered is a positive number
+			if ((getDetalleScOrdenCompraId(row) > 0) && (getDetalleScCantidadPedida(row) <= 0)) {
+					throw new DataStoreException(
+							"La cantidad pedida debe ser mayor un número positivo mayor que cero");
+			}
 		}
 
 		super.update();
