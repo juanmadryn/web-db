@@ -55,7 +55,9 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlText _welcomeText;
 	public com.salmonllc.html.HtmlTextEdit _cantPedidaINP8;
 	public com.salmonllc.html.HtmlTextEdit _montoUnitINP9;
+	public com.salmonllc.html.HtmlTextEdit _valorAttr1;
 	public com.salmonllc.html.HtmlLookUpComponent _ordenCompraINP5;
+	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
@@ -172,7 +174,6 @@ public class GenerarOrdenesCompraController extends BaseController {
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_SC_FLAG, DataStore.DATATYPE_INT);
 		_selSolicitudCB.setColumn(_dsDetalleSC, SELECCION_DETALLE_SC_FLAG);
 		_selSolicitudCB.setFalseValue(null);
-		
 	}
 	
 	@Override
@@ -274,12 +275,13 @@ public class GenerarOrdenesCompraController extends BaseController {
 	}	
 	
 	private String armarCriterio() throws DataStoreException {
-		String nroArt = null;
-		
 		StringBuilder sb = new StringBuilder(150);
 		
 		// only retrieve SCs which are aproved and hasn't got an OCs assigned 
 		sb.append(" (solicitudes_compra.estado = '0006.0003' and detalle_sc.orden_compra_id is null) ");		
+		
+		// build where clause with specified attributes if any
+		// TODO: build where clause with specified attributes if any
 		
 		// add all the selection criterias specified by the user
 		String sqlFilter = _dsQBE.generateSQLFilter(_dsDetalleSC);		
