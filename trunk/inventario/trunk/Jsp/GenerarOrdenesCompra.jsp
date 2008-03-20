@@ -40,17 +40,35 @@
 								<td><salmon:text name="n1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
 								<td><salmon:input name="n2" type="text"	datasource="dsQBE:n" /></td>
 								<td width="40px">
-								<td><salmon:input name="atributo2" type="text" /></td>
-								<td><salmon:input name="valor2" type="text" /></td>
+								<td>
+									<salmon:lookup
+										browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP1" 
+										size="15"	maxlength="25" popupheight="450"
+										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+								</td>
+								<td><salmon:input name="valorAttr1" type="text" /></td>
 							</tr>
 							<tr>
 								<td/><td/><td width="40px">
-								<td><salmon:input name="atributo3" type="text" /></td>
+								<td>
+									<salmon:lookup
+										browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP2" 
+										size="15"	maxlength="25"popupheight="450"
+										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+								</td>
 								<td><salmon:input name="valor3" type="text" /></td>
 							</tr>
 							<tr>
 								<td/><td/><td width="40px">
-								<td><salmon:input name="atributo4" type="text" /></td>
+								<td>
+									<salmon:lookup
+										browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP3" 
+										size="15"	maxlength="25" popupheight="450"
+										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+								</td>
 								<td><salmon:input name="valor4" type="text"/></td>
 							</tr>
 						</table>
@@ -174,10 +192,6 @@
 								datasource="dsDetalleSC:centro_costo.nombre" />
 						</salmon:td>
 						<salmon:td>
-							<!--  <salmon:text name="centroCostoTXT8"
-								text="tarea Goes Here" font="DefaultFont"
-								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" />
-							<salmon:text name="sep1" text=" - " font="DefaultFont"/> -->
 							<salmon:input type="text" maxlength="15" size="10" name="cantPedidaINP8" value="Cantidad Pedida Goes Here"
 								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_pedida" />
 						</salmon:td>						

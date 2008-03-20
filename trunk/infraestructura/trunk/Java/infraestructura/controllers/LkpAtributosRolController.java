@@ -102,21 +102,21 @@ public void pageSubmitEnd(PageEvent event) {
 		nombre_objeto = getParameter("nombre_objeto",null);
 		
 		// si no tiene parámetros reseteo el criterio de búsqueda y las variables globales
-		if (rol == null && nombre_objeto == null)
-				_dsAttr.setCriteria(null);
-		else {
+		if (rol == null && nombre_objeto == null) 
+				_dsAttr.setCriteria(null);				
+		else {			
 			if (rol != null)
 				// es rol seteo criterio para rol
 				_dsAttr.setCriteria("(rol is null and tipo_objeto is null and nombre objeto is null) OR"
 						+ " (atributos_rol.rol = \"" + rol + "\")");
-			else
+			else 
 				// el que es no nulo es el objeto
-				_dsAttr.setCriteria("(atributos.rol.rol is null and atributos.rol.tipo_objeto is null and atributos.rol.nombre objeto is null) OR"
-						+ " (atributos.rol.tipo_objeto = \"TABLA\" and"
-						+ " atributos_rol.nombre_objeto = \"" + nombre_objeto + "\")");
+				_dsAttr.setCriteria("(atributos_rol.rol is null and atributos_rol.tipo_objeto is null and atributos_rol.nombre_objeto is null) OR"
+						+ " (atributos_rol.tipo_objeto = 'TABLA' and"
+						+ " atributos_rol.nombre_objeto = '" + nombre_objeto + "')");
 		}
 	}
-
+	
 }
  
 /**
