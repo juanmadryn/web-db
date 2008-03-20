@@ -9,19 +9,56 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">		
-		<salmon:qbecriteria name="buscar" type="complex" columns="*" />
+		<salmon:qbecriteria name="n" type="IN" columns="detalle_sc.solicitud_compra_id" />		
 	</salmon:datasource>
 	<salmon:datasource name="dsDetalleSC" type="MODEL"
 		dbprofile="inventario" model="inventario.models.DetalleSCModel"
-		autoretrieve="always">
-			<salmon:selection>
+		autoretrieve="never">
+			<select>
 				<salmon:selectioncriteria fieldname="solicitudes_compra.estado" operator="EQUALS" value="'0006.0003'" connector="and" />
-				<salmon:selectioncriteria fieldname="detalle_sc.orden_compra_id" operator="IS" value="null" />				
-			</salmon:selection>
+				<salmon:selectioncriteria fieldname="detalle_sc.orden_compra_id" operator="IS" value="null" connector="and" />				
+			</select>
 	</salmon:datasource>	
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar código de la página aquí -->
 	<!-- ********************************************************************************************* -->	
+	<salmon:box name="box1" width="100%">
+		<salmon:table name="table2" width="100%" border="0">
+			<salmon:tr>
+				<salmon:td valign="Top">
+					<salmon:searchformdisplaybox
+						caption="Buscar"
+						name="searchformdisplaybox1" searchbuttonvisible="false"
+						addbuttonvisible="False" qbebuilder="dsQBE">
+						<table width="100%">
+							<tr>	
+								<td/><td/><td width="40px">																			
+								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>
+								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="n1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
+								<td><salmon:input name="n2" type="text"	datasource="dsQBE:n" /></td>
+								<td width="40px">
+								<td><salmon:input name="atributo2" type="text" /></td>
+								<td><salmon:input name="valor2" type="text" /></td>
+							</tr>
+							<tr>
+								<td/><td/><td width="40px">
+								<td><salmon:input name="atributo3" type="text" /></td>
+								<td><salmon:input name="valor3" type="text" /></td>
+							</tr>
+							<tr>
+								<td/><td/><td width="40px">
+								<td><salmon:input name="atributo4" type="text" /></td>
+								<td><salmon:input name="valor4" type="text"/></td>
+							</tr>
+						</table>
+					</salmon:searchformdisplaybox>
+				</salmon:td>
+			</salmon:tr>
+		</salmon:table>
+	</salmon:box>
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
 			mode="Display_single_page" caption="Solicitudes de Compra aprobadas" width="100%"
@@ -40,8 +77,14 @@
 						<salmon:td>
 							<salmon:text name="articuloDescCAP4" text="Descripción"
 								font="TableHeadingFont" />
+						</salmon:td>						
+						<salmon:td>
+							<salmon:text name="articuloClaseCAP12" text="Clase"	font="TableHeadingFont"/>
 						</salmon:td>
-						<salmon:td/>
+						<salmon:td>
+							<salmon:text name="nroSolicitudCAP4" text="Nro. Solicitud"
+								font="TableHeadingFont" />
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fechaUltCompraCAP5" text="Fecha última compra"
 								font="TableHeadingFont" />
@@ -53,7 +96,7 @@
 					</salmon:tr>
 					<salmon:tr>
 						<salmon:td/>
-						<salmon:td>
+						<salmon:td colspan="2">
 							<salmon:text name="proyectoCAP7" text="Proyecto"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -90,7 +133,16 @@
 								font="DefaultFont"
 								datasource="dsDetalleSC:articulos.descripcion" />
 						</salmon:td>
-						<salmon:td/>
+						<salmon:td>
+							<salmon:text name="articuloClaseTXT3" text="articulo clase Goes Here"
+								font="DefaultFont"
+								datasource="dsDetalleSC:clase_articulo.nombre" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="nroSolicitudTXT3" text="nro solicitud clase Goes Here"
+								font="DefaultFont"
+								datasource="dsDetalleSC:detalle_sc.solicitud_compra_id" />
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fechaUltCompraTXT4" text="Fecha última compra Goes Here"
 								font="DefaultFont" displayformat="dd/MM/yyyy"
@@ -106,7 +158,7 @@
 					</salmon:tr>
 					<salmon:tr>						
 						<salmon:td/>						
-						<salmon:td>
+						<salmon:td colspan="2">
 							<salmon:text name="proyectoTXT6"
 								text="proyecto Goes Here" font="DefaultFont"
 								datasource="dsDetalleSC:proyectos.nombre" />
@@ -122,6 +174,10 @@
 								datasource="dsDetalleSC:centro_costo.nombre" />
 						</salmon:td>
 						<salmon:td>
+							<!--  <salmon:text name="centroCostoTXT8"
+								text="tarea Goes Here" font="DefaultFont"
+								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" />
+							<salmon:text name="sep1" text=" - " font="DefaultFont"/> -->
 							<salmon:input type="text" maxlength="15" size="10" name="cantPedidaINP8" value="Cantidad Pedida Goes Here"
 								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_pedida" />
 						</salmon:td>						
