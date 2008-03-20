@@ -14,10 +14,9 @@
       dbprofile="inventario" model="inventario.models.OrdenesCompraModel"
       autoretrieve="Never">
       	<salmon:selection>
-			<salmon:selectioncriteria fieldname="ordenes_compra.estado" operator="EQUALS" value="'0008.0001'" connector="or" />
-			<salmon:selectioncriteria fieldname="ordenes_compra.estado" operator="EQUALS" value="'0008.0005'" />
-		</salmon:selection>
-        <salmon:selectioncriteria fieldname="ordenes_compra.estado" operator="EQUAL" value="'0008.0001'" connector="and"/>         
+			<salmon:selectioncriteria fieldname="ordenes_compra.estado" operator="EQUAL" value="'0008.0001'" connector="or" />
+			<salmon:selectioncriteria fieldname="ordenes_compra.estado" operator="EQUAL" value="'0008.0005'" connector="or" />
+		</salmon:selection>                 
    </salmon:datasource>
    <salmon:box name="box1" width="100%">
       <salmon:searchformdisplaybox name="searchformdisplaybox1"

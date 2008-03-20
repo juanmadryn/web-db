@@ -2,6 +2,8 @@
 package inventario.controllers;
 
 //Salmon import statements
+import java.sql.SQLException;
+
 import infraestructura.controllers.BaseController;
 import inventario.models.OrdenesCompraModel;
 
@@ -10,6 +12,8 @@ import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
+import com.salmonllc.sql.QBEBuilder;
+import com.salmonllc.sql.QBECriteriaBuilder;
 import com.salmonllc.util.MessageLog;
 
 /**
@@ -29,9 +33,11 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlText _articuloCAP3;
 	public com.salmonllc.html.HtmlText _articuloDescCAP4;
 	public com.salmonllc.html.HtmlText _articuloDescTXT3;
+	public com.salmonllc.html.HtmlText _articuloClaseTXT3;
 	public com.salmonllc.html.HtmlText _articuloTXT2;
 	public com.salmonllc.html.HtmlText _cantPedidaCAP9;
 	public com.salmonllc.html.HtmlText _fechaUltCompraCAP5;
+	public com.salmonllc.html.HtmlText _articuloClaseCAP12;
 	public com.salmonllc.html.HtmlText _fechaUltCompraTXT4;
 	public com.salmonllc.html.HtmlText _montoUnitCAP10;
 	public com.salmonllc.html.HtmlText _ordenCompraCAP5;
@@ -61,6 +67,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.jsp.JspLink _footerSalmonLink;
 	public com.salmonllc.jsp.JspLink _footerSofiaLink;
 	public com.salmonllc.jsp.JspLink _lnkBannerOptions;
+	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _tableFooter;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader0;
@@ -103,16 +110,16 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlSubmitButton _seleccionaTodoBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT2;
 	public com.salmonllc.html.HtmlSubmitButton _generaOcsBUT3;
+	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.OrdenesCompraModel _dsOrdenCompra;
 
-	//DataSource Column Constants
-	public static final String DSQBE_ESTADOAPROBADO = "estadoAprobado";
-	public static final String DSQBE_CONORDENCOMPRA = "conOrdenCompra";
-
+	//DataSource Column Constants	
+	public static final String DSQBE_N = "n";
+	
 	public static final String DSDETALLESC_DETALLE_SC_DETALLE_SC_ID = "detalle_sc.detalle_SC_id";
 	public static final String DSDETALLESC_DETALLE_SC_RECEPCION_COMPRA_ID = "detalle_sc.recepcion_compra_id";
 	public static final String DSDETALLESC_DETALLE_SC_ORDEN_COMPRA_ID = "detalle_sc.orden_compra_id";
@@ -144,6 +151,11 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public void initialize() throws Exception {
 		super.initialize();
 		
+		// find button
+		_buscarBUT = new HtmlSubmitButton("buscarBUT","Buscar",this);
+		_buscarBUT.setAccessKey("b");		
+		_searchformdisplaybox1.addButton(_buscarBUT);
+		
 		_generaOcsBUT3 = new HtmlSubmitButton("generaOcsBUT3","Genera OCs", this);
 		_listformdisplaybox1.addButton(_generaOcsBUT3);
 		_seleccionaTodoBUT1 = new HtmlSubmitButton("seleccionaTodoBUT1","Seleccionar todo",this);
@@ -154,18 +166,27 @@ public class GenerarOrdenesCompraController extends BaseController {
 		_seleccionaTodoBUT1.addSubmitListener(this);
 		_desSeleccionaTodoBUT2.addSubmitListener(this);
 		_generaOcsBUT3.addSubmitListener(this);
+		_buscarBUT.addSubmitListener(this);
 		
 		// Agrega columna de seleccion al datasource de resumen de horas
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_SC_FLAG, DataStore.DATATYPE_INT);
 		_selSolicitudCB.setColumn(_dsDetalleSC, SELECCION_DETALLE_SC_FLAG);
 		_selSolicitudCB.setFalseValue(null);
 		
-		
-		
 	}
 	
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
+		
+		// find button
+		if (e.getComponent() == _buscarBUT) {		
+			// create the sql where clause
+			recuperarArticulosParaComprar();
+			if (_dsDetalleSC.getRowCount() > 0) {				
+			} else {
+				displayErrorMessage("No hay artículos para comprar con estas condiciones");
+			}
+		}
 		
 		// marca todos los partes del datasource como seleccionados
 		if (e.getComponent() == _seleccionaTodoBUT1) {
@@ -240,12 +261,32 @@ public class GenerarOrdenesCompraController extends BaseController {
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
 		// set the 'cantidad pedida' field value to 'cantidad solicitada' value 
-		if (!isReferredByCurrentPage()) {
-			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-				_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC.getDetalleScCantidadSolicitada(i));
-			}
-		}
+		for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+			_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC.getDetalleScCantidadSolicitada(i));
+		}		
 		super.pageRequested(p);
 	}
-
+	
+	private void recuperarArticulosParaComprar() throws SQLException, DataStoreException{
+		_dsDetalleSC.reset();
+		_dsDetalleSC.retrieve(armarCriterio());
+		_dsDetalleSC.gotoFirst();
+	}	
+	
+	private String armarCriterio() throws DataStoreException {
+		String nroArt = null;
+		
+		StringBuilder sb = new StringBuilder(150);
+		
+		// only retrieve SCs which are aproved and hasn't got an OCs assigned 
+		sb.append(" (solicitudes_compra.estado = '0006.0003' and detalle_sc.orden_compra_id is null) ");		
+		
+		// add all the selection criterias specified by the user
+		String sqlFilter = _dsQBE.generateSQLFilter(_dsDetalleSC);		
+		if (sqlFilter != null) {
+			sb.append(" and ").append(sqlFilter);
+		}
+			
+		return sb.toString();
+	}
 }
