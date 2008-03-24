@@ -204,6 +204,9 @@ public class DetalleSCModel extends DataStore {
 		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
 				DataStore.DATATYPE_DATE, false, false,
 				SOLICITUDES_COMPRA_FECHA_APROBACION);
+		addColumn(computeTableName("detalle_sc"), "unidad_medida",
+				DataStore.DATATYPE_STRING, false, true,
+				DETALLE_SC_UNIDAD_DE_MEDIDA);
 				
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);

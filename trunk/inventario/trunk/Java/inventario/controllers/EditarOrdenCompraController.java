@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import infraestructura.controllers.BaseEntityController;
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 
@@ -289,6 +290,90 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			return false;
 		} finally {
 			conn.freeConnection();
+		}
+		
+		if (e.getComponent() == _grabarOrdenCompraBUT1) {			
+			
+			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();			
+			// si la orden de compra esta en estado generado o esta siendo revisada
+			if ("0008.0001".equalsIgnoreCase(estado)
+					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+				try {
+					conn.beginTransaction();
+
+					if (_dsOrdenesCompra.getRow() == -1)
+						return false;
+
+					if (_dsOrdenesCompra.getOrdenesCompraUserIdComprador() == 0)
+						_dsOrdenesCompra
+						.setOrdenesCompraUserIdComprador(getUserFromSession(
+								getCurrentRequest().getRemoteAddr())
+								.getUserID());
+
+					_dsOrdenesCompra.update(conn);
+
+					if (_dsDetalleSC.getRow() != -1) {
+						_dsDetalleSC.update(conn);
+						
+						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+							if (_dsDetalleSC.getDetalleScMontoUltimaCompra(row) == 0) {
+								
+								try {
+									_dsDetalleSC.setDetalleScMontoUltimaCompra(
+											row, Float.parseFloat(
+													AtributosEntidadModel.getValorAtributoObjeto(
+															"MONTO_ULTIMA_COMPRA", _dsDetalleSC.getDetalleScArticuloId(row), 
+															"TABLA", "articulos")));
+									
+									_dsDetalleSC.setDetalleScFechaUltimaCompra(
+											row, AtributosEntidadModel.getValorAtributoObjeto(
+													"FECHA_ULTIMA_COMPRA",	_dsDetalleSC.getDetalleScArticuloId(row), 
+													"TABLA", "articulos"));
+								} catch (NullPointerException ex) { }
+							}
+							
+							if (_dsDetalleSC.getDetalleScMontoUnitario(row) == 0)
+								_dsDetalleSC.setDetalleScMontoUnitario(
+										row, _dsDetalleSC.getDetalleScMontoUltimaCompra(row));							
+							_dsDetalleSC.setMontoTotal(row);
+							
+							if (_dsDetalleSC.getDetalleScUnidadMedida(row) == null)
+								_dsDetalleSC.setDetalleScUnidadMedida(
+										row, AtributosEntidadModel.getValorAtributoObjeto(
+												"UNIDAD_DE_MEDIDA", _dsDetalleSC.getDetalleScArticuloId(row),
+												"TABLA","articulos"));
+						}
+					}
+					
+					conn.commit();
+					_dsOrdenesCompra.reloadRow();
+					
+				} catch (DataStoreException ex) {
+					MessageLog.writeErrorMessage(ex, null);
+					displayErrorMessage(ex.getMessage());
+					return false;
+				} catch (SQLException ex) {
+					MessageLog.writeErrorMessage(ex, null);
+					displayErrorMessage(ex.getMessage());
+					return false;
+				} catch (Exception ex) {
+					MessageLog.writeErrorMessage(ex, _dsOrdenesCompra);
+					displayErrorMessage(ex.getMessage());
+					return false;
+				} finally {
+					if (conn != null) {
+						conn.rollback();
+						conn.freeConnection();
+					}
+				}
+
+			} else {
+				// si la solicitud no está generada, bloqueo toda modificación
+				displayErrorMessage("No puede modificar la orden de compra en el estado actual.");
+				setRecargar(true);
+				pageRequested(new PageEvent(this));
+				return false;
+			}
 		}
 	
 		armaBotonera();

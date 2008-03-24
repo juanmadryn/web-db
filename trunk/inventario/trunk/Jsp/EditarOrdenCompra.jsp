@@ -47,7 +47,7 @@
 								<td><salmon:input type="select" name="nombre_completo_comprador2" size="30"
 									datasource="dsOrdenesCompra:solicitudes_compra.user_id_solicita">
 									<salmon:option display="abc" key="123"
-										table="inventario.solicitantes" keycolumn="user_id"
+										table="inventario.compradores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="false"></salmon:option>
 								</salmon:input></td>
 								<td></td>
