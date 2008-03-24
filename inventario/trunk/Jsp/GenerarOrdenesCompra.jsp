@@ -9,7 +9,11 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">		
-		<salmon:qbecriteria name="n" type="IN" columns="detalle_sc.solicitud_compra_id" />				
+		<salmon:qbecriteria name="n" type="IN" columns="detalle_sc.solicitud_compra_id" />
+		<salmon:qbecriteria name="desde" type="GTE"
+			columns="solicitudes_compra.fecha_aprobacion" />
+		<salmon:qbecriteria name="hasta" type="LTE"
+			columns="solicitudes_compra.fecha_aprobacion" />	
 	</salmon:datasource>
 	<salmon:datasource name="dsDetalleSC" type="MODEL"
 		dbprofile="inventario" model="inventario.models.DetalleSCModel"

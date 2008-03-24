@@ -50,6 +50,7 @@ public class DetalleSCModel extends DataStore {
 
 	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
 	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
+	public static final String SOLICITUDES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -199,7 +200,10 @@ public class DetalleSCModel extends DataStore {
 				PROYECTOS_NOMBRE);
 		addColumn(computeTableName("centro_costo"), "nombre",
 				DataStore.DATATYPE_STRING, false, false,
-				CENTRO_COSTO_NOMBRE);		
+				CENTRO_COSTO_NOMBRE);
+		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
+				DataStore.DATATYPE_DATE, false, false,
+				SOLICITUDES_COMPRA_FECHA_APROBACION);
 				
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);
@@ -1479,6 +1483,32 @@ public class DetalleSCModel extends DataStore {
 	public void setCentroCostoNombre(int row, String newValue)
 			throws DataStoreException {
 		setString(row, CENTRO_COSTO_NOMBRE, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the solicitudes_compra.fecha_aprobacion column for
+	 * the current row.
+	 * 
+	 * @return java.sql.Date
+	 * @throws DataStoreException
+	 */
+	public java.sql.Date getSolicitudesCompraFechaAprobacion()
+			throws DataStoreException {
+		return getDate(SOLICITUDES_COMPRA_FECHA_APROBACION);
+	}
+
+	/**
+	 * Retrieve the value of the solicitudes_compra.fecha_aprobacion column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return java.sql.Date
+	 * @throws DataStoreException
+	 */
+	public java.sql.Date getSolicitudesCompraFechaAprobacion(int row)
+			throws DataStoreException {
+		return getDate(row, SOLICITUDES_COMPRA_FECHA_APROBACION);
 	}
 	// $ENDCUSTOMMETHODS$
 

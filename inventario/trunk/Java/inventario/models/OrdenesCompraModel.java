@@ -1,7 +1,10 @@
 package inventario.models;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.Calendar;
 
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
 
 import com.salmonllc.sql.*;
@@ -38,6 +41,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String CURRENT_WEBSITE_USER_ID = "website_user.user_id";
 	public static final String ESQUEMA_CONFIGURACION_ID = "esquema_configuracion_id";
 	public static final String OBSERVACIONES = "observaciones";
+	public static final String TOTAL_ORDENCOMPRA = "total_orden_compra";
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -94,6 +98,7 @@ public class OrdenesCompraModel extends BaseModel {
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
 			addBucket(ESQUEMA_CONFIGURACION_ID, DATATYPE_INT);
 			addBucket(OBSERVACIONES, DATATYPE_STRING);
+			addBucket(TOTAL_ORDENCOMPRA, DATATYPE_FLOAT);
 
 			setAutoIncrement(ORDENES_COMPRA_ORDEN_COMPRA_ID, true);
 			setUpdateable(ORDENES_COMPRA_ORDEN_COMPRA_ID, false);
@@ -640,13 +645,62 @@ public class OrdenesCompraModel extends BaseModel {
 		setString(OBSERVACIONES, newValue);
 	}
 	
-	public void setObservaciones() throws DataStoreException, SQLException{
-		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel("inventario","inventario");
-		instancia.retrieve("orden_compra_id ="+getOrdenesCompraOrdenCompraId()+ " AND estado ="+"'0007.0001' AND mensaje IS NOT NULL");
-		if (instancia.gotoFirst())
-			setObservaciones(instancia.getInstanciasAprobacionMensaje());
+	@Override
+	public void update() throws DataStoreException, SQLException {
 		
+		if (getOrdenesCompraEstado() == null)
+			setOrdenesCompraEstado("0008.0001");
+		
+		if (getOrdenesCompraFecha() == null)
+			setOrdenesCompraFecha(new Date((Calendar.getInstance()
+					.getTimeInMillis())));
+		
+		super.update();
 	}
-	//$ENDCUSTOMMETHODS$
+	
+	public float getAtributoTotalOrdenCompra() throws DataStoreException,
+			SQLException {
+
+		int ordencompra_id = getOrdenesCompraOrdenCompraId();
+
+		float total = 0;
+
+		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
+		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
+
+		for (int row = 0; row < detalles.getRowCount(); row++) {
+			detalles.setMontoTotal(row);
+			total += detalles.getMontoTotal(row);
+		}
+
+		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
+				"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA", "ordenes_compra");
+
+		return total;
+
+	}
+	
+	/**
+	 * Retrieve the value of the total_solicitud bucket
+	 * 
+	 * 
+	 * @return float
+	 * @throws DataStoreException
+	 */
+	public float getTotalOrdenCompra() throws DataStoreException {
+		return getFloat(TOTAL_ORDENCOMPRA);
+	}
+
+	/**
+	 * Set the value of the total_solicitud bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTotalOrdenCompra(float newValue) throws DataStoreException {
+		setFloat(TOTAL_ORDENCOMPRA, newValue);
+	}
+	// $ENDCUSTOMMETHODS$
 
 }
