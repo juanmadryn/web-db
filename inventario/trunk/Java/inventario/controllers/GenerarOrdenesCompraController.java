@@ -345,7 +345,8 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public void pageRequested(PageEvent p) throws Exception {
 		// set the 'cantidad pedida' field value to 'cantidad solicitada' value 
 		for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-			_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC.getDetalleScCantidadSolicitada(i));
+			if (_dsDetalleSC.getDetalleScCantidadPedida(i) <= 0) 
+				_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC.getDetalleScCantidadSolicitada(i));
 		}		
 		super.pageRequested(p);
 	}
