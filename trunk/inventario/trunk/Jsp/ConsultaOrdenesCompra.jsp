@@ -192,7 +192,7 @@
 						<salmon:td>
 							<salmon:a href="none" name="lnksolicitud1"
 								onclick="document.forms['bannerForm'].submit();"
-								datasource="dsOrdenes:'%AbmcSolicitudCompra?orden_compra_id='+ordenes_compra.orden_compra_id">
+								datasource="dsOrdenes:'%EditarOrdenCompra?orden_compra_id='+ordenes_compra.orden_compra_id">
 								<salmon:text name="editar" text="Editar" />
 							</salmon:a>
 						</salmon:td>

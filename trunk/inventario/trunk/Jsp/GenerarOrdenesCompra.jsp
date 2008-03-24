@@ -9,7 +9,7 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">		
-		<salmon:qbecriteria name="n" type="IN" columns="detalle_sc.solicitud_compra_id" />		
+		<salmon:qbecriteria name="n" type="IN" columns="detalle_sc.solicitud_compra_id" />				
 	</salmon:datasource>
 	<salmon:datasource name="dsDetalleSC" type="MODEL"
 		dbprofile="inventario" model="inventario.models.DetalleSCModel"
@@ -32,14 +32,15 @@
 						addbuttonvisible="False" qbebuilder="dsQBE">
 						<table width="100%">
 							<tr>	
-								<td/><td/><td width="40px">																			
+								<td colspan="4"/>
+								<td widht="10%"/>
 								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>
 								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="n1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
-								<td><salmon:input name="n2" type="text"	datasource="dsQBE:n" /></td>
-								<td width="40px">
+								<td colspan="3"><salmon:input name="n2" type="text"	datasource="dsQBE:n" /></td>
+								<td width="40px"/>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -49,8 +50,18 @@
 								</td>
 								<td><salmon:input name="valorAttr1" type="text" /></td>
 							</tr>
-							<tr>
-								<td/><td/><td width="40px">
+							<tr>								
+								<td><salmon:text name="fechadesde1" text="Fecha SC desde"
+									font="ColumnCaptionFont" /></td>
+								<td colspan=><salmon:input type="text"
+									name="fechadesde2" size="10"
+									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
+								<td><salmon:text name="fechahasta1" text="Fecha SC hasta"
+									font="ColumnCaptionFont" /></td>
+								<td><salmon:input type="text" name="fechahasta2" size="10"
+									datasource="dsQBE:hasta"
+									maxlength="10"></salmon:input></td>
+								<td width="40px"/>								
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -58,10 +69,11 @@
 										size="15"	maxlength="25"popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
-								<td><salmon:input name="valor3" type="text" /></td>
+								<td><salmon:input name="valorAttr2" type="text" /></td>
 							</tr>
 							<tr>
-								<td/><td/><td width="40px">
+								<td colspan="4"/>
+								<td width="40px"/>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -69,7 +81,7 @@
 										size="15"	maxlength="25" popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
-								<td><salmon:input name="valor4" type="text"/></td>
+								<td><salmon:input name="valorAttr3" type="text"/></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
@@ -100,11 +112,11 @@
 							<salmon:text name="articuloClaseCAP12" text="Clase"	font="TableHeadingFont"/>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="nroSolicitudCAP4" text="Nro. Solicitud"
+							<salmon:text name="nroSolicitudCAP4" text="Solicitud de Compra"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fechaUltCompraCAP5" text="Fecha última compra"
+							<salmon:text name="cantidadSolicitadaCAP5" text="Cantidad Solicitada"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
@@ -162,9 +174,8 @@
 								datasource="dsDetalleSC:detalle_sc.solicitud_compra_id" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fechaUltCompraTXT4" text="Fecha última compra Goes Here"
-								font="DefaultFont" displayformat="dd/MM/yyyy"
-								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra" />
+							<salmon:text name="cantidadSolicitadaTXT4" text="Cantidad Solicitada Goes Here"
+								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup
@@ -195,10 +206,15 @@
 							<salmon:input type="text" maxlength="15" size="10" name="cantPedidaINP8" value="Cantidad Pedida Goes Here"
 								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_pedida" />
 						</salmon:td>						
-						<salmon:td>
-							<salmon:input type="text" maxlength="15" size="10" name="montoUnitINP9" value="Monto Unitario Goes Here"
-								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.monto_unitario"/>
-						</salmon:td>											
+						<salmon:td>							
+							<salmon:input type="text" name="montoUnitINP9" size="8"
+								maxlength="15" displayformat="###,###,##0.00"
+								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
+							<salmon:text name="text2" text=" - " font="DefaultFont" />
+							<salmon:text name="monto_fecha_ultima_compra2" text=""
+								displayformat="dd/MM/aa"
+								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
+						</salmon:td>																		
 					</salmon:tr>
 				</salmon:datatablerows>
 			</salmon:datatable>
