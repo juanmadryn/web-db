@@ -1,7 +1,7 @@
 package partesEQ.models;
 
 import infraestructura.controllers.BaseController;
-import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
+import infraestructura.utils.ConvierteMayusculasValidation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
