@@ -1,6 +1,6 @@
 package proyectos.models;
 
-import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
+import infraestructura.utils.ConvierteMayusculasValidation;
 
 import com.salmonllc.sql.*;
 
