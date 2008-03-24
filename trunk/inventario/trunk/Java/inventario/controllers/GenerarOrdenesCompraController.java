@@ -198,6 +198,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		DBConnection conexion = null;
+		conexion = DBConnection.getConnection(getApplicationName(),"inventario");
 		
 		// clear button
 		if (e.getComponent() == _limpiarBUT) {
@@ -247,8 +248,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 					return false;
 				}
 				
-				// start the transaction
-				conexion = DBConnection.getConnection(getApplicationName(),"inventario");
+				// start the transaction				
 				conexion.beginTransaction();
 				
 				_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
@@ -295,6 +295,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 				// our daily wtf ...
 				conexion.beginTransaction();				
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.reloadRow(i);
 					if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
 						dsSolicitudCompra.retrieve(
 								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
@@ -331,9 +332,12 @@ public class GenerarOrdenesCompraController extends BaseController {
 			finally {
 				if (conexion != null) {
 					conexion.rollback();
-					conexion.freeConnection();
 				}
 			}
+		}
+		
+		if (conexion != null) {
+			conexion.freeConnection();
 		}
 		
 		return super.submitPerformed(e);

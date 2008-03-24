@@ -644,9 +644,10 @@ public class OrdenesCompraModel extends BaseModel {
 	public void setObservaciones(String newValue) throws DataStoreException {
 		setString(OBSERVACIONES, newValue);
 	}
-	
+		
 	@Override
-	public void update() throws DataStoreException, SQLException {
+	public void update(DBConnection conn, boolean handleTrans)
+			throws DataStoreException, SQLException {
 		
 		if (getOrdenesCompraEstado() == null)
 			setOrdenesCompraEstado("0008.0001");
@@ -654,8 +655,8 @@ public class OrdenesCompraModel extends BaseModel {
 		if (getOrdenesCompraFecha() == null)
 			setOrdenesCompraFecha(new Date((Calendar.getInstance()
 					.getTimeInMillis())));
-		
-		super.update();
+	
+		super.update(conn, handleTrans);
 	}
 	
 	public float getAtributoTotalOrdenCompra() throws DataStoreException,
