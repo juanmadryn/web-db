@@ -279,17 +279,15 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			}
 			conn.commit();
 		} catch (DataStoreException ex) {
-			conn.rollback();
 			displayErrorMessage(ex.getMessage());
 			return false;
 		} catch (ValidationException ex) {
-			conn.rollback();
 			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
 			}
 			return false;
 		} finally {
-			conn.freeConnection();
+			conn.rollback();
 		}
 		
 		if (e.getComponent() == _grabarOrdenCompraBUT1) {			
@@ -305,10 +303,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						return false;
 
 					if (_dsOrdenesCompra.getOrdenesCompraUserIdComprador() == 0)
-						_dsOrdenesCompra
-						.setOrdenesCompraUserIdComprador(getUserFromSession(
-								getCurrentRequest().getRemoteAddr())
-								.getUserID());
+						_dsOrdenesCompra.setOrdenesCompraUserIdComprador(
+								getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 
 					_dsOrdenesCompra.update(conn);
 
@@ -322,12 +318,14 @@ public class EditarOrdenCompraController extends BaseEntityController {
 									_dsDetalleSC.setDetalleScMontoUltimaCompra(
 											row, Float.parseFloat(
 													AtributosEntidadModel.getValorAtributoObjeto(
-															"MONTO_ULTIMA_COMPRA", _dsDetalleSC.getDetalleScArticuloId(row), 
+															"MONTO_ULTIMA_COMPRA", 
+															_dsDetalleSC.getDetalleScArticuloId(row), 
 															"TABLA", "articulos")));
 									
 									_dsDetalleSC.setDetalleScFechaUltimaCompra(
 											row, AtributosEntidadModel.getValorAtributoObjeto(
-													"FECHA_ULTIMA_COMPRA",	_dsDetalleSC.getDetalleScArticuloId(row), 
+													"FECHA_ULTIMA_COMPRA",	
+													_dsDetalleSC.getDetalleScArticuloId(row), 
 													"TABLA", "articulos"));
 								} catch (NullPointerException ex) { }
 							}
@@ -342,6 +340,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 										row, AtributosEntidadModel.getValorAtributoObjeto(
 												"UNIDAD_DE_MEDIDA", _dsDetalleSC.getDetalleScArticuloId(row),
 												"TABLA","articulos"));
+							
+							//_dsDetalleSC.update(conn);
 						}
 					}
 					
@@ -374,6 +374,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 				pageRequested(new PageEvent(this));
 				return false;
 			}
+		}
+		
+		if (conn != null) {
+			conn.freeConnection();
 		}
 	
 		armaBotonera();
