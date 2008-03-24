@@ -2,13 +2,12 @@
 package proyectos.controllers;
 
 //Salmon import statements
-import infraestructura.controllers.BaseController;
+import infraestructura.controllers.BaseEntityController;
 import infraestructura.reglasNegocio.ValidationException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import proyectos.models.TareasProyectoModel;
 
@@ -26,7 +25,7 @@ import com.salmonllc.util.MessageLog;
 /**
  * AdmProyectoController: a SOFIA generated controller
  */
-public class AdmProyectoController extends BaseController implements
+public class AdmProyectoController extends BaseEntityController implements
 		ValueChangedListener {
 
 	/**
@@ -343,8 +342,6 @@ public class AdmProyectoController extends BaseController implements
 
 	private String SELECCION_TAREA_FLAG = "SELECCION_TAREA_FLAG";
 
-	private int botonSeleccionado = -1;
-
 	// Juan Manuel Cortez - 30/10/2007
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox5;
 
@@ -353,18 +350,6 @@ public class AdmProyectoController extends BaseController implements
 	public com.salmonllc.html.HtmlSubmitButton _grabarAtributoBUT1;
 
 	public com.salmonllc.html.HtmlSubmitButton _atributoGenerarAtributosBUT11;
-
-	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT1;
-
-	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT2;
-
-	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT3;
-
-	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT4;
-
-	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT5;
-
-	public com.salmonllc.html.HtmlSubmitButton _atributoEtiquetaBUT6;
 
 	public com.salmonllc.html.HtmlSubmitButton _recargarProyectoBUT1;
 
@@ -454,25 +439,6 @@ public class AdmProyectoController extends BaseController implements
 				"atributoGenerarAtributosBUT11", "generar", this);
 		_listformdisplaybox4.addButton(_atributoGenerarAtributosBUT11);
 
-		_atributoEtiquetaBUT1 = new HtmlSubmitButton("atributoEtiquetaBUT1",
-				"etiqueta 1", this);
-		_listformdisplaybox4.addButton(_atributoEtiquetaBUT1);
-		_atributoEtiquetaBUT2 = new HtmlSubmitButton("atributoEtiquetaBUT2",
-				"etiqueta 2", this);
-		_listformdisplaybox4.addButton(_atributoEtiquetaBUT2);
-		_atributoEtiquetaBUT3 = new HtmlSubmitButton("atributoEtiquetaBUT3",
-				"etiqueta 3", this);
-		_listformdisplaybox4.addButton(_atributoEtiquetaBUT3);
-		_atributoEtiquetaBUT4 = new HtmlSubmitButton("atributoEtiquetaBUT4",
-				"etiqueta 4", this);
-		_listformdisplaybox4.addButton(_atributoEtiquetaBUT4);
-		_atributoEtiquetaBUT5 = new HtmlSubmitButton("atributoEtiquetaBUT5",
-				"etiqueta 5", this);
-		_listformdisplaybox4.addButton(_atributoEtiquetaBUT5);
-		_atributoEtiquetaBUT6 = new HtmlSubmitButton("atributoEtiquetaBUT6",
-				"etiqueta 6", this);
-		_listformdisplaybox4.addButton(_atributoEtiquetaBUT6);
-
 		// Fin Juan Manuel Cortez - 30/10/2007
 
 		// agrega los listener a lso botones
@@ -489,22 +455,16 @@ public class AdmProyectoController extends BaseController implements
 		// Juan Manuel Cortez - 30/10/2007
 		_atributoGenerarAtributosBUT11.addSubmitListener(this);
 		_grabarAtributoBUT1.addSubmitListener(this);
-		_atributoEtiquetaBUT1.addSubmitListener(this);
-		_atributoEtiquetaBUT2.addSubmitListener(this);
-		_atributoEtiquetaBUT3.addSubmitListener(this);
-		_atributoEtiquetaBUT4.addSubmitListener(this);
-		_atributoEtiquetaBUT5.addSubmitListener(this);
-		_atributoEtiquetaBUT6.addSubmitListener(this);
 		// Fin Juan Manuel Cortez - 30/10/2007
 
-		// Juan Manuel Cortez - 29/11/2007
+		// Juan Manuel Cortez - 29/11/2007		
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
 		_customBUT130.addSubmitListener(this);
 		_customBUT120.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
-
+		
 		// Fin Juan Manuel Cortez - 29/11/2007
 
 		// listeners para validar fecha antes de ser enviada al DataStore
@@ -545,10 +505,15 @@ public class AdmProyectoController extends BaseController implements
 		_dsProyecto.insertRow();
 		_dsProyecto.gotoFirst();
 
-		// setea primera visualización
-		seteaBotonesAtributos(-1);
-		seteaNuevoBoton(-1);
+		set_dsAtributos(_dsAtributos);
+		setContainer(_listformdisplaybox4);
+		setTabla_principal("proyectos");
 
+		// setea primera visualización
+
+		seteaBotonesAtributos();
+		recuperaAtributosBotonSeleccionado();
+		
 		_proyectoTE1.setFocus();
 	}
 
@@ -560,6 +525,8 @@ public class AdmProyectoController extends BaseController implements
 		DBConnection conn = DBConnection.getConnection(getApplicationName());
 		boolean batchInserts = false;
 
+		setRow_id(_dsProyecto.getProyectosProyectoId());
+		
 		conn.beginTransaction();
 		try {
 			if (e.getComponent() == _customBUT100) {
@@ -657,9 +624,13 @@ public class AdmProyectoController extends BaseController implements
 			_dsAtributos.reset();
 			_dsActividadesProyecto.reset();
 			_dsTareasProyecto.reset();
-
+			
 			_dsProyecto.gotoRow(_dsProyecto.insertRow());
 
+			setRow_id(0);
+			
+			seteaNuevoBoton(-1);
+			
 			_proyectoTE1.setFocus();
 		}
 
@@ -689,115 +660,30 @@ public class AdmProyectoController extends BaseController implements
 
 		// genera atributos, por si faltan
 		if (e.getComponent() == _atributoGenerarAtributosBUT11) {
-			// primero determina contexto
-			int v_objeto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_objeto_id < 1) {
+			// primero determina contexto			
+			if (getRow_id() < 1) {
 				displayErrorMessage("Debe seleccionar un proyecto para poder generar sus atributos");
 				return false;
 			}
 
 			// manda a generar los atributos de la entidad
 			try {
-				_dsAtributos.generaAtributosObjetoAplicacion(v_objeto_id,
-						TABLA_PRINCIPAL);
+				_dsAtributos.generaAtributosObjetoAplicacion(getRow_id(),
+						getTabla_principal());
 			} catch (DataStoreException ex) {
 				displayErrorMessage(ex.getMessage());
 				return false;
 			}
-			seteaBotonesAtributos(v_objeto_id);
-			recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
+			//seteaBotonesAtributos();
+			//recuperaAtributosBotonSeleccionado();
 		}
 
-		// controla el efecto de solapa de los botones y recupera los atributos
-		// correspondientes
-		if (e.getComponent() == _atributoEtiquetaBUT1) {
-			// toma acciones de solapa de atributos
-			int v_objeto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_objeto_id > 0) {
-				seteaNuevoBoton(1);
-				recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
-			} else {
-				// no está en contexto de nungún proyecto reseteo las vistas
-				_dsAtributos.reset();
-			}
-		}
-
-		// controla el efecto de solapa de los botones y recupera los atributos
-		// correspondientes
-		if (e.getComponent() == _atributoEtiquetaBUT2) {
-			// toma acciones de solapa de atributos
-			int v_objeto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_objeto_id > 0) {
-				seteaNuevoBoton(2);
-				recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
-			} else {
-				// no está en contexto de nungún proyecto reseteo las vistas
-				_dsAtributos.reset();
-			}
-		}
-
-		// controla el efecto de solapa de los botones y recupera los atributos
-		// correspondientes
-		if (e.getComponent() == _atributoEtiquetaBUT3) {
-			// toma acciones de solapa de atributos
-			int v_objeto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_objeto_id > 0) {
-				seteaNuevoBoton(3);
-				recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
-			} else {
-				// no está en contexto de nungún proyecto reseteo las vistas
-				_dsAtributos.reset();
-			}
-		}
-
-		// controla el efecto de solapa de los botones y recupera los atributos
-		// correspondientes
-		if (e.getComponent() == _atributoEtiquetaBUT4) {
-			// toma acciones de solapa de atributos
-			int v_objeto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_objeto_id > 0) {
-				seteaNuevoBoton(4);
-				recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
-			} else {
-				// no está en contexto de nungún proyecto reseteo las vistas
-				_dsAtributos.reset();
-			}
-		}
-
-		// controla el efecto de solapa de los botones y recupera los atributos
-		// correspondientes
-		if (e.getComponent() == _atributoEtiquetaBUT5) {
-			// toma acciones de solapa de atributos
-			int v_objeto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_objeto_id > 0) {
-				seteaNuevoBoton(5);
-				recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
-			} else {
-				// no está en contexto de nungún proyecto reseteo las vistas
-				_dsAtributos.reset();
-			}
-		}
-
-		// controla el efecto de solapa de los botones y recupera los atributos
-		// correspondientes
-		if (e.getComponent() == _atributoEtiquetaBUT6) {
-			// toma acciones de solapa de atributos
-			int v_objeto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_objeto_id > 0) {
-				seteaNuevoBoton(6);
-				recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
-			} else {
-				// no está en contexto de nungún proyecto reseteo las vistas
-				_dsAtributos.reset();
-			}
-		}
 		// Fin Juan Manuel Cortez - 30/10/2007
 
 		if (e.getComponent() == _grabarProyectoBUT2) {
 			// si el proyecto esta en estado generado o esta siendo generado
 			if ("0001.0001".equalsIgnoreCase(_dsProyecto.getProyectosEstado())
 					|| _dsProyecto.getProyectosEstado() == null) {
-				int v_objeto_id = 0;
 				try {
 					// grabo todos los datasource
 					if (_dsProyecto.getRow() == -1)
@@ -813,24 +699,25 @@ public class AdmProyectoController extends BaseController implements
 
 					// genero atributos faltantes si los hubiera, es decir, los
 					// inserto en la tabla de atributos con sus valores en null
-					v_objeto_id = _dsProyecto.getProyectosProyectoId();
+					setRow_id(_dsProyecto.getProyectosProyectoId());
 					if (_dsAtributos.getRow() == -1) {
 
-						if (v_objeto_id < 1) {
+						if (!(getRow_id() > 0)) {
 							displayErrorMessage("Debe seleccionar un proyecto para poder generar sus atributos");
 							return false;
 						}
 
 						// manda a generar los atributos de la entidad
 						_dsAtributos.generaAtributosObjetoAplicacion(
-								v_objeto_id, TABLA_PRINCIPAL);
+								getRow_id(), getTabla_principal());
 					}
-
-					// actulizo atributos
+					
+					// actualizo atributos
 					_dsAtributos.update();
 					// recupero atributos "Generales"
 					_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-							null, v_objeto_id, TABLA_PRINCIPAL);
+							null, getRow_id(), getTabla_principal());
+					
 
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
@@ -845,25 +732,24 @@ public class AdmProyectoController extends BaseController implements
 					displayErrorMessage(ex.getMessage());
 					return false;
 				} finally {
-					seteaBotonesAtributos(v_objeto_id);
-					recuperaAtributosBotonSeleccionado(v_objeto_id,
-							TABLA_PRINCIPAL);
+					//seteaBotonesAtributos();
+					//recuperaAtributosBotonSeleccionado();					
 				}
 			} else {
 				// si el proyecto no está generado, bloqueo toda modificación
 				displayErrorMessage("No puede modificar el proyecto en el estado actual.");
 				return false;
 			}
+			seteaNuevoBoton(0);
 		}
 
 		if (e.getComponent() == _actividadCrearBUT11) {
 			// crea un nuevo registro de actividad
-			int v_proyecto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_proyecto_id > 1) {
+			if (getRow_id() > 1) {
 				int reg = _dsActividadesProyecto.insertRow();
 				_dsActividadesProyecto.gotoRow(reg);
 				_dsActividadesProyecto.setActividadesProyectoProyectoId(reg,
-						v_proyecto_id);
+						getRow_id());
 			}
 		}
 
@@ -891,12 +777,12 @@ public class AdmProyectoController extends BaseController implements
 
 		if (e.getComponent() == _tareaCrearBUT13) {
 			// crea un nuevo registro de tarea
-			int v_proyecto_id = _dsProyecto.getProyectosProyectoId();
-			if (v_proyecto_id > 1) {
+			getRow_id();
+			if (getRow_id() > 1) {
 				int reg = _dsTareasProyecto.insertRow();
 				_dsTareasProyecto.gotoRow(reg);
 				_dsTareasProyecto.setTareasProyectoProyectoId(reg,
-						v_proyecto_id);
+						getRow_id());
 			}
 		}
 
@@ -930,9 +816,13 @@ public class AdmProyectoController extends BaseController implements
 		_actividadTE21.setLookUpPageURL("%LkpActividadesProyecto?proyecto_id="
 				+ _dsProyecto.getProyectosProyectoId());
 
+		
+		
+		
+		
 		// arma botonera de cambio de estados
 		armaBotonera();
-
+		
 		return super.submitPerformed(e);
 	}
 
@@ -971,15 +861,15 @@ public class AdmProyectoController extends BaseController implements
 	public void pageRequested(PageEvent p) throws Exception {
 		super.pageRequested(p);
 		try {
-			int v_proyecto_id = -1;
+			//setRow_id(-1);
 			// si la página es requerida por si misma o está en proceso de
 			// recargar un proyecto no hago nada
 			if (!isReferredByCurrentPage() || isRecargar()) {
 				// verifico si tiene parámetro
-				v_proyecto_id = getIntParameter("p_proyecto_id");
+				setRow_id(getIntParameter("p_proyecto_id"));
 				if (isRecargar())
-					v_proyecto_id = _dsProyecto.getProyectosProyectoId();
-				if (v_proyecto_id > 0) {
+					setRow_id(_dsProyecto.getProyectosProyectoId());
+				if (getRow_id() > 0) {
 					// Viene seteado el proyecto. lo recupero sino no se hace
 					// nada
 
@@ -991,31 +881,30 @@ public class AdmProyectoController extends BaseController implements
 
 					// recupera toda la información para el proyecto
 					_dsProyecto.retrieve("proyectos.proyecto_id = "
-							+ Integer.toString(v_proyecto_id));
+							+ Integer.toString(getRow_id()));
 					_dsProyecto.gotoFirst();
 
 					// genero atributos si faltan
-					_dsAtributos.generaAtributosObjetoAplicacion(v_proyecto_id,
-							TABLA_PRINCIPAL);
+					_dsAtributos.generaAtributosObjetoAplicacion(getRow_id(),
+							getTabla_principal());
 
 					// setea los botones de los atributos
-					seteaBotonesAtributos(v_proyecto_id);
-					seteaNuevoBoton(botonSeleccionado);
-
+					seteaBotonesAtributos();
+					
 					// recupera la información del boton seleccionado
-					recuperaAtributosBotonSeleccionado(v_proyecto_id,
-							TABLA_PRINCIPAL);
+					recuperaAtributosBotonSeleccionado();
+					
 					_dsAtributos.gotoFirst();
 
 					// sigue recuperando información del resto de los detalles
 					// (actividades y tareas)
 					_dsActividadesProyecto
 							.retrieve("actividades_proyecto.proyecto_id = "
-									+ Integer.toString(v_proyecto_id));
+									+ Integer.toString(getRow_id()));
 					_dsActividadesProyecto.gotoFirst();
 
 					_dsTareasProyecto.retrieve("tareas_proyecto.proyecto_id = "
-							+ Integer.toString(v_proyecto_id));
+							+ Integer.toString(getRow_id()));
 					_dsTareasProyecto.gotoFirst();
 
 					// seteo la lookup de actividades de la tabla de tareas
@@ -1023,14 +912,16 @@ public class AdmProyectoController extends BaseController implements
 							.setLookUpPageURL("%LkpActividadesProyecto?proyecto_id="
 									+ _dsProyecto.getProyectosProyectoId());
 
+					armaBotonera();
 				}
 
 			}
 
 			setRecargar(false);
-
+			
 			// arma botonera de cambio de estados
-			armaBotonera();
+			
+			
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
 		}
@@ -1122,7 +1013,7 @@ public class AdmProyectoController extends BaseController implements
 				}
 			}
 			if (actualizar) {
-				actualizarDetalles(objeto_id);
+				actualizarDetalles();
 			}
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
@@ -1132,228 +1023,11 @@ public class AdmProyectoController extends BaseController implements
 
 	}
 
-	public void actualizarDetalles(int p_proyecto_id) throws SQLException,
+	public void actualizarDetalles() throws SQLException,
 			DataStoreException {
 		_dsAtributos.reset();
-		seteaBotonesAtributos(p_proyecto_id);
-		recuperaAtributosBotonSeleccionado(p_proyecto_id, TABLA_PRINCIPAL);
-	}
-
-	/**
-	 * Arma la botonera de atributos en función del id de proyecto indicado.
-	 * 
-	 * @param p_proyecto_id
-	 *            el id del proyecto para el cual se quieren setear los botones
-	 * 
-	 * TODO generalizar este método a un número indefinido de etiquetas para
-	 * atributos
-	 */
-	private void seteaBotonesAtributos(int p_proyecto_id) {
-
-		ArrayList<String> et = null;
-
-		// resetea la botonera
-		_atributoEtiquetaBUT1.setVisible(false);
-		_atributoEtiquetaBUT2.setVisible(false);
-		_atributoEtiquetaBUT3.setVisible(false);
-		_atributoEtiquetaBUT4.setVisible(false);
-		_atributoEtiquetaBUT5.setVisible(false);
-		_atributoEtiquetaBUT6.setVisible(false);
-
-		// si no hay seteado proyecto termina
-		if (p_proyecto_id < 1)
-			return;
-
-		// setea los botones de los atributos según las etiquetas
-		try {
-			et = _dsAtributos
-					.recuperaEtiquetasAtributosObjetoAplicacion(TABLA_PRINCIPAL);
-		} catch (DataStoreException e) {
-			displayErrorMessage(e.getLocalizedMessage());
-			return;
-		} catch (SQLException e) {
-			displayErrorMessage(e.getLocalizedMessage());
-			return;
-		}
-		if (et != null) {
-			for (int i = 0; i < et.size(); i++) {
-				switch (i) {
-				case 0:
-					_atributoEtiquetaBUT1.setDisplayName((String) et.get(i));
-					if (_atributoEtiquetaBUT1.getDisplayName() == null
-							|| _atributoEtiquetaBUT1.getDisplayName().trim()
-									.length() == 0)
-						_atributoEtiquetaBUT1.setDisplayName("General");
-					_atributoEtiquetaBUT1.setVisible(true);
-					break;
-				case 1:
-					_atributoEtiquetaBUT2.setDisplayName((String) et.get(i));
-					if (_atributoEtiquetaBUT2.getDisplayName() == null
-							|| _atributoEtiquetaBUT2.getDisplayName().trim()
-									.length() == 0)
-						_atributoEtiquetaBUT2.setDisplayName("General");
-					_atributoEtiquetaBUT2.setVisible(true);
-					break;
-				case 2:
-					_atributoEtiquetaBUT3.setDisplayName((String) et.get(i));
-					if (_atributoEtiquetaBUT3.getDisplayName() == null
-							|| _atributoEtiquetaBUT3.getDisplayName().trim()
-									.length() == 0)
-						_atributoEtiquetaBUT3.setDisplayName("General");
-					_atributoEtiquetaBUT3.setVisible(true);
-					break;
-				case 3:
-					_atributoEtiquetaBUT4.setDisplayName((String) et.get(i));
-					if (_atributoEtiquetaBUT4.getDisplayName() == null
-							|| _atributoEtiquetaBUT4.getDisplayName().trim()
-									.length() == 0)
-						_atributoEtiquetaBUT4.setDisplayName("General");
-					_atributoEtiquetaBUT4.setVisible(true);
-					break;
-				case 4:
-					_atributoEtiquetaBUT5.setDisplayName((String) et.get(i));
-					if (_atributoEtiquetaBUT5.getDisplayName() == null
-							|| _atributoEtiquetaBUT5.getDisplayName().trim()
-									.length() == 0)
-						_atributoEtiquetaBUT5.setDisplayName("General");
-					_atributoEtiquetaBUT5.setVisible(true);
-					break;
-				case 5:
-					_atributoEtiquetaBUT6.setDisplayName((String) et.get(i));
-					if (_atributoEtiquetaBUT6.getDisplayName() == null
-							|| _atributoEtiquetaBUT6.getDisplayName().trim()
-									.length() == 0)
-						_atributoEtiquetaBUT6.setDisplayName("General");
-					_atributoEtiquetaBUT6.setVisible(true);
-					break;
-				}
-			}
-			// seteo el primero
-			seteaNuevoBoton(1);
-		} else
-			seteaNuevoBoton(-1);
-
-	}
-
-	/**
-	 * Recupera los atributos correspondientes a la etiqueta del botón
-	 * seleccionado para el objeto .
-	 * 
-	 * @param p_objeto_id
-	 *            el id del registro para la cual se desean recuperar los
-	 *            atributos
-	 * @param nombre_tabla
-	 *            nombre de la tabla para la cual se desean recuperar los
-	 *            atributos
-	 * @throws SQLException
-	 *             en caso de que surja un error de conexión o interacción con
-	 *             la base de datos
-	 * @throws DataStoreException
-	 *             en caso de que ocurra un error de manejos de los DataStore's
-	 *             TODO generalizar este método a un número indefinido de
-	 *             etiquetas para atributos
-	 */
-	private void recuperaAtributosBotonSeleccionado(int p_objeto_id,
-			String nombre_tabla) throws SQLException, DataStoreException {
-
-		switch (botonSeleccionado) {
-		case 1:
-			if (_atributoEtiquetaBUT1.getDisplayName().equalsIgnoreCase(
-					"General"))
-				_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(null,
-						p_objeto_id, nombre_tabla);
-			else
-				_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-						_atributoEtiquetaBUT1.getDisplayName(), p_objeto_id,
-						nombre_tabla);
-			break;
-		case 2:
-			_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-					_atributoEtiquetaBUT2.getDisplayName(), p_objeto_id,
-					nombre_tabla);
-			break;
-		case 3:
-			_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-					_atributoEtiquetaBUT3.getDisplayName(), p_objeto_id,
-					nombre_tabla);
-
-			break;
-		case 4:
-			_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-					_atributoEtiquetaBUT4.getDisplayName(), p_objeto_id,
-					nombre_tabla);
-			break;
-		case 5:
-			_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-					_atributoEtiquetaBUT5.getDisplayName(), p_objeto_id,
-					nombre_tabla);
-			break;
-		case 6:
-			_dsAtributos.recuperaAtributosEtiquetaObjetoAplicacion(
-					_atributoEtiquetaBUT6.getDisplayName(), p_objeto_id,
-					nombre_tabla);
-			break;
-		}
-	}
-
-	private void seteaNuevoBoton(int nuevoBoton) {
-		// resetea el boton actual y setea el nuevo
-		if (nuevoBoton == -1) {
-			// no hay botón seleccionado, reseteo todos los botones
-			botonSeleccionado = nuevoBoton;
-			_atributoEtiquetaBUT1.setButtonBgColor("lightGray");
-			_atributoEtiquetaBUT2.setButtonBgColor("lightGray");
-			_atributoEtiquetaBUT3.setButtonBgColor("lightGray");
-			_atributoEtiquetaBUT4.setButtonBgColor("lightGray");
-			_atributoEtiquetaBUT5.setButtonBgColor("lightGray");
-			_atributoEtiquetaBUT6.setButtonBgColor("lightGray");
-		} else {
-			// es un boton válido seteo a nuevo botón
-			switch (botonSeleccionado) {
-			case 1:
-				_atributoEtiquetaBUT1.setButtonBgColor("lightGray");
-				break;
-			case 2:
-				_atributoEtiquetaBUT2.setButtonBgColor("lightGray");
-				break;
-			case 3:
-				_atributoEtiquetaBUT3.setButtonBgColor("lightGray");
-				break;
-			case 4:
-				_atributoEtiquetaBUT4.setButtonBgColor("lightGray");
-				break;
-			case 5:
-				_atributoEtiquetaBUT5.setButtonBgColor("lightGray");
-				break;
-			case 6:
-				_atributoEtiquetaBUT6.setButtonBgColor("lightGray");
-				break;
-			}
-
-			botonSeleccionado = nuevoBoton;
-
-			// enfatiza el nuevo boton
-			switch (botonSeleccionado) {
-			case 1:
-				_atributoEtiquetaBUT1.setButtonBgColor("red");
-				break;
-			case 2:
-				_atributoEtiquetaBUT2.setButtonBgColor("red");
-				break;
-			case 3:
-				_atributoEtiquetaBUT3.setButtonBgColor("red");
-				break;
-			case 4:
-				_atributoEtiquetaBUT4.setButtonBgColor("red");
-				break;
-			case 5:
-				_atributoEtiquetaBUT5.setButtonBgColor("red");
-				break;
-			case 6:
-				_atributoEtiquetaBUT6.setButtonBgColor("red");
-				break;
-			}
-		}
+		seteaBotonesAtributos();
+		recuperaAtributosBotonSeleccionado();
 	}
 
 	public boolean isRecargar() {
@@ -1430,19 +1104,10 @@ public class AdmProyectoController extends BaseController implements
 						boton.setVisible(true);
 						boton.setDisplayName(r.getString(1));
 						boton.setDisplayNameLocaleKey(Integer.toString(r
-								.getInt(2)));
-						//boton.setButtonBgColor("RED");
+								.getInt(2)));						
 						boton.setButtonFontStyle("font-weight:bold; COLOR: red");
 					}
-					/*nombre_boton = "customBUT" + i * 100;
-					boton = (com.salmonllc.html.HtmlSubmitButton) this
-							.getComponent(nombre_boton);
-					if (boton != null) {
-						boton.setVisible(true);
-						boton.setDisplayName(r.getString(1));
-						boton.setDisplayNameLocaleKey(Integer.toString(r
-								.getInt(2)));
-					}*/
+
 					i = i + 10;
 				} while (r.next() && i < 150);
 			}
@@ -1467,6 +1132,7 @@ public class AdmProyectoController extends BaseController implements
 			if (conn != null)
 				conn.freeConnection();
 		}
+		
 
 	}
 
