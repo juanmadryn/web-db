@@ -1292,14 +1292,10 @@ public class DetalleSCModel extends DataStore {
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
+	 * @throws SQLException 
 	 */
-	public void setMontoTotal() throws DataStoreException {
-		Float monto_unitario = getDetalleScMontoUnitario();
-		Float cantidad_solicitada = getDetalleScCantidadSolicitada();
-		if (monto_unitario != null && cantidad_solicitada != null) {
-			Float total = (monto_unitario * cantidad_solicitada);
-			setMontoTotal(total);
-		}		
+	public void setMontoTotal() throws DataStoreException, SQLException {		
+		setMontoTotal(getRow());
 	}
 
 	/**
@@ -1310,12 +1306,27 @@ public class DetalleSCModel extends DataStore {
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
+	 * @throws SQLException 
 	 */
-	public void setMontoTotal(int row) throws DataStoreException {
+	public void setMontoTotal(int row) throws DataStoreException, SQLException {
 		Float monto_unitario = getDetalleScMontoUnitario(row);
-		Float cantidad_solicitada = getDetalleScCantidadSolicitada(row);
-		if (monto_unitario != null && cantidad_solicitada != null) {
-			Float total = monto_unitario * cantidad_solicitada;
+		
+		SolicitudCompraModel solicitud = new SolicitudCompraModel(
+				"inventario", "inventario");
+		solicitud.retrieve("solicitud_compra_id = "
+				+ getDetalleScSolicitudCompraId(row));
+		solicitud.gotoFirst();
+		
+		Float cantidad = null;		 
+		if ( ("0006.0006".equalsIgnoreCase(solicitud.getSolicitudesCompraEstado())) 
+				|| ("0006.0007".equalsIgnoreCase(solicitud.getSolicitudesCompraEstado())) ) {
+			cantidad = getDetalleScCantidadPedida(row);
+		} else {
+			cantidad = getDetalleScCantidadSolicitada(row);
+		}
+		
+		if (monto_unitario != null && cantidad != null) {
+			Float total = monto_unitario * cantidad;
 			setMontoTotal(row, total);
 		}
 	}
@@ -1357,7 +1368,7 @@ public class DetalleSCModel extends DataStore {
 			// if the detail has an oc asigned, check that the amount ordered is a positive number
 			if ((getDetalleScOrdenCompraId(row) > 0) && (getDetalleScCantidadPedida(row) <= 0)) {
 					throw new DataStoreException(
-							"La cantidad pedida debe ser mayor un número positivo mayor que cero");
+							"La cantidad pedida debe ser un número positivo mayor que cero");
 			}
 		}
 
