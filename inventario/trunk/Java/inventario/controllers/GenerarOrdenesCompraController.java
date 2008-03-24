@@ -2,19 +2,27 @@
 package inventario.controllers;
 
 //Salmon import statements
-import java.sql.SQLException;
-
 import infraestructura.controllers.BaseController;
+import infraestructura.models.AtributosEntidadModel;
+import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.OrdenesCompraModel;
+import inventario.models.SolicitudCompraModel;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
-import com.salmonllc.sql.QBEBuilder;
-import com.salmonllc.sql.QBECriteriaBuilder;
 import com.salmonllc.util.MessageLog;
+import com.salmonllc.util.SalmonDateFormat;
 
 /**
  * GenerarOrdenesCompraController: a SOFIA generated controller
@@ -36,9 +44,10 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlText _articuloClaseTXT3;
 	public com.salmonllc.html.HtmlText _articuloTXT2;
 	public com.salmonllc.html.HtmlText _cantPedidaCAP9;
-	public com.salmonllc.html.HtmlText _fechaUltCompraCAP5;
+	public com.salmonllc.html.HtmlText _cantidadSolicitadaCAP5;
 	public com.salmonllc.html.HtmlText _articuloClaseCAP12;
-	public com.salmonllc.html.HtmlText _fechaUltCompraTXT4;
+	public com.salmonllc.html.HtmlText _cantidadSolicitadaTXT4;
+	public com.salmonllc.html.HtmlText _monto_fecha_ultima_compra2;
 	public com.salmonllc.html.HtmlText _montoUnitCAP10;
 	public com.salmonllc.html.HtmlText _ordenCompraCAP5;
 	public com.salmonllc.html.HtmlText _proyectoCAP7;
@@ -56,8 +65,12 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlTextEdit _cantPedidaINP8;
 	public com.salmonllc.html.HtmlTextEdit _montoUnitINP9;
 	public com.salmonllc.html.HtmlTextEdit _valorAttr1;
+	public com.salmonllc.html.HtmlTextEdit _valorAttr2;
+	public com.salmonllc.html.HtmlTextEdit _valorAttr3;
 	public com.salmonllc.html.HtmlLookUpComponent _ordenCompraINP5;
 	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP1;
+	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP2;
+	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP3;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
@@ -113,6 +126,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT2;
 	public com.salmonllc.html.HtmlSubmitButton _generaOcsBUT3;
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
+	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -158,6 +172,10 @@ public class GenerarOrdenesCompraController extends BaseController {
 		_buscarBUT.setAccessKey("b");		
 		_searchformdisplaybox1.addButton(_buscarBUT);
 		
+		_limpiarBUT = new HtmlSubmitButton("limpiarBUT","Limpiar",this);
+		_limpiarBUT.setAccessKey("b");		
+		_searchformdisplaybox1.addButton(_limpiarBUT);
+		
 		_generaOcsBUT3 = new HtmlSubmitButton("generaOcsBUT3","Genera OCs", this);
 		_listformdisplaybox1.addButton(_generaOcsBUT3);
 		_seleccionaTodoBUT1 = new HtmlSubmitButton("seleccionaTodoBUT1","Seleccionar todo",this);
@@ -169,6 +187,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		_desSeleccionaTodoBUT2.addSubmitListener(this);
 		_generaOcsBUT3.addSubmitListener(this);
 		_buscarBUT.addSubmitListener(this);
+		_limpiarBUT.addSubmitListener(this);
 		
 		// Agrega columna de seleccion al datasource de resumen de horas
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_SC_FLAG, DataStore.DATATYPE_INT);
@@ -178,15 +197,30 @@ public class GenerarOrdenesCompraController extends BaseController {
 	
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
+		DBConnection conexion = null;
+		
+		// clear button
+		if (e.getComponent() == _limpiarBUT) {
+			_lkpAttrINP1.setValue(null);
+			_lkpAttrINP2.setValue(null);
+			_lkpAttrINP3.setValue(null);
+			_valorAttr1.setValue(null);
+			_valorAttr2.setValue(null);
+			_valorAttr3.setValue(null);
+		}
 		
 		// find button
-		if (e.getComponent() == _buscarBUT) {		
-			// create the sql where clause
-			recuperarArticulosParaComprar();
-			if (_dsDetalleSC.getRowCount() > 0) {				
-			} else {
-				displayErrorMessage("No hay artículos para comprar con estas condiciones");
-			}
+		if (e.getComponent() == _buscarBUT) {
+			try {
+				// create the sql where clause
+				recuperarArticulosParaComprar();
+				if (_dsDetalleSC.getRowCount() > 0) {
+				} else {
+					displayErrorMessage("No hay artículos para comprar con estas condiciones");
+				}
+			} catch (Exception ex) {
+				displayErrorMessage("Error: " + ex.getMessage());
+			}			
 		}
 		
 		// marca todos los partes del datasource como seleccionados
@@ -206,53 +240,101 @@ public class GenerarOrdenesCompraController extends BaseController {
 		// genera ordenes de compra
 		if (e.getComponent() == _generaOcsBUT3) {
 			try {
-			_dsDetalleSC.filter(SELECCION_DETALLE_SC_FLAG + " != null");
-			
-			if (_dsDetalleSC.getRowCount() <= 0) {
-				displayErrorMessage("Debe seleccionar al menos un artículo");
-				return false;
-			}
-			
-			// start the transaction
-			//DBConnection conexion = DBConnection.getConnection(getApplicationName(),"inventario");
-			//conexion.beginTransaction();
-			
-			// find at least one item with no oc assigned 
-			_dsDetalleSC.setFindExpression(DSDETALLESC_DETALLE_SC_ORDEN_COMPRA_ID + " != 0");
-						
-			// create a new oc an assign items with no oc to it
-			if (_dsDetalleSC.findFirst()) {				
-				// create an oc 
-				_dsOrdenCompra = new OrdenesCompraModel("inventario");
-				int ocId = _dsOrdenCompra.insertRow();
-				
-				_dsOrdenCompra.setOrdenesCompraEstado(ocId, "0008.0001");
-				_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
-				_dsOrdenCompra.setOrdenesCompraFecha(ocId, new java.sql.Date(System.currentTimeMillis()));
-				_dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
-						getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
-				
-				//_dsOrdenCompra.update(conexion);
-				_dsOrdenCompra.update();
-				_dsOrdenCompra.reloadRow(ocId);
+				_dsDetalleSC.filter(SELECCION_DETALLE_SC_FLAG + " != null");
 
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					// no oc assigned to this item
-					if (_dsDetalleSC.getDetalleScOrdenCompraId(i) == 0) {
-						_dsDetalleSC.setDetalleScOrdenCompraId(i, 
-								_dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));						
+				if (_dsDetalleSC.getRowCount() <= 0) {
+					displayErrorMessage("Debe seleccionar al menos un artículo");
+					return false;
+				}
+				
+				// start the transaction
+				conexion = DBConnection.getConnection(getApplicationName(),"inventario");
+				conexion.beginTransaction();
+				
+				_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
+				
+				if (_dsDetalleSC.findFirst()) {
+					_dsOrdenCompra = new OrdenesCompraModel("inventario");
+
+					int ocId = _dsOrdenCompra.insertRow();
+
+					_dsOrdenCompra.setOrdenesCompraEstado(ocId, "0008.0001");
+					_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
+					_dsOrdenCompra.setOrdenesCompraFecha(ocId, new java.sql.Date(System.currentTimeMillis()));
+					_dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
+							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+					
+					_dsOrdenCompra.update(conexion);
+					
+					for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+						if (_dsDetalleSC.getDetalleScOrdenCompraId(i) == 0) {
+							_dsDetalleSC.setDetalleScOrdenCompraId(i, 
+									_dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));							
+						}
 					}					
 				}
-			}
-			
-			_dsDetalleSC.update();
-			//_dsDetalleSC.update(conexion);			
-			//conexion.commit();
-			//conexion.freeConnection();
+				
+				// update the SC states
+				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
+				
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					if ("0006.0003".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+						dsSolicitudCompra.retrieve(
+								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+								);
+						dsSolicitudCompra.gotoFirst();
+						dsSolicitudCompra.ejecutaAccion(18,	"0006", 
+								this.getCurrentRequest().getRemoteHost(), 
+								getSessionManager().getWebSiteUser().getUserID(), 
+								"solicitudes_compra", conexion, false);
+					}					
+				}				
+				
+				_dsDetalleSC.update(conexion);
+				conexion.commit();
+
+				// our daily wtf ...
+				conexion.beginTransaction();				
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+						dsSolicitudCompra.retrieve(
+								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+						);
+						dsSolicitudCompra.gotoFirst();
+						try {
+							dsSolicitudCompra.ejecutaAccion(19,	"0006",
+									this.getCurrentRequest().getRemoteHost(), 
+									getSessionManager().getWebSiteUser().getUserID(), 
+									"solicitudes_compra", conexion, false);	
+						} catch (DataStoreException ex) {
+							MessageLog.writeErrorMessage(ex, null);
+						}														
+					}
+				}				
+				conexion.commit();
+				
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
 				return false;
+			} catch (SQLException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+				return false;
+			} catch (ValidationException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				for (String er : ex.getStackErrores()) {
+					displayErrorMessage(er);
+				}
+				return false;
+			}
+			finally {
+				if (conexion != null) {
+					conexion.rollback();
+					conexion.freeConnection();
+				}
 			}
 		}
 		
@@ -274,14 +356,17 @@ public class GenerarOrdenesCompraController extends BaseController {
 		_dsDetalleSC.gotoFirst();
 	}	
 	
-	private String armarCriterio() throws DataStoreException {
-		StringBuilder sb = new StringBuilder(150);
+	private String armarCriterio() throws SQLException, DataStoreException {
+		StringBuilder sb = new StringBuilder(500);
 		
 		// only retrieve SCs which are aproved and hasn't got an OCs assigned 
-		sb.append(" (solicitudes_compra.estado = '0006.0003' and detalle_sc.orden_compra_id is null) ");		
+		sb.append(" (solicitudes_compra.estado IN ('0006.0003','0006.0006') and detalle_sc.orden_compra_id is null) ");		
 		
 		// build where clause with specified attributes if any
-		// TODO: build where clause with specified attributes if any
+		String criterioAtributos = armarBusquedaPorAtributos();
+		if (criterioAtributos.length() > 0) {
+			sb.append(" and detalle_sc.articulo_id IN ( ").append(criterioAtributos).append(" )");
+		}
 		
 		// add all the selection criterias specified by the user
 		String sqlFilter = _dsQBE.generateSQLFilter(_dsDetalleSC);		
@@ -290,5 +375,82 @@ public class GenerarOrdenesCompraController extends BaseController {
 		}
 			
 		return sb.toString();
+	}	
+	
+	private String armarBusquedaPorAtributos() throws SQLException {
+		StringBuilder querySql = new StringBuilder(500);
+
+		// get the attributes 
+		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();	    
+		if (_lkpAttrINP1.getValue() != null)	    	
+			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()), _valorAttr1.getValue());	     
+		if (_lkpAttrINP2.getValue() != null)	    	
+			atributos.put(Integer.parseInt(_lkpAttrINP2.getValue()), _valorAttr2.getValue());
+		if (_lkpAttrINP3.getValue() != null)	    	
+			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()), _valorAttr3.getValue());
+
+		if (atributos.size() > 0) {
+			querySql.append(" SELECT objeto_id "
+					+ " FROM infraestructura.atributos_entidad " 
+					+ " WHERE tipo_objeto = 'TABLA' AND nombre_objeto = 'articulos' "
+					+ " AND ( ");
+			
+			Iterator<Integer> i = atributos.keySet().iterator();
+			
+			while (i.hasNext()) {
+				int atributoId = i.next();
+				String valorAtributo = atributos.get(atributoId);
+					
+				String tipoAtributo = AtributosEntidadModel.getTipoAtributo(atributoId);
+				String sqlClause = null;
+
+				if ("entero".equalsIgnoreCase(tipoAtributo)) {
+					sqlClause = "valor_entero = " + Integer.parseInt(valorAtributo);
+				}
+				else if ("real".equalsIgnoreCase(tipoAtributo)) {
+					sqlClause = "valor_real = " + Float.parseFloat(valorAtributo); 
+				}
+				else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
+					try {
+						sqlClause = "valor_fecha = '" + java.sql.Date.valueOf(valorAtributo).toString() + "'";
+					} catch (Exception e) {
+						SalmonDateFormat sdf = new SalmonDateFormat();
+						try {						
+							sqlClause = "valor_fecha = '" + 
+								new java.sql.Date(sdf.parse((String) valorAtributo).getTime()).toString() + "'" ;
+						} catch (ParseException e1) {
+							throw new NumberFormatException("Imposible determinar fecha");						
+						}
+					}				
+				}			
+				else if ("logico".equalsIgnoreCase(tipoAtributo)) {
+					if (valorAtributo.equalsIgnoreCase("V")
+							|| valorAtributo.equalsIgnoreCase("F"))
+						sqlClause = "valor_logico = '" + valorAtributo + "'";
+					else 
+						throw new RuntimeException("Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
+				}
+				else {
+					sqlClause = "valor LIKE '%" + valorAtributo + "%'";
+				}
+			
+				querySql.append(sqlClause);				
+				if (i.hasNext()) 
+					querySql.append(" OR ");
+			}					
+			querySql.append(" ) ");
+		}		
+		return querySql.toString();
+	}
+	
+	private int getDatosAtributo(String nombreAtributo) {
+		DBConnection conexion = null;
+		String SQL = null;
+		Statement st = null;
+		ResultSet r = null;
+		
+		
+		
+		return 0;
 	}
 }

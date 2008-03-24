@@ -1,5 +1,7 @@
 package inventario.models;
 
+import java.sql.SQLException;
+
 import infraestructura.models.BaseModel;
 
 import com.salmonllc.sql.*;
@@ -33,6 +35,9 @@ public class OrdenesCompraModel extends BaseModel {
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
 	public static final String ESTADO_NOMBRE = "estados.nombre";
 	public static final String WEBSITE_USER_NOMBRE_COMPRADOR = "nombre_completo_comprador";
+	public static final String CURRENT_WEBSITE_USER_ID = "website_user.user_id";
+	public static final String ESQUEMA_CONFIGURACION_ID = "esquema_configuracion_id";
+	public static final String OBSERVACIONES = "observaciones";
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -75,33 +80,41 @@ public class OrdenesCompraModel extends BaseModel {
 
 		//$CUSTOMCONSTRUCTOR$
 		//Put custom constructor code between these comments, otherwise it be overwritten if the model is regenerated
-		addTableAlias(computeTableName("infraestructura.estados"),"estados");
-		addTableAlias(computeTableName("infraestructura.website_user"),"website_user_comprador");
-
-		addColumn(computeTableName("estados"), "nombre",
-			DataStore.DATATYPE_STRING, false, true, ESTADO_NOMBRE);
-		addColumn(computeTableName("website_user_comprador"),
-				"nombre_completo", DataStore.DATATYPE_STRING, false, true,
-				WEBSITE_USER_NOMBRE_COMPRADOR);
-
-		addJoin(computeTableAndFieldName("ordenes_compra.estado"),
-			computeTableAndFieldName("estados.estado"), true);
-		addJoin(computeTableAndFieldName("ordenes_compra.user_id_comprador"),
-				computeTableAndFieldName("website_user_comprador.user_id"),
-				true);		
-
 		try {
+			addTableAlias(computeTableName("infraestructura.estados"),"estados");
+			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_comprador");
+
+			addColumn(computeTableName("estados"), "nombre",
+					DataStore.DATATYPE_STRING, false, true, ESTADO_NOMBRE);
+			addColumn(computeTableName("website_user_comprador"),
+					"nombre_completo", DataStore.DATATYPE_STRING, false, true,
+					WEBSITE_USER_NOMBRE_COMPRADOR);
+			
+			// add buckets
+			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
+			addBucket(ESQUEMA_CONFIGURACION_ID, DATATYPE_INT);
+			addBucket(OBSERVACIONES, DATATYPE_STRING);
+
+			setAutoIncrement(ORDENES_COMPRA_ORDEN_COMPRA_ID, true);
+			setUpdateable(ORDENES_COMPRA_ORDEN_COMPRA_ID, false);
+
+			addJoin(computeTableAndFieldName("ordenes_compra.estado"),
+					computeTableAndFieldName("estados.estado"), true);
+			addJoin(computeTableAndFieldName("ordenes_compra.user_id_comprador"),
+					computeTableAndFieldName("website_user_comprador.user_id"),
+					true);		
+
 			addLookupRule(
-				ORDENES_COMPRA_ESTADO,
-				"infraestructura.estados",
-				"'infraestructura.estados.estado = ' + ordenes_compra.estado",
-				"nombre", ESTADO_NOMBRE, "Estado inexistente");
+					ORDENES_COMPRA_ESTADO,
+					"infraestructura.estados",
+					"'infraestructura.estados.estado = ' + ordenes_compra.estado",
+					"nombre", ESTADO_NOMBRE, "Estado inexistente");
 			addLookupRule(
-				ORDENES_COMPRA_USER_ID_COMPRADOR,
-				"infraestructura.website_user",
-				"'infraestructura.website_user.user_id = ' + ordenes_compra.user_id_comprador",
-				"nombre_completo", WEBSITE_USER_NOMBRE_COMPRADOR,
-				"Usuario inexistente");
+					ORDENES_COMPRA_USER_ID_COMPRADOR,
+					"infraestructura.website_user",
+					"'infraestructura.website_user.user_id = ' + ordenes_compra.user_id_comprador",
+					"nombre_completo", WEBSITE_USER_NOMBRE_COMPRADOR,
+					"Usuario inexistente");
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
 		}
@@ -558,6 +571,81 @@ public class OrdenesCompraModel extends BaseModel {
 	public void setWebsiteUserNombreComprador(int row, String newValue)
 			throws DataStoreException {
 		setString(row, WEBSITE_USER_NOMBRE_COMPRADOR, newValue);
+	}	
+	
+	/**
+	 * Retrieve the value of the current website user id bucket
+	 * 
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getCurrentWebsiteUserId() throws DataStoreException {
+		return getInt(CURRENT_WEBSITE_USER_ID);
+	}
+
+	/**
+	 * Set the value of the current website user id bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCurrentWebsiteUserId(int newValue) throws DataStoreException {
+		setInt(CURRENT_WEBSITE_USER_ID, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the current website user id bucket
+	 * 
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getEsquemaConfiguracionId() throws DataStoreException {
+		return getInt(ESQUEMA_CONFIGURACION_ID);
+	}
+
+	/**
+	 * Set the value of the current website user id bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEsquemaConfiguracionId(int newValue)
+			throws DataStoreException {
+		setInt(ESQUEMA_CONFIGURACION_ID, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the observaciones bucket
+	 * 
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getObservaciones() throws DataStoreException {
+		return getString(OBSERVACIONES);
+	}
+
+	/**
+	 * Set the value of the observaciones bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setObservaciones(String newValue) throws DataStoreException {
+		setString(OBSERVACIONES, newValue);
+	}
+	
+	public void setObservaciones() throws DataStoreException, SQLException{
+		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel("inventario","inventario");
+		instancia.retrieve("orden_compra_id ="+getOrdenesCompraOrdenCompraId()+ " AND estado ="+"'0007.0001' AND mensaje IS NOT NULL");
+		if (instancia.gotoFirst())
+			setObservaciones(instancia.getInstanciasAprobacionMensaje());
+		
 	}
 	//$ENDCUSTOMMETHODS$
 
