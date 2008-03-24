@@ -86,7 +86,8 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="total_solicitud1" text="Total" font="TableHeadingFont" /></td>
-								<td><salmon:text name="total_solicitud2" text="total goes here"></salmon:text></td>
+								<td><salmon:text name="total_solicitud2" text="total goes here"
+									datasource="dsOrdenesCompra:total_orden_compra"></salmon:text></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>

@@ -258,9 +258,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 
 					int ocId = _dsOrdenCompra.insertRow();
 
-					_dsOrdenCompra.setOrdenesCompraEstado(ocId, "0008.0001");
 					_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
-					_dsOrdenCompra.setOrdenesCompraFecha(ocId, new java.sql.Date(System.currentTimeMillis()));
 					_dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
 							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 					

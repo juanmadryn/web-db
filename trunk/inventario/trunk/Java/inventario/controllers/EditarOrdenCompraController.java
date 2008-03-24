@@ -352,8 +352,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_dsOrdenesCompra.setEsquemaConfiguracionId(Integer
 				.parseInt(getPageProperties().getThemeProperty(null,
 						"EsquemaConfiguracionIdOrdenesCompra")));
-		/*_dsOrdenesCompra.setTotalSolicitud(_dsOrdenesCompra
-				.getAtributoTotalSolicitud());*/
+		_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
+				.getAtributoTotalOrdenCompra());
 
 		String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
 		/*if (!"0008.0002".equalsIgnoreCase(estado))
