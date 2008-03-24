@@ -3,8 +3,7 @@ package proyectos.models;
 import infraestructura.models.AplicaCircuitoModel;
 import infraestructura.models.BaseModel;
 import infraestructura.models.TransicionEstadoModel;
-import infraestructura.reglasNegocio.ClaveUnicaValidation;
-import infraestructura.reglasNegocio.ConvierteMayusculasValidation;
+import infraestructura.utils.ConvierteMayusculasValidation;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
