@@ -362,6 +362,20 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 				}
 			}
+			
+			// 
+			//_dsSolicitudCompra.reloadRow();
+			if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
+				try {
+					_dsSolicitudCompra.ejecutaAccion(19,	"0006",
+							this.getCurrentRequest().getRemoteHost(), 
+							getSessionManager().getWebSiteUser().getUserID(), 
+							"solicitudes_compra", conn, false);	
+				} catch (DataStoreException ex) {
+					MessageLog.writeErrorMessage(ex, null);
+				}														
+			}
+			
 			conn.commit();
 		} catch (DataStoreException ex) {
 			conn.rollback();

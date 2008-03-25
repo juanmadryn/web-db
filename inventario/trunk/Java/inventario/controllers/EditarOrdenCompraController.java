@@ -10,6 +10,8 @@ import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
+import inventario.models.DetalleSCModel;
+import inventario.models.SolicitudCompraModel;
 
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
@@ -132,8 +134,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
+	public com.salmonllc.html.HtmlSubmitButton _seleccionaTodoBUT1;
+	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT2;
 	
-	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
+	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 
 	private static final String CIRCUITO = "0008";
 	
@@ -167,12 +171,19 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
 		
+		_seleccionaTodoBUT1 = new HtmlSubmitButton("seleccionaTodoBUT1","Seleccionar todo",this);
+		_listformdisplaybox2.addButton(_seleccionaTodoBUT1);		
+		_desSeleccionaTodoBUT2 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Deseleccionar",this);
+		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT2);
+		
 		// buttons listeners
 		_nuevaOrdenCompraBUT1.addSubmitListener(this);
 		_grabarOrdenCompraBUT1.addSubmitListener(this);
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
 		_articulosCancelarBUT1.addSubmitListener(this);
+		_seleccionaTodoBUT1.addSubmitListener(this);
+		_desSeleccionaTodoBUT2.addSubmitListener(this);
 		
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
@@ -182,8 +193,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_customBUT100.addSubmitListener(this);
 		
 		// data selection checkbox column
-		_dsDetalleSC.addBucket(SELECCION_DETALLE_FLAG, DataStore.DATATYPE_INT);
-		_seleccion_detalle2.setColumn(_dsDetalleSC, SELECCION_DETALLE_FLAG);
+		_dsDetalleSC.addBucket(SELECCION_DETALLE_SC_FLAG, DataStore.DATATYPE_INT);
+		_seleccion_detalle2.setColumn(_dsDetalleSC, SELECCION_DETALLE_SC_FLAG);
 		_seleccion_detalle2.setFalseValue(null);
 
 		// run datasources validations at the update event
@@ -376,6 +387,98 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			}
 		}
 		
+		// marca todos los partes del datasource como seleccionados
+		if (e.getComponent() == _seleccionaTodoBUT1) {
+			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+				_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,1);
+			}
+		}
+		
+		// desmarca todos los partes del datasource como seleccionados
+		if (e.getComponent() == _desSeleccionaTodoBUT2) {
+			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+				_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,0);
+			}
+		}
+		
+		if (component == _articulosEliminarBUT1) {			
+			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
+			if ("0008.0001".equalsIgnoreCase(estado)
+					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+				// elimina articulos de la OC
+				conn.beginTransaction();
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					if (_dsDetalleSC.getInt(i, SELECCION_DETALLE_SC_FLAG) == 1) {
+						// Rol marcado para selección
+						try {
+							_dsDetalleSC.setAny(i, DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, 
+									_dsDetalleSC.getNullDefault(DataStore.DATATYPE_INT));
+							_dsDetalleSC.update(conn);
+						} catch (DataStoreException ex) {
+							displayErrorMessage("No se ha podido remover el artículo seleccionado. Error: "
+									+ ex.getMessage());
+							_dsDetalleSC.undoChanges(i);
+							_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG, 0);
+							return false;
+						} catch (SQLException ex) {
+							displayErrorMessage(ex.getMessage());
+							return false;
+						}
+					}
+				}
+				conn.commit();
+				
+				conn.beginTransaction();
+				// update the SC states
+				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
+				
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
+					if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+						dsSolicitudCompra.retrieve(
+								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+								);
+						dsSolicitudCompra.gotoFirst();
+						dsSolicitudCompra.ejecutaAccion(20,	"0006", 
+								this.getCurrentRequest().getRemoteHost(), 
+								getSessionManager().getWebSiteUser().getUserID(), 
+								"solicitudes_compra", conn, false);
+					}					
+				}				
+				conn.commit();
+
+				// our daily wtf ...
+				conn.beginTransaction();				
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+						dsSolicitudCompra.retrieve(
+								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+						);
+						dsSolicitudCompra.gotoFirst();
+						try {
+							dsSolicitudCompra.ejecutaAccion(21,	"0006",
+									this.getCurrentRequest().getRemoteHost(), 
+									getSessionManager().getWebSiteUser().getUserID(), 
+									"solicitudes_compra", conn, false);	
+						} catch (DataStoreException ex) {
+							MessageLog.writeErrorMessage(ex, null);
+						}														
+					}
+				}
+				conn.commit();
+				
+				setRecargar(true);
+			} else {
+				// si la solicitud no está generada, bloqueo toda modificación
+				displayErrorMessage("No puede modificar la orden de compra en el estado actual.");
+				setRecargar(true);
+				pageRequested(new PageEvent(this));
+				return false;
+			}			
+		}
+		
+		// Free the connection
 		if (conn != null) {
 			conn.freeConnection();
 		}
