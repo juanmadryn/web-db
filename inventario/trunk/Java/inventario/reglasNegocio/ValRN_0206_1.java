@@ -1,12 +1,11 @@
 package inventario.reglasNegocio;
 
-import java.sql.SQLException;
-
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
-import inventario.models.OrdenesCompraModel;
 import inventario.models.SolicitudCompraModel;
+
+import java.sql.SQLException;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
@@ -26,30 +25,8 @@ public class ValRN_0206_1 extends ValidadorReglasNegocio {
 				
 				if (_dsDetalleSC.estimateRowsRetrieved(conn, DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
 						sc.getSolicitudesCompraSolicitudCompraId() + " AND " + DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " IS NOT NULL") == 0) {
-
-					OrdenesCompraModel _dsOrdenCompra = new OrdenesCompraModel("inventario");
-
-					int ocId = _dsOrdenCompra.insertRow();
-
-					_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
-					_dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, sc.getCurrentWebsiteUserId());
-
-					_dsOrdenCompra.update(conn);
-
-					_dsDetalleSC.retrieve(DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
-							sc.getSolicitudesCompraSolicitudCompraId() + " AND " + DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " IS NULL");
-					
-					for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-						if (_dsDetalleSC.getDetalleScOrdenCompraId(i) == 0) {
-							_dsDetalleSC.setDetalleScOrdenCompraId(i, 
-									_dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));							
-						}
-						if (_dsDetalleSC.getDetalleScCantidadPedida(i) == 0) {
-							_dsDetalleSC.setDetalleScCantidadPedida(i, 
-									_dsDetalleSC.getDetalleScCantidadSolicitada(i));
-						}
-					}
-					_dsDetalleSC.update(conn);
+					msg.append("No existen articulos con OC asociada en esta SC");
+					return false;
 				}
 
 				return true;

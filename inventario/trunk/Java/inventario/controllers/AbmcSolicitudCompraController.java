@@ -6,6 +6,8 @@ import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
+import inventario.models.OrdenesCompraModel;
+import inventario.models.SolicitudCompraModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -172,6 +174,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
+	public HtmlSubmitButton _generarOCBUT1;
 
 	public com.salmonllc.html.HtmlSubmitButton _customBUT100;
 
@@ -229,6 +232,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				"Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
+		
+		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1",
+				"Generar OC", this);
+		_generarOCBUT1.setAccessKey("O");
+		_listformdisplaybox2.addButton(_generarOCBUT1);
 
 		/*
 		 * _articulosGrabarBUT1 = new HtmlSubmitButton("articulosGrabarBUT1",
@@ -243,6 +251,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
 		_articulosCancelarBUT1.addSubmitListener(this);
+		_generarOCBUT1.addSubmitListener(this);
 		// _articulosGrabarBUT1.addSubmitListener(this);
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
@@ -363,8 +372,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				}
 			}
 			
-			// 
-			//_dsSolicitudCompra.reloadRow();
+			// Chequea el estado de la solicitud - si el estado es "OC Parcial" intenta
+			// el cambio de estado a "OC Completa"
 			if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
 				try {
 					_dsSolicitudCompra.ejecutaAccion(19,	"0006",
@@ -598,6 +607,97 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				return false;
 			}
 		}
+		
+		// genera OCs para articulos seleccionados
+		if (component == _generarOCBUT1) {
+			try {
+				conn = DBConnection.getConnection(getApplicationName());
+				conn.beginTransaction();
+				
+				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null");
+
+				if (_dsDetalleSC.getRowCount() <= 0) {
+					displayErrorMessage("Debe seleccionar al menos un artículo");
+					_dsDetalleSC.filter(null);
+					return false;
+				}
+				
+				_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
+				
+				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario");
+
+				if (_dsDetalleSC.findFirst()) {
+
+					int ocId = dsOrdenCompra.insertRow();
+
+					dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
+					dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
+							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+
+					dsOrdenCompra.update(conn);
+
+					/*for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+						if (_dsDetalleSC.getDetalleScOrdenCompraId(i) == 0) {
+							_dsDetalleSC.setDetalleScOrdenCompraId(i, 
+									dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));							
+						}
+					}*/
+					
+					while (_dsDetalleSC.findNext()) {
+						_dsDetalleSC.setDetalleScOrdenCompraId( 
+								dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));
+					}
+				}
+								
+				_dsDetalleSC.update(conn);
+				
+				// update the SC states
+				// se podria utilizar el mismo metodo que para la generacion de la botonera, y 
+				// obtener las acciones de manera dinamica
+				int accion = 0;
+					
+				if ("0006.0003".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
+					accion = 18;						
+				}
+				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
+					accion = 19;						
+				}
+				
+				if (accion != 0) {
+					try {
+						_dsSolicitudCompra.ejecutaAccion(accion, "0006",
+								this.getCurrentRequest().getRemoteHost(), 
+								getSessionManager().getWebSiteUser().getUserID(), 
+								"solicitudes_compra", conn, false);	
+					} catch (DataStoreException ex) {
+						MessageLog.writeErrorMessage(ex, null);
+					}											
+				}							
+							
+				conn.commit();
+				
+			} catch (DataStoreException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+				return false;
+			} catch (SQLException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+				return false;
+			} catch (ValidationException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				for (String er : ex.getStackErrores()) {
+					displayErrorMessage(er);
+				}
+				return false;
+			}
+			finally {
+				if (conn != null) {
+					conn.rollback();
+					conn.freeConnection();
+				}
+			}
+		}
 
 		armaBotonera();
 		return super.submitPerformed(event);
@@ -754,6 +854,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		String SQL;
 		String nombre_boton;
 		String estado = null;
+		
+		// boton genera OC solo es visible si ???
 
 		// resetea todos los botones
 		_customBUT100.setVisible(false);
@@ -762,11 +864,26 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_customBUT130.setVisible(false);
 		_customBUT140.setVisible(false);
 		_customBUT150.setVisible(false);
+		_generarOCBUT1.setVisible(false);
 
 		// controla estar dentro de un contexto de Informe
 		if (_dsSolicitudCompra.getRow() == -1) {
 			throw new DataStoreException(
 					"Debe seleccionar una solicitud de compra para recuperar su estado");
+		}
+		
+		estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
+		
+		// para ciertos estados no mostramos la botonera de transicion de estados
+		if ("0006.0003".equalsIgnoreCase(estado) ||
+				"0006.0006".equalsIgnoreCase(estado) ||
+				"0006.0007".equalsIgnoreCase(estado)) {
+			// mostrar el boton de generar OC solo si hay articulos sin OC asociado
+			_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
+			if (_dsDetalleSC.findFirst()) {
+				_generarOCBUT1.setVisible(true);
+			}			
+			return;
 		}
 
 		try {
@@ -782,7 +899,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			r = st.executeQuery(SQL);
 
 			// en función de la columna del circuito, determino el estado actual
-			estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
+			// estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
 
 			// recorro los estados y seteo los botones
 			SQL = "SELECT prompt_accion,accion FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado "
