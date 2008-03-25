@@ -122,7 +122,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public com.salmonllc.jsp.JspTableRow _table1TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
-
+		
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.SolicitudCompraModel _dsSolicitudCompra;
@@ -197,7 +197,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	 */
 	public void initialize() throws Exception {
 		super.initialize();
-
+		
 		// completo y asigno botones custom
 
 		_nuevaSolicitudCompraBUT1 = new HtmlSubmitButton(
@@ -269,10 +269,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_dsDetalleSC.reset();
 
 		_dsSolicitudCompra.insertRow();
-
+		
 		addPageListener(this);
 		_menuBUT.addSubmitListener(this);
-
+		
 		setTabla_principal("solicitudes_compra");
 	}
 
