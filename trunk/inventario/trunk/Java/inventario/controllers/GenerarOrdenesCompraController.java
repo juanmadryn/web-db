@@ -272,46 +272,41 @@ public class GenerarOrdenesCompraController extends BaseController {
 					}					
 				}
 				
+				_dsDetalleSC.update(conexion);
+				
 				// update the SC states
+				// se podria utilizar el mismo metodo que para la generacion de la botonera, y 
+				// obtener las acciones de manera dinamica
 				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
 				
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					if ("0006.0003".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-						dsSolicitudCompra.retrieve(
-								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-								);
-						dsSolicitudCompra.gotoFirst();
-						dsSolicitudCompra.ejecutaAccion(18,	"0006", 
-								this.getCurrentRequest().getRemoteHost(), 
-								getSessionManager().getWebSiteUser().getUserID(), 
-								"solicitudes_compra", conexion, false);
-					}					
-				}				
-				
-				_dsDetalleSC.update(conexion);
-				conexion.commit();
-
-				// our daily wtf ...
-				conexion.beginTransaction();				
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.reloadRow(i);
-					if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-						dsSolicitudCompra.retrieve(
-								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-						);
-						dsSolicitudCompra.gotoFirst();
+					dsSolicitudCompra.retrieve(conexion,
+							SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+							" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+							);					
+					dsSolicitudCompra.gotoFirst();
+					int accion = 0;
+					
+					if ("0006.0003".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
+						accion = 18;						
+					}
+					
+					if ("0006.0006".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
+						accion = 19;						
+					}
+					
+					if (accion != 0) {
 						try {
-							dsSolicitudCompra.ejecutaAccion(19,	"0006",
+							dsSolicitudCompra.ejecutaAccion(accion,	"0006",
 									this.getCurrentRequest().getRemoteHost(), 
 									getSessionManager().getWebSiteUser().getUserID(), 
 									"solicitudes_compra", conexion, false);	
 						} catch (DataStoreException ex) {
 							MessageLog.writeErrorMessage(ex, null);
-						}														
+						}											
 					}
-				}				
+				}			
+							
 				conexion.commit();
 				
 			} catch (DataStoreException ex) {

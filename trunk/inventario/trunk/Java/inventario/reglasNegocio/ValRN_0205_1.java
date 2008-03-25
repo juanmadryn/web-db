@@ -11,11 +11,13 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
-public class ValRN_0204_1 extends ValidadorReglasNegocio {
+public class ValRN_0205_1 extends ValidadorReglasNegocio {
 
 	@Override
 	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn)
 			throws ValidationException {
+		
+		DBConnection conexion = null;
 		
 		if (obj instanceof SolicitudCompraModel) {
 			try {				
@@ -23,13 +25,29 @@ public class ValRN_0204_1 extends ValidadorReglasNegocio {
 				
 				DetalleSCModel _dsDetalleSC = new DetalleSCModel("inventario","inventario");
 				
-				if (_dsDetalleSC.estimateRowsRetrieved(conn, DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
-						sc.getSolicitudesCompraSolicitudCompraId() + " AND " + DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " IS NULL") > 0) {
-					msg.append("Aùn existen articulos sin OC asociada en esta SC");
-					return false;
-				} else 
-					return true;
+				String estado = sc.getSolicitudesCompraEstado();
 				
+				if ("0006.0007".equalsIgnoreCase(estado)) {
+					if (_dsDetalleSC.estimateRowsRetrieved(DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
+							sc.getSolicitudesCompraSolicitudCompraId() + " AND " + DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " IS NULL") > 0) {
+						return true;
+					} else { 
+						msg.append("Todos los articulos de esta SC se encuentran asociados con una OC");
+						return false;
+					}
+				} 
+				
+				if ("0006.0006".equalsIgnoreCase(estado)) {
+					if (_dsDetalleSC.estimateRowsRetrieved(DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
+							sc.getSolicitudesCompraSolicitudCompraId() + " AND " + DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " IS NOT NULL") == 0) {
+						return true;
+					} else { 
+						msg.append("Algunos articulos de esta SC se encuentran asociados con una OC");
+						return false;
+					}
+				} 
+					
+				return false;
 			} catch (SQLException e) {
 				msg
 				.append("Ocurrió un error en el DataStore mientras se procesaba la generación: "
@@ -42,7 +60,12 @@ public class ValRN_0204_1 extends ValidadorReglasNegocio {
 						+ e.getMessage());
 				MessageLog.writeErrorMessage(e, null);
 				return false;
-			} 
+			} finally {
+				if (conexion != null) {
+					conexion.rollback();
+					conexion.freeConnection();
+				}
+			}
 		}
 		
 		return false;
