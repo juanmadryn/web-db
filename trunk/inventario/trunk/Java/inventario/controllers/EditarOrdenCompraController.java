@@ -352,7 +352,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 												"UNIDAD_DE_MEDIDA", _dsDetalleSC.getDetalleScArticuloId(row),
 												"TABLA","articulos"));
 							
-							//_dsDetalleSC.update(conn);
+							_dsDetalleSC.update(conn);
 						}
 					}
 					
@@ -439,10 +439,14 @@ public class EditarOrdenCompraController extends BaseEntityController {
 								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
 								);
 						dsSolicitudCompra.gotoFirst();
+						try {
 						dsSolicitudCompra.ejecutaAccion(20,	"0006", 
 								this.getCurrentRequest().getRemoteHost(), 
 								getSessionManager().getWebSiteUser().getUserID(), 
 								"solicitudes_compra", conn, false);
+						} catch (DataStoreException ex) {
+							MessageLog.writeErrorMessage(ex, null);
+						}
 					}					
 				}				
 				conn.commit();

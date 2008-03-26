@@ -242,6 +242,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		if (e.getComponent() == _generaOcsBUT3) {
 			try {
 				_dsDetalleSC.filter(SELECCION_DETALLE_SC_FLAG + " != null");
+				_dsDetalleSC.gotoFirst();
 
 				if (_dsDetalleSC.getRowCount() <= 0) {
 					displayErrorMessage("Debe seleccionar al menos un artículo");
@@ -284,20 +285,30 @@ public class GenerarOrdenesCompraController extends BaseController {
 							SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
 							" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
 							);					
-					dsSolicitudCompra.gotoFirst();
-					int accion = 0;
+					dsSolicitudCompra.gotoFirst();					
 					
 					if ("0006.0003".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
-						accion = 18;						
+						try {
+							dsSolicitudCompra.ejecutaAccion(18,	"0006",
+									this.getCurrentRequest().getRemoteHost(), 
+									getSessionManager().getWebSiteUser().getUserID(), 
+									"solicitudes_compra", conexion, false);	
+						} catch (DataStoreException ex) {
+							MessageLog.writeErrorMessage(ex, null);
+						}		
 					}
+				}
+				
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					dsSolicitudCompra.retrieve(conexion,
+							SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+							" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+							);					
+					dsSolicitudCompra.gotoFirst();
 					
 					if ("0006.0006".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
-						accion = 19;						
-					}
-					
-					if (accion != 0) {
 						try {
-							dsSolicitudCompra.ejecutaAccion(accion,	"0006",
+							dsSolicitudCompra.ejecutaAccion(19,	"0006",
 									this.getCurrentRequest().getRemoteHost(), 
 									getSessionManager().getWebSiteUser().getUserID(), 
 									"solicitudes_compra", conexion, false);	

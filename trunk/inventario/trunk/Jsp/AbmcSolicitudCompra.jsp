@@ -193,9 +193,7 @@
 						<salmon:td nowrap="TRUE">
 							<salmon:text name="cantidadRecibida1" text="Cant. recibida"
 								font="TableHeadingFont" />
-						</salmon:td>
-						<salmon:td>
-						</salmon:td>
+						</salmon:td>						
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
