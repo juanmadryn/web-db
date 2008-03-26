@@ -17,8 +17,6 @@ public class ValRN_0205_1 extends ValidadorReglasNegocio {
 	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn)
 			throws ValidationException {
 		
-		DBConnection conexion = null;
-		
 		if (obj instanceof SolicitudCompraModel) {
 			try {				
 				SolicitudCompraModel sc = (SolicitudCompraModel) obj;
@@ -28,7 +26,7 @@ public class ValRN_0205_1 extends ValidadorReglasNegocio {
 				String estado = sc.getSolicitudesCompraEstado();
 				
 				if ("0006.0007".equalsIgnoreCase(estado)) {
-					if (_dsDetalleSC.estimateRowsRetrieved(DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
+					if (_dsDetalleSC.estimateRowsRetrieved(conn, DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
 							sc.getSolicitudesCompraSolicitudCompraId() + " AND " + DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " IS NULL") > 0) {
 						return true;
 					} else { 
@@ -38,7 +36,7 @@ public class ValRN_0205_1 extends ValidadorReglasNegocio {
 				} 
 				
 				if ("0006.0006".equalsIgnoreCase(estado)) {
-					if (_dsDetalleSC.estimateRowsRetrieved(DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
+					if (_dsDetalleSC.estimateRowsRetrieved(conn, DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " +
 							sc.getSolicitudesCompraSolicitudCompraId() + " AND " + DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " IS NOT NULL") == 0) {
 						return true;
 					} else { 
@@ -60,12 +58,7 @@ public class ValRN_0205_1 extends ValidadorReglasNegocio {
 						+ e.getMessage());
 				MessageLog.writeErrorMessage(e, null);
 				return false;
-			} finally {
-				if (conexion != null) {
-					conexion.rollback();
-					conexion.freeConnection();
-				}
-			}
+			}			
 		}
 		
 		return false;

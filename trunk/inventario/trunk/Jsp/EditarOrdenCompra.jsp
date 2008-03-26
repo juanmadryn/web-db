@@ -132,13 +132,13 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="solicitud_compra3" text="Solicitud de Compra"
+							<salmon:text name="claseArticulo3" text="Clase"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="unidad_medida1" text="UM"
+							<salmon:text name="solicitudCompra3" text="Solicitud de Compra"
 								font="TableHeadingFont" />
-						</salmon:td>
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="cantidad_solicitada1" text="Cant. solicitada"
 								font="TableHeadingFont" />
@@ -154,13 +154,16 @@
 					</salmon:tr>
 					<salmon:tr>
 						<salmon:td/>
+						<salmon:td colspan="2">
+							<salmon:text name="proyecto1" text="Proyecto" font="TableHeadingFont" />
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="tarea1" text="Tarea" font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td colspan="4">
-							<salmon:text name="observaciones3" text="Obsevaciones"
-								font="TableHeadingFont" />
-						</salmon:td>
+						<salmon:td>
+							<salmon:text name="centroCosto1" text="Centro Costo" font="TableHeadingFont" />
+						</salmon:td>						
+						<salmon:td/>
 						<salmon:td>
 							<salmon:text name="cantidadPedida1" text="Cant. pedida"
 								font="TableHeadingFont" />
@@ -186,26 +189,24 @@
 							<salmon:text name="descripcion4" text="descripcion Goes Here"
 								font="DefaultFont"
 								datasource="dsDetalleSC:detalle_sc.descripcion" />
+						</salmon:td>						
+						<salmon:td>
+							<salmon:text name="claseArticulo4" text="articulo clase Goes Here"
+								font="DefaultFont"
+								datasource="dsDetalleSC:clase_articulo.nombre" />						
 						</salmon:td>
 						<salmon:td>							
-							<salmon:text name="solicitud_compra4" text="solicitud compra Goes Here"
+							<salmon:text name="solicitudCompra4" text="solicitud compra Goes Here"
 								font="DefaultFont"
 								datasource="dsDetalleSC:detalle_sc.solicitud_compra_id" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:input type="select" name="unidad_medida2"
-								datasource="dsDetalleSC:detalle_sc.unidad_medida">
-								<salmon:option display="Piezas" key="Piezas"></salmon:option>
-								<salmon:option display="Kgs" key="Kgs"></salmon:option>
-								<salmon:option display="Grs" key="Grs"></salmon:option>
-								<salmon:option display="Mts" key="Mts"></salmon:option>
-								<salmon:option display="Lts" key="Lts"></salmon:option>
-							</salmon:input>
 						</salmon:td>
 						<salmon:td>							
 							<salmon:text name="cantidad_solicitada2" text="cantidad_solicitada Goes Here"
 								font="DefaultFont"
 								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" />
+							<salmon:text name="text2" text=" - " font="DefaultFont" />
+							<salmon:text name="unidadMedida" text=""								
+								datasource="dsDetalleSC:detalle_sc.unidad_medida"></salmon:text>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="monto_unitario1" size="8"
@@ -222,7 +223,12 @@
 						</salmon:td>
 					</salmon:tr>
 					<salmon:tr>
-						<salmon:td></salmon:td>
+						<salmon:td/>
+						<salmon:td colspan="2">
+							<salmon:text name="proyecto2"
+								text="proyecto Goes Here" font="DefaultFont"
+								datasource="dsDetalleSC:proyectos.nombre" />
+						</salmon:td>
 						<salmon:td name="tarea2">							
 							<salmon:text name="tarea3" text="articulo Goes Here"
 								font="DefaultFont"
@@ -230,13 +236,13 @@
 							<salmon:text name="text3" text=" - "></salmon:text>
 							<salmon:text name="tarea4" text=""
 								datasource="dsDetalleSC:tareas_proyecto.nombre"></salmon:text>								
+						</salmon:td>						
+						<salmon:td>
+							<salmon:text name="centroCosto2"
+								text="tarea Goes Here" font="DefaultFont"
+								datasource="dsDetalleSC:centro_costo.nombre" />
 						</salmon:td>
-						<salmon:td colspan="4">							
-							<salmon:text name="observaciones4" text="observaciones Goes Here"
-								font="DefaultFont"
-								datasource="dsDetalleSC:detalle_sc.observaciones" />
-						</salmon:td>
-
+						<salmon:td/>
 						<salmon:td align="LEFT">							
 							<salmon:input type="text" name="cantidad_pedida2" size="8"
 								maxlength="15" 

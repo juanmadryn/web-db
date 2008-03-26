@@ -53,7 +53,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _cantidadRecibida1;
 	public com.salmonllc.html.HtmlText _descripcion1;
 	public com.salmonllc.html.HtmlText _descripcion3;
-	public com.salmonllc.html.HtmlText _solicitud_compra3;
+	public com.salmonllc.html.HtmlText _claseArticulo3;
+	public com.salmonllc.html.HtmlText _claseArticulo4;
+	public com.salmonllc.html.HtmlText _solicitudCompra3;
+	public com.salmonllc.html.HtmlText _solicitudCompra4;
 	public com.salmonllc.html.HtmlText _fecha_entrega_completa1;
 	public com.salmonllc.html.HtmlText _fecha_entrega_completa2;
 	public com.salmonllc.html.HtmlText _fecha_estimada_entrega1;
@@ -64,22 +67,23 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _monto_fecha_ultima_compra2;
 	public com.salmonllc.html.HtmlText _monto_total1;
 	public com.salmonllc.html.HtmlText _monto_total2;
-	public com.salmonllc.html.HtmlText _nombre_completo_comprador1;
-	public com.salmonllc.html.HtmlText _observaciones1;
+	public com.salmonllc.html.HtmlText _nombre_completo_comprador1;	
 	public com.salmonllc.html.HtmlText _observaciones3;
 	public com.salmonllc.html.HtmlText _observacionX1;
 	public com.salmonllc.html.HtmlText _seleccion_detalle1;
 	public com.salmonllc.html.HtmlText _tarea1;
+	public com.salmonllc.html.HtmlText _proyecto1;
+	public com.salmonllc.html.HtmlText _proyecto2;
+	public com.salmonllc.html.HtmlText _centroCosto1;
 	public com.salmonllc.html.HtmlText _tarea4;	
 	public com.salmonllc.html.HtmlText _total_solicitud1;
 	public com.salmonllc.html.HtmlText _total_solicitud2;
-	public com.salmonllc.html.HtmlText _unidad_medida1;
 	public com.salmonllc.html.HtmlText _cantidad_solicitada2;
 	public com.salmonllc.html.HtmlTextEdit _descripcion2;
 	public com.salmonllc.html.HtmlText _descripcion4;
 	public com.salmonllc.html.HtmlText _solicitud_compra4;
 	public com.salmonllc.html.HtmlTextEdit _monto_unitario1;
-	public com.salmonllc.html.HtmlText _observaciones4;
+	public com.salmonllc.html.HtmlText _centroCosto2;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;	
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
@@ -412,29 +416,27 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						// Rol marcado para selección
 						try {
 							_dsDetalleSC.setAny(i, DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, 
-									_dsDetalleSC.getNullDefault(DataStore.DATATYPE_INT));
-							_dsDetalleSC.update(conn);
+									_dsDetalleSC.getNullDefault(DataStore.DATATYPE_INT));							
 						} catch (DataStoreException ex) {
 							displayErrorMessage("No se ha podido remover el artículo seleccionado. Error: "
 									+ ex.getMessage());
 							_dsDetalleSC.undoChanges(i);
-							_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG, 0);
-							return false;
-						} catch (SQLException ex) {
-							displayErrorMessage(ex.getMessage());
-							return false;
+							_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG, 0);					
+							return false;						
 						}
 					}
 				}
-				conn.commit();
+				_dsDetalleSC.update(conn);
 				
-				conn.beginTransaction();
+				// conn.commit();
+				
+				// conn.beginTransaction();
 				// update the SC states
 				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
 				
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
 					if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-						dsSolicitudCompra.retrieve(
+						dsSolicitudCompra.retrieve(conn,
 								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
 								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
 								);
@@ -449,13 +451,13 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						}
 					}					
 				}				
-				conn.commit();
+				// conn.commit();
 
 				// our daily wtf ...
-				conn.beginTransaction();				
+				// conn.beginTransaction();				
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 					if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-						dsSolicitudCompra.retrieve(
+						dsSolicitudCompra.retrieve(conn,
 								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
 								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
 						);
