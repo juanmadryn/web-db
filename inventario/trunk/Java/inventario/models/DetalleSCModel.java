@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import proyectos.models.TareasProyectoModel;
 
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
@@ -205,7 +206,7 @@ public class DetalleSCModel extends DataStore {
 				DataStore.DATATYPE_DATE, false, false,
 				SOLICITUDES_COMPRA_FECHA_APROBACION);
 		addColumn(computeTableName("detalle_sc"), "unidad_medida",
-				DataStore.DATATYPE_STRING, false, true,
+				DataStore.DATATYPE_STRING, false, false,
 				DETALLE_SC_UNIDAD_DE_MEDIDA);
 				
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
@@ -215,16 +216,6 @@ public class DetalleSCModel extends DataStore {
 		addJoin(computeTableAndFieldName("detalle_sc.orden_compra_id"),
 				computeTableAndFieldName("ordenes_compra.orden_compra_id"), true);
 		
-		try {
-			addLookupRule(
-					DETALLE_SC_ORDEN_COMPRA_ID,
-					"ordenes_compra",
-					"'ordenes_compra.orden_compra_id = ' + detalle_sc.orden_compra_id",
-					"orden_compra_id", DETALLE_SC_ORDEN_COMPRA_ID,
-					"Orden de compra inexistente");
-		} catch (DataStoreException e) {
-			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
-		}
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -1327,7 +1318,10 @@ public class DetalleSCModel extends DataStore {
 		Float cantidad = null;		 
 		if ( ("0006.0006".equalsIgnoreCase(solicitud.getSolicitudesCompraEstado())) 
 				|| ("0006.0007".equalsIgnoreCase(solicitud.getSolicitudesCompraEstado())) ) {
-			cantidad = getDetalleScCantidadPedida(row);
+			if (getDetalleScCantidadPedida(row) > 0)
+				cantidad = getDetalleScCantidadPedida(row);
+			else
+				cantidad = getDetalleScCantidadSolicitada(row);
 		} else {
 			cantidad = getDetalleScCantidadSolicitada(row);
 		}
@@ -1339,7 +1333,7 @@ public class DetalleSCModel extends DataStore {
 	}
 
 	@Override
-	public void update() throws DataStoreException, SQLException {
+	public void update(DBConnection conn, boolean handleTrans) throws DataStoreException, SQLException {
 		for (int row = 0; row < getRowCount(); row++) {
 			if (getDetalleScTareaId(row) != 0) {
 				SolicitudCompraModel solicitud = new SolicitudCompraModel(
@@ -1379,7 +1373,7 @@ public class DetalleSCModel extends DataStore {
 			}
 		}
 
-		super.update();
+		super.update(conn, handleTrans);
 	}
 
 	public boolean chequeaTotalesDetallesSolicitud(int solicitud_id)

@@ -372,19 +372,6 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				}
 			}
 			
-			// Chequea el estado de la solicitud - si el estado es "OC Parcial" intenta
-			// el cambio de estado a "OC Completa"
-			if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
-				try {
-					_dsSolicitudCompra.ejecutaAccion(19,	"0006",
-							this.getCurrentRequest().getRemoteHost(), 
-							getSessionManager().getWebSiteUser().getUserID(), 
-							"solicitudes_compra", conn, false);	
-				} catch (DataStoreException ex) {
-					MessageLog.writeErrorMessage(ex, null);
-				}														
-			}
-			
 			conn.commit();
 		} catch (DataStoreException ex) {
 			conn.rollback();
@@ -614,65 +601,58 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
 				
-				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null");
+				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null "
+						+ "&& detalle_sc.orden_compra_id == null");
+				_dsDetalleSC.gotoFirst();
 
 				if (_dsDetalleSC.getRowCount() <= 0) {
-					displayErrorMessage("Debe seleccionar al menos un artículo");
+					displayErrorMessage("Debe seleccionar al menos un artículo sin OC");
 					_dsDetalleSC.filter(null);
 					return false;
 				}
 				
-				_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
-				
 				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario");
 
-				if (_dsDetalleSC.findFirst()) {
+				int ocId = dsOrdenCompra.insertRow();
 
-					int ocId = dsOrdenCompra.insertRow();
+				dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
+				dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
+						getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 
-					dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
-					dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
-							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+				dsOrdenCompra.update(conn);
 
-					dsOrdenCompra.update(conn);
-
-					/*for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-						if (_dsDetalleSC.getDetalleScOrdenCompraId(i) == 0) {
-							_dsDetalleSC.setDetalleScOrdenCompraId(i, 
-									dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));							
-						}
-					}*/
-					
-					while (_dsDetalleSC.findNext()) {
-						_dsDetalleSC.setDetalleScOrdenCompraId( 
-								dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));
-					}
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.setDetalleScOrdenCompraId(i, dsOrdenCompra
+							.getOrdenesCompraOrdenCompraId(ocId));
+					_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC
+							.getDetalleScCantidadSolicitada(i));						
 				}
-								
+							
 				_dsDetalleSC.update(conn);
 				
 				// update the SC states
 				// se podria utilizar el mismo metodo que para la generacion de la botonera, y 
-				// obtener las acciones de manera dinamica
-				int accion = 0;
-					
+				// obtener las acciones de manera dinamica							
 				if ("0006.0003".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
-					accion = 18;						
-				}
-				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
-					accion = 19;						
-				}
-				
-				if (accion != 0) {
 					try {
-						_dsSolicitudCompra.ejecutaAccion(accion, "0006",
+						_dsSolicitudCompra.ejecutaAccion(18, "0006",
 								this.getCurrentRequest().getRemoteHost(), 
 								getSessionManager().getWebSiteUser().getUserID(), 
 								"solicitudes_compra", conn, false);	
 					} catch (DataStoreException ex) {
 						MessageLog.writeErrorMessage(ex, null);
-					}											
-				}							
+					}					
+				}
+				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
+					try {
+						_dsSolicitudCompra.ejecutaAccion(19, "0006",
+								this.getCurrentRequest().getRemoteHost(), 
+								getSessionManager().getWebSiteUser().getUserID(), 
+								"solicitudes_compra", conn, false);	
+					} catch (DataStoreException ex) {
+						MessageLog.writeErrorMessage(ex, null);
+					}
+				}
 							
 				conn.commit();
 				
