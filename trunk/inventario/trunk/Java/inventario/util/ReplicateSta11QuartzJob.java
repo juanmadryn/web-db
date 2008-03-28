@@ -146,9 +146,9 @@ public class ReplicateSta11QuartzJob implements Job {
 							ResultSet.TYPE_SCROLL_SENSITIVE,
 							ResultSet.CONCUR_READ_ONLY);						
 			String SQLtmpFechaPrecio = "INSERT INTO inventario.tmp_fechaprecio " +
-				"(cod_articu,fecha_mov,precio_net,done) VALUES (?, ?, ?, NULL) " +
-				"ON DUPLICATE KEY UPDATE fecha_mov = values(fecha_mov), precio_net = values(precio_net), " +
-				"done = values(done)";
+				"(cod_articu,fecha_mov,precio_net) VALUES (?, ?, ?) " +
+				"ON DUPLICATE KEY UPDATE fecha_mov = values(fecha_mov), precio_net = values(precio_net)";
+				
 			pstMySql = connInv.prepareStatement(SQLtmpFechaPrecio);
 			
 			r = psTango.executeQuery();
@@ -174,7 +174,7 @@ public class ReplicateSta11QuartzJob implements Job {
 			String SQLupdMonto = 
 				"update infraestructura.atributos_entidad a " +
 				"inner join " + 
-				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net " +
 				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
 				"WHERE t.cod_articu = a.nombre order by a.articulo_id) " +
 				"t1 on a.objeto_id = t1.articulo_id and a.tipo_objeto = 'TABLA' " + 
@@ -182,7 +182,7 @@ public class ReplicateSta11QuartzJob implements Job {
 				"set a.valor_real = t1.precio_net, a.valor = truncate(t1.precio_net,2)";
 			String SQLupdFecha = 
 				"update infraestructura.atributos_entidad a inner join " +
-				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net " +
 				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
 				"WHERE t.cod_articu = a.nombre order by a.articulo_id) t1 " +
 				"on a.objeto_id = t1.articulo_id and a.tipo_objeto = 'TABLA' " +
@@ -204,7 +204,7 @@ public class ReplicateSta11QuartzJob implements Job {
 				"date(t1.fecha_mov) as valor_fecha, 4 as atributo_id, t1.articulo_id as objeto_id, " + 
 				"'TABLA' as tipo_objeto, 'articulos' as nombre_objeto " +
 				"from " +
-				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net " +
 				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
 				"WHERE t.cod_articu = a.nombre order by a.articulo_id) as t1 " +
 				"left outer join infraestructura.atributos_entidad as a1 " +
@@ -213,13 +213,13 @@ public class ReplicateSta11QuartzJob implements Job {
 				"where a1.objeto_id is null ";			
 			String SQLinsertFecha = 
 				"insert into infraestructura.atributos_entidad " +
-				"(valor,valor_fecha,atributo_id,objeto_id,tipo_objeto,nombre_objeto) " +
+				"(valor,valor_real,atributo_id,objeto_id,tipo_objeto,nombre_objeto) " +
 				"select " +
 				"truncate(t1.precio_net,2) as valor, t1.precio_net as valor_real, " + 
 				"3 as atributo_id, t1.articulo_id as objeto_id, " +
 				"'TABLA' as tipo_objeto, 'articulos' as nombre_objeto " +
 				"from " +
-				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net, t.done " +
+				"(SELECT a.articulo_id, t.fecha_mov, t.precio_net " +
 				"FROM inventario.tmp_fechaprecio t, inventario.articulos a " +
 				"WHERE t.cod_articu = a.nombre order by a.articulo_id) as t1 " +
 				"left outer join infraestructura.atributos_entidad as a1 " +
