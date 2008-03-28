@@ -962,9 +962,7 @@ public class ResumenHorasRelojModel extends DataStore {
      */
     public void generaResumenRelojes(java.sql.Date fechaDesde, java.sql.Date fechaHasta, DBConnection conexion) throws DataStoreException {
     	String sqlDelete;    	
-    	Statement st = null;
     	PreparedStatement pst = null;
-    	ResultSet r = null;
     	StoredProcedureParms params = null;
     	
     	// retrieve the tolerance margins
@@ -1003,23 +1001,9 @@ public class ResumenHorasRelojModel extends DataStore {
     		params.addParm(fechaHasta);    		
     		executeProc(conexion, "controlaRljFichadaParte",params);
     		    		    		
-    		conexion.commit();    		
-    	} catch (SQLException e) {    		
-    		throw new DataStoreException(e.getMessage(), e);
-    	} finally {
-    		if (r != null) {
-    			try {
-    				r.close();
-    			} catch (Exception e) {
-    				throw new DataStoreException(e.getMessage(), e);
-    			}
-    		}
-    		if (st != null)
-    			try {
-    				st.close();
-    			} catch (SQLException e) {
-    				throw new DataStoreException(e.getMessage(), e);
-    			}    		
+    		conexion.commit();
+    	} catch (SQLException e) {
+   			throw new DataStoreException(e.getMessage(), e);
     	} 	
     }
     
