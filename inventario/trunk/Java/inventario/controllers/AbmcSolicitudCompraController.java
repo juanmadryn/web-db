@@ -823,7 +823,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i, _dsSolicitudCompra);
 						}
-					}
+					}					
 					setDatosBasicosSolicitud();
 					setTareaLookupURL();
 				}
@@ -913,7 +913,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			_dsSolicitudCompra.setSolicitudesCompraUserIdSolicita(currentUser);
 			_nombre_completo_solicitante2.setEnabled(false);			
 		}
-
+		
+		String URL = armarUrlReporte("PDF", "solicitud_compra",
+				"&Parameter_solicitud_compra_id=" + getRow_id());
+		_imprimirSolicitudCompraBUT1.setHref(URL);
+		_imprimirSolicitudCompraBUT1.setOnClick("window.open("+URL+",\"Imprimir solicitud de compra\",\"width=120,height=300,scrollbars=NO\")" );
 	}
 
 	/**
@@ -1044,7 +1048,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		String[] estados = getPageProperties().getThemeProperty(null, ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA).split(",");
 		for (int i = 0; i < estados.length; i++)
 			estadosSet.add(estados[i]);
-		return estadosSet.contains(estadoActual);
+		return estadoActual == null ? true : estadosSet.contains(estadoActual);
 			
 	}
 }
