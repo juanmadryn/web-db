@@ -7,14 +7,16 @@ import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.OrdenesCompraModel;
-import inventario.models.SolicitudCompraModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.salmonllc.html.HtmlComponent;
+import com.salmonllc.html.HtmlLink;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
@@ -22,6 +24,7 @@ import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.SubmitListener;
 import com.salmonllc.html.events.ValueChangedEvent;
 import com.salmonllc.html.events.ValueChangedListener;
+import com.salmonllc.jsp.JspContainer;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -171,7 +174,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	// customs components
 	public HtmlSubmitButton _nuevaSolicitudCompraBUT1;
 	public HtmlSubmitButton _grabarSolicitudCompraBUT1;
-	public HtmlSubmitButton _imprimirSolicitudCompraBUT1;
+	public HtmlLink _imprimirSolicitudCompraBUT1;
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
@@ -214,10 +217,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_grabarSolicitudCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarSolicitudCompraBUT1);
 
-		_imprimirSolicitudCompraBUT1 = new HtmlSubmitButton(
+		_imprimirSolicitudCompraBUT1 = new HtmlLink(
 				"imprimirSolicitudCompraBUT1", "Imprimir solicitud", this);
 		_imprimirSolicitudCompraBUT1.setAccessKey("I");
-		_detailformdisplaybox1.addButton(_imprimirSolicitudCompraBUT1);
+		_imprimirSolicitudCompraBUT1.setVisible(true);
+		_detailformdisplaybox1.add( _imprimirSolicitudCompraBUT1, JspContainer.TYPE_COMP);
 
 		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1",
 				"Agregar", this);
@@ -396,10 +400,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _grabarSolicitudCompraBUT1) {
-			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
 			// si la solicitud esta en estado generado o esta siendo generada
-			if ("0006.0001".equalsIgnoreCase(estado)
-					|| "0006.0005".equalsIgnoreCase(estado) || estado == null) {
+			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
 				try {
 
 					// grabo todos los datasource
@@ -498,8 +500,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			if (_dsSolicitudCompra.getRow() != -1) {
 				String URL = armarUrlReporte("PDF", "solicitud_compra",
 						"&Parameter_solicitud_compra_id=" + getRow_id());
-				System.out.println(URL);
+				_imprimirSolicitudCompraBUT1.setTarget(URL);
 				sendRedirect(URL);
+				
 			} else {
 				displayErrorMessage("Debe seleccionar una solicitud");
 			}
@@ -508,10 +511,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		if (component == _articulosAgregarBUT1) {
 			// crea un nuevo registro de tarea
 			try {
-				String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
-				if ("0006.0001".equalsIgnoreCase(estado)
-						|| "0006.0005".equalsIgnoreCase(estado)
-						|| estado == null) {
+				if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
 					int solicitud_id = _dsSolicitudCompra
 							.getSolicitudesCompraSolicitudCompraId();
 
@@ -563,9 +563,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _articulosEliminarBUT1) {
-			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
-			if ("0006.0001".equalsIgnoreCase(estado)
-					|| "0006.0005".equalsIgnoreCase(estado) || estado == null) {
+			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
 				// elimina todas las actividades seleccionadas
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 					if (_dsDetalleSC.getInt(i, SELECCION_DETALLE_FLAG) == 1) {
@@ -1039,5 +1037,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 	public void setRecargar(boolean recargar) {
 		this.recargar = recargar;
+	}
+	
+	private boolean isModificable(String estadoActual) {
+		Set<String> estadosSet = new HashSet<String>();
+		String[] estados = getPageProperties().getThemeProperty(null, ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA).split(",");
+		for (int i = 0; i < estados.length; i++)
+			estadosSet.add(estados[i]);
+		return estadosSet.contains(estadoActual);
+			
 	}
 }
