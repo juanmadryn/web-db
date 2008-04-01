@@ -4,13 +4,17 @@ import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
 
 import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Calendar;
 
 import proyectos.models.ProyectoModel;
 
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
+import com.salmonllc.util.MessageLog;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -1189,7 +1193,7 @@ public class SolicitudCompraModel extends BaseModel {
 	public void setObservaciones(String newValue) throws DataStoreException {
 		setString(OBSERVACIONES, newValue);
 	}
-	
+
 	public float getAtributoTotalSolicitud() throws DataStoreException,
 			SQLException {
 
@@ -1197,19 +1201,16 @@ public class SolicitudCompraModel extends BaseModel {
 
 		float total = 0;
 
-			DetalleSCModel detalles = new DetalleSCModel("inventario",
-					"inventario");
-			detalles.retrieve("detalle_sc.solicitud_compra_id = "
-					+ solicitud_id);
+		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
+		detalles.retrieve("detalle_sc.solicitud_compra_id = " + solicitud_id);
 
-			for (int row = 0; row < detalles.getRowCount(); row++) {
-				detalles.setMontoTotal(row);
-				total += detalles.getMontoTotal(row);
-			}
-			
-			AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
-					"TOTAL_SOLICITUD", solicitud_id, "TABLA",
-					"solicitudes_compra");
+		for (int row = 0; row < detalles.getRowCount(); row++) {
+			detalles.setMontoTotal(row, this);
+			total += detalles.getMontoTotal(row);
+		}
+
+		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
+				"TOTAL_SOLICITUD", solicitud_id, "TABLA", "solicitudes_compra");
 
 		return total;
 
@@ -1232,8 +1233,7 @@ public class SolicitudCompraModel extends BaseModel {
 			dsProyecto.retrieve("proyecto = '" + getProyectosProyecto() + "'");
 			dsProyecto.gotoFirst();
 			setSolicitudesCompraProyectoId(dsProyecto.getProyectosProyectoId());
-		}
-		else 
+		} else
 			setSolicitudesCompraProyectoId(0);
 
 		if (getSolicitudesCompraFechaSolicitud() == null)
@@ -1244,13 +1244,65 @@ public class SolicitudCompraModel extends BaseModel {
 
 	}
 
-	public void setObservaciones() throws DataStoreException, SQLException{
-		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel("inventario","inventario");
-		instancia.retrieve("solicitud_compra_id ="+getSolicitudesCompraSolicitudCompraId()+ " AND estado ="+"'0007.0001' AND mensaje IS NOT NULL");
+	public void setObservaciones() throws DataStoreException, SQLException {
+		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
+				"inventario", "inventario");
+		instancia.retrieve("solicitud_compra_id ="
+				+ getSolicitudesCompraSolicitudCompraId() + " AND estado ="
+				+ "'0007.0001' AND mensaje IS NOT NULL");
 		if (instancia.gotoFirst())
 			setObservaciones(instancia.getInstanciasAprobacionMensaje());
-		
+
 	}
+
+	public static int getSolicitudesCompraPendientesAprobacion(int user_id) {
+		DBConnection conn = null;
+		Statement st = null;
+		ResultSet r = null;
+		int solicitudes_pendientes = 0;
+		try {
+			conn = DBConnection.getConnection("inventario", "inventario");
+
+			String SQL = "SELECT count(*) " +
+					"FROM  solicitudes_compra solicitudes_compra " +
+					"LEFT OUTER JOIN infraestructura.estados estados ON solicitudes_compra.estado = estados.estado  " +
+					"LEFT OUTER JOIN infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id  " +
+					"LEFT OUTER JOIN infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id  " +
+					"LEFT OUTER JOIN centro_costo centro_costo ON solicitudes_compra.centro_costo_id = centro_costo.centro_costo_id  " +
+					"LEFT OUTER JOIN proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id " +
+					"WHERE solicitudes_compra.solicitud_compra_id IN " +
+					"(SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante ="
+					+ user_id + ")";
+			st = conn.createStatement();
+			r = st.executeQuery(SQL);
+
+			if (r.first()) {
+				// guarda la cantidad actual
+				solicitudes_pendientes = r.getInt(1);				
+			}
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			if (conn != null)
+				conn.freeConnection();
+		}
+		return solicitudes_pendientes;
+	}
+
 	// $ENDCUSTOMMETHODS$
 
 	@Override
