@@ -66,15 +66,10 @@
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_aprobacion2" text=""
 									displayformat="dd/MM/yyyy"
-									datasource="dsSolicitudCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
-								<td><salmon:text name="fecha_oc1" text="Fecha de OC"
-									font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_oc2" text=""
-									displayformat="dd/MM/yyyy"
-									datasource="dsSolicitudCompra:solicitudes_compra.fecha_oc"></salmon:text></td>
+									datasource="dsSolicitudCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>								
 							</tr>
 							<tr>
-								<td colspan="1"><salmon:text name="proyecto1"
+								<td ><salmon:text name="proyecto1"
 									text="Proyecto" font="TableHeadingFont" /></td>
 								<salmon:td name="proyectoTableTD">
 									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
@@ -167,8 +162,8 @@
 							<salmon:text name="cantidad_solicitada1" text="Cantidad"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
-							<salmon:text name="monto_fecha_ultima_compra1"
+						<salmon:td nowrap="TRUE">
+							<salmon:text name="monto_fecha_ultima_compra1" 
 								text="Precio unitario" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td align="CENTER">
@@ -186,14 +181,16 @@
 							<salmon:text name="observaciones3" text="Obsevaciones"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td nowrap="TRUE">
 							<salmon:text name="cantidadPedida1" text="Cant. pedida"
-								font="TableHeadingFont" />
+								 font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td nowrap="TRUE">
 							<salmon:text name="cantidadRecibida1" text="Cant. recibida"
 								font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
+						<salmon:td>
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
