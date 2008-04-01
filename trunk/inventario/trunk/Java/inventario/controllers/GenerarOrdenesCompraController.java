@@ -276,8 +276,6 @@ public class GenerarOrdenesCompraController extends BaseController {
 				_dsDetalleSC.update(conexion);
 				
 				// update the SC states
-				// se podria utilizar el mismo metodo que para la generacion de la botonera, y 
-				// obtener las acciones de manera dinamica
 				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
 				
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {

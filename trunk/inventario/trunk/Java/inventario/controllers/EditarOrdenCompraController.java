@@ -5,6 +5,7 @@ package inventario.controllers;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
 
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.AtributosEntidadModel;
@@ -338,10 +339,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 															"TABLA", "articulos")));
 									
 									_dsDetalleSC.setDetalleScFechaUltimaCompra(
-											row, AtributosEntidadModel.getValorAtributoObjeto(
+											row, (java.sql.Date)DateFormat.getInstance().parse(AtributosEntidadModel.getValorAtributoObjeto(
 													"FECHA_ULTIMA_COMPRA",	
 													_dsDetalleSC.getDetalleScArticuloId(row), 
-													"TABLA", "articulos"));
+													"TABLA", "articulos")));
 								} catch (NullPointerException ex) { }
 							}
 							
@@ -428,9 +429,6 @@ public class EditarOrdenCompraController extends BaseEntityController {
 				}
 				_dsDetalleSC.update(conn);
 				
-				// conn.commit();
-				
-				// conn.beginTransaction();
 				// update the SC states
 				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
 				
@@ -451,10 +449,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						}
 					}					
 				}				
-				// conn.commit();
 
-				// our daily wtf ...
-				// conn.beginTransaction();				
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 					if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
 						dsSolicitudCompra.retrieve(conn,
