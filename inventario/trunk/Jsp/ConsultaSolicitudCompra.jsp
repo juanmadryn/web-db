@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page controller="infraestructura.controllers.BaseController" />
+<salmon:page controller="inventario.controllers.ConsultaSolicitudCompraController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
@@ -32,7 +32,7 @@
 				<salmon:td valign="Top">
 					<salmon:searchformdisplaybox
 						caption="Consulta de Solicitudes de Compra"
-						name="searchformdisplaybox1" searchbuttonvisible="true"
+						name="searchformdisplaybox1" buttondisplaylocation="BELOW_TABLE" searchbuttonvisible="true"
 						addbuttonvisible="False" qbebuilder="dsQBE">
 						<table width="100%">
 							<tr>
