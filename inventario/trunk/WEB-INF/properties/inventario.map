@@ -3,6 +3,13 @@
 <siteMap>
 
 	<entry>
+    	<name>EditarOrdenCompra</name>
+     	<uri>/Jsp/EditarOrdenCompra.jsp</uri>
+     	<useForward>false</useForward>
+     	<secure>false</secure>
+  	</entry>
+
+	<entry>
     	<name>LkpAtributosRol</name>
      	<uri>/Jsp/LkpAtributosRol.jsp</uri>
      	<useForward>false</useForward>
