@@ -106,5 +106,6 @@ public interface Constants {
 	static final String REPORT_PATH = "ReportPath";
 	static final String REPORT_PARAMETROS_PDF = "ParametrosReportePDF";
 	static final String REPORT_PARAMETROS_HTML = "ParametrosReporteHTML";
-
+	static final String ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA = "EstadosDeModificacionSolicitudesCompra";
+	
 }
