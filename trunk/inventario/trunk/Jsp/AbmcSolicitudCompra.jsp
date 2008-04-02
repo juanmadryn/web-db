@@ -25,7 +25,7 @@
 				<salmon:td valign="Top">
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
 						caption="Solicitud de compra" width="100%"
-						datasource="dsSolicitudCompra" buttondisplaylocation="BELOW_TABLE"
+						datasource="dsSolicitudCompra" buttondisplaylocation="IN_HEADER"
 						addbuttonvisible="false" cancelbuttonvisible="false"
 						savebuttonvisible="false" deletebuttonvisible="false">
 						<salmon:input name="customBUT100" type="submit" value="boton 1"
@@ -44,7 +44,8 @@
 							<tr>
 								<td><salmon:text name="nombre_completo_solicitante1"
 									text="Solicitante" font="TableHeadingFont" /></td>
-								<td><salmon:input type="select" name="nombre_completo_solicitante2" size="30"
+								<td><salmon:input type="select"
+									name="nombre_completo_solicitante2" size="30"
 									datasource="dsSolicitudCompra:solicitudes_compra.user_id_solicita">
 									<salmon:option display="abc" key="123"
 										table="inventario.solicitantes" keycolumn="user_id"
@@ -66,11 +67,11 @@
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_aprobacion2" text=""
 									displayformat="dd/MM/yyyy"
-									datasource="dsSolicitudCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>								
+									datasource="dsSolicitudCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
 							</tr>
 							<tr>
-								<td ><salmon:text name="proyecto1"
-									text="Proyecto" font="TableHeadingFont" /></td>
+								<td><salmon:text name="proyecto1" text="Proyecto"
+									font="TableHeadingFont" /></td>
 								<salmon:td name="proyectoTableTD">
 									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 										lookupurl="%LkpProyectos" name="proyecto2" size="15"
@@ -111,6 +112,13 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="total_solicitud2" text=""
 									datasource="dsSolicitudCompra:total_solicitud_compra"></salmon:text></td>
+								<td></td>
+								<td><salmon:a href="" target="_blank" name="imprimirSolicitudCompraBUT1"
+									onclick="document.forms['bannerForm'].submit();">
+									<salmon:img name="imprimirTXT"
+										src="%ImageDirectory/print.gif" height="25"
+										srclocalekey="bannerImageSource" />
+								</salmon:a></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
@@ -163,7 +171,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td nowrap="TRUE">
-							<salmon:text name="monto_fecha_ultima_compra1" 
+							<salmon:text name="monto_fecha_ultima_compra1"
 								text="Precio unitario" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td align="CENTER">
@@ -183,7 +191,7 @@
 						</salmon:td>
 						<salmon:td nowrap="TRUE">
 							<salmon:text name="cantidadPedida1" text="Cant. pedida"
-								 font="TableHeadingFont" />
+								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td nowrap="TRUE">
 							<salmon:text name="cantidadRecibida1" text="Cant. recibida"
