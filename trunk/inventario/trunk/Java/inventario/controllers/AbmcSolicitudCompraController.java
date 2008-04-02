@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -400,6 +401,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _grabarSolicitudCompraBUT1) {
+			conn = DBConnection.getConnection(getApplicationName());
+			conn.beginTransaction();
+			
 			// si la solicitud esta en estado generado o esta siendo generada
 			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
 				try {
@@ -414,11 +418,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 										getCurrentRequest().getRemoteAddr())
 										.getUserID());
 
-					_dsSolicitudCompra.update();
+					_dsSolicitudCompra.update(conn);
 
 					// actualizo los detalles					
+					_dsDetalleSC.update(conn);
 					if (_dsDetalleSC.getRow() != -1) {					
-						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {							
 							if (_dsDetalleSC.getDetalleScMontoUltimaCompra(row) == 0) {
 								try {
 									_dsDetalleSC
@@ -433,16 +438,17 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 																					.getDetalleScArticuloId(row),
 																			"TABLA",
 																			"articulos")));
+									SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 									_dsDetalleSC
 											.setDetalleScFechaUltimaCompra(
-													row, (java.sql.Date)DateFormat.getInstance().parse(
+													row, new java.sql.Date(df.parse(
 													AtributosEntidadModel
 															.getValorAtributoObjeto(
 																	"FECHA_ULTIMA_COMPRA",
 																	_dsDetalleSC
 																			.getDetalleScArticuloId(row),
 																	"TABLA",
-																	"articulos")));
+																	"articulos")).getTime()) );
 								} catch (NullPointerException e) {
 
 								}
@@ -466,8 +472,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 																"articulos"));
 							_dsDetalleSC.setMontoTotal(row, _dsSolicitudCompra);
 						}
-						_dsDetalleSC.update();
+						_dsDetalleSC.update(conn);
 					}
+					
+					conn.commit();					
 
 					_dsSolicitudCompra.reloadRow();
 
@@ -485,6 +493,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					MessageLog.writeErrorMessage(ex, _dsSolicitudCompra);
 					displayErrorMessage(ex.getMessage());
 					return false;
+				} finally {
+					if (conn != null) {
+						conn.rollback();
+						conn.freeConnection();
+					}
 				}
 			} else {
 				// si la solicitud no está generada, bloqueo toda modificación
