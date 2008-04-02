@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.salmonllc.html.HtmlComponent;
-import com.salmonllc.html.HtmlLink;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
@@ -25,7 +24,6 @@ import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.SubmitListener;
 import com.salmonllc.html.events.ValueChangedEvent;
 import com.salmonllc.html.events.ValueChangedListener;
-import com.salmonllc.jsp.JspContainer;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -129,7 +127,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public com.salmonllc.jsp.JspTableRow _table1TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
-		
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT1;	
+	
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.SolicitudCompraModel _dsSolicitudCompra;
@@ -175,7 +174,6 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	// customs components
 	public HtmlSubmitButton _nuevaSolicitudCompraBUT1;
 	public HtmlSubmitButton _grabarSolicitudCompraBUT1;
-	public HtmlLink _imprimirSolicitudCompraBUT1;
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
@@ -218,12 +216,6 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_grabarSolicitudCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarSolicitudCompraBUT1);
 
-		_imprimirSolicitudCompraBUT1 = new HtmlLink(
-				"imprimirSolicitudCompraBUT1", "Imprimir solicitud", this);
-		_imprimirSolicitudCompraBUT1.setAccessKey("I");
-		_imprimirSolicitudCompraBUT1.setVisible(true);
-		_detailformdisplaybox1.add( _imprimirSolicitudCompraBUT1, JspContainer.TYPE_COMP);
-
 		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1",
 				"Agregar", this);
 		_articulosAgregarBUT1.setAccessKey("A");
@@ -252,22 +244,17 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 		// agrega los listener a lso botones
 		_nuevaSolicitudCompraBUT1.addSubmitListener(this);
-		_grabarSolicitudCompraBUT1.addSubmitListener(this);
-		_imprimirSolicitudCompraBUT1.addSubmitListener(this);
+		_grabarSolicitudCompraBUT1.addSubmitListener(this);		
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
 		_articulosCancelarBUT1.addSubmitListener(this);
-		_generarOCBUT1.addSubmitListener(this);
-		// _articulosGrabarBUT1.addSubmitListener(this);
+		_generarOCBUT1.addSubmitListener(this);		
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
 		_customBUT130.addSubmitListener(this);
 		_customBUT120.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
-
-		// _monto_unitario2.addValueChangedListener(this);
-		// _cantidad_solicitada2.addValueChangedListener(this);
 
 		// agrego columna de seleccion
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_FLAG, DataStore.DATATYPE_INT);
@@ -508,19 +495,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			}
 
 		}
-
-		if (component == _imprimirSolicitudCompraBUT1) {
-			if (_dsSolicitudCompra.getRow() != -1) {
-				String URL = armarUrlReporte("PDF", "solicitud_compra",
-						"&Parameter_solicitud_compra_id=" + getRow_id());
-				_imprimirSolicitudCompraBUT1.setTarget(URL);
-				sendRedirect(URL);
-				
-			} else {
-				displayErrorMessage("Debe seleccionar una solicitud");
-			}
-		}
-
+		
 		if (component == _articulosAgregarBUT1) {
 			// crea un nuevo registro de tarea
 			try {
@@ -928,9 +903,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 		
 		String URL = armarUrlReporte("PDF", "solicitud_compra",
-				"&Parameter_solicitud_compra_id=" + getRow_id());
-		_imprimirSolicitudCompraBUT1.setHref(URL);
-		_imprimirSolicitudCompraBUT1.setOnClick("window.open("+URL+",\"Imprimir solicitud de compra\",\"width=120,height=300,scrollbars=NO\")" );
+				"&Parameter_solicitud_compra_id=" + getRow_id());		
+		_imprimirSolicitudCompraBUT1.setHref(URL);		
 	}
 
 	/**
