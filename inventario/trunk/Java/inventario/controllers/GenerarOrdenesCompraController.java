@@ -134,8 +134,6 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public inventario.models.OrdenesCompraModel _dsOrdenCompra;
 
 	//DataSource Column Constants	
-	public static final String DSQBE_N = "n";
-	
 	public static final String DSDETALLESC_DETALLE_SC_DETALLE_SC_ID = "detalle_sc.detalle_SC_id";
 	public static final String DSDETALLESC_DETALLE_SC_RECEPCION_COMPRA_ID = "detalle_sc.recepcion_compra_id";
 	public static final String DSDETALLESC_DETALLE_SC_ORDEN_COMPRA_ID = "detalle_sc.orden_compra_id";
