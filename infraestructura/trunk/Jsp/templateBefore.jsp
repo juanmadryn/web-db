@@ -5,7 +5,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 </salmon:container> 
-<title>infraestructura</title>
+<title>Gestión de proyectos, inventario y partes de mano de obra</title>
 <link rel="stylesheet" href="styles.css" type="text/css">
 </head>
 <!--framework code -->
