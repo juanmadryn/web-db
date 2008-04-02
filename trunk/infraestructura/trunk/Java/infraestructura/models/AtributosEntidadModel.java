@@ -1753,8 +1753,6 @@ public class AtributosEntidadModel extends DataStore {
 			if (r.first())
 				return getValorAtributoObjeto(r.getInt(1), objetoId,
 						tipoObjeto, nombreObjeto);
-		} catch (SQLException e) {
-			MessageLog.writeErrorMessage(e, null);
 		} finally {
 			if (r != null) {
 				try {
