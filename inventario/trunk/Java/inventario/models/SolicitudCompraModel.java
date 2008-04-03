@@ -1219,6 +1219,20 @@ public class SolicitudCompraModel extends BaseModel {
 	@Override
 	public void update() throws DataStoreException, SQLException {
 		// TODO Auto-generated method stub
+		completarDatosSolicitud();
+		super.update();
+
+	}
+	
+	@Override
+	public void update(DBConnection conn) throws DataStoreException,
+			SQLException {
+		// TODO Auto-generated method stub
+		completarDatosSolicitud();
+		super.update(conn);
+	}
+
+	private void completarDatosSolicitud() throws DataStoreException, SQLException{
 
 		if (!(getSolicitudesCompraCentroCostoId() == 0 ^ getProyectosProyecto() == null))
 			throw new DataStoreException(
@@ -1239,8 +1253,6 @@ public class SolicitudCompraModel extends BaseModel {
 		if (getSolicitudesCompraFechaSolicitud() == null)
 			setSolicitudesCompraFechaSolicitud(new Date((Calendar.getInstance()
 					.getTimeInMillis())));
-
-		super.update();
 
 	}
 

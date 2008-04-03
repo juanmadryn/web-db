@@ -477,8 +477,7 @@ public class InstanciasAprobacionModel extends DataStore {
 
 	public void firmarInstanciasAprobacionSolicitud(int user_firmante, DBConnection conn)
 			throws DataStoreException, SQLException {
-		for (int row = 0; row < getRowCount(); row++) {
-			System.out.println();
+		for (int row = 0; row < getRowCount(); row++) {		
 			setInstanciasAprobacionEstado(row, "0007.0002");
 			if (getInstanciasAprobacionUserFirmante(row) == user_firmante)
 				setInstanciasAprobacionFechaAccion(row, new Date((Calendar
