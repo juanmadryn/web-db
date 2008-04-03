@@ -95,8 +95,7 @@ public abstract class BaseModel extends DataStore {
 			AplicaCircuitoModel aplicaCircuito = new AplicaCircuitoModel(
 					"infraestructura", "infraestructura");
 			aplicaCircuito.retrieve("aplica_circuito.circuito = '" + circuito
-					+ "'");
-			System.out.println("EJECUTA");
+					+ "'");		
 			if (aplicaCircuito.gotoFirst()) {
 				columna_circuito = aplicaCircuito
 						.getAplicaCircuitoNombreDetalle();
