@@ -221,12 +221,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="select" name="unidad_medida2"
-								datasource="dsDetalleSC:detalle_sc.unidad_medida">
-								<salmon:option display="Piezas" key="Piezas"></salmon:option>
-								<salmon:option display="Kgs" key="Kgs"></salmon:option>
-								<salmon:option display="Grs" key="Grs"></salmon:option>
-								<salmon:option display="Mts" key="Mts"></salmon:option>
-								<salmon:option display="Lts" key="Lts"></salmon:option>
+								datasource="dsDetalleSC:detalle_sc.unidad_medida">								
 							</salmon:input>
 						</salmon:td>
 						<salmon:td>
