@@ -127,8 +127,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public com.salmonllc.jsp.JspTableRow _table1TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
-	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT1;	
-	
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT1;
+	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;
+
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.SolicitudCompraModel _dsSolicitudCompra;
@@ -203,7 +204,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	 */
 	public void initialize() throws Exception {
 		super.initialize();
-		
+
 		// completo y asigno botones custom
 
 		_nuevaSolicitudCompraBUT1 = new HtmlSubmitButton(
@@ -230,9 +231,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				"Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
-		
-		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1",
-				"Generar OC", this);
+
+		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",
+				this);
 		_generarOCBUT1.setAccessKey("O");
 		_listformdisplaybox2.addButton(_generarOCBUT1);
 
@@ -244,11 +245,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 		// agrega los listener a lso botones
 		_nuevaSolicitudCompraBUT1.addSubmitListener(this);
-		_grabarSolicitudCompraBUT1.addSubmitListener(this);		
+		_grabarSolicitudCompraBUT1.addSubmitListener(this);
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
 		_articulosCancelarBUT1.addSubmitListener(this);
-		_generarOCBUT1.addSubmitListener(this);		
+		_generarOCBUT1.addSubmitListener(this);
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
 		_customBUT130.addSubmitListener(this);
@@ -271,10 +272,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_dsDetalleSC.reset();
 
 		_dsSolicitudCompra.insertRow();
-		
+
 		addPageListener(this);
 		_menuBUT.addSubmitListener(this);
-		
+
 		setTabla_principal("solicitudes_compra");
 	}
 
@@ -364,7 +365,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 				}
 			}
-			
+
 			conn.commit();
 		} catch (DataStoreException ex) {
 			conn.rollback();
@@ -384,13 +385,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			// genero un nuevo proyecto vacio.
 			_dsSolicitudCompra.reset();
 			_dsDetalleSC.reset();
-			_dsSolicitudCompra.gotoRow(_dsSolicitudCompra.insertRow());			
+			_dsSolicitudCompra.gotoRow(_dsSolicitudCompra.insertRow());
 		}
 
 		if (component == _grabarSolicitudCompraBUT1) {
 			conn = DBConnection.getConnection(getApplicationName());
 			conn.beginTransaction();
-			
+
 			// si la solicitud esta en estado generado o esta siendo generada
 			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
 				try {
@@ -407,10 +408,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 					_dsSolicitudCompra.update(conn);
 
-					// actualizo los detalles					
-					_dsDetalleSC.update(conn);
-					if (_dsDetalleSC.getRow() != -1) {					
-						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {							
+					// actualizo los detalles
+					//_dsDetalleSC.update(conn);
+					if (_dsDetalleSC.getRow() != -1) {
+						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 							if (_dsDetalleSC.getDetalleScMontoUltimaCompra(row) == 0) {
 								try {
 									_dsDetalleSC
@@ -425,17 +426,22 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 																					.getDetalleScArticuloId(row),
 																			"TABLA",
 																			"articulos")));
-									SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+									SimpleDateFormat df = new SimpleDateFormat(
+											"yyyy-MM-dd");
 									_dsDetalleSC
 											.setDetalleScFechaUltimaCompra(
-													row, new java.sql.Date(df.parse(
-													AtributosEntidadModel
-															.getValorAtributoObjeto(
-																	"FECHA_ULTIMA_COMPRA",
-																	_dsDetalleSC
-																			.getDetalleScArticuloId(row),
-																	"TABLA",
-																	"articulos")).getTime()) );
+													row,
+													new java.sql.Date(
+															df
+																	.parse(
+																			AtributosEntidadModel
+																					.getValorAtributoObjeto(
+																							"FECHA_ULTIMA_COMPRA",
+																							_dsDetalleSC
+																									.getDetalleScArticuloId(row),
+																							"TABLA",
+																							"articulos"))
+																	.getTime()));
 								} catch (NullPointerException e) {
 
 								}
@@ -445,7 +451,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 										.setDetalleScMontoUnitario(
 												row,
 												_dsDetalleSC
-														.getDetalleScMontoUltimaCompra(row));							
+														.getDetalleScMontoUltimaCompra(row));
 							if (_dsDetalleSC.getDetalleScUnidadMedida(row) == null)
 								_dsDetalleSC
 										.setDetalleScUnidadMedida(
@@ -461,8 +467,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						}
 						_dsDetalleSC.update(conn);
 					}
-					
-					conn.commit();					
+
+					conn.commit();
 
 					_dsSolicitudCompra.reloadRow();
 
@@ -495,42 +501,52 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			}
 
 		}
-		
+
 		if (component == _articulosAgregarBUT1) {
 			// crea un nuevo registro de tarea
-			try {
-				if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
-					int solicitud_id = _dsSolicitudCompra
-							.getSolicitudesCompraSolicitudCompraId();
+			try {				
+				_dsSolicitudCompra.update();
+				_dsSolicitudCompra.reloadRow();
+				setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
+				if (isModificable(_dsSolicitudCompra
+						.getSolicitudesCompraEstado())) {					
+					if (getRow_id() > 0) {
 
-					if (solicitud_id > 0) {
-						
 						int rowActual = _dsDetalleSC.getRow();
-						
+
 						int status = 0;
 						if (rowActual != -1)
-							status = _dsDetalleSC.getRowStatus(rowActual);						
-						
-						if (status != DataStore.STATUS_NOT_MODIFIED && status != -1) {
-							throw new DataStoreException("Grabe el artículo actual antes de agregar uno nuevo");
-						}
-						
+							status = _dsDetalleSC.getRowStatus(rowActual);
+
+						/*if (status != DataStore.STATUS_NOT_MODIFIED
+								&& status != -1) {
+							throw new DataStoreException(
+									"Grabe el artículo actual antes de agregar uno nuevo");
+						}*/
+
 						int row = _dsDetalleSC.insertRow(0);
-						_dsDetalleSC.setDetalleScSolicitudCompraId(row, solicitud_id);
+						_dsDetalleSC.setDetalleScSolicitudCompraId(row,
+								getRow_id());
 						// si existe row anterior, sólo copia valores básicos
+						/*
 						if (rowActual != -1) {
-							// valido el parte que estoy copiando						
-							_dsDetalleSC.setDetalleScTareaId(row, _dsDetalleSC.getDetalleScTareaId(rowActual+1));
-						}					
-						
+							// valido el parte que estoy copiando
+							_dsDetalleSC.setDetalleScTareaId(row, _dsDetalleSC
+									.getDetalleScTareaId(rowActual + 1));
+						}*/
+
 						// hace foco en el registro
 						int nroPagerow = _datatable2.getPage(row);
-						int nroPageActual = _datatable2.getPage(_dsDetalleSC.getRow());
+						int nroPageActual = _datatable2.getPage(_dsDetalleSC
+								.getRow());
 						if (nroPagerow != nroPageActual)
-							_datatable2.setPage(_datatable2.getPage(row));						
-							_descripcion4.setFocus(row, true);			
+							_datatable2.setPage(_datatable2.getPage(row));
+						_descripcion4.setFocus(row, true);
 						setTareaLookupURL();
-					}					
+					}
+					else {
+						displayErrorMessage("No puede modificar la solicitud en el estado actual.1 "+getRow_id());
+					}
 				} else {
 					// si la solicitud no está generada, bloqueo toda
 					// modificación
@@ -597,13 +613,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				return false;
 			}
 		}
-		
+
 		// genera OCs para articulos seleccionados
 		if (component == _generarOCBUT1) {
 			try {
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
-				
+
 				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null "
 						+ "&& detalle_sc.orden_compra_id == null");
 				_dsDetalleSC.gotoFirst();
@@ -613,14 +629,16 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					_dsDetalleSC.filter(null);
 					return false;
 				}
-				
-				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario");
+
+				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel(
+						"inventario");
 
 				int ocId = dsOrdenCompra.insertRow();
 
 				dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
-				dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
-						getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+				dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
+						getUserFromSession(getCurrentRequest().getRemoteAddr())
+								.getUserID());
 
 				dsOrdenCompra.update(conn);
 
@@ -628,37 +646,42 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					_dsDetalleSC.setDetalleScOrdenCompraId(i, dsOrdenCompra
 							.getOrdenesCompraOrdenCompraId(ocId));
 					_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC
-							.getDetalleScCantidadSolicitada(i));						
+							.getDetalleScCantidadSolicitada(i));
 				}
-							
+
 				_dsDetalleSC.update(conn);
-				
+
 				// update the SC states
-				// se podria utilizar el mismo metodo que para la generacion de la botonera, y 
-				// obtener las acciones de manera dinamica							
-				if ("0006.0003".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
+				// se podria utilizar el mismo metodo que para la generacion de
+				// la botonera, y
+				// obtener las acciones de manera dinamica
+				if ("0006.0003".equalsIgnoreCase(_dsSolicitudCompra
+						.getEstadoActual())) {
 					try {
-						_dsSolicitudCompra.ejecutaAccion(18, "0006",
-								this.getCurrentRequest().getRemoteHost(), 
-								getSessionManager().getWebSiteUser().getUserID(), 
-								"solicitudes_compra", conn, false);	
-					} catch (DataStoreException ex) {
-						MessageLog.writeErrorMessage(ex, null);
-					}					
-				}
-				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
-					try {
-						_dsSolicitudCompra.ejecutaAccion(19, "0006",
-								this.getCurrentRequest().getRemoteHost(), 
-								getSessionManager().getWebSiteUser().getUserID(), 
-								"solicitudes_compra", conn, false);	
+						_dsSolicitudCompra.ejecutaAccion(18, "0006", this
+								.getCurrentRequest().getRemoteHost(),
+								getSessionManager().getWebSiteUser()
+										.getUserID(), "solicitudes_compra",
+								conn, false);
 					} catch (DataStoreException ex) {
 						MessageLog.writeErrorMessage(ex, null);
 					}
 				}
-							
+				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra
+						.getEstadoActual())) {
+					try {
+						_dsSolicitudCompra.ejecutaAccion(19, "0006", this
+								.getCurrentRequest().getRemoteHost(),
+								getSessionManager().getWebSiteUser()
+										.getUserID(), "solicitudes_compra",
+								conn, false);
+					} catch (DataStoreException ex) {
+						MessageLog.writeErrorMessage(ex, null);
+					}
+				}
+
 				conn.commit();
-				
+
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
@@ -673,21 +696,20 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					displayErrorMessage(er);
 				}
 				return false;
-			}
-			finally {
+			} finally {
 				if (conn != null) {
 					conn.rollback();
 					conn.freeConnection();
 				}
 			}
 		}
-		
+
 		// genera OCs para articulos seleccionados
 		if (component == _generarOCBUT1) {
 			try {
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
-				
+
 				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null "
 						+ "&& detalle_sc.orden_compra_id == null");
 				_dsDetalleSC.gotoFirst();
@@ -697,14 +719,16 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					_dsDetalleSC.filter(null);
 					return false;
 				}
-				
-				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario");
+
+				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel(
+						"inventario");
 
 				int ocId = dsOrdenCompra.insertRow();
 
 				dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
-				dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
-						getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+				dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
+						getUserFromSession(getCurrentRequest().getRemoteAddr())
+								.getUserID());
 
 				dsOrdenCompra.update(conn);
 
@@ -712,37 +736,42 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					_dsDetalleSC.setDetalleScOrdenCompraId(i, dsOrdenCompra
 							.getOrdenesCompraOrdenCompraId(ocId));
 					_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC
-							.getDetalleScCantidadSolicitada(i));						
+							.getDetalleScCantidadSolicitada(i));
 				}
-							
+
 				_dsDetalleSC.update(conn);
-				
+
 				// update the SC states
-				// se podria utilizar el mismo metodo que para la generacion de la botonera, y 
-				// obtener las acciones de manera dinamica							
-				if ("0006.0003".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
+				// se podria utilizar el mismo metodo que para la generacion de
+				// la botonera, y
+				// obtener las acciones de manera dinamica
+				if ("0006.0003".equalsIgnoreCase(_dsSolicitudCompra
+						.getEstadoActual())) {
 					try {
-						_dsSolicitudCompra.ejecutaAccion(18, "0006",
-								this.getCurrentRequest().getRemoteHost(), 
-								getSessionManager().getWebSiteUser().getUserID(), 
-								"solicitudes_compra", conn, false);	
-					} catch (DataStoreException ex) {
-						MessageLog.writeErrorMessage(ex, null);
-					}					
-				}
-				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra.getEstadoActual())) {
-					try {
-						_dsSolicitudCompra.ejecutaAccion(19, "0006",
-								this.getCurrentRequest().getRemoteHost(), 
-								getSessionManager().getWebSiteUser().getUserID(), 
-								"solicitudes_compra", conn, false);	
+						_dsSolicitudCompra.ejecutaAccion(18, "0006", this
+								.getCurrentRequest().getRemoteHost(),
+								getSessionManager().getWebSiteUser()
+										.getUserID(), "solicitudes_compra",
+								conn, false);
 					} catch (DataStoreException ex) {
 						MessageLog.writeErrorMessage(ex, null);
 					}
 				}
-							
+				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra
+						.getEstadoActual())) {
+					try {
+						_dsSolicitudCompra.ejecutaAccion(19, "0006", this
+								.getCurrentRequest().getRemoteHost(),
+								getSessionManager().getWebSiteUser()
+										.getUserID(), "solicitudes_compra",
+								conn, false);
+					} catch (DataStoreException ex) {
+						MessageLog.writeErrorMessage(ex, null);
+					}
+				}
+
 				conn.commit();
-				
+
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
@@ -757,8 +786,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					displayErrorMessage(er);
 				}
 				return false;
-			}
-			finally {
+			} finally {
 				if (conn != null) {
 					conn.rollback();
 					conn.freeConnection();
@@ -811,7 +839,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i, _dsSolicitudCompra);
 						}
-					}					
+					}
 					setDatosBasicosSolicitud();
 					setTareaLookupURL();
 				}
@@ -868,7 +896,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	private void setDatosBasicosSolicitud() throws DataStoreException,
 			SQLException {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
-		
+
 		setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
 		_detailformdisplaybox1.setHeadingCaption("Solicitud de compra Nº"
 				+ getRow_id());
@@ -892,19 +920,29 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			_observacionX1.setVisible(false);
 			_observacionX2.setVisible(false);
 		}
-		
+
 		if ((new UsuarioRolesModel("infraestructura", "infraestructura"))
-				.isRolUsuario(currentUser,
-						"COMPRADOR"))
+				.isRolUsuario(currentUser, "COMPRADOR"))
 			_nombre_completo_solicitante2.setEnabled(true);
 		else {
 			_dsSolicitudCompra.setSolicitudesCompraUserIdSolicita(currentUser);
-			_nombre_completo_solicitante2.setEnabled(false);			
+			_nombre_completo_solicitante2.setEnabled(false);
 		}
-		
+
+		// setea la URL del reporte a generar al presionar el botón de impresión
 		String URL = armarUrlReporte("PDF", "solicitud_compra",
-				"&Parameter_solicitud_compra_id=" + getRow_id());		
-		_imprimirSolicitudCompraBUT1.setHref(URL);		
+				"&Parameter_solicitud_compra_id=" + getRow_id());
+		_imprimirSolicitudCompraBUT1.setHref(URL);
+
+		// rellena la lista de unidades de medida para los artículos
+		String[] options = getPageProperties().getThemeProperty(null,
+				LISTA_UNIDADES_MEDIDA).split(",");
+		_unidad_medida2.resetOptions();
+		for (int i = 0; i < options.length; i++) {
+			_unidad_medida2.addOption(options[i], options[i]);
+		}
+		_unidad_medida2.populateDropdownOptions();
+
 	}
 
 	/**
@@ -924,7 +962,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		String SQL;
 		String nombre_boton;
 		String estado = null;
-		
+
 		// boton genera OC solo es visible si ???
 
 		// resetea todos los botones
@@ -941,18 +979,21 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			throw new DataStoreException(
 					"Debe seleccionar una solicitud de compra para recuperar su estado");
 		}
-		
+
 		estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
-		
-		// para ciertos estados no mostramos la botonera de transicion de estados
-		if ("0006.0003".equalsIgnoreCase(estado) ||
-				"0006.0006".equalsIgnoreCase(estado) ||
-				"0006.0007".equalsIgnoreCase(estado)) {
-			// mostrar el boton de generar OC solo si hay articulos sin OC asociado
-			_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
+
+		// para ciertos estados no mostramos la botonera de transicion de
+		// estados
+		if ("0006.0003".equalsIgnoreCase(estado)
+				|| "0006.0006".equalsIgnoreCase(estado)
+				|| "0006.0007".equalsIgnoreCase(estado)) {
+			// mostrar el boton de generar OC solo si hay articulos sin OC
+			// asociado
+			_dsDetalleSC
+					.setFindExpression("detalle_sc.orden_compra_id == null");
 			if (_dsDetalleSC.findFirst()) {
 				_generarOCBUT1.setVisible(true);
-			}			
+			}
 			return;
 		}
 
@@ -969,7 +1010,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			r = st.executeQuery(SQL);
 
 			// en función de la columna del circuito, determino el estado actual
-			// estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
+			// estado =
+			// _dsSolicitudCompra.getString("solicitudes_compra.estado");
 
 			// recorro los estados y seteo los botones
 			SQL = "SELECT prompt_accion,accion FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado "
@@ -1029,13 +1071,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public void setRecargar(boolean recargar) {
 		this.recargar = recargar;
 	}
-	
+
 	private boolean isModificable(String estadoActual) {
 		Set<String> estadosSet = new HashSet<String>();
-		String[] estados = getPageProperties().getThemeProperty(null, ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA).split(",");
+		String[] estados = getPageProperties().getThemeProperty(null,
+				ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA).split(",");
 		for (int i = 0; i < estados.length; i++)
 			estadosSet.add(estados[i]);
 		return estadoActual == null ? true : estadosSet.contains(estadoActual);
-			
+
 	}
 }

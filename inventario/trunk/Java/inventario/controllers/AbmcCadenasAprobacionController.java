@@ -168,9 +168,7 @@ public class AbmcCadenasAprobacionController extends BaseController implements
 					int reg = _dsCadenasAprobacion.insertRow();
 					_dsCadenasAprobacion.gotoRow(reg);
 					_dsCadenasAprobacion
-							.setCadenasAprobacionConfiguracionId(configuracion_id);
-					System.out.println(_dsCadenasAprobacion
-							.getCadenasAprobacionConfiguracionId());
+							.setCadenasAprobacionConfiguracionId(configuracion_id);					
 				}
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
