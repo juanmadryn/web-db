@@ -160,10 +160,7 @@ public class BaseEntityController extends BaseController {
 				labels.add(attButton.getLabel());
 			
 			
-			for (String displayName : et) {
-				System.out.println();
-				System.out.println("Display: " + displayName);
-				System.out.println();
+			for (String displayName : et) {				
 				if (!labels.contains(displayName.trim())) {
 
 					HtmlSubmitButton button = new HtmlSubmitButton("attButton"
@@ -172,21 +169,14 @@ public class BaseEntityController extends BaseController {
 						button.setDisplayName(displayName);
 					else if (!labels.contains("General"))
 						button.setDisplayName("General");
-					else {
-						System.out.println();
-						System.out.println("ACA ESTA LA CAGADA!!!");
-						System.out.println();
+					else {						
 						return;
 					}
 
 					button.setVisible(true);
 					button.addSubmitListener(this);
 					AttributeButton attBoton = new AttributeButton(button,
-							button.getDisplayName(), attributeButtons.size());
-					System.out.println();
-					System.out.println("On setea botones atributos: "
-							+ attributeButtons.size());
-					System.out.println();
+							button.getDisplayName(), attributeButtons.size());					
 
 					setAttributeButton(attBoton);					
 				}
@@ -207,11 +197,7 @@ public class BaseEntityController extends BaseController {
 		if (attributeButtons != null && attributeButtons.size() != 0) {
 			if (newBotton == -1) {
 				for (AttributeButton button : attributeButtons)
-					button.getButton().setButtonBgColor("lightGray");
-				System.out.println();
-				System.out.println("2. BOTON SELECCIONADO: "
-						+ botonSeleccionado + " - NUEVO BOTON: " + newBotton);
-				System.out.println();
+					button.getButton().setButtonBgColor("lightGray");				
 			} else {
 				if (botonSeleccionado != -1)
 					for (AttributeButton button : attributeButtons)
@@ -219,11 +205,6 @@ public class BaseEntityController extends BaseController {
 							button.getButton().setButtonBgColor("lightGray");
 
 				botonSeleccionado = newBotton;
-
-				System.out.println();
-				System.out.println("BOTON SELECCIONADO: " + botonSeleccionado
-						+ " - NUEVO BOTON: " + newBotton);
-				System.out.println();
 
 				for (AttributeButton button : attributeButtons)
 					if (button.getIndex() == botonSeleccionado)

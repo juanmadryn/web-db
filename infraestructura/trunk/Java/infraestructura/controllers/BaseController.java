@@ -19,6 +19,7 @@ package infraestructura.controllers;
 //For more information please visit http://www.salmonllc.com
 
 import infraestructura.models.MenuModel;
+import infraestructura.utils.Utilities;
 
 import java.io.IOException;
 import java.sql.ResultSet;
@@ -124,6 +125,10 @@ public class BaseController extends JspController implements SubmitListener,
 
 	public com.salmonllc.jsp.JspLink _lnkBannerSignOut;
 
+	public com.salmonllc.jsp.JspLink _lnkBannerSolicitudesPendientes;
+	
+	public com.salmonllc.html.HtmlText _txtBannerSolicitudesPendientes;
+	
 	// public com.salmonllc.jsp.JspForm _searchForm;
 	public com.salmonllc.html.HtmlText _welcomeUser;
 
@@ -300,6 +305,16 @@ public class BaseController extends JspController implements SubmitListener,
 			_dsUsuarioRoles.setAutoValidate(true);
 		if (_dsWebSiteUser != null)
 			_dsWebSiteUser.setAutoValidate(true);	
+		
+		if (user != null) {		
+		_lnkBannerSolicitudesPendientes.setVisible(true);
+		_txtBannerSolicitudesPendientes.setVisible(true);
+		} 
+		else {
+			_lnkBannerSolicitudesPendientes.setVisible(false);
+			_txtBannerSolicitudesPendientes.setVisible(false);	
+		}
+		
 			
 		if (timeStart.get(ip) == null)
 			timeStart.put(ip,System.currentTimeMillis());
@@ -318,6 +333,11 @@ public class BaseController extends JspController implements SubmitListener,
 
 		// If it is required check for the DB connection, session or page
 		// expired.
+		WebSiteUser user = checkUser();
+		if (user == null)
+			setCheckPageExpired(false);
+		else 
+			setCheckPageExpired(true);
 		checkPageRedirect();
 
 		if (hasPageRedirected())
@@ -325,8 +345,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 		if (!isReferredByCurrentPage()) {
 
-			// Set the login links on the top of the page.
-			WebSiteUser user = checkUser();
+			// Set the login links on the top of the page.	
 
 			if (user != null && user.isValid()) {
 				_lnkBannerSignIn.setVisible(false);
@@ -342,8 +361,22 @@ public class BaseController extends JspController implements SubmitListener,
 
 			// Check if we need to change the page appearence.
 			refreshGUIOptions();
-
+				
+			
+			int solicitudes_pendientes = 0;
+			if ((user != null) && ((solicitudes_pendientes = Utilities.getSolicitudesCompraPendientesAprobacion(user.getUserID())) > 0)) {
+				_lnkBannerSolicitudesPendientes.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id=" + user.getUserID());
+				_lnkBannerSolicitudesPendientes.setVisible(true);
+				_txtBannerSolicitudesPendientes.setVisible(true);
+				_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
+			}
+			else {
+				_lnkBannerSolicitudesPendientes.setVisible(false);
+				_txtBannerSolicitudesPendientes.setVisible(false);
+				_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
+			}
 		}
+				
 		populateNavBar();
 	}
 
@@ -712,6 +745,7 @@ public class BaseController extends JspController implements SubmitListener,
 			}
 		}
 
+		checkPageRedirect();
 		return true;
 	}
 
@@ -783,7 +817,7 @@ public class BaseController extends JspController implements SubmitListener,
 			
 			_redirected = false;
 			
-			if (_checkPageExpired) {
+			if (isCheckPageExpired()) {
 				// Get the now time
 				Long time = System.currentTimeMillis();
 				// Get the timer from .properties to check if page expired
@@ -791,6 +825,7 @@ public class BaseController extends JspController implements SubmitListener,
 				int i = Integer.parseInt(props.getThemeProperty(null, "SegundosTimer"));
 								
 				// compares the elapsed time since page was requested with the timer
+				
 				if (((time-timeStart.get(ip))/1000) > i) {
 					
 					_redirected = true;
@@ -833,7 +868,7 @@ public class BaseController extends JspController implements SubmitListener,
 					return;
 				}
 			}
-		} catch (Exception e) {
+		} catch (Exception e) {			
 			MessageLog.writeErrorMessage("checkPageRedirect()", e, this);
 		}
 		
