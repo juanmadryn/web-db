@@ -271,6 +271,13 @@ public class GenerarOrdenesCompraController extends BaseController {
 					}					
 				}
 				
+				// update item prices 
+				for (int i=0; i < _dsDetalleSC.getRowCount(); i++) {
+					if (_dsDetalleSC.getDetalleScMontoUnitario(i) != _dsDetalleSC.getDetalleScMontoUltimaCompra(i)) {
+						AtributosEntidadModel.setValorAtributoObjeto(_dsDetalleSC.getDetalleScMontoUnitario(i).toString(), "MONTO_ULTIMA_COMPRA", _dsDetalleSC.getDetalleScArticuloId(i), "TABLA", "articulos");
+					}
+				}
+				
 				_dsDetalleSC.update(conexion);
 				
 				// update the SC states
@@ -337,6 +344,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 				}
 			}
 		}
+		// fin genera ordenes de compra
 		
 		if (conexion != null) {
 			conexion.freeConnection();

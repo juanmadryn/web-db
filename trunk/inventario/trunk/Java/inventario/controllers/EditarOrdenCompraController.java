@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.AtributosEntidadModel;
@@ -326,6 +327,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 
 					if (_dsDetalleSC.getRow() != -1) {
 						_dsDetalleSC.update(conn);
+						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 						
 						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 							if (_dsDetalleSC.getDetalleScMontoUltimaCompra(row) == 0) {
@@ -339,10 +341,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 															"TABLA", "articulos")));
 									
 									_dsDetalleSC.setDetalleScFechaUltimaCompra(
-											row, (java.sql.Date)DateFormat.getInstance().parse(AtributosEntidadModel.getValorAtributoObjeto(
+											row, new java.sql.Date(df.parse(AtributosEntidadModel.getValorAtributoObjeto(
 													"FECHA_ULTIMA_COMPRA",	
 													_dsDetalleSC.getDetalleScArticuloId(row), 
-													"TABLA", "articulos")));
+													"TABLA", "articulos")).getTime() ));
 								} catch (NullPointerException ex) { }
 							}
 							
@@ -379,7 +381,6 @@ public class EditarOrdenCompraController extends BaseEntityController {
 				} finally {
 					if (conn != null) {
 						conn.rollback();
-						conn.freeConnection();
 					}
 				}
 
