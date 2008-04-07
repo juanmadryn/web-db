@@ -1374,7 +1374,7 @@ public class DetalleSCModel extends DataStore {
 				"inventario");		
 		
 		for (int row = 0; row < getRowCount(); row++) {
-			solicitud.retrieve("solicitud_compra_id = "
+			solicitud.retrieve(connection, "solicitud_compra_id = "
 					+ getDetalleScSolicitudCompraId(row));
 			solicitud.gotoFirst();
 
@@ -1392,7 +1392,7 @@ public class DetalleSCModel extends DataStore {
 					throw new DataStoreException(
 							"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
 			} else if (proyecto_id != 0) {
-				dsTareas.retrieve("tareas_proyecto.proyecto_id = "
+				dsTareas.retrieve(connection, "tareas_proyecto.proyecto_id = "
 						+ proyecto_id);
 				dsTareas.gotoFirst();
 				setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
@@ -1402,7 +1402,7 @@ public class DetalleSCModel extends DataStore {
 			// fills detalle_sc.articulo_id field through ArticulosNombre
 			if (getArticulosNombre() != null) {
 				articulos = new ArticulosModel("inventario", "inventario");
-				articulos.retrieve("articulos.nombre LIKE '"
+				articulos.retrieve(connection, "articulos.nombre LIKE '"
 						+ getArticulosNombre() + "'");
 				if (!articulos.gotoFirst())
 					throw new DataStoreException(
@@ -1467,7 +1467,9 @@ public class DetalleSCModel extends DataStore {
 								"articulos")));
 			setMontoTotal(row);
 
-		}		
+		}
+		
+		super.update(connection, handleTrans);
 	}
 
 	// checks if every detail has monto_unitario filled

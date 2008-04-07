@@ -174,7 +174,7 @@
 							<salmon:text name="monto_fecha_ultima_compra1"
 								text="Precio unitario" font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td align="CENTER">
+						<salmon:td align="RIGHT">
 							<salmon:text name="monto_total1" text="Total"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -193,7 +193,7 @@
 							<salmon:text name="cantidadPedida1" text="Cant. pedida"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td nowrap="TRUE">
+						<salmon:td nowrap="TRUE" align="RIGHT">
 							<salmon:text name="cantidadRecibida1" text="Cant. recibida"
 								font="TableHeadingFont" />
 						</salmon:td>						
