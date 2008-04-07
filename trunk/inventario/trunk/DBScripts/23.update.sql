@@ -1,0 +1,2 @@
+INSERT INTO infraestructura.menu VALUES (700550, 'Unidades de Medida', 'Abmc de las unidades de medida para los artículos', 'AbmcUnidadesMedida','ConfigurarInventario');
+INSERT INTO infraestructura.acceso_menu VALUES (700550, 1, null, null);
