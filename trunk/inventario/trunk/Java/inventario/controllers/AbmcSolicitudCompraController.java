@@ -379,8 +379,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _grabarSolicitudCompraBUT1) {
-			//conn = DBConnection.getConnection("inventario","inventario");
-			//conn.beginTransaction();
+			conn = DBConnection.getConnection("inventario","inventario");
+			conn.beginTransaction();
 
 			// si la solicitud esta en estado generado o esta siendo generada
 			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
@@ -389,14 +389,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					if (_dsSolicitudCompra.getRow() == -1)
 						return false;
 					
-					_dsSolicitudCompra.update();
+					_dsSolicitudCompra.update(conn);
 
 					// actualizo los detalles
 					if (_dsDetalleSC.getRow() != -1) {
-						_dsDetalleSC.update();
+						_dsDetalleSC.update(conn);
 					}
 
-					//conn.commit();
+					conn.commit();
 
 					setTareaLookupURL();
 
@@ -412,11 +412,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					MessageLog.writeErrorMessage(ex, _dsSolicitudCompra);
 					displayErrorMessage(ex.getMessage());
 					return false;
-				/*} finally {
+				} finally {
 					if (conn != null) {
 						conn.rollback();
 						conn.freeConnection();
-					}*/
+					}
 				}
 				
 			} else {
