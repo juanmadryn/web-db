@@ -361,22 +361,22 @@ public class BaseController extends JspController implements SubmitListener,
 
 			// Check if we need to change the page appearence.
 			refreshGUIOptions();
-				
-			
-			int solicitudes_pendientes = 0;
-			if ((user != null) && ((solicitudes_pendientes = Utilities.getSolicitudesCompraPendientesAprobacion(user.getUserID())) > 0)) {
-				_lnkBannerSolicitudesPendientes.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id=" + user.getUserID());
-				_lnkBannerSolicitudesPendientes.setVisible(true);
-				_txtBannerSolicitudesPendientes.setVisible(true);
-				_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
-			}
-			else {
-				_lnkBannerSolicitudesPendientes.setVisible(false);
-				_txtBannerSolicitudesPendientes.setVisible(false);
-				_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
-			}
 		}
 				
+		int solicitudes_pendientes = 0;
+		if ((user != null) && ((solicitudes_pendientes = Utilities.getSolicitudesCompraPendientesAprobacion(user.getUserID())) > 0)) {
+			_lnkBannerSolicitudesPendientes.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id=" + user.getUserID());
+			_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
+			_lnkBannerSolicitudesPendientes.setVisible(true);
+			_txtBannerSolicitudesPendientes.setVisible(true);
+			
+		}
+		else {
+			_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
+			_lnkBannerSolicitudesPendientes.setVisible(false);
+			_txtBannerSolicitudesPendientes.setVisible(false);				
+		}
+		
 		populateNavBar();
 	}
 
