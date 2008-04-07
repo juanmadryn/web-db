@@ -197,6 +197,8 @@
 							<salmon:text name="cantidadRecibida1" text="Cant. recibida"
 								font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td>
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
@@ -219,7 +221,10 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="select" name="unidad_medida2"
-								datasource="dsDetalleSC:detalle_sc.unidad_medida">								
+								datasource="dsDetalleSC:detalle_sc.unidad_medida_id">
+								<salmon:option display="abc" key="123"
+										table="inventario.unidades_medida" keycolumn="unidades_medida.unidad_medida_id"
+										displaycolumn="unidades_medida.nombre" nulloption="false"></salmon:option>								
 							</salmon:input>
 						</salmon:td>
 						<salmon:td>
@@ -233,7 +238,7 @@
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="monto_fecha_ultima_compra2" text=""
-								displayformat="dd/MM/yyyy"
+								displayformat="dd/MM/aa"
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
