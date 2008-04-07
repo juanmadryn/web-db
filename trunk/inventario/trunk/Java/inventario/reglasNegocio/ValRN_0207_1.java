@@ -29,8 +29,8 @@ public final class ValRN_0207_1 extends ValidadorReglasNegocio {
 	 *      java.lang.String)
 	 */
 	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn) {		
-		try {
-
+	
+		try {		
 			SolicitudCompraModel ds = (SolicitudCompraModel) obj;
 
 			// checkeo si la solicitud tiene seteadas las obervaciones
@@ -86,9 +86,15 @@ public final class ValRN_0207_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
+			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId);
+			instancia.gotoFirst();
+			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
+					conn);
+
+			
 			// actualizo el mensaje de la instancia con las observaciones indicadas
 			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
-			instancia.update();
+			instancia.update(conn);
 
 			
 		} catch (DataStoreException ex) {
