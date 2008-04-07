@@ -118,8 +118,8 @@
                     <property name="displayName">monto_unitario</property>
                 </structure>
                 <structure>
-                    <property name="columnName">unidad_medida</property>
-                    <property name="displayName">unidad_medida</property>
+                    <property name="columnName">unidad_medida_id</property>
+                    <property name="displayName">unidad_medida_id</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -251,8 +251,8 @@
                     </structure>
                     <structure>
                         <property name="position">26</property>
-                        <property name="name">unidad_medida</property>
-                        <property name="dataType">string</property>
+                        <property name="name">unidad_medida_id</property>
+                        <property name="dataType">integer</property>
                     </structure>
                     <structure>
                         <property name="position">27</property>
@@ -261,11 +261,16 @@
                     </structure>
                     <structure>
                         <property name="position">28</property>
+                        <property name="name">nombre_28</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
                         <property name="name">Total</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">29</property>
+                        <property name="position">30</property>
                         <property name="name">TotalSolicitud</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -461,10 +466,10 @@
                 </structure>
                 <structure>
                     <property name="position">26</property>
-                    <property name="name">unidad_medida</property>
-                    <property name="nativeName">unidad_medida</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
+                    <property name="name">unidad_medida_id</property>
+                    <property name="nativeName">unidad_medida_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">27</property>
@@ -473,8 +478,15 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">28</property>
+                    <property name="name">nombre_28</property>
+                    <property name="nativeName">nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
-            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.user_id_comprador,solicitudes_compra.user_id_solicita,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion,solicitudes_compra.observaciones,solicitudes_compra.centro_costo_id,solicitudes_compra.proyecto_id,website_user_solicitante.nombre_completo,website_user_comprador.nombre_completo,proyectos.nombre,proyectos.proyecto,centro_costo.nombre, detalle_sc.detalle_SC_id,detalle_sc.articulo_id,detalle_sc.solicitud_compra_id,detalle_sc.cantidad_solicitada,detalle_sc.descripcion,detalle_sc.observaciones,articulos.clase_articulo_id,articulos.nombre,articulos.descripcion,detalle_sc.tarea_id,detalle_sc.monto_unitario,detalle_sc.unidad_medida,tareas_proyecto.nombre
+            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.user_id_comprador,solicitudes_compra.user_id_solicita,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion,solicitudes_compra.observaciones,solicitudes_compra.centro_costo_id,solicitudes_compra.proyecto_id,website_user_solicitante.nombre_completo,website_user_comprador.nombre_completo,proyectos.nombre,proyectos.proyecto,centro_costo.nombre, detalle_sc.detalle_SC_id,detalle_sc.articulo_id,detalle_sc.solicitud_compra_id,detalle_sc.cantidad_solicitada,detalle_sc.descripcion,detalle_sc.observaciones,articulos.clase_articulo_id,articulos.nombre,articulos.descripcion,detalle_sc.tarea_id,detalle_sc.monto_unitario,detalle_sc.unidad_medida_id,tareas_proyecto.nombre, unidades_medida.nombre
 FROM  inventario.solicitudes_compra solicitudes_compra
 left outer join infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id
@@ -482,6 +494,7 @@ left outer join centro_costo centro_costo ON solicitudes_compra.centro_costo_id 
 left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id
 left outer join inventario.detalle_sc detalle_SC ON detalle_SC.solicitud_compra_id = solicitudes_compra.solicitud_compra_id
 left outer join inventario.articulos articulos ON articulos.articulo_id = detalle_SC.articulo_id
+left outer join inventario.unidades_medida unidades_medida ON unidades_medida.unidad_medida_id = detalle_SC.unidad_medida_id
 left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tarea_id = detalle_SC.tarea_id where solicitudes_compra.solicitud_compra_id = ?</property>
         </oda-data-set>
     </data-sets>
@@ -872,6 +885,11 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                     <expression name="expression">dataSetRow["TotalSolicitud"]</expression>
                     <property name="dataType">float</property>
                 </structure>
+                <structure>
+                    <property name="name">nombre_28</property>
+                    <expression name="expression">dataSetRow["nombre_28"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <column id="637">
                 <property name="width">0.7in</property>
@@ -1119,8 +1137,8 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="652">
-                            <property name="resultSetColumn">unidad_medida</property>
+                        <data id="693">
+                            <property name="resultSetColumn">nombre_28</property>
                         </data>
                     </cell>
                     <cell id="626">
