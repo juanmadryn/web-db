@@ -1367,7 +1367,7 @@ public class DetalleSCModel extends DataStore {
 	}
 
 	@Override
-	public void update(DBConnection conn)
+	public void update(DBConnection connection, boolean handleTrans)
 			throws DataStoreException, SQLException {
 
 		SolicitudCompraModel solicitud = new SolicitudCompraModel("inventario",
@@ -1467,9 +1467,7 @@ public class DetalleSCModel extends DataStore {
 								"articulos")));
 			setMontoTotal(row);
 
-		}
-
-		super.update(conn);
+		}		
 	}
 
 	// checks if every detail has monto_unitario filled

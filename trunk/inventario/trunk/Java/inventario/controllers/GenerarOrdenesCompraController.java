@@ -243,7 +243,8 @@ public class GenerarOrdenesCompraController extends BaseController {
 				_dsDetalleSC.gotoFirst();
 
 				if (_dsDetalleSC.getRowCount() <= 0) {
-					displayErrorMessage("Debe seleccionar al menos un artículo");
+					_dsDetalleSC.filter(null);
+					displayErrorMessage("Debe seleccionar al menos un artículo");					
 					return false;
 				}
 				
@@ -272,11 +273,11 @@ public class GenerarOrdenesCompraController extends BaseController {
 				}
 				
 				// update item prices 
-				for (int i=0; i < _dsDetalleSC.getRowCount(); i++) {
+				/*for (int i=0; i < _dsDetalleSC.getRowCount(); i++) {
 					if (_dsDetalleSC.getDetalleScMontoUnitario(i) != _dsDetalleSC.getDetalleScMontoUltimaCompra(i)) {
 						AtributosEntidadModel.setValorAtributoObjeto(_dsDetalleSC.getDetalleScMontoUnitario(i).toString(), "MONTO_ULTIMA_COMPRA", _dsDetalleSC.getDetalleScArticuloId(i), "TABLA", "articulos");
 					}
-				}
+				}*/
 				
 				_dsDetalleSC.update(conexion);
 				
@@ -343,8 +344,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 					conexion.rollback();
 				}
 			}
-		}
-		// fin genera ordenes de compra
+		} // fin genera ordenes de compra
 		
 		if (conexion != null) {
 			conexion.freeConnection();
@@ -454,16 +454,6 @@ public class GenerarOrdenesCompraController extends BaseController {
 			querySql.append(" ) ");
 		}		
 		return querySql.toString();
-	}
+	}	
 	
-	private int getDatosAtributo(String nombreAtributo) {
-		DBConnection conexion = null;
-		String SQL = null;
-		Statement st = null;
-		ResultSet r = null;
-		
-		
-		
-		return 0;
-	}
 }
