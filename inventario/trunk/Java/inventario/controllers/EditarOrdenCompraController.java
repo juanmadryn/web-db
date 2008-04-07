@@ -353,11 +353,11 @@ public class EditarOrdenCompraController extends BaseEntityController {
 										row, _dsDetalleSC.getDetalleScMontoUltimaCompra(row));							
 							_dsDetalleSC.setMontoTotal(row);
 							
-							if (_dsDetalleSC.getDetalleScUnidadMedida(row) == null)
-								_dsDetalleSC.setDetalleScUnidadMedida(
+							if (_dsDetalleSC.getDetalleScUnidadMedida(row) == 0)
+								/*_dsDetalleSC.setDetalleScUnidadMedida(
 										row, AtributosEntidadModel.getValorAtributoObjeto(
 												"UNIDAD_DE_MEDIDA", _dsDetalleSC.getDetalleScArticuloId(row),
-												"TABLA","articulos"));
+												"TABLA","articulos"));*/
 							
 							_dsDetalleSC.update(conn);
 						}
@@ -407,6 +407,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			}
 		}
 		
+		// elimina una linea de la orden de compra
 		if (component == _articulosEliminarBUT1) {			
 			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
 			if ("0008.0001".equalsIgnoreCase(estado)
@@ -417,6 +418,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 					if (_dsDetalleSC.getInt(i, SELECCION_DETALLE_SC_FLAG) == 1) {
 						// Rol marcado para selección
 						try {
+							_dsDetalleSC.setAny(i, DetalleSCModel.DETALLE_SC_CANTIDAD_PEDIDA, 
+									_dsDetalleSC.getNullDefault(DataStore.DATATYPE_INT));
 							_dsDetalleSC.setAny(i, DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, 
 									_dsDetalleSC.getNullDefault(DataStore.DATATYPE_INT));							
 						} catch (DataStoreException ex) {
