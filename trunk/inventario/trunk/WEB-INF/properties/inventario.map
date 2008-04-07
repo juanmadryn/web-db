@@ -3,6 +3,13 @@
 <siteMap>
 
 	<entry>
+     	<name>AbmcUnidadesMedida</name>
+    	<uri>/Jsp/AbmcUnidadesMedida.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+
+	<entry>
     	<name>EditarOrdenCompra</name>
      	<uri>/Jsp/EditarOrdenCompra.jsp</uri>
      	<useForward>false</useForward>
