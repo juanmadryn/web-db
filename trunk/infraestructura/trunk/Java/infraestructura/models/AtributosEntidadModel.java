@@ -1677,7 +1677,7 @@ public class AtributosEntidadModel extends DataStore {
 		String sql = null;
 		String valor = null;
 		String tipo = getTipoAtributo(atributoId);
-
+		
 		try {
 			conexion = DBConnection.getConnection("infraestructura",
 					"infraestructura");
@@ -1753,6 +1753,9 @@ public class AtributosEntidadModel extends DataStore {
 			if (r.first())
 				return getValorAtributoObjeto(r.getInt(1), objetoId,
 						tipoObjeto, nombreObjeto);
+			else 
+				throw new DataStoreException("El atributo indicado para recuperar su tipo no existe.");
+			
 		} finally {
 			if (r != null) {
 				try {
@@ -1769,8 +1772,7 @@ public class AtributosEntidadModel extends DataStore {
 
 			if (conexion != null)
 				conexion.freeConnection();
-		}
-		return null;
+		}		
 	}
 
 	public static void setValorAtributoObjeto(String valor, int atributoId,
