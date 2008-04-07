@@ -1392,7 +1392,7 @@ public class DetalleSCModel extends DataStore {
 					throw new DataStoreException(
 							"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
 			} else if (proyecto_id != 0) {
-				dsTareas.retrieve(connection, "tareas_proyecto.proyecto_id = "
+				dsTareas.retrieve("tareas_proyecto.proyecto_id = "
 						+ proyecto_id);
 				dsTareas.gotoFirst();
 				setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
