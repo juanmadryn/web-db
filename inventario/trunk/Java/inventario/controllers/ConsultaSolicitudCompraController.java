@@ -2,9 +2,10 @@
 package inventario.controllers;
 
 //Salmon import statements
-import java.sql.SQLException;
-
 import infraestructura.controllers.BaseController;
+import infraestructura.models.UsuarioRolesModel;
+
+import java.sql.SQLException;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -156,14 +157,18 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesPendientes.setAccessKey("R");
 		_searchformdisplaybox1.addButton(_recuperaSolicitudesPendientes);
 		_recuperaSolicitudesPendientes.addSubmitListener(this);
-
+		_recuperaSolicitudesPendientes.setVisible(false);
+		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 		super.initialize();
 	}
 
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
-		// TODO Auto-generated method stub
-
+		// TODO Auto-generated method stub		
+		
+		_listformdisplaybox1.setHeadingCaption("Solicitudes de compra");
+		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
+		
 		if (e.getComponent() == _recuperaSolicitudesPendientes) {
 			try {
 				_dsSolicitudes
@@ -172,6 +177,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 								+ getSessionManager().getWebSiteUser()
 										.getUserID() + ")");
 				_dsSolicitudes.gotoFirst();
+				setSpecialTitle();
 			} catch (SQLException ex) {
 				displayErrorMessage(ex.getMessage());
 				ex.printStackTrace();
@@ -192,8 +198,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
-		// verifico parámetros y seteo criterio de búsqueda
-
+		
 		// si la página es requerida por si misma no hago nada
 		if (!isReferredByCurrentPage()) {
 			int user_id = getIntParameter("user_id", -1);
@@ -206,6 +211,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 									+ "(SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
 									+ user_id + ")");
 					_dsSolicitudes.gotoFirst();
+					setSpecialTitle();
 				} catch (SQLException e) {
 					displayErrorMessage(e.getMessage());
 					e.printStackTrace();
@@ -215,27 +221,33 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				}
 
 			}
-		}
-		int solicitudes_pendientes = _dsSolicitudes
-		.estimateRowsRetrieved("solicitudes_compra.solicitud_compra_id IN (SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
-				+ getSessionManager().getWebSiteUser().getUserID()+ ")");
+		}		
 		
-		_listformdisplaybox1.setHeadingCaption("Solicitudes de compra");
-		//_listformdisplaybox1.setHeadingBackgroundColor("#b6cbeb");
-		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
-		
+		int currentUser = getSessionManager().getWebSiteUser().getUserID();
+
+		int solicitudes_pendientes = _dsSolicitudes.estimateRowsRetrieved("solicitudes_compra.solicitud_compra_id IN (SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
+				+ currentUser + ")");		
 		if (solicitudes_pendientes > 0) {
-			_recuperaSolicitudesPendientes.setVisible(true);
-			if (_dsSolicitudes.getRowCount() == solicitudes_pendientes)	 {
-				_listformdisplaybox1
-				.setHeadingCaption("Solicitudes de compra pendientes de aprobación");
-				//_listformdisplaybox1.setHeadingBackgroundColor("#c1ffc1");
-				_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
-				
-			}
+			_recuperaSolicitudesPendientes.setVisible(true);				
 		} else {			
 			_recuperaSolicitudesPendientes.setVisible(false);
 		}
+		
+		// Si el usuario no es comprador, solo puede consultar las solicitudes realizadas por él
+		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+			_solicitante2.setEnabled(false);
+			_dsQBE.setString("solicitante", String.valueOf(currentUser));
+		}
+		else
+			_solicitante2.setEnabled(true);
+			
+		
 		super.pageRequested(event);
+	}
+	
+	private void setSpecialTitle() {
+		// TODO Auto-generated method stub
+		_listformdisplaybox1.setHeadingCaption("Solicitudes de compra pendientes de aprobación");
+		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");		
 	}
 }
