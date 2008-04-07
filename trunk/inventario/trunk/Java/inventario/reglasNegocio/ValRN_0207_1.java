@@ -20,7 +20,7 @@ import com.salmonllc.sql.DataStoreException;
  * @author Demian
  * 
  */
-public final class ValRN_0203_1 extends ValidadorReglasNegocio {
+public final class ValRN_0207_1 extends ValidadorReglasNegocio {
 
 	/*
 	 * (non-Javadoc)
@@ -35,8 +35,7 @@ public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 
 			// checkeo si la solicitud tiene seteadas las obervaciones
 			if (ds.getObservaciones() == null || ds.getObservaciones().trim().length() < 5) {
-				msg
-						.append("Debe completar el cuadro de observaciones con la información suficiente para corregir la solicitud");
+				msg	.append("Debe completar el cuadro de observaciones con el motivo del rechazo");
 				return false;
 			}
 
