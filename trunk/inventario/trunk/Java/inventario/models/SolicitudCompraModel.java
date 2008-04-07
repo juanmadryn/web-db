@@ -214,14 +214,18 @@ public class SolicitudCompraModel extends BaseModel {
 					"'proyectos.proyectos.proyecto_id = ' + solicitudes_compra.proyecto_id",
 					"proyecto", PROYECTOS_PROYECTO, "Proyecto inexistente");
 
+			// seteo columna de Id como autoincrement
+			setAutoIncrement(SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID, true);
+			setUpdateable(SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID, false);
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
 
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
-		// overwritten if the model is regenerated
-
+		// overwritten if the model is regenerated	
+		
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -1216,24 +1220,28 @@ public class SolicitudCompraModel extends BaseModel {
 
 	}
 
+	
+	
 	@Override
 	public void update() throws DataStoreException, SQLException {
 		// TODO Auto-generated method stub
 		completarDatosSolicitud();
 		super.update();
-
 	}
-	
+
 	@Override
 	public void update(DBConnection conn) throws DataStoreException,
 			SQLException {
 		// TODO Auto-generated method stub
 		completarDatosSolicitud();
-		super.update(conn);
+		super.update(conn);	
 	}
 
 	private void completarDatosSolicitud() throws DataStoreException, SQLException{
 
+		if (getSolicitudesCompraUserIdSolicita() == 0)
+			setSolicitudesCompraUserIdSolicita(getCurrentWebsiteUserId());
+		
 		if (!(getSolicitudesCompraCentroCostoId() == 0 ^ getProyectosProyecto() == null))
 			throw new DataStoreException(
 					"Debe imputar la solicitud a un Centro de costo o a un Proyecto.");
