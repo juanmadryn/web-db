@@ -1377,7 +1377,7 @@ public class DetalleSCModel extends DataStore {
 			solicitud.retrieve(connection, "solicitud_compra_id = "
 					+ getDetalleScSolicitudCompraId(row));
 			solicitud.gotoFirst();
-
+			
 			int proyecto_id = solicitud.getSolicitudesCompraProyectoId();
 			int tarea_id = getDetalleScTareaId(row);
 			TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
