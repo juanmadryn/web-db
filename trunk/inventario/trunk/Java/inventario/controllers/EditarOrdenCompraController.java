@@ -157,13 +157,13 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		super.initialize();
 		
 		// buttons
-		_nuevaOrdenCompraBUT1 = new HtmlSubmitButton("nuevaOrdenCompraBUT1", "Nueva orden", this);
-		_nuevaOrdenCompraBUT1.setAccessKey("N");
-		_detailformdisplaybox1.addButton(_nuevaOrdenCompraBUT1);
-
 		_grabarOrdenCompraBUT1 = new HtmlSubmitButton("grabarOrdenCompraBUT1", "Grabar", this);
 		_grabarOrdenCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarOrdenCompraBUT1);
+
+		_nuevaOrdenCompraBUT1 = new HtmlSubmitButton("nuevaOrdenCompraBUT1", "Nueva orden", this);
+		_nuevaOrdenCompraBUT1.setAccessKey("N");
+		_detailformdisplaybox1.addButton(_nuevaOrdenCompraBUT1);
 		
 		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1", "Agregar", this);
 		_articulosAgregarBUT1.setAccessKey("A");
