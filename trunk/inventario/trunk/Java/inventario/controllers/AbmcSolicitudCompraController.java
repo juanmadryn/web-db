@@ -613,7 +613,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					}
 				}
 
+				dsOrdenCompra.resetStatus();
+				_dsDetalleSC.resetStatus();
 				conn.commit();
+				
+				_dsDetalleSC.filter(null);
 
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
