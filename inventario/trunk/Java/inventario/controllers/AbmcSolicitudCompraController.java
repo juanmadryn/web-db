@@ -176,6 +176,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
 	public HtmlSubmitButton _generarOCBUT1;
+	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 
 	public com.salmonllc.html.HtmlSubmitButton _customBUT100;
 
@@ -228,6 +229,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				"Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
+		
+		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Seleccionar todo",this);
+		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 
 		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",
 				this);
@@ -247,6 +251,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_customBUT120.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
+		_desSeleccionaTodoBUT1.addSubmitListener(this);
 
 		// agrego columna de seleccion
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_FLAG, DataStore.DATATYPE_INT);
@@ -640,6 +645,22 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				}
 			}
 		}
+		
+		// marca - desmarca todos los partes del datasource como seleccionados
+		if (component == _desSeleccionaTodoBUT1) {
+			if ("Seleccionar todo".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayName()) ) {
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG,1);
+				}
+				_desSeleccionaTodoBUT1.setDisplayName("Deseleccionar todo");
+			} else {
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG,0);
+				}
+				_desSeleccionaTodoBUT1.setDisplayName("Seleccionar todo");
+			}
+		}
+
 
 		armaBotonera();
 		return super.submitPerformed(event);

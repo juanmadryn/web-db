@@ -264,6 +264,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 					
 					_dsOrdenCompra.update(conexion);
 					
+					// setea el OC generado a aquellos detalles que no tengan uno asignado
 					for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 						if (_dsDetalleSC.getDetalleScOrdenCompraId(i) == 0) {
 							_dsDetalleSC.setDetalleScOrdenCompraId(i, 
