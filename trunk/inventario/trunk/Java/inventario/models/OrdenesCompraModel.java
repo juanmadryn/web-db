@@ -652,9 +652,14 @@ public class OrdenesCompraModel extends BaseModel {
 		if (getOrdenesCompraEstado() == null)
 			setOrdenesCompraEstado("0008.0001");
 		
+		setOrdenesCompraEntidadIdProveedor(1);
+		
 		if (getOrdenesCompraFecha() == null)
 			setOrdenesCompraFecha(new Date((Calendar.getInstance()
 					.getTimeInMillis())));
+		
+		if (getOrdenesCompraUserIdComprador() == 0)
+			setOrdenesCompraUserIdComprador(getCurrentWebsiteUserId());
 	
 		super.update(conn, handleTrans);
 	}
