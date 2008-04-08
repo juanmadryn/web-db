@@ -311,59 +311,25 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			
 			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();			
 			// si la orden de compra esta en estado generado o esta siendo revisada
-			if ("0008.0001".equalsIgnoreCase(estado)
-					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+			if (estado == null || "0008.0001".equalsIgnoreCase(estado)
+					|| "0008.0005".equalsIgnoreCase(estado)) {
 				try {
 					conn.beginTransaction();
 
 					if (_dsOrdenesCompra.getRow() == -1)
 						return false;
 
-					if (_dsOrdenesCompra.getOrdenesCompraUserIdComprador() == 0)
-						_dsOrdenesCompra.setOrdenesCompraUserIdComprador(
-								getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
-
 					_dsOrdenesCompra.update(conn);
 
 					if (_dsDetalleSC.getRow() != -1) {
-						_dsDetalleSC.update(conn);
-						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-						
-						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
-							if (_dsDetalleSC.getDetalleScMontoUltimaCompra(row) == 0) {
-								
-								try {
-									_dsDetalleSC.setDetalleScMontoUltimaCompra(
-											row, Float.parseFloat(
-													AtributosEntidadModel.getValorAtributoObjeto(
-															"MONTO_ULTIMA_COMPRA", 
-															_dsDetalleSC.getDetalleScArticuloId(row), 
-															"TABLA", "articulos")));
-									
-									_dsDetalleSC.setDetalleScFechaUltimaCompra(
-											row, new java.sql.Date(df.parse(AtributosEntidadModel.getValorAtributoObjeto(
-													"FECHA_ULTIMA_COMPRA",	
-													_dsDetalleSC.getDetalleScArticuloId(row), 
-													"TABLA", "articulos")).getTime() ));
-								} catch (NullPointerException ex) { }
-							}
-							
-							if (_dsDetalleSC.getDetalleScMontoUnitario(row) == 0)
-								_dsDetalleSC.setDetalleScMontoUnitario(
-										row, _dsDetalleSC.getDetalleScMontoUltimaCompra(row));							
-							_dsDetalleSC.setMontoTotal(row);
-							
-							if (_dsDetalleSC.getDetalleScUnidadMedida(row) == 0)
-								/*_dsDetalleSC.setDetalleScUnidadMedida(
-										row, AtributosEntidadModel.getValorAtributoObjeto(
-												"UNIDAD_DE_MEDIDA", _dsDetalleSC.getDetalleScArticuloId(row),
-												"TABLA","articulos"));*/
-							
-							_dsDetalleSC.update(conn);
-						}
+						_dsDetalleSC.update(conn);						
 					}
 					
+					_dsOrdenesCompra.resetStatus();
+					_dsDetalleSC.resetStatus();
+					
 					conn.commit();
+					
 					_dsOrdenesCompra.reloadRow();
 					
 				} catch (DataStoreException ex) {
@@ -483,6 +449,13 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			}			
 		}
 		
+		if (component == _nuevaOrdenCompraBUT1) {
+			// genero un nuevo orden de compra vacia
+			_dsOrdenesCompra.reset();
+			_dsDetalleSC.reset();
+			_dsOrdenesCompra.gotoRow(_dsOrdenesCompra.insertRow());
+		}
+		
 		// Free the connection
 		if (conn != null) {
 			conn.freeConnection();
@@ -535,6 +508,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		}
 		setDatosBasicosOrdenCompra();
 		armaBotonera();
+		System.out.println("2)---> " + _dsOrdenesCompra.getRowStatus());
 		super.pageRequested(p);	
 	}
 	

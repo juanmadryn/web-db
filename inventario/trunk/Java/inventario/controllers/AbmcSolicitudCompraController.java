@@ -396,6 +396,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						_dsDetalleSC.update(conn);
 					}
 
+					_dsSolicitudCompra.resetStatus();
+					_dsDetalleSC.resetStatus();
 					conn.commit();
 
 					setTareaLookupURL();

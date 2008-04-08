@@ -1220,21 +1220,11 @@ public class SolicitudCompraModel extends BaseModel {
 
 	}
 
-	
-	
 	@Override
-	public void update() throws DataStoreException, SQLException {
-		// TODO Auto-generated method stub
+	public void update(DBConnection conn, boolean handleTrans)
+			throws DataStoreException, SQLException {
 		completarDatosSolicitud();
-		super.update();
-	}
-
-	@Override
-	public void update(DBConnection conn) throws DataStoreException,
-			SQLException {
-		// TODO Auto-generated method stub
-		completarDatosSolicitud();
-		super.update(conn);	
+		super.update(conn, handleTrans);
 	}
 
 	private void completarDatosSolicitud() throws DataStoreException, SQLException{
