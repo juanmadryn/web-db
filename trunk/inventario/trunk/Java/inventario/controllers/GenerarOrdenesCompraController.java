@@ -270,14 +270,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 									_dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));							
 						}
 					}					
-				}
-				
-				// update item prices 
-				/*for (int i=0; i < _dsDetalleSC.getRowCount(); i++) {
-					if (_dsDetalleSC.getDetalleScMontoUnitario(i) != _dsDetalleSC.getDetalleScMontoUltimaCompra(i)) {
-						AtributosEntidadModel.setValorAtributoObjeto(_dsDetalleSC.getDetalleScMontoUnitario(i).toString(), "MONTO_ULTIMA_COMPRA", _dsDetalleSC.getDetalleScArticuloId(i), "TABLA", "articulos");
-					}
-				}*/
+				}				
 				
 				_dsDetalleSC.update(conexion);
 				
@@ -393,15 +386,20 @@ public class GenerarOrdenesCompraController extends BaseController {
 	private String armarBusquedaPorAtributos() throws SQLException {
 		StringBuilder querySql = new StringBuilder(500);
 
-		// get the attributes 
-		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();	    
-		if (_lkpAttrINP1.getValue() != null)	    	
-			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()), _valorAttr1.getValue());	     
-		if (_lkpAttrINP2.getValue() != null)	    	
-			atributos.put(Integer.parseInt(_lkpAttrINP2.getValue()), _valorAttr2.getValue());
-		if (_lkpAttrINP3.getValue() != null)	    	
-			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()), _valorAttr3.getValue());
+		// get the attributes
+		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();
+		if ((_lkpAttrINP1.getValue() != null) && (_valorAttr1.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()),
+					_valorAttr1.getValue());
+		if ((_lkpAttrINP2.getValue() != null) && (_valorAttr2.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP2.getValue()),
+					_valorAttr2.getValue());
+		if ((_lkpAttrINP3.getValue() != null) && (_valorAttr3.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()),
+					_valorAttr3.getValue());
+				
 
+		// si se especifico al menos un atributo
 		if (atributos.size() > 0) {
 			querySql.append(" SELECT objeto_id "
 					+ " FROM infraestructura.atributos_entidad " 
@@ -410,47 +408,54 @@ public class GenerarOrdenesCompraController extends BaseController {
 			
 			Iterator<Integer> i = atributos.keySet().iterator();
 			
+			// completamos el query con pares atributo valor
 			while (i.hasNext()) {
 				int atributoId = i.next();
 				String valorAtributo = atributos.get(atributoId);
 					
 				String tipoAtributo = AtributosEntidadModel.getTipoAtributo(atributoId);
+				
+				if (tipoAtributo == null) throw new RuntimeException("Atributo inexistente");
+				
 				String sqlClause = null;
-
-				if ("entero".equalsIgnoreCase(tipoAtributo)) {
-					sqlClause = "valor_entero = " + Integer.parseInt(valorAtributo);
-				}
-				else if ("real".equalsIgnoreCase(tipoAtributo)) {
-					sqlClause = "valor_real = " + Float.parseFloat(valorAtributo); 
-				}
-				else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
-					try {
-						sqlClause = "valor_fecha = '" + java.sql.Date.valueOf(valorAtributo).toString() + "'";
-					} catch (Exception e) {
+				
+				try {
+					if ("entero".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_entero = "
+								+ Integer.parseInt(valorAtributo);
+					} else if ("real".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_real = "
+								+ Float.parseFloat(valorAtributo);
+					} else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
 						SalmonDateFormat sdf = new SalmonDateFormat();
-						try {						
-							sqlClause = "valor_fecha = '" + 
-								new java.sql.Date(sdf.parse((String) valorAtributo).getTime()).toString() + "'" ;
-						} catch (ParseException e1) {
-							throw new NumberFormatException("Imposible determinar fecha");						
-						}
-					}				
-				}			
-				else if ("logico".equalsIgnoreCase(tipoAtributo)) {
-					if (valorAtributo.equalsIgnoreCase("V")
-							|| valorAtributo.equalsIgnoreCase("F"))
-						sqlClause = "valor_logico = '" + valorAtributo + "'";
-					else 
-						throw new RuntimeException("Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
-				}
-				else {
-					sqlClause = "valor LIKE '%" + valorAtributo + "%'";
+						sqlClause = "valor_fecha = '"
+								+ new java.sql.Date(sdf.parse(
+										(String) valorAtributo).getTime())
+										.toString() + "'";
+					} else if ("logico".equalsIgnoreCase(tipoAtributo)) {
+						if (valorAtributo.equalsIgnoreCase("V")
+								|| valorAtributo.equalsIgnoreCase("F"))
+							sqlClause = "valor_logico = '" + valorAtributo
+									+ "'";
+						else
+							throw new RuntimeException(
+									"Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
+					} else {
+						sqlClause = "valor LIKE '%" + valorAtributo + "%'";
+					}
+				} catch (NumberFormatException e) {
+					throw new RuntimeException("Valor de atributo númerico incorrecto");
+				} catch (ParseException e) {
+					throw new RuntimeException("Valor de atributo fecha con formato incorrecto");
 				}
 			
+				// conector
 				querySql.append(sqlClause);				
 				if (i.hasNext()) 
 					querySql.append(" OR ");
-			}					
+				
+			}	
+			
 			querySql.append(" ) ");
 		}		
 		return querySql.toString();
