@@ -182,7 +182,7 @@
 								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" />
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="unidadMedida" text=""								
-								datasource="dsDetalleSC:detalle_sc.unidad_medida"></salmon:text>
+								datasource="dsDetalleSC:unidades_medida.nombre"></salmon:text>
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup
