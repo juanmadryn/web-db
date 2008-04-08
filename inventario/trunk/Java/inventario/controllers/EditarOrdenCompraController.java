@@ -410,10 +410,12 @@ public class EditarOrdenCompraController extends BaseEntityController {
 								);
 						dsSolicitudCompra.gotoFirst();
 						try {
-						dsSolicitudCompra.ejecutaAccion(20,	"0006", 
-								this.getCurrentRequest().getRemoteHost(), 
-								getSessionManager().getWebSiteUser().getUserID(), 
-								"solicitudes_compra", conn, false);
+							dsSolicitudCompra.ejecutaAccion(20, "0006", this
+									.getCurrentRequest().getRemoteHost(),
+									getSessionManager().getWebSiteUser()
+											.getUserID(), "solicitudes_compra",
+									conn, false);
+							_dsDetalleSC.reloadRow(conn, i);
 						} catch (DataStoreException ex) {
 							MessageLog.writeErrorMessage(ex, null);
 						}
@@ -437,6 +439,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						}														
 					}
 				}
+				
 				conn.commit();
 				
 				setRecargar(true);
