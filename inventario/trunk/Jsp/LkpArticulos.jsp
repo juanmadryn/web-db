@@ -52,7 +52,11 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="descripcionCAP12" text="Descripción"
+							<salmon:text name="nombreCAP11" text="Descripcion"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="descripcionCompletaCAP12" text="Descripción Completa"
 								font="TableHeadingFont" />
 						</salmon:td>
 					</salmon:tr>
@@ -73,6 +77,11 @@
 							<salmon:text name="descripcionTXT8"
 								text="tipo_equipo.descripcion Goes Here" font="DefaultFont"
 								datasource="dsArticulos:articulos.descripcion" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="descripcionCompletaTXT9"
+								text="tipo_equipo.descripcion_completa Goes Here" font="DefaultFont"
+								datasource="dsArticulos:articulos.descripcion_completa" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>

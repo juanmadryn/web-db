@@ -207,10 +207,10 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-								lookupurl="%LkpArticulos" name="articulo2" size="6"
+								lookupurl="%LkpArticulos" name="articulo2" size="10"
 								maxlength="15" datasource="dsDetalleSC:articulos.nombre"
 								descriptiondatasource="dsDetalleSC:articulos.descripcion"
-								popupheight="450" popupwidth="500" usepopup="true"
+								popupheight="450" popupwidth="600" usepopup="true"
 								showdescription="true"></salmon:lookup>
 						</salmon:td>
 						<salmon:td>

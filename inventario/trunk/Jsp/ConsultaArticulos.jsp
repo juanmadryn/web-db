@@ -26,13 +26,48 @@
                <salmon:searchformdisplaybox name="searchformdisplaybox1"
                   caption="Artículos" qbebuilder="dsQBE" searchbuttonvisible="false" addbuttonvisible="false">
                   <table width="100%">
-                     <tr>
-                        <td><salmon:text name="buscarCAP1"
-                           text="Buscar" font="ColumnCaptionFont" /></td>
-                        <td><salmon:input type="text"
-                           name="buscarTE3" size="60" maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
-                        <td><salmon:input type="hidden" name="anuladoHV" value="V" datasource="dsQBE:anulado"/></td>
-                     </tr>
+                  		<tr>	
+								<td colspan="3"/>								
+								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>
+								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
+						</tr>
+                     	<tr>                     
+                        	<td><salmon:text name="buscarCAP1"
+                           		text="Buscar" font="ColumnCaptionFont" /></td>
+                        	<td><salmon:input type="text"
+                           		name="buscarTE3" size="60" maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
+                           	<td width="40px"/>
+							<td>
+								<salmon:lookup
+									browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP1" 
+									size="15"	maxlength="25" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+							</td>
+							<td><salmon:input name="valorAttr1" type="text" /></td>
+                     	</tr>
+                     	<tr>
+                     		<td colspan="3"/>
+							<td>
+								<salmon:lookup
+									browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP2" 
+									size="15"	maxlength="25"popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+							</td>
+							<td><salmon:input name="valorAttr2" type="text" /></td>
+                     	</tr>
+                     	<tr>
+							<td colspan="3"/>
+							<td>
+								<salmon:lookup
+									browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP3" 
+									size="15"	maxlength="25" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+							</td>
+							<td><salmon:input name="valorAttr3" type="text"/></td>
+						</tr>                     	
                   </table>
                </salmon:searchformdisplaybox>
             </salmon:td>

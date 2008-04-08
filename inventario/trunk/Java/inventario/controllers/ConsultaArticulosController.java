@@ -3,11 +3,20 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
+import infraestructura.models.AtributosEntidadModel;
 import inventario.util.ReplicateSta11QuartzJob;
+
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.sql.QBEBuilder;
+import com.salmonllc.util.SalmonDateFormat;
 
 /**
  * ConsultaArticulosController: a SOFIA generated controller
@@ -36,6 +45,13 @@ public class ConsultaArticulosController extends BaseController {
 	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
+	
+	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP1;
+	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP2;
+	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP3;
+	public com.salmonllc.html.HtmlTextEdit _valorAttr1;
+	public com.salmonllc.html.HtmlTextEdit _valorAttr2;
+	public com.salmonllc.html.HtmlTextEdit _valorAttr3;
 
 	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -60,7 +76,8 @@ public class ConsultaArticulosController extends BaseController {
 	
 	// custom components
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
-	public com.salmonllc.html.HtmlSubmitButton _replicaFromTangoBUT;	
+	public com.salmonllc.html.HtmlSubmitButton _replicaFromTangoBUT;
+	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -73,9 +90,14 @@ public class ConsultaArticulosController extends BaseController {
 		_buscarBUT.addSubmitListener(this);
 		_searchformdisplaybox1.addButton(_buscarBUT);
 		
+		_limpiarBUT = new HtmlSubmitButton("limpiarBUT","Limpiar",this);
+		_limpiarBUT.setAccessKey("b");		
+		_limpiarBUT.addSubmitListener(this);
+		_searchformdisplaybox1.addButton(_limpiarBUT);
+		
 		// Test the import process
 		_replicaFromTangoBUT = new HtmlSubmitButton("replicaFromTangoBUT","Replicar desde Tango",this);
-		_replicaFromTangoBUT.addSubmitListener(this);
+		_replicaFromTangoBUT.addSubmitListener(this);		
 		_searchformdisplaybox1.addButton(_replicaFromTangoBUT);
 		
 		// do not retrieve disallowed items
@@ -86,13 +108,28 @@ public class ConsultaArticulosController extends BaseController {
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// Find
-		if (e.getComponent() == _buscarBUT) {		
-			_dsArticulos.reset();		
-			_dsArticulos.retrieve(_dsQBE);
-			if (_dsArticulos.getRowCount() <= 0) { 
-				displayErrorMessage("No se encontraron articulos");
+		if (e.getComponent() == _buscarBUT) {
+			try {			
+				_dsArticulos.reset();		
+				_dsArticulos.retrieve(armarCriterio());
+				if (_dsArticulos.getRowCount() <= 0) { 
+					displayErrorMessage("La búsqueda no ha retornado resultados");
+					return false;
+				}
+			} catch (RuntimeException ex) {
+				displayErrorMessage(ex.getMessage());
 				return false;
 			}
+		}
+		
+		// clear button
+		if (e.getComponent() == _limpiarBUT) {
+			_lkpAttrINP1.setValue(null);
+			_lkpAttrINP2.setValue(null);
+			_lkpAttrINP3.setValue(null);
+			_valorAttr1.setValue(null);
+			_valorAttr2.setValue(null);
+			_valorAttr3.setValue(null);
 		}
 		
 		// Call ReplicateSta11QuartzJob manually
@@ -108,5 +145,101 @@ public class ConsultaArticulosController extends BaseController {
 		}
 		
 		return super.submitPerformed(e);
+	}
+	
+	private String armarCriterio() throws SQLException, DataStoreException {
+		StringBuilder sb = new StringBuilder(500);
+		
+		// add all the selection criterias specified by the user
+		String sqlFilter = _dsQBE.generateSQLFilter(_dsArticulos);		
+		if (sqlFilter != null) {
+			sb.append(sqlFilter);
+		}
+		
+		// build where clause with specified attributes if any
+		String criterioAtributos = armarBusquedaPorAtributos();
+		if (criterioAtributos.length() > 0) {
+			sb.append(" and articulos.articulo_id IN ( ").append(criterioAtributos).append(" )");
+		}
+			
+		return sb.toString();
+	}	
+	
+	private String armarBusquedaPorAtributos() throws SQLException {
+		StringBuilder querySql = new StringBuilder(500);
+
+		// get the attributes
+		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();
+		if ((_lkpAttrINP1.getValue() != null) && (_valorAttr1.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()),
+					_valorAttr1.getValue());
+		if ((_lkpAttrINP2.getValue() != null) && (_valorAttr2.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP2.getValue()),
+					_valorAttr2.getValue());
+		if ((_lkpAttrINP3.getValue() != null) && (_valorAttr3.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()),
+					_valorAttr3.getValue());
+				
+
+		// si se especifico al menos un atributo
+		if (atributos.size() > 0) {
+			querySql.append(" SELECT objeto_id "
+					+ " FROM infraestructura.atributos_entidad " 
+					+ " WHERE tipo_objeto = 'TABLA' AND nombre_objeto = 'articulos' "
+					+ " AND ( ");
+			
+			Iterator<Integer> i = atributos.keySet().iterator();
+			
+			// completamos el query con pares atributo valor
+			while (i.hasNext()) {
+				int atributoId = i.next();
+				String valorAtributo = atributos.get(atributoId);
+					
+				String tipoAtributo = AtributosEntidadModel.getTipoAtributo(atributoId);
+				
+				if (tipoAtributo == null) throw new RuntimeException("Atributo inexistente");
+				
+				String sqlClause = null;
+				
+				try {
+					if ("entero".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_entero = "
+								+ Integer.parseInt(valorAtributo);
+					} else if ("real".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_real = "
+								+ Float.parseFloat(valorAtributo);
+					} else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
+						SalmonDateFormat sdf = new SalmonDateFormat();
+						sqlClause = "valor_fecha = '"
+								+ new java.sql.Date(sdf.parse(
+										(String) valorAtributo).getTime())
+										.toString() + "'";
+					} else if ("logico".equalsIgnoreCase(tipoAtributo)) {
+						if (valorAtributo.equalsIgnoreCase("V")
+								|| valorAtributo.equalsIgnoreCase("F"))
+							sqlClause = "valor_logico = '" + valorAtributo
+									+ "'";
+						else
+							throw new RuntimeException(
+									"Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
+					} else {
+						sqlClause = "valor LIKE '%" + valorAtributo + "%'";
+					}
+				} catch (NumberFormatException e) {
+					throw new RuntimeException("Valor de atributo númerico incorrecto");
+				} catch (ParseException e) {
+					throw new RuntimeException("Valor de atributo fecha con formato incorrecto");
+				}
+			
+				// conector
+				querySql.append(sqlClause);				
+				if (i.hasNext()) 
+					querySql.append(" OR ");
+				
+			}	
+			
+			querySql.append(" ) ");
+		}		
+		return querySql.toString();
 	}
 }
