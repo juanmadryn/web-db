@@ -1400,10 +1400,10 @@ public class DetalleSCModel extends DataStore {
 
 			ArticulosModel articulos;
 			// fills detalle_sc.articulo_id field through ArticulosNombre
-			if (getArticulosNombre() != null) {
+			if (getArticulosNombre(row) != null) {
 				articulos = new ArticulosModel("inventario", "inventario");
 				articulos.retrieve(connection, "articulos.nombre LIKE '"
-						+ getArticulosNombre() + "'");
+						+ getArticulosNombre(row) + "'");
 				if (!articulos.gotoFirst())
 					throw new DataStoreException(
 							"El código de articulo ingresado no corresponde a ninguno registrado");
