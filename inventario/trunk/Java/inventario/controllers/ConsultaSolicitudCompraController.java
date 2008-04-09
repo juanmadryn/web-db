@@ -8,6 +8,7 @@ import infraestructura.models.UsuarioRolesModel;
 import java.sql.SQLException;
 
 import com.salmonllc.html.HtmlSubmitButton;
+import com.salmonllc.html.OptionsSort;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
@@ -159,6 +160,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesPendientes.addSubmitListener(this);
 		_recuperaSolicitudesPendientes.setVisible(false);
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
+		
 		super.initialize();
 	}
 

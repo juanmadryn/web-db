@@ -838,7 +838,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
      */
     public void initialize(String table, String keyColumn, String dispColumn, String criteria, boolean inputVersion, boolean trimResults, boolean toUpper)
     {
-        initialize(table, keyColumn, dispColumn, criteria, inputVersion, trimResults, toUpper, false);
+        initialize(table, keyColumn, dispColumn, criteria, inputVersion, trimResults, toUpper, false, "");
     }
 
     /**
@@ -853,13 +853,17 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
      * @param toUpper - optional value that makes the option's kays and display values all upper case
      * @param reloadOptionsEveryPageRequest - If this is set and the options are bound to the database, than options will be refereshed in every page request. This will increase trhe database trafic.
      */
-    public void initialize(String table, String keyColumn, String dispColumn, String criteria, boolean inputVersion, boolean trimResults, boolean toUpper, boolean reloadOptionsEveryPageRequest)
+    public void initialize(String table, String keyColumn, String dispColumn, String criteria, boolean inputVersion, boolean trimResults, boolean toUpper, boolean reloadOptionsEveryPageRequest, String nullOptionText)
     {
         resetOptions();
 
         if (inputVersion)
         {
-            addOption(null, "");
+        	if (nullOptionText != null) {
+        		addOption(null, nullOptionText);
+        	} else {
+        		addOption(null, "");
+            }
         }
 
         _table                            = table;
