@@ -40,6 +40,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String ARTICULOS_CLASE_ARTICULO_ID = "articulos.clase_articulo_id";
 	public static final String ARTICULOS_NOMBRE = "articulos.nombre";
 	public static final String ARTICULOS_DESCRIPCION = "articulos.descripcion";
+	public static final String ARTICULOS_DESCRIPCION_COMPLETA = "articulos.descripcion_completa";
 	public static final String DETALLE_SC_TAREA_ID = "detalle_sc.tarea_id";
 	public static final String DETALLE_SC_MONTO_UNITARIO = "detalle_sc.monto_unitario";
 	public static final String DETALLE_SC_MONTO_ULTIMA_COMPRA = "detalle_sc.monto_ultima_compra";
@@ -131,6 +132,9 @@ public class DetalleSCModel extends DataStore {
 			addColumn(computeTableName("articulos"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION);
+			addColumn(computeTableName("articulos"), "descripcion_completa",
+					DataStore.DATATYPE_STRING, false, false,
+					ARTICULOS_DESCRIPCION_COMPLETA);
 			addColumn(computeTableName("clase_articulo"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					CLASE_ARTICULO_NOMBRE);
@@ -191,6 +195,16 @@ public class DetalleSCModel extends DataStore {
 					"Especifique la cantidad a pedir del artículo.");
 
 			// add lookups
+			addLookupRule(
+					ARTICULOS_DESCRIPCION_COMPLETA,
+					"inventario.articulos",
+					"'inventario.articulos.articulo_id = ' + detalle_sc.articulo_id",
+					"descripcion_completa", ARTICULOS_DESCRIPCION_COMPLETA, "Articulo inexistente");
+			addLookupRule(
+					ARTICULOS_DESCRIPCION,
+					"inventario.articulos",
+					"'inventario.articulos.articulo_id = ' + detalle_sc.articulo_id",
+					"descripcion", ARTICULOS_DESCRIPCION, "Articulo inexistente");
 			addLookupRule(
 					TAREA_PROYECTO_NOMBRE,
 					"proyectos.tareas_proyecto",
@@ -908,6 +922,56 @@ public class DetalleSCModel extends DataStore {
 			throws DataStoreException {
 		setString(row, ARTICULOS_DESCRIPCION, newValue);
 	}
+	
+	/**
+	 * Retrieve the value of the articulos.descripcion column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcionCompleta() throws DataStoreException {
+		return getString(ARTICULOS_DESCRIPCION_COMPLETA);
+	}
+
+	/**
+	 * Retrieve the value of the articulos.descripcion column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcionCompleta(int row) throws DataStoreException {
+		return getString(row, ARTICULOS_DESCRIPCION_COMPLETA);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcionCompleta(String newValue)
+			throws DataStoreException {
+		setString(ARTICULOS_DESCRIPCION_COMPLETA, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcionCompleta(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_DESCRIPCION_COMPLETA, newValue);
+	}
 
 	/**
 	 * Retrieve the value of the detalle_sc.tarea_id column for the current row.
@@ -1415,7 +1479,7 @@ public class DetalleSCModel extends DataStore {
 			// null
 			if (getDetalleScDescripcion(row) == null
 					&& getArticulosDescripcion(row) != null)
-				setDetalleScDescripcion(row, getArticulosDescripcion(row));
+				setDetalleScDescripcion(row, getArticulosDescripcionCompleta(row));
 
 			// if the detail has an oc asigned, check that the amount ordered is
 			// a positive number
