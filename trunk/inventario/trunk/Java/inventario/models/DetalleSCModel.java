@@ -1414,8 +1414,8 @@ public class DetalleSCModel extends DataStore {
 			// fills detalle_sc.descripcion with articulos.descripcion if is
 			// null
 			if (getDetalleScDescripcion(row) == null
-					&& getArticulosDescripcion() != null)
-				setDetalleScDescripcion(row, getArticulosDescripcion());
+					&& getArticulosDescripcion(row) != null)
+				setDetalleScDescripcion(row, getArticulosDescripcion(row));
 
 			// if the detail has an oc asigned, check that the amount ordered is
 			// a positive number
