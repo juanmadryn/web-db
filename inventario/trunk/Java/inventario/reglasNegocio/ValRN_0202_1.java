@@ -119,6 +119,7 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 			}
 			instancia.update(connection);
 			connection.commit();
+			msg.append("Su aprobación fue registrada exitosamente");
 		} catch (DataStoreException ex) {
 			connection.rollback();
 			msg
