@@ -76,24 +76,30 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 
 			int currentWebsiteUser = ds.getCurrentWebsiteUserId();
 
-			if (instancia.estimateRowsRetrieved("solicitud_compra_id ="
-					+ solicitudCompraId + " AND user_firmante ="
-					+ currentWebsiteUser + " AND estado = 0007.0001") == 0) {
-				msg.append("Su aprobación no se encuentra pendiente!");
+			// checkeo si está pendiente la aprobación del usuario actual
+			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
+					+ " AND user_firmante =" + currentWebsiteUser
+					+ " AND estado = 0007.0001");
+
+			if (!instancia.gotoFirst()) {
+				msg
+						.append("Usted no está autorizado para aprobar la solicitud en su estado actual");
 				return false;
 			}
+
+			Iterator<Integer> siguientesFirmantes = cadena
+					.getSiguientesFirmantes(true, instancia
+							.getInstanciasAprobacionOrden());
+			
 
 			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId);
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
 					connection);
 
-			Iterator<Integer> siguientesFirmantes = cadena
-					.getSiguientesFirmantes(true, currentWebsiteUser);
-
 			if (siguientesFirmantes == null) {
-				ds.setSolicitudesCompraFechaAprobacion(new Date(
-						(Calendar.getInstance().getTimeInMillis())));
-				ds.update();
+				ds.setSolicitudesCompraFechaAprobacion(new Date((Calendar
+						.getInstance().getTimeInMillis())));
+				ds.update(connection);
 				connection.commit();
 				connection.freeConnection();
 				return true;
@@ -109,6 +115,7 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 				instancia
 						.setInstanciasAprobacionUserFirmante(siguientesFirmantes
 								.next());
+				instancia.setInstanciasAprobacionOrden(cadena.getOrder());
 			}
 			instancia.update(connection);
 			connection.commit();

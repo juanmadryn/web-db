@@ -28,13 +28,14 @@ public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 	 * @see infdev.reglasNegocio.validadorReglasNegocio#esValido(java.lang.Object,
 	 *      java.lang.String)
 	 */
-	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn) {		
+	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn) {
 		try {
 
 			SolicitudCompraModel ds = (SolicitudCompraModel) obj;
 
 			// checkeo si la solicitud tiene seteadas las obervaciones
-			if (ds.getObservaciones() == null || ds.getObservaciones().trim().length() < 5) {
+			if (ds.getObservaciones() == null
+					|| ds.getObservaciones().trim().length() < 5) {
 				msg
 						.append("Debe completar el cuadro de observaciones con la información suficiente para corregir la solicitud");
 				return false;
@@ -42,7 +43,8 @@ public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 
 			int solicitudCompraId = ds.getSolicitudesCompraSolicitudCompraId();
 
-			// a continuación, obtengo la cadena de firmas asociada a la solicitud o la calculo si no está seteada
+			// a continuación, obtengo la cadena de firmas asociada a la
+			// solicitud o la calculo si no está seteada
 			String valorAtributo = AtributosEntidadModel
 					.getValorAtributoObjeto("CONFIGURACION_ID",
 							solicitudCompraId, "TABLA", "solicitudes_compra");
@@ -82,16 +84,18 @@ public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
 					+ " AND user_firmante =" + currentWebsiteUser
 					+ " AND estado = 0007.0001");
+
 			if (!instancia.gotoFirst()) {
-				msg.append("Usted no está autorizado para aprobar la solicitud en su estado actual");
+				msg
+						.append("Usted no está autorizado para aprobar la solicitud en su estado actual");
 				return false;
 			}
-			
-			// actualizo el mensaje de la instancia con las observaciones indicadas
-			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
-			instancia.update();
 
-			
+			// actualizo el mensaje de la instancia con las observaciones
+			// indicadas
+			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
+			instancia.update(conn);
+
 		} catch (DataStoreException ex) {
 			msg
 					.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
@@ -99,7 +103,7 @@ public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 
 			return false;
 		} catch (SQLException ex) {
-				msg
+			msg
 					.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
 							+ ex.getMessage());
 			return false;

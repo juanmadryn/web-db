@@ -93,7 +93,7 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 			}
 
 			Iterator<Integer> siguientesFirmantes = cadena
-					.getSiguientesFirmantes(false, ds.getCurrentWebsiteUserId());
+					.getSiguientesFirmantes(false, 0);
 
 			if (siguientesFirmantes == null) {
 				msg
@@ -101,6 +101,7 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 
+			System.out.println("orden2: "+cadena.getOrder());
 			while (siguientesFirmantes.hasNext()) {
 				instancia.gotoRow(instancia.insertRow());
 				instancia.setInstanciasAprobacionEstado("0007.0001");
@@ -111,9 +112,10 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 				instancia
 						.setInstanciasAprobacionUserFirmante(siguientesFirmantes
 								.next());
+				instancia.setInstanciasAprobacionOrden(cadena.getOrder());
 
 			}
-			instancia.update();
+			instancia.update(conn);
 			return true;
 		} catch (DataStoreException ex) {
 			msg
