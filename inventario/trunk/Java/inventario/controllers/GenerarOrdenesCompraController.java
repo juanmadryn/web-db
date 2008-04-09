@@ -8,9 +8,7 @@ import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.OrdenesCompraModel;
 import inventario.models.SolicitudCompraModel;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -120,10 +118,12 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.jsp.JspTableRow _navbarTableTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
+	public com.salmonllc.html.HtmlTextEdit _nroSolicitud2;
+	public com.salmonllc.html.HtmlTextEdit _fechaDesde2;
+	public com.salmonllc.html.HtmlTextEdit _fechaHasta2;
 	
 	//Custom components
-	public com.salmonllc.html.HtmlSubmitButton _seleccionaTodoBUT1;
-	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT2;
+	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _generaOcsBUT3;
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
 	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
@@ -165,24 +165,24 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public void initialize() throws Exception {
 		super.initialize();
 		
-		// find button
 		_buscarBUT = new HtmlSubmitButton("buscarBUT","Buscar",this);
 		_buscarBUT.setAccessKey("b");		
 		_searchformdisplaybox1.addButton(_buscarBUT);
 		
 		_limpiarBUT = new HtmlSubmitButton("limpiarBUT","Limpiar",this);
-		_limpiarBUT.setAccessKey("b");		
+		_limpiarBUT.setAccessKey("l");		
 		_searchformdisplaybox1.addButton(_limpiarBUT);
 		
 		_generaOcsBUT3 = new HtmlSubmitButton("generaOcsBUT3","Genera OCs", this);
+		_generaOcsBUT3.setAccessKey("g");
 		_listformdisplaybox1.addButton(_generaOcsBUT3);
-		_seleccionaTodoBUT1 = new HtmlSubmitButton("seleccionaTodoBUT1","Seleccionar todo",this);
-		_listformdisplaybox1.addButton(_seleccionaTodoBUT1);		
-		_desSeleccionaTodoBUT2 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Deseleccionar",this);
-		_listformdisplaybox1.addButton(_desSeleccionaTodoBUT2);
+		
+		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT1",null,this);
+		_desSeleccionaTodoBUT1.setAccessKey("e");
+		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+		_listformdisplaybox1.addButton(_desSeleccionaTodoBUT1);
 				
-		_seleccionaTodoBUT1.addSubmitListener(this);
-		_desSeleccionaTodoBUT2.addSubmitListener(this);
+		_desSeleccionaTodoBUT1.addSubmitListener(this);
 		_generaOcsBUT3.addSubmitListener(this);
 		_buscarBUT.addSubmitListener(this);
 		_limpiarBUT.addSubmitListener(this);
@@ -198,7 +198,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		DBConnection conexion = null;
 		conexion = DBConnection.getConnection(getApplicationName(),"inventario");
 		
-		// clear button
+		// reseta todos los campos de parametros de busqueda
 		if (e.getComponent() == _limpiarBUT) {
 			_lkpAttrINP1.setValue(null);
 			_lkpAttrINP2.setValue(null);
@@ -206,9 +206,12 @@ public class GenerarOrdenesCompraController extends BaseController {
 			_valorAttr1.setValue(null);
 			_valorAttr2.setValue(null);
 			_valorAttr3.setValue(null);
+			_nroSolicitud2.setValue(null);
+			_fechaDesde2.setValue(null);
+			_fechaHasta2.setValue(null);
 		}
 		
-		// find button
+		// bùsqueda
 		if (e.getComponent() == _buscarBUT) {
 			try {
 				// create the sql where clause
@@ -222,17 +225,18 @@ public class GenerarOrdenesCompraController extends BaseController {
 			}			
 		}
 		
-		// marca todos los partes del datasource como seleccionados
-		if (e.getComponent() == _seleccionaTodoBUT1) {
-			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-				_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,1);
-			}
-		}
-		
-		// desmarca todos los partes del datasource como seleccionados
-		if (e.getComponent() == _desSeleccionaTodoBUT2) {
-			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-				_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,0);
+		// marca - desmarca todos los partes del datasource como seleccionados
+		if (e.getComponent() == _desSeleccionaTodoBUT1) {
+			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayNameLocaleKey()) ) {
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,1);
+				}
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
+			} else {
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,0);
+				}
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 			}
 		}
 	
@@ -349,33 +353,49 @@ public class GenerarOrdenesCompraController extends BaseController {
 	
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
-		// set the 'cantidad pedida' field value to 'cantidad solicitada' value 
+		// si no es especificado, el valor de 'cantidad pedida' se hace igual al de 'cantidad solicitada' 
 		for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 			if (_dsDetalleSC.getDetalleScCantidadPedida(i) <= 0) 
 				_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC.getDetalleScCantidadSolicitada(i));
-		}		
+		}
+		
+		// habilitacion del boton de seleccion
+		_desSeleccionaTodoBUT1.setEnabled((_dsDetalleSC.getRowCount() == 0) ? false : true);
+		
 		super.pageRequested(p);
 	}
 	
+	/**
+	 * Recupera detalles de SC que cumplan con las caracteristicas indicadas. Hace foco
+	 * en el primer registro
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 */
 	private void recuperarArticulosParaComprar() throws SQLException, DataStoreException{
 		_dsDetalleSC.reset();
 		_dsDetalleSC.retrieve(armarCriterio());
 		_dsDetalleSC.gotoFirst();
 	}	
 	
+	/**
+	 * Arma la clausula WHERE para la bùsqueda de detalles de SC aprobadas o en con OC parcial 
+	 * @return Una clausula WHERE para usar en una operacion retrieve
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 */
 	private String armarCriterio() throws SQLException, DataStoreException {
 		StringBuilder sb = new StringBuilder(500);
 		
-		// only retrieve SCs which are aproved and hasn't got an OCs assigned 
+		// recuperamos SC aprobadas o con OC parcial
 		sb.append(" (solicitudes_compra.estado IN ('0006.0003','0006.0006') and detalle_sc.orden_compra_id is null) ");		
 		
-		// build where clause with specified attributes if any
+		// agrega a la clausula where restricciones en base a atributos
 		String criterioAtributos = armarBusquedaPorAtributos();
 		if (criterioAtributos.length() > 0) {
 			sb.append(" and detalle_sc.articulo_id IN ( ").append(criterioAtributos).append(" )");
 		}
 		
-		// add all the selection criterias specified by the user
+		// resto de los criterios especificados por el usuario
 		String sqlFilter = _dsQBE.generateSQLFilter(_dsDetalleSC);		
 		if (sqlFilter != null) {
 			sb.append(" and ").append(sqlFilter);
@@ -384,10 +404,16 @@ public class GenerarOrdenesCompraController extends BaseController {
 		return sb.toString();
 	}	
 	
+	/**
+	 * Genera código SQL para agregar a una clausula WHERE restringiendo el query a aquellos
+	 * artìculos que cuenten con alguno de los pares atributo/valor especificados
+	 * @return Codigo SQL para agregar a una clasula WHERE
+	 * @throws SQLException si un atributo no existe
+	 */
 	private String armarBusquedaPorAtributos() throws SQLException {
 		StringBuilder querySql = new StringBuilder(500);
 
-		// get the attributes
+		// atributos y valores ingresados por el usuario
 		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();
 		if ((_lkpAttrINP1.getValue() != null) && (_valorAttr1.getValue() != null))
 			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()),

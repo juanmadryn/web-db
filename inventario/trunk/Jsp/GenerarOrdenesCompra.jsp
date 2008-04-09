@@ -42,8 +42,8 @@
 								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="n1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="n2" type="text"	datasource="dsQBE:n" /></td>
+								<td><salmon:text name="nroSolicitud1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
+								<td colspan="3"><salmon:input name="nroSolicitud2" type="text"	datasource="dsQBE:n" /></td>
 								<td width="40px"/>
 								<td>
 									<salmon:lookup

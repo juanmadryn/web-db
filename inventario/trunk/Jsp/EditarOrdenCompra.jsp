@@ -58,7 +58,7 @@
 								<td><salmon:text name="fecha_ordencompra1"
 									text="Fecha de Orden Compra" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_ordencompra2" text=""
-									displayformat="dd/MM/yyyy"
+									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha"></salmon:text></td>
 								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada entrega" font="TableHeadingFont" /></td>

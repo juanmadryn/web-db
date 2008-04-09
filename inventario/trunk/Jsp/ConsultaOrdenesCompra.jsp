@@ -47,7 +47,8 @@
 									datasource="dsQBE:estado">
 									<salmon:option display="abc" key="123"
 										table="infraestructura.estados" criteria="circuito='0008'"
-										keycolumn="estado" displaycolumn="nombre" nulloption="true"></salmon:option>
+										keycolumn="estado" displaycolumn="nombre" nulloption="true"
+										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 
 							</tr>
@@ -71,7 +72,8 @@
 									maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.solicitantes" keycolumn="user_id"
-										displaycolumn="nombre_completo" nulloption="true"></salmon:option>
+										displaycolumn="nombre_completo" nulloption="true" 
+										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 							</tr>
 						</table>
@@ -134,7 +136,7 @@
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
 			mode="Display_single_page" caption=" " width="100%"
-			datasource="dsOrdenes"
+			datasource="dsOrdenes" caption="Ordenes de Compra"
 			searchformdisplaybox="searchformdisplaybox1">
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsOrdenes">
@@ -182,7 +184,7 @@
 						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="fechaTXT4" text="cliente Goes Here"
-								font="DefaultFont"
+								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsOrdenes:ordenes_compra.fecha" />
 						</salmon:td>						
 						<salmon:td>
