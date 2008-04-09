@@ -378,7 +378,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _nuevaSolicitudCompraBUT1) {
-			// genero un nuevo proyecto vacio.
+			// genero una nueva solicitud vacia.
 			_dsSolicitudCompra.reset();
 			_dsDetalleSC.reset();
 			_dsSolicitudCompra.gotoRow(_dsSolicitudCompra.insertRow());
@@ -697,6 +697,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					_dsSolicitudCompra
 							.retrieve("solicitudes_compra.solicitud_compra_id = "
 									+ Integer.toString(getRow_id()));
+					_dsSolicitudCompra.waitForRetrieve();
 					_dsSolicitudCompra.gotoFirst();
 
 					// sigue recuperando información del resto de los detalles
@@ -718,40 +719,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
 		}
+	
 		setDatosBasicosSolicitud();
 		armaBotonera();
 		super.pageRequested(event);
 	}
-
-	/**
-	 * Process the page request end event
-	 * 
-	 * @param event
-	 *            the page event to be processed
-	 */
-	/*
-	 * public void pageRequestEnd(PageEvent event) { }
-	 */
-
-	/**
-	 * Process the page submit end event
-	 * 
-	 * @param event
-	 *            the page event to be processed
-	 */
-	/*
-	 * public void pageSubmitEnd(PageEvent event) { }
-	 */
-
-	/**
-	 * Process the page submit event
-	 * 
-	 * @param event
-	 *            the page event to be processed
-	 */
-	/*
-	 * public void pageSubmitted(PageEvent event) { }
-	 */
 
 	public boolean valueChanged(ValueChangedEvent event) throws Exception {
 		return false;
@@ -765,7 +737,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	private void setDatosBasicosSolicitud() throws DataStoreException,
 			SQLException {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
-
+		
 		setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
 		_detailformdisplaybox1.setHeadingCaption("Solicitud de compra Nº"
 				+ getRow_id());
@@ -797,27 +769,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			if (solicitante == 0)
 				_dsSolicitudCompra.setSolicitudesCompraUserIdSolicita(currentUser);
 			else 
-				if (solicitante != currentUser) {
-					displayErrorMessage("Usted no puede acceder a la solicitud indicada.");
-					_dsSolicitudCompra.reset();
-					_dsDetalleSC.reset();
-				}
-			_nombre_completo_solicitante2.setEnabled(false);
+				_nombre_completo_solicitante2.setEnabled(false);
 		}
 
 		// setea la URL del reporte a generar al presionar el botón de impresión
 		String URL = armarUrlReporte("PDF", "solicitud_compra",
 				"&Parameter_solicitud_compra_id=" + getRow_id());
-		_imprimirSolicitudCompraBUT1.setHref(URL);
-
-		// rellena la lista de unidades de medida para los artículos
-		/*
-		 * String[] options = getPageProperties().getThemeProperty(null,
-		 * LISTA_UNIDADES_MEDIDA).split(","); _unidad_medida2.resetOptions();
-		 * for (int i = 0; i < options.length; i++) {
-		 * _unidad_medida2.addOption(options[i], options[i]); }
-		 * _unidad_medida2.populateDropdownOptions();
-		 */
+		_imprimirSolicitudCompraBUT1.setHref(URL);		
 
 	}
 

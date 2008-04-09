@@ -8,7 +8,6 @@ import infraestructura.models.UsuarioRolesModel;
 import java.sql.SQLException;
 
 import com.salmonllc.html.HtmlSubmitButton;
-import com.salmonllc.html.OptionsSort;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
@@ -177,7 +176,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 						.retrieve("solicitudes_compra.solicitud_compra_id IN "
 								+ "(SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
 								+ getSessionManager().getWebSiteUser()
-										.getUserID() + ")");
+										.getUserID() + ") AND solicitudes_compra.estado LIKE '0006.0002'");
+				_dsSolicitudes.waitForRetrieve();
 				_dsSolicitudes.gotoFirst();
 				setSpecialTitle();
 			} catch (SQLException ex) {
