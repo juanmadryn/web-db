@@ -30,6 +30,7 @@ public class InstanciasAprobacionModel extends DataStore {
 	public static final String INSTANCIAS_APROBACION_FECHA_ENTRADA = "instancias_aprobacion.fecha_entrada";
 	public static final String INSTANCIAS_APROBACION_FECHA_ACCION = "instancias_aprobacion.fecha_accion";
 	public static final String INSTANCIAS_APROBACION_MENSAJE = "instancias_aprobacion.mensaje";
+	public static final String INSTANCIAS_APROBACION_ORDEN = "instancias_aprobacion.orden";
 	
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
@@ -84,6 +85,9 @@ public class InstanciasAprobacionModel extends DataStore {
 		addColumn(computeTableName("instancias_aprobacion"), "mensaje",
 				DataStore.DATATYPE_STRING, false, true,
 				INSTANCIAS_APROBACION_MENSAJE);
+		addColumn(computeTableName("instancias_aprobacion"), "orden",
+				DataStore.DATATYPE_INT, false, true,
+				INSTANCIAS_APROBACION_ORDEN);
 		
 
 		// $CUSTOMCONSTRUCTOR$
@@ -470,6 +474,58 @@ public class InstanciasAprobacionModel extends DataStore {
 		setString(row, INSTANCIAS_APROBACION_MENSAJE, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the instancias_aprobacion.orden column for
+	 * the current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getInstanciasAprobacionOrden() throws DataStoreException {
+		return getInt(INSTANCIAS_APROBACION_ORDEN);
+	}
+
+	/**
+	 * Retrieve the value of the instancias_aprobacion.orden column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getInstanciasAprobacionOrden(int row)
+			throws DataStoreException {
+		return getInt(row, INSTANCIAS_APROBACION_ORDEN);
+	}
+
+	/**
+	 * Set the value of the instancias_aprobacion.orden column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setInstanciasAprobacionOrden(int newValue)
+			throws DataStoreException {
+		setInt(INSTANCIAS_APROBACION_ORDEN, newValue);
+	}
+
+	/**
+	 * Set the value of the instancias_aprobacion.orden column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setInstanciasAprobacionOrden(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, INSTANCIAS_APROBACION_ORDEN, newValue);
+	}
 	
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
