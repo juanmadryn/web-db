@@ -231,6 +231,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
 		
 		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Seleccionar todo",this);
+		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 
 		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",
@@ -648,16 +649,16 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {
-			if ("Seleccionar todo".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayName()) ) {
+			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayNameLocaleKey()) ) {
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG,1);
 				}
-				_desSeleccionaTodoBUT1.setDisplayName("Deseleccionar todo");
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
 			} else {
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG,0);
 				}
-				_desSeleccionaTodoBUT1.setDisplayName("Seleccionar todo");
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 			}
 		}
 

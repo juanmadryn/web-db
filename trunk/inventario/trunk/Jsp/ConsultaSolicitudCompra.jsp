@@ -47,7 +47,7 @@
 									datasource="dsQBE:estado">
 									<salmon:option display="abc" key="123"
 										table="infraestructura.estados" criteria="circuito='0006'"
-										keycolumn="estado" displaycolumn="nombre" nulloption="true"></salmon:option>
+										keycolumn="estado" displaycolumn="nombre" nulloption="true" nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 
 							</tr>
@@ -71,7 +71,7 @@
 									maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.solicitantes" keycolumn="user_id"
-										displaycolumn="nombre_completo" nulloption="true"></salmon:option>
+										displaycolumn="nombre_completo" nulloption="true" nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 							</tr>
 						</table>

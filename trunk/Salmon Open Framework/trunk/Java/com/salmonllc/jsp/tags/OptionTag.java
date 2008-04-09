@@ -40,11 +40,14 @@ public class OptionTag extends BaseEmptyTag {
 	private String _table;
 	private String _keycolumn;
 	private String _displaycolumn;
-	private String _nulloption;
+	private String _nulloption;	
 	private String _toupper;
 	//_criteria added by ilev 2004-03-20
 	private String _criteria;
 	// end added by ilev
+	// added by franpaez
+	private String _nulloptiontext;
+	// end added by franpaez
 
 	private String _reloadDropDownInEveryPageRequest;
 
@@ -67,7 +70,7 @@ public class OptionTag extends BaseEmptyTag {
 				 * trimResults, boolean toUpper, boolean
 				 * reloadOptionsEveryPageRequest)
 				 */
-				((HtmlDropDownList) comp).initialize(table, getKeycolumn(), getDisplaycolumn(), getCriteria(), Util.stringToBoolean(getNulloption(), false), true, Util.stringToBoolean(getToupper(), false), reloadOptionsEveryPageRequest);
+				((HtmlDropDownList) comp).initialize(table, getKeycolumn(), getDisplaycolumn(), getCriteria(), Util.stringToBoolean(getNulloption(), false), true, Util.stringToBoolean(getToupper(), false), reloadOptionsEveryPageRequest, getNulloptiontext());
 
 				/*-- Add the page listener only if we need it --*/
 				if (reloadOptionsEveryPageRequest)
@@ -126,6 +129,7 @@ public class OptionTag extends BaseEmptyTag {
 		_keycolumn = null;
 		_displaycolumn = null;
 		_nulloption = null;
+		_nulloptiontext = null;
 		_toupper = null;
 		_criteria = null;
 		_reloadDropDownInEveryPageRequest = null;
@@ -275,6 +279,24 @@ public class OptionTag extends BaseEmptyTag {
 	 */
 	public void setCriteria(String criteria) {
 		_criteria = criteria;
+	}
+	
+	/**
+	 * Get the tag's nulloptiontext attribute
+	 * 
+	 * @return
+	 */
+	public String getNulloptiontext() {
+		return _nulloptiontext;
+	}
+
+	/**
+	 * Set the tag's nulloptiontext attribute
+	 * 
+	 * @param nulloptiontext
+	 */
+	public void setNulloptiontext(String nulloptiontext) {
+		_nulloptiontext = nulloptiontext;
 	}
 
 }
