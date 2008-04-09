@@ -31,7 +31,7 @@ public class Utilities {
 					"LEFT OUTER JOIN proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id " +
 					"WHERE solicitudes_compra.solicitud_compra_id IN " +
 					"(SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante ="
-					+ user_id + ")";
+					+ user_id + ") AND solicitudes_compra.estado LIKE '0006.0002'";
 			st = conn.createStatement();
 			r = st.executeQuery(SQL);
 
