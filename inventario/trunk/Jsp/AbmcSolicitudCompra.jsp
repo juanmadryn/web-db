@@ -89,7 +89,7 @@
 										maxlength="15"
 										datasource="dsSolicitudCompra:solicitudes_compra.centro_costo_id"
 										descriptiondatasource="dsSolicitudCompra:centro_costo.nombre"
-										popupheight="450" popupwidth="500" usepopup="TRUE"
+										popupheight="450" popupwidth="500" usepopup="TRUE" 
 										showdescription="TRUE"></salmon:lookup>
 								</salmon:td>
 								<td width="10"></td>
