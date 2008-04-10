@@ -1257,9 +1257,10 @@ public class SolicitudCompraModel extends BaseModel {
 	public void setObservaciones() throws DataStoreException, SQLException {
 		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
 				"inventario", "inventario");
-		instancia.retrieve("solicitud_compra_id ="
-				+ getSolicitudesCompraSolicitudCompraId() + " AND estado ="
-				+ "'0007.0001' AND mensaje IS NOT NULL");
+		instancia.retrieve(
+				"nombre_objeto = 'solicitudes_compra' AND " +
+				"objeto_id = " + getSolicitudesCompraSolicitudCompraId() + 
+				" AND estado = '0007.0001' AND mensaje IS NOT NULL");
 		if (instancia.gotoFirst())
 			setObservaciones(instancia.getInstanciasAprobacionMensaje());
 
@@ -1281,8 +1282,8 @@ public class SolicitudCompraModel extends BaseModel {
 					"LEFT OUTER JOIN centro_costo centro_costo ON solicitudes_compra.centro_costo_id = centro_costo.centro_costo_id  " +
 					"LEFT OUTER JOIN proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id " +
 					"WHERE solicitudes_compra.solicitud_compra_id IN " +
-					"(SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante ="
-					+ user_id + ")";
+					"(SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante ="
+					+ user_id + " AND nombre_objeto='solicitudes_compra')";
 			st = conn.createStatement();
 			r = st.executeQuery(SQL);
 

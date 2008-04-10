@@ -39,7 +39,7 @@
          addbuttonvisible="False" savebuttonvisible="False"
          datasource="dsOrdenesCompra"
          lookupreturnexp="ordenes_compra.orden_compra_id"
-         lookupdescreturnexp="ordenes_compra.orden_compra_id"
+         lookupdescreturnexp="ordenes_compra.descripcion"
          searchformdisplaybox="searchformdisplaybox1">
          <salmon:datatable name="datatable1" width="100%"
             rowsperpage="5" datasource="dsOrdenesCompra">

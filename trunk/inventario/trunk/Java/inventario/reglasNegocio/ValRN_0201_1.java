@@ -65,8 +65,11 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 
 			InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
 					"inventario", "inventario");
-			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
-					+ " AND estado = 0007.0001");
+			instancia.retrieve(
+					"nombre_objeto = 'solicitudes_compra' AND " +
+					"objeto_id = " + solicitudCompraId +
+					" AND estado = 0007.0001"
+					);
 			if (instancia.gotoFirst()) {
 				return true;
 			}
@@ -116,11 +119,9 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 				instancia.setInstanciasAprobacionEstado("0007.0001");
 				instancia.setInstanciasAprobacionFechaEntrada(new Date(
 						(Calendar.getInstance().getTimeInMillis())));
-				instancia
-						.setInstanciasAprobacionSolicitudCompraId(solicitudCompraId);
-				instancia
-						.setInstanciasAprobacionUserFirmante(siguientesFirmantes
-								.next());
+				instancia.setInstanciasAprobacionNombreObjeto("solicitudes_compra");
+				instancia.setInstanciasAprobacionObjetoId(solicitudCompraId);
+				instancia.setInstanciasAprobacionUserFirmante(siguientesFirmantes.next());
 				instancia.setInstanciasAprobacionOrden(cadena.getOrder());
 
 			}

@@ -174,9 +174,9 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			try {
 				_dsSolicitudes
 						.retrieve("solicitudes_compra.solicitud_compra_id IN "
-								+ "(SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
+								+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
 								+ getSessionManager().getWebSiteUser()
-										.getUserID() + ") AND solicitudes_compra.estado LIKE '0006.0002'");
+										.getUserID() + " AND nombre_objeto='solicitudes_compra') AND solicitudes_compra.estado LIKE '0006.0002'");
 				_dsSolicitudes.waitForRetrieve();
 				_dsSolicitudes.gotoFirst();
 				setSpecialTitle();
@@ -210,8 +210,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				try {
 					_dsSolicitudes
 							.retrieve("solicitudes_compra.solicitud_compra_id IN "
-									+ "(SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
-									+ user_id + ")");
+									+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
+									+ user_id + " AND nombre_objeto='solicitudes_compra')");
 					_dsSolicitudes.gotoFirst();
 					setSpecialTitle();
 				} catch (SQLException e) {
@@ -227,8 +227,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
-		int solicitudes_pendientes = _dsSolicitudes.estimateRowsRetrieved("solicitudes_compra.solicitud_compra_id IN (SELECT solicitud_compra_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
-				+ currentUser + ")");		
+		int solicitudes_pendientes = _dsSolicitudes.estimateRowsRetrieved("solicitudes_compra.solicitud_compra_id IN (SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = " 
+				+ currentUser + " AND nombre_objeto='solicitudes_compra')");		
 		if (solicitudes_pendientes > 0) {
 			_recuperaSolicitudesPendientes.setVisible(true);				
 		} else {			

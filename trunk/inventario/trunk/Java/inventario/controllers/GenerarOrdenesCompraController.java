@@ -119,8 +119,8 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
 	public com.salmonllc.html.HtmlTextEdit _nroSolicitud2;
-	public com.salmonllc.html.HtmlTextEdit _fechaDesde2;
-	public com.salmonllc.html.HtmlTextEdit _fechaHasta2;
+	public com.salmonllc.html.HtmlTextEdit _fechadesde2;
+	public com.salmonllc.html.HtmlTextEdit _fechahasta2;
 	
 	//Custom components
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
@@ -207,8 +207,8 @@ public class GenerarOrdenesCompraController extends BaseController {
 			_valorAttr2.setValue(null);
 			_valorAttr3.setValue(null);
 			_nroSolicitud2.setValue(null);
-			_fechaDesde2.setValue(null);
-			_fechaHasta2.setValue(null);
+			_fechadesde2.setValue(null);
+			_fechahasta2.setValue(null);
 		}
 		
 		// bùsqueda
@@ -360,7 +360,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		}
 		
 		// habilitacion del boton de seleccion
-		_desSeleccionaTodoBUT1.setEnabled((_dsDetalleSC.getRowCount() == 0) ? false : true);
+		_desSeleccionaTodoBUT1.setEnabled(_dsDetalleSC.getRowCount() == 0 ? false : true);
 		
 		super.pageRequested(p);
 	}

@@ -112,7 +112,7 @@
 							<tr>
 								<td><salmon:text name="fecha1"
 									text="Fecha de solicitud" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha2" text="" displayformat="dd/MM/yyyy"
+								<td><salmon:text name="fecha2" text="" displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsOrdenes:ordenes_compra.fecha"></salmon:text></td>
 							</tr>
 							<tr>
