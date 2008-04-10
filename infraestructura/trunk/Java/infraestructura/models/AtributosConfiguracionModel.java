@@ -537,8 +537,7 @@ public class AtributosConfiguracionModel extends DataStore {
 
 			r.beforeFirst();
 			while (r.next()) {
-				atributo.setAtributo_id(r.getInt(1));
-				atributo.setAtributo_valor(AtributosEntidadModel
+				atributo = new AtributoConfiguracion(r.getInt(1), AtributosEntidadModel
 						.getValorAtributoObjeto(r.getInt(1), objeto_id,
 								tipo_objeto, nombre_objeto));
 				atributosConfiguracion.add(atributo);
