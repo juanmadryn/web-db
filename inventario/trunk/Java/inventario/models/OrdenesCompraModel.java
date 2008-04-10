@@ -1,13 +1,15 @@
 package inventario.models;
 
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.Calendar;
-
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
 
-import com.salmonllc.sql.*;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -42,6 +44,8 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String ESQUEMA_CONFIGURACION_ID = "esquema_configuracion_id";
 	public static final String OBSERVACIONES = "observaciones";
 	public static final String TOTAL_ORDENCOMPRA = "total_orden_compra";
+	public static final String ENTIDAD_EXTERNA_CODIGO = "entidad_externa.codigo";
+	public static final String ENTIDAD_EXTERNA_NOMBRE = "entidad_externa.nombre";
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -66,7 +70,7 @@ public class OrdenesCompraModel extends BaseModel {
 			addColumn(computeTableName("ordenes_compra"),"entidad_id_proveedor",DataStore.DATATYPE_INT,false,true,ORDENES_COMPRA_ENTIDAD_ID_PROVEEDOR);
 			addColumn(computeTableName("ordenes_compra"),"user_id_comprador",DataStore.DATATYPE_INT,false,true,ORDENES_COMPRA_USER_ID_COMPRADOR);
 			addColumn(computeTableName("ordenes_compra"),"estado",DataStore.DATATYPE_STRING,false,true,ORDENES_COMPRA_ESTADO);
-			addColumn(computeTableName("ordenes_compra"),"fecha",DataStore.DATATYPE_DATE,false,true,ORDENES_COMPRA_FECHA);
+			addColumn(computeTableName("ordenes_compra"),"fecha",DataStore.DATATYPE_DATETIME,false,true,ORDENES_COMPRA_FECHA);
 			addColumn(computeTableName("ordenes_compra"),"fecha_estimada_entrega",DataStore.DATATYPE_DATE,false,true,ORDENES_COMPRA_FECHA_ESTIMADA_ENTREGA);
 			addColumn(computeTableName("ordenes_compra"),"fecha_entrega_completa",DataStore.DATATYPE_DATE,false,true,ORDENES_COMPRA_FECHA_ENTREGA_COMPLETA);
 			addColumn(computeTableName("ordenes_compra"),"descripcion",DataStore.DATATYPE_STRING,false,true,ORDENES_COMPRA_DESCRIPCION);
@@ -87,12 +91,19 @@ public class OrdenesCompraModel extends BaseModel {
 		try {
 			addTableAlias(computeTableName("infraestructura.estados"),"estados");
 			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_comprador");
+			addTableAlias(computeTableName("infraestructura.entidad_externa"),"entidad_externa");
 
 			addColumn(computeTableName("estados"), "nombre",
 					DataStore.DATATYPE_STRING, false, true, ESTADO_NOMBRE);
 			addColumn(computeTableName("website_user_comprador"),
 					"nombre_completo", DataStore.DATATYPE_STRING, false, true,
 					WEBSITE_USER_NOMBRE_COMPRADOR);
+			addColumn(computeTableName("entidad_externa"), "codigo",
+					DataStore.DATATYPE_STRING, false, false,
+					ENTIDAD_EXTERNA_CODIGO);
+			addColumn(computeTableName("entidad_externa"), "nombre",
+					DataStore.DATATYPE_STRING, false, false,
+					ENTIDAD_EXTERNA_NOMBRE);
 			
 			// add buckets
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
@@ -107,7 +118,10 @@ public class OrdenesCompraModel extends BaseModel {
 					computeTableAndFieldName("estados.estado"), true);
 			addJoin(computeTableAndFieldName("ordenes_compra.user_id_comprador"),
 					computeTableAndFieldName("website_user_comprador.user_id"),
-					true);		
+					true);	
+			addJoin(computeTableAndFieldName("ordenes_compra.entidad_id_proveedor"),
+					computeTableAndFieldName("entidad_externa.entidad_id"),
+					true);
 
 			addLookupRule(
 					ORDENES_COMPRA_ESTADO,
@@ -120,6 +134,12 @@ public class OrdenesCompraModel extends BaseModel {
 					"'infraestructura.website_user.user_id = ' + ordenes_compra.user_id_comprador",
 					"nombre_completo", WEBSITE_USER_NOMBRE_COMPRADOR,
 					"Usuario inexistente");
+			addLookupRule(
+					ORDENES_COMPRA_ENTIDAD_ID_PROVEEDOR,
+					"infraestructura.entidad_externa",
+					"'infraestructura.entidad_externa.entidad_id = ' + ordenes_compra.entidad_id_proveedor",
+					"nombre", computeTableAndFieldName("entidad_externa.nombre"),
+					"Proveedor inexistente");
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
 		}
@@ -281,21 +301,21 @@ public class OrdenesCompraModel extends BaseModel {
 
 	/**
 	 * Retrieve the value of the ordenes_compra.fecha column for the current row.
-	 * @return java.sql.Date
+	 * @return java.sql.Timestamp
 	 * @throws DataStoreException
 	 */ 
-	public java.sql.Date getOrdenesCompraFecha() throws DataStoreException {
-		return  getDate(ORDENES_COMPRA_FECHA);
+	public java.sql.Timestamp getOrdenesCompraFecha() throws DataStoreException {
+		return  getDateTime(ORDENES_COMPRA_FECHA);
 	}
 
 	/**
 	 * Retrieve the value of the ordenes_compra.fecha column for the specified row.
 	 * @param row which row in the table
-	 * @return java.sql.Date
+	 * @return java.sql.Timestamp
 	 * @throws DataStoreException
 	 */ 
-	public java.sql.Date getOrdenesCompraFecha(int row) throws DataStoreException {
-		return  getDate(row,ORDENES_COMPRA_FECHA);
+	public java.sql.Timestamp getOrdenesCompraFecha(int row) throws DataStoreException {
+		return  getDateTime(row,ORDENES_COMPRA_FECHA);
 	}
 
 	/**
@@ -303,8 +323,8 @@ public class OrdenesCompraModel extends BaseModel {
 	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */ 
-	public void setOrdenesCompraFecha(java.sql.Date newValue) throws DataStoreException {
-		setDate(ORDENES_COMPRA_FECHA, newValue);
+	public void setOrdenesCompraFecha(java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(ORDENES_COMPRA_FECHA, newValue);
 	}
 
 	/**
@@ -313,8 +333,8 @@ public class OrdenesCompraModel extends BaseModel {
 	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */ 
-	public void setOrdenesCompraFecha(int row,java.sql.Date newValue) throws DataStoreException {
-		setDate(row,ORDENES_COMPRA_FECHA, newValue);
+	public void setOrdenesCompraFecha(int row,java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(row,ORDENES_COMPRA_FECHA, newValue);
 	}
 
 	/**
@@ -652,10 +672,11 @@ public class OrdenesCompraModel extends BaseModel {
 		if (getOrdenesCompraEstado() == null)
 			setOrdenesCompraEstado("0008.0001");
 		
-		setOrdenesCompraEntidadIdProveedor(1);
+		if (getOrdenesCompraEntidadIdProveedor() == 0)
+			setOrdenesCompraEntidadIdProveedor(1);
 		
 		if (getOrdenesCompraFecha() == null)
-			setOrdenesCompraFecha(new Date((Calendar.getInstance()
+			setOrdenesCompraFecha(new Timestamp((Calendar.getInstance()
 					.getTimeInMillis())));
 		
 		if (getOrdenesCompraUserIdComprador() == 0)
@@ -664,6 +685,11 @@ public class OrdenesCompraModel extends BaseModel {
 		super.update(conn, handleTrans);
 	}
 	
+	/**
+	 * @return
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
 	public float getAtributoTotalOrdenCompra() throws DataStoreException,
 			SQLException {
 
@@ -706,6 +732,106 @@ public class OrdenesCompraModel extends BaseModel {
 	 */
 	public void setTotalOrdenCompra(float newValue) throws DataStoreException {
 		setFloat(TOTAL_ORDENCOMPRA, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the entidad_externa.codigo column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEntidadExternaCodigo() throws DataStoreException {
+		return getString(ENTIDAD_EXTERNA_CODIGO);
+	}
+
+	/**
+	 * Retrieve the value of the entidad_externa.codigo column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEntidadExternaCodigo(int row) throws DataStoreException {
+		return getString(row, ENTIDAD_EXTERNA_CODIGO);
+	}
+
+	/**
+	 * Set the value of the entidad_externa.codigo column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEntidadExternaCodigo(String newValue)
+			throws DataStoreException {
+		setString(ENTIDAD_EXTERNA_CODIGO, newValue);
+	}
+
+	/**
+	 * Set the value of the entidad_externa.codigo column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEntidadExternaCodigo(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ENTIDAD_EXTERNA_CODIGO, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the entidad_externa.nombre column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEntidadExternaNombre() throws DataStoreException {
+		return getString(ENTIDAD_EXTERNA_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the entidad_externa.nombre column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEntidadExternaNombre(int row) throws DataStoreException {
+		return getString(row, ENTIDAD_EXTERNA_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the entidad_externa.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEntidadExternaNombre(String newValue)
+			throws DataStoreException {
+		setString(ENTIDAD_EXTERNA_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the entidad_externa.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEntidadExternaNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ENTIDAD_EXTERNA_NOMBRE, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 

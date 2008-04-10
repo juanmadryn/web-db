@@ -45,14 +45,20 @@
 								<td><salmon:text name="nombre_completo_comprador1"
 									text="Comprador" font="TableHeadingFont" /></td>
 								<td><salmon:input type="select" name="nombre_completo_comprador2" size="30"
-									datasource="dsOrdenesCompra:solicitudes_compra.user_id_solicita">
+									datasource="dsOrdenesCompra:ordenes_compra.user_id_comprador">
 									<salmon:option display="abc" key="123"
 										table="inventario.compradores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="false"></salmon:option>
 								</salmon:input></td>
-								<td></td>
-								<td></td>
-								<td></td>
+								<td><salmon:text name="proveedor1" text="Proveedor"
+									font="TableHeadingFont" /></td>
+								<td colspan="2"><salmon:lookup
+									browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpProveedores" name="proveedor2" size="6"
+									maxlength="10" displayformat="#########0"
+									descriptiondatasource="dsOrdenesCompra:entidad_externa.nombre"
+									datasource="dsOrdenesCompra:ordenes_compra.entidad_id_proveedor" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_ordencompra1"
@@ -72,17 +78,16 @@
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
 							</tr>							
 							<tr>
-								<td><salmon:text name="descripcion1" text="Descripcion"
-									font="TableHeadingFont" /></td>
-								<td><salmon:input type="text" name="descripcion2" size="40"
+								<td valign="top"><salmon:text name="descripcion1" text="Descripcion"
+									font="TableHeadingFont"/></td>
+								<td colspan="2" valign="top"><salmon:input type="text" name="descripcion2" size="40"
 									maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.descripcion"></salmon:input></td>
-								<td><salmon:text name="observaciones1" text="Observaciones"
+								<td valign="top"><salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="textarea" name="observaciones2"
-									cols="40" rows="1" wrap="HARD" maxlength="255"
+									cols="40" rows="2" wrap="HARD" maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input></td>
-								<td></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="total_solicitud1" text="Total" font="TableHeadingFont" /></td>
