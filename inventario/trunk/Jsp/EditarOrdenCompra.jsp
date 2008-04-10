@@ -52,7 +52,7 @@
 								</salmon:input></td>
 								<td><salmon:text name="proveedor1" text="Proveedor"
 									font="TableHeadingFont" /></td>
-								<td colspan="2"><salmon:lookup
+								<td><salmon:lookup
 									browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpProveedores" name="proveedor2" size="6"
 									maxlength="10" displayformat="#########0"
@@ -66,6 +66,10 @@
 								<td><salmon:text name="fecha_ordencompra2" text=""
 									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha"></salmon:text></td>
+								<td/>
+								<td/>
+							</tr>
+							<tr>
 								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_estimada_entrega2" text=""
@@ -80,7 +84,7 @@
 							<tr>
 								<td valign="top"><salmon:text name="descripcion1" text="Descripcion"
 									font="TableHeadingFont"/></td>
-								<td colspan="2" valign="top"><salmon:input type="text" name="descripcion2" size="40"
+								<td valign="top"><salmon:input type="text" name="descripcion2" size="40"
 									maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.descripcion"></salmon:input></td>
 								<td valign="top"><salmon:text name="observaciones1" text="Observaciones"
@@ -93,6 +97,8 @@
 								<td><salmon:text name="total_solicitud1" text="Total" font="TableHeadingFont" /></td>
 								<td><salmon:text name="total_solicitud2" text="total goes here"
 									datasource="dsOrdenesCompra:total_orden_compra"></salmon:text></td>
+								<td/>
+								<td/>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>

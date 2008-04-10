@@ -81,9 +81,12 @@ public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 			int currentWebsiteUser = ds.getCurrentWebsiteUserId();
 
 			// checkeo si está pendiente la aprobación del usuario actual
-			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
-					+ " AND user_firmante =" + currentWebsiteUser
-					+ " AND estado = 0007.0001");
+			instancia.retrieve(
+					"nombre_objeto = 'solicitudes_compra' AND " +
+					"objeto_id = " + solicitudCompraId +					
+					" AND user_firmante =" + currentWebsiteUser +
+					" AND estado = 0007.0001"
+					);
 
 			if (!instancia.gotoFirst()) {
 				msg

@@ -60,6 +60,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
 	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
 	public static final String SOLICITUDES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
+	public static final String SOLICITUDES_COMPRA_DESCRIPCION = "solicitudes_compra.descripcion";
 
 	// $ENDCUSTOMVARS$
 
@@ -249,8 +250,9 @@ public class DetalleSCModel extends DataStore {
 		addColumn(computeTableName("centro_costo"), "nombre",
 				DataStore.DATATYPE_STRING, false, false, CENTRO_COSTO_NOMBRE);
 		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
-				DataStore.DATATYPE_DATE, false, false,
-				SOLICITUDES_COMPRA_FECHA_APROBACION);
+				DataStore.DATATYPE_DATE, false, false, SOLICITUDES_COMPRA_FECHA_APROBACION);
+		addColumn(computeTableName("solicitudes_compra"), "descripcion",
+				DataStore.DATATYPE_STRING, false, false, SOLICITUDES_COMPRA_DESCRIPCION);
 
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);

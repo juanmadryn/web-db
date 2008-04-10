@@ -77,9 +77,12 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 			int currentWebsiteUser = ds.getCurrentWebsiteUserId();
 
 			// checkeo si está pendiente la aprobación del usuario actual
-			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId
-					+ " AND user_firmante =" + currentWebsiteUser
-					+ " AND estado = 0007.0001");
+			instancia.retrieve(
+					"nombre_objeto = 'solicitudes_compra' AND " +
+					"objeto_id = " + solicitudCompraId +
+					" AND user_firmante =" + currentWebsiteUser +
+					" AND estado = 0007.0001"
+					);
 
 			if (!instancia.gotoFirst()) {
 				msg
@@ -92,7 +95,10 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 							.getInstanciasAprobacionOrden());
 			
 
-			instancia.retrieve("solicitud_compra_id =" + solicitudCompraId);
+			instancia.retrieve(
+					"nombre_objeto = 'solicitudes_compra' AND " +
+					"objeto_id = " + solicitudCompraId
+					);
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
 					connection);
 
@@ -110,8 +116,8 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 				instancia.setInstanciasAprobacionEstado("0007.0001");
 				instancia.setInstanciasAprobacionFechaEntrada(new Date(
 						(Calendar.getInstance().getTimeInMillis())));
-				instancia
-						.setInstanciasAprobacionSolicitudCompraId(solicitudCompraId);
+				instancia.setInstanciasAprobacionNombreObjeto("solicitudes_compra");
+				instancia.setInstanciasAprobacionObjetoId(solicitudCompraId);
 				instancia
 						.setInstanciasAprobacionUserFirmante(siguientesFirmantes
 								.next());
