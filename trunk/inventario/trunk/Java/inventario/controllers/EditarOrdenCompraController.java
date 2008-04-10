@@ -140,8 +140,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
-	public com.salmonllc.html.HtmlSubmitButton _seleccionaTodoBUT1;
-	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT2;
+	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	
 	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 
@@ -177,10 +176,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
 		
-		_seleccionaTodoBUT1 = new HtmlSubmitButton("seleccionaTodoBUT1","Seleccionar todo",this);
-		_listformdisplaybox2.addButton(_seleccionaTodoBUT1);		
-		_desSeleccionaTodoBUT2 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Deseleccionar",this);
-		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT2);
+		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",null,this);
+		_desSeleccionaTodoBUT1.setAccessKey("E");
+		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 		
 		// buttons listeners
 		_nuevaOrdenCompraBUT1.addSubmitListener(this);
@@ -188,8 +187,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
 		_articulosCancelarBUT1.addSubmitListener(this);
-		_seleccionaTodoBUT1.addSubmitListener(this);
-		_desSeleccionaTodoBUT2.addSubmitListener(this);
+		_desSeleccionaTodoBUT1.addSubmitListener(this);
 		
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
@@ -359,17 +357,18 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			}
 		}
 		
-		// marca todos los partes del datasource como seleccionados
-		if (e.getComponent() == _seleccionaTodoBUT1) {
-			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-				_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,1);
-			}
-		}
-		
-		// desmarca todos los partes del datasource como seleccionados
-		if (e.getComponent() == _desSeleccionaTodoBUT2) {
-			for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-				_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,0);
+		// marca - desmarca todos los partes del datasource como seleccionados
+		if (e.getComponent() == _desSeleccionaTodoBUT1) {
+			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayNameLocaleKey()) ) {
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,1);
+				}
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
+			} else {
+				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,0);
+				}
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 			}
 		}
 		
@@ -501,7 +500,6 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						}
 					}
 					setDatosBasicosOrdenCompra();
-					//setTareaLookupURL();
 				}
 			}
 			setRecargar(false);
@@ -511,7 +509,6 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		}
 		setDatosBasicosOrdenCompra();
 		armaBotonera();
-		System.out.println("2)---> " + _dsOrdenesCompra.getRowStatus());
 		super.pageRequested(p);	
 	}
 	
@@ -530,9 +527,6 @@ public class EditarOrdenCompraController extends BaseEntityController {
 				.getAtributoTotalOrdenCompra());
 
 		String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
-		/*if (!"0008.0002".equalsIgnoreCase(estado))
-			_dsOrdenesCompra.setObservaciones();*/
-
 		if ("0008.0002".equalsIgnoreCase(estado)
 				|| "0008.0004".equalsIgnoreCase(estado)
 				|| "0008.0005".equalsIgnoreCase(estado)) {
@@ -543,14 +537,11 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			_observacionX2.setVisible(false);
 		}
 
-		if ((new UsuarioRolesModel("infraestructura", "infraestructura"))
-				.isRolUsuario(currentUser, "COMPRADOR"))
-			_nombre_completo_comprador2.setEnabled(true);
-		else {
+		int solicitante = _dsOrdenesCompra.getOrdenesCompraUserIdComprador();
+		if (solicitante == 0)
 			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);
+		else 
 			_nombre_completo_comprador2.setEnabled(false);
-		}
-
 	}
 	
 	/**
@@ -583,6 +574,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			throw new DataStoreException(
 					"Debe seleccionar una orden de compra para recuperar su estado");
 		}
+		
+		_desSeleccionaTodoBUT1.setEnabled(_dsDetalleSC.getRowCount() == 0 ? false: true);
 
 		try {
 			conn = DBConnection.getConnection("infraestructura");
