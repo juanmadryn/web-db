@@ -1008,6 +1008,10 @@ public class BaseController extends JspController implements SubmitListener,
 			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_PDF);
 		else if (tipo != null && "HTML".equalsIgnoreCase(tipo))
 			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_HTML);
+		else if (tipo != null && "XLS".equalsIgnoreCase(tipo))
+			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_XLS);
+		else if (tipo != null && "DOC".equalsIgnoreCase(tipo))
+			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_DOC);
 		else
 			URL = URL + "";
 		
