@@ -125,7 +125,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT1;
-	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT2;
+	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;	
 
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
@@ -205,15 +206,15 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 		// completo y asigno botones custom
 
-		_nuevaSolicitudCompraBUT1 = new HtmlSubmitButton(
-				"nuevaSolicitudCompraBUT1", "Nueva solicitud", this);
-		_nuevaSolicitudCompraBUT1.setAccessKey("N");
-		_detailformdisplaybox1.addButton(_nuevaSolicitudCompraBUT1);
-
 		_grabarSolicitudCompraBUT1 = new HtmlSubmitButton(
 				"grabarSolicitudCompraBUT1", "Grabar", this);
 		_grabarSolicitudCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarSolicitudCompraBUT1);
+
+		_nuevaSolicitudCompraBUT1 = new HtmlSubmitButton(
+				"nuevaSolicitudCompraBUT1", "Nueva solicitud", this);
+		_nuevaSolicitudCompraBUT1.setAccessKey("N");
+		_detailformdisplaybox1.addButton(_nuevaSolicitudCompraBUT1);
 
 		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1",
 				"Agregar", this);
@@ -229,8 +230,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				"Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
-		
-		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Seleccionar todo",this);
+
+		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",
+				"Seleccionar todo", this);
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 
@@ -270,7 +272,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 		_dsSolicitudCompra.insertRow();
 
-		_detailformdisplaybox1.setReloadRowAfterSave(true);		
+		_detailformdisplaybox1.setReloadRowAfterSave(true);
 
 		setTabla_principal("solicitudes_compra");
 	}
@@ -385,7 +387,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		}
 
 		if (component == _grabarSolicitudCompraBUT1) {
-			conn = DBConnection.getConnection("inventario","inventario");
+			conn = DBConnection.getConnection("inventario", "inventario");
 			conn.beginTransaction();
 
 			// si la solicitud esta en estado generado o esta siendo generada
@@ -394,7 +396,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					// grabo todos los datasource
 					if (_dsSolicitudCompra.getRow() == -1)
 						return false;
-					
+
 					_dsSolicitudCompra.update(conn);
 
 					// actualizo los detalles
@@ -404,6 +406,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 					_dsSolicitudCompra.resetStatus();
 					_dsDetalleSC.resetStatus();
+
 					conn.commit();
 
 					setTareaLookupURL();
@@ -426,7 +429,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						conn.freeConnection();
 					}
 				}
-				
+
 			} else {
 				// si la solicitud no está generada, bloqueo toda modificación
 				displayErrorMessage("No puede modificar la solicitud en el estado actual.");
@@ -622,7 +625,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				dsOrdenCompra.resetStatus();
 				_dsDetalleSC.resetStatus();
 				conn.commit();
-				
+
 				_dsDetalleSC.filter(null);
 
 			} catch (DataStoreException ex) {
@@ -646,22 +649,24 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				}
 			}
 		}
-		
+
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {
-			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayNameLocaleKey()) ) {
+			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1
+					.getDisplayNameLocaleKey())) {
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG,1);
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG, 1);
 				}
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
+				_desSeleccionaTodoBUT1
+						.setDisplayNameLocaleKey("text.deseleccion");
 			} else {
 				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG,0);
+					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG, 0);
 				}
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+				_desSeleccionaTodoBUT1
+						.setDisplayNameLocaleKey("text.seleccion");
 			}
 		}
-
 
 		armaBotonera();
 		return super.submitPerformed(event);
@@ -719,7 +724,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
 		}
-	
+
 		setDatosBasicosSolicitud();
 		armaBotonera();
 		super.pageRequested(event);
@@ -737,7 +742,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	private void setDatosBasicosSolicitud() throws DataStoreException,
 			SQLException {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
-		
+
 		setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
 		_detailformdisplaybox1.setHeadingCaption("Solicitud de compra Nº"
 				+ getRow_id());
@@ -765,17 +770,25 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
 			_nombre_completo_solicitante2.setEnabled(true);
 		else {
-			int solicitante = _dsSolicitudCompra.getSolicitudesCompraUserIdSolicita();
+			int solicitante = _dsSolicitudCompra
+					.getSolicitudesCompraUserIdSolicita();
 			if (solicitante == 0)
-				_dsSolicitudCompra.setSolicitudesCompraUserIdSolicita(currentUser);
-			else 
+				_dsSolicitudCompra
+						.setSolicitudesCompraUserIdSolicita(currentUser);
+			else
 				_nombre_completo_solicitante2.setEnabled(false);
 		}
 
 		// setea la URL del reporte a generar al presionar el botón de impresión
-		String URL = armarUrlReporte("PDF", "solicitud_compra",
-				"&Parameter_solicitud_compra_id=" + getRow_id());
-		_imprimirSolicitudCompraBUT1.setHref(URL);		
+		String URL = armarUrlReporte("XLS",
+				"solicitud_compra", "&Parameter_solicitud_compra_id="
+						+ getRow_id());
+		_imprimirSolicitudCompraBUT1.setHref(URL);
+		
+		URL = armarUrlReporte("PDF",
+				"solicitud_compra", "&Parameter_solicitud_compra_id="
+						+ getRow_id());
+		_imprimirSolicitudCompraBUT2.setHref(URL);		
 
 	}
 
