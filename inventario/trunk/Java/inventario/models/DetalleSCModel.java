@@ -2,7 +2,9 @@ package inventario.models;
 
 import infraestructura.models.AtributosEntidadModel;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -185,7 +187,6 @@ public class DetalleSCModel extends DataStore {
 					computeTableAndFieldName("detalle_sc.unidad_medida_id"),
 					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
 					false);
-			
 
 			// add validations
 			addRequiredRule(ARTICULOS_NOMBRE,
@@ -196,33 +197,35 @@ public class DetalleSCModel extends DataStore {
 
 			// add lookups
 			addLookupRule(
-					ARTICULOS_DESCRIPCION_COMPLETA,
+					DETALLE_SC_ARTICULO_ID,
 					"inventario.articulos",
 					"'inventario.articulos.articulo_id = ' + detalle_sc.articulo_id",
-					"descripcion_completa", ARTICULOS_DESCRIPCION_COMPLETA, "Articulo inexistente");
+					"descripcion_completa", ARTICULOS_DESCRIPCION_COMPLETA,
+					"Articulo inexistente");
 			addLookupRule(
-					ARTICULOS_DESCRIPCION,
+					DETALLE_SC_ARTICULO_ID,
 					"inventario.articulos",
 					"'inventario.articulos.articulo_id = ' + detalle_sc.articulo_id",
-					"descripcion", ARTICULOS_DESCRIPCION, "Articulo inexistente");
+					"descripcion", ARTICULOS_DESCRIPCION,
+					"Articulo inexistente");
 			addLookupRule(
-					TAREA_PROYECTO_NOMBRE,
+					DETALLE_SC_TAREA_ID,
 					"proyectos.tareas_proyecto",
 					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
 					"nombre", TAREA_PROYECTO_NOMBRE, "Tarea inexistente");
 			addLookupRule(
-					CLASE_ARTICULO_NOMBRE,
+					ARTICULOS_CLASE_ARTICULO_ID,
 					"inventario.clase_articulo",
 					"'inventario.clase_articulo.clase_articulo_id = ' + articulos.clase_articulo_id",
 					"nombre", CLASE_ARTICULO_NOMBRE, "Proyecto inexistente");
 			addLookupRule(
-					SOLICITUDES_COMPRA_ESTADO,
+					DETALLE_SC_SOLICITUD_COMPRA_ID,
 					"solicitudes_compra",
 					"'solicitudes_compra.solicitud_compra_id = ' + detalle_sc.solicitud_compra_id",
 					"estado", SOLICITUDES_COMPRA_ESTADO,
 					"Solicitud de compra inexistente");
 			addLookupRule(
-					UNIDAD_DE_MEDIDA_NOMBRE,
+					DETALLE_SC_UNIDAD_DE_MEDIDA_ID,
 					"unidades_medida",
 					"'unidades_medida.unidad_medida_id = ' + detalle_sc.unidad_medida_id",
 					"nombre", UNIDAD_DE_MEDIDA_NOMBRE,
@@ -247,7 +250,7 @@ public class DetalleSCModel extends DataStore {
 				DataStore.DATATYPE_STRING, false, false, CENTRO_COSTO_NOMBRE);
 		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
 				DataStore.DATATYPE_DATE, false, false,
-				SOLICITUDES_COMPRA_FECHA_APROBACION);		
+				SOLICITUDES_COMPRA_FECHA_APROBACION);
 
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);
@@ -922,7 +925,7 @@ public class DetalleSCModel extends DataStore {
 			throws DataStoreException {
 		setString(row, ARTICULOS_DESCRIPCION, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the articulos.descripcion column for the current
 	 * row.
@@ -943,8 +946,16 @@ public class DetalleSCModel extends DataStore {
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getArticulosDescripcionCompleta(int row) throws DataStoreException {
-		return getString(row, ARTICULOS_DESCRIPCION_COMPLETA);
+	public String getArticulosDescripcionCompleta(int row) throws DataStoreException, SQLException {
+		String descripCompleta = getString(row, ARTICULOS_DESCRIPCION_COMPLETA);
+		if (descripCompleta == null){
+			DBConnection conn = DBConnection.getConnection("inventario","inventario");
+			Statement st = conn.createStatement();
+			ResultSet rs = st.executeQuery("SELECT descripcion_completa FROM articulos WHERE articulo_id ="+getDetalleScArticuloId(row));
+			rs.first();
+			descripCompleta = rs.getString(1);
+		} 
+		return descripCompleta; 
 	}
 
 	/**
@@ -1435,13 +1446,13 @@ public class DetalleSCModel extends DataStore {
 			throws DataStoreException, SQLException {
 
 		SolicitudCompraModel solicitud = new SolicitudCompraModel("inventario",
-				"inventario");		
-		
+				"inventario");
+
 		for (int row = 0; row < getRowCount(); row++) {
 			solicitud.retrieve(connection, "solicitud_compra_id = "
 					+ getDetalleScSolicitudCompraId(row));
 			solicitud.gotoFirst();
-			
+
 			int proyecto_id = solicitud.getSolicitudesCompraProyectoId();
 			int tarea_id = getDetalleScTareaId(row);
 			TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
@@ -1475,11 +1486,12 @@ public class DetalleSCModel extends DataStore {
 				setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
 			}
 
-			// fills detalle_sc.descripcion with articulos.descripcion if is
+			// fills detalle_sc.descripcion with articulos.descripcion_completa
+			// if is
 			// null
-			if (getDetalleScDescripcion(row) == null
-					&& getArticulosDescripcion(row) != null)
-				setDetalleScDescripcion(row, getArticulosDescripcionCompleta(row));
+			if (getDetalleScDescripcion(row) == null)
+				setDetalleScDescripcion(row,
+						getArticulosDescripcionCompleta(row));
 
 			// if the detail has an oc asigned, check that the amount ordered is
 			// a positive number
@@ -1529,10 +1541,11 @@ public class DetalleSCModel extends DataStore {
 								"UNIDAD_DE_MEDIDA",
 								getDetalleScArticuloId(row), "TABLA",
 								"articulos")));
+			
 			setMontoTotal(row);
 
 		}
-		
+
 		super.update(connection, handleTrans);
 	}
 
@@ -1668,9 +1681,10 @@ public class DetalleSCModel extends DataStore {
 			throws DataStoreException {
 		return getDate(row, SOLICITUDES_COMPRA_FECHA_APROBACION);
 	}
-	
+
 	/**
-	 * Retrieve the value of the unidades_medida.nombre column for the current row.
+	 * Retrieve the value of the unidades_medida.nombre column for the current
+	 * row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -1699,7 +1713,8 @@ public class DetalleSCModel extends DataStore {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setUnidadMedidaNombre(String newValue) throws DataStoreException {
+	public void setUnidadMedidaNombre(String newValue)
+			throws DataStoreException {
 		setString(UNIDAD_DE_MEDIDA_NOMBRE, newValue);
 	}
 

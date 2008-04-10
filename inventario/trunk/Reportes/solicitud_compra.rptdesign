@@ -110,6 +110,18 @@
                     <property name="displayName">clase_articulo_id</property>
                 </structure>
                 <structure>
+                    <property name="columnName">nombre_22</property>
+                    <property name="alias">articulo.codigo</property>
+                </structure>
+                <structure>
+                    <property name="columnName">descripcion_23</property>
+                    <property name="alias">articulos_descripcion</property>
+                </structure>
+                <structure>
+                    <property name="columnName">descripcion_completa</property>
+                    <property name="displayName">descripcion_completa</property>
+                </structure>
+                <structure>
                     <property name="columnName">tarea_id</property>
                     <property name="displayName">tarea_id</property>
                 </structure>
@@ -120,6 +132,14 @@
                 <structure>
                     <property name="columnName">unidad_medida_id</property>
                     <property name="displayName">unidad_medida_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_28</property>
+                    <property name="alias">tarea.nombre</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_29</property>
+                    <property name="alias">unidades_medida.nombre</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -142,7 +162,7 @@
                     <structure>
                         <property name="position">4</property>
                         <property name="name">fecha_solicitud</property>
-                        <property name="dataType">date</property>
+                        <property name="dataType">date-time</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
@@ -231,46 +251,51 @@
                     </structure>
                     <structure>
                         <property name="position">22</property>
-                        <property name="name">nombre_22</property>
+                        <property name="name">articulo.codigo</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">23</property>
-                        <property name="name">descripcion_23</property>
+                        <property name="name">articulos_descripcion</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">24</property>
+                        <property name="name">descripcion_completa</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
                         <property name="name">tarea_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">25</property>
+                        <property name="position">26</property>
                         <property name="name">monto_unitario</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">26</property>
+                        <property name="position">27</property>
                         <property name="name">unidad_medida_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">27</property>
-                        <property name="name">nombre_27</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
                         <property name="position">28</property>
-                        <property name="name">nombre_28</property>
+                        <property name="name">tarea.nombre</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">29</property>
+                        <property name="name">unidades_medida.nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
                         <property name="name">Total</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">30</property>
+                        <property name="position">31</property>
                         <property name="name">TotalSolicitud</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -314,8 +339,8 @@
                     <property name="position">4</property>
                     <property name="name">fecha_solicitud</property>
                     <property name="nativeName">fecha_solicitud</property>
-                    <property name="dataType">date</property>
-                    <property name="nativeDataType">91</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
@@ -452,31 +477,31 @@
                 </structure>
                 <structure>
                     <property name="position">24</property>
+                    <property name="name">descripcion_completa</property>
+                    <property name="nativeName">descripcion_completa</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
                     <property name="name">tarea_id</property>
                     <property name="nativeName">tarea_id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">25</property>
+                    <property name="position">26</property>
                     <property name="name">monto_unitario</property>
                     <property name="nativeName">monto_unitario</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">26</property>
+                    <property name="position">27</property>
                     <property name="name">unidad_medida_id</property>
                     <property name="nativeName">unidad_medida_id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
-                </structure>
-                <structure>
-                    <property name="position">27</property>
-                    <property name="name">nombre_27</property>
-                    <property name="nativeName">nombre</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">28</property>
@@ -485,8 +510,15 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">29</property>
+                    <property name="name">nombre_29</property>
+                    <property name="nativeName">nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
-            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.user_id_comprador,solicitudes_compra.user_id_solicita,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion,solicitudes_compra.observaciones,solicitudes_compra.centro_costo_id,solicitudes_compra.proyecto_id,website_user_solicitante.nombre_completo,website_user_comprador.nombre_completo,proyectos.nombre,proyectos.proyecto,centro_costo.nombre, detalle_sc.detalle_SC_id,detalle_sc.articulo_id,detalle_sc.solicitud_compra_id,detalle_sc.cantidad_solicitada,detalle_sc.descripcion,detalle_sc.observaciones,articulos.clase_articulo_id,articulos.nombre,articulos.descripcion,detalle_sc.tarea_id,detalle_sc.monto_unitario,detalle_sc.unidad_medida_id,tareas_proyecto.nombre, unidades_medida.nombre
+            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.user_id_comprador,solicitudes_compra.user_id_solicita,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion,solicitudes_compra.observaciones,solicitudes_compra.centro_costo_id,solicitudes_compra.proyecto_id,website_user_solicitante.nombre_completo,website_user_comprador.nombre_completo,proyectos.nombre,proyectos.proyecto,centro_costo.nombre, detalle_sc.detalle_SC_id,detalle_sc.articulo_id,detalle_sc.solicitud_compra_id,detalle_sc.cantidad_solicitada,detalle_sc.descripcion,detalle_sc.observaciones,articulos.clase_articulo_id,articulos.nombre,articulos.descripcion,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario,detalle_sc.unidad_medida_id,tareas_proyecto.nombre, unidades_medida.nombre
 FROM  inventario.solicitudes_compra solicitudes_compra
 left outer join infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id
@@ -530,10 +562,13 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
             <property name="orientation">landscape</property>
             <property name="topMargin">1cm</property>
-            <property name="leftMargin">2cm</property>
+            <property name="leftMargin">1cm</property>
             <property name="rightMargin">1cm</property>
+            <property name="showHeaderOnFirst">false</property>
+            <property name="showFooterOnLast">false</property>
             <page-footer>
                 <text id="3">
                     <property name="contentType">html</property>
@@ -551,6 +586,7 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
             </column>
             <column id="143"/>
             <row id="144">
+                <property name="height">15mm</property>
                 <cell id="145">
                     <data id="140">
                         <property name="fontSize">x-large</property>
@@ -570,16 +606,17 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 <cell id="146"/>
             </row>
             <row id="147">
+                <property name="height">8mm</property>
                 <cell id="148">
                     <label id="361">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="fontWeight">bold</property>
                         <text-property name="text">Solicitante</text-property>
                     </label>
                 </cell>
                 <cell id="149">
                     <data id="385">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="dataSet">Data Set - solicitudes_compra</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -593,16 +630,20 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 </cell>
             </row>
             <row id="150">
+                <property name="height">8mm</property>
                 <cell id="151">
                     <label id="368">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="fontWeight">bold</property>
                         <text-property name="text">Fecha de la solicitud</text-property>
                     </label>
                 </cell>
                 <cell id="152">
                     <data id="367">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
+                        <structure name="dateTimeFormat">
+                            <property name="category">Custom</property>
+                        </structure>
                         <property name="dataSet">Data Set - solicitudes_compra</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -616,16 +657,17 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 </cell>
             </row>
             <row id="364">
+                <property name="height">8mm</property>
                 <cell id="365">
                     <label id="369">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="fontWeight">bold</property>
                         <text-property name="text">Fecha de aprobación</text-property>
                     </label>
                 </cell>
                 <cell id="366">
                     <data id="370">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="dataSet">Data Set - solicitudes_compra</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -639,16 +681,17 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 </cell>
             </row>
             <row id="657">
+                <property name="height">8mm</property>
                 <cell id="658">
                     <label id="663">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="fontWeight">bold</property>
                         <text-property name="text">Descripción</text-property>
                     </label>
                 </cell>
                 <cell id="659">
                     <data id="665">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="dataSet">Data Set - solicitudes_compra</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -662,16 +705,17 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 </cell>
             </row>
             <row id="660">
+                <property name="height">20mm</property>
                 <cell id="661">
                     <label id="664">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="fontWeight">bold</property>
                         <text-property name="text">Observaciones</text-property>
                     </label>
                 </cell>
                 <cell id="662">
                     <data id="666">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="dataSet">Data Set - solicitudes_compra</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -685,16 +729,17 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 </cell>
             </row>
             <row id="371">
+                <property name="height">8mm</property>
                 <cell id="372">
                     <label id="382">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="fontWeight">bold</property>
                         <text-property name="text">Proyecto</text-property>
                     </label>
                 </cell>
                 <cell id="373">
                     <data id="384">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="dataSet">Data Set - solicitudes_compra</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -708,16 +753,17 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 </cell>
             </row>
             <row id="374">
+                <property name="height">8mm</property>
                 <cell id="375">
                     <label id="381">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="fontWeight">bold</property>
                         <text-property name="text">Centro de costo</text-property>
                     </label>
                 </cell>
                 <cell id="376">
                     <data id="380">
-                        <property name="fontSize">x-large</property>
+                        <property name="fontSize">large</property>
                         <property name="dataSet">Data Set - solicitudes_compra</property>
                         <list-property name="boundDataColumns">
                             <structure>
@@ -736,7 +782,7 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 <cell id="379"/>
             </row>
         </grid>
-        <table id="615">
+        <table id="697">
             <property name="width">100%</property>
             <property name="dataSet">Data Set - solicitudes_compra</property>
             <list-property name="boundDataColumns">
@@ -758,7 +804,7 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 <structure>
                     <property name="name">fecha_solicitud</property>
                     <expression name="expression">dataSetRow["fecha_solicitud"]</expression>
-                    <property name="dataType">date</property>
+                    <property name="dataType">date-time</property>
                 </structure>
                 <structure>
                     <property name="name">fecha_aprobacion</property>
@@ -846,13 +892,18 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                     <property name="dataType">integer</property>
                 </structure>
                 <structure>
-                    <property name="name">nombre_22</property>
-                    <expression name="expression">dataSetRow["nombre_22"]</expression>
+                    <property name="name">articulo.codigo</property>
+                    <expression name="expression">dataSetRow["articulo.codigo"]+" - " +dataSetRow["articulos_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">descripcion_23</property>
-                    <expression name="expression">dataSetRow["descripcion_23"]</expression>
+                    <property name="name">articulos_descripcion</property>
+                    <expression name="expression">dataSetRow["articulos_descripcion"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">descripcion_completa</property>
+                    <expression name="expression">dataSetRow["descripcion_completa"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -866,13 +917,18 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                     <property name="dataType">float</property>
                 </structure>
                 <structure>
-                    <property name="name">unidad_medida</property>
-                    <expression name="expression">dataSetRow["unidad_medida"]</expression>
+                    <property name="name">unidad_medida_id</property>
+                    <expression name="expression">dataSetRow["unidad_medida_id"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">tarea.nombre</property>
+                    <expression name="expression">dataSetRow["tarea.nombre"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">nombre_27</property>
-                    <expression name="expression">dataSetRow["nombre_27"]</expression>
+                    <property name="name">unidades_medida.nombre</property>
+                    <expression name="expression">dataSetRow["unidades_medida.nombre"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -885,46 +941,40 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                     <expression name="expression">dataSetRow["TotalSolicitud"]</expression>
                     <property name="dataType">float</property>
                 </structure>
-                <structure>
-                    <property name="name">nombre_28</property>
-                    <expression name="expression">dataSetRow["nombre_28"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
             </list-property>
-            <column id="637">
-                <property name="width">0.7in</property>
+            <column id="722">
+                <property name="width">6cm</property>
             </column>
-            <column id="638">
-                <property name="width">3in</property>
+            <column id="723">
+                <property name="width">4cm</property>
             </column>
-            <column id="640">
-                <property name="width">0.5in</property>
-                <property name="repeat">1</property>
+            <column id="724">
+                <property name="width">15mm</property>
             </column>
-            <column id="639">
-                <property name="width">0.8in</property>
+            <column id="725">
+                <property name="width">1cm</property>
             </column>
-            <column id="641">
-                <property name="width">3cm</property>
+            <column id="726">
+                <property name="width">2cm</property>
             </column>
-            <column id="642">
-                <property name="width">3cm</property>
+            <column id="727">
+                <property name="width">2cm</property>
+            </column>
+            <column id="746">
+                <property name="width">2cm</property>
+            </column>
+            <column id="750">
+                <property name="width">2cm</property>
+            </column>
+            <column id="754">
+                <property name="width">2cm</property>
+            </column>
+            <column id="758">
+                <property name="width">2cm</property>
             </column>
             <header>
-                <row id="616">
-                    <property name="borderBottomColor">#000000</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">medium</property>
-                    <property name="borderLeftColor">#000000</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">medium</property>
-                    <property name="borderRightColor">#000000</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">medium</property>
-                    <property name="borderTopColor">#000000</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">medium</property>
-                    <cell id="617">
+                <row id="698">
+                    <cell id="699">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -937,19 +987,14 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="643">
-                            <property name="fontFamily">serif</property>
-                            <property name="fontSize">large</property>
+                        <property name="paddingTop">1pt</property>
+                        <label id="729">
                             <property name="fontWeight">bold</property>
-                            <property name="fontStyle">normal</property>
-                            <property name="fontVariant">normal</property>
                             <property name="textAlign">center</property>
-                            <property name="orphans">2</property>
-                            <property name="whiteSpace">normal</property>
-                            <text-property name="text">Articulo</text-property>
+                            <text-property name="text">Artículo</text-property>
                         </label>
                     </cell>
-                    <cell id="618">
+                    <cell id="700">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -962,19 +1007,13 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="644">
-                            <property name="fontFamily">serif</property>
-                            <property name="fontSize">large</property>
+                        <label id="730">
                             <property name="fontWeight">bold</property>
-                            <property name="fontStyle">normal</property>
-                            <property name="fontVariant">normal</property>
                             <property name="textAlign">center</property>
-                            <property name="orphans">2</property>
-                            <property name="whiteSpace">normal</property>
-                            <text-property name="text">Descripción</text-property>
+                            <text-property name="text">Descripcion</text-property>
                         </label>
                     </cell>
-                    <cell id="620">
+                    <cell id="701">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -987,44 +1026,13 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="646">
-                            <property name="fontFamily">serif</property>
-                            <property name="fontSize">large</property>
+                        <label id="731">
                             <property name="fontWeight">bold</property>
-                            <property name="fontStyle">normal</property>
-                            <property name="fontVariant">normal</property>
                             <property name="textAlign">center</property>
-                            <property name="orphans">2</property>
-                            <property name="whiteSpace">normal</property>
-                            <text-property name="text">UM</text-property>
-                        </label>
-                    </cell>
-                    <cell id="619">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <label id="645">
-                            <property name="fontFamily">serif</property>
-                            <property name="fontSize">large</property>
-                            <property name="fontWeight">bold</property>
-                            <property name="fontStyle">normal</property>
-                            <property name="fontVariant">normal</property>
-                            <property name="textAlign">center</property>
-                            <property name="orphans">2</property>
-                            <property name="whiteSpace">normal</property>
                             <text-property name="text">Cantidad</text-property>
                         </label>
                     </cell>
-                    <cell id="621">
+                    <cell id="702">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1037,19 +1045,34 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="647">
-                            <property name="fontFamily">serif</property>
-                            <property name="fontSize">large</property>
+                        <label id="733">
+                            <property name="fontSize">medium</property>
                             <property name="fontWeight">bold</property>
-                            <property name="fontStyle">normal</property>
-                            <property name="fontVariant">normal</property>
+                            <property name="marginTop">0pt</property>
                             <property name="textAlign">center</property>
-                            <property name="orphans">2</property>
-                            <property name="whiteSpace">normal</property>
+                            <text-property name="text">UM</text-property>
+                        </label>
+                    </cell>
+                    <cell id="703">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="732">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
                             <text-property name="text">Precio unitario</text-property>
                         </label>
                     </cell>
-                    <cell id="622">
+                    <cell id="704">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1062,35 +1085,93 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <label id="648">
-                            <property name="fontFamily">serif</property>
-                            <property name="fontSize">large</property>
+                        <label id="734">
                             <property name="fontWeight">bold</property>
-                            <property name="fontStyle">normal</property>
-                            <property name="fontVariant">normal</property>
                             <property name="textAlign">center</property>
-                            <property name="orphans">2</property>
-                            <property name="whiteSpace">normal</property>
-                            <text-property name="text">Precio total</text-property>
+                            <text-property name="text">Total</text-property>
+                        </label>
+                    </cell>
+                    <cell id="743">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="760">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Precio unitario 1</text-property>
+                        </label>
+                    </cell>
+                    <cell id="747">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="762">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Marca</text-property>
+                        </label>
+                    </cell>
+                    <cell id="751">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="761">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Precio unitario 2</text-property>
+                        </label>
+                    </cell>
+                    <cell id="755">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="763">
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                            <text-property name="text">Marca</text-property>
                         </label>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row id="623">
-                    <property name="borderBottomColor">#000000</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">medium</property>
-                    <property name="borderLeftColor">#000000</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">medium</property>
-                    <property name="borderRightColor">#000000</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">medium</property>
-                    <property name="borderTopColor">#000000</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">medium</property>
-                    <cell id="624">
+                <row id="706">
+                    <cell id="707">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1103,11 +1184,11 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="649">
-                            <property name="resultSetColumn">nombre_22</property>
+                        <data id="738">
+                            <property name="resultSetColumn">articulo.codigo</property>
                         </data>
                     </cell>
-                    <cell id="625">
+                    <cell id="708">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1120,11 +1201,11 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="650">
-                            <property name="resultSetColumn">descripcion_23</property>
+                        <data id="739">
+                            <property name="resultSetColumn">descripcion_completa</property>
                         </data>
                     </cell>
-                    <cell id="627">
+                    <cell id="709">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1137,34 +1218,12 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="693">
-                            <property name="resultSetColumn">nombre_28</property>
-                        </data>
-                    </cell>
-                    <cell id="626">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <data id="651">
-                            <structure name="numberFormat">
-                                <property name="category">Currency</property>
-                                <property name="pattern">#,##0.00</property>
-                            </structure>
+                        <data id="740">
                             <property name="textAlign">right</property>
-                            <property name="whiteSpace">normal</property>
                             <property name="resultSetColumn">cantidad_solicitada</property>
                         </data>
                     </cell>
-                    <cell id="628">
+                    <cell id="710">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1177,16 +1236,30 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="653">
-                            <structure name="numberFormat">
-                                <property name="category">Currency</property>
-                                <property name="pattern">#,##0.00</property>
-                            </structure>
+                        <data id="741">
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">unidades_medida.nombre</property>
+                        </data>
+                    </cell>
+                    <cell id="711">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="742">
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">monto_unitario</property>
                         </data>
                     </cell>
-                    <cell id="629">
+                    <cell id="712">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1199,37 +1272,92 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <data id="654">
-                            <structure name="numberFormat">
-                                <property name="category">Currency</property>
-                                <property name="pattern">#,##0.00</property>
-                            </structure>
+                        <data id="737">
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">Total</property>
                         </data>
                     </cell>
+                    <cell id="744">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell id="748">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell id="752">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell id="756">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
                 </row>
             </detail>
             <footer>
-                <row id="630">
-                    <cell id="631"/>
-                    <cell id="632"/>
-                    <cell id="634"/>
-                    <cell id="633"/>
-                    <cell id="635">
-                        <label id="656">
+                <row id="714">
+                    <property name="height">1cm</property>
+                    <cell id="715"/>
+                    <cell id="716"/>
+                    <cell id="717"/>
+                    <cell id="718"/>
+                    <cell id="719"/>
+                    <cell id="720"/>
+                    <cell id="745"/>
+                    <cell id="749"/>
+                    <cell id="753">
+                        <property name="verticalAlign">bottom</property>
+                        <label id="735">
                             <property name="fontWeight">bold</property>
-                            <property name="paddingTop">20pt</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
                             <text-property name="text">TOTAL</text-property>
                         </label>
                     </cell>
-                    <cell id="636">
-                        <data id="655">
-                            <property name="paddingTop">20pt</property>
-                            <structure name="numberFormat">
-                                <property name="category">Currency</property>
-                                <property name="pattern">#,##0.00</property>
-                            </structure>
+                    <cell id="757">
+                        <property name="verticalAlign">bottom</property>
+                        <data id="736">
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">TotalSolicitud</property>
                         </data>
@@ -1249,6 +1377,7 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
             </column>
             <header>
                 <row id="689">
+                    <property name="height">4cm</property>
                     <cell id="690"/>
                     <cell id="691">
                         <property name="paddingTop">80pt</property>
@@ -1266,7 +1395,7 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                             <property name="textOverline">none</property>
                             <property name="borderTopColor">#000000</property>
                             <property name="borderTopStyle">solid</property>
-                            <property name="borderTopWidth">medium</property>
+                            <property name="borderTopWidth">thin</property>
                             <property name="marginTop">0pt</property>
                             <property name="paddingTop">1pt</property>
                             <property name="paddingBottom">1pt</property>

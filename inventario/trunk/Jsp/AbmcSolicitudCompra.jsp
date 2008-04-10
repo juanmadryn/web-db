@@ -89,7 +89,7 @@
 										maxlength="15"
 										datasource="dsSolicitudCompra:solicitudes_compra.centro_costo_id"
 										descriptiondatasource="dsSolicitudCompra:centro_costo.nombre"
-										popupheight="450" popupwidth="500" usepopup="TRUE" 
+										popupheight="450" popupwidth="500" usepopup="TRUE"
 										showdescription="TRUE"></salmon:lookup>
 								</salmon:td>
 								<td width="10"></td>
@@ -113,12 +113,21 @@
 								<td><salmon:text name="total_solicitud2" text=""
 									datasource="dsSolicitudCompra:total_solicitud_compra"></salmon:text></td>
 								<td></td>
-								<td><salmon:a href="" target="_blank" name="imprimirSolicitudCompraBUT1"
+								<td><salmon:a href="" target="_blank"
+									name="imprimirSolicitudCompraBUT1"
 									onclick="document.forms['bannerForm'].submit();">
-									<salmon:img name="imprimirTXT"
-										src="%ImageDirectory/print.gif" height="25"
-										srclocalekey="bannerImageSource" />
-								</salmon:a></td>
+									<salmon:img name="imprimirTXT1" src="%ImageDirectory/logo_excel.gif"
+										height="25" srclocalekey="bannerImageSource" />
+								</salmon:a>
+								<salmon:text name="espacio" text=" "
+									font="TableHeadingFont" />
+								<salmon:a href="" target="_blank"
+									name="imprimirSolicitudCompraBUT2"
+									onclick="document.forms['bannerForm'].submit();">
+									<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
+										height="25" srclocalekey="bannerImageSource" />
+								</salmon:a>
+								</td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
@@ -196,7 +205,7 @@
 						<salmon:td nowrap="TRUE" align="RIGHT">
 							<salmon:text name="cantidadRecibida1" text="Cant. recibida"
 								font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
@@ -221,18 +230,19 @@
 							<salmon:input type="select" name="unidad_medida2"
 								datasource="dsDetalleSC:detalle_sc.unidad_medida_id">
 								<salmon:option display="abc" key="123"
-										table="inventario.unidades_medida" keycolumn="unidades_medida.unidad_medida_id"
-										displaycolumn="unidades_medida.nombre" nulloption="false"></salmon:option>								
+									table="inventario.unidades_medida"
+									keycolumn="unidades_medida.unidad_medida_id"
+									displaycolumn="unidades_medida.nombre" nulloption="true"></salmon:option>
 							</salmon:input>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="cantidad_solicitada2" size="8"
-								maxlength="15" displayformat="##0"
+								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada"></salmon:input>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="monto_unitario1" size="8"
-								maxlength="15" displayformat="###,###,##0.00"
+								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="monto_fecha_ultima_compra2" text=""

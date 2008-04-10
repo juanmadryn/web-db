@@ -57,7 +57,7 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 
 			int currentUser = ds.getCurrentWebsiteUserId();
 			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")
-					|| ds.getSolicitudesCompraUserIdSolicita() != currentUser) {
+					&& ds.getSolicitudesCompraUserIdSolicita() != currentUser) {
 				msg
 						.append("Debe ser COMPRADOR o el solicitante original para completar o revisar una Solicitud.");
 				return false;
