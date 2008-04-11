@@ -233,6 +233,8 @@ public class AbmcCadenasAprobacionController extends BaseController implements
 		// TODO Auto-generated method stub
 		if (!isReferredByCurrentPage() && _dsConfiguracion.getRow() != -1) {
 			regId = _dsConfiguracion.getConfiguracionConfiguracionId();
+			_dsCadenasAprobacion.retrieve("cadenas_aprobacion.configuracion_id ="+regId);
+			_dsCadenasAprobacion.gotoFirst();
 		}
 		super.pageRequested(p);
 	}

@@ -125,8 +125,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT1;
+	public com.salmonllc.jsp.JspLink _verFirmantes;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT2;
-	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;	
+	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;
 
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
@@ -275,6 +276,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
 
 		setTabla_principal("solicitudes_compra");
+
+		setDatosBasicosSolicitud();
 	}
 
 	/**
@@ -744,8 +747,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
-		_detailformdisplaybox1.setHeadingCaption("Solicitud de compra Nº"
-				+ getRow_id());
+		String titulo = "Solicitud de compra Nº" + getRow_id();
+		if (_dsSolicitudCompra.getEstadoNombre() != null)
+			titulo += " (" + _dsSolicitudCompra.getEstadoNombre() + ")";
+		_detailformdisplaybox1.setHeadingCaption(titulo);
 		_dsSolicitudCompra.setCurrentWebsiteUserId(currentUser);
 		_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
 				.parseInt(getPageProperties().getThemeProperty(null,
@@ -767,9 +772,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			_observacionX2.setVisible(false);
 		}
 
-		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
+		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 			_nombre_completo_solicitante2.setEnabled(true);
-		else {
+		} else {
 			int solicitante = _dsSolicitudCompra
 					.getSolicitudesCompraUserIdSolicita();
 			if (solicitante == 0)
@@ -777,18 +782,25 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						.setSolicitudesCompraUserIdSolicita(currentUser);
 			else
 				_nombre_completo_solicitante2.setEnabled(false);
+			if ("0006.0002".equalsIgnoreCase(_dsSolicitudCompra
+					.getSolicitudesCompraEstado())) {
+				_customBUT100.setEnabled(false);
+				_customBUT110.setEnabled(false);
+				_customBUT120.setEnabled(false);
+			}
+
 		}
 
 		// setea la URL del reporte a generar al presionar el botón de impresión
-		String URL = armarUrlReporte("XLS",
-				"solicitud_compra", "&Parameter_solicitud_compra_id="
-						+ getRow_id());
+		String URL = armarUrlReporte("XLS", "solicitud_compra",
+				"&Parameter_solicitud_compra_id=" + getRow_id());
 		_imprimirSolicitudCompraBUT1.setHref(URL);
-		
-		URL = armarUrlReporte("PDF",
-				"solicitud_compra", "&Parameter_solicitud_compra_id="
-						+ getRow_id());
-		_imprimirSolicitudCompraBUT2.setHref(URL);		
+
+		URL = armarUrlReporte("PDF", "solicitud_compra",
+				"&Parameter_solicitud_compra_id=" + getRow_id());
+		_imprimirSolicitudCompraBUT2.setHref(URL);
+
+		_verFirmantes.setHref("ListaFirmantes.jsp?solicitud_id=" + getRow_id());
 
 	}
 
