@@ -116,18 +116,21 @@
 								<td><salmon:a href="" target="_blank"
 									name="imprimirSolicitudCompraBUT1"
 									onclick="document.forms['bannerForm'].submit();">
-									<salmon:img name="imprimirTXT1" src="%ImageDirectory/logo_excel.gif"
-										height="25" srclocalekey="bannerImageSource" />
-								</salmon:a>
-								<salmon:text name="espacio" text=" "
-									font="TableHeadingFont" />
+									<salmon:img name="imprimirTXT1"
+										src="%ImageDirectory/logo_excel.gif" height="25"
+										srclocalekey="bannerImageSource" />
+								</salmon:a> <salmon:text name="espacio" text=" " font="TableHeadingFont" />
 								<salmon:a href="" target="_blank"
 									name="imprimirSolicitudCompraBUT2"
 									onclick="document.forms['bannerForm'].submit();">
 									<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
 										height="25" srclocalekey="bannerImageSource" />
-								</salmon:a>
-								</td>
+								</salmon:a> <salmon:text name="espacio2" text=" " font="TableHeadingFont" />
+								<salmon:a href="ListaFirmantes.jsp" target="_blank"
+									name="verFirmantes"
+									onclick="document.forms['bannerForm'].submit();">
+									<salmon:text name="verFirmantesTXT2" text="Firmantes" />
+								</salmon:a></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
@@ -154,7 +157,7 @@
 		<salmon:listformdisplaybox name="listformdisplaybox2"
 			mode="Display_single_page" caption="Detalle" width="100%"
 			datasource="dsDetalleSC" addbuttonvisible="false"
-			savebuttonvisible="false">
+			savebuttonvisible="true" savebuttoncaption="Eliminar">
 			<salmon:datatable name="datatable2" width="100%"
 				datasource="dsDetalleSC" rowsperpage="10">
 				<salmon:datatableheader>
