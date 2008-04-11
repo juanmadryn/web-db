@@ -1260,7 +1260,7 @@ public class SolicitudCompraModel extends BaseModel {
 		instancia.retrieve(
 				"nombre_objeto = 'solicitudes_compra' AND " +
 				"objeto_id = " + getSolicitudesCompraSolicitudCompraId() + 
-				" AND estado = '0007.0001' AND mensaje IS NOT NULL");
+				" AND instancias_aprobacion.estado = '0007.0001' AND mensaje IS NOT NULL");
 		if (instancia.gotoFirst())
 			setObservaciones(instancia.getInstanciasAprobacionMensaje());
 
