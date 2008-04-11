@@ -129,6 +129,11 @@ public class BaseController extends JspController implements SubmitListener,
 	
 	public com.salmonllc.html.HtmlText _txtBannerSolicitudesPendientes;
 	
+	public com.salmonllc.jsp.JspLink _lnkBannerOrdenesPendientes;
+	
+	public com.salmonllc.html.HtmlText _txtBannerOrdenesPendientes;
+	
+	
 	// public com.salmonllc.jsp.JspForm _searchForm;
 	public com.salmonllc.html.HtmlText _welcomeUser;
 
@@ -307,12 +312,16 @@ public class BaseController extends JspController implements SubmitListener,
 			_dsWebSiteUser.setAutoValidate(true);	
 		
 		if (user != null) {		
-		_lnkBannerSolicitudesPendientes.setVisible(true);
-		_txtBannerSolicitudesPendientes.setVisible(true);
+			_lnkBannerSolicitudesPendientes.setVisible(true);
+			_txtBannerSolicitudesPendientes.setVisible(true);			
+			_lnkBannerOrdenesPendientes.setVisible(true);
+			_txtBannerOrdenesPendientes.setVisible(true);
 		} 
 		else {
 			_lnkBannerSolicitudesPendientes.setVisible(false);
-			_txtBannerSolicitudesPendientes.setVisible(false);	
+			_txtBannerSolicitudesPendientes.setVisible(false);
+			_lnkBannerOrdenesPendientes.setVisible(false);
+			_txtBannerOrdenesPendientes.setVisible(false);
 		}
 		
 			
@@ -375,6 +384,19 @@ public class BaseController extends JspController implements SubmitListener,
 			_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
 			_lnkBannerSolicitudesPendientes.setVisible(false);
 			_txtBannerSolicitudesPendientes.setVisible(false);				
+		}
+		
+		int ordenes_pendientes = 0;
+		if ((user != null) && ((ordenes_pendientes = Utilities.getOrdenesCompraPendientesAprobacion(user.getUserID())) > 0)) {
+			_lnkBannerOrdenesPendientes.setHref("/inventario/Jsp/ConsultaOrdenesCompra.jsp?user_id=" + user.getUserID());
+			_txtBannerOrdenesPendientes.setText("Ordenes pendientes: " + ordenes_pendientes);
+			_lnkBannerOrdenesPendientes.setVisible(true);
+			_txtBannerOrdenesPendientes.setVisible(true);
+		} 
+		else {
+			_txtBannerOrdenesPendientes.setText("Solicitudes pendientes: " + ordenes_pendientes);
+			_lnkBannerOrdenesPendientes.setVisible(false);
+			_txtBannerOrdenesPendientes.setVisible(false);
 		}
 		
 		populateNavBar();

@@ -1,14 +1,14 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page controller="infraestructura.controllers.BaseController" />
+<salmon:page controller="inventario.controllers.ConsultaOrdenesCompraController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="n" type="IN"
+		<salmon:qbecriteria name="nroOc" type="IN"
 			columns="ordenes_compra.orden_compra_id" />
 		<salmon:qbecriteria name="desde" type="GTE"
 			columns="ordenes_compra.fecha" />
@@ -33,13 +33,14 @@
 					<salmon:searchformdisplaybox
 						caption="Consulta de Ordenes de Compra"
 						name="searchformdisplaybox1" searchbuttonvisible="true"
-						addbuttonvisible="False" qbebuilder="dsQBE" width="100%">
+						addbuttonvisible="False" qbebuilder="dsQBE" width="100%"
+						buttondisplaylocation="BOTTOM">
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="n1" text="Nº"
 									font="ColumnCaptionFont" /></td>
 								<td colspan="3"><salmon:input name="n2" type="text"
-									datasource="dsQBE:n">
+									datasource="dsQBE:nroOc">
 								</salmon:input></td>
 								<td><salmon:text name="estado1" text="Estado"
 									font="ColumnCaptionFont" /></td>
@@ -94,7 +95,7 @@
 							<tr>
 								<td><salmon:text name="descripcion1" text="Descripción"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="descripción2" text=""
+								<td><salmon:text name="descripcion2" text=""
 									datasource="dsOrdenes:ordenes_compra.descripcion"></salmon:text></td>
 							</tr>
 							<tr>
@@ -173,22 +174,22 @@
 								datasource="dsOrdenes:ordenes_compra.orden_compra_id" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="descripcionTXT2" text="nombre Goes Here"
+							<salmon:text name="descripcionTXT2" text="descripcion Goes Here"
 								font="DefaultFont"
 								datasource="dsOrdenes:ordenes_compra.descripcion" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="solicitante_nombreTXT3"
-								text="descripcion Goes Here" font="DefaultFont"
+								text="solicitante Goes Here" font="DefaultFont"
 								datasource="dsOrdenes:nombre_completo_comprador" />
 						</salmon:td>						
 						<salmon:td>
-							<salmon:text name="fechaTXT4" text="cliente Goes Here"
+							<salmon:text name="fechaTXT4" text="fecha Goes Here"
 								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsOrdenes:ordenes_compra.fecha" />
 						</salmon:td>						
 						<salmon:td>
-							<salmon:text name="estadoTXT3" text="descripcion Goes Here"
+							<salmon:text name="estadoTXT3" text="estado Goes Here"
 								font="DefaultFont" datasource="dsOrdenes:estados.nombre" />
 						</salmon:td>
 						<salmon:td>

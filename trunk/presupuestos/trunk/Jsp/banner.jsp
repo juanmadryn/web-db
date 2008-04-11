@@ -29,9 +29,13 @@
 					</salmon:a></td>
 				</tr>
 				<tr>
-					<td colspan="3"><salmon:a href=""
+					<td colspan="2"><salmon:a href=""
 						name="lnkBannerSolicitudesPendientes">
-						<salmon:text name="txtBannerSolicitudesPendientes" text="" />
+						<salmon:text name="txtBannerSolicitudesPendientes" text=""  />
+					</salmon:a></td>
+					<td><salmon:a href=""
+						name="lnkBannerOrdenesPendientes">
+						<salmon:text name="txtBannerOrdenesPendientes" text=""  />
 					</salmon:a></td>
 				</tr>
 				<tr><jsp:include page="welcomeMessage.jsp" flush="true"></jsp:include></tr>
