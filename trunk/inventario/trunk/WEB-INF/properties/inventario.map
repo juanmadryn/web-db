@@ -3,6 +3,13 @@
 <siteMap>
 
 	<entry>
+     	<name>ListaFirmantes</name>
+    	<uri>/Jsp/ListaFirmantes.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	
+	<entry>
     	<name>LkpProveedores</name>
      	<uri>/Jsp/LkpProveedores.jsp</uri>
      	<useForward>false</useForward>
