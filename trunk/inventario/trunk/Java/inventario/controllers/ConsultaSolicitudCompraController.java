@@ -73,7 +73,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
-	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
+	//	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspForm _pageForm;
 	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
@@ -111,6 +111,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
 
+	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
+	
 	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public inventario.models.SolicitudCompraModel _dsSolicitudes;
@@ -145,6 +147,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public static final String DSQBE_SOLICITANTE = "solicitante";
 
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesPendientes;
+	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesRechazadas;
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -153,12 +156,21 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public void initialize() throws Exception {
 		_recuperaSolicitudesPendientes = new HtmlSubmitButton(
 				"recuperaSolicitudesPendientes",
-				"Recuperar Solicitudes pendientes de aprobación", this);
+				"Recuperar solicitudes pendientes de aprobación", this);
 		_recuperaSolicitudesPendientes.setAccessKey("R");
 		_searchformdisplaybox1.addButton(_recuperaSolicitudesPendientes);
 		_recuperaSolicitudesPendientes.addSubmitListener(this);
 		_recuperaSolicitudesPendientes.setVisible(false);
-		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
+		
+		_recuperaSolicitudesRechazadas = new HtmlSubmitButton(
+				"recuperaSolicitudesRechazadas",
+				"recuperar Solicitud rechazada", this);
+		_recuperaSolicitudesRechazadas.setAccessKey("S");
+		_detailformdisplaybox1.addButton(_recuperaSolicitudesRechazadas);
+		_recuperaSolicitudesRechazadas.addSubmitListener(this);
+		_recuperaSolicitudesRechazadas.setVisible(false);
+		
+		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);		
 		
 		super.initialize();
 	}
@@ -187,6 +199,11 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				displayErrorMessage(ex.getMessage());
 				ex.printStackTrace();
 			}
+		}
+		
+		if (e.getComponent() == _recuperaSolicitudesRechazadas) {
+			_dsSolicitudes.setSolicitudesCompraEstado("0006.0001");
+			_dsSolicitudes.update();			
 		}
 
 		return super.submitPerformed(e);
@@ -243,6 +260,10 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		else
 			_solicitante2.setEnabled(true);
 			
+		if(_dsSolicitudes.getRow() != -1 && "0006.0004".equalsIgnoreCase(_dsSolicitudes.getSolicitudesCompraEstado())) 
+			_recuperaSolicitudesRechazadas.setVisible(true);
+		else
+			_recuperaSolicitudesRechazadas.setVisible(false);
 		
 		super.pageRequested(event);
 	}
