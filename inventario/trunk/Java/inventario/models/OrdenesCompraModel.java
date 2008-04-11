@@ -35,6 +35,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String ORDENES_COMPRA_FECHA_ENTREGA_COMPLETA="ordenes_compra.fecha_entrega_completa";
 	public static final String ORDENES_COMPRA_DESCRIPCION="ordenes_compra.descripcion";
 	public static final String ORDENES_COMPRA_OBSERVACIONES="ordenes_compra.observaciones";
+	public static final String ORDENES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
 
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -104,6 +105,9 @@ public class OrdenesCompraModel extends BaseModel {
 			addColumn(computeTableName("entidad_externa"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					ENTIDAD_EXTERNA_NOMBRE);
+			addColumn(computeTableName("ordenes_compra"),
+					"fecha_aprobacion", DataStore.DATATYPE_DATETIME, false, true,
+					ORDENES_COMPRA_FECHA_APROBACION);
 			
 			// add buckets
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
@@ -832,6 +836,60 @@ public class OrdenesCompraModel extends BaseModel {
 	public void setEntidadExternaNombre(int row, String newValue)
 			throws DataStoreException {
 		setString(row, ENTIDAD_EXTERNA_NOMBRE, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the ordenes_compra.fecha_aprobacion column for
+	 * the current row.
+	 * 
+	 * @return java.sql.Timestamp
+	 * @throws DataStoreException
+	 */
+	public java.sql.Timestamp getOrdenesCompraFechaAprobacion()
+			throws DataStoreException {
+		return getDateTime(ORDENES_COMPRA_FECHA_APROBACION);
+	}
+
+	/**
+	 * Retrieve the value of the ordenes_compra.fecha_aprobacion column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return java.sql.Timestamp
+	 * @throws DataStoreException
+	 */
+	public java.sql.Timestamp getOrdenesCompraFechaAprobacion(int row)
+			throws DataStoreException {
+		return getDateTime(row, ORDENES_COMPRA_FECHA_APROBACION);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.fecha_aprobacion column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setOrdenesCompraFechaAprobacion(java.sql.Timestamp newValue)
+			throws DataStoreException {
+		setDateTime(ORDENES_COMPRA_FECHA_APROBACION, newValue);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.fecha_aprobacion column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setOrdenesCompraFechaAprobacion(int row,
+			java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(row, ORDENES_COMPRA_FECHA_APROBACION, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 

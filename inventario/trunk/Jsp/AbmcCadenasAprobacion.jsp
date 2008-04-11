@@ -13,12 +13,7 @@
 	<salmon:datasource name="dsConfiguracion" type="MODEL"
 		dbprofile="infraestructura"
 		model="infraestructura.models.ConfiguracionModel"
-		autoretrieve="Always">
-		<salmon:selection>
-			<salmon:selectioncriteria
-				fieldname="configuracion.esquema_configuracion_id" operator="="
-				value="2" />
-		</salmon:selection>
+		autoretrieve="Always">		
 	</salmon:datasource>
 	<salmon:datasource name="dsCadenasAprobacion" type="MODEL"
 		dbprofile="inventario"

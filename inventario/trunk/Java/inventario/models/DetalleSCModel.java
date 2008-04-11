@@ -1551,7 +1551,13 @@ public class DetalleSCModel extends DataStore {
 		super.update(connection, handleTrans);
 	}
 
-	// checks if every detail has monto_unitario filled
+	/**
+	 * checks if every detail has monto_unitario filled
+	 * @param solicitud_id
+	 * @return
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
 	public boolean chequeaTotalesDetallesSolicitud(int solicitud_id)
 			throws DataStoreException, SQLException {
 		retrieve("detalle_sc.solicitud_compra_id = " + solicitud_id);
