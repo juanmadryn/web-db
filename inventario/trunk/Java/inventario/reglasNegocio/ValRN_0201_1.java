@@ -49,11 +49,11 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 				msg.append("Debe detallar por lo menos un artículo a comprar");
 				return false;
 			}
-			if (!detalles.chequeaTotalesDetallesSolicitud(solicitudCompraId)) {
+			/*if (!detalles.chequeaTotalesDetallesSolicitud(solicitudCompraId)) {
 				msg
 						.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");
 				return false;
-			}
+			}*/
 
 			int currentUser = ds.getCurrentWebsiteUserId();
 			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")
