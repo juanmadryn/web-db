@@ -36,6 +36,8 @@ public class InstanciasAprobacionModel extends DataStore {
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
 	// be overwritten if the model is regenerated
+	public static final String ESTADOS_NOMBRE = "estados.nombre";
+	public static final String USER_NOMBRE_COMPLETO = "user_firmante.nombre_completo";
 
 	// $ENDCUSTOMVARS$
 
@@ -45,7 +47,7 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @param appName
 	 *            The SOFIA application name
 	 */
-	public InstanciasAprobacionModel(String appName) {
+	public InstanciasAprobacionModel(String appName) throws DataStoreException{
 		this(appName, null);
 	}
 
@@ -57,13 +59,15 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @param profile
 	 *            The database profile to use
 	 */
-	public InstanciasAprobacionModel(String appName, String profile) {
+	public InstanciasAprobacionModel(String appName, String profile) throws DataStoreException{
 		super(appName, profile);
 
 		// add aliases
 		addTableAlias(computeTableName("instancias_aprobacion"),
 				"instancias_aprobacion");
-
+		addTableAlias(computeTableName("infraestructura.estados"), "estados");
+		addTableAlias(computeTableName("infraestructura.website_user"), "user_firmante");
+		
 		// add columns
 		addColumn(computeTableName("instancias_aprobacion"),
 				"instancia_aprobacion_id", DataStore.DATATYPE_INT, true, true,
@@ -86,12 +90,32 @@ public class InstanciasAprobacionModel extends DataStore {
 		addColumn(computeTableName("instancias_aprobacion"), "orden",
 				DataStore.DATATYPE_INT, false, true,
 				INSTANCIAS_APROBACION_ORDEN);
-		addColumn(computeTableName("instancias_aprobacion"), "nombre_objeto",
+				addColumn(computeTableName("instancias_aprobacion"), "nombre_objeto",
 				DataStore.DATATYPE_STRING, false, true,
 				INSTANCIAS_APROBACION_NOMBRE_OBJETO);
 		addColumn(computeTableName("instancias_aprobacion"), "objeto_id",
 				DataStore.DATATYPE_INT, false, true,
 				INSTANCIAS_APROBACION_OBJETO_ID);		
+		addColumn(computeTableName("estados"), "nombre",
+				DataStore.DATATYPE_STRING, false, true, ESTADOS_NOMBRE);
+		addColumn(computeTableName("user_firmante"), "nombre_completo",
+				DataStore.DATATYPE_STRING, false, true, USER_NOMBRE_COMPLETO);
+
+		addJoin(computeTableAndFieldName("instancias_aprobacion.estado"),
+				computeTableAndFieldName("estados.estado"), false);
+		addJoin(computeTableAndFieldName("instancias_aprobacion.user_firmante"),
+				computeTableAndFieldName("user_firmante.user_id"), false);
+
+		addLookupRule(
+				INSTANCIAS_APROBACION_ESTADO,
+				computeTableName("estados"),
+				"'infraestructura.estados.estado = \"' + instancias_aprobacion.estado + '\"' ",
+				"nombre", ESTADOS_NOMBRE, "El estado indicado no existe");
+		addLookupRule(
+				INSTANCIAS_APROBACION_USER_FIRMANTE,
+				computeTableName("user_firmante"),
+				"'infraestructura.website_user.user_id = ' + instancias_aprobacion.user_firmante",
+				"nombre_completo", USER_NOMBRE_COMPLETO, "El usuario indicado no existe");		
 
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
@@ -369,7 +393,6 @@ public class InstanciasAprobacionModel extends DataStore {
 		setDate(row, INSTANCIAS_APROBACION_FECHA_ACCION, newValue);
 	}
 
-
 	/**
 	 * Retrieve the value of the instancias_aprobacion.mensaje column for the
 	 * current row.
@@ -424,8 +447,8 @@ public class InstanciasAprobacionModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the instancias_aprobacion.orden column for
-	 * the current row.
+	 * Retrieve the value of the instancias_aprobacion.orden column for the
+	 * current row.
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -435,22 +458,21 @@ public class InstanciasAprobacionModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the instancias_aprobacion.orden column for
-	 * the specified row.
+	 * Retrieve the value of the instancias_aprobacion.orden column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getInstanciasAprobacionOrden(int row)
-			throws DataStoreException {
+	public int getInstanciasAprobacionOrden(int row) throws DataStoreException {
 		return getInt(row, INSTANCIAS_APROBACION_ORDEN);
 	}
 
 	/**
-	 * Set the value of the instancias_aprobacion.orden column for the
-	 * current row.
+	 * Set the value of the instancias_aprobacion.orden column for the current
+	 * row.
 	 * 
 	 * @param newValue
 	 *            the new item value
@@ -462,8 +484,8 @@ public class InstanciasAprobacionModel extends DataStore {
 	}
 
 	/**
-	 * Set the value of the instancias_aprobacion.orden column for the
-	 * specified row.
+	 * Set the value of the instancias_aprobacion.orden column for the specified
+	 * row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -475,6 +497,7 @@ public class InstanciasAprobacionModel extends DataStore {
 			throws DataStoreException {
 		setInt(row, INSTANCIAS_APROBACION_ORDEN, newValue);
 	}
+
 	
 	/**
 	 * Retrieve the value of the instancias_aprobacion.nombre_objeto column for the
@@ -585,21 +608,127 @@ public class InstanciasAprobacionModel extends DataStore {
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
 
-	public void firmarInstanciasAprobacionSolicitud(int user_firmante, DBConnection conn)
-			throws DataStoreException, SQLException {
-		for (int row = 0; row < getRowCount(); row++) {		
+	/**
+	 * Retrieve the value of the estados.nombre column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEstadoNombre() throws DataStoreException {
+		return getString(ESTADOS_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the estados.nombre column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEstadoNombre(int row)
+			throws DataStoreException {
+		return getString(row, ESTADOS_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the estados.nombre column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEstadoNombre(String newValue)
+			throws DataStoreException {
+		setString(ESTADOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the estados.nombre column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEstadoNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ESTADOS_NOMBRE, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the user.nombre_completo column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getUserNombreCompleto() throws DataStoreException {
+		return getString(USER_NOMBRE_COMPLETO);
+	}
+
+	/**
+	 * Retrieve the value of the user.nombre_completo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getUserNombreCompleto(int row)
+			throws DataStoreException {
+		return getString(row, USER_NOMBRE_COMPLETO);
+	}
+
+	/**
+	 * Set the value of the user.nombre_completo column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setUserNombreCompleto(String newValue)
+			throws DataStoreException {
+		setString(USER_NOMBRE_COMPLETO, newValue);
+	}
+
+	/**
+	 * Set the value of the user.nombre_completo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setUserNombreCompleto(int row, String newValue)
+			throws DataStoreException {
+		setString(row, USER_NOMBRE_COMPLETO, newValue);
+	}
+	
+	public void firmarInstanciasAprobacionSolicitud(int user_firmante,
+			DBConnection conn) throws DataStoreException, SQLException {
+		for (int row = 0; row < getRowCount(); row++) {
 			setInstanciasAprobacionEstado(row, "0007.0002");
-			if (getInstanciasAprobacionUserFirmante(row) == user_firmante)
+			if (getInstanciasAprobacionUserFirmante(row) == user_firmante && getInstanciasAprobacionFechaAccion(row) == null)				
 				setInstanciasAprobacionFechaAccion(row, new Date((Calendar
 						.getInstance().getTimeInMillis())));
+				
 		}
-		if(conn != null)
+		if (conn != null)
 			update(conn);
-		else 
+		else
 			update();
 	}
 
-	
 	// $ENDCUSTOMMETHODS$
 
 }
