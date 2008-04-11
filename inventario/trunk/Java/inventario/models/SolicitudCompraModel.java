@@ -1256,7 +1256,7 @@ public class SolicitudCompraModel extends BaseModel {
 
 	public void setObservaciones() throws DataStoreException, SQLException {
 		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
-				"inventario", "inventario");
+				"inventario", "inventario");		
 		instancia.retrieve(
 				"nombre_objeto = 'solicitudes_compra' AND " +
 				"objeto_id = " + getSolicitudesCompraSolicitudCompraId() + 
