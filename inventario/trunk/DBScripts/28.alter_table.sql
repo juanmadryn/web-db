@@ -9,7 +9,7 @@ CREATE INDEX instancias_aprobacion_nombre_objeto_index
 
 UPDATE `inventario`.`instancias_aprobacion` SET
 	`nombre_objeto` = 'solicitudes_compra',
-	`objeto_id` =  `instancia_aprobacion_id`;
+	`objeto_id` =  `solicitud_compra_id`;
 
 ALTER TABLE `inventario`.`instancias_aprobacion` 
 	DROP FOREIGN KEY `FK_instancias_aprobacion_solicitudes_compra`;

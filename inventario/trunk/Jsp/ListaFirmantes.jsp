@@ -69,7 +69,7 @@
 						<salmon:td>
 							<salmon:text name="fechaTXT"
 								text="website_user.login_name Goes Here" font="DefaultFont"
-								displayformat="dd/MM/yyyy hh:mm a"
+								displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsFirmantes:instancias_aprobacion.fecha_accion" />
 						</salmon:td>
 					</salmon:tr>
@@ -119,7 +119,7 @@
 						<salmon:td>
 							<salmon:text name="fecha3"
 								text="audita_estados_circuitos.fecha Goes Here"
-								font="DefaultFont" displayformat="dd/MM/yyyy hh:mm a"
+								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsAuditoria:audita_estados_circuitos.fecha" />
 						</salmon:td>
 						<salmon:td>

@@ -4,6 +4,7 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
+import infraestructura.utils.Utilities;
 
 import java.sql.SQLException;
 
@@ -244,9 +245,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
-		int solicitudes_pendientes = _dsSolicitudes.estimateRowsRetrieved("solicitudes_compra.solicitud_compra_id IN (SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = " 
-				+ currentUser + " AND nombre_objeto='solicitudes_compra')");		
-		if (solicitudes_pendientes > 0) {
+		if (Utilities.getSolicitudesCompraPendientesAprobacion(currentUser) > 0) {
 			_recuperaSolicitudesPendientes.setVisible(true);				
 		} else {			
 			_recuperaSolicitudesPendientes.setVisible(false);

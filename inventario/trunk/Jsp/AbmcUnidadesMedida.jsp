@@ -55,7 +55,7 @@
 								<td><salmon:text name="observacionesCAP18"
 									text="Observaciones" font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="textarea" name="observacionesTE8"
-									cols="80" rows="3" datasource="dsUnidadesMedida:unidades_medida.observaciones"></salmon:input></td>
+									cols="50" rows="3" datasource="dsUnidadesMedida:unidades_medida.observaciones"></salmon:input></td>
 							</tr>							
 						</table>
 					</salmon:detailformdisplaybox>

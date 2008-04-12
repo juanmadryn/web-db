@@ -61,7 +61,7 @@
 								<td><salmon:text name="fecha_solicitud1"
 									text="Fecha de solicitud" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_solicitud2" text=""
-									displayformat="dd/MM/yyyy hh:mm a"
+									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsSolicitudCompra:solicitudes_compra.fecha_solicitud"></salmon:text></td>
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>

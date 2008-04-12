@@ -3,6 +3,27 @@
 <siteMap>
 
 	<entry>
+     	<name>MenuOrdenes</name>
+    	<uri>/Jsp/MenuOrdenes.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+
+	<entry>
+     	<name>MenuSolicitudes</name>
+    	<uri>/Jsp/MenuSolicitudes.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+
+	<entry>
+     	<name>MenuArticulos</name>
+    	<uri>/Jsp/MenuArticulos.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+
+	<entry>
      	<name>ListaFirmantes</name>
     	<uri>/Jsp/ListaFirmantes.jsp</uri>
 		<useForward>false</useForward>
