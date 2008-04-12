@@ -400,11 +400,9 @@ public class CadenasAprobacionModel extends DataStore {
 		Vector<Integer> vectorFirmantes = new Vector<Integer>();
 		vectorFirmantes.add(getCadenasAprobacionUserFirmante());
 		orden = getCadenasAprobacionOrden();
-		System.out.println("orden: "+orden);
 		while (gotoNext() && orden == getCadenasAprobacionOrden()) {
 			vectorFirmantes.add(getCadenasAprobacionUserFirmante());	
 		}		
-		System.out.println("orden1: "+orden);
 		setOrder(orden);
 		return vectorFirmantes.iterator();
 
@@ -424,7 +422,7 @@ public class CadenasAprobacionModel extends DataStore {
 		return vectorFirmantes.iterator();
 
 	}
-
+	
 	public int getOrder() {
 		return order;
 	}
