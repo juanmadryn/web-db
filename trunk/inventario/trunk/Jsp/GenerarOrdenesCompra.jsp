@@ -173,9 +173,16 @@
 								datasource="dsDetalleSC:clase_articulo.nombre" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="nroSolicitudTXT3" text="nro solicitud clase Goes Here"
-								font="DefaultFont"
-								datasource="dsDetalleSC:detalle_sc.solicitud_compra_id" />
+							<salmon:a href="none" name="lnksolicitud1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsDetalleSC:'%AbmcSolicitudCompra?solicitud_compra_id='+detalle_sc.solicitud_compra_id">
+								<salmon:text name="nroSolicitudTXT3" text="nro solicitud clase Goes Here"
+									font="DefaultFont"
+									datasource="dsDetalleSC:detalle_sc.solicitud_compra_id" />
+								<!-- <salmon:text name="guionSep" text=" - " font="DefaultFont" />
+								<salmon:text name="descripcionSc" text="detalle_sc.descripcion goes here"									
+									datasource="dsDetalleSC:detalle_sc.descripcion"></salmon:text> -->
+							</salmon:a>
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="cantidadSolicitadaTXT4" text="Cantidad Solicitada Goes Here"

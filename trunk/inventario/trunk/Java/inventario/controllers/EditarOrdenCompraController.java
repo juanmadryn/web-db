@@ -141,6 +141,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
+	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
+	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
 	
 	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 
@@ -210,7 +212,11 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_dsDetalleSC.reset();
 		_dsOrdenesCompra.insertRow();
 
+		_detailformdisplaybox1.setReloadRowAfterSave(true);
+		
 		setTabla_principal("ordenes_compra");
+		
+		setDatosBasicosOrdenCompra();
 	}
 	
 	@Override
@@ -517,8 +523,12 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
-		_detailformdisplaybox1.setHeadingCaption("Orden de compra Nº"
-				+ getRow_id());
+		
+		String titulo = "Orden de compra Nº" + getRow_id();
+		if (_dsOrdenesCompra.getEstadoNombre() != null)
+			titulo += " (" + _dsOrdenesCompra.getEstadoNombre() + ")";		
+		_detailformdisplaybox1.setHeadingCaption(titulo);
+		
 		_dsOrdenesCompra.setCurrentWebsiteUserId(currentUser);
 		_dsOrdenesCompra.setEsquemaConfiguracionId(Integer
 				.parseInt(getPageProperties().getThemeProperty(null,
@@ -542,6 +552,15 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);
 		else 
 			_nombre_completo_comprador2.setEnabled(false);
+		
+		// setea la URL del reporte a generar al presionar el botón de impresión
+		String URL = armarUrlReporte("XLS", "orden_compra",
+				"&Parameter_solicitud_compra_id=" + getRow_id());
+		_imprimirOrdenCompraBUT1.setHref(URL);
+
+		URL = armarUrlReporte("PDF", "orden_compra",
+				"&Parameter_solicitud_compra_id=" + getRow_id());
+		_imprimirOrdenCompraBUT2.setHref(URL);
 	}
 	
 	/**

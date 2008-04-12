@@ -98,6 +98,22 @@
 								<td><salmon:text name="total_solicitud2" text="total goes here"
 									datasource="dsOrdenesCompra:total_orden_compra"></salmon:text></td>
 								<td/>
+								<td>
+									<salmon:a href="" target="_blank"
+										name="imprimirOrdenCompraBUT1"
+										onclick="document.forms['bannerForm'].submit();">
+										<salmon:img name="imprimirTXT1"
+											src="%ImageDirectory/logo_excel.gif" height="25"
+											srclocalekey="bannerImageSource" />
+									</salmon:a>
+									<salmon:text name="espacio" text=" " font="TableHeadingFont" />
+									<salmon:a href="" target="_blank"
+										name="imprimirOrdenCompraBUT2"
+										onclick="document.forms['bannerForm'].submit();">
+										<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
+											height="25" srclocalekey="bannerImageSource" />
+									</salmon:a> 
+									<salmon:text name="espacio2" text=" " font="TableHeadingFont" />
 								<td/>
 							</tr>
 						</table>

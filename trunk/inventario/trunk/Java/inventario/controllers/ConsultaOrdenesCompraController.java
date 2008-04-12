@@ -174,9 +174,11 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			try {
 				_dsOrdenes
 						.retrieve("ordenes_compra.orden_compra_id IN "
-								+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
-								+ getSessionManager().getWebSiteUser()
-										.getUserID() + " AND nombre_objeto='ordenes_compra') AND ordenes_compra.estado LIKE '0008.0002'");
+								+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i " 
+								+		"WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
+								+ getSessionManager().getWebSiteUser().getUserID() 
+								+ " AND nombre_objeto='ordenes_compra') " 
+								+				"AND ordenes_compra.estado LIKE '0008.0002'");
 				_dsOrdenes.waitForRetrieve();
 				_dsOrdenes.gotoFirst();
 				setSpecialTitle();
@@ -208,10 +210,10 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			if (user_id != -1) {
 				// verifica si cambión el contexto
 				try {
-					_dsOrdenes
-							.retrieve("ordenes_compra.orden_compra_id IN "
-									+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
-									+ user_id + " AND nombre_objeto='ordenes_compra')");
+					_dsOrdenes.retrieve("ordenes_compra.orden_compra_id IN " 
+							+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i " 
+							+ 		"WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
+							+ user_id + " AND nombre_objeto='ordenes_compra')");
 					_dsOrdenes.gotoFirst();
 					setSpecialTitle();
 				} catch (SQLException e) {
@@ -227,8 +229,10 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
-		int solicitudes_pendientes = _dsOrdenes.estimateRowsRetrieved("ordenes_compra.orden_compra_id IN (SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = " 
-				+ currentUser + " AND nombre_objeto='ordenes_compra')");		
+		int solicitudes_pendientes = _dsOrdenes.estimateRowsRetrieved("ordenes_compra.orden_compra_id IN "
+				+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i " 
+				+	"WHERE i.estado LIKE '0007.0001' and i.user_firmante = "  
+				+	currentUser + " AND nombre_objeto='ordenes_compra')");		
 		if (solicitudes_pendientes > 0) {
 			_recuperaOrdenesPendientes.setVisible(true);				
 		} else {			
@@ -241,15 +245,13 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			_dsQBE.setString("solicitante", String.valueOf(currentUser));
 		}
 		else
-			_comprador2.setEnabled(true);
-			
+			_comprador2.setEnabled(true);			
 		
 		super.pageRequested(event);
 	}
 	
 	private void setSpecialTitle() {
-		// TODO Auto-generated method stub
-		_listformdisplaybox1.setHeadingCaption("Solicitudes de compra pendientes de aprobación");
+		_listformdisplaybox1.setHeadingCaption("Ordenes de compra pendientes de aprobación");
 		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");		
 	}
 
