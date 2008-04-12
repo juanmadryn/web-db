@@ -127,6 +127,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlSubmitButton _generaOcsBUT3;
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
 	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
+	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
