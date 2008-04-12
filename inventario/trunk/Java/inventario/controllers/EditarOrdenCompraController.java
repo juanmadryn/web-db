@@ -143,6 +143,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
+	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 	
 	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 
@@ -518,37 +519,51 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		super.pageRequested(p);	
 	}
 	
+	/**
+	 * Recupera datos adicionales de la orden de compra que no se encuentran en 
+	 * la tabla inventario.ordenes_compra y configura adecuadamente la vista
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
 	private void setDatosBasicosOrdenCompra() throws DataStoreException,
 			SQLException {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
 		
+		// Nùmero de OC y estado en el tìtulo
 		String titulo = "Orden de compra Nº" + getRow_id();
 		if (_dsOrdenesCompra.getEstadoNombre() != null)
 			titulo += " (" + _dsOrdenesCompra.getEstadoNombre() + ")";		
 		_detailformdisplaybox1.setHeadingCaption(titulo);
 		
 		_dsOrdenesCompra.setCurrentWebsiteUserId(currentUser);
+		
+		// Recupera esquema de configuración para la cadena de firmas
 		_dsOrdenesCompra.setEsquemaConfiguracionId(Integer
-				.parseInt(getPageProperties().getThemeProperty(null,
+				.parseInt(getPageProperties().getProperty(
 						"EsquemaConfiguracionIdOrdenesCompra")));
+		
+		// Calcula total de la OC (cantidad_pedida x monto_unitario)
 		_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
 				.getAtributoTotalOrdenCompra());
 
+		// Muestra observaciones realizadas a la OC
 		String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
 		if ("0008.0002".equalsIgnoreCase(estado)
 				|| "0008.0004".equalsIgnoreCase(estado)
 				|| "0008.0005".equalsIgnoreCase(estado)) {
+			_dsOrdenesCompra.recuperaObservaciones();
 			_observacionX1.setVisible(true);
-			_observacionX2.setVisible(true);
+			_observacionX2.setVisible(true);			
 		} else {
 			_observacionX1.setVisible(false);
 			_observacionX2.setVisible(false);
 		}
 
-		int solicitante = _dsOrdenesCompra.getOrdenesCompraUserIdComprador();
-		if (solicitante == 0)
+		// setea comprador 
+		int comprador = _dsOrdenesCompra.getOrdenesCompraUserIdComprador();
+		if (comprador == 0)
 			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);
 		else 
 			_nombre_completo_comprador2.setEnabled(false);

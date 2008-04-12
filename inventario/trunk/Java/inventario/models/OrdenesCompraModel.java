@@ -891,6 +891,23 @@ public class OrdenesCompraModel extends BaseModel {
 			java.sql.Timestamp newValue) throws DataStoreException {
 		setDateTime(row, ORDENES_COMPRA_FECHA_APROBACION, newValue);
 	}
+	
+	/**
+	 * Recupera observaciones hechas a la OC actual en el bucket observaciones  
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void recuperaObservaciones() throws DataStoreException, SQLException {
+		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
+				"inventario", "inventario");		
+		instancia.retrieve(
+				"nombre_objeto = 'ordenes_compra' AND " +
+				"objeto_id = " + getOrdenesCompraOrdenCompraId() + 
+				" AND mensaje IS NOT NULL");
+		if (instancia.gotoFirst())
+			setObservaciones(instancia.getInstanciasAprobacionMensaje());
+
+	}
 	// $ENDCUSTOMMETHODS$
 
 }
