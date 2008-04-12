@@ -79,21 +79,23 @@ public final class ValRN_0207_1 extends ValidadorReglasNegocio {
 
 			// checkeo si está pendiente la aprobación del usuario actual
 			instancia.retrieve(
-					"nombre_objeto = 'solicitudes_compra' AND " +
-					"objeto_id = " + solicitudCompraId +
-					" AND user_firmante =" + currentWebsiteUser +
-					" AND estado = 0007.0001");
+					"instancias_aprobacion.nombre_objeto = 'solicitudes_compra' AND " +
+					"instancias_aprobacion.objeto_id = " + solicitudCompraId +
+					" AND instancias_aprobacion.user_firmante =" + currentWebsiteUser +
+					" AND instancias_aprobacion.estado = 0007.0001");
 			if (!instancia.gotoFirst()) {
 				msg.append("Usted no está autorizado para aprobar la solicitud en su estado actual");
 				return false;
 			}
+			int orden = instancia.getInstanciasAprobacionOrden();
 			
 			instancia.retrieve(
 					"nombre_objeto = 'solicitudes_compra' AND " +
 					"objeto_id = " + solicitudCompraId
 					);
+			
 			instancia.gotoFirst();
-			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
+			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser, orden,
 					conn);
 
 			

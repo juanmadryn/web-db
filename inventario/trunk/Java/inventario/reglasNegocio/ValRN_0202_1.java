@@ -77,12 +77,13 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 			int currentWebsiteUser = ds.getCurrentWebsiteUserId();
 
 			// checkeo si está pendiente la aprobación del usuario actual
-			instancia.retrieve(
-					"nombre_objeto = 'solicitudes_compra' AND " +
-					"objeto_id = " + solicitudCompraId +
-					" AND user_firmante =" + currentWebsiteUser +
-					" AND estado = 0007.0001"
-					);
+			instancia
+					.retrieve("instancias_aprobacion.nombre_objeto = 'solicitudes_compra' AND "
+							+ "instancias_aprobacion.objeto_id = "
+							+ solicitudCompraId
+							+ " AND instancias_aprobacion.user_firmante ="
+							+ currentWebsiteUser
+							+ " AND instancias_aprobacion.estado = 0007.0001");
 
 			if (!instancia.gotoFirst()) {
 				msg
@@ -90,17 +91,17 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 
+			int orden = instancia
+			.getInstanciasAprobacionOrden();
 			Iterator<Integer> siguientesFirmantes = cadena
-					.getSiguientesFirmantes(true, instancia
-							.getInstanciasAprobacionOrden());
+					.getSiguientesFirmantes(true, orden);
 			
-
-			instancia.retrieve(
-					"nombre_objeto = 'solicitudes_compra' AND " +
-					"objeto_id = " + solicitudCompraId
-					);
+			
+			instancia.retrieve("nombre_objeto = 'solicitudes_compra' AND "
+					+ "objeto_id = " + solicitudCompraId);
+			
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
-					connection);
+					orden, connection);
 
 			if (siguientesFirmantes == null) {
 				ds.setSolicitudesCompraFechaAprobacion(new Date((Calendar
@@ -116,7 +117,8 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 				instancia.setInstanciasAprobacionEstado("0007.0001");
 				instancia.setInstanciasAprobacionFechaEntrada(new Date(
 						(Calendar.getInstance().getTimeInMillis())));
-				instancia.setInstanciasAprobacionNombreObjeto("solicitudes_compra");
+				instancia
+						.setInstanciasAprobacionNombreObjeto("solicitudes_compra");
 				instancia.setInstanciasAprobacionObjetoId(solicitudCompraId);
 				instancia
 						.setInstanciasAprobacionUserFirmante(siguientesFirmantes

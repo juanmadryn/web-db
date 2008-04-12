@@ -66,9 +66,9 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 			InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
 					"inventario", "inventario");
 			instancia.retrieve(
-					"nombre_objeto = 'solicitudes_compra' AND " +
-					"objeto_id = " + solicitudCompraId +
-					" AND estado = 0007.0001"
+					"instancias_aprobacion.nombre_objeto = 'solicitudes_compra' AND " +
+					"instancias_aprobacion.objeto_id = " + solicitudCompraId +
+					" AND instancias_aprobacion.estado = 0007.0001"
 					);
 			if (instancia.gotoFirst()) {
 				return true;
