@@ -13,7 +13,7 @@ import com.salmonllc.sql.*;
 public class AuditaEstadosCircuitosModel extends DataStore {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = -1174445685711743365L;
 
@@ -42,7 +42,9 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 
 	public static final String ACCIONES_APPS_NOMBRE = "acciones_apps.nombre";
 
-	public static final String ESTADOS_NOMBRE = "estados.nombre";
+	public static final String DE_ESTADOS_NOMBRE = "de_estados.nombre";
+
+	public static final String A_ESTADOS_NOMBRE = "a_estados.nombre";
 
 	public static final String WEBSITE_USER_NOMBRE_COMPLETO = "website_user.nombre_completo";
 
@@ -56,23 +58,25 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 
 	/**
 	 * Create a new AuditaEstadosCircuitosModel object.
-	 *
+	 * 
 	 * @param appName
 	 *            The SOFIA application name
 	 */
-	public AuditaEstadosCircuitosModel(String appName) {
+	public AuditaEstadosCircuitosModel(String appName)
+			throws DataStoreException {
 		this(appName, null);
 	}
 
 	/**
 	 * Create a new AuditaEstadosCircuitosModel object.
-	 *
+	 * 
 	 * @param appName
 	 *            The SOFIA application name
 	 * @param profile
 	 *            The database profile to use
 	 */
-	public AuditaEstadosCircuitosModel(String appName, String profile) {
+	public AuditaEstadosCircuitosModel(String appName, String profile)
+			throws DataStoreException {
 		super(appName, profile);
 
 		// add aliases
@@ -83,7 +87,8 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 				"circuitos_estados");
 		addTableAlias(computeTableName("infraestructura.acciones_apps"),
 				"acciones_apps");
-		addTableAlias(computeTableName("infraestructura.estados"), "estados");
+		addTableAlias(computeTableName("infraestructura.estados"), "de_estados");
+		addTableAlias(computeTableName("infraestructura.estados"), "a_estados");
 		addTableAlias(computeTableName("infraestructura.website_user"),
 				"website_user");
 
@@ -123,13 +128,15 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 				CIRCUITOS_ESTADOS_NOMBRE);
 		addColumn(computeTableName("acciones_apps"), "nombre",
 				DataStore.DATATYPE_STRING, false, true, ACCIONES_APPS_NOMBRE);
-		addColumn(computeTableName("estados"), "nombre",
-				DataStore.DATATYPE_STRING, false, true, ESTADOS_NOMBRE);
 		addColumn(computeTableName("website_user"), "nombre_completo",
 				DataStore.DATATYPE_STRING, false, true,
 				WEBSITE_USER_NOMBRE_COMPLETO);
 		addColumn(computeTableName("website_user"), "nro_legajo",
 				DataStore.DATATYPE_INT, false, true, WEBSITE_USER_NRO_LEGAJO);
+		addColumn(computeTableName("de_estados"), "nombre",
+				DataStore.DATATYPE_STRING, false, true, DE_ESTADOS_NOMBRE);
+		addColumn(computeTableName("a_estados"), "nombre",
+				DataStore.DATATYPE_STRING, false, true, A_ESTADOS_NOMBRE);
 
 		// add joins
 		addJoin(computeTableAndFieldName("audita_estados_circuitos.circuito"),
@@ -137,11 +144,24 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 		addJoin(computeTableAndFieldName("audita_estados_circuitos.accion"),
 				computeTableAndFieldName("acciones_apps.accion"), false);
 		addJoin(computeTableAndFieldName("audita_estados_circuitos.de_estado"),
-				computeTableAndFieldName("estados.estado"), false);
+				computeTableAndFieldName("de_estados.estado"), false);
 		addJoin(computeTableAndFieldName("audita_estados_circuitos.a_estado"),
-				computeTableAndFieldName("estados.estado"), false);
+				computeTableAndFieldName("a_estados.estado"), false);
 		addJoin(computeTableAndFieldName("audita_estados_circuitos.user_id"),
 				computeTableAndFieldName("website_user.user_id"), false);
+
+		addLookupRule(
+				AUDITA_ESTADOS_CIRCUITOS_DE_ESTADO,
+				computeTableName("de_estados"),
+				"'infraestructura.estados.estado = \"' + audita_estados_circuitos.de_estado + '\"' ",
+				"nombre", DE_ESTADOS_NOMBRE,
+				"El estados de origen indicado no existe");
+		addLookupRule(
+				AUDITA_ESTADOS_CIRCUITOS_A_ESTADO,
+				computeTableName("a_estados"),
+				"'infraestructura.estados.estado = \"' + audita_estados_circuitos.a_estado + '\"' ",
+				"nombre", A_ESTADOS_NOMBRE,
+				"El estados de destino indicado no existe");
 
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
@@ -154,7 +174,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.audita_id column for
 	 * the current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -165,7 +185,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.audita_id column for
 	 * the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -179,7 +199,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.audita_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -192,7 +212,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.audita_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -207,7 +227,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.circuito column for
 	 * the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -218,7 +238,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.circuito column for
 	 * the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -232,7 +252,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.circuito column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -245,7 +265,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.circuito column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -260,7 +280,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.fecha column for the
 	 * current row.
-	 *
+	 * 
 	 * @return java.sql.Timestamp
 	 * @throws DataStoreException
 	 */
@@ -272,7 +292,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.fecha column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return java.sql.Timestamp
@@ -286,7 +306,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.fecha column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -299,7 +319,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.fecha column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -314,7 +334,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.accion column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -325,7 +345,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.accion column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -339,7 +359,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.accion column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -352,7 +372,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.accion column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -367,7 +387,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.de_estado column for
 	 * the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -378,7 +398,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.de_estado column for
 	 * the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -392,7 +412,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.de_estado column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -405,7 +425,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.de_estado column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -420,7 +440,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.a_estado column for
 	 * the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -431,7 +451,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.a_estado column for
 	 * the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -445,7 +465,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.a_estado column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -458,7 +478,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.a_estado column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -473,7 +493,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.user_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -484,7 +504,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.user_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -498,7 +518,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.user_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -511,7 +531,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.user_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -526,7 +546,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.nombre_tabla column
 	 * for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -538,7 +558,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.nombre_tabla column
 	 * for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -552,7 +572,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.nombre_tabla column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -565,7 +585,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.nombre_tabla column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -580,7 +600,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.registro_id column for
 	 * the current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -591,7 +611,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.registro_id column for
 	 * the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -605,7 +625,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.registro_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -618,7 +638,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.registro_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -633,7 +653,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.host column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -644,7 +664,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the audita_estados_circuitos.host column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -658,7 +678,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.host column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -671,7 +691,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the audita_estados_circuitos.host column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -686,7 +706,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the circuitos_estados.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -697,7 +717,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the circuitos_estados.nombre column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -709,7 +729,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 
 	/**
 	 * Set the value of the circuitos_estados.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -722,7 +742,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the circuitos_estados.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -737,7 +757,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the acciones_apps.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -748,7 +768,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the acciones_apps.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -760,7 +780,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 
 	/**
 	 * Set the value of the acciones_apps.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -772,7 +792,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 
 	/**
 	 * Set the value of the acciones_apps.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -786,55 +806,102 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the estados.nombre column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getEstadosNombre() throws DataStoreException {
-		return getString(ESTADOS_NOMBRE);
+	public String getDeEstadosNombre() throws DataStoreException {
+		return getString(DE_ESTADOS_NOMBRE);
 	}
 
 	/**
 	 * Retrieve the value of the estados.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getEstadosNombre(int row) throws DataStoreException {
-		return getString(row, ESTADOS_NOMBRE);
+	public String getDeEstadosNombre(int row) throws DataStoreException {
+		return getString(row, DE_ESTADOS_NOMBRE);
 	}
 
 	/**
 	 * Set the value of the estados.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setEstadosNombre(String newValue) throws DataStoreException {
-		setString(ESTADOS_NOMBRE, newValue);
+	public void setDeEstadosNombre(String newValue) throws DataStoreException {
+		setString(DE_ESTADOS_NOMBRE, newValue);
 	}
 
 	/**
 	 * Set the value of the estados.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setEstadosNombre(int row, String newValue)
+	public void setDeEstadosNombre(int row, String newValue)
 			throws DataStoreException {
-		setString(row, ESTADOS_NOMBRE, newValue);
+		setString(row, DE_ESTADOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the estados.nombre column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getAEstadosNombre() throws DataStoreException {
+		return getString(A_ESTADOS_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the estados.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getAEstadosNombre(int row) throws DataStoreException {
+		return getString(row, A_ESTADOS_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the estados.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setAEstadosNombre(String newValue) throws DataStoreException {
+		setString(A_ESTADOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the estados.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setAEstadosNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, A_ESTADOS_NOMBRE, newValue);
 	}
 
 	/**
 	 * Retrieve the value of the website_user.nombre_completo column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -845,7 +912,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the website_user.nombre_completo column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
@@ -859,7 +926,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the website_user.nombre_completo column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -872,7 +939,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the website_user.nombre_completo column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
@@ -887,7 +954,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the website_user.nro_legajo column for the current
 	 * row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -898,7 +965,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Retrieve the value of the website_user.nro_legajo column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return int
@@ -910,7 +977,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 
 	/**
 	 * Set the value of the website_user.nro_legajo column for the current row.
-	 *
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
@@ -922,7 +989,7 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	/**
 	 * Set the value of the website_user.nro_legajo column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
 	 *            which row in the table
 	 * @param newValue
