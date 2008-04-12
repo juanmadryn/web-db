@@ -119,20 +119,14 @@
 							<tr>
 								<td><salmon:text name="fecha_solicitud1"
 									text="Fecha de solicitud" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_solicitud2" text=""
+								<td><salmon:text name="fecha_solicitud2" text="" displayformat="dd/MM/yyyy HH:mm" 
 									datasource="dsSolicitudes:solicitudes_compra.fecha_solicitud"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_aprobacion2" text=""
+								<td><salmon:text name="fecha_aprobacion2" text="" displayformat="dd/MM/yyyy"  
 									datasource="dsSolicitudes:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="fecha_oc1" text="Fecha de OC"
-									font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_oc2" text=""
-									datasource="dsSolicitudes:solicitudes_compra.fecha_oc"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="centro_costo1"
@@ -216,7 +210,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fecha_solicitudTXT4" text="cliente Goes Here"
-								font="DefaultFont"
+								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsSolicitudes:solicitudes_compra.fecha_solicitud" />
 						</salmon:td>
 						<salmon:td>

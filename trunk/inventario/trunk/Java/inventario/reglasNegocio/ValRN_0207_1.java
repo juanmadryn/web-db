@@ -90,16 +90,17 @@ public final class ValRN_0207_1 extends ValidadorReglasNegocio {
 			int orden = instancia.getInstanciasAprobacionOrden();
 			
 			instancia.retrieve(
-					"nombre_objeto = 'solicitudes_compra' AND " +
-					"objeto_id = " + solicitudCompraId
+					"instancias_aprobacion.nombre_objeto = 'solicitudes_compra' AND " +
+					"instancias_aprobacion.objeto_id = " + solicitudCompraId
 					);
 			
-			instancia.gotoFirst();
+			
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser, orden,
 					conn);
 
 			
 			// actualizo el mensaje de la instancia con las observaciones indicadas
+			instancia.gotoFirst();
 			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
 			instancia.update(conn);
 
