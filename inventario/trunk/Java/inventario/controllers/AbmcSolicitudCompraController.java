@@ -5,6 +5,7 @@ package inventario.controllers;
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
+import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
 
 import java.sql.ResultSet;
@@ -12,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.quartz.impl.jdbcjobstore.FiredTriggerRecord;
 
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
@@ -59,7 +62,6 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public com.salmonllc.html.HtmlText _fecha_solicitud2;
 	public com.salmonllc.html.HtmlText _monto_total1;
 	public com.salmonllc.html.HtmlText _monto_total2;
-	public com.salmonllc.html.HtmlText _monto_unitario1;
 	public com.salmonllc.html.HtmlText _n1;
 	public com.salmonllc.html.HtmlText _n2;
 	public com.salmonllc.html.HtmlText _nombre_completo_comprador1;
@@ -75,7 +77,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 	public com.salmonllc.html.HtmlTextEdit _cantidad_solicitada2;
 	public com.salmonllc.html.HtmlTextEdit _descripcion2;
 	public com.salmonllc.html.HtmlTextEdit _descripcion4;
-	public com.salmonllc.html.HtmlTextEdit _monto_unitario2;
+	public com.salmonllc.html.HtmlTextEdit _monto_unitario1;
 	public com.salmonllc.html.HtmlTextEdit _observaciones4;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
@@ -774,7 +776,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 			_nombre_completo_solicitante2.setEnabled(true);
+			if (_monto_unitario1 != null)
+				_monto_unitario1.setReadOnly(false);
+			_verFirmantes.setVisible(true);
 		} else {
+			_verFirmantes.setVisible(false);
+			if (_monto_unitario1 != null)
+				_monto_unitario1.setReadOnly(true);
 			int solicitante = _dsSolicitudCompra
 					.getSolicitudesCompraUserIdSolicita();
 			if (solicitante == 0)
@@ -783,11 +791,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 			else
 				_nombre_completo_solicitante2.setEnabled(false);
 			if ("0006.0002".equalsIgnoreCase(_dsSolicitudCompra
-					.getSolicitudesCompraEstado())) {
+					.getSolicitudesCompraEstado()) && !InstanciasAprobacionModel.isUsuarioHabilitado(currentUser, "solicitudes_compra", getRow_id())) {
 				_customBUT100.setEnabled(false);
 				_customBUT110.setEnabled(false);
 				_customBUT120.setEnabled(false);
 			}
+			
 
 		}
 
