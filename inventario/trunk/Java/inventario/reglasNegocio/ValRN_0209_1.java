@@ -89,24 +89,25 @@ public final class ValRN_0209_1 extends ValidadorReglasNegocio {
 					" AND instancias_aprobacion.user_firmante =" + currentWebsiteUser +
 					" AND instancias_aprobacion.estado = 0007.0001"
 					);
-
+			
 			if (!instancia.gotoFirst()) {
 				msg.append("Usted no está autorizado para aprobar la orden en su estado actual");
 				return false;
 			}
-
+			
 			Iterator<Integer> siguientesFirmantes = cadena
 					.getSiguientesFirmantes(true, instancia
 							.getInstanciasAprobacionOrden());
 			
-
 			instancia.retrieve(
 					"instancias_aprobacion.nombre_objeto = '"+ NOMBRE_OBJETO +"' AND " +
 					"instancias_aprobacion.objeto_id = " + ordenCompraId
 					);
+
+			instancia.gotoFirst();
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
 					connection);
-
+			
 			if (siguientesFirmantes == null) {
 				ds.setOrdenesCompraFechaAprobacion(new Timestamp((Calendar
 						.getInstance().getTimeInMillis())));

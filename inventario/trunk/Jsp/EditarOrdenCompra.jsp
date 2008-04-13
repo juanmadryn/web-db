@@ -114,6 +114,10 @@
 											height="25" srclocalekey="bannerImageSource" />
 									</salmon:a> 
 									<salmon:text name="espacio2" text=" " font="TableHeadingFont" />
+									<salmon:a href="ListaFirmantes.jsp" target="_blank"
+										name="verFirmantes"	onclick="document.forms['bannerForm'].submit();">
+										<salmon:text name="verFirmantesTXT2" text="Firmantes" />
+									</salmon:a>
 								<td/>
 							</tr>
 						</table>
