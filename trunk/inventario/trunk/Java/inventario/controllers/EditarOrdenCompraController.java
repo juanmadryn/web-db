@@ -2,18 +2,14 @@
 package inventario.controllers;
 
 //Salmon import statements
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
 import infraestructura.controllers.BaseEntityController;
-import infraestructura.models.AtributosEntidadModel;
-import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
 import inventario.models.SolicitudCompraModel;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
@@ -145,6 +141,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
+	public com.salmonllc.jsp.JspLink _verFirmantes;
 	
 	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 
@@ -185,8 +182,9 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 		
-		_listformdisplaybox2.setDeleteButtonVisible(true);		
-		
+		_listformdisplaybox2.setDeleteButtonVisible(false);
+		_listformdisplaybox2.setCustomDeleteButton(_articulosEliminarBUT1);
+				
 		// buttons listeners
 		_nuevaOrdenCompraBUT1.addSubmitListener(this);
 		_grabarOrdenCompraBUT1.addSubmitListener(this);
@@ -579,6 +577,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		URL = armarUrlReporte("PDF", "orden_compra",
 				"&Parameter_solicitud_compra_id=" + getRow_id());
 		_imprimirOrdenCompraBUT2.setHref(URL);
+		
+		_verFirmantes.setHref("ListaFirmantes.jsp?orden_id=" + getRow_id());
 	}
 	
 	/**
@@ -688,4 +688,5 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public void setRecargar(boolean recargar) {
 		this.recargar = recargar;
 	}
+	
 }

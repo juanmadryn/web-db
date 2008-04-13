@@ -135,10 +135,17 @@ public class ListaFirmantesController extends JspController
 					_dsFirmantes.setOrderBy("audita_id DESC");
 					_dsAuditoria.retrieve("audita_estados_circuitos.nombre_tabla LIKE 'inventario.solicitudes_compra' AND audita_estados_circuitos.registro_id ="+solicitud_id);
 					_dsAuditoria.gotoFirst();
-					
-					
 				}
 				
+				int orden_id = getIntParameter("orden_id");
+				if (orden_id > 0) {
+					_dsFirmantes.setOrderBy("instancia_aprobacion_id DESC");
+					_dsFirmantes.retrieve("instancias_aprobacion.nombre_objeto LIKE 'ordenes_compra' AND instancias_aprobacion.objeto_id="+orden_id+" AND (instancias_aprobacion.fecha_accion IS NOT NULL OR instancias_aprobacion.estado LIKE '0007.0001')");
+					_dsFirmantes.gotoFirst();
+					_dsFirmantes.setOrderBy("audita_id DESC");
+					_dsAuditoria.retrieve("audita_estados_circuitos.nombre_tabla LIKE 'inventario.ordenes_compra' AND audita_estados_circuitos.registro_id ="+orden_id);
+					_dsAuditoria.gotoFirst();
+				}				
 			}
 
 		} catch (DataStoreException e) {
