@@ -89,7 +89,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;	
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
-	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
+//	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
+	public infraestructura.controllers.JspListFormDisplayBoxCustomActions _listformdisplaybox2;
 	
 
 	//DataSources
@@ -183,6 +184,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_desSeleccionaTodoBUT1.setAccessKey("E");
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
+		
+		_listformdisplaybox2.setDeleteButtonVisible(true);		
 		
 		// buttons listeners
 		_nuevaOrdenCompraBUT1.addSubmitListener(this);
