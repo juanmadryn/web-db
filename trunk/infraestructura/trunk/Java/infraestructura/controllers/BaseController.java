@@ -73,7 +73,7 @@ public class BaseController extends JspController implements SubmitListener,
 	private boolean _redirected = true;
 
 	private boolean _checkDB = true;
-	
+
 	/* Search objects */
 	// public com.salmonllc.html.HtmlSubmitButton _btnSearch;
 	// public com.salmonllc.html.HtmlTextEdit _teSearch;
@@ -126,14 +126,17 @@ public class BaseController extends JspController implements SubmitListener,
 	public com.salmonllc.jsp.JspLink _lnkBannerSignOut;
 
 	public com.salmonllc.jsp.JspLink _lnkBannerSolicitudesPendientes;
-	
+
 	public com.salmonllc.html.HtmlText _txtBannerSolicitudesPendientes;
-	
+
 	public com.salmonllc.jsp.JspLink _lnkBannerOrdenesPendientes;
-	
+
 	public com.salmonllc.html.HtmlText _txtBannerOrdenesPendientes;
-	
-	
+
+	public com.salmonllc.jsp.JspLink _lnkBannerSolicitudesObservadas;
+
+	public com.salmonllc.html.HtmlText _txtBannerSolicitudesObservadas;
+
 	// public com.salmonllc.jsp.JspForm _searchForm;
 	public com.salmonllc.html.HtmlText _welcomeUser;
 
@@ -181,7 +184,7 @@ public class BaseController extends JspController implements SubmitListener,
 	private static Hashtable<String, Hashtable<String, HttpSession>> aplications = new Hashtable<String, Hashtable<String, HttpSession>>();
 
 	private static Hashtable<String, Long> timeStart = new Hashtable<String, Long>();
-	
+
 	/**
 	 * This method tries to get the string parameter passed into this function
 	 * from the URL. It then checks to see if that "name" parameter is of
@@ -255,33 +258,31 @@ public class BaseController extends JspController implements SubmitListener,
 				.equalsIgnoreCase("LoginPage.jsp"))) {
 
 			// check logged users
-			
+
 			if (user == null) {
 				clearAllPagesFromSession();
 				gotoSiteMapPage(SiteMapConstants.USUARIO_INVALIDO_ERROR);
 			}
-		} else 
-			if (user == null)
-				setCheckPageExpired(false);
+		} else if (user == null)
+			setCheckPageExpired(false);
 
 		// save the page's session with the ip and application
 		String appName = getApplicationName();
 		String ip = getCurrentRequest().getRemoteAddr();
 		Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
 				.get(ip);
-		
+
 		if (aplicationsForRemoteAddress == null)
 			aplicationsForRemoteAddress = new Hashtable<String, HttpSession>();
-		
+
 		aplicationsForRemoteAddress.put(appName, getSession());
-		
-		aplications.put(ip,
-				aplicationsForRemoteAddress);
+
+		aplications.put(ip, aplicationsForRemoteAddress);
 
 		// Populate the navigation menu dynamically
 
 		populateNavBar();
-		
+
 		_lnkBannerSignOut.addSubmitListener(this);
 		_lnkBannerSignOut.setVisible(false);
 		_menuBUT.addSubmitListener(this);
@@ -309,24 +310,26 @@ public class BaseController extends JspController implements SubmitListener,
 		if (_dsUsuarioRoles != null)
 			_dsUsuarioRoles.setAutoValidate(true);
 		if (_dsWebSiteUser != null)
-			_dsWebSiteUser.setAutoValidate(true);	
-		
-		if (user != null) {		
+			_dsWebSiteUser.setAutoValidate(true);
+
+		if (user != null) {
 			_lnkBannerSolicitudesPendientes.setVisible(true);
-			_txtBannerSolicitudesPendientes.setVisible(true);			
+			_txtBannerSolicitudesPendientes.setVisible(true);
 			_lnkBannerOrdenesPendientes.setVisible(true);
 			_txtBannerOrdenesPendientes.setVisible(true);
-		} 
-		else {
+			_lnkBannerSolicitudesObservadas.setVisible(true);
+			_txtBannerSolicitudesObservadas.setVisible(true);
+		} else {
 			_lnkBannerSolicitudesPendientes.setVisible(false);
 			_txtBannerSolicitudesPendientes.setVisible(false);
 			_lnkBannerOrdenesPendientes.setVisible(false);
 			_txtBannerOrdenesPendientes.setVisible(false);
+			_lnkBannerSolicitudesObservadas.setVisible(false);
+			_txtBannerSolicitudesObservadas.setVisible(false);
 		}
-		
-			
+
 		if (timeStart.get(ip) == null)
-			timeStart.put(ip,System.currentTimeMillis());
+			timeStart.put(ip, System.currentTimeMillis());
 	}
 
 	/**
@@ -345,7 +348,7 @@ public class BaseController extends JspController implements SubmitListener,
 		WebSiteUser user = checkUser();
 		if (user == null)
 			setCheckPageExpired(false);
-		else 
+		else
 			setCheckPageExpired(true);
 		checkPageRedirect();
 
@@ -354,7 +357,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 		if (!isReferredByCurrentPage()) {
 
-			// Set the login links on the top of the page.	
+			// Set the login links on the top of the page.
 
 			if (user != null && user.isValid()) {
 				_lnkBannerSignIn.setVisible(false);
@@ -371,34 +374,59 @@ public class BaseController extends JspController implements SubmitListener,
 			// Check if we need to change the page appearence.
 			refreshGUIOptions();
 		}
-				
-		int solicitudes_pendientes = 0;
-		if ((user != null) && ((solicitudes_pendientes = Utilities.getSolicitudesCompraPendientesAprobacion(user.getUserID())) > 0)) {
-			_lnkBannerSolicitudesPendientes.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id=" + user.getUserID());
-			_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
-			_lnkBannerSolicitudesPendientes.setVisible(true);
-			_txtBannerSolicitudesPendientes.setVisible(true);
-			
+		if (user != null) {
+
+			int user_id = user.getUserID();
+
+			int solicitudes_pendientes = 0;
+			int ordenes_pendientes = 0;
+			int solicitudes_observadas = 0;
+
+			if ((solicitudes_pendientes = Utilities
+					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {
+				_lnkBannerSolicitudesPendientes
+						.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
+								+ user.getUserID() + "&mode=0");
+				_txtBannerSolicitudesPendientes
+						.setText("Solicitudes pendientes: "
+								+ solicitudes_pendientes);
+				_lnkBannerSolicitudesPendientes.setVisible(true);
+				_txtBannerSolicitudesPendientes.setVisible(true);
+
+			} else {
+				_lnkBannerSolicitudesPendientes.setVisible(false);
+				_txtBannerSolicitudesPendientes.setVisible(false);
+			}
+
+			if ((ordenes_pendientes = Utilities
+					.getOrdenesCompraPendientesAprobacion(user_id)) > 0) {
+				_lnkBannerOrdenesPendientes
+						.setHref("/inventario/Jsp/ConsultaOrdenesCompra.jsp?user_id="
+								+ user.getUserID());
+				_txtBannerOrdenesPendientes.setText("Ordenes pendientes: "
+						+ ordenes_pendientes);
+				_lnkBannerOrdenesPendientes.setVisible(true);
+				_txtBannerOrdenesPendientes.setVisible(true);
+			} else {
+				_lnkBannerOrdenesPendientes.setVisible(false);
+				_txtBannerOrdenesPendientes.setVisible(false);
+			}
+			if ((solicitudes_observadas = Utilities
+					.getSolicitudesCompraPendientesObservacion(user_id)) > 0) {
+				_lnkBannerSolicitudesObservadas
+						.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
+								+ user.getUserID() + "&mode=1");
+				_txtBannerSolicitudesObservadas
+						.setText("Solicitudes observadas: "
+								+ solicitudes_observadas);
+				_lnkBannerSolicitudesObservadas.setVisible(true);
+				_txtBannerSolicitudesObservadas.setVisible(true);
+
+			} else {
+				_lnkBannerSolicitudesObservadas.setVisible(false);
+				_txtBannerSolicitudesObservadas.setVisible(false);
+			}
 		}
-		else {
-			_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "+solicitudes_pendientes);
-			_lnkBannerSolicitudesPendientes.setVisible(false);
-			_txtBannerSolicitudesPendientes.setVisible(false);				
-		}
-		
-		int ordenes_pendientes = 0;
-		if ((user != null) && ((ordenes_pendientes = Utilities.getOrdenesCompraPendientesAprobacion(user.getUserID())) > 0)) {
-			_lnkBannerOrdenesPendientes.setHref("/inventario/Jsp/ConsultaOrdenesCompra.jsp?user_id=" + user.getUserID());
-			_txtBannerOrdenesPendientes.setText("Ordenes pendientes: " + ordenes_pendientes);
-			_lnkBannerOrdenesPendientes.setVisible(true);
-			_txtBannerOrdenesPendientes.setVisible(true);
-		} 
-		else {
-			_txtBannerOrdenesPendientes.setText("Solicitudes pendientes: " + ordenes_pendientes);
-			_lnkBannerOrdenesPendientes.setVisible(false);
-			_txtBannerOrdenesPendientes.setVisible(false);
-		}
-		
 		populateNavBar();
 	}
 
@@ -522,7 +550,7 @@ public class BaseController extends JspController implements SubmitListener,
 		try {
 			boolean menuPermitido = false;
 
-			if (_navbar1 == null) {				
+			if (_navbar1 == null) {
 				return;
 			}
 			/*
@@ -736,7 +764,7 @@ public class BaseController extends JspController implements SubmitListener,
 		if (e.getComponent() == _lnkBannerSignOut) {
 			// Remove the website user object from the session and flip the
 			// "Sign in" and "Sign out" links on the banner
-			//getSessionManager().setWebSiteUser(null);
+			// getSessionManager().setWebSiteUser(null);
 			_lnkBannerSignIn.setVisible(true);
 			_lnkBannerSignOut.setVisible(false);
 			Cookie cookieRemMe = getCookie(COOKIE_REMEMBER_ME);
@@ -772,10 +800,11 @@ public class BaseController extends JspController implements SubmitListener,
 	}
 
 	private void removeSessionsForIp() {
-		// Removes the WebSiteUser and clear all pages from all sessions of applications that were initialized
+		// Removes the WebSiteUser and clear all pages from all sessions of
+		// applications that were initialized
 		Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
 				.get(getCurrentRequest().getRemoteAddr());
-		
+
 		Enumeration<HttpSession> aplicaciones = aplicationsForRemoteAddress
 				.elements();
 		HttpSession sess;
@@ -783,7 +812,7 @@ public class BaseController extends JspController implements SubmitListener,
 			sess = aplicaciones.nextElement();
 			clearAllPagesFromSession(sess);
 			sess.setAttribute(SESSION_VALUE_WEBSITE_USER, null);
-		}		
+		}
 	}
 
 	/**
@@ -836,37 +865,36 @@ public class BaseController extends JspController implements SubmitListener,
 			// Sequence of the cehecs are important here. If you check the user
 			// Loggin first, session expiration will not be cheched. That may
 			// cause errors...
-			
+
 			_redirected = false;
-			
+
 			if (isCheckPageExpired()) {
 				// Get the now time
 				Long time = System.currentTimeMillis();
 				// Get the timer from .properties to check if page expired
 				Props props = getPageProperties();
-				int i = Integer.parseInt(props.getThemeProperty(null, "SegundosTimer"));
-								
-				// compares the elapsed time since page was requested with the timer
-				
-				if (((time-timeStart.get(ip))/1000) > i) {
-					
+				int i = Integer.parseInt(props.getThemeProperty(null,
+						"SegundosTimer"));
+
+				// compares the elapsed time since page was requested with the
+				// timer
+
+				if (((time - timeStart.get(ip)) / 1000) > i) {
+
 					_redirected = true;
-					
+
 					// remove sessions and users
 					removeSessionsForIp();
 					users.remove(ip);
 					gotoSiteMapPage(SiteMapConstants.SESSION_EXPIRED);
 					return;
 				}
-				
+
 			}
-			/*if (_checkSessionExpired) {
-				if (isSessionExpired()) {
-					_redirected = true;
-					gotoSiteMapPage(SiteMapConstants.SESSION_EXPIRED);
-					return;
-				}
-			}*/		
+			/*
+			 * if (_checkSessionExpired) { if (isSessionExpired()) { _redirected =
+			 * true; gotoSiteMapPage(SiteMapConstants.SESSION_EXPIRED); return; } }
+			 */
 
 			if (_checkDB) {
 				DBConnection conn = null;
@@ -890,11 +918,11 @@ public class BaseController extends JspController implements SubmitListener,
 					return;
 				}
 			}
-		} catch (Exception e) {			
+		} catch (Exception e) {
 			MessageLog.writeErrorMessage("checkPageRedirect()", e, this);
 		}
-		
-		timeStart.put(ip,System.currentTimeMillis());
+
+		timeStart.put(ip, System.currentTimeMillis());
 	}
 
 	/**
@@ -1016,15 +1044,16 @@ public class BaseController extends JspController implements SubmitListener,
 		return new SessionManager(getSession());
 	}
 
-	public String armarUrlReporte(String tipo, String reporte, String parametros){
+	public String armarUrlReporte(String tipo, String reporte, String parametros) {
 		String URL = getServerURL();
-		
+
 		if (tipo == null)
 			URL += getPageProperties().getProperty(BIRT_FRAMESET_PATH);
 		else
 			URL += getPageProperties().getProperty(BIRT_RUN_PATH);
-		
-		URL += getPageProperties().getProperty(REPORT_PATH)+ reporte+".rptdesign";
+
+		URL += getPageProperties().getProperty(REPORT_PATH) + reporte
+				+ ".rptdesign";
 
 		if (tipo != null && "PDF".equalsIgnoreCase(tipo))
 			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_PDF);
@@ -1036,35 +1065,37 @@ public class BaseController extends JspController implements SubmitListener,
 			URL = URL + getPageProperties().getProperty(REPORT_PARAMETROS_DOC);
 		else
 			URL = URL + "";
-		
+
 		URL = URL + parametros;
-		
+
 		return URL;
 	}
 
 	/**
 	 * Checks if there are an conected user.
-	 * @return	the user conected or null if there isn't
+	 * 
+	 * @return the user conected or null if there isn't
 	 */
 	public WebSiteUser checkUser() {
 		WebSiteUser user = getSessionManager().getWebSiteUser();
 		String ip = this.getCurrentRequest().getRemoteAddr();
 		WebSiteUser storedUser = users.get(ip);
 
-		// If user is null, check if there are a stored user into users' hashtable.
+		// If user is null, check if there are a stored user into users'
+		// hashtable.
 		if (user == null) {
 			// If user is in users' hashtable, set it as actual user
 			if (storedUser != null) {
 				user = storedUser;
 			}
-		// If user isn't null put it in users hashtable	
+			// If user isn't null put it in users hashtable
 		} else if (storedUser == null)
 			users.put(ip, user);
 		// save user in the session
 		getSessionManager().setWebSiteUser(user);
 		return user;
 	}
-	
+
 	public WebSiteUser getUserFromSession(String ip) {
 		return users.get(ip);
 	}
