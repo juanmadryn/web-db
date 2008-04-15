@@ -183,7 +183,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 		
 		_listformdisplaybox2.setDeleteButtonVisible(false);
-		_listformdisplaybox2.setCustomDeleteButton(_articulosEliminarBUT1);
+		//_listformdisplaybox2.setCustomDeleteButton(_articulosEliminarBUT1);
 				
 		// buttons listeners
 		_nuevaOrdenCompraBUT1.addSubmitListener(this);
