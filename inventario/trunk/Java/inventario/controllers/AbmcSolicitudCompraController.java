@@ -736,58 +736,59 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 		setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
 
-		if (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW) {
-			String titulo = "Solicitud de compra Nº" + getRow_id();
-			if (_dsSolicitudCompra.getEstadoNombre() != null)
-				titulo += " (" + _dsSolicitudCompra.getEstadoNombre() + ")";
-			_detailformdisplaybox1.setHeadingCaption(titulo);
-			_dsSolicitudCompra.setCurrentWebsiteUserId(currentUser);
-			_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
-					.parseInt(getPageProperties().getThemeProperty(null,
-							"EsquemaConfiguracionIdSolicitudesCompra")));
+
+		String titulo = "Solicitud de compra Nº" + getRow_id();
+		if (_dsSolicitudCompra.getEstadoNombre() != null)
+			titulo += " (" + _dsSolicitudCompra.getEstadoNombre() + ")";
+		_detailformdisplaybox1.setHeadingCaption(titulo);
+		_dsSolicitudCompra.setCurrentWebsiteUserId(currentUser);
+		_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
+				.parseInt(getPageProperties().getThemeProperty(null,
+						"EsquemaConfiguracionIdSolicitudesCompra")));
+		
+		if ((_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW) 
+				&& (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW_MODIFIED)) {
 			_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
 					.getAtributoTotalSolicitud());
+		}
 
-			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
-			if (!"0006.0002".equalsIgnoreCase(estado))
-				_dsSolicitudCompra.setObservaciones();
+		String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
+		if (!"0006.0002".equalsIgnoreCase(estado))
+			_dsSolicitudCompra.setObservaciones();
 
-			if ("0006.0002".equalsIgnoreCase(estado)
-					|| "0006.0004".equalsIgnoreCase(estado)
-					|| "0006.0005".equalsIgnoreCase(estado)) {
-				_observacionX1.setVisible(true);
-				_observacionX2.setVisible(true);
-			} else {
-				_observacionX1.setVisible(false);
-				_observacionX2.setVisible(false);
+		if ("0006.0002".equalsIgnoreCase(estado)
+				|| "0006.0004".equalsIgnoreCase(estado)
+				|| "0006.0005".equalsIgnoreCase(estado)) {
+			_observacionX1.setVisible(true);
+			_observacionX2.setVisible(true);
+		} else {
+			_observacionX1.setVisible(false);
+			_observacionX2.setVisible(false);
+		}
+
+		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+			_nombre_completo_solicitante2.setEnabled(true);
+			if (_monto_unitario1 != null)
+				_monto_unitario1.setReadOnly(false);			
+		} else {			
+			if (_monto_unitario1 != null)
+				_monto_unitario1.setReadOnly(true);
+			int solicitante = _dsSolicitudCompra
+			.getSolicitudesCompraUserIdSolicita();
+			if (solicitante == 0) {
+				_dsSolicitudCompra
+				.setSolicitudesCompraUserIdSolicita(currentUser);
 			}
+			_nombre_completo_solicitante2.setEnabled(false);
 
-			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
-				_nombre_completo_solicitante2.setEnabled(true);
-				if (_monto_unitario1 != null)
-					_monto_unitario1.setReadOnly(false);
-				_verFirmantes.setVisible(true);
-			} else {
-				_verFirmantes.setVisible(false);
-				if (_monto_unitario1 != null)
-					_monto_unitario1.setReadOnly(true);
-				int solicitante = _dsSolicitudCompra
-						.getSolicitudesCompraUserIdSolicita();
-				if (solicitante == 0)
-					_dsSolicitudCompra
-							.setSolicitudesCompraUserIdSolicita(currentUser);
-				else
-					_nombre_completo_solicitante2.setEnabled(false);
-				if ("0006.0002".equalsIgnoreCase(_dsSolicitudCompra
-						.getSolicitudesCompraEstado())
-						&& !InstanciasAprobacionModel.isUsuarioHabilitado(
-								currentUser, "solicitudes_compra", getRow_id())) {
-					_customBUT100.setEnabled(false);
-					_customBUT110.setEnabled(false);
-					_customBUT120.setEnabled(false);
-				}
+			if ("0006.0002".equalsIgnoreCase(_dsSolicitudCompra
+					.getSolicitudesCompraEstado())
+					&& !InstanciasAprobacionModel.isUsuarioHabilitado(
+							currentUser, "solicitudes_compra", getRow_id())) {
+				_customBUT100.setEnabled(false);
+				_customBUT110.setEnabled(false);
+				_customBUT120.setEnabled(false);
 			}
-
 		}
 
 		// setea la URL del reporte a generar al presionar el botón de impresión

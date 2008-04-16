@@ -306,9 +306,9 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 
         // Si el usuario no es comprador, solo puede consultar las solicitudes
         // realizadas por él
-        if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+        if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {            
+            _dsQBE.setString("solicitante", String.valueOf(currentUser));            
             _solicitante2.setEnabled(false);
-            _dsQBE.setString("solicitante", String.valueOf(currentUser));
         } else {
             _solicitante2.setEnabled(true);
             if (_dsSolicitudes.getRow() != -1
