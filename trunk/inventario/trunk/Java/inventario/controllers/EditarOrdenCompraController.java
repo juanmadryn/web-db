@@ -467,6 +467,11 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		if (conn != null) {
 			conn.freeConnection();
 		}
+		
+		// Redirecciona a la pantalla de Generacion de OCs
+		if (component == _articulosAgregarBUT1) {
+			this.gotoSiteMapPage("GenerarOrdenesCompra","?orden_compra_id=" + getRow_id());
+		}
 	
 		armaBotonera();
 		return super.submitPerformed(e);
