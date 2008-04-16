@@ -354,6 +354,10 @@ public class GenerarOrdenesCompraController extends BaseController {
 	
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
+		if (!isReferredByCurrentPage()) {
+			//_valorAttr1.setValue(String.valueOf(getIntParameter("orden_compra_id")));
+		}
+		
 		// si no es especificado, el valor de 'cantidad pedida' se hace igual al de 'cantidad solicitada' 
 		for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 			if (_dsDetalleSC.getDetalleScCantidadPedida(i) <= 0) 
