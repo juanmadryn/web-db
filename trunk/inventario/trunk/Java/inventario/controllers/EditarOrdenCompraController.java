@@ -136,7 +136,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public HtmlSubmitButton _grabarOrdenCompraBUT1;
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
-	public HtmlSubmitButton _articulosCancelarBUT1;
+	//public HtmlSubmitButton _articulosCancelarBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
@@ -173,9 +173,9 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_articulosEliminarBUT1.setAccessKey("E");
 		_listformdisplaybox2.addButton(_articulosEliminarBUT1);
 
-		_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1", "Cancelar", this);
+		/*_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1", "Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
-		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
+		_listformdisplaybox2.addButton(_articulosCancelarBUT1);*/
 		
 		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",null,this);
 		_desSeleccionaTodoBUT1.setAccessKey("E");
@@ -187,7 +187,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_grabarOrdenCompraBUT1.addSubmitListener(this);
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
-		_articulosCancelarBUT1.addSubmitListener(this);
+		//_articulosCancelarBUT1.addSubmitListener(this);
 		_desSeleccionaTodoBUT1.addSubmitListener(this);
 		
 		_customBUT150.addSubmitListener(this);
@@ -456,8 +456,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			}			
 		}
 		
+		// genero un nuevo orden de compra vacia
 		if (component == _nuevaOrdenCompraBUT1) {
-			// genero un nuevo orden de compra vacia
 			_dsOrdenesCompra.reset();
 			_dsDetalleSC.reset();
 			_dsOrdenesCompra.gotoRow(_dsOrdenesCompra.insertRow());
@@ -613,7 +613,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 					"Debe seleccionar una orden de compra para recuperar su estado");
 		}
 		
-		_desSeleccionaTodoBUT1.setEnabled(_dsDetalleSC.getRowCount() == 0 ? false: true);
+		_desSeleccionaTodoBUT1.setVisible(_dsDetalleSC.getRowCount() == 0 ? false: true);
 
 		try {
 			conn = DBConnection.getConnection("infraestructura");

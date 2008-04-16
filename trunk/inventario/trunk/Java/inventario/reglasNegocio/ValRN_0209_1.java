@@ -81,7 +81,7 @@ public final class ValRN_0209_1 extends ValidadorReglasNegocio {
 
 			int currentWebsiteUser = ds.getCurrentWebsiteUserId();
 
-			// checkeo si está pendiente la aprobación del usuario actual
+			// está pendiente la aprobación del usuario actual?
 			instancia.retrieve(
 					"instancias_aprobacion.nombre_objeto = '" + NOMBRE_OBJETO + "' AND " +
 					"instancias_aprobacion.objeto_id = " + ordenCompraId +
@@ -94,9 +94,6 @@ public final class ValRN_0209_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
-			/*Iterator<Integer> siguientesFirmantes = cadena
-					.getSiguientesFirmantes(true, instancia
-							.getInstanciasAprobacionOrden());*/
 			int orden = instancia.getInstanciasAprobacionOrden();
 			Iterator<Integer> siguientesFirmantes = cadena
 					.getSiguientesFirmantes(true, orden);
@@ -106,9 +103,6 @@ public final class ValRN_0209_1 extends ValidadorReglasNegocio {
 					"instancias_aprobacion.objeto_id = " + ordenCompraId
 					);
 
-			//instancia.gotoFirst();
-			/*instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
-					connection);*/
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
 					orden, connection);
 			
@@ -133,21 +127,20 @@ public final class ValRN_0209_1 extends ValidadorReglasNegocio {
 								.next());
 				instancia.setInstanciasAprobacionOrden(cadena.getOrder());
 			}
+			
 			instancia.update(connection);
 			connection.commit();
 			msg.append("Su aprobación fue registrada exitosamente");
+			
 		} catch (DataStoreException ex) {
 			connection.rollback();
-			msg
-					.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
-							+ ex.getMessage());
-
+			msg.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: " 
+					+ ex.getMessage());
 			return false;
 		} catch (SQLException ex) {
 			connection.rollback();
-			msg
-					.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
-							+ ex.getMessage());
+			msg.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
+					+ ex.getMessage());
 			return false;
 		} finally {
 			if (connection != null)

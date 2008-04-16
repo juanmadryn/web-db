@@ -153,11 +153,13 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public void initialize() throws Exception {
 		_recuperaOrdenesPendientes = new HtmlSubmitButton(
 				"recuperaOrdenesPendientes",
-				"Recuperar OCs pendientes de aprobación", this);
+				"OCs pendientes de aprobación", this);
 		_recuperaOrdenesPendientes.setAccessKey("R");
-		_searchformdisplaybox1.addButton(_recuperaOrdenesPendientes);
+		//_searchformdisplaybox1.addButton(_recuperaOrdenesPendientes);
+		_listformdisplaybox1.addButton(_recuperaOrdenesPendientes);
 		_recuperaOrdenesPendientes.addSubmitListener(this);
 		_recuperaOrdenesPendientes.setVisible(false);
+		
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 		
 		super.initialize();		
@@ -223,7 +225,13 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 					displayErrorMessage(e.getMessage());
 					e.printStackTrace();
 				}
-
+			} else {
+				// actualizo el estado de los OCs visibles
+				for (int row = 0; row < _dsOrdenes.getRowCount(); row++) { 
+					_dsOrdenes.reloadRow(row);
+				}
+				_listformdisplaybox1.setHeadingCaption("Ordenes de compra");
+				_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
 			}
 		}		
 		
