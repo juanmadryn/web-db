@@ -1,4 +1,4 @@
-ï»¿start transaction;
+start transaction;
 use infraestructura;
 
 delete from acceso_menu where menu_id = 70;
@@ -9,24 +9,24 @@ delete from menu where menu_id between 7000 and 7999;
 delete from menu where menu_id between 701000 and 709099;
 
 INSERT INTO menu (menu_id,nombre,descripcion,url,grupo) VALUES
-  (7010, 'ConfiguraciÃ³n','ConfiguraciÃ³n de Inventarios','ConfigurarInventario','MenuInventario'),
-  (701010, 'Atributos','ABMC de Atributos para ArtÃ­culos','AbmcAtributoArticulo','ConfigurarInventario'),
-  (701020, 'Tipos de Movimiento','ABMC de Tipo de Movimientos de ArtÃ­culos','AbmcTipoMovimientoArticulo','ConfigurarInventario'),
+  (7010, 'Configuración','Configuración de Inventarios','ConfigurarInventario','MenuInventario'),
+  (701010, 'Atributos','ABMC de Atributos para Artículos','AbmcAtributoArticulo','ConfigurarInventario'),
+  (701020, 'Tipos de Movimiento','ABMC de Tipo de Movimientos de Artículos','AbmcTipoMovimientoArticulo','ConfigurarInventario'),
   (701030, 'Clases de Articulo','ABMC Clase de Articulo','AbmcClaseArticulo','ConfigurarInventario'),
   (701040, 'Almacenes','ABMC de Almacenes','AbmcAlmacenes','ConfigurarInventario'),
   (701050, 'Centros de Costo','ABMC de Centro de Costos','AbmcCentroCosto','ConfigurarInventario'),
-  (701060, 'Cadenas de aprobaciÃ³n','ConfiguraciÃ³n de cadenas de aprobaciÃ³n','AbmcCadenasAprobacion','ConfigurarInventario'),
-  (701070, 'Unidades de medida','ConfiguraciÃ³n de unidades de medida','AbmcUnidadesMedida','ConfigurarInventario'),
+  (701060, 'Cadenas de aprobación','Configuración de cadenas de aprobación','AbmcCadenasAprobacion','ConfigurarInventario'),
+  (701070, 'Unidades de medida','Configuración de unidades de medida','AbmcUnidadesMedida','ConfigurarInventario'),
 
-  (7020, 'Articulos','MenÃº de Articulos','MenuArticulos','MenuInventario'),
+  (7020, 'Articulos','Menú de Articulos','MenuArticulos','MenuInventario'),
   (702010, 'Carga de Articulos','ABMC de Articulo','AbmcArticulo','MenuArticulos'),
-  (702020, 'Consulta ArtÃ­culos','Consulta de ArtÃ­culos','ConsultaArticulos','MenuArticulos'),
+  (702020, 'Consulta Artículos','Consulta de Artículos','ConsultaArticulos','MenuArticulos'),
 
-  (7030, 'Solicitudes de Compra','MenÃº de Solicitudes de Compra','MenuSolicitudes','MenuInventario'),
+  (7030, 'Solicitudes de Compra','Menú de Solicitudes de Compra','MenuSolicitudes','MenuInventario'),
   (703010, 'Carga de SCs','ABMC de Solicitudes de Compra','AbmcSolicitudCompra','MenuSolicitudes'),
   (703020, 'Consulta de SCs','Consulta de Solicitudes de Compra','ConsultaSolicitudCompra','MenuSolicitudes'),
 
-  (7040, 'Ordenes de Compra','MenÃº de Ordenes de Compra','MenuOrdenes','MenuInventario'),
+  (7040, 'Ordenes de Compra','Menú de Ordenes de Compra','MenuOrdenes','MenuInventario'),
   (704010, 'Generar OCs','Generar Ordenes Compra','GenerarOrdenesCompra','MenuOrdenes'),
   (704020, 'Editar OCs','Editar Ordenes Compra','EditarOrdenCompra','MenuOrdenes'),
   (704030, 'Consultar OCs','Consultar Ordenes Compra','ConsultaOrdenesCompra','MenuOrdenes');
