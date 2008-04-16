@@ -1,7 +1,7 @@
 package inventario.models;
 
-import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Calendar;
 
 import com.salmonllc.sql.DBConnection;
@@ -81,10 +81,10 @@ public class InstanciasAprobacionModel extends DataStore {
 				DataStore.DATATYPE_STRING, false, true,
 				INSTANCIAS_APROBACION_ESTADO);
 		addColumn(computeTableName("instancias_aprobacion"), "fecha_entrada",
-				DataStore.DATATYPE_DATE, false, true,
+				DataStore.DATATYPE_DATETIME, false, true,
 				INSTANCIAS_APROBACION_FECHA_ENTRADA);
 		addColumn(computeTableName("instancias_aprobacion"), "fecha_accion",
-				DataStore.DATATYPE_DATE, false, true,
+				DataStore.DATATYPE_DATETIME, false, true,
 				INSTANCIAS_APROBACION_FECHA_ACCION);
 		addColumn(computeTableName("instancias_aprobacion"), "mensaje",
 				DataStore.DATATYPE_STRING, false, true,
@@ -296,9 +296,9 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getInstanciasAprobacionFechaEntrada()
+	public java.sql.Timestamp getInstanciasAprobacionFechaEntrada()
 			throws DataStoreException {
-		return getDate(INSTANCIAS_APROBACION_FECHA_ENTRADA);
+		return getDateTime(INSTANCIAS_APROBACION_FECHA_ENTRADA);
 	}
 
 	/**
@@ -310,9 +310,9 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getInstanciasAprobacionFechaEntrada(int row)
+	public java.sql.Timestamp getInstanciasAprobacionFechaEntrada(int row)
 			throws DataStoreException {
-		return getDate(row, INSTANCIAS_APROBACION_FECHA_ENTRADA);
+		return getDateTime(row, INSTANCIAS_APROBACION_FECHA_ENTRADA);
 	}
 
 	/**
@@ -323,9 +323,9 @@ public class InstanciasAprobacionModel extends DataStore {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setInstanciasAprobacionFechaEntrada(java.sql.Date newValue)
+	public void setInstanciasAprobacionFechaEntrada(java.sql.Timestamp newValue)
 			throws DataStoreException {
-		setDate(INSTANCIAS_APROBACION_FECHA_ENTRADA, newValue);
+		setDateTime(INSTANCIAS_APROBACION_FECHA_ENTRADA, newValue);
 	}
 
 	/**
@@ -339,8 +339,8 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @throws DataStoreException
 	 */
 	public void setInstanciasAprobacionFechaEntrada(int row,
-			java.sql.Date newValue) throws DataStoreException {
-		setDate(row, INSTANCIAS_APROBACION_FECHA_ENTRADA, newValue);
+			java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(row, INSTANCIAS_APROBACION_FECHA_ENTRADA, newValue);
 	}
 
 	/**
@@ -350,9 +350,9 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getInstanciasAprobacionFechaAccion()
+	public java.sql.Timestamp getInstanciasAprobacionFechaAccion()
 			throws DataStoreException {
-		return getDate(INSTANCIAS_APROBACION_FECHA_ACCION);
+		return getDateTime(INSTANCIAS_APROBACION_FECHA_ACCION);
 	}
 
 	/**
@@ -364,9 +364,9 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getInstanciasAprobacionFechaAccion(int row)
+	public java.sql.Timestamp getInstanciasAprobacionFechaAccion(int row)
 			throws DataStoreException {
-		return getDate(row, INSTANCIAS_APROBACION_FECHA_ACCION);
+		return getDateTime(row, INSTANCIAS_APROBACION_FECHA_ACCION);
 	}
 
 	/**
@@ -377,9 +377,9 @@ public class InstanciasAprobacionModel extends DataStore {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setInstanciasAprobacionFechaAccion(java.sql.Date newValue)
+	public void setInstanciasAprobacionFechaAccion(java.sql.Timestamp newValue)
 			throws DataStoreException {
-		setDate(INSTANCIAS_APROBACION_FECHA_ACCION, newValue);
+		setDateTime(INSTANCIAS_APROBACION_FECHA_ACCION, newValue);
 	}
 
 	/**
@@ -393,8 +393,8 @@ public class InstanciasAprobacionModel extends DataStore {
 	 * @throws DataStoreException
 	 */
 	public void setInstanciasAprobacionFechaAccion(int row,
-			java.sql.Date newValue) throws DataStoreException {
-		setDate(row, INSTANCIAS_APROBACION_FECHA_ACCION, newValue);
+			java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(row, INSTANCIAS_APROBACION_FECHA_ACCION, newValue);
 	}
 
 	/**
@@ -718,7 +718,7 @@ public class InstanciasAprobacionModel extends DataStore {
 			if (getInstanciasAprobacionUserFirmante(row) == user_firmante
 					&& getInstanciasAprobacionFechaAccion(row) == null
 					&& getInstanciasAprobacionOrden(row) == orden)
-				setInstanciasAprobacionFechaAccion(row, new Date((Calendar
+				setInstanciasAprobacionFechaAccion(row, new Timestamp((Calendar
 						.getInstance().getTimeInMillis())));
 			System.out.println(orden+ " "+ getInstanciasAprobacionOrden(row));
 		}
