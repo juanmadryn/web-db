@@ -235,7 +235,7 @@
 								<salmon:option display="abc" key="123"
 									table="inventario.unidades_medida"
 									keycolumn="unidades_medida.unidad_medida_id"
-									displaycolumn="unidades_medida.nombre" nulloption="true"></salmon:option>
+									displaycolumn="unidades_medida.nombre" nulloption="false"></salmon:option>
 							</salmon:input>
 						</salmon:td>
 						<salmon:td>
