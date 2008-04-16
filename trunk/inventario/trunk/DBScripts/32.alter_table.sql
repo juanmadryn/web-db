@@ -1,0 +1,8 @@
+START TRANSACTION;
+
+ALTER TABLE `inventario`.`instancias_aprobacion` 
+MODIFY COLUMN `fecha_entrada` DATETIME NOT NULL,
+MODIFY COLUMN `fecha_accion` DATETIME DEFAULT NULL;
+
+ROLLBACK;
+-- COMMIT;
