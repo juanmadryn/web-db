@@ -361,7 +361,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		}
 		
 		// habilitacion del boton de seleccion
-		_desSeleccionaTodoBUT1.setEnabled(_dsDetalleSC.getRowCount() == 0 ? false : true);
+		_desSeleccionaTodoBUT1.setVisible(_dsDetalleSC.getRowCount() == 0 ? false : true);
 		
 		super.pageRequested(p);
 	}

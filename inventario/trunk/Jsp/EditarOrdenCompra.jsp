@@ -145,7 +145,7 @@
 		<salmon:listformdisplaybox name="listformdisplaybox2"
 			mode="Display_single_page" caption="Detalle" width="100%"
 			datasource="dsDetalleSC" addbuttonvisible="false"
-			savebuttonvisible="false" listformclass="infraestructura.controllers.JspListFormDisplayBoxCustomActions">
+			savebuttonvisible="false">
 			<salmon:datatable name="datatable2" width="100%"
 				datasource="dsDetalleSC" rowsperpage="10">
 				<salmon:datatableheader>
