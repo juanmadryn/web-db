@@ -17,6 +17,7 @@ import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreBuffer;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
@@ -85,8 +86,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;	
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
-//	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
-	public infraestructura.controllers.JspListFormDisplayBoxCustomActions _listformdisplaybox2;
+	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
 	
 
 	//DataSources
@@ -182,9 +182,6 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 		
-		_listformdisplaybox2.setDeleteButtonVisible(false);
-		//_listformdisplaybox2.setCustomDeleteButton(_articulosEliminarBUT1);
-				
 		// buttons listeners
 		_nuevaOrdenCompraBUT1.addSubmitListener(this);
 		_grabarOrdenCompraBUT1.addSubmitListener(this);
@@ -546,10 +543,14 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						"EsquemaConfiguracionIdOrdenesCompra")));
 		
 		// Calcula total de la OC (cantidad_pedida x monto_unitario)
-		_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
-				.getAtributoTotalOrdenCompra());
-
-		// Muestra observaciones realizadas a la OC
+		if ((_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW) 
+				&& (_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW_MODIFIED)) 
+		{		
+			_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
+					.getAtributoTotalOrdenCompra());
+		}
+		
+		// Muestra observaciones realizadas a la OC para el estado adecuado
 		String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
 		if ("0008.0002".equalsIgnoreCase(estado)
 				|| "0008.0004".equalsIgnoreCase(estado)
