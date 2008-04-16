@@ -358,6 +358,18 @@ public class GenerarOrdenesCompraController extends BaseController {
 			//_valorAttr1.setValue(String.valueOf(getIntParameter("orden_compra_id")));
 		}
 		
+		int ocId = getIntParameter("orden_compra_id");		
+		if (ocId > 0) {
+			for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+				if (_dsDetalleSC.getDetalleScOrdenCompraId(row) <= 0)
+					_dsDetalleSC.setDetalleScOrdenCompraId(row, ocId);
+			}
+		} else {
+			for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+				_dsDetalleSC.reloadRow(row);
+			}
+		}
+		
 		// si no es especificado, el valor de 'cantidad pedida' se hace igual al de 'cantidad solicitada' 
 		for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 			if (_dsDetalleSC.getDetalleScCantidadPedida(i) <= 0) 

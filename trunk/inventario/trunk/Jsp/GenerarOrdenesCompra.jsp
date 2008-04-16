@@ -196,7 +196,7 @@
 									browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpOrdenesCompra" name="ordenCompraINP5" size="5"	maxlength="10"
 									datasource="dsDetalleSC:detalle_sc.orden_compra_id" popupheight="450"
-									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
+									popupwidth="650" usepopup="true" showdescription="true"></salmon:lookup>
 						</salmon:td>
 					</salmon:tr>
 					<salmon:tr>						
