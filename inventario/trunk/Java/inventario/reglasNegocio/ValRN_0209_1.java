@@ -11,7 +11,6 @@ import inventario.models.CadenasAprobacionModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -118,7 +117,7 @@ public final class ValRN_0209_1 extends ValidadorReglasNegocio {
 			while (siguientesFirmantes.hasNext()) {
 				instancia.gotoRow(instancia.insertRow());
 				instancia.setInstanciasAprobacionEstado("0007.0001");
-				instancia.setInstanciasAprobacionFechaEntrada(new Date(
+				instancia.setInstanciasAprobacionFechaEntrada(new Timestamp(
 						(Calendar.getInstance().getTimeInMillis())));
 				instancia.setInstanciasAprobacionNombreObjeto(NOMBRE_OBJETO);
 				instancia.setInstanciasAprobacionObjetoId(ordenCompraId);
