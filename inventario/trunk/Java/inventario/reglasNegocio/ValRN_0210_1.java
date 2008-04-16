@@ -10,7 +10,6 @@ import infraestructura.utils.DeterminaConfiguracionServicio;
 import inventario.models.CadenasAprobacionModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
-import inventario.models.SolicitudCompraModel;
 
 import java.sql.SQLException;
 
