@@ -14,8 +14,6 @@ import java.sql.Statement;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.quartz.impl.jdbcjobstore.FiredTriggerRecord;
-
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -453,7 +451,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				if (isModificable(_dsSolicitudCompra
 						.getSolicitudesCompraEstado())) {
 					if (getRow_id() > 0) {
-
+						if (_dsDetalleSC.getRow() != -1)
+							_dsDetalleSC.update();
 						// recupero el row actual
 						int rowActual = _dsDetalleSC.getRow();
 
@@ -479,13 +478,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						_descripcion4.setFocus(row, true);
 						setTareaLookupURL();
 					} else {
-						displayErrorMessage("No puede modificar la solicitud en el estado actual.1 "
+						displayErrorMessage("Grabe la cabecera de la solicitud antes de agregar artículos."
 								+ getRow_id());
 					}
 				} else {
 					// si la solicitud no está generada, bloqueo toda
 					// modificación
-					displayErrorMessage("No puede modificar la solicitud en el estado actual.");
+					displayErrorMessage("No puede agregar artículos a la solicitud en el estado actual.");
 					setRecargar(true);
 					pageRequested(new PageEvent(this));
 					return false;
@@ -503,36 +502,22 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 		if (component == _articulosEliminarBUT1) {
 			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
-				try {
-					conn = DBConnection.getConnection(getApplicationName());
-					conn.beginTransaction();
-
-					// elimina todas las actividades seleccionadas
-					for (int row = _dsDetalleSC.getRowCount() - 1; row >= 0; row--) {
-						if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_FLAG) == 1) {
-							// Rol marcado para selección
-							System.out.println("Row: " + row);
-							try {
-								_dsDetalleSC.deleteRow(row);
-								_dsDetalleSC.update();
-							} catch (Exception e) {
-								displayErrorMessage("No se ha podido eliminar la actividad seleccionada. Error: "
-										+ e.getMessage());
-								_dsDetalleSC.unDeleteRow(row);
-								_dsDetalleSC.setInt(row,
-										SELECCION_DETALLE_FLAG, 0);
-								return false;
-							}
+				// elimina todas las actividades seleccionadas
+				for (int row = _dsDetalleSC.getRowCount() - 1; row >= 0; row--) {
+					if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_FLAG) == 1) {
+						// Rol marcado para selección
+						try {
+							_dsDetalleSC.deleteRow(row);
+							// _dsDetalleSC.update();
+						} catch (Exception e) {
+							displayErrorMessage("No se ha podido eliminar la actividad seleccionada. Error: "
+									+ e.getMessage());
+							_dsDetalleSC.unDeleteRow(row);
+							_dsDetalleSC.setInt(row, SELECCION_DETALLE_FLAG, 0);
+							return false;
 						}
 					}
-					conn.commit();
-				} finally {
-					if (conn != null) {
-						conn.rollback();
-						conn.freeConnection();
-					}
 				}
-
 			} else {
 				// si la solicitud no está generada, bloqueo toda modificación
 				displayErrorMessage("No puede modificar la solicitud en el estado actual.");
@@ -550,6 +535,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id ="
 						+ getRow_id());
 				_dsDetalleSC.gotoFirst();
+				_dsDetalleSC.update();
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, _dsSolicitudCompra);
 				displayErrorMessage(ex.getMessage());
@@ -749,54 +735,58 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
-		String titulo = "Solicitud de compra Nº" + getRow_id();
-		if (_dsSolicitudCompra.getEstadoNombre() != null)
-			titulo += " (" + _dsSolicitudCompra.getEstadoNombre() + ")";
-		_detailformdisplaybox1.setHeadingCaption(titulo);
-		_dsSolicitudCompra.setCurrentWebsiteUserId(currentUser);
-		_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
-				.parseInt(getPageProperties().getThemeProperty(null,
-						"EsquemaConfiguracionIdSolicitudesCompra")));
-		_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
-				.getAtributoTotalSolicitud());
 
-		String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
-		if (!"0006.0002".equalsIgnoreCase(estado))
-			_dsSolicitudCompra.setObservaciones();
+		if (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW) {
+			String titulo = "Solicitud de compra Nº" + getRow_id();
+			if (_dsSolicitudCompra.getEstadoNombre() != null)
+				titulo += " (" + _dsSolicitudCompra.getEstadoNombre() + ")";
+			_detailformdisplaybox1.setHeadingCaption(titulo);
+			_dsSolicitudCompra.setCurrentWebsiteUserId(currentUser);
+			_dsSolicitudCompra.setEsquemaConfiguracionId(Integer
+					.parseInt(getPageProperties().getThemeProperty(null,
+							"EsquemaConfiguracionIdSolicitudesCompra")));
+			_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
+					.getAtributoTotalSolicitud());
 
-		if ("0006.0002".equalsIgnoreCase(estado)
-				|| "0006.0004".equalsIgnoreCase(estado)
-				|| "0006.0005".equalsIgnoreCase(estado)) {
-			_observacionX1.setVisible(true);
-			_observacionX2.setVisible(true);
-		} else {
-			_observacionX1.setVisible(false);
-			_observacionX2.setVisible(false);
-		}
+			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
+			if (!"0006.0002".equalsIgnoreCase(estado))
+				_dsSolicitudCompra.setObservaciones();
 
-		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
-			_nombre_completo_solicitante2.setEnabled(true);
-			if (_monto_unitario1 != null)
-				_monto_unitario1.setReadOnly(false);
-			_verFirmantes.setVisible(true);
-		} else {
-			_verFirmantes.setVisible(false);
-			if (_monto_unitario1 != null)
-				_monto_unitario1.setReadOnly(true);
-			int solicitante = _dsSolicitudCompra
-					.getSolicitudesCompraUserIdSolicita();
-			if (solicitante == 0)
-				_dsSolicitudCompra
-						.setSolicitudesCompraUserIdSolicita(currentUser);
-			else
-				_nombre_completo_solicitante2.setEnabled(false);
-			if ("0006.0002".equalsIgnoreCase(_dsSolicitudCompra
-					.getSolicitudesCompraEstado()) && !InstanciasAprobacionModel.isUsuarioHabilitado(currentUser, "solicitudes_compra", getRow_id())) {
-				_customBUT100.setEnabled(false);
-				_customBUT110.setEnabled(false);
-				_customBUT120.setEnabled(false);
+			if ("0006.0002".equalsIgnoreCase(estado)
+					|| "0006.0004".equalsIgnoreCase(estado)
+					|| "0006.0005".equalsIgnoreCase(estado)) {
+				_observacionX1.setVisible(true);
+				_observacionX2.setVisible(true);
+			} else {
+				_observacionX1.setVisible(false);
+				_observacionX2.setVisible(false);
 			}
-			
+
+			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+				_nombre_completo_solicitante2.setEnabled(true);
+				if (_monto_unitario1 != null)
+					_monto_unitario1.setReadOnly(false);
+				_verFirmantes.setVisible(true);
+			} else {
+				_verFirmantes.setVisible(false);
+				if (_monto_unitario1 != null)
+					_monto_unitario1.setReadOnly(true);
+				int solicitante = _dsSolicitudCompra
+						.getSolicitudesCompraUserIdSolicita();
+				if (solicitante == 0)
+					_dsSolicitudCompra
+							.setSolicitudesCompraUserIdSolicita(currentUser);
+				else
+					_nombre_completo_solicitante2.setEnabled(false);
+				if ("0006.0002".equalsIgnoreCase(_dsSolicitudCompra
+						.getSolicitudesCompraEstado())
+						&& !InstanciasAprobacionModel.isUsuarioHabilitado(
+								currentUser, "solicitudes_compra", getRow_id())) {
+					_customBUT100.setEnabled(false);
+					_customBUT110.setEnabled(false);
+					_customBUT120.setEnabled(false);
+				}
+			}
 
 		}
 
