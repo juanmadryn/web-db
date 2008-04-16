@@ -10,7 +10,6 @@ import infraestructura.utils.DeterminaConfiguracionServicio;
 import inventario.models.CadenasAprobacionModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
-import inventario.models.SolicitudCompraModel;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -95,18 +94,23 @@ public final class ValRN_0209_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
-			Iterator<Integer> siguientesFirmantes = cadena
+			/*Iterator<Integer> siguientesFirmantes = cadena
 					.getSiguientesFirmantes(true, instancia
-							.getInstanciasAprobacionOrden());
+							.getInstanciasAprobacionOrden());*/
+			int orden = instancia.getInstanciasAprobacionOrden();
+			Iterator<Integer> siguientesFirmantes = cadena
+					.getSiguientesFirmantes(true, orden);
 			
 			instancia.retrieve(
 					"instancias_aprobacion.nombre_objeto = '"+ NOMBRE_OBJETO +"' AND " +
 					"instancias_aprobacion.objeto_id = " + ordenCompraId
 					);
 
-			instancia.gotoFirst();
+			//instancia.gotoFirst();
+			/*instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
+					connection);*/
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
-					connection);
+					orden, connection);
 			
 			if (siguientesFirmantes == null) {
 				ds.setOrdenesCompraFechaAprobacion(new Timestamp((Calendar
