@@ -247,7 +247,7 @@
 							<salmon:input type="text" name="monto_unitario1" size="8"
 								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
-							<salmon:text name="text2" text=" - " font="DefaultFont" />
+							<!-- <salmon:text name="text2" text=" - " font="DefaultFont" /> --> -
 							<salmon:text name="monto_fecha_ultima_compra2" text=""
 								displayformat="dd/MM/yyyy"
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
