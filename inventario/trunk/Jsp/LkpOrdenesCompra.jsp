@@ -1,7 +1,8 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page extends="com.salmonllc.jsp.JspServlet"%>
 <html>
-<salmon:page />
+<salmon:page
+	controller="inventario.controllers.LkpOrdenesCompraController" />
 <salmon:body />
 <salmon:form name="pageForm">
    <%@include file="message.jsp"%>
@@ -13,10 +14,6 @@
    <salmon:datasource name="dsOrdenesCompra" type="MODEL"
       dbprofile="inventario" model="inventario.models.OrdenesCompraModel"
       autoretrieve="Never">
-      	<salmon:selection>
-			<salmon:selectioncriteria fieldname="dsOrdenesCompra:ordenes_compra.estado" operator="EQUAL" value="'0008.0001'" connector="or" />
-			<salmon:selectioncriteria fieldname="dsOrdenesCompra:ordenes_compra.estado" operator="EQUAL" value="'0008.0005'" />
-		</salmon:selection>                 
    </salmon:datasource>
    <salmon:box name="box1" width="100%">
       <salmon:searchformdisplaybox name="searchformdisplaybox1"
@@ -53,6 +50,10 @@
                      <salmon:text name="ordenCompraDescCAP11" text="Descripción"
                         font="TableHeadingFont" />
                   </salmon:td>                  
+                  <salmon:td>
+                     <salmon:text name="ordenCompraObsCAP11" text="Observaciones"
+                        font="TableHeadingFont" />
+                  </salmon:td>
                </salmon:tr>
             </salmon:datatableheader>
             <salmon:datatablerows>
@@ -66,7 +67,12 @@
                      <salmon:text name="ordenCompraDescTXT7"
                         text="orden compra desc Goes Here" font="DefaultFont"
                         datasource="dsOrdenesCompra:ordenes_compra.descripcion" />
-                  </salmon:td>                  
+                  </salmon:td>
+                  <salmon:td>
+                  		<salmon:text name="ordenCompraObsTXT8"
+                  		text="ordenes_compra.observaciones goes here" font="DefaultFont"
+                  		datasource="dsOrdenesCompra:ordenes_compra.observaciones" />
+                  </salmon:td>	                  
                </salmon:tr>
             </salmon:datatablerows>
          </salmon:datatable>
