@@ -4,6 +4,7 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
+import infraestructura.utils.Utilities;
 
 import java.sql.SQLException;
 
@@ -145,6 +146,11 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	
 	// custom
 	public com.salmonllc.html.HtmlSubmitButton _recuperaOrdenesPendientes;
+	public com.salmonllc.html.HtmlSubmitButton _recuperaOrdenesObservadas;
+	
+	public static final int MODO_TITULO_ESPECIAL_PENDIENTES = 0;
+    public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
+    public static final int MODO_TITULO_NORMAL = 2;
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -155,10 +161,16 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 				"recuperaOrdenesPendientes",
 				"OCs pendientes de aprobación", this);
 		_recuperaOrdenesPendientes.setAccessKey("R");
-		//_searchformdisplaybox1.addButton(_recuperaOrdenesPendientes);
 		_listformdisplaybox1.addButton(_recuperaOrdenesPendientes);
 		_recuperaOrdenesPendientes.addSubmitListener(this);
 		_recuperaOrdenesPendientes.setVisible(false);
+		
+        _recuperaOrdenesObservadas = new HtmlSubmitButton(
+                "recuperaSolicitudesObservadas", "OC's Observadas", this);
+        _recuperaOrdenesObservadas.setAccessKey("O");
+        _listformdisplaybox1.addButton(_recuperaOrdenesObservadas);
+        _recuperaOrdenesObservadas.addSubmitListener(this);
+        _recuperaOrdenesObservadas.setVisible(false);
 		
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 		
@@ -169,21 +181,14 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// TODO Auto-generated method stub		
 		
-		_listformdisplaybox1.setHeadingCaption("Ordenes de compra");
-		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
+		setListFormTitle(MODO_TITULO_NORMAL);
+		
+		int userId = getSessionManager().getWebSiteUser().getUserID();
 		
 		if (e.getComponent() == _recuperaOrdenesPendientes) {
-			try {
-				_dsOrdenes
-						.retrieve("ordenes_compra.orden_compra_id IN "
-								+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i " 
-								+		"WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
-								+ getSessionManager().getWebSiteUser().getUserID() 
-								+ " AND nombre_objeto='ordenes_compra') " 
-								+				"AND ordenes_compra.estado LIKE '0008.0002'");
-				_dsOrdenes.waitForRetrieve();
-				_dsOrdenes.gotoFirst();
-				setSpecialTitle();
+			try {			
+				retrieveOrdenesCompraPendientesAprobacion(userId);
+				setListFormTitle(MODO_TITULO_ESPECIAL_PENDIENTES);
 			} catch (SQLException ex) {
 				displayErrorMessage(ex.getMessage());
 				ex.printStackTrace();
@@ -192,6 +197,20 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 				ex.printStackTrace();
 			}
 		}
+		
+		if (e.getComponent() == _recuperaOrdenesObservadas) {
+			try {
+				retrieveOrdenesCompraPendientesObservacion(userId);
+				setListFormTitle(MODO_TITULO_ESPECIAL_OBSERVADAS);
+			} catch (SQLException ex) {
+				displayErrorMessage(ex.getMessage());
+				ex.printStackTrace();
+			} catch (DataStoreException ex) {
+				displayErrorMessage(ex.getMessage());
+				ex.printStackTrace();
+			}
+		}
+
 
 		return super.submitPerformed(e);
 	}
@@ -206,18 +225,23 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public void pageRequested(PageEvent event) throws Exception {
 		
 		// si la página es requerida por si misma no hago nada
-		if (!isReferredByCurrentPage()) {
-			int user_id = getIntParameter("user_id", -1);
-
-			if (user_id != -1) {
+		if (!isReferredByCurrentPage()) {			
+			int userId = getIntParameter("user_id");
+			int mode = getIntParameter("mode");
+			
+			if (userId > 0) {
 				// verifica si cambión el contexto
 				try {
-					_dsOrdenes.retrieve("ordenes_compra.orden_compra_id IN " 
-							+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i " 
-							+ 		"WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
-							+ user_id + " AND nombre_objeto='ordenes_compra')");
-					_dsOrdenes.gotoFirst();
-					setSpecialTitle();
+					switch(mode) {
+						case MODO_TITULO_ESPECIAL_PENDIENTES:
+							retrieveOrdenesCompraPendientesAprobacion(userId);
+							setListFormTitle(MODO_TITULO_ESPECIAL_PENDIENTES);
+							break;
+						case MODO_TITULO_ESPECIAL_OBSERVADAS:
+							retrieveOrdenesCompraPendientesObservacion(userId);
+							setListFormTitle(MODO_TITULO_ESPECIAL_OBSERVADAS);
+							break;
+					}
 				} catch (SQLException e) {
 					displayErrorMessage(e.getMessage());
 					e.printStackTrace();
@@ -230,22 +254,17 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 				for (int row = 0; row < _dsOrdenes.getRowCount(); row++) { 
 					_dsOrdenes.reloadRow(row);
 				}
-				_listformdisplaybox1.setHeadingCaption("Ordenes de compra");
-				_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
+				setListFormTitle(MODO_TITULO_NORMAL);
 			}
 		}		
 		
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
-		int solicitudes_pendientes = _dsOrdenes.estimateRowsRetrieved("ordenes_compra.orden_compra_id IN "
-				+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i " 
-				+	"WHERE i.estado LIKE '0007.0001' and i.user_firmante = "  
-				+	currentUser + " AND nombre_objeto='ordenes_compra')");		
-		if (solicitudes_pendientes > 0) {
-			_recuperaOrdenesPendientes.setVisible(true);				
-		} else {			
-			_recuperaOrdenesPendientes.setVisible(false);
-		}
+		_recuperaOrdenesPendientes.setVisible(
+				Utilities.getOrdenesCompraPendientesAprobacion(currentUser) > 0 ? true : false);
+		
+		_recuperaOrdenesObservadas.setVisible(
+				Utilities.getOrdenesCompraPendientesObservacion(currentUser) > 0 ? true : false);				
 		
 		// Si el usuario no es comprador, solo puede consultar las solicitudes realizadas por él
 		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
@@ -258,9 +277,52 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		super.pageRequested(event);
 	}
 	
-	private void setSpecialTitle() {
-		_listformdisplaybox1.setHeadingCaption("Ordenes de compra pendientes de aprobación");
-		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");		
+	/**
+	 * Cambia título de lista de ordenes segùn criterio de visualización de la bandeja
+	 * @param modo
+	 */
+	private void setListFormTitle(int modo) {
+		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
+        switch (modo) {
+        case MODO_TITULO_ESPECIAL_PENDIENTES:
+            _listformdisplaybox1.setHeadingCaption("Ordenes de compra pendientes de aprobación");
+            break;
+        case MODO_TITULO_ESPECIAL_OBSERVADAS:
+            _listformdisplaybox1.setHeadingCaption("Ordenes de compra pendientes de observación");
+            break;        
+        default:
+        	_listformdisplaybox1.setHeadingCaption("Ordenes de compra");
+        	_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
+        	break;
+		}        
+	}
+	
+	/**
+	 * Recupera OCs con aprobacion pendiente por parte del usuario especificado
+	 * @param userId usuario firmante
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 */
+	private void retrieveOrdenesCompraPendientesAprobacion(int userId) throws SQLException, DataStoreException {
+		_dsOrdenes.retrieve("ordenes_compra.orden_compra_id IN " 
+				+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i " 
+				+ 		"WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
+				+ 		userId + " AND nombre_objeto='ordenes_compra') "
+				+		"AND ordenes_compra.estado LIKE '0008.0002'");
+		_dsOrdenes.waitForRetrieve();
+		_dsOrdenes.gotoFirst();
+	}
+	
+	/**
+	 * Recupera OCs del usuario especificado que hayan sido observadas en el proceso de aprobaciòn
+	 * @param userId usuario creador de las OCs
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 */
+	private void retrieveOrdenesCompraPendientesObservacion(int userId) throws SQLException, DataStoreException {
+		_dsOrdenes.retrieve("ordenes_compra.estado LIKE '0008.0005' AND user_id_comprador = " + userId);
+		_dsOrdenes.waitForRetrieve();
+		_dsOrdenes.gotoFirst();
 	}
 
 }

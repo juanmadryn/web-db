@@ -365,8 +365,10 @@ public class GenerarOrdenesCompraController extends BaseController {
 					_dsDetalleSC.setDetalleScOrdenCompraId(row, ocId);
 			}
 		} else {
-			for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
-				_dsDetalleSC.reloadRow(row);
+			if (!isReferredByCurrentPage()) {
+				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+					_dsDetalleSC.reloadRow(row);
+				}
 			}
 		}
 		

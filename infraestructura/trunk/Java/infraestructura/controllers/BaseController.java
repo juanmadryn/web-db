@@ -137,6 +137,10 @@ public class BaseController extends JspController implements SubmitListener,
 
 	public com.salmonllc.html.HtmlText _txtBannerSolicitudesObservadas;
 
+	public com.salmonllc.jsp.JspLink _lnkBannerOrdenesObservadas;
+
+	public com.salmonllc.html.HtmlText _txtBannerOrdenesObservadas;
+	
 	// public com.salmonllc.jsp.JspForm _searchForm;
 	public com.salmonllc.html.HtmlText _welcomeUser;
 
@@ -319,13 +323,15 @@ public class BaseController extends JspController implements SubmitListener,
 			_txtBannerOrdenesPendientes.setVisible(true);
 			_lnkBannerSolicitudesObservadas.setVisible(true);
 			_txtBannerSolicitudesObservadas.setVisible(true);
+			_lnkBannerOrdenesObservadas.setVisible(true);
+			_txtBannerOrdenesObservadas.setVisible(true);
 		} else {
 			_lnkBannerSolicitudesPendientes.setVisible(false);
 			_txtBannerSolicitudesPendientes.setVisible(false);
 			_lnkBannerOrdenesPendientes.setVisible(false);
 			_txtBannerOrdenesPendientes.setVisible(false);
-			_lnkBannerSolicitudesObservadas.setVisible(false);
-			_txtBannerSolicitudesObservadas.setVisible(false);
+			_lnkBannerOrdenesObservadas.setVisible(false);
+			_txtBannerOrdenesObservadas.setVisible(false);
 		}
 
 		if (timeStart.get(ip) == null)
@@ -381,6 +387,7 @@ public class BaseController extends JspController implements SubmitListener,
 			int solicitudes_pendientes = 0;
 			int ordenes_pendientes = 0;
 			int solicitudes_observadas = 0;
+			int ordenes_observadas = 0;
 
 			if ((solicitudes_pendientes = Utilities
 					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {
@@ -402,7 +409,7 @@ public class BaseController extends JspController implements SubmitListener,
 					.getOrdenesCompraPendientesAprobacion(user_id)) > 0) {
 				_lnkBannerOrdenesPendientes
 						.setHref("/inventario/Jsp/ConsultaOrdenesCompra.jsp?user_id="
-								+ user.getUserID());
+								+ user.getUserID() + "&mode=0");
 				_txtBannerOrdenesPendientes.setText("Ordenes pendientes: "
 						+ ordenes_pendientes);
 				_lnkBannerOrdenesPendientes.setVisible(true);
@@ -411,6 +418,7 @@ public class BaseController extends JspController implements SubmitListener,
 				_lnkBannerOrdenesPendientes.setVisible(false);
 				_txtBannerOrdenesPendientes.setVisible(false);
 			}
+			
 			if ((solicitudes_observadas = Utilities
 					.getSolicitudesCompraPendientesObservacion(user_id)) > 0) {
 				_lnkBannerSolicitudesObservadas
@@ -426,6 +434,21 @@ public class BaseController extends JspController implements SubmitListener,
 				_lnkBannerSolicitudesObservadas.setVisible(false);
 				_txtBannerSolicitudesObservadas.setVisible(false);
 			}
+			
+			if ((ordenes_observadas = Utilities
+					.getOrdenesCompraPendientesObservacion(user_id)) > 0) {
+				_lnkBannerOrdenesObservadas
+						.setHref("/inventario/Jsp/ConsultaOrdenesCompra.jsp?user_id="
+								+ user.getUserID() + "&mode=1");
+				_txtBannerOrdenesObservadas.setText("Ordenes observadas: "
+						+ ordenes_observadas);
+				_lnkBannerOrdenesObservadas.setVisible(true);
+				_txtBannerOrdenesObservadas.setVisible(true);
+			} else {
+				_lnkBannerOrdenesObservadas.setVisible(false);
+				_txtBannerOrdenesObservadas.setVisible(false);
+			}
+
 		}
 		populateNavBar();
 	}
