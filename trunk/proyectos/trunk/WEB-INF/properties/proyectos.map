@@ -3,6 +3,13 @@
 <siteMap>
 
   <entry>
+     <name>AccountInfoPage</name>
+     <uri>../infraestructura/Jsp/AccountInfoPage.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
      <name>LkpActividadesProyecto</name>
      <uri>/Jsp/LkpActividadesProyecto.jsp</uri>
      <useForward>false</useForward>
