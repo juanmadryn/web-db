@@ -43,6 +43,9 @@
 					<td><salmon:a href="" name="lnkBannerOrdenesPendientes">
 						<salmon:text name="txtBannerOrdenesPendientes" text="" />
 					</salmon:a></td>
+					<td><salmon:a href="" name="lnkBannerOrdenesObservadas">
+						<salmon:text name="txtBannerOrdenesObservadas" text="" />
+					</salmon:a></td>
 				</tr>
 				<tr><jsp:include page="welcomeMessage.jsp" flush="true"></jsp:include></tr>
 			</salmon:form>
