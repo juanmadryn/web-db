@@ -14,7 +14,7 @@
 				<tr>
 					<td colspan="3"><salmon:input name="menuBUT" type="submit"
 						value="Ocultar Menú" classname="sbttn"></salmon:input> <salmon:a
-						href="%AccountInfo" name="lnkBannerAccount">
+						href="%AccountInfoPage" name="lnkBannerAccount">
 						<salmon:text name="txtBannerAccount" textlocalekey="bannerAccount"
 							text="Mi Cuenta" />
 					</salmon:a> &nbsp;| <salmon:a href="%Options" name="lnkBannerOptions">
