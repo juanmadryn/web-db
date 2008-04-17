@@ -152,6 +152,8 @@ public class BaseController extends JspController implements SubmitListener,
 
 	public com.salmonllc.jsp.JspNavBar _navbar1;
 
+	public com.salmonllc.jsp.JspForm _bannerForm;
+
 	/* A static sequence generator will be used to generate primary key IDs */
 	private static SequenceGenerator _seq_gen = null;
 
@@ -390,7 +392,7 @@ public class BaseController extends JspController implements SubmitListener,
 			int ordenes_observadas = 0;
 
 			if ((solicitudes_pendientes = Utilities
-					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {
+					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {				
 				_lnkBannerSolicitudesPendientes
 						.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
 								+ user.getUserID() + "&mode=0");
