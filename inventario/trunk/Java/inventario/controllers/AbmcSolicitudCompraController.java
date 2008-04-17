@@ -788,6 +788,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				_customBUT100.setEnabled(false);
 				_customBUT110.setEnabled(false);
 				_customBUT120.setEnabled(false);
+			} else {
+				_customBUT100.setEnabled(true);
+				_customBUT110.setEnabled(true);
+				_customBUT120.setEnabled(true);
 			}
 		}
 

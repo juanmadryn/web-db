@@ -192,7 +192,6 @@ public class DetalleSCModel extends DataStore {
 			// add validations
 			addRequiredRule(ARTICULOS_NOMBRE,
 					"Especifique el código del artículo.");
-
 			addRequiredRule(DETALLE_SC_CANTIDAD_SOLICITADA,
 					"Especifique la cantidad a pedir del artículo.");
 
@@ -949,14 +948,15 @@ public class DetalleSCModel extends DataStore {
 	 * @throws DataStoreException
 	 */
 	public String getArticulosDescripcionCompleta(int row) throws DataStoreException, SQLException {
-		String descripCompleta = getString(row, ARTICULOS_DESCRIPCION_COMPLETA);
-		if (descripCompleta == null){
-			DBConnection conn = DBConnection.getConnection("inventario","inventario");
+			DBConnection conn = 
+				DBConnection.getConnection("inventario","inventario");
 			Statement st = conn.createStatement();
 			ResultSet rs = st.executeQuery("SELECT descripcion_completa FROM articulos WHERE articulo_id ="+getDetalleScArticuloId(row));
-			rs.first();
-			descripCompleta = rs.getString(1);
-		} 
+			String descripCompleta = null;
+			if (rs.first()) {			
+				descripCompleta = rs.getString(1);
+			}
+		 
 		return descripCompleta; 
 	}
 
