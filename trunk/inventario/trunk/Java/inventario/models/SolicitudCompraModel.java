@@ -1243,8 +1243,10 @@ public class SolicitudCompraModel extends BaseModel {
 			ProyectoModel dsProyecto = new ProyectoModel("proyectos",
 					"proyectos");
 			dsProyecto.retrieve("proyecto = '" + getProyectosProyecto() + "'");
-			dsProyecto.gotoFirst();
-			setSolicitudesCompraProyectoId(dsProyecto.getProyectosProyectoId());
+			if(dsProyecto.gotoFirst())
+				setSolicitudesCompraProyectoId(dsProyecto.getProyectosProyectoId());
+			else 
+				throw new DataStoreException("El proyecto indicado no existe");
 		} else
 			setSolicitudesCompraProyectoId(0);
 
