@@ -686,8 +686,10 @@ public class OrdenesCompraModel extends BaseModel {
 		if (getOrdenesCompraUserIdComprador() == 0)
 			setOrdenesCompraUserIdComprador(getCurrentWebsiteUserId());
 		
-		if (Calendar.getInstance().getTimeInMillis() > getOrdenesCompraFechaEstimadaEntrega().getTime())
-			throw new DataStoreException("La fecha estimada de entrega debe ser posterior a la fecha actual");
+		if (getOrdenesCompraFechaEstimadaEntrega() != null) {
+			if (Calendar.getInstance().getTimeInMillis() > getOrdenesCompraFechaEstimadaEntrega().getTime())
+				throw new DataStoreException("La fecha estimada de entrega debe ser posterior a la fecha actual");
+		}
 		
 		super.update(conn, handleTrans);
 	}
