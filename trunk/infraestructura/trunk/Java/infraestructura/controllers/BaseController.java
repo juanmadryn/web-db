@@ -332,10 +332,10 @@ public class BaseController extends JspController implements SubmitListener,
 			_txtBannerSolicitudesPendientes.setVisible(false);
 			_lnkBannerOrdenesPendientes.setVisible(false);
 			_txtBannerOrdenesPendientes.setVisible(false);
+			_lnkBannerSolicitudesObservadas.setVisible(false);
+			_txtBannerSolicitudesObservadas.setVisible(false);
 			_lnkBannerOrdenesObservadas.setVisible(false);
 			_txtBannerOrdenesObservadas.setVisible(false);
-			_lnkBannerOrdenesObservadas.setVisible(true);
-			_txtBannerOrdenesObservadas.setVisible(true);
 		}
 
 		if (timeStart.get(ip) == null)
