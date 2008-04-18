@@ -832,11 +832,13 @@ public class BaseController extends JspController implements SubmitListener,
 		Hashtable<String, HttpSession> aplicationsForRemoteAddress = aplications
 				.get(getCurrentRequest().getRemoteAddr());
 
+		aplications.remove(getCurrentRequest().getRemoteAddr());
+		
 		Enumeration<HttpSession> aplicaciones = aplicationsForRemoteAddress
 				.elements();
 		HttpSession sess;
 		while (aplicaciones.hasMoreElements()) {
-			sess = aplicaciones.nextElement();
+			sess = aplicaciones.nextElement();			
 			clearAllPagesFromSession(sess);
 			sess.setAttribute(SESSION_VALUE_WEBSITE_USER, null);
 		}
