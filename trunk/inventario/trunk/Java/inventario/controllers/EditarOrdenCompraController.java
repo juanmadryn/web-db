@@ -59,7 +59,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _fecha_entrega_completa1;
 	public com.salmonllc.html.HtmlText _fecha_entrega_completa2;
 	public com.salmonllc.html.HtmlText _fecha_estimada_entrega1;
-	public com.salmonllc.html.HtmlText _fecha_estimada_entrega2;
+	public com.salmonllc.html.HtmlTextEdit _fecha_estimada_entrega2;
 	public com.salmonllc.html.HtmlText _fecha_ordencompra1;
 	public com.salmonllc.html.HtmlText _fecha_ordencompra2;
 	public com.salmonllc.html.HtmlText _monto_fecha_ultima_compra1;
@@ -136,7 +136,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public HtmlSubmitButton _grabarOrdenCompraBUT1;
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
-	//public HtmlSubmitButton _articulosCancelarBUT1;
+	public HtmlSubmitButton _articulosCancelarBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
@@ -144,6 +144,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspLink _verFirmantes;
 	
 	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
+	private String REMOVER_DE_OC = "REMOVER_DE_OC";
 
 	private static final String CIRCUITO = "0008";
 	
@@ -173,9 +174,9 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_articulosEliminarBUT1.setAccessKey("E");
 		_listformdisplaybox2.addButton(_articulosEliminarBUT1);
 
-		/*_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1", "Cancelar", this);
+		_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1", "Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
-		_listformdisplaybox2.addButton(_articulosCancelarBUT1);*/
+		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
 		
 		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",null,this);
 		_desSeleccionaTodoBUT1.setAccessKey("E");
@@ -187,7 +188,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_grabarOrdenCompraBUT1.addSubmitListener(this);
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
-		//_articulosCancelarBUT1.addSubmitListener(this);
+		_articulosCancelarBUT1.addSubmitListener(this);
 		_desSeleccionaTodoBUT1.addSubmitListener(this);
 		
 		_customBUT150.addSubmitListener(this);
@@ -201,6 +202,9 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_SC_FLAG, DataStore.DATATYPE_INT);
 		_seleccion_detalle2.setColumn(_dsDetalleSC, SELECCION_DETALLE_SC_FLAG);
 		_seleccion_detalle2.setFalseValue(null);
+		
+		// bucket para eliminar linea de OC
+		_dsDetalleSC.addBucket(REMOVER_DE_OC, DataStore.DATATYPE_INT);		
 
 		// run datasources validations at the update event
 		_dsOrdenesCompra.setAutoValidate(true);
@@ -210,7 +214,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_dsOrdenesCompra.reset();
 		_dsDetalleSC.reset();
 		_dsOrdenesCompra.insertRow();
-
+		
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
 		
 		setTabla_principal("ordenes_compra");
@@ -315,17 +319,60 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();			
 			// si la orden de compra esta en estado generado o esta siendo revisada
 			if (estado == null || "0008.0001".equalsIgnoreCase(estado)
-					|| "0008.0005".equalsIgnoreCase(estado)) {
+					|| "0008.0005".equalsIgnoreCase(estado)) {				
 				try {
 					conn.beginTransaction();
-
+				
 					if (_dsOrdenesCompra.getRow() == -1)
 						return false;
 
 					_dsOrdenesCompra.update(conn);
 
 					if (_dsDetalleSC.getRow() != -1) {
-						_dsDetalleSC.update(conn);						
+						// remueve detalles marcados para eliminar
+						eliminaDetallesSeleccionados(conn);
+						_dsDetalleSC.update(conn);
+						
+						// update the SC states
+						SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
+						
+						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
+							if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+								dsSolicitudCompra.retrieve(conn,
+										SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+										" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+										);
+								dsSolicitudCompra.gotoFirst();
+								try {
+									dsSolicitudCompra.ejecutaAccion(20, "0006", this
+											.getCurrentRequest().getRemoteHost(),
+											getSessionManager().getWebSiteUser()
+													.getUserID(), "solicitudes_compra",
+											conn, false);
+									_dsDetalleSC.reloadRow(conn, i);
+								} catch (DataStoreException ex) {
+									MessageLog.writeErrorMessage(ex, null);
+								}
+							}					
+						}				
+
+						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+							if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+								dsSolicitudCompra.retrieve(conn,
+										SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+										" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+								);
+								dsSolicitudCompra.gotoFirst();
+								try {
+									dsSolicitudCompra.ejecutaAccion(21,	"0006",
+											this.getCurrentRequest().getRemoteHost(), 
+											getSessionManager().getWebSiteUser().getUserID(), 
+											"solicitudes_compra", conn, false);	
+								} catch (DataStoreException ex) {
+									MessageLog.writeErrorMessage(ex, null);
+								}														
+							}
+						}
 					}
 					
 					_dsOrdenesCompra.resetStatus();
@@ -334,8 +381,9 @@ public class EditarOrdenCompraController extends BaseEntityController {
 					conn.commit();
 					
 					_dsOrdenesCompra.reloadRow();
+					setRecargar(true);
 					
-				} catch (DataStoreException ex) {
+				} catch (DataStoreException ex) {					
 					MessageLog.writeErrorMessage(ex, null);
 					displayErrorMessage(ex.getMessage());
 					return false;
@@ -377,83 +425,24 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			}
 		}
 		
-		// elimina una linea de la orden de compra
-		if (component == _articulosEliminarBUT1) {			
+		// marca para eliminacion las linea de la orden de compra seleccionadas
+		if (component == _articulosEliminarBUT1) {
 			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
 			if ("0008.0001".equalsIgnoreCase(estado)
 					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
-				// elimina articulos de la OC
-				conn.beginTransaction();
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					if (_dsDetalleSC.getInt(i, SELECCION_DETALLE_SC_FLAG) == 1) {
-						// Rol marcado para selección
-						try {
-							_dsDetalleSC.setAny(i, DetalleSCModel.DETALLE_SC_CANTIDAD_PEDIDA, 
-									_dsDetalleSC.getNullDefault(DataStore.DATATYPE_INT));
-							_dsDetalleSC.setAny(i, DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, 
-									_dsDetalleSC.getNullDefault(DataStore.DATATYPE_INT));							
-						} catch (DataStoreException ex) {
-							displayErrorMessage("No se ha podido remover el artículo seleccionado. Error: "
-									+ ex.getMessage());
-							_dsDetalleSC.undoChanges(i);
-							_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG, 0);					
-							return false;						
-						}
-					}
-				}
-				_dsDetalleSC.update(conn);
-				
-				// update the SC states
-				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
-				
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
-					if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-						dsSolicitudCompra.retrieve(conn,
-								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-								);
-						dsSolicitudCompra.gotoFirst();
-						try {
-							dsSolicitudCompra.ejecutaAccion(20, "0006", this
-									.getCurrentRequest().getRemoteHost(),
-									getSessionManager().getWebSiteUser()
-											.getUserID(), "solicitudes_compra",
-									conn, false);
-							_dsDetalleSC.reloadRow(conn, i);
-						} catch (DataStoreException ex) {
-							MessageLog.writeErrorMessage(ex, null);
-						}
+				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+					if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_SC_FLAG) == 1) {
+						_dsDetalleSC.setInt(row, SELECCION_DETALLE_SC_FLAG, 0);
+						_dsDetalleSC.setInt(row, REMOVER_DE_OC, 1);
 					}					
-				}				
-
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-						dsSolicitudCompra.retrieve(conn,
-								SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-								" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-						);
-						dsSolicitudCompra.gotoFirst();
-						try {
-							dsSolicitudCompra.ejecutaAccion(21,	"0006",
-									this.getCurrentRequest().getRemoteHost(), 
-									getSessionManager().getWebSiteUser().getUserID(), 
-									"solicitudes_compra", conn, false);	
-						} catch (DataStoreException ex) {
-							MessageLog.writeErrorMessage(ex, null);
-						}														
-					}
 				}
-				
-				conn.commit();
-				
-				setRecargar(true);
 			} else {
 				// si la solicitud no está generada, bloqueo toda modificación
 				displayErrorMessage("No puede modificar la orden de compra en el estado actual.");
 				setRecargar(true);
 				pageRequested(new PageEvent(this));
 				return false;
-			}			
+			}	
 		}
 		
 		// genero un nuevo orden de compra vacia
@@ -463,13 +452,29 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			_dsOrdenesCompra.gotoRow(_dsOrdenesCompra.insertRow());
 		}
 		
+		// cancela la eliminacion de los detalles marcados para tal efecto
+		if (component == _articulosCancelarBUT1) {
+			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();			
+			if ("0008.0001".equalsIgnoreCase(estado)
+					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+				_dsDetalleSC.filter(null);
+				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+					if (_dsDetalleSC.getInt(row, REMOVER_DE_OC) == 1) {
+						_dsDetalleSC.setInt(row, REMOVER_DE_OC, 0);
+					}					
+				}
+			}			
+		}
+		
 		// Free the connection
 		if (conn != null) {
+			conn.rollback();
 			conn.freeConnection();
 		}
 		
 		// Redirecciona a la pantalla de Generacion de OCs
 		if (component == _articulosAgregarBUT1) {
+			setRecargar(false);
 			this.gotoSiteMapPage("GenerarOrdenesCompra","?orden_compra_id=" + getRow_id());
 		}
 	
@@ -481,37 +486,33 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public void pageRequested(PageEvent p) throws Exception {
 
 		try {
-			// si la página es requerida por si misma o está en proceso de
-			// recargar un proyecto no hago nada
 			if (!isReferredByCurrentPage() || isRecargar()) {
-				// verifico si tiene parámetro
-				setRow_id(getIntParameter("orden_compra_id"));
-				if (isRecargar())
-					setRow_id(_dsOrdenesCompra
-							.getOrdenesCompraOrdenCompraId());
+				
+				setRow_id(isRecargar() ? _dsOrdenesCompra.getOrdenesCompraOrdenCompraId()
+						: getIntParameter("orden_compra_id"));
+				
 				if (getRow_id() > 0) {
 					// resetea todos los datasource
 					_dsOrdenesCompra.reset();
 					_dsDetalleSC.reset();
 
-					// recupera toda la información para la orden de compra
-					_dsOrdenesCompra
-							.retrieve("ordenes_compra.orden_compra_id = "
-									+ Integer.toString(getRow_id()));
+					// recupera cabecera de la OC
+					_dsOrdenesCompra.retrieve("ordenes_compra.orden_compra_id = " + getRow_id()); 
 					_dsOrdenesCompra.gotoFirst();
 
-					// sigue recuperando información del resto de los detalles
-					// (actividades y tareas)
-					_dsDetalleSC.retrieve("detalle_sc.orden_compra_id = "
-							+ Integer.toString(getRow_id()));
+					// recupera detalles de la OC
+					_dsDetalleSC.retrieve("detalle_sc.orden_compra_id = " + getRow_id());
 					if (_dsDetalleSC.gotoFirst()) {
 						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i);
 						}
 					}
-					setDatosBasicosOrdenCompra();
 				}
 			}
+			
+			// filtramos detalles marcados para eliminar
+			_dsDetalleSC.filter(REMOVER_DE_OC + " != 1");
+			
 			setRecargar(false);
 
 		} catch (DataStoreException e) {
@@ -577,13 +578,14 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		
 		// setea la URL del reporte a generar al presionar el botón de impresión
 		String URL = armarUrlReporte("XLS", "orden_compra",
-				"&Parameter_solicitud_compra_id=" + getRow_id());
+				"&Parameter_orden_compra_id=" + getRow_id());
 		_imprimirOrdenCompraBUT1.setHref(URL);
 
 		URL = armarUrlReporte("PDF", "orden_compra",
-				"&Parameter_solicitud_compra_id=" + getRow_id());
+				"&Parameter_orden_compra_id=" + getRow_id());
 		_imprimirOrdenCompraBUT2.setHref(URL);
 		
+		// setea la URL de lista de firmantes y transiciones de estado
 		_verFirmantes.setHref("ListaFirmantes.jsp?orden_id=" + getRow_id());
 	}
 	
@@ -684,6 +686,38 @@ public class EditarOrdenCompraController extends BaseEntityController {
 				conn.freeConnection();
 		}
 
+	}
+	
+	/**
+	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
+	 * elimina el fk al OC y resetea el campo cantidad pedida.  
+	 * @param conn La conexión en la que se enmarca la transacción
+	 * @throws DataStoreException
+	 */
+	private void eliminaDetallesSeleccionados(DBConnection conn) throws DataStoreException {
+		// filtramos detalles marcados para remoción
+		_dsDetalleSC.filter(REMOVER_DE_OC + " == 1");
+		int row = 0;
+		
+		try {
+			for (row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+				_dsDetalleSC.setAny(row,
+						DetalleSCModel.DETALLE_SC_CANTIDAD_PEDIDA, _dsDetalleSC
+						.getNullDefault(DataStore.DATATYPE_INT));
+				_dsDetalleSC.setAny(row,
+						DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, _dsDetalleSC
+						.getNullDefault(DataStore.DATATYPE_INT));
+			}			
+		} catch (DataStoreException ex) {
+			_dsDetalleSC.undoChanges(row);
+			_dsDetalleSC.setInt(row, REMOVER_DE_OC, 0);
+			throw new DataStoreException(
+					"No se ha podido remover el artículo seleccionado. Error: "
+					+ ex.getMessage());
+		} finally {
+			// removemos el filtro
+			_dsDetalleSC.filter(null);
+		}
 	}
 
 	// encapsulate regarcar field 

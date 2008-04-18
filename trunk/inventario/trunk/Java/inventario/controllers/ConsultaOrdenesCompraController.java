@@ -151,6 +151,8 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public static final int MODO_TITULO_ESPECIAL_PENDIENTES = 0;
     public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
     public static final int MODO_TITULO_NORMAL = 2;
+    
+    private int _modoBandeja;
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -174,6 +176,10 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 		
+		_modoBandeja = MODO_TITULO_NORMAL;
+		
+		_n2.setFocus();
+		
 		super.initialize();		
 	}
 	
@@ -181,7 +187,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// TODO Auto-generated method stub		
 		
-		setListFormTitle(MODO_TITULO_NORMAL);
+		setListFormTitle(MODO_TITULO_NORMAL);		
 		
 		int userId = getSessionManager().getWebSiteUser().getUserID();
 		
@@ -211,7 +217,6 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			}
 		}
 
-
 		return super.submitPerformed(e);
 	}
 
@@ -222,20 +227,19 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	 *            the page event to be processed
 	 * @throws Exception
 	 */
-	public void pageRequested(PageEvent event) throws Exception {
-		
-		// si la página es requerida por si misma no hago nada
-		if (!isReferredByCurrentPage()) {			
+	public void pageRequested(PageEvent event) throws Exception {		 
+		// si la página es requerida por si misma no hago nada		
+		if (!isReferredByCurrentPage()) {
 			int userId = getIntParameter("user_id");
 			int mode = getIntParameter("mode");
 			
-			if (userId > 0) {
+			if ((userId > 0)) {
 				// verifica si cambión el contexto
 				try {
 					switch(mode) {
 						case MODO_TITULO_ESPECIAL_PENDIENTES:
 							retrieveOrdenesCompraPendientesAprobacion(userId);
-							setListFormTitle(MODO_TITULO_ESPECIAL_PENDIENTES);
+							setListFormTitle(MODO_TITULO_ESPECIAL_PENDIENTES);							
 							break;
 						case MODO_TITULO_ESPECIAL_OBSERVADAS:
 							retrieveOrdenesCompraPendientesObservacion(userId);
@@ -286,13 +290,16 @@ public class ConsultaOrdenesCompraController extends BaseController implements
         switch (modo) {
         case MODO_TITULO_ESPECIAL_PENDIENTES:
             _listformdisplaybox1.setHeadingCaption("Ordenes de compra pendientes de aprobación");
+            _modoBandeja = MODO_TITULO_ESPECIAL_PENDIENTES;
             break;
         case MODO_TITULO_ESPECIAL_OBSERVADAS:
             _listformdisplaybox1.setHeadingCaption("Ordenes de compra pendientes de observación");
+            _modoBandeja = MODO_TITULO_ESPECIAL_OBSERVADAS;
             break;        
         default:
         	_listformdisplaybox1.setHeadingCaption("Ordenes de compra");
         	_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
+        	_modoBandeja = MODO_TITULO_NORMAL;
         	break;
 		}        
 	}

@@ -323,6 +323,11 @@ public class GenerarOrdenesCompraController extends BaseController {
 							
 				conexion.commit();
 				
+				int ocId = getIntParameter("orden_compra_id");
+				if (ocId > 0) {
+					this.gotoSiteMapPage("EditarOrdenCompra","?orden_compra_id=" + ocId);
+				}
+				
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
@@ -340,7 +345,8 @@ public class GenerarOrdenesCompraController extends BaseController {
 			}
 			finally {
 				if (conexion != null) {
-					conexion.rollback();
+					conexion.rollback();					
+					conexion.freeConnection();
 				}
 			}
 		} // fin genera ordenes de compra
@@ -355,11 +361,11 @@ public class GenerarOrdenesCompraController extends BaseController {
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
 		if (!isReferredByCurrentPage()) {
-			//_valorAttr1.setValue(String.valueOf(getIntParameter("orden_compra_id")));
 		}
 		
 		int ocId = getIntParameter("orden_compra_id");		
 		if (ocId > 0) {
+			// setea la OC indicada en el lookup de ordenes de compra 
 			for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 				if (_dsDetalleSC.getDetalleScOrdenCompraId(row) <= 0)
 					_dsDetalleSC.setDetalleScOrdenCompraId(row, ocId);
