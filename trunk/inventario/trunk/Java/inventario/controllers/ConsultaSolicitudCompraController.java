@@ -6,10 +6,10 @@ import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.Utilities;
 
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -118,6 +118,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 
 	// DataSources
+	public com.salmonllc.sql.DataStore _dsPeriodo;
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public inventario.models.SolicitudCompraModel _dsSolicitudes;
 
@@ -145,10 +146,11 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public static final String DSSOLICITUDES_OBSERVACIONES = "observaciones";
 
 	public static final String DSQBE_N = "n";
-	public static final String DSQBE_DESDE = "desde";
-	public static final String DSQBE_HASTA = "hasta";
 	public static final String DSQBE_ESTADO = "estado";
 	public static final String DSQBE_SOLICITANTE = "solicitante";
+
+	public static final String DSPERIODO_DESDE = "desde";
+	public static final String DSPERIODO_HASTA = "hasta";
 
 	public static final int MODO_TITULO_ESPECIAL_PENDIENTES = 0;
 	public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
@@ -156,6 +158,9 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesPendientes;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesRechazadas;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesObservadas;
+	
+	private Timestamp desde;
+	private Timestamp hasta;
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -186,15 +191,54 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 
+		_dsPeriodo.reset();
+		_dsPeriodo.insertRow();
+		seteaPeriodo(null, null); // valores por defecto para el periodo de
+		// fechas
+		_dsPeriodo.gotoFirst();
+
 		super.initialize();
 	}
 
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// TODO Auto-generated method stub
-	
+
 		_listformdisplaybox1.setHeadingCaption("Solicitudes de compra");
 		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
+
+		if (e.getComponent() == _searchformdisplaybox1.getSearchButton()) {
+			String whereFecha = null;
+			if (_fechadesde2.getValue() != null && _fechahasta2.getValue() != null) {
+				desde = _dsPeriodo.getDateTime("desde");
+				hasta = _dsPeriodo.getDateTime("hasta");
+				seteaPeriodo(desde, hasta);
+
+				if (desde != null && hasta != null) {
+					// chequeo las fechas
+					if (hasta.compareTo(desde) < 0) {
+						displayErrorMessage("La fecha desde debe ser anterior a la fecha hasta");
+						return false;
+					}
+					whereFecha = "solicitudes_compra.fecha_solicitud BETWEEN '"
+							+ desde.toString()
+							+ "' AND '"
+							+ hasta.toString() + "'";
+				}
+			}
+			_dsSolicitudes.reset();
+			String where = _dsQBE.generateSQLFilter(_dsSolicitudes);
+			if (whereFecha != null) {
+				if (where != null)
+					where += " AND ";
+				else
+					where = "";
+				where += whereFecha;
+			} else if (where != null)
+				where += "";
+			_dsSolicitudes.retrieve(where);
+			_dsSolicitudes.gotoFirst();
+		}
 
 		int user_id = getSessionManager().getWebSiteUser().getUserID();
 
@@ -342,5 +386,30 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		}
+	}
+
+	/**
+	 * Setea el periodo por defecto para el rango de fechas
+	 * 
+	 * @throws DataStoreException
+	 */
+	public void seteaPeriodo(Timestamp desdeTime, Timestamp hastaTime)
+			throws DataStoreException {
+
+		GregorianCalendar cal = new GregorianCalendar();
+		if (desdeTime != null)
+			cal.setTime(desdeTime);
+		Timestamp day = new Timestamp(cal.getTimeInMillis());
+		//_dsPeriodo.setDateTime("desde", day);
+		desde = day;
+		if (hastaTime != null)
+			cal.setTime(hastaTime);
+		cal.set(Calendar.HOUR_OF_DAY, 23);
+		cal.set(Calendar.MINUTE, 59);
+		cal.set(Calendar.SECOND, 59);
+		cal.set(Calendar.MILLISECOND, 9);
+		day = new Timestamp(cal.getTimeInMillis());
+		//_dsPeriodo.setDateTime("hasta", day);
+		hasta = day;
 	}
 }
