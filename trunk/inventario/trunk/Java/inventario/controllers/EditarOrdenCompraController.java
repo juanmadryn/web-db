@@ -330,47 +330,50 @@ public class EditarOrdenCompraController extends BaseEntityController {
 
 					if (_dsDetalleSC.getRow() != -1) {
 						// remueve detalles marcados para eliminar
-						eliminaDetallesSeleccionados(conn);
+						boolean detalleEliminado = eliminaDetallesSeleccionados(conn);
 						_dsDetalleSC.update(conn);
 						
 						// update the SC states
 						SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
 						
-						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
-							if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-								dsSolicitudCompra.retrieve(conn,
-										SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-										" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-										);
-								dsSolicitudCompra.gotoFirst();
-								try {
-									dsSolicitudCompra.ejecutaAccion(20, "0006", this
-											.getCurrentRequest().getRemoteHost(),
-											getSessionManager().getWebSiteUser()
-													.getUserID(), "solicitudes_compra",
-											conn, false);
-									_dsDetalleSC.reloadRow(conn, i);
-								} catch (DataStoreException ex) {
-									MessageLog.writeErrorMessage(ex, null);
-								}
-							}					
-						}				
+						if (detalleEliminado) {
 
-						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-							if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-								dsSolicitudCompra.retrieve(conn,
-										SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-										" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-								);
-								dsSolicitudCompra.gotoFirst();
-								try {
-									dsSolicitudCompra.ejecutaAccion(21,	"0006",
-											this.getCurrentRequest().getRemoteHost(), 
-											getSessionManager().getWebSiteUser().getUserID(), 
-											"solicitudes_compra", conn, false);	
-								} catch (DataStoreException ex) {
-									MessageLog.writeErrorMessage(ex, null);
-								}														
+							for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
+								if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+									dsSolicitudCompra.retrieve(conn,
+											SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+											" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+									);
+									dsSolicitudCompra.gotoFirst();
+									try {
+										dsSolicitudCompra.ejecutaAccion(20, "0006", this
+												.getCurrentRequest().getRemoteHost(),
+												getSessionManager().getWebSiteUser()
+												.getUserID(), "solicitudes_compra",
+												conn, false);
+										_dsDetalleSC.reloadRow(conn, i);
+									} catch (DataStoreException ex) {
+										MessageLog.writeErrorMessage(ex, null);
+									}
+								}					
+							}				
+
+							for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+								if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+									dsSolicitudCompra.retrieve(conn,
+											SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
+											" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
+									);
+									dsSolicitudCompra.gotoFirst();
+									try {
+										dsSolicitudCompra.ejecutaAccion(21,	"0006",
+												this.getCurrentRequest().getRemoteHost(), 
+												getSessionManager().getWebSiteUser().getUserID(), 
+												"solicitudes_compra", conn, false);	
+									} catch (DataStoreException ex) {
+										MessageLog.writeErrorMessage(ex, null);
+									}														
+								}
 							}
 						}
 					}
@@ -691,12 +694,21 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	/**
 	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
 	 * elimina el fk al OC y resetea el campo cantidad pedida.  
-	 * @param conn La conexión en la que se enmarca la transacción
+	 * @param conn 
 	 * @throws DataStoreException
 	 */
-	private void eliminaDetallesSeleccionados(DBConnection conn) throws DataStoreException {
+	/**
+	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
+	 * elimina el fk al OC y resetea el campo cantidad pedida.
+	 * @param conn La conexión en la que se enmarca la transacción
+	 * @return true si han sido eliminado algun detalle
+	 * @throws DataStoreException
+	 */
+	private boolean eliminaDetallesSeleccionados(DBConnection conn) throws DataStoreException {
 		// filtramos detalles marcados para remoción
 		_dsDetalleSC.filter(REMOVER_DE_OC + " == 1");
+		
+		boolean detalleEliminado = _dsDetalleSC.getRowCount() > 0 ? true : false;
 		int row = 0;
 		
 		try {
@@ -706,8 +718,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 						.getNullDefault(DataStore.DATATYPE_INT));
 				_dsDetalleSC.setAny(row,
 						DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, _dsDetalleSC
-						.getNullDefault(DataStore.DATATYPE_INT));
+						.getNullDefault(DataStore.DATATYPE_INT));				
 			}			
+			return detalleEliminado;
+			
 		} catch (DataStoreException ex) {
 			_dsDetalleSC.undoChanges(row);
 			_dsDetalleSC.setInt(row, REMOVER_DE_OC, 0);
