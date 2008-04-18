@@ -685,7 +685,10 @@ public class OrdenesCompraModel extends BaseModel {
 		
 		if (getOrdenesCompraUserIdComprador() == 0)
 			setOrdenesCompraUserIdComprador(getCurrentWebsiteUserId());
-	
+		
+		if (Calendar.getInstance().getTimeInMillis() > getOrdenesCompraFechaEstimadaEntrega().getTime())
+			throw new DataStoreException("La fecha estimada de entrega debe ser posterior a la fecha actual");
+		
 		super.update(conn, handleTrans);
 	}
 	
@@ -713,7 +716,6 @@ public class OrdenesCompraModel extends BaseModel {
 				"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA", "ordenes_compra");
 
 		return total;
-
 	}
 	
 	/**

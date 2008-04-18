@@ -575,14 +575,15 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 				dsOrdenCompra.update(conn);
 
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setDetalleScOrdenCompraId(i, dsOrdenCompra
+				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+					_dsDetalleSC.setDetalleScOrdenCompraId(row, dsOrdenCompra
 							.getOrdenesCompraOrdenCompraId(ocId));
-					_dsDetalleSC.setDetalleScCantidadPedida(i, _dsDetalleSC
-							.getDetalleScCantidadSolicitada(i));
+					_dsDetalleSC.setDetalleScCantidadPedida(row, _dsDetalleSC
+							.getDetalleScCantidadSolicitada(row));
 				}
-
+				
 				_dsDetalleSC.update(conn);
+				
 
 				// update the SC states
 				// se podria utilizar el mismo metodo que para la generacion de
@@ -618,6 +619,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 				conn.commit();
 
 				_dsDetalleSC.filter(null);
+				
+				this.gotoSiteMapPage("EditarOrdenCompra","?orden_compra_id=" 
+						+ dsOrdenCompra.getOrdenesCompraOrdenCompraId(ocId));
 
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);

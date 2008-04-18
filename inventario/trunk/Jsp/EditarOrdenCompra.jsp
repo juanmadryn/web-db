@@ -62,19 +62,22 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_ordencompra1"
-									text="Fecha de Orden Compra" font="TableHeadingFont" /></td>
+									text="Fecha de orden" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_ordencompra2" text=""
 									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha"></salmon:text></td>
-								<td/>
-								<td/>
+								<td><salmon:text name="fecha_aprobacion1"
+									text="Fecha de aprobación" font="TableHeadingFont" /></td>
+								<td><salmon:text name="fecha_aprobacion2" text=""
+									displayformat="dd/MM/yyyy HH:mm"
+									datasource="dsOrdenesCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_estimada_entrega2" text=""
-									displayformat="dd/MM/yyyy"
-									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:text></td>
+								<td><salmon:input name="fecha_estimada_entrega2" type="text"
+									displayformat="dd/MM/yyyy" size="10" maxlength="15"
+									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
 								<td><salmon:text name="fecha_entrega_completa1" text="Fecha entrega completa"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_entrega_completa2" text=""

@@ -52,6 +52,11 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
+			if (ds.getOrdenesCompraFechaEstimadaEntrega() == null) {
+				msg.append("Debe especificar la fecha estimada de entrega");
+				return false;
+			}
+			
 			// todos los montos deben ser > 0
 			if (!detalles.chequeaTotalesDetallesSolicitud(ordenCompraId)) {
 				msg.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");
