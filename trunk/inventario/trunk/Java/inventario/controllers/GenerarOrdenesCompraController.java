@@ -16,6 +16,7 @@ import java.util.Iterator;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -128,7 +129,11 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
 	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
-
+	public com.salmonllc.jsp.JspTableCell _tareaTableTd;
+	public com.salmonllc.jsp.JspTableCell _proyectoTableTd;
+	public com.salmonllc.jsp.JspTableCell _tareaHeaderTd;
+	public com.salmonllc.jsp.JspTableCell _proyectoHeaderTd;
+	
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public inventario.models.DetalleSCModel _dsDetalleSC;
@@ -192,6 +197,17 @@ public class GenerarOrdenesCompraController extends BaseController {
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_SC_FLAG, DataStore.DATATYPE_INT);
 		_selSolicitudCB.setColumn(_dsDetalleSC, SELECCION_DETALLE_SC_FLAG);
 		_selSolicitudCB.setFalseValue(null);
+		
+		// oculta/muestra información de tarea del proyecto		
+		if("false".equalsIgnoreCase(Props.getProps("inventario",null).getProperty("VerTareaEnDetalleOc"))) {
+			_tareaHeaderTd.setEnabled(false);
+			_tareaHeaderTd.setVisible(false);
+			_tareaTableTd.setEnabled(false);
+			_tareaTableTd.setVisible(false);
+			_proyectoHeaderTd.setColSpan(3);
+			_proyectoTableTd.setColSpan(3);
+		}
+
 	}
 	
 	@Override
