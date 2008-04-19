@@ -13,7 +13,9 @@
 		<salmon:qbecriteria name="desde" type="GTE"
 			columns="solicitudes_compra.fecha_aprobacion" />
 		<salmon:qbecriteria name="hasta" type="LTE"
-			columns="solicitudes_compra.fecha_aprobacion" />	
+			columns="solicitudes_compra.fecha_aprobacion" />
+		<salmon:qbecriteria name="resto" type="COMPLEX" 
+			columns="proyectos.proyecto"/>
 	</salmon:datasource>
 	<salmon:datasource name="dsDetalleSC" type="MODEL"
 		dbprofile="inventario" model="inventario.models.DetalleSCModel"
@@ -76,7 +78,8 @@
 								<td><salmon:input name="valorAttr2" type="text" /></td>
 							</tr>
 							<tr>
-								<td colspan="4"/>
+								<td><salmon:text name="buscarComplex1" text="Buscar" font="ColumnCaptionFont" /></td>
+								<td colspan="3"><salmon:input name="buscarComplex2" size="35" type="text"	datasource="dsQBE:resto" /></td>
 								<td width="40px"/>
 								<td>
 									<salmon:lookup
@@ -113,7 +116,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>						
 						<salmon:td>
-							<salmon:text name="articuloClaseCAP12" text="Clase"	font="TableHeadingFont"/>
+							<salmon:text name="articuloClaseCAP12" text="Desc. Completa"	font="TableHeadingFont"/>
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="nroSolicitudCAP4" text="Solicitud de Compra"
@@ -130,11 +133,11 @@
 					</salmon:tr>
 					<salmon:tr>
 						<salmon:td/>
-						<salmon:td colspan="2">
+						<salmon:td colspan="2" name="proyectoHeaderTd">
 							<salmon:text name="proyectoCAP7" text="Proyecto"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td name="tareaHeaderTd">
 							<salmon:text name="tareaCAP8" text="Tarea"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -158,19 +161,19 @@
                      		<salmon:input type="checkbox" name="selSolicitudCB" checkedtruevalue="1"></salmon:input>
                   		</salmon:td>
 						<salmon:td>
-							<salmon:text name="articuloTXT2" text="articulo Goes Here"
+							<salmon:text name="articuloTXT2" text="articulos.nombre Goes Here"
 								font="DefaultFont"
 								datasource="dsDetalleSC:articulos.nombre" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="articuloDescTXT3" text="articulo Desc Goes Here"
+							<salmon:text name="articuloDescTXT3" text="articulos.descripcion Desc Goes Here"
 								font="DefaultFont"
 								datasource="dsDetalleSC:articulos.descripcion" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="articuloClaseTXT3" text="articulo clase Goes Here"
+							<salmon:text name="articuloClaseTXT3" text="articulos.descripcion_completa clase Goes Here"
 								font="DefaultFont"
-								datasource="dsDetalleSC:clase_articulo.nombre" />
+								datasource="dsDetalleSC:articulos.descripcion_completa" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:a href="none" name="lnksolicitud1"
@@ -201,12 +204,15 @@
 					</salmon:tr>
 					<salmon:tr>						
 						<salmon:td/>						
-						<salmon:td colspan="2">
+						<salmon:td colspan="2" name="proyectoTableTd">
+							<salmon:text name="proyecto3"
+								text="proyectos.proyecto Goes Here" font="DefaultFont"
+								datasource="dsDetalleSC:proyectos.proyecto" /> -
 							<salmon:text name="proyectoTXT6"
 								text="proyecto Goes Here" font="DefaultFont"
 								datasource="dsDetalleSC:proyectos.nombre" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td name="tareaTableTd">
 							<salmon:text name="tareaTXT7"
 								text="tarea Goes Here" font="DefaultFont"
 								datasource="dsDetalleSC:tareas_proyecto.nombre" />
