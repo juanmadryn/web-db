@@ -166,7 +166,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="claseArticulo3" text="Clase"
+							<salmon:text name="descComplArticulo3" text="Desc. Completa"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
@@ -188,10 +188,10 @@
 					</salmon:tr>
 					<salmon:tr>
 						<salmon:td/>
-						<salmon:td colspan="2">
+						<salmon:td colspan="2" name="proyectoHeaderTd">
 							<salmon:text name="proyecto1" text="Proyecto" font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td name="tareaHeaderTd">
 							<salmon:text name="tarea1" text="Tarea" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
@@ -215,19 +215,19 @@
 								checkedtruevalue="1"></salmon:input>
 						</salmon:td>
 						<salmon:td>							
-							<salmon:text name="articulo2" text="articulo Goes Here"
+							<salmon:text name="articulo2" text="articulos.nombre goes here"
 								font="DefaultFont"
 								datasource="dsDetalleSC:articulos.nombre" />
 						</salmon:td>
 						<salmon:td>							
-							<salmon:text name="descripcion4" text="descripcion Goes Here"
+							<salmon:text name="descripcion4" text="articulos.descripcion Goes Here"
 								font="DefaultFont"
-								datasource="dsDetalleSC:detalle_sc.descripcion" />
+								datasource="dsDetalleSC:articulos.descripcion" />
 						</salmon:td>						
 						<salmon:td>
-							<salmon:text name="claseArticulo4" text="articulo clase Goes Here"
+							<salmon:text name="descComplArticulo4" text="articulos.descripcion_completa clase Goes Here"
 								font="DefaultFont"
-								datasource="dsDetalleSC:clase_articulo.nombre" />						
+								datasource="dsDetalleSC:articulos.descripcion_completa" />						
 						</salmon:td>
 						<salmon:td>													
 							<salmon:a href="none" name="lnksolicitud1"
@@ -264,13 +264,16 @@
 					</salmon:tr>
 					<salmon:tr>
 						<salmon:td/>
-						<salmon:td colspan="2">
+						<salmon:td colspan="2" name="proyectoTableTd">
+							<salmon:text name="proyecto3"
+								text="proyectos.proyecto Goes Here" font="DefaultFont"
+								datasource="dsDetalleSC:proyectos.proyecto" /> - 
 							<salmon:text name="proyecto2"
-								text="proyecto Goes Here" font="DefaultFont"
+								text="proyectos.nombre Goes Here" font="DefaultFont"
 								datasource="dsDetalleSC:proyectos.nombre" />
 						</salmon:td>
-						<salmon:td name="tarea2">							
-							<salmon:text name="tarea3" text="articulo Goes Here"
+						<salmon:td name="tareaTableTd">							
+							<salmon:text name="tarea3" text="detalle_sc.tarea_id Goes Here"
 								font="DefaultFont"
 								datasource="dsDetalleSC:detalle_sc.tarea_id" />
 							<salmon:text name="text3" text=" - "></salmon:text>

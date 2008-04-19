@@ -15,6 +15,7 @@ import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreBuffer;
@@ -52,8 +53,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _cantidadRecibida1;
 	public com.salmonllc.html.HtmlText _descripcion1;
 	public com.salmonllc.html.HtmlText _descripcion3;
-	public com.salmonllc.html.HtmlText _claseArticulo3;
-	public com.salmonllc.html.HtmlText _claseArticulo4;
+	public com.salmonllc.html.HtmlText _descComplArticulo3;
+	public com.salmonllc.html.HtmlText _descComplArticulo4;
 	public com.salmonllc.html.HtmlText _solicitudCompra3;
 	public com.salmonllc.html.HtmlText _solicitudCompra4;
 	public com.salmonllc.html.HtmlText _fecha_entrega_completa1;
@@ -87,6 +88,10 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspBox _box2;	
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
+	public com.salmonllc.jsp.JspTableCell _tareaTableTd;
+	public com.salmonllc.jsp.JspTableCell _proyectoTableTd;
+	public com.salmonllc.jsp.JspTableCell _tareaHeaderTd;
+	public com.salmonllc.jsp.JspTableCell _proyectoHeaderTd;
 	
 
 	//DataSources
@@ -204,7 +209,17 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_seleccion_detalle2.setFalseValue(null);
 		
 		// bucket para eliminar linea de OC
-		_dsDetalleSC.addBucket(REMOVER_DE_OC, DataStore.DATATYPE_INT);		
+		_dsDetalleSC.addBucket(REMOVER_DE_OC, DataStore.DATATYPE_INT);	
+		
+		// oculta/muestra información de tarea del proyecto		
+		if("false".equalsIgnoreCase(Props.getProps("inventario",null).getProperty("VerTareaEnDetalleOc"))) {
+			_tareaHeaderTd.setEnabled(false);
+			_tareaHeaderTd.setVisible(false);
+			_tareaTableTd.setEnabled(false);
+			_tareaTableTd.setVisible(false);
+			_proyectoHeaderTd.setColSpan(3);
+			_proyectoTableTd.setColSpan(3);
+		}
 
 		// run datasources validations at the update event
 		_dsOrdenesCompra.setAutoValidate(true);
