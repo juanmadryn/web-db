@@ -72,7 +72,7 @@
 									name="comprador2" size="30" datasource="dsQBE:comprador"
 									maxlength="50">
 									<salmon:option display="abc" key="123"
-										table="inventario.solicitantes" keycolumn="user_id"
+										table="inventario.compradores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="true" 
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
