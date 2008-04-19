@@ -121,6 +121,10 @@
 										name="verFirmantes"	onclick="document.forms['bannerForm'].submit();">
 										<salmon:text name="verFirmantesTXT2" text="Firmantes" />
 									</salmon:a>
+									<salmon:a href="ListaSolicitantes.jsp" target="_blank"
+										name="verSolicitantes"	onclick="document.forms['bannerForm'].submit();">
+										<salmon:text name="verSolicitantesTXT2" text="Solicitantes" />
+									</salmon:a>
 								<td/>
 							</tr>
 						</table>

@@ -62,7 +62,9 @@ public class DetalleSCModel extends DataStore {
 	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
 	public static final String SOLICITUDES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
 	public static final String SOLICITUDES_COMPRA_DESCRIPCION = "solicitudes_compra.descripcion";
-
+	
+	public static final String WEBSITE_USER_NOMBRE_SOLICITANTE = "nombre_completo_solicitante";
+	public static final String SOLICITUDES_COMPRA_USER_ID_SOLICITA = "solicitudes_compra.user_id_solicita";
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -244,6 +246,7 @@ public class DetalleSCModel extends DataStore {
 		addTableAlias(computeTableName("proyectos.proyectos"), "proyectos");
 		addTableAlias(computeTableName("centro_costo"), "centro_costo");
 		addTableAlias(computeTableName("ordenes_compra"), "ordenes_compra");
+		addTableAlias(computeTableName("infraestructura.website_user"), "website_user_solicitante");
 
 		addColumn(computeTableName("proyectos"), "nombre",
 				DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
@@ -254,15 +257,33 @@ public class DetalleSCModel extends DataStore {
 		addColumn(computeTableName("solicitudes_compra"), "descripcion",
 				DataStore.DATATYPE_STRING, false, false, SOLICITUDES_COMPRA_DESCRIPCION);
 		addColumn(computeTableName("proyectos"), "proyecto",
-				DataStore.DATATYPE_STRING, false, true, PROYECTOS_PROYECTO);
+				DataStore.DATATYPE_STRING, false, false, PROYECTOS_PROYECTO);
+		addColumn(computeTableName("website_user_solicitante"),
+				"nombre_completo", DataStore.DATATYPE_STRING, false, false,
+				WEBSITE_USER_NOMBRE_SOLICITANTE);
+		addColumn(computeTableName("solicitudes_compra"),
+				"user_id_solicita", DataStore.DATATYPE_INT, false, false,
+				SOLICITUDES_COMPRA_USER_ID_SOLICITA);
 
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);
 		addJoin(computeTableAndFieldName("solicitudes_compra.centro_costo_id"),
 				computeTableAndFieldName("centro_costo.centro_costo_id"), true);
 		addJoin(computeTableAndFieldName("detalle_sc.orden_compra_id"),
-				computeTableAndFieldName("ordenes_compra.orden_compra_id"),
-				true);
+				computeTableAndFieldName("ordenes_compra.orden_compra_id"),	true);
+		addJoin(computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
+				computeTableAndFieldName("website_user_solicitante.user_id"), true);
+		
+		try {
+			addLookupRule(
+					SOLICITUDES_COMPRA_USER_ID_SOLICITA,
+					"infraestructura.website_user",
+					"'infraestructura.website_user.user_id = ' + solicitudes_compra.user_id_solicita",
+					"nombre_completo", WEBSITE_USER_NOMBRE_SOLICITANTE,
+					"Usuario inexistente");
+		} catch (DataStoreException e) {
+			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
+		}
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -1789,6 +1810,109 @@ public class DetalleSCModel extends DataStore {
 	public void setProyectosProyecto(int row, String newValue)
 			throws DataStoreException {
 		setString(row, PROYECTOS_PROYECTO, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the website_user.nombre column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getWebsiteUserNombreSolicitante() throws DataStoreException {
+		return getString(WEBSITE_USER_NOMBRE_SOLICITANTE);
+	}
+
+	/**
+	 * Retrieve the value of the website_user.nombre column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getWebsiteUserNombreSolicitante(int row)
+			throws DataStoreException {
+		return getString(row, WEBSITE_USER_NOMBRE_SOLICITANTE);
+	}
+
+	/**
+	 * Set the value of the website_user.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNombreSolicitante(String newValue)
+			throws DataStoreException {
+		setString(WEBSITE_USER_NOMBRE_SOLICITANTE, newValue);
+	}
+
+	/**
+	 * Set the value of the website_user.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNombreSolicitante(int row, String newValue)
+			throws DataStoreException {
+		setString(row, WEBSITE_USER_NOMBRE_SOLICITANTE, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the solicitudes_compra.user_id_solicita column for
+	 * the current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getSolicitudesCompraUserIdSolicita() throws DataStoreException {
+		return getInt(SOLICITUDES_COMPRA_USER_ID_SOLICITA);
+	}
+
+	/**
+	 * Retrieve the value of the solicitudes_compra.user_id_solicita column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getSolicitudesCompraUserIdSolicita(int row)
+			throws DataStoreException {
+		return getInt(row, SOLICITUDES_COMPRA_USER_ID_SOLICITA);
+	}
+
+	/**
+	 * Set the value of the solicitudes_compra.user_id_solicita column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setSolicitudesCompraUserIdSolicita(int newValue)
+			throws DataStoreException {
+		setInt(SOLICITUDES_COMPRA_USER_ID_SOLICITA, newValue);
+	}
+
+	/**
+	 * Set the value of the solicitudes_compra.user_id_solicita column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setSolicitudesCompraUserIdSolicita(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, SOLICITUDES_COMPRA_USER_ID_SOLICITA, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 
