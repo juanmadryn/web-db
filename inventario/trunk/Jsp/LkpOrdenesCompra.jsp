@@ -54,6 +54,10 @@
                      <salmon:text name="ordenCompraObsCAP11" text="Observaciones"
                         font="TableHeadingFont" />
                   </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="ordenCompraProvCAP11" text="Proveedor"
+                        font="TableHeadingFont" />
+                  </salmon:td>
                </salmon:tr>
             </salmon:datatableheader>
             <salmon:datatablerows>
@@ -73,6 +77,11 @@
                   		text="ordenes_compra.observaciones goes here" font="DefaultFont"
                   		datasource="dsOrdenesCompra:ordenes_compra.observaciones" />
                   </salmon:td>	                  
+                  <salmon:td>
+                  		<salmon:text name="ordenCompraProvTXT8"
+                  		text="entidad_externa.nombre goes here" font="DefaultFont"
+                  		datasource="dsOrdenesCompra:entidad_externa.nombre" />
+                  </salmon:td>
                </salmon:tr>
             </salmon:datatablerows>
          </salmon:datatable>

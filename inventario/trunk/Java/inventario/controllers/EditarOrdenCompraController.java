@@ -88,12 +88,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspBox _box2;	
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
-	public com.salmonllc.jsp.JspTableCell _tareaTableTd;
-	public com.salmonllc.jsp.JspTableCell _proyectoTableTd;
-	public com.salmonllc.jsp.JspTableCell _tareaHeaderTd;
-	public com.salmonllc.jsp.JspTableCell _proyectoHeaderTd;
 	
-
 	//DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.OrdenesCompraModel _dsOrdenesCompra;
@@ -147,6 +142,11 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 	public com.salmonllc.jsp.JspLink _verFirmantes;
+	public com.salmonllc.jsp.JspTableCell _tareaTableTd;
+	public com.salmonllc.jsp.JspTableCell _proyectoTableTd;
+	public com.salmonllc.jsp.JspTableCell _tareaHeaderTd;
+	public com.salmonllc.jsp.JspTableCell _proyectoHeaderTd;
+	public com.salmonllc.jsp.JspLink _verSolicitantes;
 	
 	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 	private String REMOVER_DE_OC = "REMOVER_DE_OC";
@@ -220,7 +220,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			_proyectoHeaderTd.setColSpan(3);
 			_proyectoTableTd.setColSpan(3);
 		}
-
+		
 		// run datasources validations at the update event
 		_dsOrdenesCompra.setAutoValidate(true);
 		_dsDetalleSC.setAutoValidate(true);
@@ -605,6 +605,9 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		
 		// setea la URL de lista de firmantes y transiciones de estado
 		_verFirmantes.setHref("ListaFirmantes.jsp?orden_id=" + getRow_id());
+		
+		// setea la URL de lista de solicitantes
+		_verSolicitantes.setHref("ListaSolicitantes.jsp?orden_id=" + getRow_id());
 	}
 	
 	/**
