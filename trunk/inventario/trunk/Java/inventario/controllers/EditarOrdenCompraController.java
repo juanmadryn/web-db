@@ -10,11 +10,14 @@ import inventario.models.SolicitudCompraModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Enumeration;
 
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.html.events.ValueChangedEvent;
+import com.salmonllc.html.events.ValueChangedListener;
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
@@ -25,7 +28,7 @@ import com.salmonllc.util.MessageLog;
 /**
  * EditarOrdenCompraController: a SOFIA generated controller
  */
-public class EditarOrdenCompraController extends BaseEntityController {
+public class EditarOrdenCompraController extends BaseEntityController implements ValueChangedListener {
 
 	/**
 	 * 
@@ -147,9 +150,13 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspTableCell _tareaHeaderTd;
 	public com.salmonllc.jsp.JspTableCell _proyectoHeaderTd;
 	public com.salmonllc.jsp.JspLink _verSolicitantes;
+	public com.salmonllc.jsp.JspTableRow _descAdicionalTr;
+	public HtmlSubmitButton _muestraDescAdicionalBUT;
+	public com.salmonllc.jsp.JspDataTable _datatable2;
 	
 	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 	private String REMOVER_DE_OC = "REMOVER_DE_OC";
+	private String DESCRIPCION_ADICIONAL = "DESCRIPCION_ADICIONAL";
 
 	private static final String CIRCUITO = "0008";
 	
@@ -183,6 +190,11 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
 		
+		_muestraDescAdicionalBUT = new HtmlSubmitButton("muestraDescAdicionalBUT", null, this);
+		_muestraDescAdicionalBUT.setAccessKey("D");
+		_muestraDescAdicionalBUT.setDisplayName("Desc. Adicional");
+		_listformdisplaybox2.addButton(_muestraDescAdicionalBUT);
+		
 		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",null,this);
 		_desSeleccionaTodoBUT1.setAccessKey("E");
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
@@ -195,6 +207,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		_articulosEliminarBUT1.addSubmitListener(this);
 		_articulosCancelarBUT1.addSubmitListener(this);
 		_desSeleccionaTodoBUT1.addSubmitListener(this);
+		_muestraDescAdicionalBUT.addSubmitListener(this);
 		
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
@@ -210,6 +223,9 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		
 		// bucket para eliminar linea de OC
 		_dsDetalleSC.addBucket(REMOVER_DE_OC, DataStore.DATATYPE_INT);	
+		
+		// bucket para descripcion adicional
+		_dsDetalleSC.addBucket(DESCRIPCION_ADICIONAL, DataStore.DATATYPE_INT);
 		
 		// oculta/muestra información de tarea del proyecto		
 		if("false".equalsIgnoreCase(Props.getProps("inventario",null).getProperty("VerTareaEnDetalleOc"))) {
@@ -490,6 +506,19 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			conn.freeConnection();
 		}
 		
+		// 
+		if (component == _muestraDescAdicionalBUT) {
+			for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+				if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_SC_FLAG) == 1) {
+					_dsDetalleSC.setInt(row, DESCRIPCION_ADICIONAL, 1);
+					_dsDetalleSC.setInt(row, SELECCION_DETALLE_SC_FLAG, 0);
+				}					
+			}
+			// para boton dentro de la linea
+			/*_dsDetalleSC.setInt(e.getRow(), DESCRIPCION_ADICIONAL, 
+					_dsDetalleSC.getInt(e.getRow(),DESCRIPCION_ADICIONAL) == 1 ? 0 : 1);*/
+		}
+		
 		// Redirecciona a la pantalla de Generacion de OCs
 		if (component == _articulosAgregarBUT1) {
 			setRecargar(false);
@@ -608,6 +637,7 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		
 		// setea la URL de lista de solicitantes
 		_verSolicitantes.setHref("ListaSolicitantes.jsp?orden_id=" + getRow_id());
+				
 	}
 	
 	/**
@@ -642,6 +672,12 @@ public class EditarOrdenCompraController extends BaseEntityController {
 		}
 		
 		_desSeleccionaTodoBUT1.setVisible(_dsDetalleSC.getRowCount() == 0 ? false: true);
+		
+		if ("0008.0001".equalsIgnoreCase(estado)
+				|| "0008.0005".equalsIgnoreCase(estado) || estado == null)
+			_muestraDescAdicionalBUT.setVisible(true);
+		else
+			_muestraDescAdicionalBUT.setVisible(false);
 
 		try {
 			conn = DBConnection.getConnection("infraestructura");
@@ -751,6 +787,8 @@ public class EditarOrdenCompraController extends BaseEntityController {
 			_dsDetalleSC.filter(null);
 		}
 	}
+	
+	
 
 	// encapsulate regarcar field 
 	public boolean isRecargar() {
@@ -759,6 +797,11 @@ public class EditarOrdenCompraController extends BaseEntityController {
 	
 	public void setRecargar(boolean recargar) {
 		this.recargar = recargar;
+	}
+
+	public boolean valueChanged(ValueChangedEvent e) throws Exception {		
+
+		return false;
 	}
 	
 }

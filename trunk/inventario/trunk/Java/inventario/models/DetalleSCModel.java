@@ -39,6 +39,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String DETALLE_SC_CANTIDAD_RECIBIDA = "detalle_sc.cantidad_recibida";
 	public static final String DETALLE_SC_DESCRIPCION = "detalle_sc.descripcion";
 	public static final String DETALLE_SC_OBSERVACIONES = "detalle_sc.observaciones";
+	public static final String DETALLE_SC_OBSERVACIONES_OC = "detalle_sc.observaciones_oc";
 	public static final String ARTICULOS_CLASE_ARTICULO_ID = "articulos.clase_articulo_id";
 	public static final String ARTICULOS_NOMBRE = "articulos.nombre";
 	public static final String ARTICULOS_DESCRIPCION = "articulos.descripcion";
@@ -129,7 +130,7 @@ public class DetalleSCModel extends DataStore {
 					DETALLE_SC_DESCRIPCION);
 			addColumn(computeTableName("detalle_sc"), "observaciones",
 					DataStore.DATATYPE_STRING, false, true,
-					DETALLE_SC_OBSERVACIONES);
+					DETALLE_SC_OBSERVACIONES);			
 			addColumn(computeTableName("articulos"), "clase_articulo_id",
 					DataStore.DATATYPE_INT, false, true,
 					ARTICULOS_CLASE_ARTICULO_ID);
@@ -264,6 +265,9 @@ public class DetalleSCModel extends DataStore {
 		addColumn(computeTableName("solicitudes_compra"),
 				"user_id_solicita", DataStore.DATATYPE_INT, false, false,
 				SOLICITUDES_COMPRA_USER_ID_SOLICITA);
+		addColumn(computeTableName("detalle_sc"), "observaciones_oc",
+				DataStore.DATATYPE_STRING, false, true,
+				DETALLE_SC_OBSERVACIONES_OC);
 
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);
@@ -1913,6 +1917,53 @@ public class DetalleSCModel extends DataStore {
 	public void setSolicitudesCompraUserIdSolicita(int row, int newValue)
 			throws DataStoreException {
 		setInt(row, SOLICITUDES_COMPRA_USER_ID_SOLICITA, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the detalle_sc.observaciones_oc column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getDetalleScObservacionesOc() throws DataStoreException {
+		return getString(DETALLE_SC_OBSERVACIONES_OC);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.observaciones_oc column for the
+	 * specified row.
+	 * 
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getDetalleScObservacionesOc(int row) throws DataStoreException {
+		return getString(row, DETALLE_SC_OBSERVACIONES);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.observaciones column for the current row.
+	 * 
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScObservacionesOc(String newValue)
+			throws DataStoreException {
+		setString(DETALLE_SC_OBSERVACIONES_OC, newValue);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.observaciones_oc column for the specified
+	 * row.
+	 * 
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScObservacionesOc(int row, String newValue)
+			throws DataStoreException {
+		setString(row, DETALLE_SC_OBSERVACIONES_OC, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 

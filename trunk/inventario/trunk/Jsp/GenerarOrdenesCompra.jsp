@@ -228,7 +228,7 @@
 						</salmon:td>						
 						<salmon:td>							
 							<salmon:input type="text" name="montoUnitINP9" size="8"
-								maxlength="15" displayformat="###,###,##0.00"
+								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="monto_fecha_ultima_compra2" text=""

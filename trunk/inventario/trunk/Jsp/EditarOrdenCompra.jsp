@@ -19,6 +19,11 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Add page code here -->
 	<!-- ********************************************************************************************* -->
+	
+	<salmon:property name="prop1" propertyname="visible" component="descAdicionalTr" 
+		expression="DESCRIPCION_ADICIONAL EQUALS 1 || detalle_sc.observaciones_oc.length() > 0" 
+		datasource="dsDetalleSC"/>
+	
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
 			<salmon:tr>
@@ -64,7 +69,7 @@
 								<td><salmon:text name="fecha_ordencompra1"
 									text="Fecha de orden" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_ordencompra2" text=""
-									displayformat="dd/MM/yyyy HH:mm"
+									displayformatlocalekey="DateTimeFormat"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha"></salmon:text></td>
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
@@ -99,6 +104,7 @@
 							<tr>
 								<td><salmon:text name="total_solicitud1" text="Total" font="TableHeadingFont" /></td>
 								<td><salmon:text name="total_solicitud2" text="total goes here"
+									displayformatlocalekey="CurrencyFormat"
 									datasource="dsOrdenesCompra:total_orden_compra"></salmon:text></td>
 								<td/>
 								<td>
@@ -121,6 +127,7 @@
 										name="verFirmantes"	onclick="document.forms['bannerForm'].submit();">
 										<salmon:text name="verFirmantesTXT2" text="Firmantes" />
 									</salmon:a>
+									&nbsp;
 									<salmon:a href="ListaSolicitantes.jsp" target="_blank"
 										name="verSolicitantes"	onclick="document.forms['bannerForm'].submit();">
 										<salmon:text name="verSolicitantesTXT2" text="Solicitantes" />
@@ -152,7 +159,7 @@
 		<salmon:listformdisplaybox name="listformdisplaybox2"
 			mode="Display_single_page" caption="Detalle" width="100%"
 			datasource="dsDetalleSC" addbuttonvisible="false"
-			savebuttonvisible="false">
+			savebuttonvisible="false" autocreatelink="false">
 			<salmon:datatable name="datatable2" width="100%"
 				datasource="dsDetalleSC" rowsperpage="10">
 				<salmon:datatableheader>
@@ -212,7 +219,7 @@
 						</salmon:td>						
 					</salmon:tr>
 				</salmon:datatableheader>
-				<salmon:datatablerows>
+				<salmon:datatablerows>					
 					<salmon:tr>
 						<salmon:td>
 							<salmon:input type="checkbox" name="seleccion_detalle2"
@@ -246,7 +253,7 @@
 						</salmon:td>
 						<salmon:td>							
 							<salmon:text name="cantidad_solicitada2" text="cantidad_solicitada Goes Here"
-								font="DefaultFont"
+								font="DefaultFont" displayformatlocalekey="CantidadPedidaFormat"
 								datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" />
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="unidadMedida" text=""								
@@ -254,7 +261,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="monto_unitario1" size="8"
-								maxlength="15" displayformat="###,###,##0.00"
+								maxlength="15" displayformatlocalekey="CurrencyFormat"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="monto_fecha_ultima_compra2" text=""
@@ -262,7 +269,7 @@
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
-							<salmon:text name="monto_total2" text=""
+							<salmon:text name="monto_total2" text="" displayformatlocalekey="CurrencyFormat"
 								datasource="dsDetalleSC:monto_total"></salmon:text>
 						</salmon:td>
 					</salmon:tr>
@@ -292,19 +299,25 @@
 						<salmon:td/>
 						<salmon:td align="LEFT">							
 							<salmon:input type="text" name="cantidad_pedida2" size="8"
-								maxlength="15" 
+								maxlength="15" displayformatlocalekey="CantidadPedidaFormat"
 								datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:input>
 						</salmon:td>
 						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_recibida2" text=""
 								datasource="dsDetalleSC:detalle_sc.cantidad_recibida"></salmon:text>
 						</salmon:td>
-
+					</salmon:tr>
+					<salmon:tr name="descAdicionalTr" visible="false">
+						<salmon:td></salmon:td>
+						<salmon:td colspan="7">
+							<salmon:input type="text" name="descAdicionalOcTXT" size="150"
+									maxlength="250" datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>							
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>
 			</salmon:datatable>
 		</salmon:listformdisplaybox>
-	</salmon:box>
+	</salmon:box>	
 	<!-- Fin de código agregado -->
 </salmon:form>
 <jsp:include page="templateAfter.jsp" flush="TRUE"></jsp:include>
