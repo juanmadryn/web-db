@@ -10,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import proyectos.models.TareasProyectoModel;
 
@@ -620,7 +621,7 @@ public class DetalleSCModel extends DataStore {
 	 * @return float
 	 * @throws DataStoreException
 	 */
-	public float getDetalleScCantidadPedida() throws DataStoreException {
+	public Float getDetalleScCantidadPedida() throws DataStoreException {
 		return getFloat(DETALLE_SC_CANTIDAD_PEDIDA);
 	}
 
@@ -633,7 +634,7 @@ public class DetalleSCModel extends DataStore {
 	 * @return float
 	 * @throws DataStoreException
 	 */
-	public float getDetalleScCantidadPedida(int row) throws DataStoreException {
+	public Float getDetalleScCantidadPedida(int row) throws DataStoreException {
 		return getFloat(row, DETALLE_SC_CANTIDAD_PEDIDA);
 	}
 
@@ -2065,18 +2066,8 @@ public class DetalleSCModel extends DataStore {
 		// preciso formatear el total antes de guardarlo, para que no agregue
 		// decimales innecesarios, y para que los totales generales luego
 		// muestren la suma exacta de cada detalle.
-		System.out.println("---> after!");
 		if (monto_unitario != null && cantidad != null) {
-			System.out.println("---> before!");
-			DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
-			format.setMaximumFractionDigits(2);
-			format.setRoundingMode(RoundingMode.HALF_UP);
-			DecimalFormatSymbols decimalSymbol = DecimalFormatSymbols
-					.getInstance();
-			decimalSymbol.setDecimalSeparator('.');
-			format.setDecimalFormatSymbols(decimalSymbol);
 			Float total = monto_unitario * cantidad;
-			setMontoTotalPedido(row, Float.parseFloat(format.format(total)));
 		}
 		
 	}
