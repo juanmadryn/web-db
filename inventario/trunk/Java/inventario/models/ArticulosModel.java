@@ -78,7 +78,7 @@ public class ArticulosModel extends BaseModel {
 			addColumn(computeTableName("clase_articulo"),"descripcion",DataStore.DATATYPE_STRING,false,false,CLASE_ARTICULO_DESCRIPCION);
 
 			//add joins
-			addJoin(computeTableAndFieldName("articulos.clase_articulo_id"),computeTableAndFieldName("clase_articulo.clase_articulo_id"),false);
+			addJoin(computeTableAndFieldName("articulos.clase_articulo_id"),computeTableAndFieldName("clase_articulo.clase_articulo_id"),true);
 
 			//set order by
 			setOrderBy(computeTableAndFieldName("articulos.nombre") + " ASC");

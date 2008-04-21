@@ -66,7 +66,7 @@
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_aprobacion2" text=""
-									displayformat="dd/MM/yyyy"
+									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsSolicitudCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
 							</tr>
 							<tr>
@@ -95,22 +95,17 @@
 								<td width="10"></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="descripcion1" text="Descripcion"
-									font="TableHeadingFont" /></td>
-								<td><salmon:input type="text" name="descripcion2" size="40"
-									maxlength="255"
-									datasource="dsSolicitudCompra:solicitudes_compra.descripcion"></salmon:input></td>
 								<td><salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" /></td>
-								<td><salmon:input type="textarea" name="observaciones2"
-									cols="40" rows="1" wrap="HARD" maxlength="255"
+								<td colspan="3"><salmon:input type="textarea" name="observaciones2"
+									cols="80" rows="3" wrap="HARD" maxlength="255"
 									datasource="dsSolicitudCompra:solicitudes_compra.observaciones"></salmon:input></td>
 								<td width="10"></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="total_solicitud1" text="Total"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="total_solicitud2" text=""
+								<td><salmon:text name="total_solicitud2" text="" displayformat="###,###,##0.00"
 									datasource="dsSolicitudCompra:total_solicitud_compra"></salmon:text></td>
 								<td></td>
 								<td><salmon:a href="" target="_blank"
@@ -253,7 +248,7 @@
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
-							<salmon:text name="monto_total2" text=""
+							<salmon:text name="monto_total2" text="" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:monto_total"></salmon:text>
 						</salmon:td>
 					</salmon:tr>

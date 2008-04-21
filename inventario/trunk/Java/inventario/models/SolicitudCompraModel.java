@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Calendar;
 
 import proyectos.models.ProyectoModel;
@@ -111,7 +112,7 @@ public class SolicitudCompraModel extends BaseModel {
 					"fecha_solicitud", DataStore.DATATYPE_DATETIME, false, true,
 					SOLICITUDES_COMPRA_FECHA_SOLICITUD);
 			addColumn(computeTableName("solicitudes_compra"),
-					"fecha_aprobacion", DataStore.DATATYPE_DATE, false, true,
+					"fecha_aprobacion", DataStore.DATATYPE_DATETIME, false, true,
 					SOLICITUDES_COMPRA_FECHA_APROBACION);
 			addColumn(computeTableName("solicitudes_compra"), "fecha_oc",
 					DataStore.DATATYPE_DATE, false, true,
@@ -503,9 +504,9 @@ public class SolicitudCompraModel extends BaseModel {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getSolicitudesCompraFechaAprobacion()
+	public java.sql.Timestamp getSolicitudesCompraFechaAprobacion()
 			throws DataStoreException {
-		return getDate(SOLICITUDES_COMPRA_FECHA_APROBACION);
+		return getDateTime(SOLICITUDES_COMPRA_FECHA_APROBACION);
 	}
 
 	/**
@@ -517,9 +518,9 @@ public class SolicitudCompraModel extends BaseModel {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getSolicitudesCompraFechaAprobacion(int row)
+	public java.sql.Timestamp getSolicitudesCompraFechaAprobacion(int row)
 			throws DataStoreException {
-		return getDate(row, SOLICITUDES_COMPRA_FECHA_APROBACION);
+		return getDateTime(row, SOLICITUDES_COMPRA_FECHA_APROBACION);
 	}
 
 	/**
@@ -530,9 +531,9 @@ public class SolicitudCompraModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setSolicitudesCompraFechaAprobacion(java.sql.Date newValue)
+	public void setSolicitudesCompraFechaAprobacion(java.sql.Timestamp newValue)
 			throws DataStoreException {
-		setDate(SOLICITUDES_COMPRA_FECHA_APROBACION, newValue);
+		setDateTime(SOLICITUDES_COMPRA_FECHA_APROBACION, newValue);
 	}
 
 	/**
@@ -546,8 +547,8 @@ public class SolicitudCompraModel extends BaseModel {
 	 * @throws DataStoreException
 	 */
 	public void setSolicitudesCompraFechaAprobacion(int row,
-			java.sql.Date newValue) throws DataStoreException {
-		setDate(row, SOLICITUDES_COMPRA_FECHA_APROBACION, newValue);
+			java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(row, SOLICITUDES_COMPRA_FECHA_APROBACION, newValue);
 	}
 
 	/**
@@ -1199,7 +1200,7 @@ public class SolicitudCompraModel extends BaseModel {
 	}
 
 	public float getAtributoTotalSolicitud() throws DataStoreException,
-			SQLException {
+			SQLException, ParseException {
 
 		int solicitud_id = getSolicitudesCompraSolicitudCompraId();
 

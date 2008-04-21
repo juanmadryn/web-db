@@ -8,7 +8,7 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="buscar" type="complex" columns="*" />
+		<salmon:qbecriteria name="buscar" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="articulos.nombre,articulos.descripcion,articulos.descripcion_completa" />
 	</salmon:datasource>
 	<salmon:datasource name="dsArticulos" type="MODEL" dbprofile="inventario"
 		model="inventario.models.ArticulosModel" autoretrieve="Never">
@@ -18,7 +18,7 @@
 	<!-- ********************************************************************************************* -->
 	<salmon:box name="box1" width="100%">
 		<salmon:searchformdisplaybox name="searchformdisplaybox1"
-			caption="Clases de Artículos" qbebuilder="dsQBE"
+			caption="Artículos" qbebuilder="dsQBE"
 			listformdisplaybox="listformdisplaybox1"
 			addbuttonvisible="False"
 			cancelbuttonvisible="False">
@@ -34,7 +34,7 @@
 	</salmon:box>
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
-			mode="Display_single_page" caption=" " width="100%"
+			mode="Display_single_page" caption="" width="100%"
 			addbuttonvisible="False" savebuttonvisible="False"
 			datasource="dsArticulos" searchformdisplaybox="searchformdisplaybox1"
 			lookupreturnexp="articulos.nombre"
@@ -42,17 +42,13 @@
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsArticulos">
 				<salmon:datatableheader>
-					<salmon:tr>
-						<salmon:td>
-							<salmon:text name="tipoIdCAP10" text="Id"
-								font="TableHeadingFont" />
-						</salmon:td>
+					<salmon:tr>						
 						<salmon:td>
 							<salmon:text name="nombreCAP11" text="Nombre"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="nombreCAP11" text="Descripcion"
+							<salmon:text name="nombreCAP12" text="Descripcion"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
@@ -62,12 +58,7 @@
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
-					<salmon:tr>
-						<salmon:td>
-							<salmon:text name="tipoIdTXT6"
-								text="tipo_equipo.tipo_equipo Goes Here" font="DefaultFont"
-								datasource="dsArticulos:articulos.articulo_id" />
-						</salmon:td>
+					<salmon:tr>						
 						<salmon:td>
 							<salmon:text name="nombreTXT7"
 								text="tipo_equipo.nombre Goes Here" font="DefaultFont"
