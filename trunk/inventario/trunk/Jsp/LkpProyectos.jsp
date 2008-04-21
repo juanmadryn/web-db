@@ -58,7 +58,7 @@
                <salmon:tr>                 
                   <salmon:td>
                      <salmon:text name="proyectoTXT7"
-                        text="proyecto Goes Here" font="DefaultFont"
+                        text="proyecto Goes Here" font="DefaultFont" 
                         datasource="dsProyectos:proyectos.proyecto" />
                   </salmon:td>
                   <salmon:td>
