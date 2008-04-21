@@ -764,11 +764,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					.parseInt(getPageProperties().getThemeProperty(null,
 							"EsquemaConfiguracionIdSolicitudesCompra")));
 
-			if ((_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW)
-					&& (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW_MODIFIED)) {
+			if ((_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW))
+				//	&& (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW_MODIFIED)) {
 				_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
 						.getAtributoTotalSolicitud());
-			}
+			
 
 			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
 			if (!"0006.0002".equalsIgnoreCase(estado))
