@@ -189,7 +189,8 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="cantidadSolicitadaTXT4" text="Cantidad Solicitada Goes Here"
-								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" />
+								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_solicitada" 
+								displayformatlocalekey="CantidadPedidaFormat"/>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="unidadMedida" text=""								
 								datasource="dsDetalleSC:unidades_medida.nombre"></salmon:text>
