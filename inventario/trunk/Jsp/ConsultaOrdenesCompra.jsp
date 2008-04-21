@@ -113,19 +113,19 @@
 							<tr>
 								<td><salmon:text name="fecha1"
 									text="Fecha de solicitud" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha2" text="" displayformat="dd/MM/yyyy HH:mm"
+								<td><salmon:text name="fecha2" text="" displayformatlocalekey="DateTimeFormat"
 									datasource="dsOrdenes:ordenes_compra.fecha"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada de entrega" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_estimada_entrega2" text="" 
+								<td><salmon:text name="fecha_estimada_entrega2" text="" displayformatlocalekey="DateFormat"
 									datasource="dsOrdenes:ordenes_compra.fecha_estimada_entrega"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_entrega_completa1" text="Fecha de entrega completa"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_entrega_completa2" text="" 
+								<td><salmon:text name="fecha_entrega_completa2" text="" displayformatlocalekey="DateFormat" 
 									datasource="dsOrdenes:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
 							</tr>							
 						</table>
@@ -185,7 +185,7 @@
 						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="fechaTXT4" text="fecha Goes Here"
-								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
+								font="DefaultFont" displayformatlocalekey="DateTimeFormat"
 								datasource="dsOrdenes:ordenes_compra.fecha" />
 						</salmon:td>						
 						<salmon:td>

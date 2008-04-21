@@ -74,19 +74,19 @@
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_aprobacion2" text=""
-									displayformat="dd/MM/yyyy HH:mm"
+									displayformatlocalekey="DateTimeFormat"
 									datasource="dsOrdenesCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
 								<td><salmon:input name="fecha_estimada_entrega2" type="text"
-									displayformat="dd/MM/yyyy" size="10" maxlength="15"
+									displayformatlocalekey="DateFormat" size="10" maxlength="15"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
 								<td><salmon:text name="fecha_entrega_completa1" text="Fecha entrega completa"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_entrega_completa2" text=""
-									displayformat="dd/MM/yyyy"
+									displayformatlocalekey="DateFormat"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
 							</tr>							
 							<tr>
@@ -267,7 +267,7 @@
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="monto_fecha_ultima_compra2" text=""
-								displayformat="dd/MM/yyyy"
+								displayformatlocalekey="DateFormat"
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
