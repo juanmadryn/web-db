@@ -8,7 +8,7 @@
    </td>
    <!--Page Content Begin-->
    <salmon:datasource name="dsQBE" type="QBE">
-      <salmon:qbecriteria name="buscar" type="complex" columns="*" />
+      <salmon:qbecriteria name="buscar" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="proyectos.numero,proyectos.nombre" />
    </salmon:datasource>
    <salmon:datasource name="dsProyectos" type="MODEL"
       dbprofile="proyectos" model="proyectos.models.ProyectoModel"
@@ -43,11 +43,7 @@
          <salmon:datatable name="datatable1" width="100%"
             rowsperpage="5" datasource="dsProyectos">
             <salmon:datatableheader>
-               <salmon:tr>
-                  <salmon:td>
-                     <salmon:text name="proyectoIdCAP10" text="ID"
-                        font="TableHeadingFont" />
-                  </salmon:td>
+               <salmon:tr>                
                   <salmon:td>
                      <salmon:text name="proyectoCAP11" text="Número"
                         font="TableHeadingFont" />
@@ -59,12 +55,7 @@
                </salmon:tr>
             </salmon:datatableheader>
             <salmon:datatablerows>
-               <salmon:tr>
-                  <salmon:td>
-                     <salmon:text name="proyectoIdTXT6"
-                        text="proyecto_id Goes Here" font="DefaultFont"
-                        datasource="dsProyectos:proyectos.proyecto_id" />
-                  </salmon:td>
+               <salmon:tr>                 
                   <salmon:td>
                      <salmon:text name="proyectoTXT7"
                         text="proyecto Goes Here" font="DefaultFont"

@@ -5,6 +5,7 @@ import infraestructura.models.BaseModel;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.Calendar;
 
 import com.salmonllc.sql.DBConnection;
@@ -700,7 +701,7 @@ public class OrdenesCompraModel extends BaseModel {
 	 * @throws SQLException
 	 */
 	public float getAtributoTotalOrdenCompra() throws DataStoreException,
-			SQLException {
+			SQLException, ParseException {
 
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 
@@ -709,10 +710,13 @@ public class OrdenesCompraModel extends BaseModel {
 		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
 		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
+		
 		for (int row = 0; row < detalles.getRowCount(); row++) {
 			detalles.setMontoTotal(row);
 			total += detalles.getMontoTotal(row);
 		}
+		
+		
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
 				"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA", "ordenes_compra");
