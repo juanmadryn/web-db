@@ -28,9 +28,9 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	//Visual Components
 	public com.salmonllc.html.HtmlDropDownList _comprador2;
 	public com.salmonllc.html.HtmlDropDownList _estado2;
-	public com.salmonllc.html.HtmlImage _bannerDividerImage;
-	public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	public com.salmonllc.html.HtmlImage _imgMainLogo;
+	//public com.salmonllc.html.HtmlImage _bannerDividerImage;
+	//public com.salmonllc.html.HtmlImage _bannerDivImage2;
+	//public com.salmonllc.html.HtmlImage _imgMainLogo;
 	public com.salmonllc.html.HtmlText _clienteCAP5;
 	public com.salmonllc.html.HtmlText _comprador1;
 	public com.salmonllc.html.HtmlText _descripcion1;
@@ -61,33 +61,33 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlText _observacion2;
 	public com.salmonllc.html.HtmlText _proyectoTXT1;
 	public com.salmonllc.html.HtmlText _solicitante_nombreTXT3;
-	public com.salmonllc.html.HtmlText _text1Footer;
-	public com.salmonllc.html.HtmlText _text2Footer;
-	public com.salmonllc.html.HtmlText _text3Footer;
-	public com.salmonllc.html.HtmlText _txtBannerOptions;
-	public com.salmonllc.html.HtmlText _welcomeText;
+	//public com.salmonllc.html.HtmlText _text1Footer;
+	//public com.salmonllc.html.HtmlText _text2Footer;
+	//public com.salmonllc.html.HtmlText _text3Footer;
+	//public com.salmonllc.html.HtmlText _txtBannerOptions;
+	//public com.salmonllc.html.HtmlText _welcomeText;
 	public com.salmonllc.html.HtmlTextEdit _fechadesde2;
 	public com.salmonllc.html.HtmlTextEdit _fechahasta2;
 	public com.salmonllc.html.HtmlTextEdit _n2;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
-	public com.salmonllc.jsp.JspContainer _welcomeContainer;
+	//public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
-	public com.salmonllc.jsp.JspForm _bannerForm;
-	public com.salmonllc.jsp.JspForm _pageForm;
-	public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
-	public com.salmonllc.jsp.JspLink _footerInfDevAbout;
-	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
-	public com.salmonllc.jsp.JspLink _footerSalmonLink;
-	public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	public com.salmonllc.jsp.JspLink _lnkBannerOptions;
+	//public com.salmonllc.jsp.JspForm _bannerForm;
+	//public com.salmonllc.jsp.JspForm _pageForm;
+	//public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
+	//public com.salmonllc.jsp.JspLink _footerInfDevAbout;
+	//public com.salmonllc.jsp.JspLink _footerproyectosHelp;
+	//public com.salmonllc.jsp.JspLink _footerSalmonLink;
+	//public com.salmonllc.jsp.JspLink _footerSofiaLink;
+	//public com.salmonllc.jsp.JspLink _lnkBannerOptions;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _table2;
 	public com.salmonllc.jsp.JspTable _tableFooter;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader0;
+	/*public com.salmonllc.jsp.JspTableCell _datatable1TDHeader0;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader1;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader2;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader3;
@@ -112,7 +112,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspTableRow _navbarTableTRRow0;
 	public com.salmonllc.jsp.JspTableRow _table2TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
-	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
+	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;*/
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -271,12 +271,10 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 				Utilities.getOrdenesCompraPendientesObservacion(currentUser) > 0 ? true : false);				
 		
 		// Si el usuario no es comprador, solo puede consultar las solicitudes realizadas por él
-		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 			_comprador2.setEnabled(false);
-			_dsQBE.setString("solicitante", String.valueOf(currentUser));
-		}
-		else
-			_comprador2.setEnabled(true);			
+			_dsQBE.setString("comprador", String.valueOf(currentUser));
+		}		
 		
 		super.pageRequested(event);
 	}

@@ -9,6 +9,7 @@ import inventario.util.ReplicateSta11QuartzJob;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Hashtable;
 import java.util.Iterator;
 
@@ -160,6 +161,7 @@ public class ConsultaArticulosController extends BaseController {
 		String criterioAtributos = armarBusquedaPorAtributos();
 		if (criterioAtributos.length() > 0) {
 			sb.append(" and articulos.articulo_id IN ( ").append(criterioAtributos).append(" )");
+			System.out.println(armarBusquedaPorAtributos2());
 		}
 			
 		return sb.toString();
@@ -242,4 +244,98 @@ public class ConsultaArticulosController extends BaseController {
 		}		
 		return querySql.toString();
 	}
+	
+	private String armarBusquedaPorAtributos2() throws SQLException {
+		StringBuilder querySql = new StringBuilder(500);
+		StringBuilder innerJoinSql = new StringBuilder(500);
+		StringBuilder whereClauseSql = new StringBuilder(500);
+
+		// atributos y valores ingresados por el usuario
+		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();
+		if ((_lkpAttrINP1.getValue() != null) && (_valorAttr1.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()),
+					_valorAttr1.getValue());
+		if ((_lkpAttrINP2.getValue() != null) && (_valorAttr2.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP2.getValue()),
+					_valorAttr2.getValue());
+		if ((_lkpAttrINP3.getValue() != null) && (_valorAttr3.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()),
+					_valorAttr3.getValue());
+		
+		// si se especifico al menos un atributo
+		if (atributos.size() > 0) {
+			querySql.append("SELECT articulos.articulo_id FROM articulos articulos ");
+			whereClauseSql.append(" where (");
+			
+			Iterator<Integer> i = atributos.keySet().iterator();
+			int count = 1;
+			
+			while (i.hasNext()) {
+				int atributoId = i.next();
+				String valorAtributo = atributos.get(atributoId);
+				
+				String tabla = "atributos_entidad" + count;
+				innerJoinSql.append(						
+						" left outer join infraestructura.atributos_entidad " + tabla +  
+						" ON " + tabla + ".objeto_id = articulos.articulo_id AND " + tabla + ".atributo_id = ")
+						.append(atributoId);
+				
+				String tipoAtributo = AtributosEntidadModel.getTipoAtributo(atributoId);				
+				if (tipoAtributo == null) throw new RuntimeException("Atributo inexistente");
+				
+				String sqlClause = null;
+				
+				try {
+					if ("entero".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_entero = "
+								+ Integer.parseInt(valorAtributo);
+					} else if ("real".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_real = "
+								+ Float.parseFloat(valorAtributo);
+					} else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
+						/*SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");						
+						sqlClause = "valor_fecha = '"
+							+ new java.sql.Date(df.parse(
+									(String) valorAtributo).getTime())
+									.toString() + "'";					*/	
+						SalmonDateFormat sdf = new SalmonDateFormat();
+						sqlClause = "valor_fecha = '"
+								+ new java.sql.Date(sdf.parse(
+										(String) valorAtributo).getTime())
+										.toString() + "'";
+					} else if ("logico".equalsIgnoreCase(tipoAtributo)) {
+						if (valorAtributo.equalsIgnoreCase("V")
+								|| valorAtributo.equalsIgnoreCase("F"))
+							sqlClause = "valor_logico = '" + valorAtributo
+									+ "'";
+						else
+							throw new RuntimeException(
+									"Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
+					} else {
+						sqlClause = "valor LIKE '%" + valorAtributo + "%'";
+					}
+				} catch (NumberFormatException e) {
+					throw new RuntimeException("Valor de atributo númerico incorrecto");
+				} catch (ParseException e) {
+					throw new RuntimeException("Valor de atributo fecha con formato incorrecto");
+				}
+				
+				if (sqlClause != null) {
+					whereClauseSql.append(tabla + "." + sqlClause);
+				}
+			
+				if (i.hasNext()) {
+					whereClauseSql.append(" AND ");
+					count++;
+				} else {
+					whereClauseSql.append(")");
+				}
+			}
+			
+			querySql.append(innerJoinSql).append(whereClauseSql);
+		}		
+		
+		return querySql.toString();
+	}
+
 }
