@@ -8,7 +8,7 @@
    </td>
    <!--Page Content Begin-->
    <salmon:datasource name="dsQBE" type="QBE">
-      <salmon:qbecriteria name="buscar" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="proyectos.numero,proyectos.nombre" />
+      <salmon:qbecriteria name="buscar" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="proyectos.numero,proyectos.nombre,proyectos.proyecto" />
    </salmon:datasource>
    <salmon:datasource name="dsProyectos" type="MODEL"
       dbprofile="proyectos" model="proyectos.models.ProyectoModel"
