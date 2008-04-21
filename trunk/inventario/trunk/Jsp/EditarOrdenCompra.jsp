@@ -96,12 +96,11 @@
 									maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.descripcion"></salmon:input></td>
 								-->
-								<td valign="top"><salmon:text name="observaciones1" text="Observaciones"
+								<td valign="center"><salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" /></td>
-								<td><salmon:input type="textarea" name="observaciones2"
-									cols="40" rows="2" wrap="HARD" maxlength="255"
-									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input></td>
-								<td colspan="2"/>
+								<td colspan="3"><salmon:input type="textarea" name="observaciones2"									
+									cols="80" rows="3" wrap="HARD" maxlength="255"
+									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input></td>								
 							</tr>
 							<tr>
 								<td><salmon:text name="total_solicitud1" text="Total" font="TableHeadingFont" /></td>
