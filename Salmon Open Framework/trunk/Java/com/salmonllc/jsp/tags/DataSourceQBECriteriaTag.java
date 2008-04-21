@@ -22,6 +22,7 @@ public class DataSourceQBECriteriaTag extends BaseEmptyTag {
 		_typeMap.put("EQUALS_IGNORE_CASE",new Integer(QBEBuilder.CRITERIA_TYPE_EQUALS_IGNORE_CASE));
 		_typeMap.put("STARTS_WITH",new Integer(QBEBuilder.CRITERIA_TYPE_STARTS_WITH));
 		_typeMap.put("STARTS_WITH_IGNORE_CASE",new Integer(QBEBuilder.CRITERIA_TYPE_STARTS_WITH_IGNORE_CASE));
+		_typeMap.put("STARTS_WITH_IGNORE_CASE_EXTENDED",new Integer(QBEBuilder.CRITERIA_TYPE_STARTS_WITH_IGNORE_CASE_EXTENDED));
 		_typeMap.put("CONTAINS",new Integer(QBEBuilder.CRITERIA_TYPE_CONTAINS));
 		_typeMap.put("CONTAINS_IGNORE_CASE",new Integer(QBEBuilder.CRITERIA_TYPE_CONTAINS_IGNORE_CASE));
 		_typeMap.put("LTE",new Integer(QBEBuilder.CRITERIA_TYPE_LTE));
