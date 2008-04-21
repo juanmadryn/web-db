@@ -99,7 +99,7 @@
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
 			mode="Display_single_page" caption="Solicitudes de Compra aprobadas" width="100%"
-			datasource="dsDetalleSC" >		
+			datasource="dsDetalleSC" autocreatelink="false">		
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsDetalleSC">
 				<salmon:datatableheader>

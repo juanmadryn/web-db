@@ -710,13 +710,10 @@ public class OrdenesCompraModel extends BaseModel {
 		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
 		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
-		
 		for (int row = 0; row < detalles.getRowCount(); row++) {
-			detalles.setMontoTotal(row);
-			total += detalles.getMontoTotal(row);
-		}
-		
-		
+			detalles.calculaMontoTotalPedido(row);
+			total += detalles.getMontoTotalPedido(row);
+		}	
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
 				"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA", "ordenes_compra");

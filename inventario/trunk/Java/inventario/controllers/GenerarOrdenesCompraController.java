@@ -34,10 +34,10 @@ public class GenerarOrdenesCompraController extends BaseController {
 	private static final long serialVersionUID = 3410350530842061433L;
 	//Visual Components
 	public com.salmonllc.html.HtmlCheckBox _selSolicitudCB;
-	public com.salmonllc.html.HtmlImage _bannerDividerImage;
+	/*public com.salmonllc.html.HtmlImage _bannerDividerImage;
 	public com.salmonllc.html.HtmlImage _bannerDivImage2;
 	public com.salmonllc.html.HtmlImage _imgMainLogo;
-	public com.salmonllc.html.HtmlText _articuloCAP3;
+	*/public com.salmonllc.html.HtmlText _articuloCAP3;
 	public com.salmonllc.html.HtmlText _articuloDescCAP4;
 	public com.salmonllc.html.HtmlText _articuloDescTXT3;
 	public com.salmonllc.html.HtmlText _articuloClaseTXT3;
@@ -56,11 +56,11 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlText _tareaTXT7;
 	public com.salmonllc.html.HtmlText _centroCostoCAP11;
 	public com.salmonllc.html.HtmlText _centroCostoTXT8;	
-	public com.salmonllc.html.HtmlText _text1Footer;
+	/*public com.salmonllc.html.HtmlText _text1Footer;
 	public com.salmonllc.html.HtmlText _text2Footer;
 	public com.salmonllc.html.HtmlText _text3Footer;
 	public com.salmonllc.html.HtmlText _txtBannerOptions;
-	public com.salmonllc.html.HtmlText _welcomeText;
+	public com.salmonllc.html.HtmlText _welcomeText;*/
 	public com.salmonllc.html.HtmlTextEdit _cantPedidaINP8;
 	public com.salmonllc.html.HtmlTextEdit _montoUnitINP9;
 	public com.salmonllc.html.HtmlTextEdit _valorAttr1;
@@ -71,16 +71,16 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP2;
 	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP3;
 	public com.salmonllc.jsp.JspBox _box2;
-	public com.salmonllc.jsp.JspContainer _welcomeContainer;
+	//public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
-	public com.salmonllc.jsp.JspForm _bannerForm;
+	/*public com.salmonllc.jsp.JspForm _bannerForm;
 	public com.salmonllc.jsp.JspForm _pageForm;
 	public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
 	public com.salmonllc.jsp.JspLink _footerInfDevAbout;
 	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
 	public com.salmonllc.jsp.JspLink _footerSalmonLink;
 	public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	public com.salmonllc.jsp.JspLink _lnkBannerOptions;
+	public com.salmonllc.jsp.JspLink _lnkBannerOptions;*/
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _tableFooter;
@@ -434,6 +434,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		String criterioAtributos = armarBusquedaPorAtributos();
 		if (criterioAtributos.length() > 0) {
 			sb.append(" and detalle_sc.articulo_id IN ( ").append(criterioAtributos).append(" )");
+			System.out.println(armarBusquedaPorAtributos2("AND"));
 		}
 		
 		// resto de los criterios especificados por el usuario
@@ -528,5 +529,93 @@ public class GenerarOrdenesCompraController extends BaseController {
 		}		
 		return querySql.toString();
 	}	
+	
+	private String armarBusquedaPorAtributos2(String operator) throws SQLException {
+		StringBuilder querySql = new StringBuilder(500);
+		StringBuilder innerJoinSql = new StringBuilder(500);
+		StringBuilder whereClauseSql = new StringBuilder(500);
+
+		// atributos y valores ingresados por el usuario
+		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();
+		if ((_lkpAttrINP1.getValue() != null) && (_valorAttr1.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()),
+					_valorAttr1.getValue());
+		if ((_lkpAttrINP2.getValue() != null) && (_valorAttr2.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP2.getValue()),
+					_valorAttr2.getValue());
+		if ((_lkpAttrINP3.getValue() != null) && (_valorAttr3.getValue() != null))
+			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()),
+					_valorAttr3.getValue());
+		
+		// si se especifico al menos un atributo
+		if (atributos.size() > 0) {
+			querySql.append("SELECT articulos.articulo_id FROM articulos articulos ");
+			whereClauseSql.append(" where (");
+			
+			Iterator<Integer> i = atributos.keySet().iterator();
+			int count = 1;
+			
+			while (i.hasNext()) {
+				int atributoId = i.next();
+				String valorAtributo = atributos.get(atributoId);
+				
+				String tabla = "atributos_entidad" + count;
+				innerJoinSql.append(						
+						" left outer join infraestructura.atributos_entidad " + tabla +  
+						" ON " + tabla + ".objeto_id = articulos.articulo_id AND " + tabla + ".atributo_id = ")
+						.append(atributoId);
+				
+				String tipoAtributo = AtributosEntidadModel.getTipoAtributo(atributoId);				
+				if (tipoAtributo == null) throw new RuntimeException("Atributo inexistente");
+				
+				String sqlClause = null;
+				
+				try {
+					if ("entero".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_entero = "
+								+ Integer.parseInt(valorAtributo);
+					} else if ("real".equalsIgnoreCase(tipoAtributo)) {
+						sqlClause = "valor_real = "
+								+ Float.parseFloat(valorAtributo);
+					} else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
+						SalmonDateFormat sdf = new SalmonDateFormat();
+						sqlClause = "valor_fecha = '"
+								+ new java.sql.Date(sdf.parse(
+										(String) valorAtributo).getTime())
+										.toString() + "'";
+					} else if ("logico".equalsIgnoreCase(tipoAtributo)) {
+						if (valorAtributo.equalsIgnoreCase("V")
+								|| valorAtributo.equalsIgnoreCase("F"))
+							sqlClause = "valor_logico = '" + valorAtributo
+									+ "'";
+						else
+							throw new RuntimeException(
+									"Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
+					} else {
+						sqlClause = "valor LIKE '%" + valorAtributo + "%'";
+					}
+				} catch (NumberFormatException e) {
+					throw new RuntimeException("Valor de atributo númerico incorrecto");
+				} catch (ParseException e) {
+					throw new RuntimeException("Valor de atributo fecha con formato incorrecto");
+				}
+				
+				if (sqlClause != null) {
+					whereClauseSql.append(tabla + "." + sqlClause);
+				}
+			
+				if (i.hasNext()) {
+					whereClauseSql.append(" " + operator + " ");
+					count++;
+				} else {
+					whereClauseSql.append(")");
+				}
+			}
+			
+			querySql.append(innerJoinSql).append(whereClauseSql);
+		}		
+		
+		return querySql.toString();
+	}
 	
 }

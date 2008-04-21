@@ -550,8 +550,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					// recupera detalles de la OC
 					_dsDetalleSC.retrieve("detalle_sc.orden_compra_id = " + getRow_id());
 					if (_dsDetalleSC.gotoFirst()) {
-						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-							_dsDetalleSC.setMontoTotal(i);
+						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+							_dsDetalleSC.calculaMontoTotalPedido(row);
 						}
 					}
 				}
