@@ -1471,7 +1471,7 @@ public class DetalleSCModel extends DataStore {
 			throws DataStoreException, SQLException, ParseException {
 		Float monto_unitario = getDetalleScMontoUnitario(row);
 		Float cantidad = getDetalleScCantidadSolicitada(row);
-
+		
 		// preciso formatear el total antes de guardarlo, para que no agregue
 		// decimales innecesarios, y para que los totales generales luego
 		// muestren la suma exacta de cada detalle.
@@ -1482,9 +1482,10 @@ public class DetalleSCModel extends DataStore {
 			DecimalFormatSymbols decimalSymbol = DecimalFormatSymbols
 					.getInstance();
 			decimalSymbol.setDecimalSeparator('.');
+			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
-			Float total = monto_unitario * cantidad;
-			setMontoTotal(row, Float.parseFloat(format.format(total)));
+			Float total = monto_unitario * cantidad;			
+			setMontoTotal(row, Float.parseFloat(format.format(total).replace(",", "")));			
 		}
 	}
 
