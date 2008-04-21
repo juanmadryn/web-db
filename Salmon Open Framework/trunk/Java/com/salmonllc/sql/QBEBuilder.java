@@ -35,6 +35,7 @@ public class QBEBuilder extends DataStoreBuffer {
 	public static final int CRITERIA_TYPE_STARTS_WITH_IGNORE_CASE = 103;
 	public static final int CRITERIA_TYPE_CONTAINS = 104;
 	public static final int CRITERIA_TYPE_CONTAINS_IGNORE_CASE = 105;
+	public static final int CRITERIA_TYPE_STARTS_WITH_IGNORE_CASE_EXTENDED = 106;
 
 	static final int CRITERIA_STRING_ONLY = 100;
 

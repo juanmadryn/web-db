@@ -251,7 +251,15 @@ public class QBECriteriaBuilder {
 					filterBuffer.append(val);
 					filterBuffer.append("%'");
 				} else if (filterType == QBEBuilder.CRITERIA_TYPE_STARTS_WITH_IGNORE_CASE) {
+					addOr(filterBuffer);					
+					filterBuffer.append("upper(");
+					filterBuffer.append(column);
+					filterBuffer.append(") LIKE '");
+					filterBuffer.append(val.toUpperCase());
+					filterBuffer.append("%'");
+				} else if (filterType == QBEBuilder.CRITERIA_TYPE_STARTS_WITH_IGNORE_CASE_EXTENDED) {
 					addOr(filterBuffer);
+					val = val.replace(" ", "%");
 					filterBuffer.append("upper(");
 					filterBuffer.append(column);
 					filterBuffer.append(") LIKE '");
