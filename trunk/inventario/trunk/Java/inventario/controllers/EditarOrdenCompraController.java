@@ -10,7 +10,7 @@ import inventario.models.SolicitudCompraModel;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Enumeration;
+import java.text.ParseException;
 
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
@@ -596,11 +596,15 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 						"EsquemaConfiguracionIdOrdenesCompra")));
 		
 		// Calcula total de la OC (cantidad_pedida x monto_unitario)
+		try {
 		if ((_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW) 
 				&& (_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW_MODIFIED)) 
 		{		
 			_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
 					.getAtributoTotalOrdenCompra());
+		}
+		}catch (ParseException ex) {
+			displayErrorMessage("Error de formato en la cantidad o el monto unitario: "+ex.getMessage());
 		}
 		
 		// Muestra observaciones realizadas a la OC para el estado adecuado
