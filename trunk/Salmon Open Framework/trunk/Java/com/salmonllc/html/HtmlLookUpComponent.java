@@ -47,6 +47,11 @@ import javax.servlet.http.HttpServletResponse;
  * This class implements a lookup component. It has an edit field and a zoom component to zoom to a list of possible values.
  */
 public class HtmlLookUpComponent extends HtmlComposite implements PageListener, SubmitListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 657603079345128064L;
+
 	protected DataStoreBuffer _ds = null;
 
 	private DataStoreBuffer _descDs;
@@ -126,7 +131,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 
 	private String _popupAttributes;
 	
-	private Vector _popupURLLineValues;
+	private Vector<FormComponentInfo> _popupURLLineValues;
 	private class FormComponentInfo {
 		String compName;
 		String attName;
@@ -525,6 +530,30 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 			_browseImage.setVisible(enabled);
 	}
 
+	/**
+	 * This method will set the focus to the edit component.
+	 */
+	public void setFocus() {
+		if (_editHandle instanceof HtmlFormComponent)
+			((HtmlFormComponent)_editHandle).setFocus();
+	}
+	
+	/**
+	 * This method will set the focus to the edit component.
+	 */
+	public void setFocus(int row) {
+		if (_editHandle instanceof HtmlFormComponent)
+			((HtmlFormComponent)_editHandle).setFocus(row);
+	}
+	
+	/**
+	 * This method will set the focus to the edit component.
+	 */
+	public void setFocus(int row, boolean select) {
+		if (_editHandle instanceof HtmlFormComponent)
+			((HtmlFormComponent)_editHandle).setFocus(row, select);
+	}
+	
 	/**
 	 * This method will append the extra parms string to the url when the user
 	 * clicks the submit image.
@@ -1076,7 +1105,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 		if (comp == null)
 			return;
 		if (_popupURLLineValues == null)
-			_popupURLLineValues=new Vector();
+			_popupURLLineValues=new Vector<FormComponentInfo>();
 
 		boolean isInDataTable=false;
 		HtmlComponent parent=comp.getParent();
