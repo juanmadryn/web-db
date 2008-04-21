@@ -280,7 +280,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 		_dsSolicitudCompra.insertRow();
 
 		_proyecto2.setFocus();
-		
+
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
 
 		setTabla_principal("solicitudes_compra");
@@ -427,10 +427,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";
 					if (ex.getRow() != -1) {
-						mensaje = " -> Detalle Nº: "+(ex.getRow()+1);
+						mensaje = " -> Detalle Nº: " + (ex.getRow() + 1);
 						_articulo2.setFocus(ex.getRow());
-					}					
-					displayErrorMessage(ex.getMessage()+ mensaje);					
+					}
+					displayErrorMessage(ex.getMessage() + mensaje);
 					return false;
 				} catch (SQLException ex) {
 					MessageLog.writeErrorMessage(ex, null);
@@ -464,37 +464,36 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 						.getSolicitudesCompraSolicitudCompraId());
 				if (isModificable(_dsSolicitudCompra
 						.getSolicitudesCompraEstado())) {
-						if (getRow_id() == 0) 
+					if (getRow_id() == 0)
 						_dsSolicitudCompra.update();
-						setRow_id(_dsSolicitudCompra
-								.getSolicitudesCompraSolicitudCompraId());
-						if (_dsDetalleSC.getRow() != -1)
-							_dsDetalleSC.update();
-						// recupero el row actual
-						int rowActual = _dsDetalleSC.getRow();
+					setRow_id(_dsSolicitudCompra
+							.getSolicitudesCompraSolicitudCompraId());
+					if (_dsDetalleSC.getRow() != -1)
+						_dsDetalleSC.update();
+					// recupero el row actual
+					int rowActual = _dsDetalleSC.getRow();
 
-						int row = _dsDetalleSC.insertRow(0);
+					int row = _dsDetalleSC.insertRow(0);
 
-						_dsDetalleSC.setDetalleScSolicitudCompraId(row,
-								getRow_id());
+					_dsDetalleSC
+							.setDetalleScSolicitudCompraId(row, getRow_id());
 
-						// si existe row anterior, sólo copia valores básicos
-						int tarea = _dsDetalleSC
-								.getDetalleScTareaId(rowActual + 1);
-						if (rowActual != -1 && tarea != 0) {
-							// valido el parte que estoy copiando
-							_dsDetalleSC.setDetalleScTareaId(row, tarea);
-						}
+					// si existe row anterior, sólo copia valores básicos
+					int tarea = _dsDetalleSC.getDetalleScTareaId(rowActual + 1);
+					if (rowActual != -1 && tarea != 0) {
+						// valido el parte que estoy copiando
+						_dsDetalleSC.setDetalleScTareaId(row, tarea);
+					}
 
-						// hace foco en el registro
-						int nroPagerow = _datatable2.getPage(row);
-						int nroPageActual = _datatable2.getPage(_dsDetalleSC
-								.getRow());
-						if (nroPagerow != nroPageActual)
-							_datatable2.setPage(_datatable2.getPage(row));
-						_articulo2.setFocus(row, true);
-						setTareaLookupURL();
-					
+					// hace foco en el registro
+					int nroPagerow = _datatable2.getPage(row);
+					int nroPageActual = _datatable2.getPage(_dsDetalleSC
+							.getRow());
+					if (nroPagerow != nroPageActual)
+						_datatable2.setPage(_datatable2.getPage(row));
+					_articulo2.setFocus(row, true);
+					setTareaLookupURL();
+
 				} else {
 					// si la solicitud no está generada, bloqueo toda
 					// modificación
@@ -718,11 +717,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = "
 							+ Integer.toString(getRow_id()));
-					if (_dsDetalleSC.gotoFirst()) {
-						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
+
+					if (_dsDetalleSC.gotoFirst())
+						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++)
 							_dsDetalleSC.setMontoTotal(i, _dsSolicitudCompra);
-						}
-					}
+
 					setDatosBasicosSolicitud();
 					setTareaLookupURL();
 				}
@@ -787,7 +786,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 				_nombre_completo_solicitante2.setEnabled(true);
-				_dsSolicitudCompra.setSolicitudesCompraUserIdComprador(currentUser);
+				_dsSolicitudCompra
+						.setSolicitudesCompraUserIdComprador(currentUser);
 				if (_monto_unitario1 != null)
 					_monto_unitario1.setReadOnly(false);
 			} else {
@@ -827,6 +827,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController
 
 			_verFirmantes.setHref("ListaFirmantes.jsp?solicitud_id="
 					+ getRow_id());
+			// hide tarea lookup if disabled in properties file
+			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
+					"ShowTareaLookup")))
+				_tarea3.setEnabled(false);
 		} catch (ParseException ex) {
 			displayErrorMessage("Ocurrió un error de parseo en la aplicación: "
 					+ ex.getMessage());
