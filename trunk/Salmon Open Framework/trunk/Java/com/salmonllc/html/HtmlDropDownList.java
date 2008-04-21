@@ -946,7 +946,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
                 /**
                  * alias added by ilev 2004/03
                  */
-                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " WHERE " + getCriteria() + " ORDER BY ";
+                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " WHERE " + getCriteria() + " ORDER BY "+_keyColumn+", ";
 
                 if (isToUpper())
                 {
@@ -964,7 +964,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
                 /**
                  * alias added by ilev 2004/03
                  */
-                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " ORDER BY ";
+                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " ORDER BY "+_keyColumn+", ";
 
                 if (isToUpper())
                 {
