@@ -76,7 +76,7 @@ public class LoginPageController extends BaseController {
 			setRememberMe(sUserName,sPwd);
 			
 			// carga nuevamente el menú
-			super.populateNavBar();
+			//super.populateNavBar();
 			
 			if(sParamReDir==null || sParamReDir.length()<4)
 				gotoSiteMapPage(SiteMapConstants.HOME_PAGE);
@@ -108,6 +108,7 @@ public class LoginPageController extends BaseController {
 
 			//Set the "Remember Me" check box value
 			checkRememberMe();
+			_userField.setFocus();
 		}
 	}
 

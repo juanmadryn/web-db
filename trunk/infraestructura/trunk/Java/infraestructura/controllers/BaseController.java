@@ -91,6 +91,8 @@ public class BaseController extends JspController implements SubmitListener,
 	/* Banner object references */
 	public com.salmonllc.html.HtmlText _txtBannerAccount;
 
+	public com.salmonllc.html.HtmlText _txtBannerOptions;
+
 	// public com.salmonllc.html.HtmlText _txtBannerCart;
 	public com.salmonllc.html.HtmlText _txtBannerSignIn;
 
@@ -140,7 +142,7 @@ public class BaseController extends JspController implements SubmitListener,
 	public com.salmonllc.jsp.JspLink _lnkBannerOrdenesObservadas;
 
 	public com.salmonllc.html.HtmlText _txtBannerOrdenesObservadas;
-	
+
 	// public com.salmonllc.jsp.JspForm _searchForm;
 	public com.salmonllc.html.HtmlText _welcomeUser;
 
@@ -318,16 +320,7 @@ public class BaseController extends JspController implements SubmitListener,
 		if (_dsWebSiteUser != null)
 			_dsWebSiteUser.setAutoValidate(true);
 
-		if (user != null) {
-			_lnkBannerSolicitudesPendientes.setVisible(true);
-			_txtBannerSolicitudesPendientes.setVisible(true);
-			_lnkBannerOrdenesPendientes.setVisible(true);
-			_txtBannerOrdenesPendientes.setVisible(true);
-			_lnkBannerSolicitudesObservadas.setVisible(true);
-			_txtBannerSolicitudesObservadas.setVisible(true);
-			_lnkBannerOrdenesObservadas.setVisible(true);
-			_txtBannerOrdenesObservadas.setVisible(true);
-		} else {
+		if (user == null) {
 			_lnkBannerSolicitudesPendientes.setVisible(false);
 			_txtBannerSolicitudesPendientes.setVisible(false);
 			_lnkBannerOrdenesPendientes.setVisible(false);
@@ -336,6 +329,8 @@ public class BaseController extends JspController implements SubmitListener,
 			_txtBannerSolicitudesObservadas.setVisible(false);
 			_lnkBannerOrdenesObservadas.setVisible(false);
 			_txtBannerOrdenesObservadas.setVisible(false);
+			_txtBannerAccount.setVisible(false);
+			_txtBannerOptions.setVisible(false);
 		}
 
 		if (timeStart.get(ip) == null)
@@ -374,11 +369,15 @@ public class BaseController extends JspController implements SubmitListener,
 				_lnkBannerSignOut.setVisible(true);
 				_welcomeUser.setText(user.getApeynom());
 				_welcomeUser.setVisible(true);
+				_txtBannerAccount.setVisible(true);
+				_txtBannerOptions.setVisible(true);
 			} else {
 				_lnkBannerSignIn.setVisible(true);
 				_lnkBannerSignOut.setVisible(false);
 				_welcomeUser.setText("");
 				_welcomeUser.setVisible(false);
+				_txtBannerAccount.setVisible(false);
+				_txtBannerOptions.setVisible(false);
 			}
 
 			// Check if we need to change the page appearence.
@@ -394,7 +393,7 @@ public class BaseController extends JspController implements SubmitListener,
 			int ordenes_observadas = 0;
 
 			if ((solicitudes_pendientes = Utilities
-					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {				
+					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {
 				_lnkBannerSolicitudesPendientes
 						.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
 								+ user.getUserID() + "&mode=0");
@@ -422,7 +421,7 @@ public class BaseController extends JspController implements SubmitListener,
 				_lnkBannerOrdenesPendientes.setVisible(false);
 				_txtBannerOrdenesPendientes.setVisible(false);
 			}
-			
+
 			if ((solicitudes_observadas = Utilities
 					.getSolicitudesCompraPendientesObservacion(user_id)) > 0) {
 				_lnkBannerSolicitudesObservadas
@@ -438,7 +437,7 @@ public class BaseController extends JspController implements SubmitListener,
 				_lnkBannerSolicitudesObservadas.setVisible(false);
 				_txtBannerSolicitudesObservadas.setVisible(false);
 			}
-			
+
 			if ((ordenes_observadas = Utilities
 					.getOrdenesCompraPendientesObservacion(user_id)) > 0) {
 				_lnkBannerOrdenesObservadas
@@ -574,6 +573,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * @throws SQLException
 	 */
 	protected void populateNavBar() throws DataStoreException, SQLException {
+
 		try {
 			boolean menuPermitido = false;
 
@@ -709,7 +709,7 @@ public class BaseController extends JspController implements SubmitListener,
 			}
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
-			this.displayErrorMessage(e.getMessage() + "\n" + e.getStackTrace());
+			displayErrorMessage(e.getMessage() + "\n" + e.getStackTrace());
 		}
 	}
 
@@ -823,6 +823,7 @@ public class BaseController extends JspController implements SubmitListener,
 		}
 
 		checkPageRedirect();
+		populateNavBar();
 		return true;
 	}
 
@@ -833,14 +834,16 @@ public class BaseController extends JspController implements SubmitListener,
 				.get(getCurrentRequest().getRemoteAddr());
 
 		aplications.remove(getCurrentRequest().getRemoteAddr());
-		
-		Enumeration<HttpSession> aplicaciones = aplicationsForRemoteAddress
-				.elements();
-		HttpSession sess;
-		while (aplicaciones.hasMoreElements()) {
-			sess = aplicaciones.nextElement();			
-			clearAllPagesFromSession(sess);
-			sess.setAttribute(SESSION_VALUE_WEBSITE_USER, null);
+
+		if (aplicationsForRemoteAddress != null) {
+			Enumeration<HttpSession> aplicaciones = aplicationsForRemoteAddress
+					.elements();
+			HttpSession sess;
+			while (aplicaciones.hasMoreElements()) {
+				sess = aplicaciones.nextElement();
+				clearAllPagesFromSession(sess);
+				sess.setAttribute(SESSION_VALUE_WEBSITE_USER, null);
+			}
 		}
 	}
 

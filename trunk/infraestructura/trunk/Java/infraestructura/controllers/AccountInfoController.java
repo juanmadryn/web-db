@@ -29,8 +29,7 @@ public class AccountInfoController extends BaseController {
 	public com.salmonllc.html.HtmlText _passwordAnteriorTXT1;
 	public com.salmonllc.html.HtmlText _passwordNuevaTXT1;
 	public com.salmonllc.html.HtmlText _passwordReNuevaTXT1;
-	public com.salmonllc.html.HtmlText _textSeparador;
-	public com.salmonllc.html.HtmlText _txtBannerOptions;
+	public com.salmonllc.html.HtmlText _textSeparador;	
 	public com.salmonllc.html.HtmlText _usuarioTXT1;
 	public com.salmonllc.html.HtmlTextEdit _emailIMP1;
 	public com.salmonllc.html.HtmlTextEdit _nombreCompletoIMP1;
