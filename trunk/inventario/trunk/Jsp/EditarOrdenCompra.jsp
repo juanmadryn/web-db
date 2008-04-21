@@ -99,7 +99,7 @@
 								<td valign="top"><salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="textarea" name="observaciones2"
-									cols="60" rows="2" wrap="HARD" maxlength="255"
+									cols="40" rows="2" wrap="HARD" maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input></td>
 								<td colspan="2"/>
 							</tr>

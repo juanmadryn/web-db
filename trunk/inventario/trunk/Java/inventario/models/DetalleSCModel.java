@@ -2069,6 +2069,7 @@ public class DetalleSCModel extends DataStore {
 		// muestren la suma exacta de cada detalle.
 		if (monto_unitario != null && cantidad != null) {
 			Float total = monto_unitario * cantidad;
+			setMontoTotalPedido(row, total);
 		}
 		
 	}
