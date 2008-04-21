@@ -271,10 +271,10 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 				Utilities.getOrdenesCompraPendientesObservacion(currentUser) > 0 ? true : false);				
 		
 		// Si el usuario no es comprador, solo puede consultar las solicitudes realizadas por él
-		if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 			_comprador2.setEnabled(false);
 			_dsQBE.setString("comprador", String.valueOf(currentUser));
-		}		
+		}	
 		
 		super.pageRequested(event);
 	}

@@ -27,7 +27,7 @@
 		<salmon:listformdisplaybox name="listformdisplaybox1"
 			mode="Display_single_page" caption="Firmantes" width="100%"
 			addbuttonvisible="False" savebuttonvisible="False"
-			datasource="dsFirmantes">
+			datasource="dsFirmantes" autocreatelink="false">
 			<salmon:datatable name="datatable1" width="100%"
 				datasource="dsFirmantes">
 				<salmon:datatableheader>
@@ -82,7 +82,7 @@
 			mode="Display_single_page"
 			caption="Cambios de estado de la solicitud" width="100%"
 			addbuttonvisible="False" savebuttonvisible="False"
-			datasource="dsAuditoria">
+			datasource="dsAuditoria" autocreatelink="false">
 			<salmon:datatable name="datatable2" width="100%"
 				datasource="dsAuditoria">
 				<salmon:datatableheader>

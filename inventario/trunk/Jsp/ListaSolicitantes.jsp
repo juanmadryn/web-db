@@ -22,7 +22,7 @@
 		<salmon:listformdisplaybox name="listformdisplaybox1"
 			mode="Display_single_page" caption="Solicitantes" width="100%"
 			addbuttonvisible="False" savebuttonvisible="False"
-			datasource="dsDetalleSc">
+			datasource="dsDetalleSc" autocreatelink="false">
 			<salmon:datatable name="datatable1" width="100%"
 				datasource="dsDetalleSc">
 				<salmon:datatableheader>
