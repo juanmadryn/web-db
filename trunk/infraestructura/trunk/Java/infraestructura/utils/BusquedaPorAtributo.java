@@ -10,6 +10,8 @@ import java.util.Iterator;
 import com.salmonllc.util.SalmonDateFormat;
 
 /**
+ * 
+ * 
  * @author fep
  *
  */
@@ -22,8 +24,10 @@ public class BusquedaPorAtributo {
 	private static String OR_OPERATOR = "OR";
 	
 	/**
-	 * @param operator
-	 * @return
+	 * Dado un código de operador retorna el nombre de este
+	 * 
+	 * @param operator código del operador
+	 * @return nombre del operador
 	 */
 	private static String getOperator(int operator) {
 		switch (operator) {
@@ -37,11 +41,15 @@ public class BusquedaPorAtributo {
 	}
 	
 	/**
-	 * @param atributos
-	 * @param operator
-	 * @param tabla
-	 * @param columna
-	 * @return
+	 * Construye dinamicamente una query retornando los identificadores de objetos
+	 * que satisfacen las condiciones de igualdad sobre algunos o todos de los valores
+	 * contenidos en el Hashtable atributos.
+	 * 
+	 * @param atributos Hashtable con pares código de atributo / valor esperado
+	 * @param operator OPERATOR_AND (satisfacer todos los atributos) o OPERATOR_OR (satisfacer uno o más) 
+	 * @param tabla tabla sobre la que aplicar la busqueda
+	 * @param columna columna con los valoresa  retornar
+	 * @return un SELECT apto para utilizar en un clausula IN
 	 * @throws SQLException
 	 */
 	public static String armarBusquedaPorAtributos(
