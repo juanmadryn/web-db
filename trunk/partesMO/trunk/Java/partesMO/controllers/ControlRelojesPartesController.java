@@ -34,9 +34,9 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	 */
 	private static final long serialVersionUID = 5466704678964409448L;
 	// Visual Components
-	public com.salmonllc.html.HtmlImage _bannerDividerImage;
+	/*public com.salmonllc.html.HtmlImage _bannerDividerImage;
 	public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	public com.salmonllc.html.HtmlImage _imgMainLogo;	
+	public com.salmonllc.html.HtmlImage _imgMainLogo;*/	
 	public com.salmonllc.html.HtmlText _fechahastaCAP2;
 	public com.salmonllc.html.HtmlText _apeynomTE12;
 	public com.salmonllc.html.HtmlText _guionTE12;
@@ -59,8 +59,8 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	public com.salmonllc.html.HtmlText _text1Footer;
 	public com.salmonllc.html.HtmlText _text2Footer;
 	public com.salmonllc.html.HtmlText _text3Footer;
-	public com.salmonllc.html.HtmlText _txtBannerOptions;
-	public com.salmonllc.html.HtmlText _welcomeText;
+	/*public com.salmonllc.html.HtmlText _txtBannerOptions;
+	public com.salmonllc.html.HtmlText _welcomeText;*/
 	public com.salmonllc.html.HtmlTextEdit _fechahastaTE2;
 	public com.salmonllc.html.HtmlTextEdit _fechadesdeTE1;
 	public com.salmonllc.jsp.JspBox _box1;
@@ -69,14 +69,14 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	//public com.salmonllc.jsp.JspDisplayBox _displaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
-	public com.salmonllc.jsp.JspForm _bannerForm;
+	/*public com.salmonllc.jsp.JspForm _bannerForm;*/
 	public com.salmonllc.jsp.JspForm _pageForm;
 	public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
 	public com.salmonllc.jsp.JspLink _footerInfDevAbout;
 	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
 	public com.salmonllc.jsp.JspLink _footerSalmonLink;
 	public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	public com.salmonllc.jsp.JspLink _lnkBannerOptions;
+	/*public com.salmonllc.jsp.JspLink _lnkBannerOptions;*/
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _tableFooter;
 	public com.salmonllc.jsp.JspTableCell _datatable2TDHeader0;
