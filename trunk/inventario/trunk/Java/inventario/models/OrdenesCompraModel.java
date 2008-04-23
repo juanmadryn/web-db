@@ -677,9 +677,6 @@ public class OrdenesCompraModel extends BaseModel {
 		if (getOrdenesCompraEstado() == null)
 			setOrdenesCompraEstado("0008.0001");
 		
-		if (getOrdenesCompraEntidadIdProveedor() == 0)
-			throw new DataStoreException("Debe especificar el proveedor");
-		
 		if (getOrdenesCompraFecha() == null)
 			setOrdenesCompraFecha(new Timestamp((Calendar.getInstance()
 					.getTimeInMillis())));

@@ -52,6 +52,11 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
+			if (ds.getOrdenesCompraEntidadIdProveedor() == 0) {
+				msg.append("Debe especificar el proveedor");
+				return false;
+			}
+			
 			if (ds.getOrdenesCompraFechaEstimadaEntrega() == null) {
 				msg.append("Debe especificar la fecha estimada de entrega");
 				return false;

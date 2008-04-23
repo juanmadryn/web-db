@@ -251,6 +251,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		setTabla_principal("ordenes_compra");
 		
 		setDatosBasicosOrdenCompra();
+		armaBotonera();
 	}
 	
 	@Override
@@ -679,7 +680,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		if ("0008.0001".equalsIgnoreCase(estado)
 				|| "0008.0005".equalsIgnoreCase(estado) || estado == null)
-			_muestraDescAdicionalBUT.setVisible(true);
+			_muestraDescAdicionalBUT.setVisible(_dsDetalleSC.getRowCount() == 0 ? false: true);
 		else
 			_muestraDescAdicionalBUT.setVisible(false);
 
