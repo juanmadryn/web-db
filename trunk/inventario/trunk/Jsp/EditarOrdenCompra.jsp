@@ -108,8 +108,8 @@
 									displayformatlocalekey="CurrencyFormatConSigno"
 									datasource="dsOrdenesCompra:total_orden_compra"></salmon:text></td>
 								<td/>
-								<td>
-									<salmon:a href="" target="_blank"
+								<td align="right">
+									<salmon:a href="" target="_blank" 
 										name="imprimirOrdenCompraBUT1"
 										onclick="document.forms['bannerForm'].submit();">
 										<salmon:img name="imprimirTXT1"
@@ -226,10 +226,13 @@
 							<salmon:input type="checkbox" name="seleccion_detalle2"
 								checkedtruevalue="1"></salmon:input>
 						</salmon:td>
-						<salmon:td>							
-							<salmon:text name="articulo2" text="articulos.nombre goes here"
-								font="DefaultFont"
-								datasource="dsDetalleSC:articulos.nombre" />
+						<salmon:td>
+							<salmon:a href="none" name="lnkpartes1"
+                        		onclick="document.forms['bannerForm'].submit();"
+                        		datasource="dsDetalleSC:'%AbmcArticulo?p_articulo_id='+detalle_sc.articulo_id">				
+								<salmon:text name="articulo2" text="articulos.nombre goes here"
+									font="DefaultFont" datasource="dsDetalleSC:articulos.nombre" />
+							</salmon:a>
 						</salmon:td>
 						<salmon:td>							
 							<salmon:text name="descripcion4" text="articulos.descripcion Goes Here"

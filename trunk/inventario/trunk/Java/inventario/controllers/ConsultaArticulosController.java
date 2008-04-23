@@ -3,21 +3,26 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
-import infraestructura.models.AtributosEntidadModel;
+import infraestructura.utils.BusquedaPorAtributo;
 import inventario.util.ReplicateSta11QuartzJob;
 
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.collections.MultiMap;
+import org.apache.commons.collections.map.MultiValueMap;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.sql.QBEBuilder;
-import com.salmonllc.util.SalmonDateFormat;
 
 /**
  * ConsultaArticulosController: a SOFIA generated controller
@@ -79,6 +84,7 @@ public class ConsultaArticulosController extends BaseController {
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
 	public com.salmonllc.html.HtmlSubmitButton _replicaFromTangoBUT;
 	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
+	public com.salmonllc.html.HtmlDropDownList _operador;
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -95,6 +101,10 @@ public class ConsultaArticulosController extends BaseController {
 		_limpiarBUT.setAccessKey("b");		
 		_limpiarBUT.addSubmitListener(this);
 		_searchformdisplaybox1.addButton(_limpiarBUT);
+		
+		// Obtiene operadores 
+		_operador.addOption(String.valueOf(BusquedaPorAtributo.OPERATOR_AND), "And");
+		_operador.addOption(String.valueOf(BusquedaPorAtributo.OPERATOR_OR), "Or");
 		
 		// Test the import process
 		_replicaFromTangoBUT = new HtmlSubmitButton("replicaFromTangoBUT","Replicar desde Tango",this);
@@ -138,7 +148,7 @@ public class ConsultaArticulosController extends BaseController {
 			ReplicateSta11QuartzJob replicateSta11 = new ReplicateSta11QuartzJob();
 			replicateSta11.replicate();
 			_dsArticulos.reset();		
-			_dsArticulos.retrieve(_dsQBE);
+			_dsArticulos.retrieve(armarCriterio());
 			if (_dsArticulos.getRowCount() <= 0) { 
 				displayErrorMessage("No se encontraron articulos");
 				return false;
@@ -148,6 +158,13 @@ public class ConsultaArticulosController extends BaseController {
 		return super.submitPerformed(e);
 	}
 	
+	/**
+	 * Genera el query SQL segùn los datos ingresados por el usuario en los campos asociados
+	 * al QBE y los pares atributo/valor ingresados.
+	 * @return La clausula WHERE a utilizar como parametro de retrieve() 
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 */
 	private String armarCriterio() throws SQLException, DataStoreException {
 		StringBuilder sb = new StringBuilder(500);
 		
@@ -158,98 +175,31 @@ public class ConsultaArticulosController extends BaseController {
 		}
 		
 		// build where clause with specified attributes if any
-		String criterioAtributos = armarBusquedaPorAtributos();
+		String criterioAtributos = BusquedaPorAtributo.armarBusquedaPorAtributos(atributosValoresBusqueda(),
+				Integer.valueOf(_operador.getValue()), "articulos",
+				"articulo_id");
 		if (criterioAtributos.length() > 0) {
 			sb.append(" and articulos.articulo_id IN ( ").append(criterioAtributos).append(" )");
-			System.out.println(armarBusquedaPorAtributos2());
+			System.out.println(criterioAtributos);
 		}
 			
 		return sb.toString();
 	}	
 	
-	private String armarBusquedaPorAtributos() throws SQLException {
-		StringBuilder querySql = new StringBuilder(500);
-
-		// get the attributes
-		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();
-		if ((_lkpAttrINP1.getValue() != null) && (_valorAttr1.getValue() != null))
-			atributos.put(Integer.parseInt(_lkpAttrINP1.getValue()),
-					_valorAttr1.getValue());
-		if ((_lkpAttrINP2.getValue() != null) && (_valorAttr2.getValue() != null))
-			atributos.put(Integer.parseInt(_lkpAttrINP2.getValue()),
-					_valorAttr2.getValue());
-		if ((_lkpAttrINP3.getValue() != null) && (_valorAttr3.getValue() != null))
-			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()),
-					_valorAttr3.getValue());
-				
-
-		// si se especifico al menos un atributo
-		if (atributos.size() > 0) {
-			querySql.append(" SELECT objeto_id "
-					+ " FROM infraestructura.atributos_entidad " 
-					+ " WHERE tipo_objeto = 'TABLA' AND nombre_objeto = 'articulos' "
-					+ " AND ( ");
-			
-			Iterator<Integer> i = atributos.keySet().iterator();
-			
-			// completamos el query con pares atributo valor
-			while (i.hasNext()) {
-				int atributoId = i.next();
-				String valorAtributo = atributos.get(atributoId);
-					
-				String tipoAtributo = AtributosEntidadModel.getTipoAtributo(atributoId);
-				
-				if (tipoAtributo == null) throw new RuntimeException("Atributo inexistente");
-				
-				String sqlClause = null;
-				
-				try {
-					if ("entero".equalsIgnoreCase(tipoAtributo)) {
-						sqlClause = "valor_entero = "
-								+ Integer.parseInt(valorAtributo);
-					} else if ("real".equalsIgnoreCase(tipoAtributo)) {
-						sqlClause = "valor_real = "
-								+ Float.parseFloat(valorAtributo);
-					} else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
-						SalmonDateFormat sdf = new SalmonDateFormat();
-						sqlClause = "valor_fecha = '"
-								+ new java.sql.Date(sdf.parse(
-										(String) valorAtributo).getTime())
-										.toString() + "'";
-					} else if ("logico".equalsIgnoreCase(tipoAtributo)) {
-						if (valorAtributo.equalsIgnoreCase("V")
-								|| valorAtributo.equalsIgnoreCase("F"))
-							sqlClause = "valor_logico = '" + valorAtributo
-									+ "'";
-						else
-							throw new RuntimeException(
-									"Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
-					} else {
-						sqlClause = "valor LIKE '%" + valorAtributo + "%'";
-					}
-				} catch (NumberFormatException e) {
-					throw new RuntimeException("Valor de atributo númerico incorrecto");
-				} catch (ParseException e) {
-					throw new RuntimeException("Valor de atributo fecha con formato incorrecto");
-				}
-			
-				// conector
-				querySql.append(sqlClause);				
-				if (i.hasNext()) 
-					querySql.append(" OR ");
-				
-			}	
-			
-			querySql.append(" ) ");
-		}		
-		return querySql.toString();
-	}
-	
-	private String armarBusquedaPorAtributos2() throws SQLException {
-		StringBuilder querySql = new StringBuilder(500);
-		StringBuilder innerJoinSql = new StringBuilder(500);
-		StringBuilder whereClauseSql = new StringBuilder(500);
-
+	/**
+	 * Colecta en un hashtable los pares atributo/valor ingreados por el usuario para la bùsqueda
+	 * 
+	 * TODO: 
+	 * Al usar HashTable no se permiten claves duplicadas, por lo que no se puede buscar por
+	 * multiples valores correspondientes a un solo atributo. Reemplazar por unas soluciòn 
+	 * "multimap" usando Map<key,List<value>> o un multimap de Apache Commons. 
+	 * 
+	 * La cantidad de pares atributo/valor esta limitada al numero de componentes visuales 
+	 * agregados a tal efecto. Generar estos componentes dinamicamente.
+	 * 
+	 * @return hashtable
+	 */
+	private Hashtable<Integer,String> atributosValoresBusqueda() {
 		// atributos y valores ingresados por el usuario
 		Hashtable<Integer,String> atributos = new Hashtable<Integer,String>();
 		if ((_lkpAttrINP1.getValue() != null) && (_valorAttr1.getValue() != null))
@@ -260,82 +210,8 @@ public class ConsultaArticulosController extends BaseController {
 					_valorAttr2.getValue());
 		if ((_lkpAttrINP3.getValue() != null) && (_valorAttr3.getValue() != null))
 			atributos.put(Integer.parseInt(_lkpAttrINP3.getValue()),
-					_valorAttr3.getValue());
+					_valorAttr3.getValue());		
 		
-		// si se especifico al menos un atributo
-		if (atributos.size() > 0) {
-			querySql.append("SELECT articulos.articulo_id FROM articulos articulos ");
-			whereClauseSql.append(" where (");
-			
-			Iterator<Integer> i = atributos.keySet().iterator();
-			int count = 1;
-			
-			while (i.hasNext()) {
-				int atributoId = i.next();
-				String valorAtributo = atributos.get(atributoId);
-				
-				String tabla = "atributos_entidad" + count;
-				innerJoinSql.append(						
-						" left outer join infraestructura.atributos_entidad " + tabla +  
-						" ON " + tabla + ".objeto_id = articulos.articulo_id AND " + tabla + ".atributo_id = ")
-						.append(atributoId);
-				
-				String tipoAtributo = AtributosEntidadModel.getTipoAtributo(atributoId);				
-				if (tipoAtributo == null) throw new RuntimeException("Atributo inexistente");
-				
-				String sqlClause = null;
-				
-				try {
-					if ("entero".equalsIgnoreCase(tipoAtributo)) {
-						sqlClause = "valor_entero = "
-								+ Integer.parseInt(valorAtributo);
-					} else if ("real".equalsIgnoreCase(tipoAtributo)) {
-						sqlClause = "valor_real = "
-								+ Float.parseFloat(valorAtributo);
-					} else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
-						/*SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");						
-						sqlClause = "valor_fecha = '"
-							+ new java.sql.Date(df.parse(
-									(String) valorAtributo).getTime())
-									.toString() + "'";					*/	
-						SalmonDateFormat sdf = new SalmonDateFormat();
-						sqlClause = "valor_fecha = '"
-								+ new java.sql.Date(sdf.parse(
-										(String) valorAtributo).getTime())
-										.toString() + "'";
-					} else if ("logico".equalsIgnoreCase(tipoAtributo)) {
-						if (valorAtributo.equalsIgnoreCase("V")
-								|| valorAtributo.equalsIgnoreCase("F"))
-							sqlClause = "valor_logico = '" + valorAtributo
-									+ "'";
-						else
-							throw new RuntimeException(
-									"Debe introducir 'V' para verdadero o 'F' para falso para el atributo");
-					} else {
-						sqlClause = "valor LIKE '%" + valorAtributo + "%'";
-					}
-				} catch (NumberFormatException e) {
-					throw new RuntimeException("Valor de atributo númerico incorrecto");
-				} catch (ParseException e) {
-					throw new RuntimeException("Valor de atributo fecha con formato incorrecto");
-				}
-				
-				if (sqlClause != null) {
-					whereClauseSql.append(tabla + "." + sqlClause);
-				}
-			
-				if (i.hasNext()) {
-					whereClauseSql.append(" AND ");
-					count++;
-				} else {
-					whereClauseSql.append(")");
-				}
-			}
-			
-			querySql.append(innerJoinSql).append(whereClauseSql);
-		}		
-		
-		return querySql.toString();
+		return atributos;
 	}
-
 }

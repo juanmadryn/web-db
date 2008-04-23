@@ -41,7 +41,8 @@
 								<td colspan="4"/>
 								<td widht="10%"/>
 								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>
-								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
+								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" />
+								<salmon:input name="operador" type="select" /></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="nroSolicitud1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
@@ -161,9 +162,12 @@
                      		<salmon:input type="checkbox" name="selSolicitudCB" checkedtruevalue="1"></salmon:input>
                   		</salmon:td>
 						<salmon:td>
-							<salmon:text name="articuloTXT2" text="articulos.nombre Goes Here"
-								font="DefaultFont"
-								datasource="dsDetalleSC:articulos.nombre" />
+							<salmon:a href="none" name="lnkpartes1"
+                        		onclick="document.forms['bannerForm'].submit();"
+                        		datasource="dsDetalleSC:'%AbmcArticulo?p_articulo_id='+detalle_sc.articulo_id">
+                        		<salmon:text name="articuloTXT2" text="articulos.nombre Goes Here"
+									font="DefaultFont" datasource="dsDetalleSC:articulos.nombre" />
+                     		</salmon:a>							
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="articuloDescTXT3" text="articulos.descripcion Desc Goes Here"
