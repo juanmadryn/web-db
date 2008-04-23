@@ -7,8 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.sql.DataSource;
-
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -23,11 +21,6 @@ import org.quartz.JobExecutionException;
  *
  */
 public class ReplicateCpa01QuartzJob implements Job {
-
-	@Override
-	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		this.importaProveedores();
-	}
 
 	/**
 	 * @throws JobExecutionException
@@ -44,11 +37,9 @@ public class ReplicateCpa01QuartzJob implements Job {
 		String userTango="Axoft";
 		String passWordTango="Axoft";
 		
-		// Se carga el driver JTDS
 		try {
+			// Conexion con Tango (SQL Server 2000) y carga driver JTDS
 			Class.forName(driverTango);
-			
-			// Conexion con Tango (SQL Server 2000)
 			connTango = DriverManager.getConnection(urlTango, userTango,
 					passWordTango);				
 			// Conexion con MySQL
@@ -136,5 +127,9 @@ public class ReplicateCpa01QuartzJob implements Job {
 				throw new JobExecutionException(e);				
 			}
 		}
+	}
+	
+	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+		this.importaProveedores();
 	}
 }
