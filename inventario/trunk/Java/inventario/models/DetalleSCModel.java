@@ -10,8 +10,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
-
+	
 import proyectos.models.TareasProyectoModel;
 
 import com.salmonllc.sql.DBConnection;
@@ -243,7 +242,7 @@ public class DetalleSCModel extends DataStore {
 			setAutoIncrement(DETALLE_SC_DETALLE_SC_ID, true);
 			setUpdateable(DETALLE_SC_DETALLE_SC_ID, false);
 			setOrderBy(DETALLE_SC_DETALLE_SC_ID + " DESC");
-
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -2068,8 +2067,16 @@ public class DetalleSCModel extends DataStore {
 		// decimales innecesarios, y para que los totales generales luego
 		// muestren la suma exacta de cada detalle.
 		if (monto_unitario != null && cantidad != null) {
-			Float total = monto_unitario * cantidad;
-			setMontoTotalPedido(row, total);
+			DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
+			format.setMaximumFractionDigits(2);
+			format.setRoundingMode(RoundingMode.HALF_UP);
+			DecimalFormatSymbols decimalSymbol = DecimalFormatSymbols
+					.getInstance();
+			decimalSymbol.setDecimalSeparator('.');
+			decimalSymbol.setGroupingSeparator(',');
+			format.setDecimalFormatSymbols(decimalSymbol);
+			Float total = monto_unitario * cantidad;			
+			setMontoTotalPedido(row, Float.parseFloat(format.format(total).replace(",", "")));			
 		}
 		
 	}
