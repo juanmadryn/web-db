@@ -1,0 +1,1 @@
+ALTER TABLE `inventario`.`ordenes_compra` MODIFY COLUMN `entidad_id_proveedor` INT(15) UNSIGNED;
