@@ -25,7 +25,7 @@
             <salmon:td valign="Top">
                <salmon:searchformdisplaybox name="searchformdisplaybox1"
                   caption="Artículos" qbebuilder="dsQBE" searchbuttonvisible="false" addbuttonvisible="false">
-                  <table width="100%" border="1">
+                  <table width="100%">
                   		<tr>	
 								<td colspan="2"/>								
 								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>

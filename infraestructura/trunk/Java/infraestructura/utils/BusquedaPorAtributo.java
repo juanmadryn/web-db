@@ -85,7 +85,7 @@ public class BusquedaPorAtributo {
 						sqlClause = "valor_real = "
 								+ Float.parseFloat(valorAtributo);
 					} else if ("fecha".equalsIgnoreCase(tipoAtributo)) {
-						SalmonDateFormat sdf = new SalmonDateFormat();
+						SalmonDateFormat sdf = new SalmonDateFormat("dd/MM/yyyy");
 						sqlClause = "valor_fecha = '"
 								+ new java.sql.Date(sdf.parse(
 										(String) valorAtributo).getTime())
