@@ -4,6 +4,7 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 import infraestructura.utils.BusquedaPorAtributo;
+import inventario.util.ReplicateCpa01QuartzJob;
 import inventario.util.ReplicateSta11QuartzJob;
 
 import java.sql.SQLException;
@@ -75,6 +76,7 @@ public class ConsultaArticulosController extends BaseController {
 	public com.salmonllc.html.HtmlSubmitButton _replicaFromTangoBUT;
 	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
 	public com.salmonllc.html.HtmlDropDownList _operador;
+	public com.salmonllc.html.HtmlSubmitButton _replicaProveedores;
 	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -100,6 +102,10 @@ public class ConsultaArticulosController extends BaseController {
 		_replicaFromTangoBUT = new HtmlSubmitButton("replicaFromTangoBUT","Replicar desde Tango",this);
 		_replicaFromTangoBUT.addSubmitListener(this);		
 		_searchformdisplaybox1.addButton(_replicaFromTangoBUT);
+		
+		/*_replicaProveedores = new HtmlSubmitButton("_replicaProveedores","Importar proveedores",this);
+		_replicaProveedores.addSubmitListener(this);		
+		_searchformdisplaybox1.addButton(_replicaProveedores);*/
 		
 		// do not retrieve disallowed items
 		_dsQBE.addCriteria("anulado", QBEBuilder.CRITERIA_TYPE_NOT_EQUALS, "articulos.anulado");
@@ -144,6 +150,13 @@ public class ConsultaArticulosController extends BaseController {
 				return false;
 			}
 		}
+		
+		// Call ReplicateCpa01QuartzJob manually
+		if (e.getComponent() == _replicaProveedores) {
+			ReplicateCpa01QuartzJob replicateCpa01 = new ReplicateCpa01QuartzJob();
+			replicateCpa01.importaProveedores();
+		}
+
 		
 		return super.submitPerformed(e);
 	}

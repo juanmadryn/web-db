@@ -38,12 +38,20 @@ public class InventarioQuartzInit extends HttpServlet implements Servlet {
 			JobDetail replicateSta11Detail = new JobDetail(
 					"ReplicateSta11QuartzJob", null,
 					ReplicateSta11QuartzJob.class);
+			JobDetail replicateCpa01Detail = new JobDetail(
+					"ReplicateCpa01QuartzJob", null,
+					ReplicateCpa01QuartzJob.class);
 			// Launch the trigger everyday at 1 am
 			Trigger replicateSta11Trigger = TriggerUtils.makeDailyTrigger(1, 0);
 			replicateSta11Trigger.setName("replicateSta11Trigger");
+			Trigger replicateCpa01Trigger = TriggerUtils.makeDailyTrigger(2, 0);
+			replicateCpa01Trigger.setName("replicateCpa01Trigger");
+			
 			Scheduler scheduler = factory.getScheduler();
 			scheduler.scheduleJob(replicateSta11Detail, replicateSta11Trigger);
-			//scheduler.start();
+			scheduler.scheduleJob(replicateCpa01Detail, replicateCpa01Trigger);
+			
+			scheduler.start();
 
 			System.out.println("Inventario: Quartz start successful!");
 		} catch (SchedulerException e) {
