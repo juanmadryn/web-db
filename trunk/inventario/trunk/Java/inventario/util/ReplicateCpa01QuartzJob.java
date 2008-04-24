@@ -22,14 +22,19 @@ import org.quartz.JobExecutionException;
  */
 public class ReplicateCpa01QuartzJob implements Job {
 
+	@Override
+	public void execute(JobExecutionContext arg0) throws JobExecutionException {
+		this.importaProveedores();
+	}
+
 	/**
 	 * @throws JobExecutionException
 	 */
 	public void importaProveedores() throws JobExecutionException {
 		Connection connTango = null;
 		Connection connInf = null;
-		Statement tangoSt = null, pstMySql2 = null;
-		PreparedStatement pstMySql = null;
+		Statement tangoSt = null, stMySql = null;
+		PreparedStatement pstMySql = null, pstMySql2 = null;
 		ResultSet r = null, rMySql = null;
 		
 		String driverTango = "net.sourceforge.jtds.jdbc.Driver";
@@ -37,9 +42,11 @@ public class ReplicateCpa01QuartzJob implements Job {
 		String userTango="Axoft";
 		String passWordTango="Axoft";
 		
+		// Se carga el driver JTDS
 		try {
-			// Conexion con Tango (SQL Server 2000) y carga driver JTDS
 			Class.forName(driverTango);
+			
+			// Conexion con Tango (SQL Server 2000)
 			connTango = DriverManager.getConnection(urlTango, userTango,
 					passWordTango);				
 			// Conexion con MySQL
@@ -91,15 +98,56 @@ public class ReplicateCpa01QuartzJob implements Job {
 				"FROM infraestructura.entidad_externa e " +
 					"LEFT OUTER JOIN infraestructura.roles_entidad rol ON rol.entidad_id = e.entidad_id " +
 				"WHERE rol IS NULL or rol = 'PROV'";
-			pstMySql2 = connInf.createStatement();			
-			pstMySql2.executeUpdate(relacionaProveedoresConRolMySql);
+			stMySql = connInf.createStatement();			
+			stMySql.executeUpdate(relacionaProveedoresConRolMySql);
 				
 			/**
 			 * Seleccionamos de la tabla CPA01 los datos para los atributos
 			 * de entidades externas con roles de proveedor
 			 */
-			String proveedoresaAtributosTangoSQL = 
+			String proveedoresAtributosTangoSQL = 
 				"SELECT COD_PROVEE,DOMICILIO,TELEFONO_1 FROM CPA01";
+			
+			/**
+			 * PreparedStatements para atributos de entidades_externas con rol proveedor 
+			 */
+			// Direccion y Telefono
+			String proveedoresAtributoStringMySQL = 
+				"INSERT INTO infraestructura.atributos_rol " +
+				"(entidad_id,atributo_id,valor) " +
+				"VALUES (?,?,?) " +
+				"ON DUPLICATE KEY UPDATE " +
+				"valor = values(valor), atributo_id = values(atributo_id), entidad_id = values(entidad_id)";
+			pstMySql = connInf.prepareStatement(proveedoresBasicoMySQL);
+			
+			String getEntidadExternaByCodigo =
+				"SELECT e.entidad_id FROM infraestructura.entidad_externa e WHERE e.codigo = ?";
+			pstMySql2 = connInf.prepareStatement(getEntidadExternaByCodigo);
+			
+			/**
+			 * Insertamos los datos en la tabla entidades_externas
+			 */
+			r = tangoSt.executeQuery(proveedoresAtributosTangoSQL);			
+			while (r.next()) {				
+				pstMySql2.setString(1, r.getString(1)); // busco por codigo
+				rMySql = pstMySql2.executeQuery();
+				rMySql.first();
+				
+				int entidad_id = rMySql.getInt(1);
+				String domicilio = r.getString(2);
+				String telefono = r.getString(3);
+				
+				pstMySql.setInt(1, entidad_id);
+				pstMySql.setInt(2, 11); // 11 -> atributo_id telefono
+				pstMySql.setString(3, telefono);
+				pstMySql.executeUpdate();		
+				
+				pstMySql.setInt(1, entidad_id);
+				pstMySql.setInt(2, 10); // 10 -> atributo_id domicilio
+				pstMySql.setString(3, domicilio);
+				pstMySql.executeUpdate();		
+			}			
+			r.close();
 			
 			connInf.commit();
 			
@@ -113,6 +161,8 @@ public class ReplicateCpa01QuartzJob implements Job {
 					r.close();				
 				if (tangoSt != null)
 					tangoSt.close();
+				if (stMySql != null)
+					stMySql.close();
 				if (pstMySql != null)
 					pstMySql.close();
 				if (pstMySql2 != null)
@@ -127,9 +177,5 @@ public class ReplicateCpa01QuartzJob implements Job {
 				throw new JobExecutionException(e);				
 			}
 		}
-	}
-	
-	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		this.importaProveedores();
 	}
 }
