@@ -65,6 +65,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
 	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
 	public static final String SOLICITUDES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
+	public static final String SOLICITUDES_COMPRA_FECHA_SOLICITUD= "solicitudes_compra.fecha_solicitud";
 	public static final String SOLICITUDES_COMPRA_DESCRIPCION = "solicitudes_compra.descripcion";
 
 	public static final String WEBSITE_USER_NOMBRE_SOLICITANTE = "nombre_completo_solicitante";
@@ -275,6 +276,9 @@ public class DetalleSCModel extends DataStore {
 		addColumn(computeTableName("detalle_sc"), "observaciones_oc",
 				DataStore.DATATYPE_STRING, false, true,
 				DETALLE_SC_OBSERVACIONES_OC);
+		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
+				DataStore.DATATYPE_DATE, false, false,
+				SOLICITUDES_COMPRA_FECHA_SOLICITUD);
 		
 		// add bucket
 		addBucket(DETALLE_SC_MONTO_TOTAL_PEDIDO, DataStore.DATATYPE_FLOAT);
@@ -2098,6 +2102,32 @@ public class DetalleSCModel extends DataStore {
 				return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Retrieve the value of the solicitudes_compra.fecha_solicitud column for
+	 * the current row.
+	 * 
+	 * @return java.sql.Date
+	 * @throws DataStoreException
+	 */
+	public java.sql.Date getSolicitudesCompraFechaSolicitud()
+			throws DataStoreException {
+		return getDate(SOLICITUDES_COMPRA_FECHA_SOLICITUD);
+	}
+
+	/**
+	 * Retrieve the value of the solicitudes_compra.fecha_solicitud column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return java.sql.Date
+	 * @throws DataStoreException
+	 */
+	public java.sql.Date getSolicitudesCompraFechaSolicitud(int row)
+			throws DataStoreException {
+		return getDate(row, SOLICITUDES_COMPRA_FECHA_SOLICITUD);
 	}
 	// $ENDCUSTOMMETHODS$
 

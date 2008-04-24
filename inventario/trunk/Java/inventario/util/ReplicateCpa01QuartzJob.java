@@ -117,7 +117,7 @@ public class ReplicateCpa01QuartzJob implements Job {
 				"VALUES (?,?,?) " +
 				"ON DUPLICATE KEY UPDATE " +
 				"valor = values(valor), atributo_id = values(atributo_id), entidad_id = values(entidad_id)";
-			pstMySql = connInf.prepareStatement(proveedoresBasicoMySQL);
+			pstMySql = connInf.prepareStatement(proveedoresAtributoStringMySQL);
 			
 			String getEntidadExternaByCodigo =
 				"SELECT e.entidad_id FROM infraestructura.entidad_externa e WHERE e.codigo = ?";
