@@ -109,6 +109,7 @@ public interface Constants {
 	static final String REPORT_PARAMETROS_XLS = "ParametrosReporteXLS";
 	static final String REPORT_PARAMETROS_DOC = "ParametrosReporteDOC";
 	static final String ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA = "EstadosDeModificacionSolicitudesCompra";
+	static final String ESTADOS_DE_MODIFICACION_RECEPCIONES_COMPRA = "EstadosDeModificacionRecepcionesCompra";
 	static final String LISTA_UNIDADES_MEDIDA = "ListaUnidadesMedida";
 	
 }
