@@ -130,12 +130,12 @@ public class SolicitudCompraModel extends BaseModel {
 					DataStore.DATATYPE_INT, false, true,
 					SOLICITUDES_COMPRA_PROYECTO_ID);
 			addColumn(computeTableName("estados"), "nombre",
-					DataStore.DATATYPE_STRING, false, true, ESTADO_NOMBRE);
+					DataStore.DATATYPE_STRING, false, false, ESTADO_NOMBRE);
 			addColumn(computeTableName("website_user_solicitante"),
-					"nombre_completo", DataStore.DATATYPE_STRING, false, true,
+					"nombre_completo", DataStore.DATATYPE_STRING, false, false,
 					WEBSITE_USER_NOMBRE_SOLICITANTE);
 			addColumn(computeTableName("website_user_comprador"),
-					"nombre_completo", DataStore.DATATYPE_STRING, false, true,
+					"nombre_completo", DataStore.DATATYPE_STRING, false, false,
 					WEBSITE_USER_NOMBRE_COMPRADOR);
 			addColumn(computeTableName("proyectos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
