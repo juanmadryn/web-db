@@ -2080,6 +2080,24 @@ public class DetalleSCModel extends DataStore {
 		}
 		
 	}
+	
+	/**
+	 * checks if every detail has monto_unitario filled
+	 * 
+	 * @param solicitud_id
+	 * @return
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public boolean chequeaTotalesDetallesOrden(int orden_id)
+			throws DataStoreException, SQLException {
+		retrieve("detalle_sc.orden_compra_id = " + orden_id);
+		for (int row = 0; row < getRowCount(); row++) {
+			if (getDetalleScMontoUnitario(row) == 0)
+				return false;
+		}
+		return true;
+	}
 	// $ENDCUSTOMMETHODS$
 
 }
