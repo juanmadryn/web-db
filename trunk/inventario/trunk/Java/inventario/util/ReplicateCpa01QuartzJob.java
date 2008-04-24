@@ -21,8 +21,7 @@ import org.quartz.JobExecutionException;
  *
  */
 public class ReplicateCpa01QuartzJob implements Job {
-
-	@Override
+	
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		this.importaProveedores();
 	}
@@ -42,10 +41,10 @@ public class ReplicateCpa01QuartzJob implements Job {
 		String userTango="Axoft";
 		String passWordTango="Axoft";
 		
-		// Se carga el driver JTDS
+
 		try {
-			Class.forName(driverTango);
-			
+			// Se carga el driver JTDS
+			Class.forName(driverTango);			
 			// Conexion con Tango (SQL Server 2000)
 			connTango = DriverManager.getConnection(urlTango, userTango,
 					passWordTango);				
