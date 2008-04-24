@@ -822,8 +822,7 @@ public class BaseController extends JspController implements SubmitListener,
 			}
 		}
 
-		checkPageRedirect();
-		populateNavBar();
+		checkPageRedirect();		
 		return true;
 	}
 
