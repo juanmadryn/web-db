@@ -3,6 +3,24 @@
 <siteMap>
 
 	<entry>
+     	<name>MenuRecepciones</name>
+    	<uri>/Jsp/MenuRecepciones.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
+     	<name>AbmRecepciones</name>
+    	<uri>/Jsp/AbmRecepciones.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
+     	<name>LkpArticulosParaRecepcion</name>
+    	<uri>/Jsp/LkpArticulosParaRecepcion.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
      	<name>ListaSolicitantes</name>
     	<uri>/Jsp/ListaSolicitantes.jsp</uri>
 		<useForward>false</useForward>
