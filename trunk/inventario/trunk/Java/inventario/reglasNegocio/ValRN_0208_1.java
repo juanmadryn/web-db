@@ -47,7 +47,7 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 			int ordenCompraId = ds.getOrdenesCompraOrdenCompraId();
 
 			// el número de detalles de la OC debe ser > 0 
-			if (detalles.estimateRowsRetrieved(conn, "detalle_sc.orden_compra_id =" + ordenCompraId) == 0) {
+			if (detalles.estimateRowsRetrieved(conn, "detalle_sc.orden_compra_id = " + ordenCompraId) == 0) {
 				msg.append("Debe especificar por lo menos un detalle de una SC a comprar");
 				return false;
 			}
@@ -63,7 +63,7 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 			}
 			
 			// todos los montos deben ser > 0
-			if (!detalles.chequeaTotalesDetallesSolicitud(ordenCompraId)) {
+			if (!detalles.chequeaTotalesDetallesOrden(ordenCompraId)) {
 				msg.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");
 				return false;
 			}
