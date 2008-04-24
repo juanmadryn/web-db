@@ -258,7 +258,7 @@ public class DetalleSCModel extends DataStore {
 				DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
 		addColumn(computeTableName("centro_costo"), "nombre",
 				DataStore.DATATYPE_STRING, false, false, CENTRO_COSTO_NOMBRE);
-		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
+		addColumn(computeTableName("solicitudes_compra"), "fecha_aprobacion",
 				DataStore.DATATYPE_DATE, false, false,
 				SOLICITUDES_COMPRA_FECHA_APROBACION);
 		addColumn(computeTableName("solicitudes_compra"), "descripcion",
@@ -2092,6 +2092,7 @@ public class DetalleSCModel extends DataStore {
 	public boolean chequeaTotalesDetallesOrden(int orden_id)
 			throws DataStoreException, SQLException {
 		retrieve("detalle_sc.orden_compra_id = " + orden_id);
+		waitForRetrieve();
 		for (int row = 0; row < getRowCount(); row++) {
 			if (getDetalleScMontoUnitario(row) == 0)
 				return false;
