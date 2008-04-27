@@ -3,6 +3,12 @@
 <siteMap>
 
 	<entry>
+     	<name>ConsultaRecepcionesCompras</name>
+    	<uri>/Jsp/ConsultaRecepcionesCompras.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
      	<name>MenuRecepciones</name>
     	<uri>/Jsp/MenuRecepciones.jsp</uri>
 		<useForward>false</useForward>
