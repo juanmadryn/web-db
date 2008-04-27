@@ -59,7 +59,7 @@
 										height="25" srclocalekey="bannerImageSource" />
 								</salmon:a>
 							</tr>
-							<tr>
+							<tr height="20">
 							</tr>
 							<tr>
 								<td><salmon:text name="completo1" text="Completó"
@@ -91,6 +91,14 @@
 								<td><salmon:text name="fecha2" text=""
 									displayformatlocalekey="DateTimeFormat"
 									datasource="dsRecepciones:recepciones_compras.fecha" /></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="observaciones1" text="Observaciones"
+									font="TableHeadingFont" /></td>
+								<td colspan="3"><salmon:input type="textarea" name="observaciones2"
+									cols="50" rows="3" wrap="HARD" maxlength="255"
+									datasource="dsRecepciones:recepciones_compras.observaciones"></salmon:input></td>
+								<td width="10"></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
@@ -159,7 +167,8 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="descripcion3" text="Nº de detalle - Descripción de artículo"
+							<salmon:text name="descripcion3"
+								text="Nº de detalle - Descripción de artículo"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
@@ -185,29 +194,28 @@
 						<salmon:td>
 							<salmon:text name="orden_de_compra_id2" text=""
 								datasource="dsDetalle:detalle_sc.orden_compra_id"
-								font="TableHeadingFont" />
+								font="ColumnCaptionFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="nombre_articulo1" text=""
-								datasource="dsDetalle:articulos.nombre" font="TableHeadingFont" />
+								datasource="dsDetalle:articulos.nombre" font="ColumnCaptionFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-								lookupurl="%LkpArticulosParaRecepcion" name="articulo2"
-								size="10" maxlength="15"
-								datasource="dsDetalle:detalles_rc.detalle_sc_id"
+								lookupurl="%LkpArticulosParaRecepcion" name="articulo2" size="6"
+								maxlength="15" datasource="dsDetalle:detalles_rc.detalle_sc_id"
 								descriptiondatasource="dsDetalle:articulos.descripcion"
-								popupheight="450" popupwidth="600" usepopup="true"
+								popupheight="600" popupwidth="800" usepopup="true"
 								showdescription="true"></salmon:lookup>							
 								-
 								<salmon:text name="descripcion_completa_articulo1" text=""
 								datasource="dsDetalle:detalle_sc.descripcion"
-								font="TableHeadingFont" />
+								font="ColumnCaptionFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="unidad_medida2" text=""
 								datasource="dsDetalle:unidad_medida.nombre"
-								font="TableHeadingFont" />
+								font="ColumnCaptionFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="cantidad_recibida2" size="8"
@@ -215,8 +223,12 @@
 								datasource="dsDetalle:detalles_rc.cantidad_recibida"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="almacen2" size="15"
-								maxlength="15" datasource="dsDetalle:detalles_rc.almacen_id"></salmon:input>
+							<salmon:input type="select" name="almacen2" size="30"
+								datasource="dsDetalle:detalles_rc.almacen_id">
+								<salmon:option display="abc" key="123"
+									table="inventario.almacenes" keycolumn="almacen_id"
+									displaycolumn="nombre" nulloption="false"></salmon:option>
+							</salmon:input>
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>

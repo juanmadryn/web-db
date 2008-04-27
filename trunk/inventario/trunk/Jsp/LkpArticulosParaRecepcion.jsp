@@ -43,11 +43,11 @@
 				<salmon:datatableheader>
 					<salmon:tr>
 						<salmon:td>
-							<salmon:text name="orden_compra_id1" text="Nº de OC"
+							<salmon:text name="orden_compra_id1" text="Articulo"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="articulo1" text="Articulo"
+							<salmon:text name="articulo1" text="OC"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
@@ -61,21 +61,32 @@
 							<salmon:text name="comprador1" text="Comprador"
 								font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td>
+							<salmon:text name="cantidad_pedida1" text="Cant. pedida"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="cantidad_recibida1" text="Cant. recibida"
+								font="TableHeadingFont" />
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
-					<salmon:tr>
-						<salmon:td>
-							<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.orden_compra_id" displayformat="####0"/>
-						</salmon:td>
+					<salmon:tr>					
 						<salmon:td>
 							<salmon:text name="articulo2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.nombre" /> -
+								datasource="dsArticulosComprados:articulos_comprados.nombre" /> 
+								<salmon:text name="separador1" text="-" font="DefaultFont" />
 								<salmon:text name="articulo3" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.descripcion" /> -
+								datasource="dsArticulosComprados:articulos_comprados.descripcion" />
+								<salmon:text name="separador2" text="-" font="DefaultFont" />
 								<salmon:text name="articulo4" text="" font="DefaultFont"
 								datasource="dsArticulosComprados:articulos_comprados.descripcion_completa" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
+								datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"
+								displayformat="####" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="proveedor2" text="" font="DefaultFont"
@@ -88,6 +99,14 @@
 						<salmon:td>
 							<salmon:text name="comprador2" text="" font="DefaultFont"
 								datasource="dsArticulosComprados:articulos_comprados.comprador" />
+						</salmon:td>
+						<salmon:td align="RIGHT">
+							<salmon:text name="cantidad_pedida2" text="" font="DefaultFont"
+								datasource="dsArticulosComprados:articulos_comprados.cantidad_pedida" displayformatlocalekey="CantidadPedidaFormat"/>
+						</salmon:td>
+						<salmon:td align="RIGHT">
+							<salmon:text name="cantidad_recibida2" text="" font="DefaultFont"
+								datasource="dsArticulosComprados:articulos_comprados.cantidad_recibida" displayformatlocalekey="CantidadPedidaFormat"/>
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>
