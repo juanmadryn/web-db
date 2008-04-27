@@ -13,7 +13,11 @@ import com.salmonllc.sql.DataStoreException;
  */
 public class TipoMovimientoArticuloModel extends DataStore {
 
-     //constants for columns
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2585976192949159819L;
+	//constants for columns
      public static final String TIPO_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID="tipo_movimiento_articulo.tipo_movimiento_articulo_id";
      public static final String TIPO_MOVIMIENTO_ARTICULO_NOMBRE="tipo_movimiento_articulo.nombre";
      public static final String TIPO_MOVIMIENTO_ARTICULO_DESCRIPCION="tipo_movimiento_articulo.descripcion";

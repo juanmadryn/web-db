@@ -43,6 +43,7 @@ public class RecepcionesComprasModel extends BaseModel {
 	public static final String RECEPCIONES_COMPRAS_PROVEEDOR_ID = "recepciones_compras.proveedor_id";
 	public static final String RECEPCIONES_COMPRAS_USER_ID_COMPLETA = "recepciones_compras.user_id_completa";
 	public static final String RECEPCIONES_COMPRAS_USER_ID_RECIBE = "recepciones_compras.user_id_recibe";
+	public static final String RECEPCIONES_COMPRAS_OBSERVACIONES = "recepciones_compras.observaciones";
 	public static final String USER_RECIBE_NOMBRE_COMPLETO = "user_recibe.nombre_completo";
 	public static final String USER_COMPLETA_NOMBRE_COMPLETO = "user_completa.nombre_completo";
 	public static final String PROVEEDOR_NOMBRE = "proveedores.nombre";
@@ -102,6 +103,9 @@ public class RecepcionesComprasModel extends BaseModel {
 		addColumn(computeTableName("recepciones_compras"), "user_id_recibe",
 				DataStore.DATATYPE_INT, false, true,
 				RECEPCIONES_COMPRAS_USER_ID_RECIBE);
+		addColumn(computeTableName("recepciones_compras"), "observaciones",
+				DataStore.DATATYPE_STRING, false, true,
+				RECEPCIONES_COMPRAS_OBSERVACIONES);
 		addColumn(computeTableName("estados"), "nombre",
 				DataStore.DATATYPE_STRING, false, true, ESTADOS_NOMBRE);
 		addColumn(computeTableName("proveedores"), "nombre",
@@ -136,7 +140,6 @@ public class RecepcionesComprasModel extends BaseModel {
 		addRequiredRule(RECEPCIONES_COMPRAS_USER_ID_COMPLETA,
 				"Indique el usuario que completa la recepción");	
 
-		// add lookups
 		// add lookups
 		addLookupRule(
 				RECEPCIONES_COMPRAS_ESTADO,
@@ -493,6 +496,60 @@ public class RecepcionesComprasModel extends BaseModel {
 		setInt(row, RECEPCIONES_COMPRAS_USER_ID_RECIBE, newValue);
 	}
 
+
+	/**
+	 * Retrieve the value of the recepciones_compras.observaciones column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getRecepcionesComprasObservaciones() throws DataStoreException {
+		return getString(RECEPCIONES_COMPRAS_OBSERVACIONES);
+	}
+
+	/**
+	 * Retrieve the value of the recepciones_compras.observaciones column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getRecepcionesComprasObservaciones(int row)
+			throws DataStoreException {
+		return getString(row, RECEPCIONES_COMPRAS_OBSERVACIONES);
+	}
+
+	/**
+	 * Set the value of the recepciones_compras.observaciones column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setRecepcionesComprasObservaciones(String newValue)
+			throws DataStoreException {
+		setString(RECEPCIONES_COMPRAS_OBSERVACIONES, newValue);
+	}
+
+	/**
+	 * Set the value of the recepciones_compras.observaciones column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setRecepcionesComprasObservaciones(int row, String newValue)
+			throws DataStoreException {
+		setString(row, RECEPCIONES_COMPRAS_OBSERVACIONES, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the estados.nombre column for the current row.
 	 * 

@@ -160,6 +160,10 @@ public class DetalleRCModel extends DataStore {
 			addColumn(computeTableName("articulos"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION);
+			addColumn(computeTableName("unidades_medida"), "nombre",
+					DataStore.DATATYPE_STRING, false, false,
+					UNIDAD_MEDIDA_NOMBRE);
+
 			addBucket(UNIDAD_MEDIDA_NOMBRE, DataStore.DATATYPE_STRING);
 
 			// add joins
@@ -176,9 +180,11 @@ public class DetalleRCModel extends DataStore {
 
 			addJoin(computeTableAndFieldName("detalle_sc.articulo_id"),
 					computeTableAndFieldName("articulos.articulo_id"), false);
-			
-			addJoin(computeTableAndFieldName("detalle_sc.unidad_medida_id"),
-					computeTableAndFieldName("unidades_medida.unidad_medida_id"), false);
+
+			addJoin(
+					computeTableAndFieldName("detalle_sc.unidad_medida_id"),
+					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
+					false);
 
 			// add validations
 			addRequiredRule(DETALLES_RC_ALMACEN_ID, "El almacén es obligatorio");
@@ -196,6 +202,21 @@ public class DetalleRCModel extends DataStore {
 					"'inventario.unidades_medida.unidad_medida_id = ' + detalle_sc.unidad_medida_id",
 					"nombre", UNIDAD_MEDIDA_NOMBRE,
 					"Unidad de medida inexistente");
+			addLookupRule(
+					DETALLES_RC_DETALLE_SC_ID,
+					computeTableName("detalle_sc"),
+					"'detalle_sc.detalle_sc_id = ' + detalles_rc.detalle_sc_id",
+					"descripcion", DETALLE_SC_DESCRIPCION,
+					"Articulo inexistente");
+			addLookupRule(DETALLE_SC_ARTICULO_ID,
+					computeTableName("articulos"),
+					"'articulos.articulo_id = ' + detalle_sc.articulo_id",
+					"nombre", ARTICULOS_NOMBRE, "Articulo inexistente");
+			addLookupRule(DETALLE_SC_ARTICULO_ID,
+					computeTableName("articulos"),
+					"'articulos.articulo_id = ' + detalle_sc.articulo_id",
+					"descripcion", ARTICULOS_DESCRIPCION,
+					"Articulo inexistente");
 
 			setAutoIncrement(DETALLES_RC_DETALLE_RC_ID, true);
 
@@ -418,8 +439,8 @@ public class DetalleRCModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the detalles_rc.cantidad_recibida column for the current
-	 * row.
+	 * Retrieve the value of the detalles_rc.cantidad_recibida column for the
+	 * current row.
 	 * 
 	 * @return double
 	 * @throws DataStoreException
@@ -429,8 +450,8 @@ public class DetalleRCModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the detalles_rc.cantidad_recibida column for the specified
-	 * row.
+	 * Retrieve the value of the detalles_rc.cantidad_recibida column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -442,7 +463,8 @@ public class DetalleRCModel extends DataStore {
 	}
 
 	/**
-	 * Set the value of the detalles_rc.cantidad_recibida column for the current row.
+	 * Set the value of the detalles_rc.cantidad_recibida column for the current
+	 * row.
 	 * 
 	 * @param newValue
 	 *            the new item value
@@ -454,7 +476,8 @@ public class DetalleRCModel extends DataStore {
 	}
 
 	/**
-	 * Set the value of the detalles_rc.cantidad_recibida column for the specified row.
+	 * Set the value of the detalles_rc.cantidad_recibida column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -1547,6 +1570,54 @@ public class DetalleRCModel extends DataStore {
 		setString(row, ARTICULOS_DESCRIPCION, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the articulos.nombre column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getUnidadMedidaNombre() throws DataStoreException {
+		return getString(UNIDAD_MEDIDA_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the articulos.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getUnidadMedidaNombre(int row) throws DataStoreException {
+		return getString(row, UNIDAD_MEDIDA_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the articulos.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setUnidadMedidaNombre(String newValue)
+			throws DataStoreException {
+		setString(UNIDAD_MEDIDA_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setUnidadMedidaNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, UNIDAD_MEDIDA_NOMBRE, newValue);
+	}
+
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
@@ -1554,8 +1625,8 @@ public class DetalleRCModel extends DataStore {
 	public void update(DBConnection connection, boolean handleTrans)
 			throws DataStoreException, SQLException {
 
-		RecepcionesComprasModel recepcion = new RecepcionesComprasModel("inventario",
-				"inventario");
+		RecepcionesComprasModel recepcion = new RecepcionesComprasModel(
+				"inventario", "inventario");
 
 		for (int row = 0; row < getRowCount(); row++) {
 			recepcion.retrieve(connection, "recepcion_compra_id = "
@@ -1580,6 +1651,12 @@ public class DetalleRCModel extends DataStore {
 		}
 
 		super.update(connection, handleTrans);
+	}
+
+	public void reloadRows() throws DataStoreException, SQLException {
+		for (int row = 0; row < getRowCount(); row++) {
+			reloadRow(row);
+		}
 	}
 	// $ENDCUSTOMMETHODS$
 
