@@ -96,11 +96,11 @@ public class AtributosEntidadModel extends DataStore {
 		try {
 
 			// add aliases
-			addTableAlias(computeTableName("atributos_entidad"),
+			addTableAlias(computeTableName("infraestructura.atributos_entidad"),
 					"atributos_entidad");
-			addTableAlias(computeTableName("atributos_rol"), null);
-			addTableAlias(computeTableName("entidad_externa"), null);
-			addTableAlias(computeTableName("clase_atributo_rol"), null);
+			addTableAlias(computeTableName("infraestructura.atributos_rol"), "atributos_rol");
+			addTableAlias(computeTableName("infraestructura.entidad_externa"), "entidad_externa");
+			addTableAlias(computeTableName("infraestructura.clase_atributo_rol"), "clase_atributo_rol");
 
 			// add columns
 			addColumn(computeTableName("atributos_entidad"),
