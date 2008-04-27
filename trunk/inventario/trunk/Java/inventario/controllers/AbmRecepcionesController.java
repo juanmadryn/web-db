@@ -17,6 +17,7 @@ import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreBuffer;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
@@ -179,6 +180,9 @@ public class AbmRecepcionesController extends BaseEntityController {
 	public com.salmonllc.jsp.JspLink _imprimirRecepcionCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirRecepcionCompraBUT2;
 
+	public com.salmonllc.html.HtmlSubmitButton _grabarAtributoBUT1;
+	public com.salmonllc.html.HtmlSubmitButton _atributoGenerarAtributosBUT11;
+
 	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
 
 	private static final String CIRCUITO = "0009";
@@ -227,6 +231,15 @@ public class AbmRecepcionesController extends BaseEntityController {
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 
+		// botones para atributos
+		_grabarAtributoBUT1 = new HtmlSubmitButton("grabarAtributoBUT1",
+				"grabar", this);
+		_listformdisplaybox4.addButton(_grabarAtributoBUT1);
+
+		_atributoGenerarAtributosBUT11 = new HtmlSubmitButton(
+				"atributoGenerarAtributosBUT11", "generar", this);
+		_listformdisplaybox4.addButton(_atributoGenerarAtributosBUT11);
+
 		// agrega los listener a lso botones
 		_nuevaRecepcionCompraBUT1.addSubmitListener(this);
 		_grabarRecepcionCompraBUT1.addSubmitListener(this);
@@ -239,7 +252,10 @@ public class AbmRecepcionesController extends BaseEntityController {
 		_customBUT120.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
-		_desSeleccionaTodoBUT1.addSubmitListener(this);		
+		_desSeleccionaTodoBUT1.addSubmitListener(this);
+
+		_atributoGenerarAtributosBUT11.addSubmitListener(this);
+		_grabarAtributoBUT1.addSubmitListener(this);
 
 		// agrego columna de seleccion
 		_dsDetalle.addBucket(SELECCION_DETALLE_FLAG, DataStore.DATATYPE_INT);
@@ -262,8 +278,13 @@ public class AbmRecepcionesController extends BaseEntityController {
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
 
 		setTabla_principal("recepciones_compras");
+		set_dsAtributos(_dsAtributos);
+		setContainer(_listformdisplaybox4);
 
 		setDatosBasicosRecepcion();
+
+		seteaBotonesAtributos();
+		recuperaAtributosBotonSeleccionado();
 	}
 
 	/**
@@ -366,6 +387,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 			// genero una nueva recepcion vacia.
 			_dsRecepciones.reset();
 			_dsDetalle.reset();
+			_dsAtributos.reset();
 			_dsRecepciones.gotoRow(_dsRecepciones.insertRow());
 			_proveedor2.setFocus();
 		}
@@ -388,10 +410,24 @@ public class AbmRecepcionesController extends BaseEntityController {
 						_dsDetalle.update(conn);
 					}
 
+					if (_dsAtributos.getRow() == -1) {
+						if (!(_dsRecepciones
+								.getRecepcionesComprasRecepcionCompraId() > 0)) {
+							displayErrorMessage("Debe seleccionar un proyecto para poder generar sus atributos");
+							return false;
+						}
+						// manda a generar los atributos de la entidad
+						_dsAtributos.generaAtributosObjetoAplicacion(
+								getRow_id(), getTabla_principal());
+					} else
+						_dsAtributos.update(conn);
+
 					_dsRecepciones.resetStatus();
 					_dsDetalle.resetStatus();
+					_dsAtributos.resetStatus();
 
 					conn.commit();
+					_dsDetalle.reloadRows();
 
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
@@ -439,6 +475,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 							.getRecepcionesComprasRecepcionCompraId());
 					if (_dsDetalle.getRow() != -1)
 						_dsDetalle.update();
+					_dsDetalle.reloadRows();
 					// recupero el row actual
 					int rowActual = _dsDetalle.getRow();
 
@@ -546,6 +583,47 @@ public class AbmRecepcionesController extends BaseEntityController {
 			}
 		}
 
+		// graba atributos de entidad
+		if (component == _grabarAtributoBUT1) {
+			if (isModificable(_dsRecepciones.getRecepcionesComprasEstado())) {
+				try {
+					_dsAtributos.update();
+				} catch (ValidationException ex) {
+					for (String er : ex.getStackErrores())
+						displayErrorMessage(er);
+					MessageLog.writeErrorMessage(ex, null);
+					return false;
+
+				} catch (DataStoreException ex) {
+					displayErrorMessage(ex.getMessage());
+					return false;
+				}
+			} else {
+				displayErrorMessage("No puede modificar el proyecto una vez que lo ha completado");
+				return false;
+			}
+		}
+
+		// genera atributos, por si faltan
+		if (component == _atributoGenerarAtributosBUT11) {
+			// primero determina contexto
+			if (getRow_id() < 1) {
+				displayErrorMessage("Debe seleccionar un proyecto para poder generar sus atributos");
+				return false;
+			}
+
+			// manda a generar los atributos de la entidad
+			try {
+				_dsAtributos.generaAtributosObjetoAplicacion(getRow_id(),
+						getTabla_principal());
+			} catch (DataStoreException ex) {
+				displayErrorMessage(ex.getMessage());
+				return false;
+			}
+			// seteaBotonesAtributos();
+			// recuperaAtributosBotonSeleccionado();
+		}
+
 		setLookupArticulosParaRecepcionURL();
 		armaBotonera();
 		return super.submitPerformed(event);
@@ -569,10 +647,11 @@ public class AbmRecepcionesController extends BaseEntityController {
 							.getRecepcionesComprasRecepcionCompraId());
 				if (getRow_id() > 0) {
 					// Viene seteado el proyecto. lo recupero sino no se hace
-					// nada				
+					// nada
 					// resetea todos los datasource
 					_dsRecepciones.reset();
 					_dsDetalle.reset();
+					_dsAtributos.reset();
 
 					// recupera toda la información para el proyecto
 					_dsRecepciones
@@ -581,12 +660,24 @@ public class AbmRecepcionesController extends BaseEntityController {
 					_dsRecepciones.waitForRetrieve();
 					_dsRecepciones.gotoFirst();
 
+					// genero atributos si faltan
+					_dsAtributos.generaAtributosObjetoAplicacion(getRow_id(),
+							getTabla_principal());
+
+					// setea los botones de los atributos
+					seteaBotonesAtributos();
+
+					// recupera la información del boton seleccionado
+					recuperaAtributosBotonSeleccionado();
+
+					_dsAtributos.gotoFirst();
+
 					// sigue recuperando información del resto de los detalles
 					// (actividades y tareas)
 
 					_dsDetalle.retrieve("detalles_rc.recepcion_compra_id = "
 							+ getRow_id());
-					
+
 					_dsDetalle.gotoFirst();
 
 					setDatosBasicosRecepcion();
@@ -598,12 +689,12 @@ public class AbmRecepcionesController extends BaseEntityController {
 			displayErrorMessage(e.getMessage());
 		} catch (SQLException e) {
 			displayErrorMessage(e.getMessage());
-		}		
-		
-			setLookupArticulosParaRecepcionURL();
-			setDatosBasicosRecepcion();
-			armaBotonera();
-				
+		}
+
+		setLookupArticulosParaRecepcionURL();
+		setDatosBasicosRecepcion();
+		armaBotonera();
+
 		super.pageRequested(event);
 	}
 
@@ -621,14 +712,51 @@ public class AbmRecepcionesController extends BaseEntityController {
 		}
 	}
 
-	/**
-	 * Process the page submit end event
-	 * 
-	 * @param event
-	 *            the page event to be processed
-	 */
-	public void pageSubmitEnd(PageEvent event) {
-		super.pageSubmitEnd(event);
+	@Override
+	public void pageSubmitEnd(PageEvent p) {
+		super.pageSubmitEnd(p);
+		// ante cada requerimiento verifica contexto y determina detalle de
+		// atributos y completa FK's
+		// Es row de rol válida?
+		try {
+			boolean actualizar = false;
+			int row = _dsRecepciones.getRow();
+			int objeto_id = 0;
+			int objeto_id_atributos = 0;
+			if (row != -1) {
+
+				// completa default de las columnas
+				// _dsProyecto.setColumnasDefault(row);
+
+				// recupera el id del proyecto de contexto
+				objeto_id = _dsRecepciones
+						.getRecepcionesComprasRecepcionCompraId();
+				// si se está insertando un nuevo registro de rol, no se
+				// actualiza
+				if (!(_dsAtributos.getRowStatus() == DataStoreBuffer.STATUS_NEW || _dsAtributos
+						.getRowStatus() == DataStoreBuffer.STATUS_NEW_MODIFIED)) {
+					// Ya existe detalle de atributos?
+					if (_dsAtributos.getRowCount() > 0) {
+						// es el mismo contexto? --> recupero la entidad del
+						// detalle para verificación, siempre del primer
+						// registro
+						objeto_id_atributos = _dsAtributos
+								.getAtributosEntidadObjetoId(0);
+						if (objeto_id_atributos == 0)
+							actualizar = true;
+						if (objeto_id_atributos != objeto_id) {
+							// Es distinto el contexto del rol de atributo
+							actualizar = true;
+						}
+					} else {
+						actualizar = true;
+					}
+				}
+			}
+		} catch (DataStoreException e) {
+			displayErrorMessage(e.getMessage());
+		}
+
 	}
 
 	/**
@@ -664,6 +792,10 @@ public class AbmRecepcionesController extends BaseEntityController {
 				"&Parameter_recepcion_compra_id=" + getRow_id());
 		_imprimirRecepcionCompraBUT2.setHref(URL);
 
+		if (_dsDetalle.getRowCount() > 0)
+			_proveedor2.setEnabled(false);
+		else
+			_proveedor2.setEnabled(true);
 	}
 
 	/**
@@ -697,7 +829,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 			throw new DataStoreException(
 					"Debe seleccionar una recepcion de compra para recuperar su estado");
 		}
-		
+
 		estado = _dsRecepciones.getString("recepciones_compras.estado");
 
 		try {
@@ -728,8 +860,8 @@ public class AbmRecepcionesController extends BaseEntityController {
 				int i = 100;
 				com.salmonllc.html.HtmlSubmitButton boton;
 				do {
-				
-					nombre_boton = "customBUT" + i;					
+
+					nombre_boton = "customBUT" + i;
 					boton = (com.salmonllc.html.HtmlSubmitButton) this
 							.getComponent(nombre_boton);
 					if (boton != null) {
@@ -788,6 +920,6 @@ public class AbmRecepcionesController extends BaseEntityController {
 
 	private void setLookupArticulosParaRecepcionURL() throws DataStoreException {
 		_articulo2.setLookUpPageURL("%LkpArticulosParaRecepcion?proveedor_id="
-				+ _dsRecepciones.getRecepcionesComprasProvedorId());		
+				+ _dsRecepciones.getRecepcionesComprasProvedorId());
 	}
 }

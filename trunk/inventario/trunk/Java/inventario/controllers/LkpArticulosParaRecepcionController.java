@@ -82,11 +82,11 @@ public class LkpArticulosParaRecepcionController extends BaseController {
 	 */
 	public void pageRequested(PageEvent event) {
 		try {
+			if(!isReferredByCurrentPage())
+			_dsArticulosComprados.reset();
 			int proveedor_id = getIntParameter("proveedor_id");
 			if (proveedor_id != -1) {
-				// requere sólo actividades asociadas al proyecto actual
-				// solamente recupera ordenes de compra en estado generado o
-				// revisado				
+			    // sólo recupera detalles q se hayan comprado al proveedor indicado		
 				_dsQBE.setString("proveedor", String.valueOf(proveedor_id));				
 			}			
 		} catch (Exception ex) {
