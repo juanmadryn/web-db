@@ -28,8 +28,10 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID = "comprobante_movimiento_articulo.tipo_movimiento_articulo_id";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA = "comprobante_movimiento_articulo.fecha";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_OBSERVACIONES = "comprobante_movimiento_articulo.observaciones";
-	public static final String TIPO_MOVIMIENTO_ARTICULO_NOMBRE = "tipo_movimiento_articulo.nombre";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_RECEPCION_COMPRA_ID = "comprobante_movimiento_articulo.recepcion_compra_id";
+	public static final String TIPO_MOVIMIENTO_ARTICULO_NOMBRE = "tipo_movimiento_articulo.nombre";
+	public static final String TIPO_MOVIMIENTO_ARTICULO_POSITIVO = "tipo_movimiento_articulo.positivo";
+	public static final String TIPO_MOVIMIENTO_ARTICULO_RESERVA = "tipo_movimiento_articulo.reserva";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
@@ -92,7 +94,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					false, true,
 					COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID);
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
-					"fecha", DataStore.DATATYPE_DATE, false, true,
+					"fecha", DataStore.DATATYPE_DATETIME, false, true,
 					COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA);
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
 					"observaciones", DataStore.DATATYPE_STRING, false, true,
@@ -103,7 +105,12 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addColumn(computeTableName("tipo_movimiento_articulo"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					TIPO_MOVIMIENTO_ARTICULO_NOMBRE);
-		
+			addColumn(computeTableName("tipo_movimiento_articulo"), "positivo",
+					DataStore.DATATYPE_STRING, false, false,
+					TIPO_MOVIMIENTO_ARTICULO_POSITIVO);
+			addColumn(computeTableName("tipo_movimiento_articulo"), "reserva",
+					DataStore.DATATYPE_STRING, false, false,
+					TIPO_MOVIMIENTO_ARTICULO_RESERVA);
 
 			// add joins
 			addJoin(
@@ -131,9 +138,10 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"El estado es obligatorio");
 			addRequiredRule(
 					COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID,
-					"El tipo de movimiento de artÃ­culo es obligatorio");
+					"El tipo de movimiento de artículo es obligatorio");
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA,
 					"La fecha es obligatoria");
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -189,6 +197,20 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"'infraestructura.website_user.user_id = ' + comprobante_movimiento_articulo.user_id_retira",
 					"nombre_completo", WEBSITE_USER_RETIRA_NOMBRE_COMPLETO,
 					"Estado inexistente");
+			addLookupRule(
+					COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID,
+					"inventario.tipo_movimiento_articulo",
+					"'inventario.tipo_movimiento_articulo.tipo_movimiento_articulo_id = ' + comprobante_movimiento_articulo.tipo_movimiento_articulo_id",
+					"positivo", TIPO_MOVIMIENTO_ARTICULO_POSITIVO,
+					"Tipo de movimiento inexistente");
+			addLookupRule(
+					COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID,
+					"inventario.tipo_movimiento_articulo",
+					"'inventario.tipo_movimiento_articulo.tipo_movimiento_articulo_id = ' + comprobante_movimiento_articulo.tipo_movimiento_articulo_id",
+					"reserva", TIPO_MOVIMIENTO_ARTICULO_RESERVA,
+					"Tipo de movimiento inexistente");
+			
+			setAutoIncrement(COMPROBANTE_MOVIMIENTO_ARTICULO_COMPROBANTE_MOVIMIENTO_ID, true);
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -545,9 +567,9 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getComprobanteMovimientoArticuloFecha()
+	public java.sql.Timestamp getComprobanteMovimientoArticuloFecha()
 			throws DataStoreException {
-		return getDate(COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA);
+		return getDateTime(COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA);
 	}
 
 	/**
@@ -559,9 +581,9 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
-	public java.sql.Date getComprobanteMovimientoArticuloFecha(int row)
+	public java.sql.Timestamp getComprobanteMovimientoArticuloFecha(int row)
 			throws DataStoreException {
-		return getDate(row, COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA);
+		return getDateTime(row, COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA);
 	}
 
 	/**
@@ -572,9 +594,9 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setComprobanteMovimientoArticuloFecha(java.sql.Date newValue)
-			throws DataStoreException {
-		setDate(COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA, newValue);
+	public void setComprobanteMovimientoArticuloFecha(
+			java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA, newValue);
 	}
 
 	/**
@@ -588,8 +610,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	 * @throws DataStoreException
 	 */
 	public void setComprobanteMovimientoArticuloFecha(int row,
-			java.sql.Date newValue) throws DataStoreException {
-		setDate(row, COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA, newValue);
+			java.sql.Timestamp newValue) throws DataStoreException {
+		setDateTime(row, COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA, newValue);
 	}
 
 	/**
@@ -647,8 +669,9 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the comprobante_movimiento_articulo.recepcion_compra_id
-	 * column for the current row.
+	 * Retrieve the value of the
+	 * comprobante_movimiento_articulo.recepcion_compra_id column for the
+	 * current row.
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -659,8 +682,9 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the comprobante_movimiento_articulo.recepcion_compra_id
-	 * column for the specified row.
+	 * Retrieve the value of the
+	 * comprobante_movimiento_articulo.recepcion_compra_id column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -673,8 +697,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	}
 
 	/**
-	 * Set the value of the comprobante_movimiento_articulo.recepcion_compra_id column
-	 * for the current row.
+	 * Set the value of the comprobante_movimiento_articulo.recepcion_compra_id
+	 * column for the current row.
 	 * 
 	 * @param newValue
 	 *            the new item value
@@ -686,8 +710,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	}
 
 	/**
-	 * Set the value of the comprobante_movimiento_articulo.recepcion_compra_id column
-	 * for the specified row.
+	 * Set the value of the comprobante_movimiento_articulo.recepcion_compra_id
+	 * column for the specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -695,11 +719,12 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setComprobanteMovimientoArticuloRecepcionCompraId(int row, int newValue)
-			throws DataStoreException {
-		setInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_RECEPCION_COMPRA_ID, newValue);
+	public void setComprobanteMovimientoArticuloRecepcionCompraId(int row,
+			int newValue) throws DataStoreException {
+		setInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_RECEPCION_COMPRA_ID,
+				newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the tipo_movimiento_articulo.nombre column for the
 	 * current row.
@@ -753,6 +778,113 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 		setString(row, TIPO_MOVIMIENTO_ARTICULO_NOMBRE, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.positivo column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloPositivo() throws DataStoreException {
+		return getString(TIPO_MOVIMIENTO_ARTICULO_POSITIVO);
+	}
+
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.positivo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloPositivo(int row)
+			throws DataStoreException {
+		return getString(row, TIPO_MOVIMIENTO_ARTICULO_POSITIVO);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.positivo column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloPositivo(String newValue)
+			throws DataStoreException {
+		setString(TIPO_MOVIMIENTO_ARTICULO_POSITIVO, newValue);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.positivo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloPositivo(int row, String newValue)
+			throws DataStoreException {
+		setString(row, TIPO_MOVIMIENTO_ARTICULO_POSITIVO, newValue);
+	}
+	
+
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.reserva column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloReserva() throws DataStoreException {
+		return getString(TIPO_MOVIMIENTO_ARTICULO_RESERVA);
+	}
+
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.reserva column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloReserva(int row)
+			throws DataStoreException {
+		return getString(row, TIPO_MOVIMIENTO_ARTICULO_RESERVA);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.reserva column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloReserva(String newValue)
+			throws DataStoreException {
+		setString(TIPO_MOVIMIENTO_ARTICULO_RESERVA, newValue);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.reserva column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloReserva(int row, String newValue)
+			throws DataStoreException {
+		setString(row, TIPO_MOVIMIENTO_ARTICULO_RESERVA, newValue);
+	}
+	
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
