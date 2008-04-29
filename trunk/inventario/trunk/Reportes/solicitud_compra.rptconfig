@@ -3,11 +3,11 @@
     <list-property name="configVars">
         <structure>
             <property name="name">__isdisplay__Parameter_solicitud_compra_id_136_0</property>
-            <property name="value">11</property>
+            <property name="value">1</property>
         </structure>
         <structure>
             <property name="name">Parameter_solicitud_compra_id_136_1</property>
-            <property name="value">11</property>
+            <property name="value">1</property>
         </structure>
         <structure>
             <property name="name">Parameter_solicitud_compra_id_136_type_</property>
