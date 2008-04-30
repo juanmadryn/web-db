@@ -2120,14 +2120,49 @@ public class DetalleSCModel extends DataStore {
 	 * Retrieve the value of the solicitudes_compra.fecha_solicitud column for
 	 * the specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
+	 * @param row which row in the table
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
 	public java.sql.Date getSolicitudesCompraFechaSolicitud(int row)
 			throws DataStoreException {
 		return getDate(row, SOLICITUDES_COMPRA_FECHA_SOLICITUD);
+	}
+	
+	/**
+	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
+	 * elimina el fk al OC y resetea el campo cantidad pedida.
+	 * @param conn La conexión en la que se enmarca la transacción
+	 * @param bucketName nombre del bucket que contiene el flag de seleccion
+	 * @return true si han sido eliminado algun detalle
+	 * @throws DataStoreException
+	 */
+	public boolean eliminaDetallesSeleccionados(DBConnection conn, String bucketName) throws DataStoreException {
+		// filtramos detalles marcados para remoción
+		filter(bucketName + " == 1");
+		
+		boolean detalleEliminado = getRowCount() > 0 ? true : false;
+		int row = 0;
+		
+		try {
+			for (row = 0; row < getRowCount(); row++) {
+				setAny(row,
+						DetalleSCModel.DETALLE_SC_CANTIDAD_PEDIDA, getNullDefault(DataStore.DATATYPE_INT));
+				setAny(row,
+						DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, getNullDefault(DataStore.DATATYPE_INT));				
+			}			
+			return detalleEliminado;
+			
+		} catch (DataStoreException ex) {
+			undoChanges(row);
+			setInt(row, bucketName, 0);
+			throw new DataStoreException(
+					"No se ha podido remover el artículo seleccionado. Error: "
+					+ ex.getMessage());
+		} finally {
+			// removemos el filtro
+			filter(null);
+		}
 	}
 	// $ENDCUSTOMMETHODS$
 

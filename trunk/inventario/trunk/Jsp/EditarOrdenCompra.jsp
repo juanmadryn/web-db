@@ -90,6 +90,12 @@
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
 							</tr>
 							<tr>
+								<td><salmon:text name="forma_pago"
+									text="Forma de Pago" font="TableHeadingFont" /></td>
+								<td><salmon:input name="forma_pago2" type="text"
+									size="30" maxlength="100"></salmon:input></td>
+							</tr>
+							<tr>
 								<!-- <td valign="top"><salmon:text name="descripcion1" text="Descripcion"
 									font="TableHeadingFont"/></td>
 								<td valign="top"><salmon:input type="text" name="descripcion2" size="40"

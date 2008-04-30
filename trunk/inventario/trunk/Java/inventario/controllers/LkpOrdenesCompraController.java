@@ -69,6 +69,6 @@ public class LkpOrdenesCompraController extends BaseController {
 	public void initialize() throws Exception {		
 		// solamente recupera ordenes de compra en estado generado o revisado
 		_dsQBE.addCriteria("estadosEditables", QBEBuilder.CRITERIA_TYPE_IN, "ordenes_compra.estado");
-		_dsQBE.setString("estadosEditables", "0008.0001, 0008.0005");
+		_dsQBE.setString("estadosEditables", "0008.0001,0008.0005");
 	}	
 }

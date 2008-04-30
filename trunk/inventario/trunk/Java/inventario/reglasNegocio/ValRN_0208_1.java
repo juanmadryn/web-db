@@ -49,14 +49,25 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 			// chequea el rol o identidad del usuario que va a completa el OC
 			int currentUser = ds.getCurrentWebsiteUserId();
 			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
-				msg.append("Debe ser COMPRADOR o el comprador original para completar o revisar una Orden de compra.");
+				msg.append("Debe ser COMPRADOR o el comprador original para completar una Orden de compra.");
 				return false;
 			}
-
+			
+			// Guarda cambios realizados a la orden
+			if (ds.getRow() == -1)
+				return false;
+			ds.update(conn);
+			
 			// el número de detalles de la OC debe ser > 0 
 			if (detalles.estimateRowsRetrieved(conn, "detalle_sc.orden_compra_id = " + ordenCompraId) == 0) {
 				msg.append("Debe especificar por lo menos un detalle de una SC a comprar");
 				return false;
+			} else {
+				// guarda los cambios realizados a los detalles
+				detalles.retrieve(conn, "detalle_sc.orden_compra_id = " + ordenCompraId);
+				if (detalles.getRow() != -1) {
+					detalles.update(conn);
+				}
 			}
 			
 			if (ds.getOrdenesCompraEntidadIdProveedor() == 0) {

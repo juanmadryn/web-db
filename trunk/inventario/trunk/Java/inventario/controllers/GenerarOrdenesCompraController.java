@@ -8,6 +8,7 @@ import infraestructura.reglasNegocio.ValidationException;
 import infraestructura.utils.BusquedaPorAtributo;
 import inventario.models.OrdenesCompraModel;
 import inventario.models.SolicitudCompraModel;
+import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -302,46 +303,10 @@ public class GenerarOrdenesCompraController extends BaseController {
 				
 				_dsDetalleSC.update(conexion);
 				
-				// update the SC states
-				SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
-				
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					dsSolicitudCompra.retrieve(conexion,
-							SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-							" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-							);					
-					dsSolicitudCompra.gotoFirst();					
-					
-					if ("0006.0003".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
-						try {
-							dsSolicitudCompra.ejecutaAccion(18,	"0006",
-									this.getCurrentRequest().getRemoteHost(), 
-									getSessionManager().getWebSiteUser().getUserID(), 
-									"solicitudes_compra", conexion, false);	
-						} catch (DataStoreException ex) {
-							MessageLog.writeErrorMessage(ex, null);
-						}		
-					}
-				}
-				
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					dsSolicitudCompra.retrieve(conexion,
-							SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-							" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-							);					
-					dsSolicitudCompra.gotoFirst();
-					
-					if ("0006.0006".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
-						try {
-							dsSolicitudCompra.ejecutaAccion(19,	"0006",
-									this.getCurrentRequest().getRemoteHost(), 
-									getSessionManager().getWebSiteUser().getUserID(), 
-									"solicitudes_compra", conexion, false);	
-						} catch (DataStoreException ex) {
-							MessageLog.writeErrorMessage(ex, null);
-						}											
-					}
-				}			
+				// update the SC states			
+				SolicitudCompraTransiciones.agregarEnOc(conexion,
+						_dsDetalleSC, getCurrentRequest().getRemoteHost(),
+						getSessionManager().getWebSiteUser().getUserID());
 							
 				conexion.commit();
 				
