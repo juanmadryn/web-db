@@ -119,7 +119,9 @@ public class ListaSolicitantesController extends JspController implements
 			if (!isReferredByCurrentPage()) {				
 				int orden_id = getIntParameter("orden_id");
 				if (orden_id > 0) {					
-					_dsDetalleSc.setGroupBy(DetalleSCModel.SOLICITUDES_COMPRA_USER_ID_SOLICITA);
+					_dsDetalleSc.setGroupBy(
+							DetalleSCModel.SOLICITUDES_COMPRA_USER_ID_SOLICITA + ", " +
+							DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID);
 					_dsDetalleSc.retrieve(DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " = " +orden_id);
 					_dsDetalleSc.gotoFirst();
 				}				
