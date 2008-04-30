@@ -112,7 +112,7 @@ public class ReplicateCpa01QuartzJob implements Job {
 			 */
 			// Direccion y Telefono
 			String proveedoresAtributoStringMySQL = 
-				"INSERT INTO infraestructura.atributos_rol " +
+				"INSERT INTO infraestructura.atributos_entidad " +
 				"(entidad_id,atributo_id,valor) " +
 				"VALUES (?,?,?) " +
 				"ON DUPLICATE KEY UPDATE " +
@@ -127,24 +127,26 @@ public class ReplicateCpa01QuartzJob implements Job {
 			 * Insertamos los datos en la tabla entidades_externas
 			 */
 			r = tangoSt.executeQuery(proveedoresAtributosTangoSQL);			
-			while (r.next()) {				
+			while (r.next()) {
 				pstMySql2.setString(1, r.getString(1)); // busco por codigo
 				rMySql = pstMySql2.executeQuery();
-				rMySql.first();
+				rMySql.first();				
 				
-				int entidad_id = rMySql.getInt(1);
-				String domicilio = r.getString(2);
-				String telefono = r.getString(3);
-				
-				pstMySql.setInt(1, entidad_id);
-				pstMySql.setInt(2, 11); // 11 -> atributo_id telefono
-				pstMySql.setString(3, telefono);
-				pstMySql.executeUpdate();		
-				
-				pstMySql.setInt(1, entidad_id);
-				pstMySql.setInt(2, 10); // 10 -> atributo_id domicilio
-				pstMySql.setString(3, domicilio);
-				pstMySql.executeUpdate();		
+				if (rMySql.isFirst()) {
+					int entidad_id = rMySql.getInt(1);
+					String domicilio = r.getString(2);
+					String telefono = r.getString(3);
+
+					pstMySql.setInt(1, entidad_id);
+					pstMySql.setInt(2, 11); // 11 -> atributo_id telefono
+					pstMySql.setString(3, telefono);
+					pstMySql.executeUpdate();
+
+					pstMySql.setInt(1, entidad_id);
+					pstMySql.setInt(2, 10); // 10 -> atributo_id domicilio
+					pstMySql.setString(3, domicilio);
+					pstMySql.executeUpdate();
+				}
 			}			
 			r.close();
 			
