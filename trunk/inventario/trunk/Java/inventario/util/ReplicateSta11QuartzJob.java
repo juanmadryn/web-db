@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -28,6 +29,7 @@ public class ReplicateSta11QuartzJob implements Job {
 	public void replicate() throws SQLException, ClassNotFoundException {
 		Connection connTango = null;
 		Connection connInv = null;
+		Statement tangoSt = null;
 		PreparedStatement psTango = null, pstMySql = null, pstMySql2 = null;
 		ResultSet r = null, rMySql = null;
 		
@@ -231,6 +233,61 @@ public class ReplicateSta11QuartzJob implements Job {
 			pstMySql.executeUpdate();
 			pstMySql = connInv.prepareStatement(SQLinsertFecha);
 			pstMySql.executeUpdate();
+			
+			/**
+			 * Articulos - IVA
+			 */
+			String proveedoresAtributosTangoSQL = 
+				"SELECT STA11.COD_ARTICU, CPA14.COD_IVA, CPA14.DESC_IVA, CPA14.PORC_IVA " + 
+				"FROM STA11 JOIN CPA14 CPA14 ON CPA14.COD_IVA = STA11.COD_IVA_CO";
+			tangoSt = connTango.createStatement(
+					ResultSet.TYPE_SCROLL_SENSITIVE,
+					ResultSet.CONCUR_READ_ONLY);
+			
+			/**
+			 * PreparedStatements para atributos IVA 
+			 */
+			String proveedoresAtributoStringMySQL =				
+				"insert into infraestructura.atributos_entidad " +
+				"(valor,valor_real,atributo_id,objeto_id,tipo_objeto,nombre_objeto) " +
+				"VALUES (?,?,?,?,'TABLA','articulos') " +
+				"ON DUPLICATE KEY UPDATE " +
+				"valor = values(valor), valor_real = values(valor_real), " +
+				"atributo_id = values(atributo_id), objeto_id = values(objeto_id)";
+			pstMySql = connInv.prepareStatement(proveedoresAtributoStringMySQL);
+			
+			String getEntidadExternaByCodigo =
+				"SELECT a.articulo_id FROM inventario.articulos a WHERE a.clave_externa1 = ?";
+			pstMySql2 = connInv.prepareStatement(getEntidadExternaByCodigo);
+			
+			/**
+			 * Insertamos los datos en la tabla entidades_externas
+			 */
+			r = tangoSt.executeQuery(proveedoresAtributosTangoSQL);			
+			while (r.next()) {
+				pstMySql2.setString(1, r.getString(1)); // busco por codigo
+				rMySql = pstMySql2.executeQuery();
+				rMySql.first();
+				
+				if (rMySql.isFirst()) {
+					int objeto_id = rMySql.getInt(1);
+					String descIva = r.getString(3);
+					Float porcIva = r.getFloat(4);
+
+					pstMySql.setInt(4, objeto_id);
+					pstMySql.setInt(3, 13); // 11 -> atributo_id descripcion iva
+					pstMySql.setNull(2, java.sql.Types.FLOAT);
+					pstMySql.setString(1, descIva);					
+					pstMySql.executeUpdate();
+
+					pstMySql.setInt(4, objeto_id);
+					pstMySql.setInt(3, 12); // 10 -> atributo_id porcentaje iva
+					pstMySql.setFloat(2, porcIva);
+					//pstMySql.setNull(1, java.sql.Types.VARCHAR);
+					pstMySql.setString(1, String.valueOf(porcIva));
+					pstMySql.executeUpdate();
+				}
+			}
 			
 			connInv.commit();			
 		} finally {
