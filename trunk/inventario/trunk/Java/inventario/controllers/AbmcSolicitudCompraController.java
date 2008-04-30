@@ -575,6 +575,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 						"inventario");
 
 				int ocId = dsOrdenCompra.insertRow();
+				dsOrdenCompra.setCurrentWebsiteUserId(
+						getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 
 				dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
 						getUserFromSession(getCurrentRequest().getRemoteAddr())

@@ -32,7 +32,8 @@
 						caption="Orden de Compra" width="100%"
 						datasource="dsOrdenesCompra"
 						addbuttonvisible="false" cancelbuttonvisible="false"
-						savebuttonvisible="false" deletebuttonvisible="false">
+						savebuttonvisible="false" deletebuttonvisible="false"
+						headerbgcolor="#fffd99" bgcolor="fffdce">
 						<salmon:input name="customBUT100" type="submit" value="boton 1"
 							accesskey="1" visible="False"></salmon:input>
 						<salmon:input name="customBUT110" type="submit" value="boton 2"
@@ -164,7 +165,7 @@
 	</salmon:box>
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox2"
-			mode="Display_single_page" caption="Detalle" width="100%"
+			mode="Display_single_page" caption="Detalle Orden de Compra" width="100%"
 			datasource="dsDetalleSC" addbuttonvisible="false"
 			savebuttonvisible="false" autocreatelink="false">
 			<salmon:datatable name="datatable2" width="100%"
