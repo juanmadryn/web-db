@@ -88,7 +88,7 @@
 								<td><salmon:text name="fecha_entrega_completa2" text=""
 									displayformatlocalekey="DateFormat"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
-							</tr>							
+							</tr>
 							<tr>
 								<!-- <td valign="top"><salmon:text name="descripcion1" text="Descripcion"
 									font="TableHeadingFont"/></td>
@@ -148,7 +148,7 @@
 						</tr>
 						<tr>
 							<td><salmon:input type="textarea" name="observacionX2"
-								cols="120" rows="4" wrap="HARD" size="40" maxlength="255"
+								cols="60" rows="4" wrap="HARD" size="40" maxlength="255"
 								datasource="dsOrdenesCompra:observaciones" visible="false"></salmon:input></td>
 						</tr>
 					</table>

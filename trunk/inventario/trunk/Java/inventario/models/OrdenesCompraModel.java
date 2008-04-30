@@ -37,7 +37,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String ORDENES_COMPRA_DESCRIPCION="ordenes_compra.descripcion";
 	public static final String ORDENES_COMPRA_OBSERVACIONES="ordenes_compra.observaciones";
 	public static final String ORDENES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
-
+	
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
 	public static final String ESTADO_NOMBRE = "estados.nombre";
@@ -48,6 +48,8 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String TOTAL_ORDENCOMPRA = "total_orden_compra";
 	public static final String ENTIDAD_EXTERNA_CODIGO = "entidad_externa.codigo";
 	public static final String ENTIDAD_EXTERNA_NOMBRE = "entidad_externa.nombre";
+	public static final String ORDENES_COMPRA_USER_ID_GENERADOR="ordenes_compra.user_id_generador";
+	public static final String WEBSITE_USER_NOMBRE_GENERADOR = "nombre_completo_generador";
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -92,8 +94,9 @@ public class OrdenesCompraModel extends BaseModel {
 		//Put custom constructor code between these comments, otherwise it be overwritten if the model is regenerated
 		try {
 			addTableAlias(computeTableName("infraestructura.estados"),"estados");
-			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_comprador");
+			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_comprador");			
 			addTableAlias(computeTableName("infraestructura.entidad_externa"),"entidad_externa");
+			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_generador");
 
 			addColumn(computeTableName("estados"), "nombre",
 					DataStore.DATATYPE_STRING, false, true, ESTADO_NOMBRE);
@@ -109,6 +112,12 @@ public class OrdenesCompraModel extends BaseModel {
 			addColumn(computeTableName("ordenes_compra"),
 					"fecha_aprobacion", DataStore.DATATYPE_DATETIME, false, true,
 					ORDENES_COMPRA_FECHA_APROBACION);
+			addColumn(computeTableName("ordenes_compra"),"user_id_generador",
+					DataStore.DATATYPE_INT,false,true,
+					ORDENES_COMPRA_USER_ID_GENERADOR);
+			addColumn(computeTableName("website_user_generador"),
+					"nombre_completo", DataStore.DATATYPE_STRING, false, false,
+					WEBSITE_USER_NOMBRE_GENERADOR);			
 			
 			// add buckets
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
@@ -120,12 +129,17 @@ public class OrdenesCompraModel extends BaseModel {
 			setUpdateable(ORDENES_COMPRA_ORDEN_COMPRA_ID, false);
 
 			addJoin(computeTableAndFieldName("ordenes_compra.estado"),
-					computeTableAndFieldName("estados.estado"), true);
+					computeTableAndFieldName("estados.estado"), 
+					true);
 			addJoin(computeTableAndFieldName("ordenes_compra.user_id_comprador"),
 					computeTableAndFieldName("website_user_comprador.user_id"),
 					true);	
 			addJoin(computeTableAndFieldName("ordenes_compra.entidad_id_proveedor"),
 					computeTableAndFieldName("entidad_externa.entidad_id"),
+					true);
+			addJoin(
+					computeTableAndFieldName("ordenes_compra.user_id_generador"),
+					computeTableAndFieldName("website_user_generador.user_id"),
 					true);
 
 			addLookupRule(
@@ -145,6 +159,12 @@ public class OrdenesCompraModel extends BaseModel {
 					"'infraestructura.entidad_externa.entidad_id = ' + ordenes_compra.entidad_id_proveedor",
 					"nombre", computeTableAndFieldName("entidad_externa.nombre"),
 					"Proveedor inexistente");
+			addLookupRule(
+					ORDENES_COMPRA_USER_ID_GENERADOR,
+					"infraestructura.website_user",
+					"'infraestructura.website_user.user_id = ' + ordenes_compra.user_id_generador",
+					"nombre_completo", WEBSITE_USER_NOMBRE_GENERADOR,
+					"Usuario inexistente");
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
 		}
@@ -681,8 +701,11 @@ public class OrdenesCompraModel extends BaseModel {
 			setOrdenesCompraFecha(new Timestamp((Calendar.getInstance()
 					.getTimeInMillis())));
 		
-		if (getOrdenesCompraUserIdComprador() == 0)
+		if (getOrdenesCompraUserIdComprador() == 0) {
 			setOrdenesCompraUserIdComprador(getCurrentWebsiteUserId());
+		}
+		
+		setOrdenesCompraUserIdGenerador(getCurrentWebsiteUserId());
 		
 		if (getOrdenesCompraFechaEstimadaEntrega() != null) {
 			if (Calendar.getInstance().getTimeInMillis() > getOrdenesCompraFechaEstimadaEntrega().getTime())
@@ -910,6 +933,88 @@ public class OrdenesCompraModel extends BaseModel {
 			setObservaciones(instancia.getInstanciasAprobacionMensaje());
 
 	}
+	
+	/**
+	 * Retrieve the value of the ordenes_compra.user_id_generador column for the current row.
+	 * @return int
+	 * @throws DataStoreException
+	 */ 
+	public int getOrdenesCompraUserIdGenerador() throws DataStoreException {
+		return  getInt(ORDENES_COMPRA_USER_ID_GENERADOR);
+	}
+
+	/**
+	 * Retrieve the value of the ordenes_compra.user_id_generador column for the specified row.
+	 * @param row which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */ 
+	public int getOrdenesCompraUserIdGenerador(int row) throws DataStoreException {
+		return  getInt(row,ORDENES_COMPRA_USER_ID_GENERADOR);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.user_id_generador column for the current row.
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraUserIdGenerador(int newValue) throws DataStoreException {
+		setInt(ORDENES_COMPRA_USER_ID_GENERADOR, newValue);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.user_id_generador column for the specified row.
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraUserIdGenerador(int row,int newValue) throws DataStoreException {
+		setInt(row,ORDENES_COMPRA_USER_ID_GENERADOR, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the website_user.nombre column for the current row. 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getWebsiteUserNombreGenerador() throws DataStoreException {
+		return getString(WEBSITE_USER_NOMBRE_GENERADOR);
+	}
+
+	/**
+	 * Retrieve the value of the website_user.nombre column for the specified row.
+	 * 
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getWebsiteUserNombreGenerador(int row)
+			throws DataStoreException {
+		return getString(row, WEBSITE_USER_NOMBRE_GENERADOR);
+	}
+
+	/**
+	 * Set the value of the website_user.nombre column for the current row.
+	 * 
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNombreGenerador(String newValue)
+			throws DataStoreException {
+		setString(WEBSITE_USER_NOMBRE_GENERADOR, newValue);
+	}
+
+	/**
+	 * Set the value of the website_user.nombre column for the specified row.
+	 * 
+	 * @param row  which row in the table
+	 * @param newValue  the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNombreGenerador(int row, String newValue)
+			throws DataStoreException {
+		setString(row, WEBSITE_USER_NOMBRE_GENERADOR, newValue);
+	}	
 	// $ENDCUSTOMMETHODS$
 
 }

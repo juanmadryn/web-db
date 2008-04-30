@@ -624,9 +624,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		// setea comprador 
 		int comprador = _dsOrdenesCompra.getOrdenesCompraUserIdComprador();
 		if (comprador == 0)
-			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);
-		else 
-			_nombre_completo_comprador2.setEnabled(false);
+			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);		
 		
 		// setea la URL del reporte a generar al presionar el botón de impresión
 		String URL = armarUrlReporte("XLS", "orden_compra",

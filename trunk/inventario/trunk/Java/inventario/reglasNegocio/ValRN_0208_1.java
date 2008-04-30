@@ -45,6 +45,13 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 					"inventario");
 
 			int ordenCompraId = ds.getOrdenesCompraOrdenCompraId();
+			
+			// chequea el rol o identidad del usuario que va a completa el OC
+			int currentUser = ds.getCurrentWebsiteUserId();
+			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+				msg.append("Debe ser COMPRADOR o el comprador original para completar o revisar una Orden de compra.");
+				return false;
+			}
 
 			// el número de detalles de la OC debe ser > 0 
 			if (detalles.estimateRowsRetrieved(conn, "detalle_sc.orden_compra_id = " + ordenCompraId) == 0) {
@@ -65,14 +72,6 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 			// todos los montos deben ser > 0
 			if (!detalles.chequeaTotalesDetallesOrden(ordenCompraId)) {
 				msg.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");
-				return false;
-			}
-
-			// chequea el rol o identidad del usuario que va a completa el OC
-			int currentUser = ds.getCurrentWebsiteUserId();
-			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")
-					|| ds.getOrdenesCompraUserIdComprador() != currentUser) {
-				msg.append("Debe ser COMPRADOR o el comprador original para completar o revisar una Orden de compra.");
 				return false;
 			}
 
