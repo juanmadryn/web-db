@@ -21,7 +21,7 @@
 			<salmon:tr>
 				<salmon:td valign="Top">
 					<salmon:searchformdisplaybox name="searchformdisplaybox1"
-						caption="UnidadesMedida" qbebuilder="dsQBE">
+						caption="Unidades de Medida" qbebuilder="dsQBE">
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="buscarCAP5" text="Buscar"
@@ -34,7 +34,7 @@
 				</salmon:td>
 				<salmon:td valign="Top">
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
-						caption="Editar Almacén" width="100%" datasource="dsUnidadesMedida"
+						caption="Editar Unidad de Medida" width="100%" datasource="dsUnidadesMedida"
 						listformdisplaybox="listformdisplaybox1">
 						<table width="100%">
 							<tr>

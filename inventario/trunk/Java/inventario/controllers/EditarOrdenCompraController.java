@@ -6,6 +6,7 @@ import infraestructura.controllers.BaseEntityController;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
 import inventario.models.SolicitudCompraModel;
+import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -335,7 +336,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			}
 			conn.commit();
 		} catch (DataStoreException ex) {
-			displayErrorMessage(ex.getMessage());
+			displayErrorMessage(ex.getMessage());			
 			return false;
 		} catch (ValidationException ex) {
 			for (String er : ex.getStackErrores()) {
@@ -343,6 +344,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			}
 			return false;
 		} finally {
+			setRecargar(false);
 			conn.rollback();
 		}
 		
@@ -362,51 +364,14 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 					if (_dsDetalleSC.getRow() != -1) {
 						// remueve detalles marcados para eliminar
-						boolean detalleEliminado = eliminaDetallesSeleccionados(conn);
+						boolean detalleEliminado = _dsDetalleSC.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);
 						_dsDetalleSC.update(conn);
 						
 						// update the SC states
-						SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
-						
-						if (detalleEliminado) {
-
-							for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
-								if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-									dsSolicitudCompra.retrieve(conn,
-											SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-											" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-									);
-									dsSolicitudCompra.gotoFirst();
-									try {
-										dsSolicitudCompra.ejecutaAccion(20, "0006", this
-												.getCurrentRequest().getRemoteHost(),
-												getSessionManager().getWebSiteUser()
-												.getUserID(), "solicitudes_compra",
-												conn, false);
-										_dsDetalleSC.reloadRow(conn, i);
-									} catch (DataStoreException ex) {
-										MessageLog.writeErrorMessage(ex, null);
-									}
-								}					
-							}				
-
-							for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-								if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
-									dsSolicitudCompra.retrieve(conn,
-											SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
-											" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
-									);
-									dsSolicitudCompra.gotoFirst();
-									try {
-										dsSolicitudCompra.ejecutaAccion(21,	"0006",
-												this.getCurrentRequest().getRemoteHost(), 
-												getSessionManager().getWebSiteUser().getUserID(), 
-												"solicitudes_compra", conn, false);	
-									} catch (DataStoreException ex) {
-										MessageLog.writeErrorMessage(ex, null);
-									}														
-								}
-							}
+						if (detalleEliminado) {							
+							SolicitudCompraTransiciones.remueveDeOc(conn,
+									_dsDetalleSC, getCurrentRequest().getRemoteHost(),
+									getSessionManager().getWebSiteUser().getUserID());
 						}
 					}
 					
@@ -748,12 +713,6 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 	}
 	
-	/**
-	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
-	 * elimina el fk al OC y resetea el campo cantidad pedida.  
-	 * @param conn 
-	 * @throws DataStoreException
-	 */
 	/**
 	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
 	 * elimina el fk al OC y resetea el campo cantidad pedida.
