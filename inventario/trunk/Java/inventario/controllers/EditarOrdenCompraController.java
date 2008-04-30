@@ -171,11 +171,11 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		super.initialize();
 		
 		// buttons
-		_grabarOrdenCompraBUT1 = new HtmlSubmitButton("grabarOrdenCompraBUT1", "Grabar", this);
+		_grabarOrdenCompraBUT1 = new HtmlSubmitButton("grabarOrdenCompraBUT1", "Grabar OC", this);
 		_grabarOrdenCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarOrdenCompraBUT1);
 
-		_nuevaOrdenCompraBUT1 = new HtmlSubmitButton("nuevaOrdenCompraBUT1", "Nueva orden", this);
+		_nuevaOrdenCompraBUT1 = new HtmlSubmitButton("nuevaOrdenCompraBUT1", "Nueva OC", this);
 		_nuevaOrdenCompraBUT1.setAccessKey("N");
 		_detailformdisplaybox1.addButton(_nuevaOrdenCompraBUT1);
 		

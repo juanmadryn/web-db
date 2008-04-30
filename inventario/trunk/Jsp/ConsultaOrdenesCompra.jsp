@@ -83,8 +83,9 @@
 				<salmon:td valign="Top">
 					<salmon:detailformdisplaybox name="detailformdisplaybox1" 
 						addbuttonvisible="false" cancelbuttonvisible="false" savebuttonvisible="false" deletebuttonvisible="false"
-						caption="Detalle de orden" datasource="dsOrdenes" width="100%"
-						listformdisplaybox="listformdisplaybox1">
+						caption="Detalle de Orden de Compra" datasource="dsOrdenes" width="100%"
+						listformdisplaybox="listformdisplaybox1"
+						headerbgcolor="#fffd99" bgcolor="fffdce">
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="numero1" text="Nº"

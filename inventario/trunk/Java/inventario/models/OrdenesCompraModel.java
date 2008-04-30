@@ -705,7 +705,9 @@ public class OrdenesCompraModel extends BaseModel {
 			setOrdenesCompraUserIdComprador(getCurrentWebsiteUserId());
 		}
 		
-		setOrdenesCompraUserIdGenerador(getCurrentWebsiteUserId());
+		if (getOrdenesCompraUserIdGenerador() == 0) {
+			setOrdenesCompraUserIdGenerador(getCurrentWebsiteUserId());
+		}
 		
 		if (getOrdenesCompraFechaEstimadaEntrega() != null) {
 			if (Calendar.getInstance().getTimeInMillis() > getOrdenesCompraFechaEstimadaEntrega().getTime())
