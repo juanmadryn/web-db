@@ -19,9 +19,9 @@ public class AbmcEquiposController extends BaseController implements
 	 */
 	private static final long serialVersionUID = 4483962271581579268L;
 	//Visual Components
-	public com.salmonllc.html.HtmlImage _bannerDividerImage;
+	/*public com.salmonllc.html.HtmlImage _bannerDividerImage;
 	public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	public com.salmonllc.html.HtmlImage _imgMainLogo;
+	public com.salmonllc.html.HtmlImage _imgMainLogo;*/
 	public com.salmonllc.html.HtmlText _buscarCAP5;
 	public com.salmonllc.html.HtmlText _codigoCAP22;
 	public com.salmonllc.html.HtmlText _descripcionCAP13;
@@ -35,14 +35,14 @@ public class AbmcEquiposController extends BaseController implements
 	public com.salmonllc.html.HtmlText _nombreCAP16;
 	public com.salmonllc.html.HtmlText _nombreTXT8;
 	public com.salmonllc.html.HtmlText _observacionesCAP20;
-	public com.salmonllc.html.HtmlText _text1Footer;
+	/*public com.salmonllc.html.HtmlText _text1Footer;
 	public com.salmonllc.html.HtmlText _text2Footer;
-	public com.salmonllc.html.HtmlText _text3Footer;
+	public com.salmonllc.html.HtmlText _text3Footer;*/
 	public com.salmonllc.html.HtmlText _tipoCAP11;
 	public com.salmonllc.html.HtmlText _tipoCAP14;
 	public com.salmonllc.html.HtmlText _tipoIdTXT7;
-	public com.salmonllc.html.HtmlText _txtBannerOptions;
-	public com.salmonllc.html.HtmlText _welcomeText;
+	/*public com.salmonllc.html.HtmlText _txtBannerOptions;
+	public com.salmonllc.html.HtmlText _welcomeText;*/
 	public com.salmonllc.html.HtmlTextEdit _buscarTE3;
 	public com.salmonllc.html.HtmlTextEdit _codigoTE10;
 	public com.salmonllc.html.HtmlTextEdit _descripcionTE6;
@@ -52,17 +52,17 @@ public class AbmcEquiposController extends BaseController implements
 	public com.salmonllc.html.HtmlTextEdit _tipoTE6;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
-	public com.salmonllc.jsp.JspContainer _welcomeContainer;
+	/*public com.salmonllc.jsp.JspContainer _welcomeContainer;*/
 	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
-	public com.salmonllc.jsp.JspForm _bannerForm;
+	/*public com.salmonllc.jsp.JspForm _bannerForm;
 	public com.salmonllc.jsp.JspForm _pageForm;
 	public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
 	public com.salmonllc.jsp.JspLink _footerInfDevAbout;
 	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
 	public com.salmonllc.jsp.JspLink _footerSalmonLink;
 	public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	public com.salmonllc.jsp.JspLink _lnkBannerOptions;
+	public com.salmonllc.jsp.JspLink _lnkBannerOptions;*/
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _table2;
