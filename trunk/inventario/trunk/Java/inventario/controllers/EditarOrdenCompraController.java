@@ -341,10 +341,11 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		} catch (ValidationException ex) {
 			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
-			}
+			}			
 			return false;
-		} finally {
-			setRecargar(false);
+		} finally {			
+			setRecargar(true);
+			setDatosBasicosOrdenCompra();
 			conn.rollback();
 		}
 		
@@ -531,6 +532,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
 		}
+		
 		setDatosBasicosOrdenCompra();
 		armaBotonera();
 		super.pageRequested(p);	
@@ -563,12 +565,12 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		// Calcula total de la OC (cantidad_pedida x monto_unitario)
 		try {
-		if ((_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW) 
-				&& (_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW_MODIFIED)) 
-		{		
-			_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
-					.getAtributoTotalOrdenCompra());
-		}
+			if ((_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW) 
+					&& (_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW_MODIFIED)) 
+			{		
+				_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
+						.getAtributoTotalOrdenCompra());
+			}
 		}catch (ParseException ex) {
 			displayErrorMessage("Error de formato en la cantidad o el monto unitario: "+ex.getMessage());
 		}
