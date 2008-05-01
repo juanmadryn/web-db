@@ -1,5 +1,6 @@
 package inventario.models;
 
+import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
 
@@ -545,8 +546,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Retrieve the value of the estados.nombre column for the specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
+	 * @param row which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -557,8 +557,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the estados.nombre column for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEstadoNombre(String newValue) throws DataStoreException {
@@ -568,10 +567,8 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the estados.nombre column for the specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
-	 * @param newValue
-	 *            the new item value
+	 * @param row which row in the table
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEstadoNombre(int row, String newValue)
@@ -593,8 +590,7 @@ public class OrdenesCompraModel extends BaseModel {
 	 * Retrieve the value of the website_user.nombre column for the specified
 	 * row.
 	 * 
-	 * @param row
-	 *            which row in the table
+	 * @param row which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -606,8 +602,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the website_user.nombre column for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setWebsiteUserNombreComprador(String newValue)
@@ -618,10 +613,8 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the website_user.nombre column for the specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
-	 * @param newValue
-	 *            the new item value
+	 * @param row which row in the table
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setWebsiteUserNombreComprador(int row, String newValue)
@@ -631,7 +624,6 @@ public class OrdenesCompraModel extends BaseModel {
 	
 	/**
 	 * Retrieve the value of the current website user id bucket
-	 * 
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -643,8 +635,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the current website user id bucket for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setCurrentWebsiteUserId(int newValue) throws DataStoreException {
@@ -653,7 +644,6 @@ public class OrdenesCompraModel extends BaseModel {
 	
 	/**
 	 * Retrieve the value of the current website user id bucket
-	 * 
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -665,8 +655,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the current website user id bucket for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEsquemaConfiguracionId(int newValue)
@@ -676,7 +665,6 @@ public class OrdenesCompraModel extends BaseModel {
 	
 	/**
 	 * Retrieve the value of the observaciones bucket
-	 * 
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -688,8 +676,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the observaciones bucket for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setObservaciones(String newValue) throws DataStoreException {
@@ -748,7 +735,6 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Retrieve the value of the total_solicitud bucket
 	 * 
-	 * 
 	 * @return float
 	 * @throws DataStoreException
 	 */
@@ -759,8 +745,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the total_solicitud bucket for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTotalOrdenCompra(float newValue) throws DataStoreException {
@@ -782,8 +767,7 @@ public class OrdenesCompraModel extends BaseModel {
 	 * Retrieve the value of the entidad_externa.codigo column for the specified
 	 * row.
 	 * 
-	 * @param row
-	 *            which row in the table
+	 * @param row which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -794,8 +778,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the entidad_externa.codigo column for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEntidadExternaCodigo(String newValue)
@@ -806,10 +789,8 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the entidad_externa.codigo column for the specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
-	 * @param newValue
-	 *            the new item value
+	 * @param row which row in the table
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEntidadExternaCodigo(int row, String newValue)
@@ -832,8 +813,7 @@ public class OrdenesCompraModel extends BaseModel {
 	 * Retrieve the value of the entidad_externa.nombre column for the specified
 	 * row.
 	 * 
-	 * @param row
-	 *            which row in the table
+	 * @param row which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -844,8 +824,7 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the entidad_externa.nombre column for the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEntidadExternaNombre(String newValue)
@@ -856,10 +835,8 @@ public class OrdenesCompraModel extends BaseModel {
 	/**
 	 * Set the value of the entidad_externa.nombre column for the specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
-	 * @param newValue
-	 *            the new item value
+	 * @param row which row in the table
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEntidadExternaNombre(int row, String newValue)
@@ -883,8 +860,7 @@ public class OrdenesCompraModel extends BaseModel {
 	 * Retrieve the value of the ordenes_compra.fecha_aprobacion column for
 	 * the specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
+	 * @param row which row in the table
 	 * @return java.sql.Timestamp
 	 * @throws DataStoreException
 	 */
@@ -897,8 +873,7 @@ public class OrdenesCompraModel extends BaseModel {
 	 * Set the value of the ordenes_compra.fecha_aprobacion column for the
 	 * current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setOrdenesCompraFechaAprobacion(java.sql.Timestamp newValue)
@@ -910,10 +885,8 @@ public class OrdenesCompraModel extends BaseModel {
 	 * Set the value of the ordenes_compra.fecha_aprobacion column for the
 	 * specified row.
 	 * 
-	 * @param row
-	 *            which row in the table
-	 * @param newValue
-	 *            the new item value
+	 * @param row  which row in the table
+	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */
 	public void setOrdenesCompraFechaAprobacion(int row,
@@ -1103,7 +1076,7 @@ public class OrdenesCompraModel extends BaseModel {
 		}	
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(neto),
-				"NETO_OC", ordencompra_id, "TABLA", "ordenes_compra");
+				Constants.NETO_OC, ordencompra_id, "TABLA", "ordenes_compra");
 
 		return neto;
 	}
@@ -1132,7 +1105,7 @@ public class OrdenesCompraModel extends BaseModel {
 		}	
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(iva),
-				"IVA_OC", ordencompra_id, "TABLA", "ordenes_compra");
+				Constants.IVA_OC, ordencompra_id, "TABLA", "ordenes_compra");
 
 		return iva;
 	}
@@ -1158,7 +1131,7 @@ public class OrdenesCompraModel extends BaseModel {
 		}	
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(descuento),
-				"IVA_OC", ordencompra_id, "TABLA", "ordenes_compra");
+				Constants.DESCUENTO_OC, ordencompra_id, "TABLA", "ordenes_compra");
 
 		return descuento;
 	}	
