@@ -112,4 +112,7 @@ public interface Constants {
 	static final String ESTADOS_DE_MODIFICACION_RECEPCIONES_COMPRA = "EstadosDeModificacionRecepcionesCompra";
 	static final String LISTA_UNIDADES_MEDIDA = "ListaUnidadesMedida";
 	
+	static final String IVA_OC = "IVA_OC";
+	static final String DESCUENTO_OC = "DESCUENTO_OC";
+	static final String NETO_OC = "NETO_OC";
 }

@@ -472,7 +472,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			conn.freeConnection();
 		}
 		
-		// 
+		// Muestra/Oculta campo de texto para descripcion adicional
 		if (component == _muestraDescAdicionalBUT) {
 			for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 				if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_SC_FLAG) == 1) {
@@ -480,9 +480,6 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					_dsDetalleSC.setInt(row, SELECCION_DETALLE_SC_FLAG, 0);
 				}					
 			}
-			// para boton dentro de la linea
-			/*_dsDetalleSC.setInt(e.getRow(), DESCRIPCION_ADICIONAL, 
-					_dsDetalleSC.getInt(e.getRow(),DESCRIPCION_ADICIONAL) == 1 ? 0 : 1);*/
 		}
 		
 		// Redirecciona a la pantalla de Generacion de OCs
@@ -562,20 +559,21 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 				.parseInt(getPageProperties().getProperty(
 						"EsquemaConfiguracionIdOrdenesCompra")));
 		
-		// Calcula total de la OC (cantidad_pedida x monto_unitario)
+		// Calcula totales
 		try {
 			if ((_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW) 
 					&& (_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW_MODIFIED)) 
 			{		
+				// Neto
 				_dsOrdenesCompra.setNetoOrdenCompra(_dsOrdenesCompra
-						.getAtributoNetoOrdenCompra());
-				
+						.getAtributoNetoOrdenCompra());				
+				// IVA
 				_dsOrdenesCompra.setIvaOrdenCompra(_dsOrdenesCompra
 						.getAtributoIvaOrdenCompra());
-				
+				// Descuento
 				_dsOrdenesCompra.setDescuentoOrdenCompra(_dsOrdenesCompra
 						.getAtributoDescuentoOrdenCompra());
-				
+				// Total OC
 				_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
 						.getAtributoTotalOrdenCompra());
 			}
