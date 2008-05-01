@@ -33,20 +33,40 @@
 						datasource="dsOrdenesCompra"
 						addbuttonvisible="false" cancelbuttonvisible="false"
 						savebuttonvisible="false" deletebuttonvisible="false"
-						headerbgcolor="#fffd99" bgcolor="fffdce">
-						<salmon:input name="customBUT100" type="submit" value="boton 1"
-							accesskey="1" visible="False"></salmon:input>
-						<salmon:input name="customBUT110" type="submit" value="boton 2"
-							accesskey="2" visible="False"></salmon:input>
-						<salmon:input name="customBUT120" type="submit" value="boton 3"
-							accesskey="3" visible="False"></salmon:input>
-						<salmon:input name="customBUT130" type="submit" value="boton 4"
-							accesskey="4" visible="False"></salmon:input>
-						<salmon:input name="customBUT140" type="submit" value="boton 5"
-							accesskey="5" visible="False"></salmon:input>
-						<salmon:input name="customBUT150" type="submit" value="boton 6"
-							accesskey="6" visible="False"></salmon:input>
-						<table width="100%">
+						headerbgcolor="#fffd99" bgcolor="fffdce">						
+						<table width="100%" border="0">
+							<tr>
+								<td colspan="4">
+									<salmon:input name="customBUT100" type="submit" value="boton 1"
+										accesskey="1" visible="False"></salmon:input>
+									<salmon:input name="customBUT110" type="submit" value="boton 2"
+										accesskey="2" visible="False"></salmon:input>
+									<salmon:input name="customBUT120" type="submit" value="boton 3"
+										accesskey="3" visible="False"></salmon:input>
+									<salmon:input name="customBUT130" type="submit" value="boton 4"
+										accesskey="4" visible="False"></salmon:input>
+									<salmon:input name="customBUT140" type="submit" value="boton 5"
+										accesskey="5" visible="False"></salmon:input>
+									<salmon:input name="customBUT150" type="submit" value="boton 6"
+										accesskey="6" visible="False"></salmon:input>
+								</td>
+								<td align="right">
+									<salmon:a href="" target="_blank" 
+										name="imprimirOrdenCompraBUT1"
+										onclick="document.forms['bannerForm'].submit();">
+										<salmon:img name="imprimirTXT1"
+											src="%ImageDirectory/logo_excel.gif" height="25"
+											srclocalekey="bannerImageSource" />
+									</salmon:a>
+									<salmon:text name="espacio" text=" " font="TableHeadingFont" />
+									<salmon:a href="" target="_blank"
+										name="imprimirOrdenCompraBUT2"
+										onclick="document.forms['bannerForm'].submit();">
+										<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
+											height="25" srclocalekey="bannerImageSource" />
+									</salmon:a>
+								</td>					
+							</tr>
 							<tr>
 								<td><salmon:text name="nombre_completo_comprador1"
 									text="Comprador" font="TableHeadingFont" /></td>
@@ -58,13 +78,15 @@
 								</salmon:input></td>
 								<td><salmon:text name="proveedor1" text="Proveedor"
 									font="TableHeadingFont" /></td>
-								<td><salmon:lookup
-									browseimage="%ImageDirectory/Browse.gif"
-									lookupurl="%LkpProveedores" name="proveedor2" size="6"
-									maxlength="10" displayformat="#########0"
-									descriptiondatasource="dsOrdenesCompra:entidad_externa.nombre"
-									datasource="dsOrdenesCompra:ordenes_compra.entidad_id_proveedor" popupheight="450"
-									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup></td>
+								<td colspan="2">
+									<salmon:lookup
+										browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpProveedores" name="proveedor2" size="6"
+										maxlength="10" displayformat="#########0"
+										descriptiondatasource="dsOrdenesCompra:entidad_externa.nombre"
+										datasource="dsOrdenesCompra:ordenes_compra.entidad_id_proveedor" popupheight="450"
+										popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
+								</td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_ordencompra1"
@@ -74,7 +96,7 @@
 									datasource="dsOrdenesCompra:ordenes_compra.fecha"></salmon:text></td>
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_aprobacion2" text=""
+								<td colspan="2"><salmon:text name="fecha_aprobacion2" text=""
 									displayformatlocalekey="DateTimeFormat"
 									datasource="dsOrdenesCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
 							</tr>
@@ -86,7 +108,7 @@
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
 								<td><salmon:text name="fecha_entrega_completa1" text="Fecha entrega completa"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_entrega_completa2" text=""
+								<td colspan="2"><salmon:text name="fecha_entrega_completa2" text=""
 									displayformatlocalekey="DateFormat"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
 							</tr>
@@ -103,34 +125,45 @@
 									maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.descripcion"></salmon:input></td>
 								-->
-								<td valign="center"><salmon:text name="observaciones1" text="Observaciones"
-									font="TableHeadingFont" /></td>
-								<td colspan="3"><salmon:input type="textarea" name="observaciones2"									
+								<td valign="center" rowspan="3">
+									<salmon:text name="observaciones1" text="Observaciones"
+									font="TableHeadingFont" />
+								</td>
+								<td colspan="2" rowspan="3">
+									<salmon:input type="textarea" name="observaciones2"									
 									cols="80" rows="3" wrap="HARD" maxlength="255"
-									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input></td>								
-							</tr>
-							<tr>
-								<td><salmon:text name="total_solicitud1" text="Total" font="TableHeadingFont" /></td>
-								<td><salmon:text name="total_solicitud2" text="total goes here"
-									displayformatlocalekey="CurrencyFormatConSigno"
-									datasource="dsOrdenesCompra:total_orden_compra"></salmon:text></td>
-								<td/>
+									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input>
+								</td>
 								<td align="right">
-									<salmon:a href="" target="_blank" 
-										name="imprimirOrdenCompraBUT1"
-										onclick="document.forms['bannerForm'].submit();">
-										<salmon:img name="imprimirTXT1"
-											src="%ImageDirectory/logo_excel.gif" height="25"
-											srclocalekey="bannerImageSource" />
-									</salmon:a>
-									<salmon:text name="espacio" text=" " font="TableHeadingFont" />
-									<salmon:a href="" target="_blank"
-										name="imprimirOrdenCompraBUT2"
-										onclick="document.forms['bannerForm'].submit();">
-										<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
-											height="25" srclocalekey="bannerImageSource" />
-									</salmon:a> 
-									<salmon:text name="espacio2" text=" " font="TableHeadingFont" />
+									<salmon:text name="total_solicitud1" text="Total Neto" font="TableHeadingFont" />
+								</td>
+								<td align="right">
+									<salmon:text name="total_solicitud2" text="total goes here"
+										displayformatlocalekey="CurrencyFormatConSigno"
+										datasource="dsOrdenesCompra:total_orden_compra"></salmon:text>
+								<td/>									
+							</tr>		
+							<tr align="right">																								
+								<td><salmon:text name="total_descuento1" text="Descuento" font="TableHeadingFont" /></td>
+								<td>
+									<salmon:text name="total_descuento2" text="total goes here"
+										displayformatlocalekey="CurrencyFormatConSigno"
+										datasource="dsOrdenesCompra:total_orden_compra"></salmon:text>
+								<td/>
+							</tr>
+							<tr align="right">													
+								<td>
+									<salmon:text name="total_iva1" text="I.V.A" font="TableHeadingFont" />
+								</td>
+								<td style="border-bottom:solid 2px black">
+									<salmon:text name="total_iva2" text="total goes here"
+										displayformatlocalekey="CurrencyFormatConSigno"
+										datasource="dsOrdenesCompra:total_orden_compra"></salmon:text>
+								<td/>
+							</tr>
+							<tr align="right">
+								<td/>																
+								<td colspan="2" align="left">
 									<salmon:a href="ListaFirmantes.jsp" target="_blank"
 										name="verFirmantes"	onclick="document.forms['bannerForm'].submit();">
 										<salmon:text name="verFirmantesTXT2" text="Firmantes" />
@@ -140,8 +173,14 @@
 										name="verSolicitantes"	onclick="document.forms['bannerForm'].submit();">
 										<salmon:text name="verSolicitantesTXT2" text="Solicitantes" />
 									</salmon:a>
-								<td/>
-							</tr>
+								</td>								
+								<td><salmon:text name="total_orden1" text="Total" font="TableHeadingFont" /></td>
+								<td>
+									<salmon:text name="total_orden2" text="total goes here"
+										displayformatlocalekey="CurrencyFormatConSigno"
+										datasource="dsOrdenesCompra:total_orden_compra"></salmon:text>
+								</td>							
+							</tr>					
 						</table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>

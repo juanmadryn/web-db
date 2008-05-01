@@ -5,7 +5,6 @@ package inventario.controllers;
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
-import inventario.models.SolicitudCompraModel;
 import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.ResultSet;

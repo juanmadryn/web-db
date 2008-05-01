@@ -53,6 +53,8 @@ public class DetalleSCModel extends DataStore {
 	public static final String DETALLE_SC_FECHA_ULTIMA_COMPRA = "detalle_sc.fecha_ultima_compra";
 	public static final String DETALLE_SC_UNIDAD_DE_MEDIDA_ID = "detalle_sc.unidad_medida_id";
 	public static final String UNIDAD_DE_MEDIDA_NOMBRE = "unidades_medida.nombre";
+	public static final String DETALLE_SC_IVA = "detalle_sc.iva";
+	public static final String DETALLE_SC_DESCUENTO = "detalle_sc.descuento";
 
 	// $CUSTOMVARS$
 	public static final String TAREA_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
@@ -279,6 +281,12 @@ public class DetalleSCModel extends DataStore {
 		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
 				DataStore.DATATYPE_DATE, false, false,
 				SOLICITUDES_COMPRA_FECHA_SOLICITUD);
+		addColumn(computeTableName("detalle_sc"), "iva",
+				DataStore.DATATYPE_FLOAT, false, true,
+				DETALLE_SC_IVA);
+		addColumn(computeTableName("detalle_sc"), "descuento",
+				DataStore.DATATYPE_FLOAT, false, true,
+				DETALLE_SC_DESCUENTO);
 		
 		// add bucket
 		addBucket(DETALLE_SC_MONTO_TOTAL_PEDIDO, DataStore.DATATYPE_FLOAT);
@@ -288,12 +296,9 @@ public class DetalleSCModel extends DataStore {
 		addJoin(computeTableAndFieldName("solicitudes_compra.centro_costo_id"),
 				computeTableAndFieldName("centro_costo.centro_costo_id"), true);
 		addJoin(computeTableAndFieldName("detalle_sc.orden_compra_id"),
-				computeTableAndFieldName("ordenes_compra.orden_compra_id"),
-				true);
-		addJoin(
-				computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
-				computeTableAndFieldName("website_user_solicitante.user_id"),
-				true);
+				computeTableAndFieldName("ordenes_compra.orden_compra_id"),true);
+		addJoin(computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
+				computeTableAndFieldName("website_user_solicitante.user_id"),true);
 
 		try {
 			addLookupRule(
@@ -1575,7 +1580,7 @@ public class DetalleSCModel extends DataStore {
 						setDetalleScFechaUltimaCompra(row, new java.sql.Date(df
 								.parse(fecha_ultima_compra).getTime()));
 					}
-
+					
 				} catch (ParseException e) {
 					throw new DataStoreException(
 							"Error de parseo en el seteo del monto y fecha de última compra: "
@@ -1594,6 +1599,14 @@ public class DetalleSCModel extends DataStore {
 								"UNIDAD_DE_MEDIDA",
 								getDetalleScArticuloId(row), "TABLA",
 								"articulos")));
+			
+			if (getDetalleScIva(row) == 0) {				
+				setDetalleScIva(row, Float.parseFloat(AtributosEntidadModel
+						.getValorAtributoObjeto("IVA_PORCENTAJE",
+								getDetalleScArticuloId(row), "TABLA",
+								"articulos")));
+			}
+			
 			try {
 				setMontoTotal(row);
 				calculaMontoTotalPedido(row);
@@ -2163,6 +2176,98 @@ public class DetalleSCModel extends DataStore {
 			// removemos el filtro
 			filter(null);
 		}
+	}
+	
+	/**
+	 * Retrieve the value of the detalle_sc.iva column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public float getDetalleScIva() throws DataStoreException {
+		return getFloat(DETALLE_SC_IVA);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.iva column for the
+	 * specified row.
+	 * 
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public float getDetalleScIva(int row) throws DataStoreException {
+		return getFloat(row, DETALLE_SC_IVA);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.iva column for the current row.
+	 * 
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScIva(float newValue)
+			throws DataStoreException {
+		setFloat(DETALLE_SC_IVA, newValue);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.iva column for the specified row.
+	 * 
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScIva(int row, float newValue)
+			throws DataStoreException {
+		setFloat(row, DETALLE_SC_IVA, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the detalle_sc.descuento column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public float getDetalleScDescuento() throws DataStoreException {
+		return getFloat(DETALLE_SC_DESCUENTO);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.descuento column for the
+	 * specified row.
+	 * 
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public float getDetalleScDescuento(int row) throws DataStoreException {
+		return getFloat(row, DETALLE_SC_DESCUENTO);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.descuento column for the current row.
+	 * 
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScDescuento(float newValue)
+			throws DataStoreException {
+		setFloat(DETALLE_SC_DESCUENTO, newValue);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.descuento column for the specified row.
+	 * 
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScDescuento(int row, float newValue)
+			throws DataStoreException {
+		setFloat(row, DETALLE_SC_DESCUENTO, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 

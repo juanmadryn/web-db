@@ -578,9 +578,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				dsOrdenCompra.setCurrentWebsiteUserId(
 						getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 
-				dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
+				/*dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
 						getUserFromSession(getCurrentRequest().getRemoteAddr())
-								.getUserID());
+								.getUserID());*/
 
 				dsOrdenCompra.update(conn);
 

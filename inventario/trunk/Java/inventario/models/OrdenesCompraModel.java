@@ -37,6 +37,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String ORDENES_COMPRA_DESCRIPCION="ordenes_compra.descripcion";
 	public static final String ORDENES_COMPRA_OBSERVACIONES="ordenes_compra.observaciones";
 	public static final String ORDENES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
+	public static final String ORDENES_COMPRA_USER_ID_GENERADOR="ordenes_compra.user_id_generador";	
 	
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -47,8 +48,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String OBSERVACIONES = "observaciones";
 	public static final String TOTAL_ORDENCOMPRA = "total_orden_compra";
 	public static final String ENTIDAD_EXTERNA_CODIGO = "entidad_externa.codigo";
-	public static final String ENTIDAD_EXTERNA_NOMBRE = "entidad_externa.nombre";
-	public static final String ORDENES_COMPRA_USER_ID_GENERADOR="ordenes_compra.user_id_generador";
+	public static final String ENTIDAD_EXTERNA_NOMBRE = "entidad_externa.nombre";	
 	public static final String WEBSITE_USER_NOMBRE_GENERADOR = "nombre_completo_generador";
 	//$ENDCUSTOMVARS$
 
