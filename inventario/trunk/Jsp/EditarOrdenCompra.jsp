@@ -135,12 +135,12 @@
 									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input>
 								</td>
 								<td align="right">
-									<salmon:text name="total_solicitud1" text="Total Neto" font="TableHeadingFont" />
+									<salmon:text name="neto_orden1" text="Neto" font="TableHeadingFont" />
 								</td>
 								<td align="right">
-									<salmon:text name="total_solicitud2" text="total goes here"
+									<salmon:text name="neto_orden2" text="neto goes here"
 										displayformatlocalekey="CurrencyFormatConSigno"
-										datasource="dsOrdenesCompra:total_orden_compra"></salmon:text>
+										datasource="dsOrdenesCompra:neto_orden_compra"></salmon:text>
 								<td/>									
 							</tr>		
 							<tr align="right">																								
@@ -148,7 +148,7 @@
 								<td>
 									<salmon:text name="total_descuento2" text="total goes here"
 										displayformatlocalekey="CurrencyFormatConSigno"
-										datasource="dsOrdenesCompra:total_orden_compra"></salmon:text>
+										datasource="dsOrdenesCompra:descuento_orden_compra"></salmon:text>
 								<td/>
 							</tr>
 							<tr align="right">													
@@ -156,9 +156,9 @@
 									<salmon:text name="total_iva1" text="I.V.A" font="TableHeadingFont" />
 								</td>
 								<td style="border-bottom:solid 2px black">
-									<salmon:text name="total_iva2" text="total goes here"
+									<salmon:text name="total_iva2" text="iva goes here"
 										displayformatlocalekey="CurrencyFormatConSigno"
-										datasource="dsOrdenesCompra:total_orden_compra"></salmon:text>
+										datasource="dsOrdenesCompra:iva_orden_compra"></salmon:text>
 								<td/>
 							</tr>
 							<tr align="right">
@@ -235,7 +235,7 @@
 							<salmon:text name="cantidad_solicitada1" text="Cant. solicitada"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td colspan="2">
 							<salmon:text name="monto_fecha_ultima_compra1"
 								text="Precio unitario" font="TableHeadingFont" />
 						</salmon:td>
@@ -254,12 +254,19 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="centroCosto1" text="Centro Costo" font="TableHeadingFont" />
-						</salmon:td>						
-						<salmon:td/>
-						<salmon:td>
+						</salmon:td>
+						<salmon:td>	
 							<salmon:text name="cantidadPedida1" text="Cant. pedida"
 								font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td>
+							<salmon:text name="descuento1" text="Descuento"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="iva1" text="I.V.A."
+								font="TableHeadingFont" />
+						</salmon:td>						
 						<salmon:td nowrap="TRUE" align="RIGHT">
 							<salmon:text name="cantidadRecibida1" text="Cant. recibida"
 								font="TableHeadingFont" />
@@ -308,14 +315,15 @@
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
 							<salmon:text name="unidadMedida" text=""								
 								datasource="dsDetalleSC:unidades_medida.nombre"></salmon:text>
-						</salmon:td>
-						<salmon:td>
+						</salmon:td>						
+						<salmon:td colspan="2">
+							<salmon:text name="signo_pesos2" text="$"/>							
 							<salmon:input type="text" name="monto_unitario1" size="8"
 								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
 							<salmon:text name="text2" text=" - " font="DefaultFont" />
-							<salmon:text name="monto_fecha_ultima_compra2" text=""
-								displayformatlocalekey="DateFormat"
+							<salmon:text name="monto_fecha_ultima_compra2" text="fecha_ultima_compra goes here"
+								displayformatlocalekey="DateFormat" 
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
@@ -345,12 +353,21 @@
 							<salmon:text name="centroCosto2"
 								text="tarea Goes Here" font="DefaultFont"
 								datasource="dsDetalleSC:centro_costo.nombre" />
-						</salmon:td>
-						<salmon:td/>
+						</salmon:td>						
 						<salmon:td align="LEFT">							
 							<salmon:input type="text" name="cantidad_pedida2" size="8"
 								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:input>
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="signo_pesos2" text="$"/>
+							<salmon:input type="text" name="descuento2" size="8" align="right"
+								maxlength="15" datasource="dsDetalleSC:detalle_sc.descuento"></salmon:input>
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="iva2" text="iva goes here" font="DefaultFont"
+								datasource="dsDetalleSC:detalle_sc.iva" displayformatlocalekey="IvaFormat"></salmon:text>
+							<salmon:text name="signo_porcentaje" text=" %"/>							
 						</salmon:td>
 						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_recibida2" text=""
@@ -359,7 +376,7 @@
 					</salmon:tr>
 					<salmon:tr name="descAdicionalTr" visible="false">
 						<salmon:td></salmon:td>
-						<salmon:td colspan="7">
+						<salmon:td colspan="8">
 							<salmon:input type="text" name="descAdicionalOcTXT" size="100"
 									maxlength="250" datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>							
 						</salmon:td>

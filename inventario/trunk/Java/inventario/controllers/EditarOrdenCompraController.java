@@ -79,8 +79,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.html.HtmlText _proyecto2;
 	public com.salmonllc.html.HtmlText _centroCosto1;
 	public com.salmonllc.html.HtmlText _tarea4;	
-	public com.salmonllc.html.HtmlText _total_solicitud1;
-	public com.salmonllc.html.HtmlText _total_solicitud2;
+	public com.salmonllc.html.HtmlText _neto_orden1;
+	public com.salmonllc.html.HtmlText _neto_orden2;
 	public com.salmonllc.html.HtmlText _cantidad_solicitada2;
 	public com.salmonllc.html.HtmlTextEdit _descripcion2;
 	public com.salmonllc.html.HtmlText _descripcion4;
@@ -567,6 +567,15 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			if ((_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW) 
 					&& (_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW_MODIFIED)) 
 			{		
+				_dsOrdenesCompra.setNetoOrdenCompra(_dsOrdenesCompra
+						.getAtributoNetoOrdenCompra());
+				
+				_dsOrdenesCompra.setIvaOrdenCompra(_dsOrdenesCompra
+						.getAtributoIvaOrdenCompra());
+				
+				_dsOrdenesCompra.setDescuentoOrdenCompra(_dsOrdenesCompra
+						.getAtributoDescuentoOrdenCompra());
+				
 				_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
 						.getAtributoTotalOrdenCompra());
 			}
