@@ -1551,14 +1551,14 @@ public class DetalleSCModel extends DataStore {
 				setDetalleScDescripcion(row,
 						getArticulosDescripcionCompleta(row));
 
-			// if the detail has an oc asigned, check that the amount ordered is
-			// a positive number
-			if ((getDetalleScOrdenCompraId(row) > 0)
-					&& (getDetalleScCantidadPedida(row) <= 0)) {
-				throw new DataStoreException(
-						"La cantidad pedida debe ser un número positivo mayor que cero");
+			// si tiene un oc asignado
+			if (getDetalleScOrdenCompraId(row) > 0) {
+				if (getDetalleScCantidadPedida(row) <= 0)
+					throw new DataStoreException("La cantidad pedida debe ser un número positivo mayor que cero");
+				if (getDetalleScDescuento(row) < 0)
+					throw new DataStoreException("El descuento debe ser un número positivo mayor o igual que cero");
 			}
-
+			
 			// sets monto and fecha ultima compra with value stored in
 			// attributes table
 			if (getDetalleScMontoUltimaCompra(row) == 0) {
