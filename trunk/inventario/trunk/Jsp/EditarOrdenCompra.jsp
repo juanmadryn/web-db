@@ -23,6 +23,8 @@
 	<salmon:property name="prop1" propertyname="visible" component="descAdicionalTr" 
 		expression="DESCRIPCION_ADICIONAL EQUALS 1 || detalle_sc.observaciones_oc.length() > 0" 
 		datasource="dsDetalleSC"/>
+	<!-- <salmon:property name="prop2" propertyname="visible" component="nuevoDetalleSinSc"
+		expression="$ROWSTATUS$ > 1" datasource="dsDetalleSC"/> -->
 	
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
@@ -381,6 +383,13 @@
 									maxlength="250" datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>							
 						</salmon:td>
 					</salmon:tr>
+					<!-- <salmon:tr name="nuevoDetalleSinSc" visible="false">
+						<salmon:td></salmon:td>
+						<salmon:td colspan="8">
+							<salmon:input type="text" name="descAdicionalOcTXT2" size="100"
+									maxlength="250" datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>							
+						</salmon:td>
+					</salmon:tr> -->
 				</salmon:datatablerows>
 			</salmon:datatable>
 		</salmon:listformdisplaybox>

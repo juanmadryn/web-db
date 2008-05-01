@@ -140,6 +140,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public HtmlSubmitButton _articulosAgregarBUT1;
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
+	//public HtmlSubmitButton _articulosNuevoBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
@@ -150,13 +151,14 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.jsp.JspTableCell _tareaHeaderTd;
 	public com.salmonllc.jsp.JspTableCell _proyectoHeaderTd;
 	public com.salmonllc.jsp.JspLink _verSolicitantes;
-	public com.salmonllc.jsp.JspTableRow _descAdicionalTr;
+	public com.salmonllc.jsp.JspTableRow _descAdicionalTr;	
 	public HtmlSubmitButton _muestraDescAdicionalBUT;
 	public com.salmonllc.jsp.JspDataTable _datatable2;
+	//public com.salmonllc.jsp.JspTableRow _nuevoDetalleSinSc;
 	
-	private String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
-	private String REMOVER_DE_OC = "REMOVER_DE_OC";
-	private String DESCRIPCION_ADICIONAL = "DESCRIPCION_ADICIONAL";
+	private static final String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
+	private static final String REMOVER_DE_OC = "REMOVER_DE_OC";
+	private static final String DESCRIPCION_ADICIONAL = "DESCRIPCION_ADICIONAL";
 
 	private static final String CIRCUITO = "0008";
 	
@@ -177,6 +179,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_nuevaOrdenCompraBUT1 = new HtmlSubmitButton("nuevaOrdenCompraBUT1", "Nueva OC", this);
 		_nuevaOrdenCompraBUT1.setAccessKey("N");
 		_detailformdisplaybox1.addButton(_nuevaOrdenCompraBUT1);
+		
+		/*_articulosNuevoBUT1 = new HtmlSubmitButton("articulosNuevoBUT1", "Nuevo", this);
+		_articulosNuevoBUT1.setAccessKey("V");
+		_listformdisplaybox2.addButton(_articulosNuevoBUT1);*/
 		
 		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1", "Agregar", this);
 		_articulosAgregarBUT1.setAccessKey("A");
@@ -208,6 +214,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_articulosCancelarBUT1.addSubmitListener(this);
 		_desSeleccionaTodoBUT1.addSubmitListener(this);
 		_muestraDescAdicionalBUT.addSubmitListener(this);
+		//_articulosNuevoBUT1.addSubmitListener(this);
 		
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
@@ -343,7 +350,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			}			
 			return false;
 		} finally {			
-			setRecargar(true);
+			//setRecargar(true);
 			setDatosBasicosOrdenCompra();
 			conn.rollback();
 		}
@@ -482,10 +489,58 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			}
 		}
 		
+		// Agrega un nuevo detalle a la OC
+		/*if (component == _articulosNuevoBUT1) {
+			setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
+			
+			// Si la OC se encuentra en un estado editable
+			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
+			if ("0008.0001".equalsIgnoreCase(estado)
+					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+				
+				// Si la OC no esta grabada, la grabamos (?)
+				if (getRow_id() == 0) {
+					_dsOrdenesCompra.update();
+					setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
+				}
+				
+				// Grabamos los cambios hechos a los detalles, si los hubiera
+				if (_dsDetalleSC.getRow() != -1)
+					_dsDetalleSC.update();
+				
+				// Inserto un nuevo detalle
+				int row = _dsDetalleSC.insertRow(0);
+				_dsDetalleSC.setDetalleScOrdenCompraId(row, getRow_id());
+				
+				// hace foco en el registro agregado
+				int nroPagerow = _datatable2.getPage(row);
+				int nroPageActual = _datatable2.getPage(_dsDetalleSC.getRow());
+				if (nroPagerow != nroPageActual)
+					_datatable2.setPage(_datatable2.getPage(row));				
+			} else {
+				// No se puede modificar la OC
+				displayErrorMessage("No puede agregar artículos a la OC en su estado actual.");
+				setRecargar(true);
+				pageRequested(new PageEvent(this));
+				return false;
+			}
+			
+		}*/
+		
 		// Redirecciona a la pantalla de Generacion de OCs
 		if (component == _articulosAgregarBUT1) {
-			setRecargar(false);
-			this.gotoSiteMapPage("GenerarOrdenesCompra","?orden_compra_id=" + getRow_id());
+			// Si la OC se encuentra en un estado editable
+			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
+			if ("0008.0001".equalsIgnoreCase(estado)
+					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+				setRecargar(false);
+				this.gotoSiteMapPage("GenerarOrdenesCompra","?orden_compra_id=" + getRow_id());
+			} else {
+				// si la solicitud no está generada, bloqueo toda modificación
+				displayErrorMessage("No puede agregar artículos a la OC en su estado actual.");				
+				pageRequested(new PageEvent(this));
+				return false;
+			}
 		}
 	
 		armaBotonera();

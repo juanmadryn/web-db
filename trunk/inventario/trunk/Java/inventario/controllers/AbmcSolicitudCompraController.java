@@ -7,6 +7,7 @@ import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
+import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -593,34 +594,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 				_dsDetalleSC.update(conn);
 
-				// update the SC states
-				// se podria utilizar el mismo metodo que para la generacion de
-				// la botonera, y
-				// obtener las acciones de manera dinamica
-				if ("0006.0003".equalsIgnoreCase(_dsSolicitudCompra
-						.getEstadoActual())) {
-					try {
-						_dsSolicitudCompra.ejecutaAccion(18, "0006", this
-								.getCurrentRequest().getRemoteHost(),
-								getSessionManager().getWebSiteUser()
-										.getUserID(), "solicitudes_compra",
-								conn, false);
-					} catch (DataStoreException ex) {
-						MessageLog.writeErrorMessage(ex, null);
-					}
-				}
-				if ("0006.0006".equalsIgnoreCase(_dsSolicitudCompra
-						.getEstadoActual())) {
-					try {
-						_dsSolicitudCompra.ejecutaAccion(19, "0006", this
-								.getCurrentRequest().getRemoteHost(),
-								getSessionManager().getWebSiteUser()
-										.getUserID(), "solicitudes_compra",
-								conn, false);
-					} catch (DataStoreException ex) {
-						MessageLog.writeErrorMessage(ex, null);
-					}
-				}
+				// update the SC states			
+				SolicitudCompraTransiciones.agregarEnOc(conn,
+						_dsDetalleSC, getCurrentRequest().getRemoteHost(),
+						getSessionManager().getWebSiteUser().getUserID());
+
 
 				dsOrdenCompra.resetStatus();
 				_dsDetalleSC.resetStatus();
