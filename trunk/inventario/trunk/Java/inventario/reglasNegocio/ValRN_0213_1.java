@@ -6,6 +6,7 @@ package inventario.reglasNegocio;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.ComprobanteMovimientoArticuloModel;
 import inventario.models.DetalleRCModel;
+import inventario.models.DetalleSCModel;
 import inventario.models.MovimientoArticuloModel;
 import inventario.models.RecepcionesComprasModel;
 import inventario.models.ResumenSaldoArticulosModel;
@@ -40,6 +41,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 		try {
 			RecepcionesComprasModel ds = (RecepcionesComprasModel) obj;
 			DetalleRCModel detalles = new DetalleRCModel("inventario");
+			DetalleSCModel detallesSC = new DetalleSCModel("inventario");
 
 			int recepcionCompraId = ds.getRecepcionesComprasRecepcionCompraId();
 
@@ -47,7 +49,6 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			detalles.retrieve("detalles_rc.recepcion_compra_id ="
 					+ recepcionCompraId);
 			detalles.gotoFirst();
-
 			ComprobanteMovimientoArticuloModel comprobanteMovimiento = new ComprobanteMovimientoArticuloModel(
 					"inventario");
 			MovimientoArticuloModel movimiento = new MovimientoArticuloModel(
@@ -55,13 +56,16 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			ResumenSaldoArticulosModel resumen = new ResumenSaldoArticulosModel(
 					"inventario");
 
-			ds.setRecepcionesComprasUserIdRecibe(ds.getCurrentWebsiteUserId());
+			if (ds.getRecepcionesComprasUserIdRecibe() == 0)
+				throw new DataStoreException("Indique el legajo de quien recibe");
 
 			int tipoMovimiento = Props.getProps("inventario", null)
 					.getIntProperty("TipoMovimientoRecepciones");
 			int almacen_id = 0;
+
+			detallesSC.retrieve();
 			Hashtable<Integer, Integer> almacen_comprobantes = new Hashtable<Integer, Integer>();
-			for (; detalles.gotoNext();) {
+			do {
 				if (almacen_id != detalles.getDetallesRcAlmacenId()) {
 					almacen_id = detalles.getDetallesRcAlmacenId();
 					comprobanteMovimiento.gotoRow(comprobanteMovimiento
@@ -92,8 +96,17 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 									comprobanteMovimiento
 											.getComprobanteMovimientoArticuloComprobanteMovimientoId());
 				}
-				comprobanteMovimiento.update(conn);
-			}
+				detallesSC.filter("detalle_sc.detalle_SC_id =="
+						+ detalles.getDetallesRcDetalleScId());
+				detallesSC.gotoFirst();
+				float cantidad_recibida = (float) (detallesSC
+						.getDetalleScCantidadRecibida() + detalles
+						.getDetallesRcCantidad());
+				detallesSC.setDetalleScCantidadRecibida(cantidad_recibida);
+				detallesSC.update(conn);
+				detallesSC.resetStatus();
+			} while (detalles.gotoNext());
+			comprobanteMovimiento.update(conn);
 
 			st = conn.createStatement();
 			ResultSet rs = st
@@ -101,36 +114,41 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 							+ recepcionCompraId
 							+ " GROUP BY almacen_id, articulo_id ORDER BY almacen_id");
 
-			int articulo_id = 0;
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
+			int articulo_id = 0;
+			int comprobante_movimiento_id = 0;
 
 			while (rs.next()) {
 				almacen_id = rs.getInt("almacen_id");
 				articulo_id = rs.getInt("articulo_id");
-				comprobanteMovimiento.setFindExpression("comprobante_movimiento_articulo.almacen_id == "+ almacen_id);				
-				comprobanteMovimiento.findFirst();				
+
+				comprobanteMovimiento
+						.setFindExpression("comprobante_movimiento_articulo.almacen_id == "
+								+ almacen_id);
+				comprobanteMovimiento.findFirst();
+				comprobante_movimiento_id = comprobanteMovimiento
+						.getComprobanteMovimientoArticuloComprobanteMovimientoId();
+
 				movimiento.gotoRow(movimiento.insertRow());
 				movimiento.setMovimientoArticuloArticuloId(articulo_id);
 				movimiento.setMovimientoArticuloCantidadEntregada(rs
 						.getDouble("cantidad_recibida"));
-				
+
 				movimiento.setMovimientoArticuloCantidadSolicitada(rs
-						.getDouble("cantidad_pedida"));				
+						.getDouble("cantidad_pedida"));
 				movimiento
-						.setMovimientoArticuloComprobanteMovimientoId(comprobanteMovimiento
-								.getComprobanteMovimientoArticuloComprobanteMovimientoId());				
+						.setMovimientoArticuloComprobanteMovimientoId(comprobante_movimiento_id);
 				movimiento.setMovimientoArticuloProyectoId(rs
 						.getInt("proyecto_id"));
 				movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
-				
+
 				resumen.retrieve("resumen_saldo_articulos.almacen_id = "
 						+ almacen_id
 						+ " AND resumen_saldo_articulos.articulo_id = "
 						+ articulo_id
 						+ " AND resumen_saldo_articulos.periodo = '"
-						+ new java.sql.Date(calendar.getTimeInMillis()) 
-						+ "'");
+						+ new java.sql.Date(calendar.getTimeInMillis()) + "'");
 
 				double stock = ResumenSaldoArticulosModel.getStockEnMano(
 						articulo_id, almacen_id, conn);
@@ -165,11 +183,12 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 				movimiento.setMovimientoArticuloResumenSaldoArticuloId(resumen
 						.getResumenSaldoArticulosResumenSaldoArticuloId());
 				movimiento.update(conn);
+
 				resumen.resetStatus();
 				movimiento.resetStatus();
-				
+
 			}
-			
+
 		} catch (DataStoreException ex) {
 			msg
 					.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
@@ -183,7 +202,8 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			return false;
 		} finally {
 			try {
-				st.close();
+				if (st != null)
+					st.close();
 			} catch (SQLException ex) {
 				msg
 						.append("Ocurrió un error de SQL mientras se cerraba el Statement: "
