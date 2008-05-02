@@ -1,0 +1,2 @@
+DROP VIEW IF EXISTS `inventario`.`legajos`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `inventario`.`legajos` AS select `tango`.`legajo`.`ID_LEGAJO` AS `ID_LEGAJO`,`tango`.`legajo`.`NRO_LEGAJO` AS `NRO_LEGAJO`,`tango`.`legajo`.`APELLIDO` AS `APELLIDO`,`tango`.`legajo`.`NOMBRE` AS `NOMBRE`,`tango`.`legajo`.`CUIL` AS `CUIL`,concat(`tango`.`legajo`.`APELLIDO`,_latin1', ',`tango`.`legajo`.`NOMBRE`) AS `APEYNOM` from `tango`.`legajo`;
