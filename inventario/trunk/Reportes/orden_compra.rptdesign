@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
-    <property name="units">cm</property>
-    <text-property name="title">Solicitud de compra</text-property>
+    <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
-    <property name="layoutPreference">fixed layout</property>
     <parameters>
-        <scalar-parameter name="orden_compra_id_parameter" id="764">
+        <scalar-parameter name="orden_compra_id_parameter" id="896">
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese Nro. de Orden de Compra</text-property>
             <property name="controlType">text-box</property>
+            <property name="defaultValue">13</property>
             <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -22,7 +20,7 @@
         </scalar-parameter>
     </parameters>
     <data-sources>
-        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="MySQL - Inventario" id="6">
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="MySQL - inventario" id="894">
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
             <property name="odaURL">jdbc:mysql://localhost:3306/inventario</property>
             <property name="odaUser">inventario</property>
@@ -30,7 +28,7 @@
         </oda-data-source>
     </data-sources>
     <data-sets>
-        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="orden_compra" id="765">
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="895">
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">orden_compra_id</property>
@@ -123,6 +121,22 @@
                 <structure>
                     <property name="columnName">telefono</property>
                     <property name="displayName">telefono</property>
+                </structure>
+                <structure>
+                    <property name="columnName">neto</property>
+                    <property name="displayName">neto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">descuento</property>
+                    <property name="displayName">descuento</property>
+                </structure>
+                <structure>
+                    <property name="columnName">iva</property>
+                    <property name="displayName">iva</property>
+                </structure>
+                <structure>
+                    <property name="columnName">total</property>
+                    <property name="displayName">total</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -242,12 +256,32 @@
                         <property name="name">telefono</property>
                         <property name="dataType">string</property>
                     </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">neto</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">descuento</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">iva</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">total</property>
+                        <property name="dataType">float</property>
+                    </structure>
                 </list-property>
             </structure>
-            <property name="dataSource">MySQL - Inventario</property>
+            <property name="dataSource">MySQL - inventario</property>
             <list-property name="parameters">
                 <structure>
-                    <property name="name">param_orden_compra_id</property>
+                    <property name="name">orden_compra_id_parameter</property>
                     <property name="paramName">orden_compra_id_parameter</property>
                     <property name="dataType">integer</property>
                     <property name="position">1</property>
@@ -417,6 +451,34 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">neto</property>
+                    <property name="nativeName">neto</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">descuento</property>
+                    <property name="nativeName">descuento</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">iva</property>
+                    <property name="nativeName">iva</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">total</property>
+                    <property name="nativeName">total</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
             </list-property>
             <property name="queryText">SELECT 
 ordenes_compra.orden_compra_id, 
@@ -441,7 +503,11 @@ proyectos.proyecto AS proyecto_proyecto,
 website_user_solicitante.nombre_completo AS solicitante_nombre,
 detalle_sc.observaciones_oc AS observaciones_oc,
 atributos_entidad1.valor AS direccion,
-atributos_entidad2.valor AS telefono 
+atributos_entidad2.valor AS telefono,
+atributos_entidad3.valor_real AS neto, 
+atributos_entidad4.valor_real AS descuento,
+atributos_entidad5.valor_real AS iva,
+atributos_entidad6.valor_real AS total
 
 FROM  ordenes_compra ordenes_compra
 left outer join infraestructura.estados estados ON ordenes_compra.estado = estados.estado  
@@ -458,8 +524,12 @@ left outer join centro_costo centro_costo ON solicitudes_compra.centro_costo_id 
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id 
 left outer join infraestructura.atributos_entidad atributos_entidad1 ON atributos_entidad1.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad1.atributo_id = 13
 left outer join infraestructura.atributos_entidad atributos_entidad2 ON atributos_entidad2.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad2.atributo_id = 14
+left outer join infraestructura.atributos_entidad atributos_entidad3 ON atributos_entidad3.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad3.atributo_id = 17
+left outer join infraestructura.atributos_entidad atributos_entidad4 ON atributos_entidad4.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad4.atributo_id = 18
+left outer join infraestructura.atributos_entidad atributos_entidad5 ON atributos_entidad5.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad5.atributo_id = 19
+left outer join infraestructura.atributos_entidad atributos_entidad6 ON atributos_entidad6.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad6.atributo_id = 11
 
-WHERE ordenes_compra.orden_compra_id = ? 
+WHERE ordenes_compra.orden_compra_id = ?
 ORDER BY ordenes_compra.orden_compra_id ASC</property>
         </oda-data-set>
     </data-sets>
@@ -497,196 +567,1733 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
             <property name="orientation">portrait</property>
-            <property name="topMargin">1cm</property>
+            <property name="topMargin">2.5cm</property>
             <property name="leftMargin">1cm</property>
-            <property name="bottomMargin">1in</property>
+            <property name="bottomMargin">2.5cm</property>
             <property name="rightMargin">1cm</property>
-            <property name="showHeaderOnFirst">false</property>
-            <property name="showFooterOnLast">false</property>
+            <property name="headerHeight">4.5cm</property>
+            <property name="footerHeight">6.5cm</property>
+            <page-header>
+                <grid id="869">
+                    <property name="height">100%</property>
+                    <property name="width">100%</property>
+                    <column id="870">
+                        <property name="width">13cm</property>
+                    </column>
+                    <column id="872"/>
+                    <row id="873">
+                        <property name="height">1cm</property>
+                        <cell id="874">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">3</property>
+                        </cell>
+                        <cell id="876">
+                            <property name="verticalAlign">middle</property>
+                            <data id="897">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <structure name="dateTimeFormat">
+                                    <property name="category">Medium Date</property>
+                                    <property name="pattern">Medium Date</property>
+                                </structure>
+                                <property name="textAlign">right</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">fecha</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="877">
+                        <property name="height">1cm</property>
+                        <cell id="880">
+                            <property name="verticalAlign">middle</property>
+                            <data id="898">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <property name="textAlign">right</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">orden_compra_id</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="881">
+                        <property name="height">7mm</property>
+                        <cell id="884">
+                            <property name="verticalAlign">middle</property>
+                            <data id="899">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <structure name="dateTimeFormat">
+                                    <property name="category">Medium Date</property>
+                                    <property name="pattern">Medium Date</property>
+                                </structure>
+                                <property name="textAlign">right</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">fecha_estimada_entrega</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="885">
+                        <property name="height">8mm</property>
+                        <property name="verticalAlign">middle</property>
+                        <cell id="886">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <data id="900">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <property name="paddingTop">1pt</property>
+                                <property name="paddingLeft">2.5cm</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">proveedor_nombre</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="889">
+                        <property name="height">8mm</property>
+                        <property name="verticalAlign">middle</property>
+                        <cell id="890">
+                            <data id="904">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <property name="paddingTop">1pt</property>
+                                <property name="paddingLeft">2.5cm</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">direccion</property>
+                            </data>
+                        </cell>
+                        <cell id="891">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <data id="905">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <property name="paddingTop">1pt</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">telefono</property>
+                            </data>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
             <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
+                <grid id="906">
+                    <property name="height">100%</property>
+                    <property name="width">100%</property>
+                    <column id="907">
+                        <property name="width">14cm</property>
+                    </column>
+                    <column id="909"/>
+                    <row id="910">
+                        <property name="height">1.5cm</property>
+                        <cell id="911">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <data id="922">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <property name="paddingTop">1mm</property>
+                                <property name="paddingLeft">0.5cm</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"] + " " +dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">proyecto_proyecto</property>
+                            </data>
+                        </cell>
+                        <cell id="913">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">3</property>
+                            <grid id="924">
+                                <property name="marginTop">0.5cm</property>
+                                <property name="width">100%</property>
+                                <column id="925"/>
+                                <row id="926">
+                                    <cell id="927">
+                                        <data id="934">
+                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">$#,##0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="dataSet">Data Set</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">orden_compra_id</property>
+                                                    <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha</property>
+                                                    <expression name="expression">dataSetRow["fecha"]</expression>
+                                                    <property name="dataType">date-time</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha_estimada_entrega</property>
+                                                    <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                                    <property name="dataType">date</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descripcion</property>
+                                                    <expression name="expression">dataSetRow["descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones</property>
+                                                    <expression name="expression">dataSetRow["observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">comprador_nombre_completo</property>
+                                                    <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proveedor_nombre</property>
+                                                    <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_SC_id</property>
+                                                    <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">cantidad_pedida</property>
+                                                    <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_descripcion</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_observaciones</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_nombre</property>
+                                                    <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion_completa</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_monto_unitario</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">unidad_medida_nombre</property>
+                                                    <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_nombre</property>
+                                                    <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">centro_costo_nombre</property>
+                                                    <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_proyecto</property>
+                                                    <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">solicitante_nombre</property>
+                                                    <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones_oc</property>
+                                                    <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">direccion</property>
+                                                    <expression name="expression">dataSetRow["direccion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">telefono</property>
+                                                    <expression name="expression">dataSetRow["telefono"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">neto</property>
+                                                    <expression name="expression">dataSetRow["neto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descuento</property>
+                                                    <expression name="expression">dataSetRow["descuento"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">iva</property>
+                                                    <expression name="expression">dataSetRow["iva"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">total</property>
+                                                    <expression name="expression">dataSetRow["total"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">neto</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                                <row id="928">
+                                    <cell id="929">
+                                        <data id="935">
+                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="marginTop">0pt</property>
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">$#,##0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="dataSet">Data Set</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">orden_compra_id</property>
+                                                    <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha</property>
+                                                    <expression name="expression">dataSetRow["fecha"]</expression>
+                                                    <property name="dataType">date-time</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha_estimada_entrega</property>
+                                                    <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                                    <property name="dataType">date</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descripcion</property>
+                                                    <expression name="expression">dataSetRow["descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones</property>
+                                                    <expression name="expression">dataSetRow["observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">comprador_nombre_completo</property>
+                                                    <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proveedor_nombre</property>
+                                                    <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_SC_id</property>
+                                                    <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">cantidad_pedida</property>
+                                                    <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_descripcion</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_observaciones</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_nombre</property>
+                                                    <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion_completa</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_monto_unitario</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">unidad_medida_nombre</property>
+                                                    <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_nombre</property>
+                                                    <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">centro_costo_nombre</property>
+                                                    <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_proyecto</property>
+                                                    <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">solicitante_nombre</property>
+                                                    <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones_oc</property>
+                                                    <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">direccion</property>
+                                                    <expression name="expression">dataSetRow["direccion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">telefono</property>
+                                                    <expression name="expression">dataSetRow["telefono"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">neto</property>
+                                                    <expression name="expression">dataSetRow["neto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descuento</property>
+                                                    <expression name="expression">dataSetRow["descuento"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">iva</property>
+                                                    <expression name="expression">dataSetRow["iva"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">total</property>
+                                                    <expression name="expression">dataSetRow["total"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">descuento</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                                <row id="930">
+                                    <cell id="931">
+                                        <data id="936">
+                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="marginTop">0pt</property>
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">$#,##0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="dataSet">Data Set</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">orden_compra_id</property>
+                                                    <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha</property>
+                                                    <expression name="expression">dataSetRow["fecha"]</expression>
+                                                    <property name="dataType">date-time</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha_estimada_entrega</property>
+                                                    <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                                    <property name="dataType">date</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descripcion</property>
+                                                    <expression name="expression">dataSetRow["descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones</property>
+                                                    <expression name="expression">dataSetRow["observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">comprador_nombre_completo</property>
+                                                    <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proveedor_nombre</property>
+                                                    <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_SC_id</property>
+                                                    <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">cantidad_pedida</property>
+                                                    <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_descripcion</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_observaciones</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_nombre</property>
+                                                    <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion_completa</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_monto_unitario</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">unidad_medida_nombre</property>
+                                                    <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_nombre</property>
+                                                    <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">centro_costo_nombre</property>
+                                                    <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_proyecto</property>
+                                                    <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">solicitante_nombre</property>
+                                                    <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones_oc</property>
+                                                    <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">direccion</property>
+                                                    <expression name="expression">dataSetRow["direccion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">telefono</property>
+                                                    <expression name="expression">dataSetRow["telefono"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">neto</property>
+                                                    <expression name="expression">dataSetRow["neto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descuento</property>
+                                                    <expression name="expression">dataSetRow["descuento"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">iva</property>
+                                                    <expression name="expression">dataSetRow["iva"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">total</property>
+                                                    <expression name="expression">dataSetRow["total"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">iva</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                                <row id="932">
+                                    <cell id="933">
+                                        <data id="937">
+                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="marginTop">0pt</property>
+                                            <structure name="numberFormat">
+                                                <property name="category">Currency</property>
+                                                <property name="pattern">$#,##0.00</property>
+                                            </structure>
+                                            <property name="textAlign">right</property>
+                                            <property name="dataSet">Data Set</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">orden_compra_id</property>
+                                                    <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha</property>
+                                                    <expression name="expression">dataSetRow["fecha"]</expression>
+                                                    <property name="dataType">date-time</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">fecha_estimada_entrega</property>
+                                                    <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                                    <property name="dataType">date</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descripcion</property>
+                                                    <expression name="expression">dataSetRow["descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones</property>
+                                                    <expression name="expression">dataSetRow["observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">comprador_nombre_completo</property>
+                                                    <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proveedor_nombre</property>
+                                                    <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_SC_id</property>
+                                                    <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                                    <property name="dataType">integer</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">cantidad_pedida</property>
+                                                    <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_descripcion</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_observaciones</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_nombre</property>
+                                                    <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">articulo_descripcion_completa</property>
+                                                    <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">detalle_sc_monto_unitario</property>
+                                                    <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                                    <property name="dataType">float</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">unidad_medida_nombre</property>
+                                                    <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_nombre</property>
+                                                    <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">centro_costo_nombre</property>
+                                                    <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">proyecto_proyecto</property>
+                                                    <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">solicitante_nombre</property>
+                                                    <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">observaciones_oc</property>
+                                                    <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">direccion</property>
+                                                    <expression name="expression">dataSetRow["direccion"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">telefono</property>
+                                                    <expression name="expression">dataSetRow["telefono"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">neto</property>
+                                                    <expression name="expression">dataSetRow["neto"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">descuento</property>
+                                                    <expression name="expression">dataSetRow["descuento"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">iva</property>
+                                                    <expression name="expression">dataSetRow["iva"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
+                                                    <property name="name">total</property>
+                                                    <expression name="expression">dataSetRow["total"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">total</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                    <row id="914">
+                        <property name="height">7mm</property>
+                        <cell id="915">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                        </cell>
+                    </row>
+                    <row id="918">
+                        <property name="height">11mm</property>
+                        <cell id="919">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">1</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <data id="923">
+                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontSize">large</property>
+                                <property name="paddingTop">1pt</property>
+                                <property name="paddingLeft">2.5cm</property>
+                                <property name="dataSet">Data Set</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">orden_compra_id</property>
+                                        <expression name="expression">dataSetRow["orden_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha</property>
+                                        <expression name="expression">dataSetRow["fecha"]</expression>
+                                        <property name="dataType">date-time</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">fecha_estimada_entrega</property>
+                                        <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
+                                        <property name="dataType">date</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion</property>
+                                        <expression name="expression">dataSetRow["descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones</property>
+                                        <expression name="expression">dataSetRow["observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador_nombre_completo</property>
+                                        <expression name="expression">dataSetRow["comprador_nombre_completo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proveedor_nombre</property>
+                                        <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_SC_id</property>
+                                        <expression name="expression">dataSetRow["detalle_SC_id"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_pedida</property>
+                                        <expression name="expression">dataSetRow["cantidad_pedida"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_descripcion</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_observaciones</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_observaciones"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_nombre</property>
+                                        <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">articulo_descripcion_completa</property>
+                                        <expression name="expression">dataSetRow["articulo_descripcion_completa"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">detalle_sc_monto_unitario</property>
+                                        <expression name="expression">dataSetRow["detalle_sc_monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">unidad_medida_nombre</property>
+                                        <expression name="expression">dataSetRow["unidad_medida_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_nombre</property>
+                                        <expression name="expression">dataSetRow["proyecto_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">centro_costo_nombre</property>
+                                        <expression name="expression">dataSetRow["centro_costo_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">proyecto_proyecto</property>
+                                        <expression name="expression">dataSetRow["proyecto_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante_nombre</property>
+                                        <expression name="expression">dataSetRow["solicitante_nombre"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_oc</property>
+                                        <expression name="expression">dataSetRow["observaciones_oc"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">direccion</property>
+                                        <expression name="expression">dataSetRow["direccion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">telefono</property>
+                                        <expression name="expression">dataSetRow["telefono"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">solicitante_nombre</property>
+                            </data>
+                        </cell>
+                    </row>
+                </grid>
             </page-footer>
         </simple-master-page>
     </page-setup>
     <body>
-        <grid id="869">
-            <property name="height">1.1789473684in</property>
-            <property name="width">7.5052631579in</property>
-            <column id="870"/>
-            <column id="871">
-                <property name="width">3.6in</property>
-            </column>
-            <column id="872"/>
-            <row id="873">
-                <property name="height">0.4421052632in</property>
-                <cell id="874"/>
-                <cell id="875"/>
-                <cell id="876">
-                    <property name="verticalAlign">middle</property>
-                    <data id="385">
-                        <property name="fontFamily">"Liberation Mono"</property>
-                        <property name="fontSize">large</property>
-                        <structure name="dateTimeFormat">
-                            <property name="category">Medium Date</property>
-                            <property name="pattern">Medium Date</property>
-                        </structure>
-                        <property name="textAlign">right</property>
-                        <property name="dataSet">orden_compra</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">fecha_orden_compra</property>
-                                <property name="displayName">fecha_orden_compra</property>
-                                <expression name="expression">dataSetRow["fecha"]</expression>
-                                <property name="dataType">date</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">fecha_orden_compra</property>
-                    </data>
-                </cell>
-            </row>
-            <row id="877">
-                <property name="height">0.4526315789in</property>
-                <cell id="878"/>
-                <cell id="879"/>
-                <cell id="880">
-                    <property name="verticalAlign">middle</property>
-                    <data id="770">
-                        <property name="fontFamily">"Liberation Mono"</property>
-                        <property name="fontSize">large</property>
-                        <property name="textAlign">right</property>
-                        <property name="dataSet">orden_compra</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">nro_orden_compra</property>
-                                <property name="displayName">nro_orden_compra</property>
-                                <expression name="expression">dataSetRow["orden_compra_id"]</expression>
-                                <property name="dataType">integer</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">nro_orden_compra</property>
-                    </data>
-                </cell>
-            </row>
-            <row id="881">
-                <property name="height">0.2842105263in</property>
-                <cell id="882"/>
-                <cell id="883"/>
-                <cell id="884">
-                    <property name="verticalAlign">middle</property>
-                    <data id="774">
-                        <property name="fontFamily">"Liberation Mono"</property>
-                        <property name="fontSize">large</property>
-                        <property name="fontWeight">normal</property>
-                        <property name="textAlign">right</property>
-                        <property name="dataSet">orden_compra</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">fecha_entrega</property>
-                                <property name="displayName">fecha_entrega</property>
-                                <expression name="expression">dataSetRow["fecha_estimada_entrega"]</expression>
-                                <property name="dataType">date</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">fecha_entrega</property>
-                    </data>
-                </cell>
-            </row>
-        </grid>
-        <grid id="141">
-            <property name="marginTop">0pt</property>
-            <property name="canShrink">true</property>
-            <property name="height">0.5894736842in</property>
-            <property name="width">7.5052631579in</property>
-            <column id="142">
-                <property name="width">3.6631578947in</property>
-            </column>
-            <column id="799">
-                <property name="width">1.7473684211in</property>
-            </column>
-            <row id="779">
-                <property name="height">0.2947368421in</property>
-                <cell id="781">
-                    <property name="colSpan">2</property>
-                    <property name="rowSpan">1</property>
-                    <property name="width">100%</property>
-                    <property name="paddingTop">1pt</property>
-                    <property name="paddingLeft">3cm</property>
-                    <data id="783">
-                        <property name="fontFamily">"Liberation Mono"</property>
-                        <property name="fontSize">large</property>
-                        <property name="fontWeight">normal</property>
-                        <property name="dataSet">orden_compra</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">proveedor_nombre</property>
-                                <property name="displayName">proveedor_nombre</property>
-                                <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">proveedor_nombre</property>
-                    </data>
-                </cell>
-            </row>
-            <row id="784">
-                <property name="height">0.2842105263in</property>
-                <cell id="786">
-                    <property name="colSpan">1</property>
-                    <property name="rowSpan">1</property>
-                    <property name="width">70%</property>
-                    <property name="paddingTop">1pt</property>
-                    <property name="paddingLeft">3cm</property>
-                    <property name="verticalAlign">middle</property>
-                    <data id="800">
-                        <property name="fontFamily">"Liberation Mono"</property>
-                        <property name="fontSize">large</property>
-                        <property name="paddingTop">1pt</property>
-                        <property name="dataSet">orden_compra</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">proveedor_direccion</property>
-                                <expression name="expression">dataSetRow["direccion"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">proveedor_direccion</property>
-                    </data>
-                </cell>
-                <cell id="802">
-                    <property name="width">100%</property>
-                    <property name="paddingTop">1pt</property>
-                    <property name="paddingLeft">1cm</property>
-                    <property name="textAlign">left</property>
-                    <property name="verticalAlign">middle</property>
-                    <data id="803">
-                        <property name="fontFamily">"Liberation Mono"</property>
-                        <property name="fontSize">large</property>
-                        <structure name="stringFormat">
-                            <property name="category">Custom</property>
-                            <property name="pattern">(@@@@@) @@@-@@@</property>
-                        </structure>
-                        <property name="dataSet">orden_compra</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">proveedor_telefono</property>
-                                <property name="displayName">proveedor_telefono</property>
-                                <expression name="expression">dataSetRow["telefono"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                        <property name="resultSetColumn">proveedor_telefono</property>
-                    </data>
-                </cell>
-            </row>
-        </grid>
-        <table id="807">
-            <property name="marginTop">0pt</property>
-            <property name="marginBottom">1cm</property>
-            <property name="canShrink">true</property>
-            <property name="dataSet">orden_compra</property>
+        <table id="963">
+            <property name="marginTop">1cm</property>
+            <property name="height">12.5cm</property>
+            <property name="width">100%</property>
+            <property name="dataSet">Data Set</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">orden_compra_id</property>
@@ -745,7 +2352,7 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">articulo_nombre</property>
-                    <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -804,115 +2411,125 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
-                    <property name="name">total_neto</property>
-                    <property name="displayName">total_neto</property>
-                    <expression name="expression">row["total"]</expression>
-                    <property name="dataType">any</property>
-                    <property name="aggregateFunction">SUM</property>
+                    <property name="name">neto</property>
+                    <expression name="expression">dataSetRow["neto"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">descuento</property>
+                    <expression name="expression">dataSetRow["descuento"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">iva</property>
+                    <expression name="expression">dataSetRow["iva"]</expression>
+                    <property name="dataType">float</property>
                 </structure>
                 <structure>
                     <property name="name">total</property>
-                    <property name="displayName">total</property>
+                    <expression name="expression">dataSetRow["total"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Column Binding</property>
+                    <property name="displayName">articulo_nombre</property>
+                    <expression name="expression">dataSetRow["articulo_nombre"]</expression>
+                    <property name="dataType">any</property>
+                </structure>
+                <structure>
+                    <property name="name">total_linea</property>
                     <expression name="expression">row["cantidad_pedida"]*row["detalle_sc_monto_unitario"]</expression>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
-            <column id="827">
+            <column id="980">
                 <property name="width">9.1cm</property>
             </column>
-            <column id="828">
-                <property name="width">2.1cm</property>
+            <column id="981">
+                <property name="width">2cm</property>
             </column>
-            <column id="829">
+            <column id="982">
                 <property name="width">1.5cm</property>
             </column>
-            <column id="830">
-                <property name="width">3.6cm</property>
+            <column id="992">
+                <property name="width">3.5cm</property>
             </column>
-            <column id="842">
-                <property name="width">2.9cm</property>
+            <column id="997">
+                <property name="width">3cm</property>
             </column>
             <header>
-                <row id="808">
-                    <property name="height">1.5cm</property>
-                    <property name="fontFamily">"Liberation Mono"</property>
-                    <property name="fontSize">large</property>
-                    <cell id="810">
-                        <property name="drop">none</property>
+                <row id="964">
+                    <cell id="965">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
                     </cell>
-                    <cell id="811">
-                        <property name="drop">none</property>
+                    <cell id="966">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
                     </cell>
-                    <cell id="812">
-                        <property name="drop">none</property>
+                    <cell id="967">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
                     </cell>
-                    <cell id="813">
-                        <property name="drop">none</property>
+                    <cell id="988">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
                     </cell>
-                    <cell id="839">
-                        <property name="drop">none</property>
+                    <cell id="993">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
                     </cell>
                 </row>
             </header>
             <detail>
-                <row id="814">
-                    <property name="suppressDuplicates">false</property>
-                    <property name="fontFamily">"Liberation Mono"</property>
-                    <property name="fontSize">large</property>
-                    <property name="canShrink">true</property>
-                    <cell id="816">
-                        <property name="drop">none</property>
+                <row id="968">
+                    <cell id="969">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">5mm</property>
-                        <data id="832">
-                            <property name="resultSetColumn">articulo_descripcion</property>
+                        <data id="985">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
+                            <property name="resultSetColumn">articulo_nombre</property>
                         </data>
-                        <data id="949">
+                        <data id="1000">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
                         </data>
-                        <data id="950">
+                        <data id="1001">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
+                            <property name="marginTop">0pt</property>
+                            <property name="marginLeft">5mm</property>
+                            <property name="paddingTop">1pt</property>
                             <property name="resultSetColumn">observaciones_oc</property>
                         </data>
-                        <label id="952"/>
                     </cell>
-                    <cell id="817">
-                        <property name="drop">none</property>
+                    <cell id="970">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
-                        <data id="834">
+                        <data id="986">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
                             <structure name="numberFormat">
-                                <property name="category">Custom</property>
-                                <property name="pattern">#0.000</property>
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0.00</property>
                             </structure>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">cantidad_pedida</property>
                         </data>
                     </cell>
-                    <cell id="818">
-                        <property name="drop">none</property>
+                    <cell id="971">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
-                        <data id="836">
+                        <data id="987">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">unidad_medida_nombre</property>
                         </data>
                     </cell>
-                    <cell id="819">
-                        <property name="drop">none</property>
+                    <cell id="989">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
-                        <data id="838">
-                            <property name="paddingTop">1pt</property>
+                        <data id="998">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">$#,##0.00</property>
@@ -921,166 +2538,66 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                             <property name="resultSetColumn">detalle_sc_monto_unitario</property>
                         </data>
                     </cell>
-                    <cell id="840">
-                        <property name="drop">none</property>
+                    <cell id="994">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
-                        <data id="919">
+                        <data id="999">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
+                            <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">$#,##0.00</property>
+                                <property name="pattern">#,##0.00</property>
                             </structure>
-                            <property name="textAlign">right</property>
-                            <property name="resultSetColumn">total</property>
+                            <property name="textAlign">center</property>
+                            <property name="resultSetColumn">total_linea</property>
                         </data>
+                    </cell>
+                </row>
+                <row id="972">
+                    <cell id="973">
+                        <property name="paddingTop">1pt</property>
+                    </cell>
+                    <cell id="974">
+                        <property name="paddingTop">1pt</property>
+                    </cell>
+                    <cell id="975">
+                        <property name="paddingTop">1pt</property>
+                    </cell>
+                    <cell id="990">
+                        <property name="paddingTop">1pt</property>
+                    </cell>
+                    <cell id="995">
+                        <property name="paddingTop">1pt</property>
                     </cell>
                 </row>
             </detail>
             <footer>
-                <row id="820">
-                    <property name="height">10.5cm</property>
-                    <property name="suppressDuplicates">false</property>
-                    <property name="canShrink">true</property>
-                    <cell id="822">
-                        <property name="colSpan">2</property>
-                        <property name="rowSpan">1</property>
-                        <property name="drop">none</property>
+                <row id="976">
+                    <cell id="977">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
-                        <property name="verticalAlign">bottom</property>
-                        <grid id="888">
-                            <property name="width">100%</property>
-                            <column id="889"/>
-                            <column id="890"/>
-                            <row id="891">
-                                <cell id="892">
-                                    <property name="colSpan">2</property>
-                                    <property name="rowSpan">1</property>
-                                    <property name="height">3.3cm</property>
-                                    <property name="paddingTop">1pt</property>
-                                    <property name="canShrink">true</property>
-                                    <data id="868">
-                                        <property name="fontFamily">"Liberation Sans"</property>
-                                        <property name="fontSize">large</property>
-                                        <property name="paddingTop">1pt</property>
-                                        <property name="paddingLeft">5mm</property>
-                                        <property name="dataSet">orden_compra</property>
-                                        <list-property name="boundDataColumns">
-                                            <structure>
-                                                <property name="name">proyecto_proyecto</property>
-                                                <property name="displayName">proyecto_proyecto</property>
-                                                <expression name="expression">dataSetRow["proyecto_proyecto"] + " " + dataSetRow["proyecto_nombre"]</expression>
-                                                <property name="dataType">string</property>
-                                            </structure>
-                                        </list-property>
-                                        <property name="resultSetColumn">proyecto_proyecto</property>
-                                    </data>
-                                </cell>
-                            </row>
-                            <row id="894">
-                                <cell id="895">
-                                    <property name="colSpan">2</property>
-                                    <property name="rowSpan">1</property>
-                                    <property name="height">3.3cm</property>
-                                    <property name="paddingTop">1pt</property>
-                                    <property name="showIfBlank">true</property>
-                                    <property name="canShrink">true</property>
-                                    <label id="953"/>
-                                </cell>
-                            </row>
-                            <row id="897">
-                                <property name="showIfBlank">true</property>
-                                <cell id="898">
-                                    <property name="colSpan">2</property>
-                                    <property name="rowSpan">1</property>
-                                    <property name="height">3.3cm</property>
-                                    <property name="paddingTop">1pt</property>
-                                    <property name="canShrink">true</property>
-                                    <label id="954"/>
-                                </cell>
-                            </row>
-                            <row id="900">
-                                <property name="showIfBlank">true</property>
-                                <cell id="901">
-                                    <property name="colSpan">2</property>
-                                    <property name="rowSpan">1</property>
-                                    <property name="height">3.3cm</property>
-                                    <property name="paddingTop">1pt</property>
-                                    <property name="canShrink">true</property>
-                                    <label id="955"/>
-                                </cell>
-                            </row>
-                            <row id="903">
-                                <cell id="904">
-                                    <property name="colSpan">2</property>
-                                    <property name="rowSpan">1</property>
-                                    <property name="height">3.3cm</property>
-                                    <property name="paddingTop">1pt</property>
-                                    <property name="canShrink">true</property>
-                                    <text-data id="920">
-                                        <property name="fontFamily">"Liberation Mono"</property>
-                                        <property name="fontSize">large</property>
-                                        <property name="paddingTop">1pt</property>
-                                        <property name="paddingLeft">3.5cm</property>
-                                        <property name="textAlign">left</property>
-                                        <expression name="valueExpr">row["solicitante_nombre"]</expression>
-                                        <property name="contentType">html</property>
-                                    </text-data>
-                                </cell>
-                            </row>
-                        </grid>
+                        <data id="1003">
+                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontSize">large</property>
+                            <property name="marginTop">5mm</property>
+                            <property name="marginLeft">5mm</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="masterPage">Simple MasterPage</property>
+                            <property name="pageBreakAfter">always</property>
+                            <property name="pageBreakBefore">always</property>
+                            <property name="resultSetColumn">observaciones</property>
+                        </data>
                     </cell>
-                    <cell id="824">
-                        <property name="drop">none</property>
+                    <cell id="978">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
                     </cell>
-                    <cell id="825">
-                        <property name="drop">none</property>
+                    <cell id="979">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
                     </cell>
-                    <cell id="841">
-                        <property name="drop">none</property>
+                    <cell id="991">
                         <property name="paddingTop">1pt</property>
-                        <property name="paddingLeft">1pt</property>
-                        <property name="verticalAlign">bottom</property>
-                        <grid id="906">
-                            <property name="width">100%</property>
-                            <column id="907"/>
-                            <row id="908">
-                                <cell id="909"/>
-                            </row>
-                            <row id="910">
-                                <cell id="911">
-                                    <property name="fontFamily">"Liberation Sans"</property>
-                                    <property name="fontSize">large</property>
-                                    <data id="918">
-                                        <structure name="numberFormat">
-                                            <property name="category">Currency</property>
-                                            <property name="pattern">$#,##0.00</property>
-                                        </structure>
-                                        <property name="textAlign">right</property>
-                                        <property name="resultSetColumn">total_neto</property>
-                                    </data>
-                                </cell>
-                            </row>
-                            <row id="912">
-                                <cell id="913">
-                                    <label id="956"/>
-                                </cell>
-                            </row>
-                            <row id="914">
-                                <cell id="915">
-                                    <label id="957"/>
-                                </cell>
-                            </row>
-                            <row id="916">
-                                <cell id="917">
-                                    <label id="958"/>
-                                </cell>
-                            </row>
-                        </grid>
+                    </cell>
+                    <cell id="996">
+                        <property name="paddingTop">1pt</property>
                     </cell>
                 </row>
             </footer>
