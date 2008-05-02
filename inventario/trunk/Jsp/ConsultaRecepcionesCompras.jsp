@@ -136,7 +136,7 @@
 						<salmon:td>
 							<salmon:text name="comprador_nombreTXT3"
 								text="" font="DefaultFont"
-								datasource="dsRecepciones:user_recibe.nombre_completo" />
+								datasource="dsRecepciones:legajos.apeynom" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fecha_solicitudTXT4" text="cliente Goes Here"

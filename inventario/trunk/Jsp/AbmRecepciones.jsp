@@ -71,9 +71,12 @@
 							<tr>
 								<td><salmon:text name="recibe1" text="Recibió"
 									font="ColumnCaptionFont" /></td>
-								<td><salmon:text name="recibe2" text=""
-									font="ColumnCaptionFont"
-									datasource="dsRecepciones:recepciones_compras.user_id_recibe" /></td>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpLegajoLegajo" name="legajo1" size="6"
+									maxlength="10" displayformat="##########0"
+									datasource="dsRecepciones:recepciones_compras.user_id_recibe"
+									popupheight="450" popupwidth="500" usepopup="true"
+									showdescription="true"></salmon:lookup></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="proveedor1" text="Proveedor"
@@ -95,8 +98,9 @@
 							<tr>
 								<td><salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" /></td>
-								<td colspan="3"><salmon:input type="textarea" name="observaciones2"
-									cols="50" rows="3" wrap="HARD" maxlength="255"
+								<td colspan="3"><salmon:input type="textarea"
+									name="observaciones2" cols="50" rows="3" wrap="HARD"
+									maxlength="255"
 									datasource="dsRecepciones:recepciones_compras.observaciones"></salmon:input></td>
 								<td width="10"></td>
 							</tr>
