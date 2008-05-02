@@ -1331,4 +1331,48 @@ public class SolicitudCompraModel extends BaseModel {
 		return getSolicitudesCompraSolicitudCompraId();
 	}
 
+	public int getNivelFirma() {
+		DBConnection conn = null;
+		Statement st = null;
+		ResultSet r = null;
+		int orden = 0;
+		try {
+			conn = DBConnection.getConnection("inventario");
+
+			String SQL = "SELECT orden " +
+					"FROM inventario.instancias_aprobacion instancias" +
+					"WHERE instancias.nombre_objeto LIKE 'solicitudes_compra' " +
+					"AND instancias.objeto_id = "+getSolicitudesCompraSolicitudCompraId() +
+					" AND instancias.estado LIKE '0007.0001'";
+			st = conn.createStatement();
+			r = st.executeQuery(SQL);
+
+			if (r.first()) {
+				// guarda la cantidad actual
+				orden = r.getInt(1);				
+			}
+		} catch (DataStoreException e) {
+			MessageLog.writeErrorMessage(e, null);
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			if (conn != null)
+				conn.freeConnection();
+		}
+		return orden;
+	}
 }

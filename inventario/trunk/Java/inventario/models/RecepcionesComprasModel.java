@@ -43,11 +43,11 @@ public class RecepcionesComprasModel extends BaseModel {
 	public static final String RECEPCIONES_COMPRAS_PROVEEDOR_ID = "recepciones_compras.proveedor_id";
 	public static final String RECEPCIONES_COMPRAS_USER_ID_COMPLETA = "recepciones_compras.user_id_completa";
 	public static final String RECEPCIONES_COMPRAS_USER_ID_RECIBE = "recepciones_compras.user_id_recibe";
-	public static final String RECEPCIONES_COMPRAS_OBSERVACIONES = "recepciones_compras.observaciones";
-	public static final String USER_RECIBE_NOMBRE_COMPLETO = "user_recibe.nombre_completo";
+	public static final String RECEPCIONES_COMPRAS_OBSERVACIONES = "recepciones_compras.observaciones";	
 	public static final String USER_COMPLETA_NOMBRE_COMPLETO = "user_completa.nombre_completo";
 	public static final String PROVEEDOR_NOMBRE = "proveedores.nombre";
 	public static final String ESTADOS_NOMBRE = "estados.nombre";
+	public static final String LEGAJOS_APEYNOM = "legajos.APEYNOM";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
@@ -81,7 +81,7 @@ public class RecepcionesComprasModel extends BaseModel {
 		addTableAlias(computeTableName("recepciones_compras"), "recepciones");
 		addTableAlias(computeTableName("infraestructura.estados"), "estados");
 		addTableAlias(computeTableName("infraestructura.website_user"), "website_user_completa");
-		addTableAlias(computeTableName("infraestructura.website_user"), "website_user_recibe");
+		addTableAlias(computeTableName("legajos"), "legajos");
 		addTableAlias(computeTableName("proveedores"), "proveedores");
 
 		// add columns
@@ -107,16 +107,19 @@ public class RecepcionesComprasModel extends BaseModel {
 				DataStore.DATATYPE_STRING, false, true,
 				RECEPCIONES_COMPRAS_OBSERVACIONES);
 		addColumn(computeTableName("estados"), "nombre",
-				DataStore.DATATYPE_STRING, false, true, ESTADOS_NOMBRE);
+				DataStore.DATATYPE_STRING, false, false, ESTADOS_NOMBRE);
 		addColumn(computeTableName("proveedores"), "nombre",
-				DataStore.DATATYPE_STRING, false, true, PROVEEDOR_NOMBRE);
+				DataStore.DATATYPE_STRING, false, false, PROVEEDOR_NOMBRE);
 		addColumn(computeTableName("website_user_completa"), "nombre_completo",
-				DataStore.DATATYPE_STRING, false, true,
+				DataStore.DATATYPE_STRING, false, false,
 				USER_COMPLETA_NOMBRE_COMPLETO);
-		addColumn(computeTableName("website_user_recibe"), "nombre_completo",
-				DataStore.DATATYPE_STRING, false, true,
-				USER_RECIBE_NOMBRE_COMPLETO);
-
+		addColumn(computeTableName("legajos"), "APEYNOM",
+				DataStore.DATATYPE_STRING, false, false,
+				LEGAJOS_APEYNOM);
+		
+		addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
+		
+		
 		// add joins
 		addJoin(computeTableAndFieldName("recepciones_compras.estado"),
 				computeTableAndFieldName("estados.estado"), false);
@@ -128,7 +131,7 @@ public class RecepcionesComprasModel extends BaseModel {
 				computeTableAndFieldName("website_user_completa.user_id"), false);
 		
 		addJoin(computeTableAndFieldName("recepciones_compras.user_id_recibe"),
-				computeTableAndFieldName("website_user_recibe.user_id"), true);
+				computeTableAndFieldName("legajos.NRO_LEGAJO"), true);
 
 		// add validations
 		addRequiredRule(RECEPCIONES_COMPRAS_ESTADO,
@@ -159,14 +162,12 @@ public class RecepcionesComprasModel extends BaseModel {
 				"Usuario inexistente");
 		addLookupRule(
 				RECEPCIONES_COMPRAS_USER_ID_RECIBE,
-				"infraestructura.website_user",
-				"'infraestructura.website_user.user_id = ' + recepciones_compras.user_id_recibe",
-				"nombre_completo", USER_RECIBE_NOMBRE_COMPLETO,
-				"Usuario inexistente");
+				"inventario.legajos",
+				"'inventario.legajos.NRO_LEGAJO = ' + recepciones_compras.user_id_recibe",
+				"APEYNOM", LEGAJOS_APEYNOM,
+				"Usuario inexistente");	
 
-		setAutoIncrement(RECEPCIONES_COMPRAS_RECEPCION_COMPRA_ID, true);
-		
-		addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
+		setAutoIncrement(RECEPCIONES_COMPRAS_RECEPCION_COMPRA_ID, true);		
 		
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
@@ -705,8 +706,8 @@ public class RecepcionesComprasModel extends BaseModel {
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getUserRecibeNombreCompleto() throws DataStoreException {
-		return getString(USER_RECIBE_NOMBRE_COMPLETO);
+	public String getLegajoApeynom() throws DataStoreException {
+		return getString(LEGAJOS_APEYNOM);
 	}
 
 	/**
@@ -718,9 +719,9 @@ public class RecepcionesComprasModel extends BaseModel {
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getUserRecibeNombreCompleto(int row)
+	public String getLegajoApeynom(int row)
 			throws DataStoreException {
-		return getString(row, USER_RECIBE_NOMBRE_COMPLETO);
+		return getString(row, LEGAJOS_APEYNOM);
 	}
 
 	/**
@@ -731,9 +732,9 @@ public class RecepcionesComprasModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setUserRecibeNombreCompleto(String newValue)
+	public void setLegajoApeynom(String newValue)
 			throws DataStoreException {
-		setString(USER_RECIBE_NOMBRE_COMPLETO, newValue);
+		setString(LEGAJOS_APEYNOM, newValue);
 	}
 
 	/**
@@ -746,9 +747,9 @@ public class RecepcionesComprasModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setUserRecibeNombreCompleto(int row, String newValue)
+	public void setLegajoApeynom(int row, String newValue)
 			throws DataStoreException {
-		setString(row, USER_RECIBE_NOMBRE_COMPLETO, newValue);
+		setString(row, LEGAJOS_APEYNOM, newValue);
 	}
 
 	// $CUSTOMMETHODS$
