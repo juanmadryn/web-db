@@ -24,7 +24,7 @@
 		expression="DESCRIPCION_ADICIONAL EQUALS 1 || detalle_sc.observaciones_oc.length() > 0" 
 		datasource="dsDetalleSC"/>
 	<!-- <salmon:property name="prop2" propertyname="visible" component="nuevoDetalleSinSc"
-		expression="$ROWSTATUS$ > 1" datasource="dsDetalleSC"/> -->
+		expression="$ROWSTATUS$ > 1" datasource="dsDetalleSC"/> -->	
 	
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
