@@ -117,8 +117,13 @@
 							<tr>
 								<td><salmon:text name="forma_pago"
 									text="Forma de Pago" font="TableHeadingFont" /></td>
-								<td><salmon:input name="forma_pago2" type="text"
-									size="30" maxlength="100"></salmon:input></td>
+								<td><salmon:lookup
+									browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpCondicionesCompra" name="lkpCondicionesCompra" size="10"
+									maxlength="50" descriptiondatasource="dsOrdenesCompra:condiciones_compra.descripcion"
+									datasource="dsOrdenesCompra:condiciones_compra.nombre" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
+								</td>
 							</tr>
 							<tr>
 								<!-- <td valign="top"><salmon:text name="descripcion1" text="Descripcion"

@@ -39,6 +39,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String ORDENES_COMPRA_OBSERVACIONES="ordenes_compra.observaciones";
 	public static final String ORDENES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
 	public static final String ORDENES_COMPRA_USER_ID_GENERADOR="ordenes_compra.user_id_generador";	
+	public static final String ORDENES_COMPRA_CONDICION_COMPRA_ID="ordenes_compra.condicion_compra_id";
 	
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -54,6 +55,8 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String NETO_ORDENCOMPRA = "neto_orden_compra";
 	public static final String IVA_ORDENCOMPRA = "iva_orden_compra";
 	public static final String DESCUENTO_ORDENCOMPRA = "descuento_orden_compra";
+	public static final String CONDICION_COMPRA_DESCRIPCION = "condiciones_compra.descripcion";
+	public static final String CONDICION_COMPRA_NOMBRE = "condiciones_compra.nombre";
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -101,6 +104,7 @@ public class OrdenesCompraModel extends BaseModel {
 			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_comprador");			
 			addTableAlias(computeTableName("infraestructura.entidad_externa"),"entidad_externa");
 			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_generador");
+			addTableAlias(computeTableName("inventario.condiciones_compra"),"condiciones_compra");
 
 			addColumn(computeTableName("estados"), "nombre",
 					DataStore.DATATYPE_STRING, false, true, ESTADO_NOMBRE);
@@ -121,7 +125,16 @@ public class OrdenesCompraModel extends BaseModel {
 					ORDENES_COMPRA_USER_ID_GENERADOR);
 			addColumn(computeTableName("website_user_generador"),
 					"nombre_completo", DataStore.DATATYPE_STRING, false, false,
-					WEBSITE_USER_NOMBRE_GENERADOR);			
+					WEBSITE_USER_NOMBRE_GENERADOR);
+			addColumn(computeTableName("ordenes_compra"),"condicion_compra_id",
+					DataStore.DATATYPE_INT,false,true,
+					ORDENES_COMPRA_CONDICION_COMPRA_ID);
+			addColumn(computeTableName("condiciones_compra"), "descripcion",
+					DataStore.DATATYPE_STRING, false, false,
+					CONDICION_COMPRA_DESCRIPCION);
+			addColumn(computeTableName("condiciones_compra"), "nombre",
+					DataStore.DATATYPE_STRING, false, false,
+					CONDICION_COMPRA_NOMBRE);
 			
 			// add buckets
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
@@ -131,6 +144,9 @@ public class OrdenesCompraModel extends BaseModel {
 			addBucket(NETO_ORDENCOMPRA, DATATYPE_FLOAT);
 			addBucket(IVA_ORDENCOMPRA, DATATYPE_FLOAT);
 			addBucket(DESCUENTO_ORDENCOMPRA, DATATYPE_FLOAT);
+			//addBucket(CONDICION_COMPRA_NOMBRE, DATATYPE_STRING);
+			
+			//addRequiredRule(CONDICION_COMPRA_NOMBRE,"El nombre de la condición de compra es obligatorio");
 
 			setAutoIncrement(ORDENES_COMPRA_ORDEN_COMPRA_ID, true);
 			setUpdateable(ORDENES_COMPRA_ORDEN_COMPRA_ID, false);
@@ -144,9 +160,11 @@ public class OrdenesCompraModel extends BaseModel {
 			addJoin(computeTableAndFieldName("ordenes_compra.entidad_id_proveedor"),
 					computeTableAndFieldName("entidad_externa.entidad_id"),
 					true);
-			addJoin(
-					computeTableAndFieldName("ordenes_compra.user_id_generador"),
+			addJoin(computeTableAndFieldName("ordenes_compra.user_id_generador"),
 					computeTableAndFieldName("website_user_generador.user_id"),
+					true);
+			addJoin(computeTableAndFieldName("ordenes_compra.condicion_compra_id"),
+					computeTableAndFieldName("condiciones_compra.condicion_compra_id"),
 					true);
 
 			addLookupRule(
@@ -172,6 +190,12 @@ public class OrdenesCompraModel extends BaseModel {
 					"'infraestructura.website_user.user_id = ' + ordenes_compra.user_id_generador",
 					"nombre_completo", WEBSITE_USER_NOMBRE_GENERADOR,
 					"Usuario inexistente");
+			addLookupRule(
+					ORDENES_COMPRA_CONDICION_COMPRA_ID,
+					"inventario.condiciones_compra",
+					"'inventario.condiciones_compra.condicion_compra_id = ' + ordenes_compra.condicion_compra_id",
+					"nombre", CONDICION_COMPRA_NOMBRE,
+					"Condición de compra inexistente");
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
 		}
@@ -702,6 +726,19 @@ public class OrdenesCompraModel extends BaseModel {
 			setOrdenesCompraUserIdGenerador(getCurrentWebsiteUserId());
 		}
 		
+		CondicionesCompraModel condicionesCompraModel;
+		// completa condicion_compra_id segun el valor de condicion_compra_nombre
+		if (getOrdenesCompraCondicionNombre() != null) {
+			condicionesCompraModel = new CondicionesCompraModel("inventario", "inventario");
+			condicionesCompraModel.retrieve(conn, "condiciones_compra.nombre LIKE '"
+					+ getOrdenesCompraCondicionNombre() + "'");
+			if (!condicionesCompraModel.gotoFirst()) {
+				throw new DataStoreException(
+						"La condición de compra ingresada no corresponde a ninguna registrada");
+			}
+			setOrdenesCompraCondicionCompraId(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
+		}
+		
 		if (getOrdenesCompraFechaEstimadaEntrega() != null) {
 			if (Calendar.getInstance().getTimeInMillis() > getOrdenesCompraFechaEstimadaEntrega().getTime())
 				throw new DataStoreException("La fecha estimada de entrega debe ser posterior a la fecha actual");
@@ -1135,6 +1172,82 @@ public class OrdenesCompraModel extends BaseModel {
 
 		return descuento;
 	}	
+	
+	/**
+	 * Retrieve the value of the ordenes_compra.condicion_compra_id column for the current row.
+	 * @return int
+	 * @throws DataStoreException
+	 */ 
+	public int getOrdenesCompraCondicionCompraId() throws DataStoreException {
+		return  getInt(ORDENES_COMPRA_CONDICION_COMPRA_ID);
+	}
+
+	/**
+	 * Retrieve the value of the ordenes_compra.condicion_compra_id column for the specified row.
+	 * @param row which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */ 
+	public int getOrdenesCompraCondicionCompraId(int row) throws DataStoreException {
+		return  getInt(row,ORDENES_COMPRA_CONDICION_COMPRA_ID);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.condicion_compra_id column for the current row.
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraCondicionCompraId(int newValue) throws DataStoreException {
+		setInt(ORDENES_COMPRA_CONDICION_COMPRA_ID, newValue);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.condicion_compra_id column for the specified row.
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraCondicionCompraId(int row,int newValue) throws DataStoreException {
+		setInt(row,ORDENES_COMPRA_CONDICION_COMPRA_ID, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the ordenes_compranombre column for the current row.
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraCondicionNombre() throws DataStoreException {
+		return  getString(CONDICION_COMPRA_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the ordenes_compranombre column for the specified row.
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraCondicionNombre(int row) throws DataStoreException {
+		return  getString(row,CONDICION_COMPRA_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the ordenes_compranombre column for the current row.
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraCondicionNombre(String newValue) throws DataStoreException {
+		setString(CONDICION_COMPRA_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.ombre column for the specified row.
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraCondicionNombre(int row,String newValue) throws DataStoreException {
+		setString(row,CONDICION_COMPRA_NOMBRE, newValue);
+	}
 	// $ENDCUSTOMMETHODS$
 
 }
