@@ -39,13 +39,15 @@ public class ValidarTotalRelojPartesMo extends ValidadorReglasNegocio {
 		fechaEjecValidacion = new Timestamp(System.currentTimeMillis());
 		
 		for (int i = 0; i < _dsResHor.getRowCount(); i++) {
-			String[] st = _dsResHor.getResumenHorasRelojParteIds(i).split(",");
-			for (String id : st) {
-				int row = _dsLogVal.insertRow();
-				_dsLogVal.setLogValidacionPartesMoFecha(row, fechaEjecValidacion);
-				_dsLogVal.setLogValidacionPartesMoEstado(row, estado_valido);
-				_dsLogVal.setLogValidacionPartesMoValidacionId(row, validacion_id);
-				_dsLogVal.setLogValidacionPartesMoParteId(row, Integer.valueOf(id));
+			if (_dsResHor.getResumenHorasRelojParteIds(i) != null) {
+				String[] st = _dsResHor.getResumenHorasRelojParteIds(i).split(",");
+				for (String id : st) {
+					int row = _dsLogVal.insertRow();
+					_dsLogVal.setLogValidacionPartesMoFecha(row, fechaEjecValidacion);
+					_dsLogVal.setLogValidacionPartesMoEstado(row, estado_valido);
+					_dsLogVal.setLogValidacionPartesMoValidacionId(row, validacion_id);
+					_dsLogVal.setLogValidacionPartesMoParteId(row, Integer.valueOf(id));
+				}
 			}
 			_dsResHor.setResumenHorasRelojEstado(i, ResumenHorasRelojModel.PARTES_VAL);
 			_dsResHor.setResumenHorasRelojObservaciones(i, ResumenHorasRelojModel.PARTES_VAL_MSG);
