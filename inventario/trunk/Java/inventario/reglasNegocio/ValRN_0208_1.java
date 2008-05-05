@@ -80,6 +80,11 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
+			if (ds.getOrdenesCompraCondicionCompraId() == 0) {
+				msg.append("Debe especificar la condición de compra de la OC");
+				return false;
+			}
+			
 			// todos los montos deben ser > 0
 			if (!detalles.chequeaTotalesDetallesOrden(ordenCompraId)) {
 				msg.append("Debe indicar el monto unitario de todos los articulos antes de completar la solicitud");

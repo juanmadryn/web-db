@@ -2,8 +2,8 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
     <property name="units">in</property>
-    <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
-    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <property name="comments">Copyright (c) 2008 Grupo de Desarrollo Open Source Patagonico</property>
+    <html-property name="description">Ordenes de Compra</html-property>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
@@ -530,7 +530,7 @@ left outer join infraestructura.atributos_entidad atributos_entidad5 ON atributo
 left outer join infraestructura.atributos_entidad atributos_entidad6 ON atributos_entidad6.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad6.atributo_id = 11
 
 WHERE ordenes_compra.orden_compra_id = ?
-ORDER BY ordenes_compra.orden_compra_id ASC</property>
+ORDER BY detalle_sc.detalle_SC_id ASC</property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -547,6 +547,10 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
             <property name="borderTopColor">#CCCCCC</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">1pt</property>
+            <property name="orphans">2</property>
+            <property name="widows">2</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="pageBreakBefore">auto</property>
         </style>
         <style name="crosstab" id="5">
             <property name="borderBottomColor">#CCCCCC</property>
@@ -561,6 +565,10 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
             <property name="borderTopColor">#CCCCCC</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">1pt</property>
+            <property name="orphans">2</property>
+            <property name="widows">2</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="pageBreakBefore">auto</property>
         </style>
     </styles>
     <page-setup>
@@ -571,6 +579,11 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
             <property name="leftMargin">1cm</property>
             <property name="bottomMargin">2.5cm</property>
             <property name="rightMargin">1cm</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="pageBreakBefore">auto</property>
+            <property name="pageBreakInside">auto</property>
+            <property name="canShrink">false</property>
+            <property name="showHeaderOnFirst">true</property>
             <property name="headerHeight">4.5cm</property>
             <property name="footerHeight">6.5cm</property>
             <page-header>
@@ -1390,10 +1403,11 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                         <cell id="911">
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
+                            <property name="paddingTop">1pt</property>
                             <data id="922">
                                 <property name="fontFamily">"Liberation Mono"</property>
                                 <property name="fontSize">large</property>
-                                <property name="paddingTop">1mm</property>
+                                <property name="paddingTop">3mm</property>
                                 <property name="paddingLeft">0.5cm</property>
                                 <property name="dataSet">Data Set</property>
                                 <list-property name="boundDataColumns">
@@ -1535,6 +1549,9 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                                                 <property name="category">Currency</property>
                                                 <property name="pattern">$#,##0.00</property>
                                             </structure>
+                                            <structure name="stringFormat">
+                                                <property name="category">Unformatted</property>
+                                            </structure>
                                             <property name="textAlign">right</property>
                                             <property name="dataSet">Data Set</property>
                                             <list-property name="boundDataColumns">
@@ -1656,7 +1673,7 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                                                 <structure>
                                                     <property name="name">neto</property>
                                                     <expression name="expression">dataSetRow["neto"]</expression>
-                                                    <property name="dataType">string</property>
+                                                    <property name="dataType">float</property>
                                                 </structure>
                                                 <structure>
                                                     <property name="name">descuento</property>
@@ -1815,7 +1832,7 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                                                 <structure>
                                                     <property name="name">descuento</property>
                                                     <expression name="expression">dataSetRow["descuento"]</expression>
-                                                    <property name="dataType">string</property>
+                                                    <property name="dataType">float</property>
                                                 </structure>
                                                 <structure>
                                                     <property name="name">iva</property>
@@ -1974,7 +1991,7 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                                                 <structure>
                                                     <property name="name">iva</property>
                                                     <expression name="expression">dataSetRow["iva"]</expression>
-                                                    <property name="dataType">string</property>
+                                                    <property name="dataType">float</property>
                                                 </structure>
                                                 <structure>
                                                     <property name="name">total</property>
@@ -2133,7 +2150,7 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                                                 <structure>
                                                     <property name="name">total</property>
                                                     <expression name="expression">dataSetRow["total"]</expression>
-                                                    <property name="dataType">string</property>
+                                                    <property name="dataType">float</property>
                                                 </structure>
                                             </list-property>
                                             <property name="resultSetColumn">total</property>
@@ -2290,9 +2307,24 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
     </page-setup>
     <body>
         <table id="963">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">medium</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">medium</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">medium</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">medium</property>
             <property name="marginTop">1cm</property>
-            <property name="height">12.5cm</property>
-            <property name="width">100%</property>
+            <property name="masterPage">Simple MasterPage</property>
+            <property name="pageBreakAfter">auto</property>
+            <property name="pageBreakBefore">auto</property>
+            <property name="pageBreakInside">auto</property>
+            <property name="canShrink">false</property>
             <property name="dataSet">Data Set</property>
             <list-property name="boundDataColumns">
                 <structure>
@@ -2442,6 +2474,7 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
+            <property name="repeatHeader">true</property>
             <column id="980">
                 <property name="width">9.1cm</property>
             </column>
@@ -2456,9 +2489,17 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
             </column>
             <column id="997">
                 <property name="width">3cm</property>
+                <property name="textAlign">right</property>
             </column>
             <header>
                 <row id="964">
+                    <property name="masterPage">Simple MasterPage</property>
+                    <list-property name="visibility">
+                        <structure>
+                            <property name="format">all</property>
+                            <expression name="valueExpr">true</expression>
+                        </structure>
+                    </list-property>
                     <cell id="965">
                         <property name="paddingTop">1pt</property>
                     </cell>
@@ -2478,6 +2519,9 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
             </header>
             <detail>
                 <row id="968">
+                    <property name="masterPage">Simple MasterPage</property>
+                    <property name="pageBreakAfter">auto</property>
+                    <property name="pageBreakBefore">auto</property>
                     <cell id="969">
                         <property name="paddingTop">1pt</property>
                         <data id="985">
@@ -2546,33 +2590,23 @@ ORDER BY ordenes_compra.orden_compra_id ASC</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
-                                <property name="pattern">#,##0.00</property>
+                                <property name="pattern">$#,##0.00</property>
                             </structure>
-                            <property name="textAlign">center</property>
+                            <structure name="stringFormat">
+                                <property name="category">Unformatted</property>
+                            </structure>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">total_linea</property>
                         </data>
-                    </cell>
-                </row>
-                <row id="972">
-                    <cell id="973">
-                        <property name="paddingTop">1pt</property>
-                    </cell>
-                    <cell id="974">
-                        <property name="paddingTop">1pt</property>
-                    </cell>
-                    <cell id="975">
-                        <property name="paddingTop">1pt</property>
-                    </cell>
-                    <cell id="990">
-                        <property name="paddingTop">1pt</property>
-                    </cell>
-                    <cell id="995">
-                        <property name="paddingTop">1pt</property>
                     </cell>
                 </row>
             </detail>
             <footer>
                 <row id="976">
+                    <property name="masterPage">Simple MasterPage</property>
+                    <property name="pageBreakAfter">avoid</property>
+                    <property name="pageBreakBefore">avoid</property>
+                    <property name="pageBreakInside">avoid</property>
                     <cell id="977">
                         <property name="paddingTop">1pt</property>
                         <data id="1003">

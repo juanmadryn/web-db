@@ -32,22 +32,19 @@
 		<salmon:table name="table2" width="100%" border="0">
 			<salmon:tr>
 				<salmon:td valign="Top">
-					<salmon:searchformdisplaybox
-						caption="Buscar"
-						name="searchformdisplaybox1" searchbuttonvisible="false"
-						addbuttonvisible="False" qbebuilder="dsQBE">
-						<table width="100%">
+					<salmon:searchformdisplaybox						
+						name="searchformdisplaybox1" searchbuttonvisible="false" caption="Buscar"
+						addbuttonvisible="False" qbebuilder="dsQBE" width="100%">
+						<table width="100%" border="1">
 							<tr>	
 								<td colspan="4"/>
-								<td widht="10%"/>
 								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>
-								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" />
-								<salmon:input name="operador" type="select" /></td>
+								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
+								<td align="right"><salmon:input name="operador" type="select" /></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="nroSolicitud1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
 								<td colspan="3"><salmon:input name="nroSolicitud2" type="text"	datasource="dsQBE:n" /></td>
-								<td width="40px"/>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -55,20 +52,18 @@
 										size="15"	maxlength="25" popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
-								<td><salmon:input name="valorAttr1" type="text" /></td>
+								<td colspan="2"><salmon:input name="valorAttr1" type="text" /></td>
 							</tr>
 							<tr>								
 								<td><salmon:text name="fechadesde1" text="Fecha SC desde"
 									font="ColumnCaptionFont" /></td>
-								<td colspan=><salmon:input type="text"
+								<td><salmon:input type="text"
 									name="fechadesde2" size="10"
 									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
 								<td><salmon:text name="fechahasta1" text="Fecha SC hasta"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text" name="fechahasta2" size="10"
-									datasource="dsQBE:hasta"
-									maxlength="10"></salmon:input></td>
-								<td width="40px"/>								
+									datasource="dsQBE:hasta" maxlength="10"></salmon:input></td>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -76,12 +71,11 @@
 										size="15"	maxlength="25"popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
-								<td><salmon:input name="valorAttr2" type="text" /></td>
+								<td colspan="2"><salmon:input name="valorAttr2" type="text" /></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="buscarComplex1" text="Buscar" font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="buscarComplex2" size="35" type="text"	datasource="dsQBE:resto" /></td>
-								<td width="40px"/>
+								<td colspan="3"><salmon:input name="buscarComplex2" size="35" type="text" datasource="dsQBE:resto" /></td>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -89,7 +83,7 @@
 										size="15"	maxlength="25" popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
-								<td><salmon:input name="valorAttr3" type="text"/></td>
+								<td colspan="2"><salmon:input name="valorAttr3" type="text"/></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
@@ -231,7 +225,8 @@
 							<salmon:input type="text" maxlength="15" size="10" name="cantPedidaINP8" value="Cantidad Pedida Goes Here"
 								font="DefaultFont" datasource="dsDetalleSC:detalle_sc.cantidad_pedida" />
 						</salmon:td>						
-						<salmon:td>							
+						<salmon:td>			
+							<salmon:text name="signo_pesos1" text="$"/>				
 							<salmon:input type="text" name="montoUnitINP9" size="8"
 								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>

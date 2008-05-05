@@ -3,6 +3,20 @@
 <siteMap>
 
 	<entry>
+     	<name>LkpCondicionesCompra</name>
+    	<uri>/Jsp/LkpCondicionesCompra.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+
+	<entry>
+     	<name>AbmcCondicionesCompra</name>
+    	<uri>/Jsp/AbmcCondicionesCompra.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+
+	<entry>
      	<name>LkpLegajoLegajo</name>
     	<uri>/Jsp/LkpLegajoLegajo.jsp</uri>
 		<useForward>false</useForward>
