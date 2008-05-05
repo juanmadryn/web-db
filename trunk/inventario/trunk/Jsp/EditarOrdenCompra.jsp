@@ -136,7 +136,7 @@
 								</td>
 								<td colspan="4" rowspan="3">
 									<salmon:input type="textarea" name="observaciones2"									
-									cols="80" rows="3" wrap="HARD" maxlength="255"
+									cols="60" rows="3" wrap="HARD" maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input>
 								</td>
 								<td align="right">

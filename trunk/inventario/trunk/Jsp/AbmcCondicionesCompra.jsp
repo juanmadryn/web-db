@@ -55,7 +55,7 @@
 								<td><salmon:text name="observacionesCAP18"
 									text="Observaciones" font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="textarea" name="observacionesTE8"
-									cols="50" rows="3" datasource="dsCondicionesCompra:condiciones_compra.observaciones"></salmon:input></td>
+									cols="40" rows="3" datasource="dsCondicionesCompra:condiciones_compra.observaciones"></salmon:input></td>
 							</tr>							
 						</table>
 					</salmon:detailformdisplaybox>
