@@ -38,7 +38,7 @@
 						headerbgcolor="#fffd99" bgcolor="fffdce">						
 						<table width="100%" border="0">
 							<tr>
-								<td colspan="4">
+								<td colspan="6">
 									<salmon:input name="customBUT100" type="submit" value="boton 1"
 										accesskey="1" visible="False"></salmon:input>
 									<salmon:input name="customBUT110" type="submit" value="boton 2"
@@ -89,6 +89,11 @@
 										datasource="dsOrdenesCompra:ordenes_compra.entidad_id_proveedor" popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
 								</td>
+								<td><salmon:text name="fecha_estimada_entrega1"
+									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
+								<td><salmon:input name="fecha_estimada_entrega2" type="text"
+									displayformatlocalekey="DateFormat" size="10" maxlength="15"
+									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_ordencompra1"
@@ -100,14 +105,7 @@
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
 								<td colspan="2"><salmon:text name="fecha_aprobacion2" text=""
 									displayformatlocalekey="DateTimeFormat"
-									datasource="dsOrdenesCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="fecha_estimada_entrega1"
-									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
-								<td><salmon:input name="fecha_estimada_entrega2" type="text"
-									displayformatlocalekey="DateFormat" size="10" maxlength="15"
-									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
+									datasource="dsOrdenesCompra:solicitudes_compra.fecha_aprobacion"></salmon:text></td>								
 								<td><salmon:text name="fecha_entrega_completa1" text="Fecha entrega completa"
 									font="TableHeadingFont" /></td>
 								<td colspan="2"><salmon:text name="fecha_entrega_completa2" text=""
@@ -136,7 +134,7 @@
 									<salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" />
 								</td>
-								<td colspan="2" rowspan="3">
+								<td colspan="4" rowspan="3">
 									<salmon:input type="textarea" name="observaciones2"									
 									cols="80" rows="3" wrap="HARD" maxlength="255"
 									datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input>
@@ -181,7 +179,7 @@
 										<salmon:text name="verSolicitantesTXT2" text="Solicitantes" />
 									</salmon:a>
 								</td>								
-								<td><salmon:text name="total_orden1" text="Total" font="TableHeadingFont" /></td>
+								<td colspan="3"><salmon:text name="total_orden1" text="Total" font="TableHeadingFont" /></td>
 								<td>
 									<salmon:text name="total_orden2" text="total goes here"
 										displayformatlocalekey="CurrencyFormatConSigno"
