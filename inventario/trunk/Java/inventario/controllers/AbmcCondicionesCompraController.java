@@ -3,7 +3,9 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
+import inventario.util.ReplicateCpa49QuartzJob;
 
+import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
 
@@ -77,18 +79,35 @@ public class AbmcCondicionesCompraController extends BaseController {
 	public static final String DSCONDICIONESCOMPRA_CONDICIONES_COMPRA_DESCRIPCION = "condiciones_compra.descripcion";
 	public static final String DSCONDICIONESCOMPRA_CONDICIONES_COMPRA_OBSERVACIONES = "condiciones_compra.observaciones";
 
+	public com.salmonllc.html.HtmlSubmitButton _replicaCondiciones; 
+	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
 	 * @throws Exception 
 	 */
 	public void initialize() throws Exception {
-		super.initialize();
+		super.initialize();		
+		_replicaCondiciones = new HtmlSubmitButton("_replicaCondiciones","Importar Tango",this);
+		_replicaCondiciones.addSubmitListener(this);		
+		_searchformdisplaybox1.addButton(_replicaCondiciones);
 	}
 
 	@Override
 	public void pageRequested(PageEvent p) throws Exception {
 		_detailformdisplaybox1.setVisible((_dsCondicionesCompra.getRow() == -1) ? false : true);		
 		super.pageRequested(p);
+	}
+	
+	@Override
+	public boolean submitPerformed(SubmitEvent e) throws Exception {
+		
+		// Ejecuta ReplicateCpa01QuartzJob		
+		if (e.getComponent() == _replicaCondiciones) {
+			ReplicateCpa49QuartzJob repliJob = new ReplicateCpa49QuartzJob();
+			repliJob.importaCondicionesCompra();
+		}
+	
+		return super.submitPerformed(e);
 	}
 
 }

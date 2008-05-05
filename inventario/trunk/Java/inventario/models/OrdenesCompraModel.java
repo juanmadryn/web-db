@@ -144,9 +144,6 @@ public class OrdenesCompraModel extends BaseModel {
 			addBucket(NETO_ORDENCOMPRA, DATATYPE_FLOAT);
 			addBucket(IVA_ORDENCOMPRA, DATATYPE_FLOAT);
 			addBucket(DESCUENTO_ORDENCOMPRA, DATATYPE_FLOAT);
-			//addBucket(CONDICION_COMPRA_NOMBRE, DATATYPE_STRING);
-			
-			//addRequiredRule(CONDICION_COMPRA_NOMBRE,"El nombre de la condición de compra es obligatorio");
 
 			setAutoIncrement(ORDENES_COMPRA_ORDEN_COMPRA_ID, true);
 			setUpdateable(ORDENES_COMPRA_ORDEN_COMPRA_ID, false);
@@ -1212,7 +1209,7 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * Retrieve the value of the ordenes_compranombre column for the current row.
+	 * Retrieve the value of the ordenes_compra.nombre column for the current row.
 	 * @return String
 	 * @throws DataStoreException
 	 */ 
@@ -1221,7 +1218,7 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the ordenes_compranombre column for the specified row.
+	 * Retrieve the value of the ordenes_compra.nombre column for the specified row.
 	 * @param row which row in the table
 	 * @return String
 	 * @throws DataStoreException
@@ -1231,7 +1228,7 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 
 	/**
-	 * Set the value of the ordenes_compranombre column for the current row.
+	 * Set the value of the ordenes_compra.nombre column for the current row.
 	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */ 
@@ -1240,13 +1237,51 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 
 	/**
-	 * Set the value of the ordenes_compra.ombre column for the specified row.
+	 * Set the value of the ordenes_compra.nombre column for the specified row.
 	 * @param row which row in the table
 	 * @param newValue the new item value
 	 * @throws DataStoreException
 	 */ 
 	public void setOrdenesCompraCondicionNombre(int row,String newValue) throws DataStoreException {
 		setString(row,CONDICION_COMPRA_NOMBRE, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the ordenes_compra.descripcion column for the current row.
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraCondicionDescripcion() throws DataStoreException {
+		return  getString(CONDICION_COMPRA_DESCRIPCION);
+	}
+
+	/**
+	 * Retrieve the value of the ordenes_compra.descripcion column for the specified row.
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraCondicionDescripcion(int row) throws DataStoreException {
+		return  getString(row,CONDICION_COMPRA_DESCRIPCION);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.descripcion column for the current row.
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraCondicionDescripcion(String newValue) throws DataStoreException {
+		setString(CONDICION_COMPRA_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.descripcion column for the specified row.
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraCondicionDescripcion(int row,String newValue) throws DataStoreException {
+		setString(row,CONDICION_COMPRA_DESCRIPCION, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 

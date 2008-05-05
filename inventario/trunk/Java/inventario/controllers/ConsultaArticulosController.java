@@ -5,6 +5,7 @@ package inventario.controllers;
 import infraestructura.controllers.BaseController;
 import infraestructura.utils.BusquedaPorAtributo;
 import inventario.util.ReplicateCpa01QuartzJob;
+import inventario.util.ReplicateCpa49QuartzJob;
 import inventario.util.ReplicateSta11QuartzJob;
 
 import java.sql.SQLException;
@@ -103,9 +104,9 @@ public class ConsultaArticulosController extends BaseController {
 		_replicaFromTangoBUT.addSubmitListener(this);		
 		_searchformdisplaybox1.addButton(_replicaFromTangoBUT);
 		
-		/*_replicaProveedores = new HtmlSubmitButton("_replicaProveedores","Importar proveedores",this);
+		_replicaProveedores = new HtmlSubmitButton("_replicaProveedores","Importar proveedores",this);
 		_replicaProveedores.addSubmitListener(this);		
-		_searchformdisplaybox1.addButton(_replicaProveedores);*/
+		_searchformdisplaybox1.addButton(_replicaProveedores);
 		
 		// do not retrieve disallowed items
 		_dsQBE.addCriteria("anulado", QBEBuilder.CRITERIA_TYPE_NOT_EQUALS, "articulos.anulado");
@@ -154,7 +155,7 @@ public class ConsultaArticulosController extends BaseController {
 		// Call ReplicateCpa01QuartzJob manually
 		if (e.getComponent() == _replicaProveedores) {
 			ReplicateCpa01QuartzJob replicateCpa01 = new ReplicateCpa01QuartzJob();
-			replicateCpa01.importaProveedores();
+			replicateCpa01.importaProveedores();			
 		}
 
 		

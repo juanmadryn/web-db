@@ -140,7 +140,7 @@
 						</tr>
 						<tr>
 							<td><salmon:input type="textarea" name="observacionX2"
-								cols="120" rows="4" wrap="HARD" size="40" maxlength="255"
+								cols="60" rows="4" wrap="HARD" size="40" maxlength="255"
 								datasource="dsSolicitudCompra:observaciones" visible="false"></salmon:input></td>
 						</tr>
 					</table>
