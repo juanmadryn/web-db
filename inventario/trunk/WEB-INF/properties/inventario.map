@@ -3,6 +3,24 @@
 <siteMap>
 
 	<entry>
+     	<name>MenuMovimientos</name>
+    	<uri>/Jsp/MenuMovimientos.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
+     	<name>ConsultaComprobantesMovimientoArticulos</name>
+    	<uri>/Jsp/ConsultaComprobantesMovimientoArticulos.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
+     	<name>AbmComprobantesMovimientoArticulos</name>
+    	<uri>/Jsp/AbmComprobantesMovimientoArticulos.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+		<entry>
      	<name>LkpCondicionesCompra</name>
     	<uri>/Jsp/LkpCondicionesCompra.jsp</uri>
 		<useForward>false</useForward>
@@ -15,7 +33,6 @@
 		<useForward>false</useForward>
 		<secure>false</secure>
 	</entry>
-
 	<entry>
      	<name>LkpLegajoLegajo</name>
     	<uri>/Jsp/LkpLegajoLegajo.jsp</uri>
