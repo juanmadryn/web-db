@@ -76,7 +76,9 @@
 									maxlength="10" displayformat="##########0"
 									datasource="dsRecepciones:recepciones_compras.user_id_recibe"
 									popupheight="450" popupwidth="500" usepopup="true"
-									showdescription="true"></salmon:lookup></td>
+									showdescription="false"></salmon:lookup>
+									<salmon:text name="recibe2" text=""
+									datasource="dsRecepciones:legajos.APEYNOM" /></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="proveedor1" text="Proveedor"

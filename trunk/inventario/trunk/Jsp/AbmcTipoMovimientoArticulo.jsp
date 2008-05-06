@@ -75,6 +75,13 @@
 										<salmon:option display="Si" key="V"></salmon:option>
 									</salmon:input></td>
 							</tr>
+							<tr>
+								<td><salmon:text name="impresionCAP20"
+									text="Impresión" font="ColumnCaptionFont" /></td>
+								<td><salmon:input type="text" name="impresionTE5" size="40"
+									maxlength="90" datasource="dsTipoMovimiento:tipo_movimiento_articulo.impresion"></salmon:input>
+								</td>
+							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>
@@ -110,6 +117,10 @@
 							<salmon:text name="reservaCAP13" text="Reserva"
 								font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td>
+							<salmon:text name="impresionCAP13" text="Impresion"
+								font="TableHeadingFont" />
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
@@ -138,6 +149,11 @@
 							<salmon:text name="reservaTXT9"
 								text="tipo_movimiento_articulo.reserva Goes Here" font="DefaultFont"
 								datasource="dsTipoMovimiento:tipo_movimiento_articulo.reserva" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="impresionTXT9"
+								text="tipo_movimiento_articulo.reserva Goes Here" font="DefaultFont"
+								datasource="dsTipoMovimiento:tipo_movimiento_articulo.impresion" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>
