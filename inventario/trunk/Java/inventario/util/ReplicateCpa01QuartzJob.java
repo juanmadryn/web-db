@@ -105,7 +105,7 @@ public class ReplicateCpa01QuartzJob implements Job {
 			 * de entidades externas con roles de proveedor
 			 */
 			String proveedoresAtributosTangoSQL = 
-				"SELECT COD_PROVEE,DOMICILIO,TELEFONO_1 FROM CPA01";
+				"SELECT COD_PROVEE,DOMICILIO,TELEFONO_1,E_MAIL FROM CPA01";
 			
 			/**
 			 * PreparedStatements para atributos de entidades_externas con rol proveedor 
@@ -136,6 +136,7 @@ public class ReplicateCpa01QuartzJob implements Job {
 					int entidad_id = rMySql.getInt(1);
 					String domicilio = r.getString(2);
 					String telefono = r.getString(3);
+					String email = r.getString(4);
 
 					pstMySql.setInt(1, entidad_id);
 					pstMySql.setInt(2, 11); // 11 -> atributo_id telefono
@@ -145,6 +146,11 @@ public class ReplicateCpa01QuartzJob implements Job {
 					pstMySql.setInt(1, entidad_id);
 					pstMySql.setInt(2, 10); // 10 -> atributo_id domicilio
 					pstMySql.setString(3, domicilio);
+					pstMySql.executeUpdate();
+					
+					pstMySql.setInt(1, entidad_id);
+					pstMySql.setInt(2, 17); // 17 -> atributo_id domicilio
+					pstMySql.setString(3, email);
 					pstMySql.executeUpdate();
 				}
 			}			

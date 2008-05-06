@@ -1134,8 +1134,9 @@ public class OrdenesCompraModel extends BaseModel {
 		for (int row = 0; row < detalles.getRowCount(); row++) {
 			detalles.calculaMontoTotalPedido(row);
 			float monto_total = detalles.getMontoTotalPedido(row);
+			float descuento = detalles.getDetalleScDescuento(row);
 			float iva_articulo = detalles.getDetalleScIva(row) / 100;
-			iva += (monto_total * iva_articulo);
+			iva += ((monto_total - descuento )* iva_articulo);
 		}	
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(iva),

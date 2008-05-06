@@ -629,13 +629,13 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			{		
 				// Neto
 				_dsOrdenesCompra.setNetoOrdenCompra(_dsOrdenesCompra
-						.getAtributoNetoOrdenCompra());				
-				// IVA
-				_dsOrdenesCompra.setIvaOrdenCompra(_dsOrdenesCompra
-						.getAtributoIvaOrdenCompra());
+						.getAtributoNetoOrdenCompra());
 				// Descuento
 				_dsOrdenesCompra.setDescuentoOrdenCompra(_dsOrdenesCompra
 						.getAtributoDescuentoOrdenCompra());
+				// IVA
+				_dsOrdenesCompra.setIvaOrdenCompra(_dsOrdenesCompra
+						.getAtributoIvaOrdenCompra());
 				// Total OC
 				_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
 						.getAtributoTotalOrdenCompra());
