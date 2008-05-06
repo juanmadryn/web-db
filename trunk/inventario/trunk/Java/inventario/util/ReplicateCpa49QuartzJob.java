@@ -21,8 +21,7 @@ public class ReplicateCpa49QuartzJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 	
 	/**
@@ -48,7 +47,7 @@ public class ReplicateCpa49QuartzJob implements Job {
 					passWordTango);				
 			// Conexion con MySQL
 			Class.forName("com.mysql.jdbc.Driver");
-			connInv = DriverManager.getConnection ("jdbc:mysql://localhost:3306/infraestructura","root", "root");			
+			connInv = DriverManager.getConnection ("jdbc:mysql://localhost:3306/inventario","inventario", "inventario");			
 			connInv.setAutoCommit(false);
 			
 			/**
@@ -56,7 +55,8 @@ public class ReplicateCpa49QuartzJob implements Job {
 			 * entidades_externas
 			 */
 			String condicionesCompraTangoSQL = 
-				"SELECT ID_CPA49, DESC_CONDI FROM CPA49";			
+				"SELECT COD_CONDIC, DESC_CONDI  FROM CPA49 " +
+				"GROUP BY COD_CONDIC, DESC_CONDI ORDER BY COD_CONDIC ASC";				
 			tangoSt = connTango.createStatement(
 					ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
@@ -77,7 +77,7 @@ public class ReplicateCpa49QuartzJob implements Job {
 			 */
 			r = tangoSt.executeQuery(condicionesCompraTangoSQL);			
 			while (r.next()) {
-				pstMySql.setString(1, r.getString(1)); //ID_CPA49	--> nombre
+				pstMySql.setString(1, r.getString(1)); //COD_CONDIC --> nombre
 				pstMySql.setString(2, r.getString(2)); //DESC_CONDI	--> descripcion
 				pstMySql.executeUpdate();				
 			}			

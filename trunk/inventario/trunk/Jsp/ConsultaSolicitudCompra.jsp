@@ -131,7 +131,7 @@
 								<td><salmon:text name="fecha_aprobacion1"
 									text="Fecha de aprobación" font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_aprobacion2" text=""
-									displayformat="dd/MM/yyyy"
+									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsSolicitudes:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
 							</tr>
 							<tr>
@@ -184,6 +184,10 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
+							<salmon:text name="fecha_aprobacionCAP6" text="Fecha de aprobación"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -218,6 +222,11 @@
 							<salmon:text name="fecha_solicitudTXT4" text="cliente Goes Here"
 								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsSolicitudes:solicitudes_compra.fecha_solicitud" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="fecha_aprobacionTXT5" text="fecha aprobacion Goes Here"
+								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
+								datasource="dsSolicitudes:solicitudes_compra.fecha_aprobacion" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="estadoTXT3" text="descripcion Goes Here"

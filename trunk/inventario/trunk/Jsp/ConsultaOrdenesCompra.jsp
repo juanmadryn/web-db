@@ -188,7 +188,7 @@
 							<salmon:text name="fechaTXT4" text="fecha Goes Here"
 								font="DefaultFont" displayformatlocalekey="DateTimeFormat"
 								datasource="dsOrdenes:ordenes_compra.fecha" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="estadoTXT3" text="estado Goes Here"
 								font="DefaultFont" datasource="dsOrdenes:estados.nombre" />

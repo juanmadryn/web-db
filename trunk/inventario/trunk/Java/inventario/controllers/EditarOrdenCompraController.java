@@ -3,6 +3,8 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseEntityController;
+import infraestructura.controllers.Constants;
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
 import inventario.util.SolicitudCompraTransiciones;
@@ -569,6 +571,12 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					_dsDetalleSC.retrieve("detalle_sc.orden_compra_id = " + getRow_id());
 					if (_dsDetalleSC.gotoFirst()) {
 						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+							if (_dsDetalleSC.getAny(row, DetalleSCModel.DETALLE_SC_IVA) == null) {
+								_dsDetalleSC.setDetalleScIva(row,
+										Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto("IVA_PORCENTAJE",
+												_dsDetalleSC.getDetalleScArticuloId(row), "TABLA", "articulos")));
+								_dsDetalleSC.update();
+							}							
 							_dsDetalleSC.calculaMontoTotalPedido(row);
 						}
 					}
