@@ -131,7 +131,7 @@ public class RecepcionesComprasModel extends BaseModel {
 				computeTableAndFieldName("website_user_completa.user_id"), false);
 		
 		addJoin(computeTableAndFieldName("recepciones_compras.user_id_recibe"),
-				computeTableAndFieldName("legajos.NRO_LEGAJO"), true);
+				computeTableAndFieldName("legajos.NRO_LEGAJO"), false);
 
 		// add validations
 		addRequiredRule(RECEPCIONES_COMPRAS_ESTADO,
@@ -162,8 +162,8 @@ public class RecepcionesComprasModel extends BaseModel {
 				"Usuario inexistente");
 		addLookupRule(
 				RECEPCIONES_COMPRAS_USER_ID_RECIBE,
-				"inventario.legajos",
-				"'inventario.legajos.NRO_LEGAJO = ' + recepciones_compras.user_id_recibe",
+				computeTableName("legajos"),
+				"'legajos.NRO_LEGAJO = ' + recepciones_compras.user_id_recibe",
 				"APEYNOM", LEGAJOS_APEYNOM,
 				"Usuario inexistente");	
 
