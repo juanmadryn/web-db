@@ -181,6 +181,7 @@
 							<salmon:text name="monto_fecha_ultima_compra1"
 								text="Precio unitario" font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td/>
 						<salmon:td align="RIGHT">
 							<salmon:text name="monto_total1" text="Total"
 								font="TableHeadingFont" />
@@ -198,6 +199,10 @@
 						</salmon:td>
 						<salmon:td nowrap="TRUE">
 							<salmon:text name="cantidadPedida1" text="Cant. pedida"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td nowrap="TRUE">
+							<salmon:text name="oc1" text="O.C."
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td nowrap="TRUE" align="RIGHT">
@@ -247,6 +252,7 @@
 								displayformat="dd/MM/yyyy"
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
+						<salmon:td/>
 						<salmon:td align="RIGHT">
 							<salmon:text name="monto_total2" text="" displayformat="###,###,##0.00"
 								datasource="dsDetalleSC:monto_total"></salmon:text>
@@ -270,10 +276,17 @@
 								maxlength="255"
 								datasource="dsDetalleSC:detalle_sc.observaciones"></salmon:input>
 						</salmon:td>
-
 						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_pedida2" text=""
 								datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:text>
+						</salmon:td>
+						<salmon:td align="RIGHT">
+							<salmon:a href="none" name="lnkOc1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsDetalleSC:'%EditarOrdenCompra?orden_compra_id='+detalle_sc.orden_compra_id">
+								<salmon:text name="oc2" text=""
+									datasource="dsDetalleSC:detalle_sc.orden_compra_id"></salmon:text>
+							</salmon:a>
 						</salmon:td>
 						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_recibida2" text=""
