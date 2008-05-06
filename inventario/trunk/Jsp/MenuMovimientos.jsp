@@ -14,22 +14,22 @@
 		<table width="100%">
 			<tr>
 				<td><salmon:text name="text1"
-					text="Bienvenido al menú de Movimientos de Artículos"
+					text="Bienvenido al menú de Recepciones de Compra"
 					textlocalekey="textWelcome" font="SectionHeadingFont" /> <BR>
 				<FONT
 					STYLE="FONT-FAMILY: Times New Roman, Times, Verdana, Helvetica, sans-serif; FONT-SIZE: 12pt;"
-					COLOR="BLACK"><I> Aplicación para Administrar Movimientos de Artículos
+					COLOR="BLACK"><I> Aplicación para Administrar Recepciones de Compra
 				</I> </FONT></td>
 			</tr>
 			<tr>
 				<td><br>
 				<br>
-				<salmon:text name="text2" text="Menú para Administrar Movimientos de Artículos"
+				<salmon:text name="text2" text="Menú para Administrar Recepciones de Compra"
 					textlocalekey="textWelcome" font="PageHeadingFont" /> <BR>
 				<FONT
 					STYLE="FONT-FAMILY: Times New Roman, Times, Verdana, Helvetica, sans-serif; FONT-SIZE: 12pt;"
 					COLOR="BLACK"><I> Menú principal de la Administración de
-				Movimientos de Artículos </I> </FONT><br>
+				Recepciones de Compra </I> </FONT><br>
 				<br>
 				</td>
 			</tr>			
