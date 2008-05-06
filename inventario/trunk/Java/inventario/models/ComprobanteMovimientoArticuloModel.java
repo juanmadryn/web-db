@@ -1,7 +1,12 @@
 package inventario.models;
 
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
 import infraestructura.models.BaseModel;
 
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
@@ -32,13 +37,15 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	public static final String TIPO_MOVIMIENTO_ARTICULO_NOMBRE = "tipo_movimiento_articulo.nombre";
 	public static final String TIPO_MOVIMIENTO_ARTICULO_POSITIVO = "tipo_movimiento_articulo.positivo";
 	public static final String TIPO_MOVIMIENTO_ARTICULO_RESERVA = "tipo_movimiento_articulo.reserva";
+	public static final String TIPO_MOVIMIENTO_ARTICULO_IMPRESION = "tipo_movimiento_articulo.impresion";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
 	// be overwritten if the model is regenerated
 	public static final String ESTADOS_NOMBRE = "estados.nombre";
-	public static final String WEBSITE_USER_RETIRA_NOMBRE_COMPLETO = "website_user_retira.nombre_completo";
 	public static final String WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO = "website_user_preparador.nombre_completo";
+	public static final String LEGAJOS_APEYNOM = "legajos.APEYNOM";
+	public static final String CURRENT_WEBSITE_USER_ID = "website_user.user_id";
 
 	// $ENDCUSTOMVARS$
 
@@ -70,7 +77,11 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"comprobante_movimiento_articulo");
 			addTableAlias(computeTableName("tipo_movimiento_articulo"),
 					"tipo_movimiento_articulo");
-			addTableAlias("recepciones_compras", "recepciones_compras");
+			addTableAlias(computeTableName("recepciones_compras"), "recepciones_compras");
+			addTableAlias("infraestructura.estados",
+					"estados");
+			addTableAlias("infraestructura.website_user",
+					"website_user_preparador");
 
 			// add columns
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
@@ -111,6 +122,19 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addColumn(computeTableName("tipo_movimiento_articulo"), "reserva",
 					DataStore.DATATYPE_STRING, false, false,
 					TIPO_MOVIMIENTO_ARTICULO_RESERVA);
+			addColumn(computeTableName("tipo_movimiento_articulo"),
+					"impresion", DataStore.DATATYPE_STRING, false, false,
+					TIPO_MOVIMIENTO_ARTICULO_IMPRESION);
+			addColumn(computeTableName("estados"), "nombre",
+					DataStore.DATATYPE_STRING, false, false, ESTADOS_NOMBRE);
+			addColumn(computeTableName("website_user_preparador"),
+					"nombre_completo", DataStore.DATATYPE_STRING, false, false,
+					WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO);
+			addColumn(computeTableName("legajos"), "APEYNOM",
+					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
+
+			// add buckets
+			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
 
 			// add joins
 			addJoin(
@@ -122,7 +146,16 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					computeTableAndFieldName("comprobante_movimiento_articulo.recepcion_compra_id"),
 					computeTableAndFieldName("recepciones_compras.recepcion_compra_id"),
 					false);
-
+			addJoin(
+					computeTableAndFieldName("comprobante_movimiento_articulo.estado"),
+					"estados.estado", false);
+			addJoin(
+					computeTableAndFieldName("comprobante_movimiento_articulo.user_id_preparador"),
+					"website_user_preparador.user_id", false);
+			addJoin(
+					computeTableAndFieldName("comprobante_movimiento_articulo.user_id_retira"),
+					computeTableAndFieldName("legajos.nro_legajo"), false);
+			
 			// set order by
 			setOrderBy(computeTableAndFieldName("comprobante_movimiento_articulo.comprobante_movimiento_id")
 					+ " ASC");
@@ -141,44 +174,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"El tipo de movimiento de artículo es obligatorio");
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA,
 					"La fecha es obligatoria");
-			
-		} catch (DataStoreException e) {
-			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
-		}
 
-		// $CUSTOMCONSTRUCTOR$
-		// Put custom constructor code between these comments, otherwise it be
-		// overwritten if the model is regenerated
-		// add aliases
-		addTableAlias(computeTableName("infraestructura.estados"), "estados");
-		addTableAlias(computeTableName("infraestructura.website_user"),
-				"website_user_retira");
-		addTableAlias(computeTableName("infraestructura.website_user"),
-				"website_user_preparador");
-
-		// add columns
-		addColumn(computeTableName("estados"), "nombre",
-				DataStore.DATATYPE_STRING, false, false, ESTADOS_NOMBRE);
-		addColumn(computeTableName("website_user_retira"), "nombre_completo",
-				DataStore.DATATYPE_STRING, false, false,
-				WEBSITE_USER_RETIRA_NOMBRE_COMPLETO);
-		addColumn(computeTableName("website_user_preparador"),
-				"nombre_completo", DataStore.DATATYPE_STRING, false, false,
-				WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO);
-
-		// add joins
-		addJoin(
-				computeTableAndFieldName("comprobante_movimiento_articulo.estado"),
-				computeTableAndFieldName("estados.estado"), true);
-		addJoin(
-				computeTableAndFieldName("comprobante_movimiento_articulo.user_id_retira"),
-				computeTableAndFieldName("website_user.user_id"), true);
-		addJoin(
-				computeTableAndFieldName("comprobante_movimiento_articulo.user_id_preparador"),
-				computeTableAndFieldName("website_user.user_id"), true);
-
-		// add lookup rules
-		try {
 			addLookupRule(
 					COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO,
 					"infraestructura.estados",
@@ -192,12 +188,6 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"nombre_completo", WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO,
 					"Estado inexistente");
 			addLookupRule(
-					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_RETIRA,
-					"infraestructura.website_user",
-					"'infraestructura.website_user.user_id = ' + comprobante_movimiento_articulo.user_id_retira",
-					"nombre_completo", WEBSITE_USER_RETIRA_NOMBRE_COMPLETO,
-					"Estado inexistente");
-			addLookupRule(
 					COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID,
 					"inventario.tipo_movimiento_articulo",
 					"'inventario.tipo_movimiento_articulo.tipo_movimiento_articulo_id = ' + comprobante_movimiento_articulo.tipo_movimiento_articulo_id",
@@ -209,11 +199,24 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"'inventario.tipo_movimiento_articulo.tipo_movimiento_articulo_id = ' + comprobante_movimiento_articulo.tipo_movimiento_articulo_id",
 					"reserva", TIPO_MOVIMIENTO_ARTICULO_RESERVA,
 					"Tipo de movimiento inexistente");
+			addLookupRule(
+					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_RETIRA,
+					"inventario.legajos",
+					"'inventario.legajos.nro_legajo = ' + comprobante_movimiento_articulo.user_id_retira",
+					"APEYNOM", LEGAJOS_APEYNOM,
+					"Legajo inexistente");
+
 			
 			setAutoIncrement(COMPROBANTE_MOVIMIENTO_ARTICULO_COMPROBANTE_MOVIMIENTO_ID, true);
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
+
+		// $CUSTOMCONSTRUCTOR$
+		// Put custom constructor code between these comments, otherwise it be
+		// overwritten if the model is regenerated
+		// add aliases		
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -779,8 +782,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the tipo_movimiento_articulo.positivo column for the
-	 * current row.
+	 * Retrieve the value of the tipo_movimiento_articulo.positivo column for
+	 * the current row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -790,8 +793,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the tipo_movimiento_articulo.positivo column for the
-	 * specified row.
+	 * Retrieve the value of the tipo_movimiento_articulo.positivo column for
+	 * the specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -830,7 +833,6 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			throws DataStoreException {
 		setString(row, TIPO_MOVIMIENTO_ARTICULO_POSITIVO, newValue);
 	}
-	
 
 	/**
 	 * Retrieve the value of the tipo_movimiento_articulo.reserva column for the
@@ -884,10 +886,185 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			throws DataStoreException {
 		setString(row, TIPO_MOVIMIENTO_ARTICULO_RESERVA, newValue);
 	}
-	
+
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.impresion column for
+	 * the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloImpresion()
+			throws DataStoreException {
+		return getString(TIPO_MOVIMIENTO_ARTICULO_IMPRESION);
+	}
+
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.impresion column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloImpresion(int row)
+			throws DataStoreException {
+		return getString(row, TIPO_MOVIMIENTO_ARTICULO_IMPRESION);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.impresion column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloImpresion(String newValue)
+			throws DataStoreException {
+		setString(TIPO_MOVIMIENTO_ARTICULO_IMPRESION, newValue);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.impresion column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloImpresion(int row, String newValue)
+			throws DataStoreException {
+		setString(row, TIPO_MOVIMIENTO_ARTICULO_IMPRESION, newValue);
+	}
+
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
+
+	/**
+	 * Retrieve the value of the current website user id bucket
+	 * 
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getCurrentWebsiteUserId() throws DataStoreException {
+		return getInt(CURRENT_WEBSITE_USER_ID);
+	}
+
+	/**
+	 * Set the value of the current website user id bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCurrentWebsiteUserId(int newValue) throws DataStoreException {
+		setInt(CURRENT_WEBSITE_USER_ID, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the user_recibe.nombre_completo column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getLegajoApeynom() throws DataStoreException {
+		return getString(LEGAJOS_APEYNOM);
+	}
+
+	/**
+	 * Retrieve the value of the user_recibe.nombre_completo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getLegajoApeynom(int row) throws DataStoreException {
+		return getString(row, LEGAJOS_APEYNOM);
+	}
+
+	/**
+	 * Set the value of the user_recibe.nombre_completo column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setLegajoApeynom(String newValue) throws DataStoreException {
+		setString(LEGAJOS_APEYNOM, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the estados.nombre column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEstadosNombre() throws DataStoreException {
+		return getString(ESTADOS_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the estados.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getEstadosNombre(int row) throws DataStoreException {
+		return getString(row, ESTADOS_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the estados.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEstadosNombre(String newValue) throws DataStoreException {
+		setString(ESTADOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the estados.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setEstadosNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ESTADOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the user_recibe.nombre_completo column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setLegajoApeynom(int row, String newValue)
+			throws DataStoreException {
+		setString(row, LEGAJOS_APEYNOM, newValue);
+	}
+
 	@Override
 	public String getEstadoActual() throws DataStoreException {
 		return null;
@@ -897,6 +1074,22 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	public int getIdRegistro() throws DataStoreException {
 		return this.getComprobanteMovimientoArticuloComprobanteMovimientoId();
 	}
+
+	@Override
+	public void update(DBConnection conn, boolean handleTrans)
+			throws DataStoreException, SQLException {
+		// TODO Auto-generated method stub
+		if (getComprobanteMovimientoArticuloUserIdPreparador() == 0)
+			setComprobanteMovimientoArticuloUserIdPreparador(getCurrentWebsiteUserId());
+		if (getComprobanteMovimientoArticuloEstado() == null)
+			setComprobanteMovimientoArticuloEstado("0010.0001");
+		if (getComprobanteMovimientoArticuloFecha() == null)
+			setComprobanteMovimientoArticuloFecha(new Timestamp((Calendar
+					.getInstance().getTimeInMillis())));
+
+		super.update(conn, handleTrans);
+	}
+
 	// $ENDCUSTOMMETHODS$
 
 }

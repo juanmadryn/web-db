@@ -29,6 +29,7 @@ public class TipoMovimientoArticuloModel extends DataStore {
 	public static final String TIPO_MOVIMIENTO_ARTICULO_OBSERVACIONES = "tipo_movimiento_articulo.observaciones";
 	public static final String TIPO_MOVIMIENTO_ARTICULO_POSITIVO = "tipo_movimiento_articulo.positivo";
 	public static final String TIPO_MOVIMIENTO_ARTICULO_RESERVA = "tipo_movimiento_articulo.reserva";
+	public static final String TIPO_MOVIMIENTO_ARTICULO_IMPRESION = "tipo_movimiento_articulo.impresion";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
@@ -79,6 +80,9 @@ public class TipoMovimientoArticuloModel extends DataStore {
 			addColumn(computeTableName("tipo_movimiento_articulo"), "reserva",
 					DataStore.DATATYPE_STRING, false, true,
 					TIPO_MOVIMIENTO_ARTICULO_RESERVA);
+			addColumn(computeTableName("tipo_movimiento_articulo"), "impresion",
+					DataStore.DATATYPE_STRING, false, true,
+					TIPO_MOVIMIENTO_ARTICULO_IMPRESION);
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("tipo_movimiento_articulo.nombre")
@@ -91,6 +95,7 @@ public class TipoMovimientoArticuloModel extends DataStore {
 					"Debe indicar si el tipo de movimiento es positivo o no");
 			addRequiredRule(TIPO_MOVIMIENTO_ARTICULO_RESERVA,
 					"Debe indicar si el tipo de movimiento genera reserva o no");
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -427,6 +432,59 @@ public class TipoMovimientoArticuloModel extends DataStore {
 		setString(row, TIPO_MOVIMIENTO_ARTICULO_RESERVA, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.impresion column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloImpresion() throws DataStoreException {
+		return getString(TIPO_MOVIMIENTO_ARTICULO_IMPRESION);
+	}
+
+	/**
+	 * Retrieve the value of the tipo_movimiento_articulo.impresion column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTipoMovimientoArticuloImpresion(int row)
+			throws DataStoreException {
+		return getString(row, TIPO_MOVIMIENTO_ARTICULO_IMPRESION);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.impresion column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloImpresion(String newValue)
+			throws DataStoreException {
+		setString(TIPO_MOVIMIENTO_ARTICULO_IMPRESION, newValue);
+	}
+
+	/**
+	 * Set the value of the tipo_movimiento_articulo.impresion column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTipoMovimientoArticuloImpresion(int row, String newValue)
+			throws DataStoreException {
+		setString(row, TIPO_MOVIMIENTO_ARTICULO_IMPRESION, newValue);
+	}
+	
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated

@@ -1,5 +1,13 @@
 package inventario.models;
 
+import infraestructura.models.AtributosEntidadModel;
+
+import java.sql.SQLException;
+
+import proyectos.models.ProyectoModel;
+import proyectos.models.TareasProyectoModel;
+
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
@@ -29,8 +37,15 @@ public class MovimientoArticuloModel extends DataStore {
 	public static final String MOVIMIENTO_ARTICULO_CANTIDAD_ENTREGADA = "movimiento_articulo.cantidad_entregada";
 	public static final String MOVIMIENTO_ARTICULO_CANTIDAD_ANULADA = "movimiento_articulo.cantidad_anulada";
 	public static final String MOVIMIENTO_ARTICULO_DESCRIPCION = "movimiento_articulo.descripcion";
-	public static final String MOVIMIENTO_ARTICULO_DESCRIPCION_ADICIONAL = "movimiento_articulo.descripcion_adicional";
+	public static final String MOVIMIENTO_ARTICULO_OBSERVACIONES = "movimiento_articulo.observaciones";
+	public static final String MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID = "movimiento_articulo.unidad_medida_id";
+	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
+	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
+	public static final String TAREAS_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
 	public static final String ARTICULOS_NOMBRE = "articulos.nombre";
+	public static final String ARTICULOS_DESCRIPCION = "articulos.descripcion";
+	public static final String ARTICULOS_DESCRIPCION_COMPLETA = "articulos.descripcion_completa";
+	public static final String UNIDADES_MEDIDA_NOMBRE = "unidades_medida.nombre";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
@@ -69,6 +84,11 @@ public class MovimientoArticuloModel extends DataStore {
 					"resumen_saldo_articulos");
 			addTableAlias(computeTableName("comprobante_movimiento_articulo"),
 					"comprobante_movimiento_articulo");
+			addTableAlias(computeTableName("unidades_medida"),
+					"unidades_medida");
+			addTableAlias("proyectos.proyectos", "proyectos");
+			addTableAlias("proyectos.tareas_proyecto",
+					"tareas_proyecto");
 
 			// add columns
 			addColumn(computeTableName("movimiento_articulo"),
@@ -104,11 +124,30 @@ public class MovimientoArticuloModel extends DataStore {
 			addColumn(computeTableName("movimiento_articulo"), "descripcion",
 					DataStore.DATATYPE_STRING, false, true,
 					MOVIMIENTO_ARTICULO_DESCRIPCION);
+			addColumn(computeTableName("movimiento_articulo"), "observaciones",
+					DataStore.DATATYPE_STRING, false, true,
+					MOVIMIENTO_ARTICULO_OBSERVACIONES);
 			addColumn(computeTableName("movimiento_articulo"),
-					"descripcion_adicional", DataStore.DATATYPE_STRING, false,
-					true, MOVIMIENTO_ARTICULO_DESCRIPCION_ADICIONAL);
+					"unidad_medida_id", DataStore.DATATYPE_INT, false, true,
+					MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID);
+			addColumn(computeTableName("proyectos"), "proyecto",
+					DataStore.DATATYPE_STRING, false, false, PROYECTOS_PROYECTO);
+			addColumn(computeTableName("proyectos"), "nombre",
+					DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
+			addColumn(computeTableName("tareas_proyecto"), "nombre",
+					DataStore.DATATYPE_STRING, false, false,
+					TAREAS_PROYECTO_NOMBRE);
+			addColumn(computeTableName("unidades_medida"), "nombre",
+					DataStore.DATATYPE_STRING, false, false,
+					UNIDADES_MEDIDA_NOMBRE);
 			addColumn(computeTableName("articulos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ARTICULOS_NOMBRE);
+			addColumn(computeTableName("articulos"), "descripcion",
+					DataStore.DATATYPE_STRING, false, false,
+					ARTICULOS_DESCRIPCION);
+			addColumn(computeTableName("articulos"), "descripcion_completa",
+					DataStore.DATATYPE_STRING, false, false,
+					ARTICULOS_DESCRIPCION_COMPLETA);
 
 			// add joins
 			addJoin(
@@ -122,6 +161,16 @@ public class MovimientoArticuloModel extends DataStore {
 					computeTableAndFieldName("movimiento_articulo.comprobante_movimiento_id"),
 					computeTableAndFieldName("comprobante_movimiento_articulo.comprobante_movimiento_id"),
 					false);
+			addJoin(
+					computeTableAndFieldName("movimiento_articulo.unidad_medida_id"),
+					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
+					false);			
+			addJoin(
+					computeTableAndFieldName("movimiento_articulo.proyecto_id"),
+					"proyectos.proyecto_id", false);
+			
+			addJoin(computeTableAndFieldName("movimiento_articulo.tarea_id"),
+					"tareas_proyecto.tarea_id", false);
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("movimiento_articulo.movimiento_articulo_id")
@@ -129,15 +178,32 @@ public class MovimientoArticuloModel extends DataStore {
 
 			// add validations
 			addRequiredRule(MOVIMIENTO_ARTICULO_ARTICULO_ID,
-					"El id del artÃ­culo es obligatorio");
+					"El id del artículo es obligatorio");
 			addRequiredRule(MOVIMIENTO_ARTICULO_CANTIDAD_SOLICITADA,
 					"La cantidad solicitada es obligatoria");
 			addRequiredRule(MOVIMIENTO_ARTICULO_CANTIDAD_ENTREGADA,
 					"La cantidad entregada es obligatoria");
 			addRequiredRule(MOVIMIENTO_ARTICULO_CANTIDAD_ANULADA,
 					"La cantidad anulada es obligatoria");
-			
-			setAutoIncrement(MOVIMIENTO_ARTICULO_MOVIMIENTO_ARTICULO_ID, true);
+			addRequiredRule(MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID,
+					"La unidad de medida es obligatoria");
+
+			addLookupRule(
+					MOVIMIENTO_ARTICULO_ARTICULO_ID,
+					"articulos",
+					"'articulos.articulo_id = ' + movimiento_articulo.articulo_id",
+					"descripcion", ARTICULOS_DESCRIPCION, "Artículo inexistente");
+			addLookupRule(
+					MOVIMIENTO_ARTICULO_PROYECTO_ID,
+					computeTableName("proyectos.proyectos"),
+					"'proyectos.proyectos.proyecto_id = ' + movimiento_articulo.proyecto_id",
+					"nombre", PROYECTOS_NOMBRE, "Proyecto inexistente");
+			addLookupRule(
+					MOVIMIENTO_ARTICULO_TAREA_ID,
+					"proyectos.tareas_proyecto",
+					"'proyectos.tareas_proyecto.tarea_id = ' + movimiento_articulo.tarea_id",
+					"nombre", TAREAS_PROYECTO_NOMBRE, "Tarea inexistente");
+
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -145,7 +211,7 @@ public class MovimientoArticuloModel extends DataStore {
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
 		// overwritten if the model is regenerated
-		
+
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -739,57 +805,110 @@ public class MovimientoArticuloModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the movimiento_articulo.descripcion_adicional
-	 * column for the current row.
-	 * 
-	 * @return String
-	 * @throws DataStoreException
-	 */
-	public String getMovimientoArticuloDescripcionAdicional()
-			throws DataStoreException {
-		return getString(MOVIMIENTO_ARTICULO_DESCRIPCION_ADICIONAL);
-	}
-
-	/**
-	 * Retrieve the value of the movimiento_articulo.descripcion_adicional
-	 * column for the specified row.
-	 * 
-	 * @param row
-	 *            which row in the table
-	 * @return String
-	 * @throws DataStoreException
-	 */
-	public String getMovimientoArticuloDescripcionAdicional(int row)
-			throws DataStoreException {
-		return getString(row, MOVIMIENTO_ARTICULO_DESCRIPCION_ADICIONAL);
-	}
-
-	/**
-	 * Set the value of the movimiento_articulo.descripcion_adicional column for
+	 * Retrieve the value of the movimiento_articulo.observaciones column for
 	 * the current row.
 	 * 
-	 * @param newValue
-	 *            the new item value
+	 * @return String
 	 * @throws DataStoreException
 	 */
-	public void setMovimientoArticuloDescripcionAdicional(String newValue)
+	public String getMovimientoArticuloObservaciones()
 			throws DataStoreException {
-		setString(MOVIMIENTO_ARTICULO_DESCRIPCION_ADICIONAL, newValue);
+		return getString(MOVIMIENTO_ARTICULO_OBSERVACIONES);
 	}
 
 	/**
-	 * Set the value of the movimiento_articulo.descripcion_adicional column for
+	 * Retrieve the value of the movimiento_articulo.observaciones column for
 	 * the specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getMovimientoArticuloObservaciones(int row)
+			throws DataStoreException {
+		return getString(row, MOVIMIENTO_ARTICULO_OBSERVACIONES);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.observaciones column for the
+	 * current row.
+	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setMovimientoArticuloDescripcionAdicional(int row,
-			String newValue) throws DataStoreException {
-		setString(row, MOVIMIENTO_ARTICULO_DESCRIPCION_ADICIONAL, newValue);
+	public void setMovimientoArticuloObservaciones(String newValue)
+			throws DataStoreException {
+		setString(MOVIMIENTO_ARTICULO_OBSERVACIONES, newValue);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.observaciones column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMovimientoArticuloObservaciones(int row, String newValue)
+			throws DataStoreException {
+		setString(row, MOVIMIENTO_ARTICULO_OBSERVACIONES, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the movimiento_articulo.articulo_id column for the
+	 * current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getMovimientoArticuloUnidadMedidaId() throws DataStoreException {
+		return getInt(MOVIMIENTO_ARTICULO_ARTICULO_ID);
+	}
+
+	/**
+	 * Retrieve the value of the movimiento_articulo.articulo_id column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getMovimientoArticuloUnidadMedidaId(int row)
+			throws DataStoreException {
+		return getInt(row, MOVIMIENTO_ARTICULO_ARTICULO_ID);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.articulo_id column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMovimientoArticuloUnidadMedidaId(int newValue)
+			throws DataStoreException {
+		setInt(MOVIMIENTO_ARTICULO_ARTICULO_ID, newValue);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.articulo_id column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMovimientoArticuloUnidadMedidaId(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, MOVIMIENTO_ARTICULO_ARTICULO_ID, newValue);
 	}
 
 	/**
@@ -839,9 +958,326 @@ public class MovimientoArticuloModel extends DataStore {
 		setString(row, ARTICULOS_NOMBRE, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the articulos.descripcion column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcion() throws DataStoreException {
+		return getString(ARTICULOS_DESCRIPCION);
+	}
+
+	/**
+	 * Retrieve the value of the articulos.descripcion column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcion(int row) throws DataStoreException {
+		return getString(row, ARTICULOS_DESCRIPCION);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcion(String newValue)
+			throws DataStoreException {
+		setString(ARTICULOS_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcion(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the articulos.descripcion_completa column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcionCompleta() throws DataStoreException {
+		return getString(ARTICULOS_DESCRIPCION);
+	}
+
+	/**
+	 * Retrieve the value of the articulos.descripcion_completa column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcionCompleta(int row)
+			throws DataStoreException {
+		return getString(row, ARTICULOS_DESCRIPCION);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion_completa column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcionCompleta(String newValue)
+			throws DataStoreException {
+		setString(ARTICULOS_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion_completa column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcionCompleta(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the proyectos.proyecto column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosProyecto() throws DataStoreException {
+		return getString(PROYECTOS_PROYECTO);
+	}
+
+	/**
+	 * Retrieve the value of the proyectos.proyecto column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosProyecto(int row) throws DataStoreException {
+		return getString(row, PROYECTOS_PROYECTO);
+	}
+
+	/**
+	 * Set the value of the proyectos.proyecto column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosProyecto(String newValue) throws DataStoreException {
+		setString(PROYECTOS_PROYECTO, newValue);
+	}
+
+	/**
+	 * Set the value of the proyectos.proyecto column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosProyecto(int row, String newValue)
+			throws DataStoreException {
+		setString(row, PROYECTOS_PROYECTO, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the proyectos.nombre column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosNombre() throws DataStoreException {
+		return getString(PROYECTOS_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the proyectos.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosNombre(int row) throws DataStoreException {
+		return getString(row, PROYECTOS_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the proyectos.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosNombre(String newValue) throws DataStoreException {
+		setString(PROYECTOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the proyectos.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, PROYECTOS_NOMBRE, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the tareas_proyecto.nombre column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTareasProyectoNombre() throws DataStoreException {
+		return getString(TAREAS_PROYECTO_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the tareas_proyecto.nombre column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTareasProyectoNombre(int row) throws DataStoreException {
+		return getString(row, TAREAS_PROYECTO_NOMBRE);
+	}
+
+	/**
+	 * Set the value of the tareas_proyecto.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTareasProyectoNombre(String newValue)
+			throws DataStoreException {
+		setString(TAREAS_PROYECTO_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the tareas_proyecto.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTareasProyectoNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, TAREAS_PROYECTO_NOMBRE, newValue);
+	}
+
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
+
+	@Override
+	public void update(DBConnection conn, boolean handleTrans)
+			throws DataStoreException, SQLException {
+		// TODO Auto-generated method stub
+		ProyectoModel dsProyecto;
+		for (int row = 0; row < getRowCount(); row++) {
+			if (getProyectosProyecto(row) != null) {
+				dsProyecto = new ProyectoModel("proyectos", "proyectos");
+				dsProyecto.retrieve("proyecto = '" + getProyectosProyecto()
+						+ "'");
+				if (dsProyecto.gotoFirst())
+					setMovimientoArticuloProyectoId(row, dsProyecto
+							.getProyectosProyectoId());
+				else
+					throw new DataStoreException(
+							"El proyecto indicado no existe");
+			} else
+				setMovimientoArticuloProyectoId(row, 0);
+
+			// checks if tarea exist for specified project
+			TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
+					"proyectos");
+			int proyecto_id = getMovimientoArticuloProyectoId(row);
+			if (proyecto_id != 0) {
+				dsTareas.retrieve("tareas_proyecto.proyecto_id = "
+						+ proyecto_id);
+				dsTareas.gotoFirst();
+				setMovimientoArticuloTareaId(row, dsTareas
+						.getTareasProyectoTareaId());
+			}
+			if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = "
+					+ proyecto_id + " AND tareas_proyecto.tarea_id = "
+					+ getMovimientoArticuloTareaId(row)) == 0)
+				throw new DataStoreException(
+						"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+
+			ArticulosModel articulos;
+			// fills detalle_sc.articulo_id field through ArticulosNombre
+			if (getArticulosNombre(row) != null) {
+				articulos = new ArticulosModel("inventario", "inventario");
+				articulos.retrieve(conn, "articulos.nombre LIKE '"
+						+ getArticulosNombre(row) + "'");
+				if (!articulos.gotoFirst()) {
+					DataStoreException ex = new DataStoreException(
+							"El código de articulo ingresado no corresponde a ninguno registrado");
+					ex.setRowNo(row);
+					throw ex;
+				}
+				;
+				setMovimientoArticuloArticuloId(row, articulos
+						.getArticulosArticuloId());
+			}
+			if (getMovimientoArticuloDescripcion(row) == null)
+				setMovimientoArticuloDescripcion(row,
+						getArticulosDescripcionCompleta(row));
+			if (getMovimientoArticuloUnidadMedidaId(row) == 0)
+				setMovimientoArticuloUnidadMedidaId(row, Integer
+						.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
+								"UNIDAD_DE_MEDIDA",
+								getMovimientoArticuloArticuloId(row), "TABLA",
+								"articulos")));
+			if (getMovimientoArticuloCantidadAnulada(row) == 0)
+				setMovimientoArticuloCantidadAnulada(row,
+						getMovimientoArticuloCantidadSolicitada(row)
+								- getMovimientoArticuloCantidadEntregada(row));
+			super.update(conn, handleTrans);
+		}
+	}
 
 	// $ENDCUSTOMMETHODS$
 
