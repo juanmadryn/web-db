@@ -274,9 +274,11 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		}
 		
 		// resto de los criterios especificados por el usuario
-		String sqlFilter = _dsQBE.generateSQLFilter(_dsOrdenes);
-		if (sb.length() > 0) sb.append(" and ");
-		if (sqlFilter != null) sb.append(sqlFilter);
+		String sqlFilter = _dsQBE.generateSQLFilter(_dsOrdenes);		
+		if (sqlFilter != null) {
+			if (sb.length() > 0) sb.append(" and ");
+			sb.append(sqlFilter);
+		}
 			
 		return sb.toString();
 	}
