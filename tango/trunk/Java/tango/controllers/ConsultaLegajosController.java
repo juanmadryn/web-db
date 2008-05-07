@@ -2,12 +2,11 @@
 package tango.controllers;
 
 //Salmon import statements
-import tango.util.ReplicateLegajoQuartzJob;
 import infraestructura.controllers.BaseController;
+import tango.util.ReplicateLegajoQuartzJob;
 
-import com.salmonllc.jsp.*;
 import com.salmonllc.html.HtmlSubmitButton;
-import com.salmonllc.html.events.*;
+import com.salmonllc.html.events.SubmitEvent;
 
 /**
  * ConsultaLegajosController: a SOFIA generated controller

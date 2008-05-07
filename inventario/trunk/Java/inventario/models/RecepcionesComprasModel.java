@@ -131,7 +131,7 @@ public class RecepcionesComprasModel extends BaseModel {
 				computeTableAndFieldName("website_user_completa.user_id"), false);
 		
 		addJoin(computeTableAndFieldName("recepciones_compras.user_id_recibe"),
-				computeTableAndFieldName("legajos.NRO_LEGAJO"), false);
+				computeTableAndFieldName("legajos.NRO_LEGAJO"), true);
 
 		// add validations
 		addRequiredRule(RECEPCIONES_COMPRAS_ESTADO,

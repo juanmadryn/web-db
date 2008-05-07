@@ -580,6 +580,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 								_dsDetalleSC.update();
 							}							
 							_dsDetalleSC.calculaMontoTotalPedido(row);
+							_dsDetalleSC.calculaMontoTotalNetoPedido(row);
 						}
 					}
 				}
@@ -602,10 +603,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	/**
 	 * Recupera datos adicionales de la orden de compra que no se encuentran en 
 	 * la tabla inventario.ordenes_compra y configura adecuadamente la vista
-	 * @throws SQLException 
+	 * @throws Exception 
 	 * @throws Exception 
 	 */
-	private void setDatosBasicosOrdenCompra() throws DataStoreException, SQLException {
+	private void setDatosBasicosOrdenCompra() throws Exception {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
@@ -625,6 +626,14 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		// Deshabilita descuento en detalles si es seteado uno en la cabecera
 		_descuento2.setEnabled(_dsOrdenesCompra.getOrdenesCompraDescuento() > 0 ? false : true);
+		if (_dsOrdenesCompra.getOrdenesCompraDescuento() > 0) {
+			_descuento2.setEnabled(false);
+			_monto_total2.setExpression(_dsDetalleSC, "monto_total_neto_pedido");			
+		} else {
+			_descuento2.setEnabled(true);
+			_monto_total2.setExpression(_dsDetalleSC, "monto_total_pedido");
+		}
+		_monto_total2.setDisplayFormatLocaleKey("CurrencyFormatConSigno");
 		
 		// Calcula totales
 		try {

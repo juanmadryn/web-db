@@ -5,7 +5,7 @@
 	controller="inventario.controllers.AbmComprobanteMovimientoArticuloController" />
 <jsp:include page="templateBefore.jsp" flush="TRUE"></jsp:include>
 <salmon:form name="PageForm">
-	<%@include file="message.jsp"%>
+	<%@include file="message.jsp"%></td>
 	<!-- ********************************************************************************************* -->
 	<!-- Add DataSource definitions here -->
 	<salmon:datasource name="dsComprobante" type="MODEL"

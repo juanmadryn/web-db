@@ -207,8 +207,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 	public com.salmonllc.html.HtmlSubmitButton _atributoGenerarAtributosBUT11;
 
 	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
-	private String ESTADOS_DE_MODIFICACION_COMPROBANTE_MOVIMIENTO_ARTICULO = "";
-
+	
 	private static final String CIRCUITO = "0010";
 
 	private boolean recargar = false;
