@@ -29,11 +29,9 @@ public class ConsultaLegajosController extends BaseController {
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
-	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
-	public com.salmonllc.jsp.JspNavBar _navbar1;
+	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;	
 	public com.salmonllc.jsp.JspRaw _rawAddRow;
-	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
-	public com.salmonllc.jsp.JspTable _navbarTable;
+	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;	
 	public com.salmonllc.jsp.JspTable _table2;
 	public com.salmonllc.jsp.JspTable _tableFooter;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader0;
