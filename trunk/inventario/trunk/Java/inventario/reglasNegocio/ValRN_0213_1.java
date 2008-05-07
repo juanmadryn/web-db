@@ -56,9 +56,6 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			ResumenSaldoArticulosModel resumen = new ResumenSaldoArticulosModel(
 					"inventario");
 
-			if (ds.getRecepcionesComprasUserIdRecibe() == 0)
-				throw new DataStoreException("Indique el legajo de quien recibe");
-
 			int tipoMovimiento = Props.getProps("inventario", null)
 					.getIntProperty("TipoMovimientoRecepciones");
 			int almacen_id = 0;
