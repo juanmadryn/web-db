@@ -31,6 +31,7 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	public static final String RESUMEN_SALDO_ARTICULOS_PERIODO = "resumen_saldo_articulos.periodo";
 	public static final String RESUMEN_SALDO_ARTICULOS_STOCK_EN_MANO = "resumen_saldo_articulos.stock_en_mano";
 	public static final String RESUMEN_SALDO_ARTICULOS_RESERVADO = "resumen_saldo_articulos.reservado";
+	public static final String RESUMEN_SALDO_ARTICULOS_EN_PROCESO = "resumen_saldo_articulos.en_proceso";
 	public static final String ALMACENES_NOMBRE = "almacenes.nombre";
 	public static final String ARTICULOS_NOMBRE = "articulos.nombre";
 
@@ -87,6 +88,9 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			addColumn(computeTableName("resumen_saldo_articulos"), "reservado",
 					DataStore.DATATYPE_DOUBLE, false, true,
 					RESUMEN_SALDO_ARTICULOS_RESERVADO);
+			addColumn(computeTableName("resumen_saldo_articulos"), "en_proceso",
+					DataStore.DATATYPE_DOUBLE, false, true,
+					RESUMEN_SALDO_ARTICULOS_EN_PROCESO);
 			addColumn(computeTableName("almacenes"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ALMACENES_NOMBRE);
 			addColumn(computeTableName("articulos"), "nombre",
@@ -446,6 +450,59 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 		setDouble(row, RESUMEN_SALDO_ARTICULOS_RESERVADO, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the resumen_saldo_articulos.en_proceso column for
+	 * the current row.
+	 * 
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getResumenSaldoArticulosEnProceso() throws DataStoreException {
+		return getDouble(RESUMEN_SALDO_ARTICULOS_EN_PROCESO);
+	}
+
+	/**
+	 * Retrieve the value of the resumen_saldo_articulos.en_proceso column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getResumenSaldoArticulosEnProceso(int row)
+			throws DataStoreException {
+		return getDouble(row, RESUMEN_SALDO_ARTICULOS_EN_PROCESO);
+	}
+
+	/**
+	 * Set the value of the resumen_saldo_articulos.en_proceso column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setResEnProcesoArticulosEnProceso(double newValue)
+			throws DataStoreException {
+		setDouble(RESUMEN_SALDO_ARTICULOS_EN_PROCESO, newValue);
+	}
+
+	/**
+	 * Set the value of the resumen_saldo_articulos.en_proceso column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setResumenSaldoArticulosEnProceso(int row, double newValue)
+			throws DataStoreException {
+		setDouble(row, RESUMEN_SALDO_ARTICULOS_EN_PROCESO, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the almacenes.nombre column for the current row.
 	 * 

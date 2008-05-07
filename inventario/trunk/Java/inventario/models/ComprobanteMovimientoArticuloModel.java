@@ -145,7 +145,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addJoin(
 					computeTableAndFieldName("comprobante_movimiento_articulo.recepcion_compra_id"),
 					computeTableAndFieldName("recepciones_compras.recepcion_compra_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("comprobante_movimiento_articulo.estado"),
 					"estados.estado", false);
@@ -154,7 +154,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"website_user_preparador.user_id", false);
 			addJoin(
 					computeTableAndFieldName("comprobante_movimiento_articulo.user_id_retira"),
-					computeTableAndFieldName("legajos.nro_legajo"), false);
+					computeTableAndFieldName("legajos.nro_legajo"), true);
 			
 			// set order by
 			setOrderBy(computeTableAndFieldName("comprobante_movimiento_articulo.comprobante_movimiento_id")
@@ -1067,12 +1067,12 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 
 	@Override
 	public String getEstadoActual() throws DataStoreException {
-		return null;
+		return getComprobanteMovimientoArticuloEstado();
 	}
 
 	@Override
 	public int getIdRegistro() throws DataStoreException {
-		return this.getComprobanteMovimientoArticuloComprobanteMovimientoId();
+		return getComprobanteMovimientoArticuloComprobanteMovimientoId();
 	}
 
 	@Override

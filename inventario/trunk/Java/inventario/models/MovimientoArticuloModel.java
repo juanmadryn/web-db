@@ -156,7 +156,7 @@ public class MovimientoArticuloModel extends DataStore {
 			addJoin(
 					computeTableAndFieldName("movimiento_articulo.resumen_saldo_articulo_id"),
 					computeTableAndFieldName("resumen_saldo_articulos.resumen_saldo_articulo_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("movimiento_articulo.comprobante_movimiento_id"),
 					computeTableAndFieldName("comprobante_movimiento_articulo.comprobante_movimiento_id"),
