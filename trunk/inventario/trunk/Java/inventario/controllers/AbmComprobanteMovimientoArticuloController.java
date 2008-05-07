@@ -14,9 +14,7 @@ import java.util.Set;
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
-import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
-import com.salmonllc.html.events.SubmitListener;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreBuffer;
@@ -29,6 +27,10 @@ import com.salmonllc.util.MessageLog;
 public class AbmComprobanteMovimientoArticuloController extends
 		BaseEntityController {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 317179372458526303L;
 	// Visual Components
 	public com.salmonllc.html.HtmlCheckBox _seleccion_detalle2;
 	public com.salmonllc.html.HtmlDropDownList _almacen2;
