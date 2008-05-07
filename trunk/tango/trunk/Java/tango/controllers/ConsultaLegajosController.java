@@ -23,8 +23,7 @@ public class ConsultaLegajosController extends BaseController {
 	public com.salmonllc.html.HtmlText _nombreTE;
 	public com.salmonllc.html.HtmlText _nroLegajoCAP;
 	public com.salmonllc.html.HtmlText _nroLegajoTE;
-	public com.salmonllc.html.HtmlTextEdit _buscarTE;
-	public com.salmonllc.html.HtmlValidatorText _valErrorMessage;
+	public com.salmonllc.html.HtmlTextEdit _buscarTE;	
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
@@ -49,8 +48,7 @@ public class ConsultaLegajosController extends BaseController {
 	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow3;
 	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow4;
 	public com.salmonllc.jsp.JspTableRow _datatable1TRHeader0;
-	public com.salmonllc.jsp.JspTableRow _datatable1TRRow0;
-	public com.salmonllc.jsp.JspTableRow _navbarTableTRRow0;
+	public com.salmonllc.jsp.JspTableRow _datatable1TRRow0;	
 	public com.salmonllc.jsp.JspTableRow _table2TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
