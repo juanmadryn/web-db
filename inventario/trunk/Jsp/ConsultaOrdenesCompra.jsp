@@ -32,14 +32,14 @@
 				<salmon:td valign="Top">
 					<salmon:searchformdisplaybox
 						caption="Consulta de Ordenes de Compra"
-						name="searchformdisplaybox1" searchbuttonvisible="true"
-						addbuttonvisible="False" qbebuilder="dsQBE" width="100%"
+						name="searchformdisplaybox1" searchbuttonvisible="false"
+						addbuttonvisible="false" qbebuilder="dsQBE" width="100%"
 						buttondisplaylocation="BOTTOM">
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="n1" text="Nº"
 									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="n2" type="text"
+								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:nroOc">
 								</salmon:input></td>
 								<td><salmon:text name="estado1" text="Estado"
@@ -56,7 +56,7 @@
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha OC desde"
 									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input type="text"
+								<td><salmon:input type="text"
 									name="fechadesde2" size="10"
 									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
 								<td><salmon:text name="fechahasta1" text="Fecha OC hasta"
@@ -68,11 +68,20 @@
 							<tr>
 								<td><salmon:text name="comprador1" text="Comprador"
 									font="ColumnCaptionFont" /></td>
-								<td colspan="2"><salmon:input type="select"
+								<td><salmon:input type="select"
 									name="comprador2" size="30" datasource="dsQBE:comprador"
 									maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.compradores" keycolumn="user_id"
+										displaycolumn="nombre_completo" nulloption="true" 
+										nulloptiontext="Todos"></salmon:option>
+								</salmon:input></td>
+								<td><salmon:text name="solicitante1" text="Solicitante"
+									font="ColumnCaptionFont" /></td>
+								<td><salmon:input type="select"
+									name="solicitante2" size="30" maxlength="50">
+									<salmon:option display="abc" key="123"
+										table="inventario.solicitantes" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="true" 
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>

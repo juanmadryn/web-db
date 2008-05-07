@@ -4,6 +4,7 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
+import infraestructura.utils.BusquedaPorAtributo;
 import infraestructura.utils.Utilities;
 
 import java.sql.SQLException;
@@ -113,6 +114,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspTableRow _table2TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;*/
+	public com.salmonllc.html.HtmlDropDownList _solicitante2;
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -147,6 +149,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	// custom
 	public com.salmonllc.html.HtmlSubmitButton _recuperaOrdenesPendientes;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaOrdenesObservadas;
+	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
 	
 	public static final int MODO_TITULO_ESPECIAL_PENDIENTES = 0;
     public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
@@ -173,8 +176,12 @@ public class ConsultaOrdenesCompraController extends BaseController implements
         _listformdisplaybox1.addButton(_recuperaOrdenesObservadas);
         _recuperaOrdenesObservadas.addSubmitListener(this);
         _recuperaOrdenesObservadas.setVisible(false);
+        
+        _buscarBUT = new HtmlSubmitButton("buscarBUT","Buscar",this);
+		_buscarBUT.setAccessKey("B");		
+		_searchformdisplaybox1.addButton(_buscarBUT);
 		
-		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
+		_buscarBUT.addSubmitListener(this);
 		
 		_modoBandeja = MODO_TITULO_NORMAL;
 		
@@ -216,15 +223,69 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 				ex.printStackTrace();
 			}
 		}
+		
+		// bùsqueda
+		if (e.getComponent() == _buscarBUT) {
+			try {
+				// create the sql where clause
+				recuperarOrdenesDeCompra();
+				if (_dsOrdenes.getRowCount() == 0) {
+					displayErrorMessage("No se encontraron OCs con estas condiciones");
+				}
+			} catch (Exception ex) {
+				displayErrorMessage("Error: " + ex.getMessage());
+			}			
+		}
 
 		return super.submitPerformed(e);
 	}
 
 	/**
+	 * Recupera detalles de SC que cumplan con las caracteristicas indicadas. Hace foco
+	 * en el primer registro.
+	 * @throws DataStoreException 
+	 * @throws SQLException 
+	 * 
+	 */
+	private void recuperarOrdenesDeCompra() throws SQLException, DataStoreException {
+		_dsOrdenes.reset();
+		_dsOrdenes.retrieve(armarCriterio());
+		_dsOrdenes.gotoFirst();
+	}
+	
+	/**
+	 * Arma la clausula WHERE para la bùsqueda de OC. 
+	 * @return Una clausula WHERE para usar en una operacion retrieve
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 */
+	private String armarCriterio() throws SQLException, DataStoreException {
+		StringBuilder sb = new StringBuilder(500);
+		
+		// recuperamos OC segun solicitante
+		if (_solicitante2.getSelectedIndex() > 0) {
+			int userId = Integer.valueOf(_solicitante2.getOptionKey(_solicitante2.getSelectedIndex()));
+			sb.append(
+					"(ordenes_compra.orden_compra_id IN ( " + 
+							" SELECT d.orden_compra_id FROM detalle_sc d " + 
+							" JOIN solicitudes_compra s ON s.solicitud_compra_id = d.solicitud_compra_id " +
+							" WHERE s.user_id_solicita = "
+					).append(userId).append("))");
+		}
+		
+		// resto de los criterios especificados por el usuario
+		String sqlFilter = _dsQBE.generateSQLFilter(_dsOrdenes);		
+		if (sqlFilter != null) {
+			sb.append(" and ").append(sqlFilter);
+		}
+			
+		return sb.toString();
+	}
+
+	/**
 	 * Process the page requested event
 	 * 
-	 * @param event
-	 *            the page event to be processed
+	 * @param event the page event to be processed
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {		 
