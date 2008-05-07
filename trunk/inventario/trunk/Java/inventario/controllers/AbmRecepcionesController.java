@@ -32,7 +32,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 	private static final long serialVersionUID = 6794864105993076143L;
 	// Visual Components
 	public com.salmonllc.html.HtmlCheckBox _seleccion_detalle2;
-	public com.salmonllc.html.HtmlDropDownList _proveedor2;
+	public com.salmonllc.html.HtmlLookUpComponent _proveedor2;
 	public com.salmonllc.html.HtmlLookUpComponent _articulo2;
 	public com.salmonllc.html.HtmlLookUpComponent _valorTE11;
 	public com.salmonllc.html.HtmlSubmitButton _customBUT100;

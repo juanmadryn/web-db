@@ -57,12 +57,12 @@
 
 							</tr>
 							<tr>
-								<td><salmon:text name="fechadesde1" text="Fecha RC desde"
+								<td><salmon:text name="fechadesde1" text="Fecha desde"
 									font="ColumnCaptionFont" /></td>
 								<td colspan="3"><salmon:input type="text"
 									name="fechadesde2" size="10" datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
 									maxlength="10"></salmon:input></td>
-								<td><salmon:text name="fechahasta1" text="Fecha RC hasta"
+								<td><salmon:text name="fechahasta1" text="Fecha hasta"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text" name="fechahasta2" size="10" 
 									datasource="dsPeriodo:hasta" displayformat="dd/MM/yyyy" maxlength="10"></salmon:input></td>

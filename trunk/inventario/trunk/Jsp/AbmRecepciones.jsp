@@ -63,14 +63,14 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="completo1" text="Completó"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:text name="completo2" text=""
 									font="ColumnCaptionFont"
 									datasource="dsRecepciones:user_completa.nombre_completo" /></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="recibe1" text="Recibió"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpLegajoLegajo" name="legajo1" size="6"
 									maxlength="10" displayformat="##########0"
@@ -82,17 +82,20 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="proveedor1" text="Proveedor"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="select" name="proveedor2" size="30"
-									datasource="dsRecepciones:recepciones_compras.proveedor_id">
-									<salmon:option display="abc" key="123"
-										table="inventario.proveedores" keycolumn="entidad_id"
-										displaycolumn="nombre" nulloption="false"></salmon:option>
-								</salmon:input></td>
+									font="TableHeadingFont" /></td>
+								<td>
+								<salmon:lookup
+										browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpProveedores" name="proveedor2" size="6"
+										maxlength="10" displayformat="#########0"
+										descriptiondatasource="dsRecepciones:proveedores.nombre"
+										datasource="dsRecepciones:recepciones_compras.proveedor_id" popupheight="450"
+										popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>								
+								</td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha1" text="Fecha"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha2" text=""
 									displayformatlocalekey="DateTimeFormat"
 									datasource="dsRecepciones:recepciones_compras.fecha" /></td>
