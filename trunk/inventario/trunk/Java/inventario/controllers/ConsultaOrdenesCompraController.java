@@ -241,7 +241,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	}
 
 	/**
-	 * Recupera detalles de SC que cumplan con las caracteristicas indicadas. Hace foco
+	 * Recupera OCs que cumplan con las caracteristicas indicadas. Hace foco
 	 * en el primer registro.
 	 * @throws DataStoreException 
 	 * @throws SQLException 

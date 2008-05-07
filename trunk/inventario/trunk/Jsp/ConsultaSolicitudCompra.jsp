@@ -37,7 +37,7 @@
 						caption="Consulta de Solicitudes de Compra"
 						name="searchformdisplaybox1" buttondisplaylocation="BELOW_TABLE"
 						searchbuttonvisible="true" addbuttonvisible="False"
-						qbebuilder="dsQBE">
+						qbebuilder="dsQBE" width="100%">
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="n1" text="Nº"
