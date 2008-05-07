@@ -15,6 +15,6 @@
 
 <!-- Fin de código agregado -->
           
-          </salmon:form> 
+</salmon:form> 
 <jsp:include page="templateAfter.jsp" flush="true"></jsp:include>
 <salmon:endpage/>
