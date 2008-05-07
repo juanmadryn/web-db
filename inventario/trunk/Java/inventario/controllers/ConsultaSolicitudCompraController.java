@@ -244,6 +244,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 
 		if (e.getComponent() == _recuperaSolicitudesPendientes) {
 			try {
+				_dsSolicitudes.setOrderBy("solicitudes_compra.fecha_aprobacion DESC");
 				_dsSolicitudes
 						.retrieve("solicitudes_compra.solicitud_compra_id IN "
 								+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
@@ -378,7 +379,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		case 0:
 			_listformdisplaybox1
 					.setHeadingCaption("Solicitudes de compra pendientes de aprobación");
-			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
+			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");			
 			break;
 		case 1:
 			_listformdisplaybox1
