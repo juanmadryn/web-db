@@ -73,6 +73,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String WEBSITE_USER_NOMBRE_SOLICITANTE = "nombre_completo_solicitante";
 	public static final String SOLICITUDES_COMPRA_USER_ID_SOLICITA = "solicitudes_compra.user_id_solicita";
 	public static final String DETALLE_SC_MONTO_TOTAL_PEDIDO = "monto_total_pedido";
+	public static final String DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO = "monto_total_neto_pedido";
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -290,6 +291,7 @@ public class DetalleSCModel extends DataStore {
 		
 		// add bucket
 		addBucket(DETALLE_SC_MONTO_TOTAL_PEDIDO, DataStore.DATATYPE_FLOAT);
+		addBucket(DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, DataStore.DATATYPE_FLOAT);
 
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);
@@ -1610,6 +1612,7 @@ public class DetalleSCModel extends DataStore {
 			try {
 				setMontoTotal(row);
 				calculaMontoTotalPedido(row);
+				calculaMontoTotalNetoPedido(row);
 			} catch (ParseException ex) {
 				throw new DataStoreException(
 						"Error parseando cantidad y monto unitario para calcular el total.");
@@ -2092,7 +2095,7 @@ public class DetalleSCModel extends DataStore {
 			decimalSymbol.setDecimalSeparator('.');
 			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
-			Float total = monto_unitario * cantidad;			
+			Float total = (monto_unitario * cantidad) - getDetalleScDescuento(row);			
 			setMontoTotalPedido(row, Float.parseFloat(format.format(total).replace(",", "")));			
 		}
 		
@@ -2268,6 +2271,78 @@ public class DetalleSCModel extends DataStore {
 	public void setDetalleScDescuento(int row, float newValue)
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_DESCUENTO, newValue);
+	}
+	
+	/**
+	 * @param row
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public void calculaMontoTotalNetoPedido(int row) throws DataStoreException, SQLException,
+			ParseException {
+		Float monto_unitario = getDetalleScMontoUnitario(row);
+		Float cantidad = getDetalleScCantidadPedida(row);
+
+		// preciso formatear el total antes de guardarlo, para que no agregue
+		// decimales innecesarios, y para que los totales generales luego
+		// muestren la suma exacta de cada detalle.
+		if (monto_unitario != null && cantidad != null) {
+			DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
+			format.setMaximumFractionDigits(2);
+			format.setRoundingMode(RoundingMode.HALF_UP);
+			DecimalFormatSymbols decimalSymbol = DecimalFormatSymbols
+					.getInstance();
+			decimalSymbol.setDecimalSeparator('.');
+			decimalSymbol.setGroupingSeparator(',');
+			format.setDecimalFormatSymbols(decimalSymbol);
+			Float total = (monto_unitario * cantidad);			
+			setMontoTotalPedidoNeto(row, Float.parseFloat(format.format(total).replace(",", "")));			
+		}
+		
+	}
+	
+	/**
+	 * Retrieve the value of the monto_total_pedido_neto bucket for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public Float getMontoTotalPedidoNeto() throws DataStoreException {
+		return getFloat(DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO);
+	}
+
+	/**
+	 * Retrieve the value of monto_total_pedido_neto bucket for the specified row.
+	 * 
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public Float getMontoTotalNetoPedido(int row) throws DataStoreException {
+		return getFloat(row, DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO);
+	}
+
+	/**
+	 * Set the value of the monto_total_pedido_neto bucket for the current row.
+	 * 
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMontoTotalPedidoNeto(Float newValue) throws DataStoreException {
+		setFloat(DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, newValue);
+	}
+
+	/**
+	 * Set the value of the monto_total_pedido_neto bucket for the specified row.
+	 * 
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMontoTotalPedidoNeto(int row, float newValue)
+			throws DataStoreException {
+		setFloat(row, DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 

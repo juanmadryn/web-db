@@ -23,8 +23,9 @@
 	<salmon:property name="prop1" propertyname="visible" component="descAdicionalTr" 
 		expression="DESCRIPCION_ADICIONAL EQUALS 1 || detalle_sc.observaciones_oc.length() > 0" 
 		datasource="dsDetalleSC"/>
-	<!-- <salmon:property name="prop2" propertyname="visible" component="nuevoDetalleSinSc"
-		expression="$ROWSTATUS$ > 1" datasource="dsDetalleSC"/> -->	
+	<!--<salmon:property name="prop2" propertyname="datasource" component="monto_total2"
+		expression="if(ordenes_compra.descuento>0,'dsDetalleSC:monto_total_neto_pedido','dsDetalleSC:monto_total_pedido')" 
+		datasource="dsOrdenesCompra"/>-->	
 	
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
@@ -70,17 +71,17 @@
 								</td>					
 							</tr>
 							<tr>
-								<td><salmon:text name="nombre_completo_comprador1"
+								<td width="10%"><salmon:text name="nombre_completo_comprador1"
 									text="Comprador" font="TableHeadingFont" /></td>
-								<td><salmon:input type="select" name="nombre_completo_comprador2" size="30"
+								<td width="30%"><salmon:input type="select" name="nombre_completo_comprador2" size="30"
 									datasource="dsOrdenesCompra:ordenes_compra.user_id_comprador">
 									<salmon:option display="abc" key="123"
 										table="inventario.compradores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="false"></salmon:option>
 								</salmon:input></td>
-								<td><salmon:text name="proveedor1" text="Proveedor"
+								<td width="15%"><salmon:text name="proveedor1" text="Proveedor"
 									font="TableHeadingFont" /></td>
-								<td colspan="2">
+								<td colspan="2" width="30%">
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
 										lookupurl="%LkpProveedores" name="proveedor2" size="6"
@@ -89,9 +90,9 @@
 										datasource="dsOrdenesCompra:ordenes_compra.entidad_id_proveedor" popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
 								</td>
-								<td><salmon:text name="fecha_estimada_entrega1"
+								<td width="15%"><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
-								<td><salmon:input name="fecha_estimada_entrega2" type="text"
+								<td width="10%"><salmon:input name="fecha_estimada_entrega2" type="text"
 									displayformatlocalekey="DateFormat" size="10" maxlength="15"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
 							</tr>
@@ -122,6 +123,12 @@
 									datasource="dsOrdenesCompra:condiciones_compra.nombre" popupheight="450"
 									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
 								</td>
+								<td><salmon:text name="descuentoGlobal1" text="Descuento" font="TableHeadingFont" /></td>
+								<td>
+									<salmon:text name="signo_pesos3" text="$"/>
+									<salmon:input type="text" name="descuentoGlobal2"
+										datasource="dsOrdenesCompra:ordenes_compra.descuento"></salmon:input>
+								</td>	
 							</tr>
 							<tr>
 								<!-- <td valign="top"><salmon:text name="descripcion1" text="Descripcion"
