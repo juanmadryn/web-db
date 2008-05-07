@@ -60,8 +60,8 @@ public class LegajoView extends DataStore {
      public static final String LEGAJO_CA_83_SEG_VID="LEGAJO.CA_83_SEG_VID";
      public static final String LEGAJO_CA_83_NUM_JUB="LEGAJO.CA_83_NUM_JUB";
      public static final String LEGAJO_CA_83_N_INSCRIP="LEGAJO.CA_83_N_INSCRIP";
-     public static final String TIPO_DOCUMENTO_TIPO_DOCUMENTO="TIPO_DOCUMENTO.TIPO_DOCUMENTO";
-     public static final String TIPO_DOCUMENTO_DESC_DOCUMENTO="TIPO_DOCUMENTO.DESC_DOCUMENTO";
+     /*public static final String TIPO_DOCUMENTO_TIPO_DOCUMENTO="TIPO_DOCUMENTO.TIPO_DOCUMENTO";
+     public static final String TIPO_DOCUMENTO_DESC_DOCUMENTO="TIPO_DOCUMENTO.DESC_DOCUMENTO";*/
      
      //$CUSTOMVARS$
      //Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -86,8 +86,8 @@ public class LegajoView extends DataStore {
 
           //add aliases
           addTableAlias(computeTableName("LEGAJO"),"LEGAJO");
-          addTableAlias(computeTableName("TIPO_DOCUMENTO"),"TIPO_DOCUMENTO");
-          addTableAlias(computeTableName("INGRESO_EGRESO"),null);
+          /*addTableAlias(computeTableName("TIPO_DOCUMENTO"),"TIPO_DOCUMENTO");
+          addTableAlias(computeTableName("INGRESO_EGRESO"),null);*/
 
           //add columns
           addColumn(computeTableName("LEGAJO"),"ID_LEGAJO",DataStore.DATATYPE_INT,false,false,LEGAJO_ID_LEGAJO);
@@ -137,12 +137,12 @@ public class LegajoView extends DataStore {
           addColumn(computeTableName("LEGAJO"),"CA_83_SEG_VID",DataStore.DATATYPE_DOUBLE,false,false,LEGAJO_CA_83_SEG_VID);
           addColumn(computeTableName("LEGAJO"),"CA_83_NUM_JUB",DataStore.DATATYPE_STRING,false,false,LEGAJO_CA_83_NUM_JUB);
           addColumn(computeTableName("LEGAJO"),"CA_83_N_INSCRIP",DataStore.DATATYPE_STRING,false,false,LEGAJO_CA_83_N_INSCRIP);
-          addColumn(computeTableName("TIPO_DOCUMENTO"),"TIPO_DOCUMENTO",DataStore.DATATYPE_STRING,false,false,TIPO_DOCUMENTO_TIPO_DOCUMENTO);
-          addColumn(computeTableName("TIPO_DOCUMENTO"),"DESC_DOCUMENTO",DataStore.DATATYPE_STRING,false,false,TIPO_DOCUMENTO_DESC_DOCUMENTO);
+          /*addColumn(computeTableName("TIPO_DOCUMENTO"),"TIPO_DOCUMENTO",DataStore.DATATYPE_STRING,false,false,TIPO_DOCUMENTO_TIPO_DOCUMENTO);
+          addColumn(computeTableName("TIPO_DOCUMENTO"),"DESC_DOCUMENTO",DataStore.DATATYPE_STRING,false,false,TIPO_DOCUMENTO_DESC_DOCUMENTO);*/
 
           //add joins
-          addJoin(computeTableAndFieldName("LEGAJO.ID_TIPO_DOCUMENTO"),computeTableAndFieldName("TIPO_DOCUMENTO.ID_TIPO_DOCUMENTO"),true);
-          addJoin(computeTableAndFieldName("LEGAJO.ID_LEGAJO"),computeTableAndFieldName("INGRESO_EGRESO.ID_LEGAJO"),false);
+          /*addJoin(computeTableAndFieldName("LEGAJO.ID_TIPO_DOCUMENTO"),computeTableAndFieldName("TIPO_DOCUMENTO.ID_TIPO_DOCUMENTO"),true);
+          addJoin(computeTableAndFieldName("LEGAJO.ID_LEGAJO"),computeTableAndFieldName("INGRESO_EGRESO.ID_LEGAJO"),false);*/
 
           //$CUSTOMCONSTRUCTOR$
           //Put custom constructor code between these comments, otherwise it be overwritten if the model is regenerated
@@ -1942,9 +1942,9 @@ public class LegajoView extends DataStore {
       * @return String
       * @throws DataStoreException
       */ 
-     public String getTipoDocumentoTipoDocumento() throws DataStoreException {
+     /*public String getTipoDocumentoTipoDocumento() throws DataStoreException {
           return  getString(TIPO_DOCUMENTO_TIPO_DOCUMENTO);
-     }
+     }*/
 
      /**
       * Retrieve the value of the TIPO_DOCUMENTO.TIPO_DOCUMENTO column for the specified row.
@@ -1952,18 +1952,18 @@ public class LegajoView extends DataStore {
       * @return String
       * @throws DataStoreException
       */ 
-     public String getTipoDocumentoTipoDocumento(int row) throws DataStoreException {
+     /*public String getTipoDocumentoTipoDocumento(int row) throws DataStoreException {
           return  getString(row,TIPO_DOCUMENTO_TIPO_DOCUMENTO);
-     }
+     }*/
 
      /**
       * Set the value of the TIPO_DOCUMENTO.TIPO_DOCUMENTO column for the current row.
       * @param newValue the new item value
       * @throws DataStoreException
       */ 
-     public void setTipoDocumentoTipoDocumento(String newValue) throws DataStoreException {
+     /*public void setTipoDocumentoTipoDocumento(String newValue) throws DataStoreException {
           setString(TIPO_DOCUMENTO_TIPO_DOCUMENTO, newValue);
-     }
+     }*/
 
      /**
       * Set the value of the TIPO_DOCUMENTO.TIPO_DOCUMENTO column for the specified row.
@@ -1971,18 +1971,18 @@ public class LegajoView extends DataStore {
       * @param newValue the new item value
       * @throws DataStoreException
       */ 
-     public void setTipoDocumentoTipoDocumento(int row,String newValue) throws DataStoreException {
+     /*public void setTipoDocumentoTipoDocumento(int row,String newValue) throws DataStoreException {
           setString(row,TIPO_DOCUMENTO_TIPO_DOCUMENTO, newValue);
-     }
+     }*/
 
      /**
       * Retrieve the value of the TIPO_DOCUMENTO.DESC_DOCUMENTO column for the current row.
       * @return String
       * @throws DataStoreException
       */ 
-     public String getTipoDocumentoDescDocumento() throws DataStoreException {
+     /*public String getTipoDocumentoDescDocumento() throws DataStoreException {
           return  getString(TIPO_DOCUMENTO_DESC_DOCUMENTO);
-     }
+     }*/
 
      /**
       * Retrieve the value of the TIPO_DOCUMENTO.DESC_DOCUMENTO column for the specified row.
@@ -1990,18 +1990,18 @@ public class LegajoView extends DataStore {
       * @return String
       * @throws DataStoreException
       */ 
-     public String getTipoDocumentoDescDocumento(int row) throws DataStoreException {
+     /*public String getTipoDocumentoDescDocumento(int row) throws DataStoreException {
           return  getString(row,TIPO_DOCUMENTO_DESC_DOCUMENTO);
-     }
+     }*/
 
      /**
       * Set the value of the TIPO_DOCUMENTO.DESC_DOCUMENTO column for the current row.
       * @param newValue the new item value
       * @throws DataStoreException
       */ 
-     public void setTipoDocumentoDescDocumento(String newValue) throws DataStoreException {
+     /*public void setTipoDocumentoDescDocumento(String newValue) throws DataStoreException {
           setString(TIPO_DOCUMENTO_DESC_DOCUMENTO, newValue);
-     }
+     }*/
 
      /**
       * Set the value of the TIPO_DOCUMENTO.DESC_DOCUMENTO column for the specified row.
@@ -2009,9 +2009,9 @@ public class LegajoView extends DataStore {
       * @param newValue the new item value
       * @throws DataStoreException
       */ 
-     public void setTipoDocumentoDescDocumento(int row,String newValue) throws DataStoreException {
+     /*public void setTipoDocumentoDescDocumento(int row,String newValue) throws DataStoreException {
           setString(row,TIPO_DOCUMENTO_DESC_DOCUMENTO, newValue);
-     }
+     }*/
      
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated

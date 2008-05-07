@@ -3,6 +3,13 @@
 <siteMap>
 
   <entry>
+     <name>MenuTango</name>
+     <uri>../tango/Jsp/MenuTango.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
      <name>AccountInfoPage</name>
      <uri>/Jsp/AccountInfoPage.jsp</uri>
      <useForward>false</useForward>
