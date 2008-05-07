@@ -23,7 +23,7 @@
          <salmon:tr>
             <salmon:td valign="Top">
                <salmon:searchformdisplaybox name="searchformdisplaybox1"
-                  caption="Artículos" qbebuilder="dsQBE" searchbuttonvisible="true" addbuttonvisible="false">
+                  caption="Legajos" qbebuilder="dsQBE" searchbuttonvisible="true" addbuttonvisible="false">
                   <table width="100%">
                   		<tr>                     
                         	<td><salmon:text name="buscarCAP"
@@ -42,7 +42,7 @@
    <salmon:box name="box2" width="100%">
       <salmon:listformdisplaybox name="listformdisplaybox1"
          mode="Display_single_page" caption=" " width="100%"
-         datasource="dsLegajos"
+         datasource="dsLegajos" autocreatelink="false"
          searchformdisplaybox="searchformdisplaybox1">
          <salmon:datatable name="datatable1" width="100%"
             rowsperpage="10" datasource="dsLegajos">
@@ -60,6 +60,10 @@
                      <salmon:text name="apellidoCAP" text="Apellido" 
                      	font="TableHeadingFont" />
                   </salmon:td>                  
+                  <salmon:td>
+                     <salmon:text name="cuilCAP" text="CUIL" 
+                     	font="TableHeadingFont" />
+                  </salmon:td>
                </salmon:tr>
             </salmon:datatableheader>
             <salmon:datatablerows>
@@ -77,6 +81,11 @@
                      <salmon:text name="apellidoTE" text="LEGAJO.APELLIDO"
                         font="DefaultFont"
                         datasource="dsLegajos:LEGAJO.APELLIDO" />                     
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="cuilTE" text="LEGAJO.CUIL"
+                        font="DefaultFont"
+                        datasource="dsLegajos:LEGAJO.CUIL" />                     
                   </salmon:td>                  
                </salmon:tr>
             </salmon:datatablerows>
