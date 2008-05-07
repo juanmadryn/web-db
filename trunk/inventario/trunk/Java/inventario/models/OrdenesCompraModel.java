@@ -1089,9 +1089,9 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * TODO: documentame
-	 * 
-	 * @return
+	 * Calcula el valor neto de la orden de compra.
+	 *
+	 * @return el valor neto de la orden de compra.
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
@@ -1116,9 +1116,9 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * TODO: documentame
+	 * Calcula el total de iva de la orden de compra
 	 * 
-	 * @return
+	 * @return el total de iva de la orden de compra
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
@@ -1146,9 +1146,9 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * TODO: documentame
+	 * Calcula el total de descuento de la orden de compra
 	 * 
-	 * @return
+	 * @return total de descuento de la orden de compra
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
@@ -1283,6 +1283,13 @@ public class OrdenesCompraModel extends BaseModel {
 	 */ 
 	public void setOrdenesCompraCondicionDescripcion(int row,String newValue) throws DataStoreException {
 		setString(row,CONDICION_COMPRA_DESCRIPCION, newValue);
+	}
+	
+	/**
+	 * 
+	 */
+	public void calculaTotales() {
+		
 	}
 	// $ENDCUSTOMMETHODS$
 
