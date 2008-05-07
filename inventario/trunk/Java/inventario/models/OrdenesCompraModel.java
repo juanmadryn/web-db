@@ -40,6 +40,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String ORDENES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
 	public static final String ORDENES_COMPRA_USER_ID_GENERADOR="ordenes_compra.user_id_generador";	
 	public static final String ORDENES_COMPRA_CONDICION_COMPRA_ID="ordenes_compra.condicion_compra_id";
+	public static final String ORDENES_COMPRA_DESCUENTO="ordenes_compra.descuento";
 	
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -135,6 +136,9 @@ public class OrdenesCompraModel extends BaseModel {
 			addColumn(computeTableName("condiciones_compra"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					CONDICION_COMPRA_NOMBRE);
+			addColumn(computeTableName("ordenes_compra"), "descuento",
+					DataStore.DATATYPE_FLOAT, false, true,
+					ORDENES_COMPRA_DESCUENTO);
 			
 			// add buckets
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
@@ -758,7 +762,7 @@ public class OrdenesCompraModel extends BaseModel {
 
 		float total = 0;	
 		
-		total = getNetoOrdenCompra() - getDescuentoOrdenCompra() + getIvaOrdenCompra(); 
+		total = getNetoOrdenCompra() - getAtributoDescuentoOrdenCompra() + getIvaOrdenCompra(); 
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
 				"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA", "ordenes_compra");
@@ -1105,8 +1109,8 @@ public class OrdenesCompraModel extends BaseModel {
 		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
 		for (int row = 0; row < detalles.getRowCount(); row++) {
-			detalles.calculaMontoTotalPedido(row);
-			neto += detalles.getMontoTotalPedido(row);
+			detalles.calculaMontoTotalNetoPedido(row);
+			neto += detalles.getMontoTotalNetoPedido(row);
 		}	
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(neto),
@@ -1127,17 +1131,18 @@ public class OrdenesCompraModel extends BaseModel {
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 
 		float iva = 0;
-
+		
 		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
 		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
 		for (int row = 0; row < detalles.getRowCount(); row++) {
 			detalles.calculaMontoTotalPedido(row);
-			float monto_total = detalles.getMontoTotalPedido(row);
-			float descuento = detalles.getDetalleScDescuento(row);
+			detalles.calculaMontoTotalNetoPedido(row);
+			float monto_total = getOrdenesCompraDescuento() > 0 ? 
+					detalles.getMontoTotalNetoPedido(row) : detalles.getMontoTotalPedido(row);
 			float iva_articulo = detalles.getDetalleScIva(row) / 100;
-			iva += ((monto_total - descuento )* iva_articulo);
-		}	
+			iva += monto_total * iva_articulo;
+		}		
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(iva),
 				Constants.IVA_OC, ordencompra_id, "TABLA", "ordenes_compra");
@@ -1158,12 +1163,18 @@ public class OrdenesCompraModel extends BaseModel {
 
 		float descuento = 0;
 
-		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
-		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
+		if (getOrdenesCompraDescuento() > 0) {
+			// se especifico un descuento global
+			descuento = getOrdenesCompraDescuento();
+		} else {
+			// descuento individual por articulo
+			DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
+			detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
-		for (int row = 0; row < detalles.getRowCount(); row++) {			
-			descuento += detalles.getDetalleScDescuento(row);
-		}	
+			for (int row = 0; row < detalles.getRowCount(); row++) {
+				descuento += detalles.getDetalleScDescuento(row);
+			}
+		}
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(descuento),
 				Constants.DESCUENTO_OC, ordencompra_id, "TABLA", "ordenes_compra");
@@ -1283,6 +1294,44 @@ public class OrdenesCompraModel extends BaseModel {
 	 */ 
 	public void setOrdenesCompraCondicionDescripcion(int row,String newValue) throws DataStoreException {
 		setString(row,CONDICION_COMPRA_DESCRIPCION, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the ordenes_compra.descuento column for the current row.
+	 * @return float
+	 * @throws DataStoreException
+	 */ 
+	public float getOrdenesCompraDescuento() throws DataStoreException {
+		return  getFloat(ORDENES_COMPRA_DESCUENTO);
+	}
+
+	/**
+	 * Retrieve the value of the ordenes_compra.descuento column for the specified row.
+	 * @param row which row in the table
+	 * @return float
+	 * @throws DataStoreException
+	 */ 
+	public float getOrdenesCompraDescuento(int row) throws DataStoreException {
+		return  getFloat(row,ORDENES_COMPRA_DESCUENTO);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.descuento column for the current row.
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraDescuento(float newValue) throws DataStoreException {
+		setFloat(ORDENES_COMPRA_DESCUENTO, newValue);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.descuento column for the specified row.
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraDescuento(int row,float newValue) throws DataStoreException {
+		setFloat(row,ORDENES_COMPRA_DESCUENTO, newValue);
 	}
 	
 	/**

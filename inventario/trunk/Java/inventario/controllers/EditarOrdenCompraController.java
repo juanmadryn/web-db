@@ -157,6 +157,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public HtmlSubmitButton _muestraDescAdicionalBUT;
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	//public com.salmonllc.jsp.JspTableRow _nuevoDetalleSinSc;
+	public com.salmonllc.html.HtmlTextEdit _descuento2;
 	
 	private static final String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 	private static final String REMOVER_DE_OC = "REMOVER_DE_OC";
@@ -373,7 +374,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 					if (_dsDetalleSC.getRow() != -1) {
 						// remueve detalles marcados para eliminar
-						boolean detalleEliminado = _dsDetalleSC.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);
+						boolean detalleEliminado = _dsDetalleSC.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);						
+												
 						_dsDetalleSC.update(conn);
 						
 						// update the SC states
@@ -564,13 +566,13 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					_dsDetalleSC.reset();
 
 					// recupera cabecera de la OC
-					_dsOrdenesCompra.retrieve("ordenes_compra.orden_compra_id = " + getRow_id()); 
+					_dsOrdenesCompra.retrieve("ordenes_compra.orden_compra_id = " + getRow_id());
 					_dsOrdenesCompra.gotoFirst();
-
+					
 					// recupera detalles de la OC
 					_dsDetalleSC.retrieve("detalle_sc.orden_compra_id = " + getRow_id());
 					if (_dsDetalleSC.gotoFirst()) {
-						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {							
 							if (_dsDetalleSC.getAny(row, DetalleSCModel.DETALLE_SC_IVA) == null) {
 								_dsDetalleSC.setDetalleScIva(row,
 										Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto("IVA_PORCENTAJE",
@@ -600,11 +602,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	/**
 	 * Recupera datos adicionales de la orden de compra que no se encuentran en 
 	 * la tabla inventario.ordenes_compra y configura adecuadamente la vista
-	 * @throws DataStoreException
-	 * @throws SQLException
+	 * @throws SQLException 
+	 * @throws Exception 
 	 */
-	private void setDatosBasicosOrdenCompra() throws DataStoreException,
-			SQLException {
+	private void setDatosBasicosOrdenCompra() throws DataStoreException, SQLException {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
@@ -621,6 +622,9 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_dsOrdenesCompra.setEsquemaConfiguracionId(Integer
 				.parseInt(getPageProperties().getProperty(
 						"EsquemaConfiguracionIdOrdenesCompra")));
+		
+		// Deshabilita descuento en detalles si es seteado uno en la cabecera
+		_descuento2.setEnabled(_dsOrdenesCompra.getOrdenesCompraDescuento() > 0 ? false : true);
 		
 		// Calcula totales
 		try {
@@ -784,45 +788,6 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 	}
 	
-	/**
-	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
-	 * elimina el fk al OC y resetea el campo cantidad pedida.
-	 * @param conn La conexión en la que se enmarca la transacción
-	 * @return true si han sido eliminado algun detalle
-	 * @throws DataStoreException
-	 */
-	private boolean eliminaDetallesSeleccionados(DBConnection conn) throws DataStoreException {
-		// filtramos detalles marcados para remoción
-		_dsDetalleSC.filter(REMOVER_DE_OC + " == 1");
-		
-		boolean detalleEliminado = _dsDetalleSC.getRowCount() > 0 ? true : false;
-		int row = 0;
-		
-		try {
-			for (row = 0; row < _dsDetalleSC.getRowCount(); row++) {
-				_dsDetalleSC.setAny(row,
-						DetalleSCModel.DETALLE_SC_CANTIDAD_PEDIDA, _dsDetalleSC
-						.getNullDefault(DataStore.DATATYPE_INT));
-				_dsDetalleSC.setAny(row,
-						DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, _dsDetalleSC
-						.getNullDefault(DataStore.DATATYPE_INT));				
-			}			
-			return detalleEliminado;
-			
-		} catch (DataStoreException ex) {
-			_dsDetalleSC.undoChanges(row);
-			_dsDetalleSC.setInt(row, REMOVER_DE_OC, 0);
-			throw new DataStoreException(
-					"No se ha podido remover el artículo seleccionado. Error: "
-					+ ex.getMessage());
-		} finally {
-			// removemos el filtro
-			_dsDetalleSC.filter(null);
-		}
-	}
-	
-	
-
 	// encapsulate regarcar field 
 	public boolean isRecargar() {
 		return recargar;
