@@ -109,7 +109,7 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="recepcion_compra_id1"
-									text="Comprador" font="TableHeadingFont" /></td>
+									text="Recepción de compra" font="TableHeadingFont" /></td>
 								<td><salmon:text name="recepcion_compra_id2" text=""
 									datasource="dsComprobante:comprobante_movimiento_articulo.recepcion_compra_id"></salmon:text></td>
 								<td width="10"></td>
