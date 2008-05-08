@@ -277,15 +277,17 @@ public class ControlRelojesPartesController extends BaseController implements Va
 
 				// cambiamos el estado de los partes a valido				
 				for (int i = 0; i < _dsResHor.getRowCount(); i++ ) {
-					String[] pids = _dsResHor.getResumenHorasRelojParteIds(i).split(",");
-					for (String p : pids) {
-						_dsPartes.setFindExpression("partes_mo.parte_id == " + p);
-						_dsPartes.findFirst();
-						_dsPartes.ejecutaAccion(11, "0003", getCurrentRequest()
-								.getRemoteAddr(), getSessionManager()
-								.getWebSiteUser().getUserID(), "partes_mo",
-								conexion,true);
-					}					
+					if (_dsResHor.getResumenHorasRelojParteIds(i) != null) {
+						String[] pids = _dsResHor.getResumenHorasRelojParteIds(i).split(",");
+						for (String p : pids) {
+							_dsPartes.setFindExpression("partes_mo.parte_id == " + p);
+							_dsPartes.findFirst();
+							_dsPartes.ejecutaAccion(11, "0003", getCurrentRequest()
+									.getRemoteAddr(), getSessionManager()
+									.getWebSiteUser().getUserID(), "partes_mo",
+									conexion,true);
+						}
+					}
 				}
 				conexion.commit();	
 				_dsPartes.doValidarPartes(true);
