@@ -52,5 +52,9 @@
 		</table>
 		</td>
 	</tr>
+	<tr>
+		<salmon:text name="avisoMantenimiento" text=""
+			font="SpecialPageHeadingFont"/>
+	</tr>
 </table>
 <!--End Banner -->
