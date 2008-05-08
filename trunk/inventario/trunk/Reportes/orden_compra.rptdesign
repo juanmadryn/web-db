@@ -536,16 +536,16 @@ inner join clase_articulo ON articulos.clase_articulo_id = clase_articulo.clase_
 left outer join proyectos.tareas_proyecto tareas_proyecto ON detalle_sc.tarea_id = tareas_proyecto.tarea_id  
 inner join solicitudes_compra solicitudes_compra ON detalle_sc.solicitud_compra_id = solicitudes_compra.solicitud_compra_id  
 inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id = unidades_medida.unidad_medida_id  
-inner join condiciones_compra condiciones_compra ON ordenes_compra.condicion_compra_id = condiciones_compra.condicion_compra_id
+left outer join condiciones_compra condiciones_compra ON ordenes_compra.condicion_compra_id = condiciones_compra.condicion_compra_id
 left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id  
 left outer join centro_costo centro_costo ON solicitudes_compra.centro_costo_id = centro_costo.centro_costo_id  
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id 
-left outer join infraestructura.atributos_entidad atributos_entidad1 ON atributos_entidad1.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad1.atributo_id = 13
-left outer join infraestructura.atributos_entidad atributos_entidad2 ON atributos_entidad2.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad2.atributo_id = 14
-left outer join infraestructura.atributos_entidad atributos_entidad3 ON atributos_entidad3.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad3.atributo_id = 17
-left outer join infraestructura.atributos_entidad atributos_entidad4 ON atributos_entidad4.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad4.atributo_id = 18
-left outer join infraestructura.atributos_entidad atributos_entidad5 ON atributos_entidad5.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad5.atributo_id = 19
-left outer join infraestructura.atributos_entidad atributos_entidad6 ON atributos_entidad6.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad6.atributo_id = 11
+left outer join infraestructura.atributos_entidad atributos_entidad1 ON atributos_entidad1.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad1.atributo_id = 10
+left outer join infraestructura.atributos_entidad atributos_entidad2 ON atributos_entidad2.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad2.atributo_id = 11
+left outer join infraestructura.atributos_entidad atributos_entidad3 ON atributos_entidad3.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad3.atributo_id = 14
+left outer join infraestructura.atributos_entidad atributos_entidad4 ON atributos_entidad4.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad4.atributo_id = 16
+left outer join infraestructura.atributos_entidad atributos_entidad5 ON atributos_entidad5.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad5.atributo_id = 15
+left outer join infraestructura.atributos_entidad atributos_entidad6 ON atributos_entidad6.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad6.atributo_id = 9
 
 WHERE ordenes_compra.orden_compra_id = ?
 ORDER BY detalle_sc.detalle_SC_id ASC</property>

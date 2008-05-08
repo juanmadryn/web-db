@@ -18,6 +18,8 @@
 			columns="ordenes_compra.estado" />
 		<salmon:qbecriteria name="comprador" type="IN"
 			columns="ordenes_compra.user_id_comprador" />
+		<salmon:qbecriteria name="proveedor" type="IN"
+			columns="ordenes_compra.entidad_id_proveedor" />
 	</salmon:datasource>
 	<salmon:datasource name="dsOrdenes" type="MODEL"
 		dbprofile="inventario" model="inventario.models.OrdenesCompraModel"
@@ -54,16 +56,28 @@
 
 							</tr>
 							<tr>
-								<td><salmon:text name="fechadesde1" text="Fecha OC desde"
+								<td><salmon:text name="fechadesde1" text="Fecha desde"
 									font="ColumnCaptionFont" /></td>
 								<td><salmon:input type="text"
 									name="fechadesde2" size="10"
-									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
-								<td><salmon:text name="fechahasta1" text="Fecha OC hasta"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text" name="fechahasta2" size="10"
+									datasource="dsQBE:desde" maxlength="10"></salmon:input>
+								<salmon:text name="fechahasta1" text="Fecha hasta"
+									font="ColumnCaptionFont" />
+								<salmon:input type="text" name="fechahasta2" size="10"
 									datasource="dsQBE:hasta"
 									maxlength="10"></salmon:input></td>
+								<td><salmon:text name="proveedor1" text="Proveedor"
+									font="ColumnCaptionFont" /></td>
+								<td>
+									<salmon:lookup
+										browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpProveedores" name="proveedor2" size="6"
+										maxlength="10" displayformat="#########0"
+										descriptiondatasource="dsOrdenes:entidad_externa.nombre"
+										datasource="dsQBE:proveedor"
+										popupheight="450" popupwidth="500" 
+										usepopup="true" showdescription="true"></salmon:lookup>								
+								</td>								
 							</tr>
 							<tr>
 								<td><salmon:text name="comprador1" text="Comprador"
