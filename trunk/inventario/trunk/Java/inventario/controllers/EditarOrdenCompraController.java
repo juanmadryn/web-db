@@ -401,7 +401,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 				} catch (SQLException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					displayErrorMessage(ex.getMessage());
-					return false;
+					return false;									
 				} catch (Exception ex) {
 					MessageLog.writeErrorMessage(ex, _dsOrdenesCompra);
 					displayErrorMessage(ex.getMessage());
@@ -578,9 +578,19 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 										Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto("IVA_PORCENTAJE",
 												_dsDetalleSC.getDetalleScArticuloId(row), "TABLA", "articulos")));
 								_dsDetalleSC.update();
-							}							
+							}			
+							// calcula totales de cada detalle
 							_dsDetalleSC.calculaMontoTotalPedido(row);
 							_dsDetalleSC.calculaMontoTotalNetoPedido(row);
+							
+							// Neto							
+							_dsOrdenesCompra.calculaAtributoNetoOrdenCompra();
+							// Descuento
+							_dsOrdenesCompra.calculaAtributoDescuentoOrdenCompra();
+							// IVA
+							_dsOrdenesCompra.calculaAtributoIvaOrdenCompra();
+							// Total OC
+							_dsOrdenesCompra.calculaAtributoTotalOrdenCompra();
 						}
 					}
 				}
@@ -634,28 +644,15 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_monto_total2.setExpression(_dsDetalleSC, "monto_total_pedido");
 		}
 		_monto_total2.setDisplayFormatLocaleKey("CurrencyFormatConSigno");
-		
-		// Calcula totales
-		try {
-			if ((_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW) 
-					&& (_dsOrdenesCompra.getRowStatus() != DataStoreBuffer.STATUS_NEW_MODIFIED)) 
-			{		
-				// Neto
-				_dsOrdenesCompra.setNetoOrdenCompra(_dsOrdenesCompra
-						.getAtributoNetoOrdenCompra());
-				// Descuento
-				_dsOrdenesCompra.setDescuentoOrdenCompra(_dsOrdenesCompra
-						.getAtributoDescuentoOrdenCompra());
-				// IVA
-				_dsOrdenesCompra.setIvaOrdenCompra(_dsOrdenesCompra
-						.getAtributoIvaOrdenCompra());
-				// Total OC
-				_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra
-						.getAtributoTotalOrdenCompra());
-			}
-		}catch (ParseException ex) {
-			displayErrorMessage("Error de formato en la cantidad o el monto unitario: "+ex.getMessage());
-		}
+				
+		// Neto
+		_dsOrdenesCompra.setNetoOrdenCompra(_dsOrdenesCompra.getAtributoNetoOrdenCompra());
+		// Descuento
+		_dsOrdenesCompra.setDescuentoOrdenCompra(_dsOrdenesCompra.getAtributoDescuentoOrdenCompra());
+		// IVA
+		_dsOrdenesCompra.setIvaOrdenCompra(_dsOrdenesCompra.getAtributoIvaOrdenCompra());
+		// Total OC
+		_dsOrdenesCompra.setTotalOrdenCompra(_dsOrdenesCompra.getAtributoTotalOrdenCompra());
 		
 		// Muestra observaciones realizadas a la OC para el estado adecuado
 		String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
