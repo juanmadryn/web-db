@@ -22,10 +22,7 @@
 	
 	<salmon:property name="prop1" propertyname="visible" component="descAdicionalTr" 
 		expression="DESCRIPCION_ADICIONAL EQUALS 1 || detalle_sc.observaciones_oc.length() > 0" 
-		datasource="dsDetalleSC"/>
-	<!--<salmon:property name="prop2" propertyname="datasource" component="monto_total2"
-		expression="if(ordenes_compra.descuento>0,'dsDetalleSC:monto_total_neto_pedido','dsDetalleSC:monto_total_pedido')" 
-		datasource="dsOrdenesCompra"/>-->	
+		datasource="dsDetalleSC"/>	
 	
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
@@ -125,7 +122,7 @@
 								</td>
 								<td><salmon:text name="descuentoGlobal1" text="Descuento" font="TableHeadingFont" /></td>
 								<td>
-									<salmon:text name="signo_pesos3" text="$"/>
+									<salmon:text name="signo_pesos3" text="%"/>
 									<salmon:input type="text" name="descuentoGlobal2"
 										datasource="dsOrdenesCompra:ordenes_compra.descuento"></salmon:input>
 								</td>	
@@ -240,7 +237,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="solicitudCompra3" text="Solicitud de Compra"
+							<salmon:text name="solicitudCompra3" text="Nro. Solicitud"
 								font="TableHeadingFont" />
 						</salmon:td>						
 						<salmon:td>
@@ -329,7 +326,7 @@
 								datasource="dsDetalleSC:unidades_medida.nombre"></salmon:text>
 						</salmon:td>						
 						<salmon:td colspan="2">
-							<salmon:text name="signo_pesos2" text="$"/>							
+							<salmon:text name="signo_pesos1" text="$"/>							
 							<salmon:input type="text" name="monto_unitario1" size="8"
 								maxlength="15"
 								datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input>
@@ -339,8 +336,7 @@
 								datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
 						</salmon:td>
 						<salmon:td align="RIGHT">
-							<salmon:text name="monto_total2" text="" displayformatlocalekey="CurrencyFormatConSigno"
-								datasource="dsDetalleSC:monto_total_pedido"></salmon:text>
+							<salmon:text name="monto_total2" text="" displayformatlocalekey="CurrencyFormatConSigno"></salmon:text>
 						</salmon:td>
 					</salmon:tr>
 					<salmon:tr>
@@ -372,7 +368,7 @@
 								datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="signo_pesos2" text="$"/>
+							<salmon:text name="signo_pesos2" text="%"/>
 							<salmon:input type="text" name="descuento2" size="8" align="right"
 								maxlength="15" datasource="dsDetalleSC:detalle_sc.descuento"></salmon:input>
 						</salmon:td>

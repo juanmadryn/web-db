@@ -1135,14 +1135,28 @@ public class OrdenesCompraModel extends BaseModel {
 		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
 		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
+		/*if (getOrdenesCompraDescuento() > 0) {
+			for (int row = 0; row < detalles.getRowCount(); row++) {
+				detalles.calculaMontoTotalPedido(row, getOrdenesCompraDescuento());
+				float montoTotal = detalles.getMontoTotalPedido(row);
+				float ivaArticulo = detalles.getDetalleScIva(row) / 100.0F;
+				iva += montoTotal * ivaArticulo;
+			}
+		} else {
+			for (int row = 0; row < detalles.getRowCount(); row++) {
+				detalles.calculaMontoTotalPedido(row);
+				float montoTotal = detalles.getMontoTotalPedido(row);
+				float ivaArticulo = detalles.getDetalleScIva(row) / 100.0F;
+				iva += montoTotal * ivaArticulo;
+			}
+		}*/
 		for (int row = 0; row < detalles.getRowCount(); row++) {
-			detalles.calculaMontoTotalPedido(row);
-			detalles.calculaMontoTotalNetoPedido(row);
-			float monto_total = getOrdenesCompraDescuento() > 0 ? 
-					detalles.getMontoTotalNetoPedido(row) : detalles.getMontoTotalPedido(row);
-			float iva_articulo = detalles.getDetalleScIva(row) / 100;
-			iva += monto_total * iva_articulo;
-		}		
+			detalles.calculaMontoTotalPedido(row, 
+					getOrdenesCompraDescuento() > 0 ? getOrdenesCompraDescuento() : null);
+			float montoTotal = detalles.getMontoTotalPedido(row);
+			float ivaArticulo = detalles.getDetalleScIva(row) / 100.0F;
+			iva += montoTotal * ivaArticulo;
+		}
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(iva),
 				Constants.IVA_OC, ordencompra_id, "TABLA", "ordenes_compra");
@@ -1161,25 +1175,30 @@ public class OrdenesCompraModel extends BaseModel {
 			SQLException, ParseException {
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 
+		float totalDescuento = 0;
 		float descuento = 0;
+		
+		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
+		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
 		if (getOrdenesCompraDescuento() > 0) {
-			// se especifico un descuento global
-			descuento = getOrdenesCompraDescuento();
-		} else {
-			// descuento individual por articulo
-			DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
-			detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
-
+			descuento = getOrdenesCompraDescuento() / 100;		
 			for (int row = 0; row < detalles.getRowCount(); row++) {
-				descuento += detalles.getDetalleScDescuento(row);
+				detalles.calculaMontoTotalNetoPedido(row);
+				totalDescuento += (detalles.getMontoTotalNetoPedido(row) * descuento);
 			}
-		}
+		} else {
+			for (int row = 0; row < detalles.getRowCount(); row++) {
+				descuento = detalles.getDetalleScDescuento(row) / 100;
+				detalles.calculaMontoTotalNetoPedido(row);				
+				totalDescuento += (detalles.getMontoTotalNetoPedido(row) * descuento);
+			}
+		}		
 
-		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(descuento),
+		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(totalDescuento),
 				Constants.DESCUENTO_OC, ordencompra_id, "TABLA", "ordenes_compra");
 
-		return descuento;
+		return totalDescuento;
 	}	
 	
 	/**
