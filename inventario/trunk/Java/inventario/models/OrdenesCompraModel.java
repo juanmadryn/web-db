@@ -753,25 +753,38 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * TODO: documentame
 	 * 
-	 * @return
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	public float getAtributoTotalOrdenCompra() throws DataStoreException,
+	public void calculaAtributoTotalOrdenCompra() throws DataStoreException,
 			SQLException, ParseException {
-
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 
-		float total = 0;	
+		float total = 0;
 		
-		total = getNetoOrdenCompra() - getAtributoDescuentoOrdenCompra() + getIvaOrdenCompra(); 
+		//total = getNetoOrdenCompra() - getAtributoDescuentoOrdenCompra() + getIvaOrdenCompra(); 
+		total = getAtributoNetoOrdenCompra() - getAtributoDescuentoOrdenCompra() + getAtributoIvaOrdenCompra();
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
 				"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA", "ordenes_compra");
-
-		return total;
+	}
+	
+	/**
+	 * Retorna el monto total de esta orden de compra.
+	 * El monto total esta dado por el resultado de: NETO - DESCUENTO + IVA
+	 * @return el monto total de esta orden de compra
+	 * @throws NumberFormatException
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public float getAtributoTotalOrdenCompra() throws NumberFormatException,
+			DataStoreException, SQLException {
+		int ordencompra_id = getOrdenesCompraOrdenCompraId();
+		return Float
+				.parseFloat(AtributosEntidadModel.getValorAtributoObjeto(
+						"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA",
+						"ordenes_compra"));
 	}
 	
 	/**
@@ -1097,21 +1110,33 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * Calcula el valor neto de la orden de compra.
-	 *
-	 * @return el valor neto de la orden de compra.
+	 * Calcula el valor neto de la orden de compra. 
 	 * @throws DataStoreException
 	 * @throws SQLException
+	 * @throws ParseException
 	 */
-	public float getAtributoNetoOrdenCompra() throws DataStoreException,
+	public void calculaAtributoNetoOrdenCompra() throws DataStoreException,
+			SQLException, ParseException {
+		calculaAtributoNetoOrdenCompra(null);
+	}
+	
+	/**
+	 * Calcula el valor neto de la orden de compra.	 * 
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public void calculaAtributoNetoOrdenCompra(DetalleSCModel detalles) throws DataStoreException,
 			SQLException, ParseException {
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 
 		float neto = 0;
-
-		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
-		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
-
+		
+		if (detalles == null) {
+			detalles = new DetalleSCModel("inventario", "inventario");
+			detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
+		}
+		
 		for (int row = 0; row < detalles.getRowCount(); row++) {
 			detalles.calculaMontoTotalNetoPedido(row);
 			neto += detalles.getMontoTotalNetoPedido(row);
@@ -1119,25 +1144,49 @@ public class OrdenesCompraModel extends BaseModel {
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(neto),
 				Constants.NETO_OC, ordencompra_id, "TABLA", "ordenes_compra");
-
-		return neto;
 	}
 	
 	/**
-	 * Calcula el total de iva de la orden de compra
-	 * 
-	 * @return el total de iva de la orden de compra
+	 * Retorna el valor neto de la orden de compra.
+	 * @return el valor neto de la orden de compra
+	 * @throws NumberFormatException
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	public float getAtributoIvaOrdenCompra() throws DataStoreException,
+	public float getAtributoNetoOrdenCompra() throws NumberFormatException,
+			DataStoreException, SQLException {
+		int ordencompra_id = getOrdenesCompraOrdenCompraId();
+		return Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto(
+				Constants.NETO_OC, ordencompra_id, "TABLA", "ordenes_compra"));
+	}
+	
+	/**
+	 * Calcula el total de iva de la orden de compra.
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public void calculaAtributoIvaOrdenCompra() throws DataStoreException,
+			SQLException, ParseException {
+		calculaAtributoIvaOrdenCompra(null);
+	}
+	
+	/**
+	 * Calcula el total de iva de la orden de compra.
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public void calculaAtributoIvaOrdenCompra(DetalleSCModel detalles) throws DataStoreException,
 			SQLException, ParseException {
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 
 		float iva = 0;
 		
-		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
-		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
+		if (detalles == null) {
+			detalles = new DetalleSCModel("inventario", "inventario");
+			detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
+		}
 
 		for (int row = 0; row < detalles.getRowCount(); row++) {
 			detalles.calculaMontoTotalPedido(row, 
@@ -1149,27 +1198,50 @@ public class OrdenesCompraModel extends BaseModel {
 		}
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(iva),
-				Constants.IVA_OC, ordencompra_id, "TABLA", "ordenes_compra");
-
-		return iva;
+				Constants.IVA_OC, ordencompra_id, "TABLA", "ordenes_compra");		
+	}
+	
+	/**
+	 * Retorna el monto total de IVA de la orden de compra
+	 * @return el monto total de IVA de la orden de compra
+	 * @throws NumberFormatException
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public float getAtributoIvaOrdenCompra() throws NumberFormatException,
+			DataStoreException, SQLException {
+		int ordencompra_id = getOrdenesCompraOrdenCompraId();
+		return Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto(
+				Constants.IVA_OC, ordencompra_id, "TABLA", "ordenes_compra"));
+	}	
+	
+	/**
+	 * Calcula el total de descuento de la orden de compra
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public void calculaAtributoDescuentoOrdenCompra() throws DataStoreException,
+			SQLException, ParseException {
+		calculaAtributoDescuentoOrdenCompra(null);
 	}
 	
 	/**
 	 * Calcula el total de descuento de la orden de compra
-	 * 
-	 * @return total de descuento de la orden de compra
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	public float getAtributoDescuentoOrdenCompra() throws DataStoreException,
+	public void calculaAtributoDescuentoOrdenCompra(DetalleSCModel detalles) throws DataStoreException,
 			SQLException, ParseException {
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 
 		float totalDescuento = 0;
 		float descuento = 0;
 		
-		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
-		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
+		if (detalles == null) {
+			detalles = new DetalleSCModel("inventario", "inventario");
+			detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
+		}
 
 		for (int row = 0; row < detalles.getRowCount(); row++) {
 			descuento = getOrdenesCompraDescuento() > 0 ?
@@ -1186,9 +1258,22 @@ public class OrdenesCompraModel extends BaseModel {
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(totalDescuento),
 				Constants.DESCUENTO_OC, ordencompra_id, "TABLA", "ordenes_compra");
-
-		return totalDescuento;
 	}	
+	
+	/**
+	 * Retorna el descuento total de esta orden de compra
+	 * @return el descuento total de esta orden de compra
+	 * @throws NumberFormatException
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public float getAtributoDescuentoOrdenCompra()
+			throws NumberFormatException, DataStoreException, SQLException {
+		int ordencompra_id = getOrdenesCompraOrdenCompraId();
+		return Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto(
+				Constants.DESCUENTO_OC, ordencompra_id, "TABLA",
+				"ordenes_compra"));
+	}
 	
 	/**
 	 * Retrieve the value of the ordenes_compra.condicion_compra_id column for the current row.

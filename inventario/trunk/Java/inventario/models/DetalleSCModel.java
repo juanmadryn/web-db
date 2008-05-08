@@ -2112,8 +2112,7 @@ public class DetalleSCModel extends DataStore {
 				total -= total * (getDetalleScDescuento(row) / 100);				
 			}			
 			setMontoTotalPedido(row, Float.parseFloat(format.format(total).replace(",", "")));			
-		}
-		
+		}		
 	}
 	
 	/**
