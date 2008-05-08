@@ -13,9 +13,8 @@ import org.quartz.JobExecutionException;
 
 
 /**
- * Extrae información de proveedores de la tabla CPA01 de Tango
- * y la agrega o actualiza en la tabla entidad_externa y en los
- * atributos corresponientes. 
+ * Extrae información de legajos de la tabla LEGAJO de Tango
+ * y la agrega o actualiza en la tabla LEGAJO
  * 
  * @author Francisco Paez
  *
@@ -29,15 +28,12 @@ public class ReplicateLegajoQuartzJob implements Job {
 	/**
 	 * @throws JobExecutionException
 	 */
-	/**
-	 * @throws JobExecutionException
-	 */
 	public void importaLegajos() throws JobExecutionException {
 		Connection connTango = null;
 		Connection connTangoMySQL = null;
 		Statement tangoSt = null, stMySql = null;
 		PreparedStatement pstMySql = null, pstMySql2 = null;
-		ResultSet r = null, rMySql = null;
+		ResultSet r = null;
 		
 		String driverTango = "net.sourceforge.jtds.jdbc.Driver";
 		String urlTango="jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
@@ -57,8 +53,7 @@ public class ReplicateLegajoQuartzJob implements Job {
 			connTangoMySQL.setAutoCommit(false);
 			
 			/**
-			 * Seleccionamos de la tabla legajo los datos básicos para la tabla
-			 * entidades_externas
+			 * Seleccionamos de la tabla legajo los datos básicos para la tabla legajos
 			 */
 			String legajoBasicoTangoSQL = 
 				"SELECT ID_LEGAJO, NRO_LEGAJO, APELLIDO, NOMBRE, CUIL FROM LEGAJO";			
@@ -66,7 +61,7 @@ public class ReplicateLegajoQuartzJob implements Job {
 					ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
 			/**
-			 * PreparedStatement para insertar datos en la tabla entidades_externas 
+			 * PreparedStatement para insertar datos en la tabla legajos
 			 */
 			String legajoBasicoMySQL = 
 				"INSERT INTO tango.LEGAJO " +
