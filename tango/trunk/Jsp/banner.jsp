@@ -40,7 +40,7 @@
 					</salmon:a></td>
 				</tr>
 				<tr>
-					<td><salmon:a href="" name="lnkBannerOrdenesPendientes">						
+					<td><salmon:a href="" name="lnkBannerOrdenesPendientes">
 						<salmon:text name="txtBannerOrdenesPendientes" text="" />
 					</salmon:a></td>
 					<td><salmon:a href="" name="lnkBannerOrdenesObservadas">
@@ -51,6 +51,10 @@
 			</salmon:form>
 		</table>
 		</td>
+	</tr>
+	<tr>
+		<salmon:text name="avisoMantenimiento" text=""
+			font="SpecialPageHeadingFont"/>
 	</tr>
 </table>
 <!--End Banner -->

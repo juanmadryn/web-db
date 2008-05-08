@@ -192,6 +192,9 @@ public class BaseController extends JspController implements SubmitListener,
 	private static Hashtable<String, Hashtable<String, HttpSession>> aplications = new Hashtable<String, Hashtable<String, HttpSession>>();
 
 	private static Hashtable<String, Long> timeStart = new Hashtable<String, Long>();
+	
+	// msj al usuario para mantenimiento
+	public com.salmonllc.html.HtmlText _avisoMantenimiento;
 
 	/**
 	 * This method tries to get the string parameter passed into this function
@@ -453,6 +456,18 @@ public class BaseController extends JspController implements SubmitListener,
 			}
 
 		}
+		
+		// chequea si el sistema va a ser dado de baja y avisa al usuario
+		if (!getPageProperties().getProperty("MantenimientoSistema").isEmpty()) {
+			_avisoMantenimiento.setText("El sistema será detenido a las " 
+					+ getPageProperties().getProperty("MantenimientoSistema")
+					+ " horas para tareas de mantenimiento. Guarde los trabajos realizados y salga de su cuenta.");
+			_avisoMantenimiento.setVisible(true);			
+		} else {
+			_avisoMantenimiento.setText(null);
+			_avisoMantenimiento.setVisible(false);
+		}
+		
 		populateNavBar();
 	}
 
