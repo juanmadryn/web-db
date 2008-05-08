@@ -1,8 +1,11 @@
 package infraestructura.utils;
 
+import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.util.MessageLog;
@@ -11,8 +14,7 @@ import com.salmonllc.util.MessageLog;
  * This class contains utilities needed for normal execution of application
  */
 
-public class Utilities {
-	
+public class Utilities {	
 	
 	/**
 	 * @param user_id
@@ -201,4 +203,32 @@ public class Utilities {
 		return solicitudes_pendientes;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * @return
+	 */
+	public static DecimalFormat getDecimalFormat() {
+		DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
+		format.setMaximumFractionDigits(2);
+		format.setRoundingMode(RoundingMode.HALF_UP);
+		DecimalFormatSymbols decimalSymbol = DecimalFormatSymbols
+				.getInstance();
+		decimalSymbol.setDecimalSeparator('.');
+		decimalSymbol.setGroupingSeparator(',');
+		format.setDecimalFormatSymbols(decimalSymbol);
+		
+		return format;
+	}
+	
+	/** 
+	 * Veras este codigo en tus pesadillas...
+	 * 
+	 * @param numero
+	 * @return
+	 */
+	public static String getDecimalFormatNumber(float numero) {
+		DecimalFormat format = getDecimalFormat();
+		return format.format(numero).replace(",", "");
+	}
 }

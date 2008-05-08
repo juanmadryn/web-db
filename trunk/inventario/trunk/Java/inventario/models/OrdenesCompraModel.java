@@ -3,9 +3,13 @@ package inventario.models;
 import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
+import infraestructura.utils.Utilities;
 
+import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.Calendar;
 
@@ -1135,27 +1139,13 @@ public class OrdenesCompraModel extends BaseModel {
 		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
 		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
-		/*if (getOrdenesCompraDescuento() > 0) {
-			for (int row = 0; row < detalles.getRowCount(); row++) {
-				detalles.calculaMontoTotalPedido(row, getOrdenesCompraDescuento());
-				float montoTotal = detalles.getMontoTotalPedido(row);
-				float ivaArticulo = detalles.getDetalleScIva(row) / 100.0F;
-				iva += montoTotal * ivaArticulo;
-			}
-		} else {
-			for (int row = 0; row < detalles.getRowCount(); row++) {
-				detalles.calculaMontoTotalPedido(row);
-				float montoTotal = detalles.getMontoTotalPedido(row);
-				float ivaArticulo = detalles.getDetalleScIva(row) / 100.0F;
-				iva += montoTotal * ivaArticulo;
-			}
-		}*/
 		for (int row = 0; row < detalles.getRowCount(); row++) {
 			detalles.calculaMontoTotalPedido(row, 
 					getOrdenesCompraDescuento() > 0 ? getOrdenesCompraDescuento() : null);
 			float montoTotal = detalles.getMontoTotalPedido(row);
 			float ivaArticulo = detalles.getDetalleScIva(row) / 100.0F;
-			iva += montoTotal * ivaArticulo;
+			
+			iva += Float.parseFloat(Utilities.getDecimalFormatNumber(montoTotal * ivaArticulo));
 		}
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(iva),
@@ -1181,19 +1171,18 @@ public class OrdenesCompraModel extends BaseModel {
 		DetalleSCModel detalles = new DetalleSCModel("inventario", "inventario");
 		detalles.retrieve("detalle_sc.orden_compra_id = " + ordencompra_id);
 
-		if (getOrdenesCompraDescuento() > 0) {
-			descuento = getOrdenesCompraDescuento() / 100;		
-			for (int row = 0; row < detalles.getRowCount(); row++) {
-				detalles.calculaMontoTotalNetoPedido(row);
-				totalDescuento += (detalles.getMontoTotalNetoPedido(row) * descuento);
-			}
-		} else {
-			for (int row = 0; row < detalles.getRowCount(); row++) {
-				descuento = detalles.getDetalleScDescuento(row) / 100;
-				detalles.calculaMontoTotalNetoPedido(row);				
-				totalDescuento += (detalles.getMontoTotalNetoPedido(row) * descuento);
-			}
-		}		
+		for (int row = 0; row < detalles.getRowCount(); row++) {
+			descuento = getOrdenesCompraDescuento() > 0 ?
+				getOrdenesCompraDescuento() / 100 :	
+				detalles.getDetalleScDescuento(row) / 100				 
+				;
+			detalles.calculaMontoTotalNetoPedido(row);		
+			
+			totalDescuento += Float.parseFloat(Utilities
+					.getDecimalFormatNumber(detalles
+							.getMontoTotalNetoPedido(row)
+							* descuento));
+		}
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(totalDescuento),
 				Constants.DESCUENTO_OC, ordencompra_id, "TABLA", "ordenes_compra");
@@ -1358,7 +1347,7 @@ public class OrdenesCompraModel extends BaseModel {
 	 */
 	public void calculaTotales() {
 		
-	}
+	}	
 	// $ENDCUSTOMMETHODS$
 
 }
