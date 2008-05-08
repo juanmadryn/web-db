@@ -2059,26 +2059,35 @@ public class DetalleSCModel extends DataStore {
 	
 	/**
 	 * Calculate the value of the monto_total column.
-	 * 
-	 * @param row
-	 *            which row in the table
-	 * @param newValue
-	 *            the new item value
+	 *
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
 	public void calculaMontoTotalPedido() throws DataStoreException, SQLException,
 			ParseException {
-		calculaMontoTotalPedido(getRow());
+		calculaMontoTotalPedido(getRow(), null);
+	}
+	
+	/**
+	 * Calculate the value of the monto_total column for the specified column.
+	 *
+	 * @param row
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void calculaMontoTotalPedido(int row) throws DataStoreException, SQLException,
+			ParseException {
+		calculaMontoTotalPedido(row, null);
 	}
 
 	/**
 	 * @param row
+	 * @param porc
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	public void calculaMontoTotalPedido(int row) throws DataStoreException, SQLException,
+	public void calculaMontoTotalPedido(int row, Float porc) throws DataStoreException, SQLException,
 			ParseException {
 		Float monto_unitario = getDetalleScMontoUnitario(row);
 		Float cantidad = getDetalleScCantidadPedida(row);
@@ -2095,7 +2104,13 @@ public class DetalleSCModel extends DataStore {
 			decimalSymbol.setDecimalSeparator('.');
 			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
-			Float total = (monto_unitario * cantidad) - getDetalleScDescuento(row);			
+			
+			Float total = (monto_unitario * cantidad);
+			if (porc != null) {
+				total -= total * (porc / 100);
+			} else if (getDetalleScDescuento(row) > 0) {
+				total -= total * (getDetalleScDescuento(row) / 100);				
+			}			
 			setMontoTotalPedido(row, Float.parseFloat(format.format(total).replace(",", "")));			
 		}
 		
