@@ -164,9 +164,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_ALMACEN_ID,
 					"El almacen es requerido");
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_PREPARADOR,
-					"El usuario preparador es obligatorio");
-			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_RETIRA,
-					"El usuario que retira es obligatorio");
+					"El usuario preparador es obligatorio");			
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO,
 					"El estado es obligatorio");
 			addRequiredRule(
