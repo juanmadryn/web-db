@@ -16,14 +16,15 @@
 	</salmon:datasource>
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="n" type="IN"
-			columns="comprobante_movimiento_articulo.comprobante_movimiento_id" />		
+			columns="comprobante_movimiento_articulo.comprobante_movimiento_id" />
 		<salmon:qbecriteria name="estado" type="IN"
 			columns="comprobante_movimiento_articulo.estado" />
 		<salmon:qbecriteria name="usuario_completo" type="IN"
 			columns="comprobante_movimiento_articulo.user_id_preparador" />
 	</salmon:datasource>
 	<salmon:datasource name="dsComprobantes" type="MODEL"
-		dbprofile="inventario" model="inventario.models.ComprobanteMovimientoArticuloModel"
+		dbprofile="inventario"
+		model="inventario.models.ComprobanteMovimientoArticuloModel"
 		autoretrieve="Never">
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
@@ -41,16 +42,17 @@
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="n1" text="Nº"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="n2" type="text"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:n">
 								</salmon:input></td>
+								<td width="70"></td>
 								<td><salmon:text name="estado1" text="Estado"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:input name="estado2" type="select"
 									datasource="dsQBE:estado">
 									<salmon:option display="abc" key="123"
-										table="infraestructura.estados" criteria="circuito='0009'"
+										table="infraestructura.estados" criteria="circuito='0010'"
 										keycolumn="estado" displaycolumn="nombre" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
@@ -58,30 +60,33 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input type="text"
-									name="fechadesde2" size="10" datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechadesde2" size="10"
+									datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
 									maxlength="10"></salmon:input></td>
+								<td width="70"></td>
 								<td><salmon:text name="fechahasta1" text="Fecha hasta"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text" name="fechahasta2" size="10" 
-									datasource="dsPeriodo:hasta" displayformat="dd/MM/yyyy" maxlength="10"></salmon:input></td>
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechahasta2" size="10"
+									datasource="dsPeriodo:hasta" displayformat="dd/MM/yyyy"
+									maxlength="10"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="solicitante1" text="Completó"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="2"><salmon:input type="select"
-									name="solicitante2" size="30" datasource="dsQBE:usuario_completo"
-									maxlength="50">
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="select" name="solicitante2"
+									size="30" datasource="dsQBE:usuario_completo" maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.receptores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
+								<td width="70"></td>
+								<td></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
-				</salmon:td>				
+				</salmon:td>
 			</salmon:tr>
 		</salmon:table>
 	</salmon:box>
@@ -96,7 +101,7 @@
 					<salmon:tr>
 						<salmon:td>
 							<salmon:text name="numeroCAP2" text="Nº" font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="descripcionCAP4" text="Completó"
 								font="TableHeadingFont" />
@@ -109,14 +114,14 @@
 							<salmon:text name="fecha_solicitudCAP5" text="Fecha"
 								font="TableHeadingFont" />
 						</salmon:td>
-							<salmon:td>
+						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="clienteCAP5" text="Observaciones"
 								font="TableHeadingFont" />
-						</salmon:td>					
+						</salmon:td>
 						<salmon:td>
 						</salmon:td>
 					</salmon:tr>
@@ -127,16 +132,15 @@
 							<salmon:text name="proyectoTXT1" text="proyecto Goes Here"
 								font="DefaultFont"
 								datasource="dsComprobantes:comprobante_movimiento_articulo.comprobante_movimiento_id" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
-							<salmon:text name="solicitante_nombreTXT3"
-								text="" font="DefaultFont"
+							<salmon:text name="solicitante_nombreTXT3" text=""
+								font="DefaultFont"
 								datasource="dsComprobantes:website_user_preparador.nombre_completo" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="comprador_nombreTXT3"
-								text="" font="DefaultFont"
-								datasource="dsComprobantes:legajos.apeynom" />
+							<salmon:text name="comprador_nombreTXT3" text=""
+								font="DefaultFont" datasource="dsComprobantes:legajos.apeynom" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fecha_solicitudTXT4" text="cliente Goes Here"

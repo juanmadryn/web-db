@@ -16,15 +16,17 @@
 	</salmon:datasource>
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="n" type="IN"
-			columns="recepciones_compras.recepcion_compra_id" />		
+			columns="recepciones_compras.recepcion_compra_id" />
 		<salmon:qbecriteria name="estado" type="IN"
 			columns="recepciones_compras.estado" />
 		<salmon:qbecriteria name="usuario_completo" type="IN"
 			columns="recepciones_compras.user_id_completa" />
+		<salmon:qbecriteria name="proveedor_id" type="IN"
+			columns="recepciones_compras.proveedor_id" />
 	</salmon:datasource>
 	<salmon:datasource name="dsRecepciones" type="MODEL"
-		dbprofile="inventario" model="inventario.models.RecepcionesComprasModel"
-		autoretrieve="Never">
+		dbprofile="inventario"
+		model="inventario.models.RecepcionesComprasModel" autoretrieve="Never">
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar código de la página aquí -->
@@ -41,12 +43,13 @@
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="n1" text="Nº"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="n2" type="text"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:n">
 								</salmon:input></td>
+								<td width="70"></td>
 								<td><salmon:text name="estado1" text="Estado"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:input name="estado2" type="select"
 									datasource="dsQBE:estado">
 									<salmon:option display="abc" key="123"
@@ -58,30 +61,40 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha RC desde"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input type="text"
-									name="fechadesde2" size="10" datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechadesde2" size="10"
+									datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
 									maxlength="10"></salmon:input></td>
+								<td width="70"></td>
 								<td><salmon:text name="fechahasta1" text="Fecha RC hasta"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text" name="fechahasta2" size="10" 
-									datasource="dsPeriodo:hasta" displayformat="dd/MM/yyyy" maxlength="10"></salmon:input></td>
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechahasta2" size="10"
+									datasource="dsPeriodo:hasta" displayformat="dd/MM/yyyy"
+									maxlength="10"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="solicitante1" text="Completó"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="2"><salmon:input type="select"
-									name="solicitante2" size="30" datasource="dsQBE:usuario_completo"
-									maxlength="50">
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="select" name="solicitante2"
+									size="30" datasource="dsQBE:usuario_completo" maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.receptores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
+								<td width="70"></td>
+								<td><salmon:text name="proveedor1" text="Proveedor"
+									font="TableHeadingFont" /></td>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpProveedores" name="proveedor2" size="6"
+									maxlength="10" displayformat="#########0"
+									datasource="dsQBE:proveedor_id" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
+								</td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
-				</salmon:td>				
+				</salmon:td>
 			</salmon:tr>
 		</salmon:table>
 	</salmon:box>
@@ -96,7 +109,7 @@
 					<salmon:tr>
 						<salmon:td>
 							<salmon:text name="numeroCAP2" text="Nº" font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="descripcionCAP4" text="Completó"
 								font="TableHeadingFont" />
@@ -109,14 +122,14 @@
 							<salmon:text name="fecha_solicitudCAP5" text="Fecha"
 								font="TableHeadingFont" />
 						</salmon:td>
-							<salmon:td>
+						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="clienteCAP5" text="Observaciones"
 								font="TableHeadingFont" />
-						</salmon:td>					
+						</salmon:td>
 						<salmon:td>
 						</salmon:td>
 					</salmon:tr>
@@ -127,16 +140,15 @@
 							<salmon:text name="proyectoTXT1" text="proyecto Goes Here"
 								font="DefaultFont"
 								datasource="dsRecepciones:recepciones_compras.recepcion_compra_id" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
-							<salmon:text name="solicitante_nombreTXT3"
-								text="" font="DefaultFont"
+							<salmon:text name="solicitante_nombreTXT3" text=""
+								font="DefaultFont"
 								datasource="dsRecepciones:user_completa.nombre_completo" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="comprador_nombreTXT3"
-								text="" font="DefaultFont"
-								datasource="dsRecepciones:legajos.apeynom" />
+							<salmon:text name="comprador_nombreTXT3" text=""
+								font="DefaultFont" datasource="dsRecepciones:legajos.apeynom" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fecha_solicitudTXT4" text="cliente Goes Here"
