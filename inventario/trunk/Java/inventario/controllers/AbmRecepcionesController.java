@@ -392,19 +392,23 @@ public class AbmRecepcionesController extends BaseEntityController {
 			_proveedor2.setFocus();
 		}
 
-		if (component == _grabarRecepcionCompraBUT1) {
+		
+		
+	if (component == _grabarRecepcionCompraBUT1) {	
 			conn = DBConnection.getConnection("inventario", "inventario");
 			conn.beginTransaction();
-
 			// si la recepcion esta en estado generado o esta siendo generada
 			if (isModificable(_dsRecepciones.getRecepcionesComprasEstado())) {
 				try {
+					if(!conn.isTransactionStarted())
+						conn.beginTransaction();
 					// grabo todos los datasource
 					if (_dsRecepciones.getRow() == -1)
 						return false;
 
 					_dsRecepciones.update(conn);
 
+					
 					// actualizo los detalles
 					if (_dsDetalle.getRow() != -1) {
 						_dsDetalle.update(conn);
@@ -564,6 +568,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 				return false;
 			}
 		}
+		
 
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {

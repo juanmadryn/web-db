@@ -207,7 +207,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 	public com.salmonllc.html.HtmlSubmitButton _atributoGenerarAtributosBUT11;
 
 	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
-	
+
 	private static final String CIRCUITO = "0010";
 
 	private boolean recargar = false;
@@ -512,13 +512,20 @@ public class AbmComprobanteMovimientoArticuloController extends
 									getRow_id());
 
 					// si existe row anterior, sólo copia valores básicos
-					// int tarea = _dsMovimientos.getDetalleScTareaId(rowActual
-					// +
-					// 1);
-					// if (rowActual != -1 && tarea != 0) {
-					// valido el parte que estoy copiando
-					// _dsMovimientos.setDetalleScTareaId(row, tarea);
-					// }
+					int tarea = _dsMovimientos
+							.getMovimientoArticuloTareaId(rowActual + 1);
+					int proyecto = _dsMovimientos
+							.getMovimientoArticuloProyectoId(rowActual + 1);
+					if (rowActual != -1) {
+						if (tarea != 0) {
+							_dsMovimientos.setMovimientoArticuloTareaId(row,
+									tarea);
+						}
+						if (proyecto != 0) {
+							_dsMovimientos.setMovimientoArticuloProyectoId(row,
+									proyecto);
+						}
+					}
 
 					// hace foco en el registro
 					int nroPagerow = _datatable2.getPage(row);
@@ -827,7 +834,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 					.getTipoMovimientoArticuloImpresion(),
 					"&Parameter_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
-		} else 
+		} else
 			_dsComprobante.gotoRow(_dsComprobante.insertRow());
 	}
 
