@@ -1,6 +1,7 @@
 package tango.models;
 
-import com.salmonllc.sql.*;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -62,6 +63,8 @@ public class LegajoView extends DataStore {
      public static final String LEGAJO_CA_83_N_INSCRIP="LEGAJO.CA_83_N_INSCRIP";
      /*public static final String TIPO_DOCUMENTO_TIPO_DOCUMENTO="TIPO_DOCUMENTO.TIPO_DOCUMENTO";
      public static final String TIPO_DOCUMENTO_DESC_DOCUMENTO="TIPO_DOCUMENTO.DESC_DOCUMENTO";*/
+     public static final String LEGAJO_APEYNOM="LEGAJO.APEYNOM";
+     
      
      //$CUSTOMVARS$
      //Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -140,6 +143,8 @@ public class LegajoView extends DataStore {
           /*addColumn(computeTableName("TIPO_DOCUMENTO"),"TIPO_DOCUMENTO",DataStore.DATATYPE_STRING,false,false,TIPO_DOCUMENTO_TIPO_DOCUMENTO);
           addColumn(computeTableName("TIPO_DOCUMENTO"),"DESC_DOCUMENTO",DataStore.DATATYPE_STRING,false,false,TIPO_DOCUMENTO_DESC_DOCUMENTO);*/
 
+          addBucket(LEGAJO_APEYNOM, DataStore.DATATYPE_STRING);
+          
           //add joins
           /*addJoin(computeTableAndFieldName("LEGAJO.ID_TIPO_DOCUMENTO"),computeTableAndFieldName("TIPO_DOCUMENTO.ID_TIPO_DOCUMENTO"),true);
           addJoin(computeTableAndFieldName("LEGAJO.ID_LEGAJO"),computeTableAndFieldName("INGRESO_EGRESO.ID_LEGAJO"),false);*/
@@ -2013,6 +2018,43 @@ public class LegajoView extends DataStore {
           setString(row,TIPO_DOCUMENTO_DESC_DOCUMENTO, newValue);
      }*/
      
+     /**
+      * Retrieve the value of the LEGAJO.CA_83_DESC5 column for the current row.
+      * @return String
+      * @throws DataStoreException
+      */ 
+     public String getLegajoApeynom() throws DataStoreException {
+          return  getString(LEGAJO_APELLIDO) + ", " + getString(LEGAJO_NOMBRE);
+     }
+
+     /**
+      * Retrieve the value of the LEGAJO.CA_83_DESC5 column for the specified row.
+      * @param row which row in the table
+      * @return String
+      * @throws DataStoreException
+      */ 
+     public String getLegajoApeynom(int row) throws DataStoreException {
+          return  getString(row,LEGAJO_APELLIDO) + ", " + getString(row,LEGAJO_NOMBRE);
+     }
+
+     /**
+      * Set the value of the LEGAJO.CA_83_DESC5 column for the current row.
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setLegajoApeynom(String newValue) throws DataStoreException {
+          setString(LEGAJO_APEYNOM, getString(LEGAJO_APELLIDO) + ", " + getString(LEGAJO_NOMBRE));
+     }
+
+     /**
+      * Set the value of the LEGAJO.CA_83_DESC5 column for the specified row.
+      * @param row which row in the table
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setLegajoApeynom(int row,String newValue) throws DataStoreException {
+          setString(row,LEGAJO_APEYNOM, getString(row,LEGAJO_APELLIDO) + ", " + getString(row,LEGAJO_NOMBRE));
+     }
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
      
