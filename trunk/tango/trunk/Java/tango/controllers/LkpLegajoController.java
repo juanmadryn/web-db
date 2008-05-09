@@ -9,12 +9,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import com.salmonllc.jsp.*;
+import com.salmonllc.html.HtmlSubmitButton;
+import com.salmonllc.html.events.PageEvent;
+import com.salmonllc.html.events.PageListener;
+import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.html.events.SubmitListener;
+import com.salmonllc.jsp.JspController;
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
-import com.salmonllc.html.HtmlSubmitButton;
-import com.salmonllc.html.events.*;
 
 // Probando SVN
 /**
@@ -216,6 +219,7 @@ public boolean submitPerformed(SubmitEvent event) throws DataStoreException {
 					_dsLegajo.setLegajoIdLegajo(row, legajo_id);
 					_dsLegajo.setLegajoNombre(row, nombre);
 					_dsLegajo.setLegajoNroLegajo(row, nro_legajo);
+					_dsLegajo.setLegajoApeynom(row, "");
 				}
 
 			} catch (SQLException e) {
