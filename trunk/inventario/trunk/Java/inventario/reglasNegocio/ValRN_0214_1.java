@@ -10,6 +10,7 @@ import inventario.models.MovimientoArticuloModel;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 
@@ -31,24 +32,32 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio {
 		Statement st = null;
 		try {
 			ComprobanteMovimientoArticuloModel ds = (ComprobanteMovimientoArticuloModel) obj;
-			MovimientoArticuloModel movimientos = new MovimientoArticuloModel("inventario");
-			movimientos.retrieve("movimiento_articulo.comprobante_movimiento_id ="+ds.getComprobanteMovimientoArticuloComprobanteMovimientoId());
-						
-			if (ds.getComprobanteMovimientoArticuloUserIdRetira() == 0)
-				throw new DataStoreException(
-						"Indique el legajo de quien retira");
-			
+			MovimientoArticuloModel movimientos = new MovimientoArticuloModel(
+					"inventario");
+			movimientos
+					.retrieve("movimiento_articulo.comprobante_movimiento_id ="
+							+ ds
+									.getComprobanteMovimientoArticuloComprobanteMovimientoId());
+
+			if (ds.getComprobanteMovimientoArticuloTipoMovimientoArticuloId() == Props
+					.getProps("inventario", null).getIntProperty(
+							"TipoMovimientoRecepciones")) {
+				msg
+						.append("Para cargar recepciones de compras realizadas mediante OC ingrese al sistema de Recepciones");
+				return false;
+			}
+
 			if (movimientos.getRowCount() == 0) {
 				msg.append("Debe detallar por lo menos un artículo");
 				return false;
 			}
-			
+
 		} catch (SQLException ex) {
 			msg
 					.append("Ocurrió un error en el SQL mientras se procesaba su aprobación: "
 							+ ex.getMessage());
 
-			return false;		
+			return false;
 		} catch (DataStoreException ex) {
 			msg
 					.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
