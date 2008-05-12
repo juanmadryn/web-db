@@ -575,7 +575,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 						for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {							
 							if (_dsDetalleSC.getAny(row, DetalleSCModel.DETALLE_SC_IVA) == null) {
 								_dsDetalleSC.setDetalleScIva(row,
-										Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto("IVA_PORCENTAJE",
+										Float.parseFloat(AtributosEntidadModel.getValorAtributoObjeto(Constants.ARTICULO_IVA_PORCENTAJE,
 												_dsDetalleSC.getDetalleScArticuloId(row), "TABLA", "articulos")));
 								_dsDetalleSC.update();
 							}			
@@ -583,13 +583,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 							_dsDetalleSC.calculaMontoTotalPedido(row);
 							_dsDetalleSC.calculaMontoTotalNetoPedido(row);
 							
-							// Neto							
+							// calcula totales de la OC
 							_dsOrdenesCompra.calculaAtributoNetoOrdenCompra();
-							// Descuento
 							_dsOrdenesCompra.calculaAtributoDescuentoOrdenCompra();
-							// IVA
 							_dsOrdenesCompra.calculaAtributoIvaOrdenCompra();
-							// Total OC
 							_dsOrdenesCompra.calculaAtributoTotalOrdenCompra();
 						}
 					}
@@ -638,10 +635,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_descuento2.setEnabled(_dsOrdenesCompra.getOrdenesCompraDescuento() > 0 ? false : true);
 		if (_dsOrdenesCompra.getOrdenesCompraDescuento() > 0) {
 			_descuento2.setEnabled(false);
-			_monto_total2.setExpression(_dsDetalleSC, "monto_total_neto_pedido");			
+			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO);			
 		} else {
 			_descuento2.setEnabled(true);
-			_monto_total2.setExpression(_dsDetalleSC, "monto_total_pedido");
+			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL);
 		}
 		_monto_total2.setDisplayFormatLocaleKey("CurrencyFormatConSigno");
 				

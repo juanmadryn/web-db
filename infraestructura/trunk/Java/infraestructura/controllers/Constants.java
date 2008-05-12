@@ -116,4 +116,7 @@ public interface Constants {
 	static final String IVA_OC = "IVA_ORDEN_COMPRA";
 	static final String DESCUENTO_OC = "DESCUENTO_ORDEN_COMPRA";
 	static final String NETO_OC = "NETO_ORDEN_COMPRA";
+	static final String TOTAL_OC = "TOTAL_ORDEN_COMPRA";
+	
+	static final String ARTICULO_IVA_PORCENTAJE = "ARTICULO_IVA_PORCENTAJE";
 }

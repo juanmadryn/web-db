@@ -29,9 +29,6 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	//Visual Components
 	public com.salmonllc.html.HtmlDropDownList _comprador2;
 	public com.salmonllc.html.HtmlDropDownList _estado2;
-	//public com.salmonllc.html.HtmlImage _bannerDividerImage;
-	//public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	//public com.salmonllc.html.HtmlImage _imgMainLogo;
 	public com.salmonllc.html.HtmlText _clienteCAP5;
 	public com.salmonllc.html.HtmlText _comprador1;
 	public com.salmonllc.html.HtmlText _descripcion1;
@@ -62,58 +59,18 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlText _observacion2;
 	public com.salmonllc.html.HtmlText _proyectoTXT1;
 	public com.salmonllc.html.HtmlText _solicitante_nombreTXT3;
-	//public com.salmonllc.html.HtmlText _text1Footer;
-	//public com.salmonllc.html.HtmlText _text2Footer;
-	//public com.salmonllc.html.HtmlText _text3Footer;
-	//public com.salmonllc.html.HtmlText _txtBannerOptions;
-	//public com.salmonllc.html.HtmlText _welcomeText;
 	public com.salmonllc.html.HtmlTextEdit _fechadesde2;
 	public com.salmonllc.html.HtmlTextEdit _fechahasta2;
 	public com.salmonllc.html.HtmlTextEdit _n2;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
-	//public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
-	//public com.salmonllc.jsp.JspForm _bannerForm;
-	//public com.salmonllc.jsp.JspForm _pageForm;
-	//public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
-	//public com.salmonllc.jsp.JspLink _footerInfDevAbout;
-	//public com.salmonllc.jsp.JspLink _footerproyectosHelp;
-	//public com.salmonllc.jsp.JspLink _footerSalmonLink;
-	//public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	//public com.salmonllc.jsp.JspLink _lnkBannerOptions;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _table2;
 	public com.salmonllc.jsp.JspTable _tableFooter;
-	/*public com.salmonllc.jsp.JspTableCell _datatable1TDHeader0;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader1;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader2;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader3;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader4;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader5;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDRow0;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDRow1;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDRow2;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDRow3;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDRow4;
-	public com.salmonllc.jsp.JspTableCell _datatable1TDRow5;
-	public com.salmonllc.jsp.JspTableCell _navbarTableTDRow0;
-	public com.salmonllc.jsp.JspTableCell _table2TDRow0;
-	public com.salmonllc.jsp.JspTableCell _table2TDRow1;
-	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow0;
-	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow1;
-	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow2;
-	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow3;
-	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow4;
-	public com.salmonllc.jsp.JspTableRow _datatable1TRHeader0;
-	public com.salmonllc.jsp.JspTableRow _datatable1TRRow0;
-	public com.salmonllc.jsp.JspTableRow _navbarTableTRRow0;
-	public com.salmonllc.jsp.JspTableRow _table2TRRow0;
-	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
-	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;*/
 	public com.salmonllc.html.HtmlDropDownList _solicitante2;
 
 	//DataSources

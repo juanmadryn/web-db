@@ -72,8 +72,7 @@
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
 										lookupurl="%LkpProveedores" name="proveedor2" size="6"
-										maxlength="10" displayformat="#########0"
-										descriptiondatasource="dsOrdenes:entidad_externa.nombre"
+										maxlength="10" displayformat="#########0"										
 										datasource="dsQBE:proveedor"
 										popupheight="450" popupwidth="500" 
 										usepopup="true" showdescription="true"></salmon:lookup>								
@@ -115,18 +114,18 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="numero2" text=""
 									datasource="dsOrdenes:ordenes_compra.orden_compra_id"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="descripcion1" text="Descripción"
-									font="TableHeadingFont" /></td>
-								<td><salmon:text name="descripcion2" text=""
-									datasource="dsOrdenes:ordenes_compra.descripcion"></salmon:text></td>
-							</tr>
+							</tr>							
 							<tr>
 								<td><salmon:text name="observacion1" text="Observaciones"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="observacion2" text="" 
 									datasource="dsOrdenes:ordenes_compra.observaciones"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="proveedorNombre1"
+									text="Proveedor" font="TableHeadingFont" /></td>
+								<td><salmon:text name="proveedorNombre2"
+									text="" datasource="dsOrdenes:entidad_externa.codigo + ' - ' + entidad_externa.nombre"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="nombre_completo_comprador1"
@@ -183,6 +182,10 @@
 								font="TableHeadingFont" />
 						</salmon:td>						
 						<salmon:td>
+							<salmon:text name="fechaCAP6" text="Fecha Aprobación"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -211,6 +214,11 @@
 							<salmon:text name="fechaTXT4" text="fecha Goes Here"
 								font="DefaultFont" displayformatlocalekey="DateTimeFormat"
 								datasource="dsOrdenes:ordenes_compra.fecha" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="fechaTXT5" text="fecha aprobacion Goes Here"
+								font="DefaultFont" displayformatlocalekey="DateTimeFormat"
+								datasource="dsOrdenes:ordenes_compra.fecha_aprobacion" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="estadoTXT3" text="estado Goes Here"
