@@ -16,7 +16,7 @@
 	</salmon:datasource>
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="n" type="IN"
-			columns="solicitudes_compra.solicitud_compra_id" />		
+			columns="solicitudes_compra.solicitud_compra_id" />
 		<salmon:qbecriteria name="estado" type="IN"
 			columns="solicitudes_compra.estado" />
 		<salmon:qbecriteria name="solicitante" type="IN"
@@ -41,12 +41,13 @@
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="n1" text="Nº"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="n2" type="text"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:n">
 								</salmon:input></td>
+								<td width="55"></td>
 								<td><salmon:text name="estado1" text="Estado"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:input name="estado2" type="select"
 									datasource="dsQBE:estado">
 									<salmon:option display="abc" key="123"
@@ -57,27 +58,30 @@
 
 							</tr>
 							<tr>
-								<td><salmon:text name="fechadesde1" text="Fecha SC desde"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input type="text"
-									name="fechadesde2" size="10" datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
+								<td><salmon:text name="fechadesde1" text="Fecha desde"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechadesde2" size="10"
+									datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
 									maxlength="10"></salmon:input></td>
-								<td><salmon:text name="fechahasta1" text="Fecha SC hasta"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text" name="fechahasta2" size="10" 
-									datasource="dsPeriodo:hasta" displayformat="dd/MM/yyyy" maxlength="10"></salmon:input></td>
+								<td width="55"></td>
+								<td><salmon:text name="fechahasta1" text="Fecha hasta"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechahasta2" size="10"
+									datasource="dsPeriodo:hasta" displayformat="dd/MM/yyyy"
+									maxlength="10"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="solicitante1" text="Solicitante"
-									font="ColumnCaptionFont" /></td>
-								<td colspan="2"><salmon:input type="select"
-									name="solicitante2" size="30" datasource="dsQBE:solicitante"
-									maxlength="50">
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="select" name="solicitante2"
+									size="30" datasource="dsQBE:solicitante" maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.solicitantes" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
+								<td width="55"></td>
+								<td></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
@@ -184,8 +188,8 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fecha_aprobacionCAP6" text="Fecha de aprobación"
-								font="TableHeadingFont" />
+							<salmon:text name="fecha_aprobacionCAP6"
+								text="Fecha de aprobación" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
@@ -224,8 +228,9 @@
 								datasource="dsSolicitudes:solicitudes_compra.fecha_solicitud" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fecha_aprobacionTXT5" text="fecha aprobacion Goes Here"
-								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
+							<salmon:text name="fecha_aprobacionTXT5"
+								text="fecha aprobacion Goes Here" font="DefaultFont"
+								displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsSolicitudes:solicitudes_compra.fecha_aprobacion" />
 						</salmon:td>
 						<salmon:td>
