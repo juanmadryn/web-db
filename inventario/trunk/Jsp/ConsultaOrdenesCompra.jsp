@@ -39,13 +39,13 @@
 						buttondisplaylocation="BOTTOM">
 						<table width="100%">
 							<tr>
-								<td><salmon:text name="n1" text="Nº"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input name="n2" type="text"
+								<td><salmon:text name="n1" text="N° Orden"
+									font="TableHeadingFont" /></td>
+								<td colspan="3"><salmon:input name="n2" type="text"
 									datasource="dsQBE:nroOc">
 								</salmon:input></td>
 								<td><salmon:text name="estado1" text="Estado"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:input name="estado2" type="select"
 									datasource="dsQBE:estado">
 									<salmon:option display="abc" key="123"
@@ -57,17 +57,16 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text"
-									name="fechadesde2" size="10"
-									datasource="dsQBE:desde" maxlength="10"></salmon:input>
-								<salmon:text name="fechahasta1" text="Fecha hasta"
-									font="ColumnCaptionFont" />
-								<salmon:input type="text" name="fechahasta2" size="10"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechadesde2" size="10"
+									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>									
+								<td><salmon:text name="fechahasta1" text="Fecha hasta"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechahasta2" size="10"
 									datasource="dsQBE:hasta"
 									maxlength="10"></salmon:input></td>
 								<td><salmon:text name="proveedor1" text="Proveedor"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -80,8 +79,8 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="comprador1" text="Comprador"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="select"
+									font="TableHeadingFont" /></td>
+								<td colspan="3"><salmon:input type="select"
 									name="comprador2" size="30" datasource="dsQBE:comprador"
 									maxlength="50">
 									<salmon:option display="abc" key="123"
@@ -90,7 +89,7 @@
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 								<td><salmon:text name="solicitante1" text="Solicitante"
-									font="ColumnCaptionFont" /></td>
+									font="TableHeadingFont" /></td>
 								<td><salmon:input type="select"
 									name="solicitante2" size="30" maxlength="50">
 									<salmon:option display="abc" key="123"
