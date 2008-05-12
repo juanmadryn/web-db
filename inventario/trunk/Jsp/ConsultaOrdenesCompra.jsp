@@ -71,8 +71,7 @@
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
 										lookupurl="%LkpProveedores" name="proveedor2" size="6"
-										maxlength="10" displayformat="#########0"										
-										datasource="dsQBE:proveedor"
+										maxlength="10" datasource="dsQBE:proveedor"
 										popupheight="450" popupwidth="500" 
 										usepopup="true" showdescription="true"></salmon:lookup>								
 								</td>								

@@ -12,8 +12,6 @@ import inventario.util.SolicitudCompraTransiciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
-
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -23,7 +21,6 @@ import com.salmonllc.html.events.ValueChangedListener;
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
-import com.salmonllc.sql.DataStoreBuffer;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
@@ -582,13 +579,13 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 							// calcula totales de cada detalle
 							_dsDetalleSC.calculaMontoTotalPedido(row);
 							_dsDetalleSC.calculaMontoTotalNetoPedido(row);
-							
-							// calcula totales de la OC
-							_dsOrdenesCompra.calculaAtributoNetoOrdenCompra();
-							_dsOrdenesCompra.calculaAtributoDescuentoOrdenCompra();
-							_dsOrdenesCompra.calculaAtributoIvaOrdenCompra();
-							_dsOrdenesCompra.calculaAtributoTotalOrdenCompra();
 						}
+						
+						// calcula totales de la OC
+						_dsOrdenesCompra.calculaAtributoNetoOrdenCompra();
+						_dsOrdenesCompra.calculaAtributoDescuentoOrdenCompra();
+						_dsOrdenesCompra.calculaAtributoIvaOrdenCompra();
+						_dsOrdenesCompra.calculaAtributoTotalOrdenCompra();
 					}
 				}
 			}
@@ -631,14 +628,13 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 				.parseInt(getPageProperties().getProperty(
 						"EsquemaConfiguracionIdOrdenesCompra")));
 		
-		// Deshabilita descuento en detalles si es seteado uno en la cabecera
-		_descuento2.setEnabled(_dsOrdenesCompra.getOrdenesCompraDescuento() > 0 ? false : true);
+		// Deshabilita descuento en detalles si es seteado uno en la cabecera		
 		if (_dsOrdenesCompra.getOrdenesCompraDescuento() > 0) {
 			_descuento2.setEnabled(false);
 			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO);			
 		} else {
 			_descuento2.setEnabled(true);
-			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL);
+			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_PEDIDO);
 		}
 		_monto_total2.setDisplayFormatLocaleKey("CurrencyFormatConSigno");
 				

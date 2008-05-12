@@ -190,7 +190,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		_desSeleccionaTodoBUT1.setAccessKey("e");
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox1.addButton(_desSeleccionaTodoBUT1);
-				
+		
 		_desSeleccionaTodoBUT1.addSubmitListener(this);
 		_generaOcsBUT3.addSubmitListener(this);
 		_buscarBUT.addSubmitListener(this);
@@ -288,6 +288,8 @@ public class GenerarOrdenesCompraController extends BaseController {
 
 					_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
 					_dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
+							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+					_dsOrdenCompra.setOrdenesCompraUserIdGenerador(ocId, 
 							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 					
 					_dsOrdenCompra.update(conexion);
