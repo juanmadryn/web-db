@@ -5,11 +5,8 @@ import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
 import infraestructura.utils.Utilities;
 
-import java.math.RoundingMode;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.Calendar;
 
@@ -767,7 +764,7 @@ public class OrdenesCompraModel extends BaseModel {
 		total = getAtributoNetoOrdenCompra() - getAtributoDescuentoOrdenCompra() + getAtributoIvaOrdenCompra();
 
 		AtributosEntidadModel.setValorAtributoObjeto(String.valueOf(total),
-				"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA", "ordenes_compra");
+				Constants.TOTAL_OC, ordencompra_id, "TABLA", "ordenes_compra");
 	}
 	
 	/**
@@ -783,7 +780,7 @@ public class OrdenesCompraModel extends BaseModel {
 		int ordencompra_id = getOrdenesCompraOrdenCompraId();
 		return Float
 				.parseFloat(AtributosEntidadModel.getValorAtributoObjeto(
-						"TOTAL_ORDENCOMPRA", ordencompra_id, "TABLA",
+						Constants.TOTAL_OC, ordencompra_id, "TABLA",
 						"ordenes_compra"));
 	}
 	
