@@ -214,7 +214,7 @@
 								lookupurl="%LkpArticulosParaRecepcion" name="articulo2" size="6"
 								maxlength="15" datasource="dsDetalle:detalles_rc.detalle_sc_id"
 								descriptiondatasource="dsDetalle:articulos.descripcion"
-								popupheight="600" popupwidth="800" usepopup="true"
+								popupheight="600" popupwidth="900" usepopup="true" popupposition="0"
 								showdescription="true"></salmon:lookup>							
 								-
 								<salmon:text name="descripcion_completa_articulo1" text=""
