@@ -614,8 +614,8 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             <property name="pageBreakInside">auto</property>
             <property name="canShrink">false</property>
             <property name="showHeaderOnFirst">true</property>
-            <property name="headerHeight">4.5cm</property>
-            <property name="footerHeight">6.5cm</property>
+            <property name="headerHeight">5.5cm</property>
+            <property name="footerHeight">7.5cm</property>
             <page-header>
                 <grid id="869">
                     <property name="height">100%</property>
@@ -1427,6 +1427,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             </page-header>
             <page-footer>
                 <grid id="906">
+                    <property name="marginTop">1cm</property>
                     <property name="height">100%</property>
                     <property name="width">100%</property>
                     <column id="907">
@@ -2495,7 +2496,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
     </page-setup>
     <body>
         <table id="963">
-            <property name="marginTop">1cm</property>
+            <property name="marginTop">0cm</property>
             <property name="masterPage">Simple MasterPage</property>
             <property name="pageBreakAfter">auto</property>
             <property name="pageBreakBefore">auto</property>
@@ -2671,6 +2672,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             <header>
                 <row id="964">
                     <property name="masterPage">Simple MasterPage</property>
+                    <property name="showIfBlank">true</property>
                     <list-property name="visibility">
                         <structure>
                             <property name="format">all</property>

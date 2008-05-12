@@ -31,20 +31,44 @@
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table2" width="100%" border="0">
 			<salmon:tr>
-				<salmon:td valign="Top">
+				<salmon:td valign="Top" width="60%">
 					<salmon:searchformdisplaybox						
 						name="searchformdisplaybox1" searchbuttonvisible="false" caption="Buscar"
 						addbuttonvisible="False" qbebuilder="dsQBE" width="100%">
-						<table width="100%" border="1">
-							<tr>	
-								<td colspan="4"/>
+						<table width="100%">
+							<tr>
+								<td><salmon:text name="nroSolicitud1" text="Nro Solicitud" font="TableHeadingFont" /></td>
+								<td colspan="3"><salmon:input name="nroSolicitud2" type="text"	datasource="dsQBE:n" /></td>								
+							</tr>
+							<tr>								
+								<td><salmon:text name="fechadesde1" text="Fecha SC desde"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text"
+									name="fechadesde2" size="10"
+									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
+								<td><salmon:text name="fechahasta1" text="Fecha SC hasta"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechahasta2" size="10"
+									datasource="dsQBE:hasta" maxlength="10"></salmon:input></td>								
+							</tr>
+							<tr>
+								<td><salmon:text name="buscarComplex1" text="Buscar" font="TableHeadingFont" /></td>
+								<td colspan="3"><salmon:input name="buscarComplex2" size="35" type="text" datasource="dsQBE:resto" /></td>								
+							</tr>
+						</table>
+					</salmon:searchformdisplaybox>
+				</salmon:td>
+				<salmon:td valign="top" width="40%">
+					<salmon:searchformdisplaybox					
+						name="searchformdisplaybox2" searchbuttonvisible="false" caption="Atributos"
+						addbuttonvisible="false" width="100%">
+						<table width="100%">
+							<tr>									
 								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>
 								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
 								<td align="right"><salmon:input name="operador" type="select" /></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="nroSolicitud1" text="Nro Solicitud" font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="nroSolicitud2" type="text"	datasource="dsQBE:n" /></td>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -54,16 +78,7 @@
 								</td>
 								<td colspan="2"><salmon:input name="valorAttr1" type="text" /></td>
 							</tr>
-							<tr>								
-								<td><salmon:text name="fechadesde1" text="Fecha SC desde"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text"
-									name="fechadesde2" size="10"
-									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
-								<td><salmon:text name="fechahasta1" text="Fecha SC hasta"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text" name="fechahasta2" size="10"
-									datasource="dsQBE:hasta" maxlength="10"></salmon:input></td>
+							<tr>
 								<td>
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
@@ -74,9 +89,7 @@
 								<td colspan="2"><salmon:input name="valorAttr2" type="text" /></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="buscarComplex1" text="Buscar" font="ColumnCaptionFont" /></td>
-								<td colspan="3"><salmon:input name="buscarComplex2" size="35" type="text" datasource="dsQBE:resto" /></td>
-								<td>
+								<td>	
 									<salmon:lookup
 										browseimage="%ImageDirectory/Browse.gif"
 										lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP3" 

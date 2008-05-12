@@ -1,5 +1,6 @@
 package inventario.models;
 
+import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
 
 import java.math.RoundingMode;
@@ -1604,7 +1605,7 @@ public class DetalleSCModel extends DataStore {
 			
 			if (getDetalleScIva(row) == 0) {				
 				setDetalleScIva(row, Float.parseFloat(AtributosEntidadModel
-						.getValorAtributoObjeto("IVA_PORCENTAJE",
+						.getValorAtributoObjeto(Constants.ARTICULO_IVA_PORCENTAJE,
 								getDetalleScArticuloId(row), "TABLA",
 								"articulos")));
 			}
@@ -2106,7 +2107,7 @@ public class DetalleSCModel extends DataStore {
 			format.setDecimalFormatSymbols(decimalSymbol);
 			
 			Float total = (monto_unitario * cantidad);
-			if (porc != null) {
+			if ((porc != null) && (porc > 0)) {
 				total -= total * (porc / 100);
 			} else if (getDetalleScDescuento(row) > 0) {
 				total -= total * (getDetalleScDescuento(row) / 100);				
