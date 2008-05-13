@@ -285,12 +285,15 @@ public class GenerarOrdenesCompraController extends BaseController {
 					_dsOrdenCompra = new OrdenesCompraModel("inventario");
 
 					int ocId = _dsOrdenCompra.insertRow();
+					
+					_dsOrdenCompra.setCurrentWebsiteUserId(
+							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 
-					_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
+					/*_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
 					_dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
 							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
 					_dsOrdenCompra.setOrdenesCompraUserIdGenerador(ocId, 
-							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());*/
 					
 					_dsOrdenCompra.update(conexion);
 					
