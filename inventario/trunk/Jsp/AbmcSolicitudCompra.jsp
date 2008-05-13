@@ -197,11 +197,11 @@
 							<salmon:text name="observaciones3" text="Obsevaciones"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td nowrap="TRUE">
+						<salmon:td nowrap="TRUE" name="cantidadPedidaHeaderTd">
 							<salmon:text name="cantidadPedida1" text="Cant. pedida"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td nowrap="TRUE">
+						<salmon:td name="ocHeaderTd" nowrap="TRUE">
 							<salmon:text name="oc1" text="O.C."
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -276,11 +276,11 @@
 								maxlength="255"
 								datasource="dsDetalleSC:detalle_sc.observaciones"></salmon:input>
 						</salmon:td>
-						<salmon:td align="RIGHT">
+						<salmon:td align="RIGHT" name="cantidadPedidaRowTd">
 							<salmon:text name="cantidad_pedida2" text=""
 								datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:text>
 						</salmon:td>
-						<salmon:td align="RIGHT">
+						<salmon:td align="RIGHT" name="ocRowTd">
 							<salmon:a href="none" name="lnkOc1"
 								onclick="document.forms['bannerForm'].submit();"
 								datasource="dsDetalleSC:'%EditarOrdenCompra?orden_compra_id='+detalle_sc.orden_compra_id">

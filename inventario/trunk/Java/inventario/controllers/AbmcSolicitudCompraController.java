@@ -127,6 +127,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspLink _verFirmantes;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCompraBUT2;
 	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;
+	public com.salmonllc.jsp.JspTableCell _cantidadPedidaRowTd;
+	public com.salmonllc.jsp.JspTableCell _cantidadPedidaHeaderTd;
+	public com.salmonllc.jsp.JspTableCell _ocRowTd;
+	public com.salmonllc.jsp.JspTableCell _ocHeaderTd;
 
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
@@ -263,6 +267,15 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_FLAG, DataStore.DATATYPE_INT);
 		_seleccion_detalle2.setColumn(_dsDetalleSC, SELECCION_DETALLE_FLAG);
 		_seleccion_detalle2.setFalseValue(null);
+		
+		// muestro link a OC solo si el rol es COMPRADOR
+		int userId = getSessionManager().getWebSiteUser().getUserID();
+		if (!UsuarioRolesModel.isRolUsuario(userId, "COMPRADOR")) {
+			_ocHeaderTd.setVisible(false);
+			_ocRowTd.setVisible(false);
+			_cantidadPedidaHeaderTd.setColSpan(2);
+			_cantidadPedidaRowTd.setColSpan(2);
+		}
 
 		// seteo la validación para los datasource
 		_dsSolicitudCompra.setAutoValidate(true);

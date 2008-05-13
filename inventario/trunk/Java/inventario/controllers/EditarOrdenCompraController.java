@@ -5,6 +5,7 @@ package inventario.controllers;
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
+import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
 import inventario.util.SolicitudCompraTransiciones;
@@ -272,6 +273,13 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		boolean batchInserts = false;
 		HtmlComponent component = e.getComponent();
 		
+		if (!UsuarioRolesModel.isRolUsuario(userId, "COMPRADOR")) {
+			displayErrorMessage("Debe tener el rol comprador para modificar una OC.");
+			setRecargar(true);
+			pageRequested(new PageEvent(this));
+			return false;
+		}
+		
 		conn.beginTransaction();
 		
 		try {
@@ -355,7 +363,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			conn.rollback();
 		}
 		
-		if (e.getComponent() == _grabarOrdenCompraBUT1) {			
+		if (e.getComponent() == _grabarOrdenCompraBUT1) {		
 			
 			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();			
 			// si la orden de compra esta en estado generado o esta siendo revisada
