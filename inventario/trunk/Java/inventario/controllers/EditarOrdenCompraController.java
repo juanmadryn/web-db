@@ -364,11 +364,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		}
 		
 		if (e.getComponent() == _grabarOrdenCompraBUT1) {		
-			
-			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();			
 			// si la orden de compra esta en estado generado o esta siendo revisada
-			if (estado == null || "0008.0001".equalsIgnoreCase(estado)
-					|| "0008.0005".equalsIgnoreCase(estado)) {				
+			if (_dsOrdenesCompra.isModificable()) {
 				try {
 					conn.beginTransaction();
 				
@@ -443,9 +440,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		// marca para eliminacion las linea de la orden de compra seleccionadas
 		if (component == _articulosEliminarBUT1) {
-			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
-			if ("0008.0001".equalsIgnoreCase(estado)
-					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+			if (_dsOrdenesCompra.isModificable()) {
 				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 					if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_SC_FLAG) == 1) {
 						_dsDetalleSC.setInt(row, SELECCION_DETALLE_SC_FLAG, 0);
@@ -469,10 +464,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		}
 		
 		// cancela la eliminacion de los detalles marcados para tal efecto
-		if (component == _articulosCancelarBUT1) {
-			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();			
-			if ("0008.0001".equalsIgnoreCase(estado)
-					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+		if (component == _articulosCancelarBUT1) {			
+			if (_dsOrdenesCompra.isModificable()) {
 				_dsDetalleSC.filter(null);
 				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 					if (_dsDetalleSC.getInt(row, REMOVER_DE_OC) == 1) {
@@ -496,52 +489,12 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					_dsDetalleSC.setInt(row, SELECCION_DETALLE_SC_FLAG, 0);
 				}					
 			}
-		}
-		
-		// Agrega un nuevo detalle a la OC
-		/*if (component == _articulosNuevoBUT1) {
-			setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
-			
-			// Si la OC se encuentra en un estado editable
-			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
-			if ("0008.0001".equalsIgnoreCase(estado)
-					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
-				
-				// Si la OC no esta grabada, la grabamos (?)
-				if (getRow_id() == 0) {
-					_dsOrdenesCompra.update();
-					setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
-				}
-				
-				// Grabamos los cambios hechos a los detalles, si los hubiera
-				if (_dsDetalleSC.getRow() != -1)
-					_dsDetalleSC.update();
-				
-				// Inserto un nuevo detalle
-				int row = _dsDetalleSC.insertRow(0);
-				_dsDetalleSC.setDetalleScOrdenCompraId(row, getRow_id());
-				
-				// hace foco en el registro agregado
-				int nroPagerow = _datatable2.getPage(row);
-				int nroPageActual = _datatable2.getPage(_dsDetalleSC.getRow());
-				if (nroPagerow != nroPageActual)
-					_datatable2.setPage(_datatable2.getPage(row));				
-			} else {
-				// No se puede modificar la OC
-				displayErrorMessage("No puede agregar artículos a la OC en su estado actual.");
-				setRecargar(true);
-				pageRequested(new PageEvent(this));
-				return false;
-			}
-			
-		}*/
+		}		
 		
 		// Redirecciona a la pantalla de Generacion de OCs
 		if (component == _articulosAgregarBUT1) {
 			// Si la OC se encuentra en un estado editable
-			String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
-			if ("0008.0001".equalsIgnoreCase(estado)
-					|| "0008.0005".equalsIgnoreCase(estado) || estado == null) {
+			if (_dsOrdenesCompra.isModificable()) {
 				setRecargar(false);
 				this.gotoSiteMapPage("GenerarOrdenesCompra","?orden_compra_id=" + getRow_id());
 			} else {
@@ -661,8 +614,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 				|| "0008.0004".equalsIgnoreCase(estado)
 				|| "0008.0005".equalsIgnoreCase(estado)) {
 			_dsOrdenesCompra.recuperaObservaciones();
-			_observacionX1.setVisible(true);
-			_observacionX2.setVisible(true);			
+			if (_dsOrdenesCompra.getObservaciones() != null) {
+				_observacionX1.setVisible(true);
+				_observacionX2.setVisible(true);
+			}
 		} else {
 			_observacionX1.setVisible(false);
 			_observacionX2.setVisible(false);
@@ -686,8 +641,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_verFirmantes.setHref("ListaFirmantes.jsp?orden_id=" + getRow_id());
 		
 		// setea la URL de lista de solicitantes
-		_verSolicitantes.setHref("ListaSolicitantes.jsp?orden_id=" + getRow_id());
-				
+		_verSolicitantes.setHref("ListaSolicitantes.jsp?orden_id=" + getRow_id());				
 	}
 	
 	/**
@@ -723,9 +677,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		_desSeleccionaTodoBUT1.setVisible(_dsDetalleSC.getRowCount() == 0 ? false: true);
 		
-		if ("0008.0001".equalsIgnoreCase(estado)
-				|| "0008.0005".equalsIgnoreCase(estado) || estado == null)
-			_muestraDescAdicionalBUT.setVisible(_dsDetalleSC.getRowCount() == 0 ? false: true);
+		if (_dsOrdenesCompra.isModificable())
+			_muestraDescAdicionalBUT.setVisible(_dsDetalleSC.getRowCount() == 0 ? false : true);
 		else
 			_muestraDescAdicionalBUT.setVisible(false);
 

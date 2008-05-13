@@ -288,12 +288,6 @@ public class GenerarOrdenesCompraController extends BaseController {
 					
 					_dsOrdenCompra.setCurrentWebsiteUserId(
 							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
-
-					/*_dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(ocId, 1);
-					_dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId, 
-							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
-					_dsOrdenCompra.setOrdenesCompraUserIdGenerador(ocId, 
-							getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());*/
 					
 					_dsOrdenCompra.update(conexion);
 					
@@ -317,9 +311,8 @@ public class GenerarOrdenesCompraController extends BaseController {
 				
 				int ocId = getIntParameter("orden_compra_id");
 				if (ocId > 0) {
-					this.gotoSiteMapPage("EditarOrdenCompra","?orden_compra_id=" + ocId);
+					this.gotoSiteMapPage("EditarOrdenCompra","?orden_compra_id=" + ocId);				
 				}
-				
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
