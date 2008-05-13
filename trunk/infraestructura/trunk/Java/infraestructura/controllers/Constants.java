@@ -111,6 +111,7 @@ public interface Constants {
 	static final String ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA = "EstadosDeModificacionSolicitudesCompra";
 	static final String ESTADOS_DE_MODIFICACION_RECEPCIONES_COMPRA = "EstadosDeModificacionRecepcionesCompra";
 	static final String ESTADOS_DE_MODIFICACION_COMPROBANTE_MOVIMIENTO_ARTICULO = "EstadosDeModificacionComprobanteMovimientoArticulo";
+	static final String ESTADOS_DE_MODIFICACION_ORDENES_COMPRA = "EstadosDeModificacionSolicitudesCompra";
 	static final String LISTA_UNIDADES_MEDIDA = "ListaUnidadesMedida";
 	
 	static final String IVA_OC = "IVA_ORDEN_COMPRA";

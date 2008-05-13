@@ -68,15 +68,15 @@
 								</td>					
 							</tr>
 							<tr>
-								<td width="10%"><salmon:text name="nombre_completo_comprador1"
+								<td><salmon:text name="nombre_completo_comprador1"
 									text="Comprador" font="TableHeadingFont" /></td>
-								<td width="30%"><salmon:input type="select" name="nombre_completo_comprador2" size="30"
+								<td><salmon:input type="select" name="nombre_completo_comprador2" size="30"
 									datasource="dsOrdenesCompra:ordenes_compra.user_id_comprador">
 									<salmon:option display="abc" key="123"
 										table="inventario.compradores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="false"></salmon:option>
 								</salmon:input></td>
-								<td width="15%"><salmon:text name="proveedor1" text="Proveedor"
+								<td><salmon:text name="proveedor1" text="Proveedor"
 									font="TableHeadingFont" /></td>
 								<td colspan="2" width="30%">
 									<salmon:lookup
@@ -87,9 +87,9 @@
 										datasource="dsOrdenesCompra:ordenes_compra.entidad_id_proveedor" popupheight="450"
 										popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
 								</td>
-								<td width="15%"><salmon:text name="fecha_estimada_entrega1"
+								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
-								<td width="10%"><salmon:input name="fecha_estimada_entrega2" type="text"
+								<td><salmon:input name="fecha_estimada_entrega2" type="text"
 									displayformatlocalekey="DateFormat" size="10" maxlength="15"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
 							</tr>

@@ -9,7 +9,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -59,6 +62,8 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String DESCUENTO_ORDENCOMPRA = "descuento_orden_compra";
 	public static final String CONDICION_COMPRA_DESCRIPCION = "condiciones_compra.descripcion";
 	public static final String CONDICION_COMPRA_NOMBRE = "condiciones_compra.nombre";
+	
+	private Set<String> estadosDeModificacion;
 	//$ENDCUSTOMVARS$
 
 	/**
@@ -198,6 +203,10 @@ public class OrdenesCompraModel extends BaseModel {
 					"'inventario.condiciones_compra.condicion_compra_id = ' + ordenes_compra.condicion_compra_id",
 					"nombre", CONDICION_COMPRA_NOMBRE,
 					"Condición de compra inexistente");
+			
+			// Obtiene los posibles estados de modificacion para este modelo
+			estadosDeModificacion = getEstadosDeModificacion();
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
 		}
@@ -961,7 +970,6 @@ public class OrdenesCompraModel extends BaseModel {
 				" AND mensaje IS NOT NULL");
 		if (instancia.gotoFirst())
 			setObservaciones(instancia.getInstanciasAprobacionMensaje());
-
 	}
 	
 	/**
@@ -1430,6 +1438,32 @@ public class OrdenesCompraModel extends BaseModel {
 	public void calculaTotales() {
 		
 	}	
+	
+	/**
+	 * Obtiene los posibles estados en los cuales una OC es modificable
+	 * @return set con los estados susceptibles de modificacion
+	 */
+	private Set<String> getEstadosDeModificacion() {	
+		Props p = Props.getProps(getAppName(),null);
+		estadosDeModificacion = new HashSet<String>();
+		String[] estados = p.getProperty(Constants.ESTADOS_DE_MODIFICACION_ORDENES_COMPRA).split(",");
+		
+		for (String e : estados) {
+			estadosDeModificacion.add(e);
+		}
+		
+		return estadosDeModificacion;
+	}
+	
+	/**
+	 * Chequea si la OC se encuentra en un estado apto para modificacion
+	 * @return true si la OC es modificable, false en caso contrario
+	 * @throws DataStoreException
+	 */
+	public boolean isModificable() throws DataStoreException {
+		String estadoActual = getOrdenesCompraEstado();
+		return estadoActual == null ? true : estadosDeModificacion.contains(estadoActual);
+	}
 	// $ENDCUSTOMMETHODS$
 
 }
