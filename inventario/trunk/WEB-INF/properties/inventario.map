@@ -3,6 +3,18 @@
 <siteMap>
 
 	<entry>
+     	<name>AbmcConversiones</name>
+    	<uri>/Jsp/AbmcConversiones.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
+     	<name>ConsultaArticulosParaRecepcion</name>
+    	<uri>/Jsp/ConsultaArticulosParaRecepcion.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
      	<name>MenuMovimientos</name>
     	<uri>/Jsp/MenuMovimientos.jsp</uri>
 		<useForward>false</useForward>
