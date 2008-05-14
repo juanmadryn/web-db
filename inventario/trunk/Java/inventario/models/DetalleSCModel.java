@@ -1599,7 +1599,7 @@ public class DetalleSCModel extends DataStore {
 			if (getDetalleScUnidadMedida(row) == 0)
 				setDetalleScUnidadMedida(row, Integer
 						.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
-								"UNIDAD_DE_MEDIDA",
+								"ARTICULO_UNIDAD_MEDIDA",
 								getDetalleScArticuloId(row), "TABLA",
 								"articulos")));
 			

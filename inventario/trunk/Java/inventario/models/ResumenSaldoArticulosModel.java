@@ -483,7 +483,7 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setResEnProcesoArticulosEnProceso(double newValue)
+	public void setResumenSaldoArticulosEnProceso(double newValue)
 			throws DataStoreException {
 		setDouble(RESUMEN_SALDO_ARTICULOS_EN_PROCESO, newValue);
 	}

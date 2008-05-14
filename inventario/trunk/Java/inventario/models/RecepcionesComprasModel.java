@@ -784,7 +784,7 @@ public class RecepcionesComprasModel extends BaseModel {
 			setRecepcionesComprasFecha(new Timestamp((Calendar.getInstance()
 					.getTimeInMillis())));
 		if(getRecepcionesComprasUserIdCompleta() == 0)
-			setRecepcionesComprasUserIdCompleta(getCurrentWebsiteUserId());
+			setRecepcionesComprasUserIdCompleta(getCurrentWebsiteUserId());		
 	}
 	
 	@Override
