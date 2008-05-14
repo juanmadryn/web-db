@@ -120,4 +120,10 @@ public interface Constants {
 	static final String TOTAL_OC = "TOTAL_ORDEN_COMPRA";
 	
 	static final String ARTICULO_IVA_PORCENTAJE = "ARTICULO_IVA_PORCENTAJE";
+
+	static final String TIPO_MOVIMIENTO_RECEPCIONES = "TipoMovimientoRecepciones";
+	
+	static final String ARTICULO_STOCK_MINIMO = "ARTICULO_STOCK_MINIMO";
+	static final String ARTICULO_UNIDAD_MEDIDA = "ARTICULO_UNIDAD_MEDIDA";
 }
+
