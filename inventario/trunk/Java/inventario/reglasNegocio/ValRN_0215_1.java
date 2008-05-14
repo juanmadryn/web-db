@@ -53,6 +53,12 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			movimientos
 					.retrieve("movimiento_articulo.comprobante_movimiento_id ="
 							+ comprobante_movimiento_id);
+			for(int row = 0; row < movimientos.getRowCount(); row++) {
+				if (movimientos.getMovimientoArticuloCantidadAnulada(row) == 0)
+					movimientos.setMovimientoArticuloCantidadAnulada(row,
+							movimientos.getMovimientoArticuloCantidadSolicitada(row)
+									- movimientos.getMovimientoArticuloCantidadEntregada(row));
+			}
 
 			st = conn.createStatement();
 			ResultSet rs = st
