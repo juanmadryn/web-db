@@ -47,7 +47,7 @@
 								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:n">
 								</salmon:input></td>
-								<td width="70"></td>
+								<td width="55"></td>
 								<td><salmon:text name="estado1" text="Estado"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="estado2" type="select"
@@ -65,7 +65,7 @@
 								<td><salmon:input type="text" name="fechadesde2" size="10"
 									datasource="dsPeriodo:desde" displayformat="dd/MM/yyyy"
 									maxlength="10"></salmon:input></td>
-								<td width="70"></td>
+								<td width="55"></td>
 								<td><salmon:text name="fechahasta1" text="Fecha RC hasta"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="fechahasta2" size="10"
@@ -82,7 +82,7 @@
 										displaycolumn="nombre_completo" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
-								<td width="70"></td>
+								<td width="55"></td>
 								<td><salmon:text name="proveedor1" text="Proveedor"
 									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"

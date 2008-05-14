@@ -76,22 +76,20 @@
 									maxlength="10" displayformat="##########0"
 									datasource="dsRecepciones:recepciones_compras.user_id_recibe"
 									popupheight="450" popupwidth="500" usepopup="true"
-									showdescription="false"></salmon:lookup>
-									<salmon:text name="recibe2" text=""
+									showdescription="false"></salmon:lookup> <salmon:text
+									name="recibe2" text=""
 									datasource="dsRecepciones:legajos.APEYNOM" /></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="proveedor1" text="Proveedor"
 									font="TableHeadingFont" /></td>
-								<td>
-								<salmon:lookup
-										browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpProveedores" name="proveedor2" size="6"
-										maxlength="10" displayformat="#########0"
-										descriptiondatasource="dsRecepciones:proveedores.nombre"
-										datasource="dsRecepciones:recepciones_compras.proveedor_id" popupheight="450"
-										popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>								
-								</td>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpProveedores" name="proveedor2" size="6"
+									maxlength="10" displayformat="#########0"
+									descriptiondatasource="dsRecepciones:proveedores.nombre"
+									datasource="dsRecepciones:recepciones_compras.proveedor_id"
+									popupheight="450" popupwidth="500" usepopup="true"
+									showdescription="true"></salmon:lookup></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha1" text="Fecha"
@@ -214,17 +212,21 @@
 								lookupurl="%LkpArticulosParaRecepcion" name="articulo2" size="6"
 								maxlength="15" datasource="dsDetalle:detalles_rc.detalle_sc_id"
 								descriptiondatasource="dsDetalle:articulos.descripcion"
-								popupheight="600" popupwidth="900" usepopup="true" popupposition="0"
-								showdescription="true"></salmon:lookup>							
+								popupheight="600" popupwidth="900" usepopup="true"
+								popupposition="0" showdescription="true"></salmon:lookup>							
 								-
 								<salmon:text name="descripcion_completa_articulo1" text=""
 								datasource="dsDetalle:detalle_sc.descripcion"
 								font="ColumnCaptionFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="unidad_medida2" text=""
-								datasource="dsDetalle:unidad_medida.nombre"
-								font="ColumnCaptionFont" />
+							<salmon:input type="select" name="unidad_medida2"
+								datasource="dsDetalle:detalles_rc.unidad_medida_id">
+								<salmon:option display="abc" key="123"
+									table="inventario.unidades_medida"
+									keycolumn="unidades_medida.unidad_medida_id"
+									displaycolumn="unidades_medida.nombre" nulloption="true"></salmon:option>
+							</salmon:input>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="cantidad_recibida2" size="8"
