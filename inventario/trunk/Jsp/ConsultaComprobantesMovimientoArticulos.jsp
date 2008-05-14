@@ -25,7 +25,7 @@
 	<salmon:datasource name="dsComprobantes" type="MODEL"
 		dbprofile="inventario"
 		model="inventario.models.ComprobanteMovimientoArticuloModel"
-		autoretrieve="Never">
+		autoretrieve="Never">		
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar código de la página aquí -->

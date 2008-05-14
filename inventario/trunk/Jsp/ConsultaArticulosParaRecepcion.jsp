@@ -15,14 +15,16 @@
 		</salmon:datasourcedef>
 	</salmon:datasource>
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="n" type="IN"
+		<salmon:qbecriteria name="nOC" type="IN"
 			columns="articulos_comprados.orden_compra_id" />
+		<salmon:qbecriteria name="nSC" type="IN"
+			columns="articulos_comprados.solicitud_compra_id" />
 		<salmon:qbecriteria name="comprador" type="IN"
 			columns="articulos_comprados.user_id_comprador" />
 		<salmon:qbecriteria name="solicitante" type="IN"
 			columns="articulos_comprados.user_id_solicitante" />
 		<salmon:qbecriteria name="proveedor_id" type="IN"
-			columns="articulos_comprados.proveedor_id" />
+			columns="articulos_comprados.entidad_id_proveedor" />
 	</salmon:datasource>
 	<salmon:datasource name="dsArticulosComprados" type="MODEL"
 		dbprofile="inventario"
@@ -42,14 +44,17 @@
 						qbebuilder="dsQBE">
 						<table width="100%">
 							<tr>
-								<td><salmon:text name="n1" text="Nº"
+								<td><salmon:text name="n1" text="Nº de OC"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="n2" type="text"
-									datasource="dsQBE:n">
+									datasource="dsQBE:nOC">
 								</salmon:input></td>
 								<td width="55"></td>
-								<td></td>
-								<td></td>
+								<td><salmon:text name="n3" text="Nº de SC"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input name="n4" type="text"
+									datasource="dsQBE:nSC"></salmon:input></td>
+
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"
@@ -77,8 +82,8 @@
 								<td width="55"></td>
 								<td><salmon:text name="comprador1" text="Comprador"
 									font="TableHeadingFont" /></td>
-								<td><salmon:input type="select" name="comprador2"
-									size="30" datasource="dsQBE:comprador" maxlength="50">
+								<td><salmon:input type="select" name="comprador2" size="30"
+									datasource="dsQBE:comprador" maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.compradores" keycolumn="user_id"
 										displaycolumn="nombre_completo" nulloption="true"
@@ -91,6 +96,7 @@
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpProveedores" name="proveedor2" size="6"
 									maxlength="10" displayformat="#########0"
+									descriptiondatasource="dsArticulosComprados:articulos_comprados.proveedor_nombre"
 									datasource="dsQBE:proveedor_id" popupheight="450"
 									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
 								</td>
@@ -117,11 +123,16 @@
 				<salmon:datatableheader>
 					<salmon:tr>
 						<salmon:td>
-							<salmon:text name="orden_compra_id1" text="Articulo"
+							<salmon:text name="articulo1" text="Articulo"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="articulo1" text="OC" font="TableHeadingFont" />
+							<salmon:text name="orden_compra_id1" text="OC"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="solicitud_compra_id1" text="Solicitud"
+								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="proveedor1" text="Proveedor"
@@ -163,6 +174,12 @@
 						<salmon:td>
 							<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
 								datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"
+								displayformat="####" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="solicitud_compra_id2" text=""
+								font="DefaultFont"
+								datasource="dsArticulosComprados:articulos_comprados.solicitud_compra_id"
 								displayformat="####" />
 						</salmon:td>
 						<salmon:td>

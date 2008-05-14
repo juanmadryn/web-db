@@ -125,7 +125,7 @@
 									onclick="document.forms['bannerForm'].submit();">
 									<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
 										height="25" srclocalekey="bannerImageSource" />
-								</salmon:a></td>								
+								</salmon:a></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
@@ -198,11 +198,15 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="cantidad_solicitada1"
-								text="Cantidad solicitada" font="TableHeadingFont" />
+							<salmon:text name="cantidad_solicitada1" text="Cant. solicitada"
+								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="cantidad_entregada1" text="Cantidad entregada"
+							<salmon:text name="cantidad_entregada1" text="Cant. entregada"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="cantidad_anulada1" text="Cant. anulada"
 								font="TableHeadingFont" />
 						</salmon:td>
 					</salmon:tr>
@@ -216,10 +220,10 @@
 						<salmon:td>
 							<salmon:text name="tarea1" text="Tarea" font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td colspan="3">
+						<salmon:td colspan="4">
 							<salmon:text name="observaciones3" text="Observaciones"
 								font="TableHeadingFont" />
-						</salmon:td>												
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
@@ -260,13 +264,18 @@
 								maxlength="15"
 								datasource="dsMovimientos:movimiento_articulo.cantidad_entregada"></salmon:input>
 						</salmon:td>
+						<salmon:td>
+							<salmon:input type="text" name="cantidad_anulada2" size="8"
+								maxlength="15"
+								datasource="dsMovimientos:movimiento_articulo.cantidad_anulada"></salmon:input>
+						</salmon:td>
 					</salmon:tr>
 					<salmon:tr>
 						<salmon:td>
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-								lookupurl="%LkpProyectos" name="proyecto2" size="15"
+								lookupurl="%LkpProyectos" name="proyecto2" size="8"
 								maxlength="15" datasource="dsMovimientos:proyectos.proyecto"
 								descriptiondatasource="dsMovimientos:proyectos.nombre"
 								popupheight="450" popupwidth="500" usepopup="TRUE"
@@ -274,18 +283,28 @@
 						</salmon:td>
 						<salmon:td name="tarea2">
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-								lookupurl="%LkpTareasProyecto" name="tarea3" size="10"
+								lookupurl="%LkpTareasProyecto" name="tarea3" size="8"
 								maxlength="90"
 								datasource="dsMovimientos:movimiento_articulo.tarea_id"
 								descriptiondatasource="dsMovimientos:tareas_proyecto.nombre"
 								popupheight="450" popupwidth="500" usepopup="true"
-								showdescription="TRUE"></salmon:lookup>							
-						</salmon:td>						
+								showdescription="TRUE"></salmon:lookup>
+						</salmon:td>
+						<salmon:td>
+							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+								lookupurl="%LkpLegajoLegajo" name="cargo2" size="6"
+								maxlength="10" displayformat="##########0"
+								datasource="dsMovimientos:movimiento_articulo.legajo_cargo"
+								popupheight="450" popupwidth="500" usepopup="true"
+								showdescription="false"></salmon:lookup>
+							<salmon:text name="cargo3" text=""
+								datasource="dsMovimientos:legajos.APEYNOM" />
+						</salmon:td>
 						<salmon:td colspan="3">
 							<salmon:input type="text" name="observaciones4" size="60"
 								maxlength="255"
-								datasource="dsDetalleSC:detalle_sc.observaciones"></salmon:input>
-						</salmon:td>						
+								datasource="dsMovimientos:movimiento_articulo.observaciones"></salmon:input>
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>
 			</salmon:datatable>

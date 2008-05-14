@@ -137,21 +137,12 @@
 								<td><salmon:text name="fecha_aprobacion2" text=""
 									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsSolicitudes:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="centro_costo1"
-									text="Centro de costo" font="TableHeadingFont" /></td>
-								<td><salmon:text name="centro_costo2" text=""
-									datasource="dsSolicitudes:centro_costo.nombre"></salmon:text></td>
-							</tr>
+							</tr>							
 							<tr>
 								<td><salmon:text name="proyectos_proyecto1" text="Proyecto"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="proyectos_proyecto2" text=""
-									datasource="dsSolicitudes:proyectos.proyecto"></salmon:text> <salmon:text
-									name="separador" text=" - "></salmon:text> <salmon:text
-									name="proyectos_nombre2" text=""
-									datasource="dsSolicitudes:proyectos.nombre"></salmon:text></td>
+									datasource="dsSolicitudes:proyectos.proyecto + ' - ' + proyectos.nombre"></salmon:text></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
