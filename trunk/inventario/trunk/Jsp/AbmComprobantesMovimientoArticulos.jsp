@@ -220,7 +220,10 @@
 						<salmon:td>
 							<salmon:text name="tarea1" text="Tarea" font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td colspan="4">
+						<salmon:td>
+							<salmon:text name="cargo1" text="Con cargo a" font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td colspan="3">
 							<salmon:text name="observaciones3" text="Observaciones"
 								font="TableHeadingFont" />
 						</salmon:td>
