@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
     <property name="units">cm</property>
     <text-property name="title">Solicitud de compra</text-property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
@@ -548,7 +548,7 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
             <property name="orientation">landscape</property>
-            <property name="topMargin">0cm</property>
+            <property name="topMargin">0.5cm</property>
             <property name="leftMargin">1cm</property>
             <property name="bottomMargin">0in</property>
             <property name="rightMargin">2cm</property>
@@ -1116,8 +1116,10 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
             </header>
             <detail>
                 <row id="953">
-                    <property name="height">4mm</property>
+                    <property name="height">3mm</property>
                     <property name="fontSize">small</property>
+                    <property name="textIndent">0em</property>
+                    <property name="verticalAlign">middle</property>
                     <cell id="954">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
@@ -1131,7 +1133,10 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="verticalAlign">middle</property>
                         <data id="1078">
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
                             <property name="resultSetColumn">nombre_22</property>
                         </data>
                     </cell>
@@ -1149,7 +1154,10 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <property name="textAlign">center</property>
+                        <property name="verticalAlign">middle</property>
                         <data id="1080">
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
                             <property name="resultSetColumn">cantidad_solicitada</property>
                         </data>
                     </cell>
@@ -1167,7 +1175,10 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <property name="textAlign">center</property>
+                        <property name="verticalAlign">middle</property>
                         <data id="1079">
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
                             <property name="resultSetColumn">nombre_29</property>
                         </data>
                     </cell>
@@ -1185,7 +1196,10 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <property name="textAlign">center</property>
+                        <property name="verticalAlign">middle</property>
                         <data id="1081">
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">#,##0.00;(#,##0.00)</property>
@@ -1283,7 +1297,7 @@ left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tar
                 <row id="965">
                     <property name="borderTopColor">#000000</property>
                     <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thick</property>
+                    <property name="borderTopWidth">4px</property>
                     <cell id="966">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
