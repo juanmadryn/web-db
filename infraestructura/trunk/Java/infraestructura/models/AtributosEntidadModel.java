@@ -96,11 +96,16 @@ public class AtributosEntidadModel extends DataStore {
 		try {
 
 			// add aliases
-			addTableAlias(computeTableName("infraestructura.atributos_entidad"),
+			addTableAlias(
+					computeTableName("infraestructura.atributos_entidad"),
 					"atributos_entidad");
-			addTableAlias(computeTableName("infraestructura.atributos_rol"), "atributos_rol");
-			addTableAlias(computeTableName("infraestructura.entidad_externa"), "entidad_externa");
-			addTableAlias(computeTableName("infraestructura.clase_atributo_rol"), "clase_atributo_rol");
+			addTableAlias(computeTableName("infraestructura.atributos_rol"),
+					"atributos_rol");
+			addTableAlias(computeTableName("infraestructura.entidad_externa"),
+					"entidad_externa");
+			addTableAlias(
+					computeTableName("infraestructura.clase_atributo_rol"),
+					"clase_atributo_rol");
 
 			// add columns
 			addColumn(computeTableName("atributos_entidad"),
@@ -1474,10 +1479,17 @@ public class AtributosEntidadModel extends DataStore {
 	public void validaAtributosUpdate() throws DataStoreException,
 			SQLException, ValidationException {
 		// TODO Auto-generated method stub
+		DBConnection conn = DBConnection.getConnection("infraestructura");		
+		validaAtributosUpdate(conn);		
+	}
+
+	public void validaAtributosUpdate(DBConnection conn) throws DataStoreException,
+			SQLException, ValidationException {
+		// TODO Auto-generated method stub
 
 		filter(null);
 
-		update();
+		update(conn);
 
 		AtributosRolModel dsAtributos = new AtributosRolModel(getAppName(),
 				"infraestructura");
@@ -1581,14 +1593,13 @@ public class AtributosEntidadModel extends DataStore {
 						.add("Ha introducido valores indebidos para el atributo "
 								+ nombre_rol);
 			}
-			update();
+			update(conn);
 		}
 
 		filter(popCriteria());
-		if (mensajeError.size() != 0) {
+		if (mensajeError.size() != 0 && mensajeError != null) {
 			throw new ValidationException(mensajeError);
 		}
-
 	}
 
 	// Chequea si el valor introducido para un atributo clave es único para la
@@ -1677,7 +1688,7 @@ public class AtributosEntidadModel extends DataStore {
 		String sql = null;
 		String valor = null;
 		String tipo = getTipoAtributo(atributoId);
-		
+
 		try {
 			conexion = DBConnection.getConnection("infraestructura",
 					"infraestructura");
@@ -1753,9 +1764,10 @@ public class AtributosEntidadModel extends DataStore {
 			if (r.first())
 				return getValorAtributoObjeto(r.getInt(1), objetoId,
 						tipoObjeto, nombreObjeto);
-			else 
-				throw new DataStoreException("El atributo indicado para recuperar su tipo no existe.");
-			
+			else
+				throw new DataStoreException(
+						"El atributo indicado para recuperar su valor no existe.");
+
 		} finally {
 			if (r != null) {
 				try {
@@ -1772,7 +1784,7 @@ public class AtributosEntidadModel extends DataStore {
 
 			if (conexion != null)
 				conexion.freeConnection();
-		}		
+		}
 	}
 
 	public static void setValorAtributoObjeto(String valor, int atributoId,
