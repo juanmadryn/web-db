@@ -751,8 +751,13 @@ public class OrdenesCompraModel extends BaseModel {
 		}
 		
 		if (getOrdenesCompraFechaEstimadaEntrega() != null) {
-			if (Calendar.getInstance().getTimeInMillis() > getOrdenesCompraFechaEstimadaEntrega().getTime())
-				throw new DataStoreException("La fecha estimada de entrega debe ser posterior a la fecha actual");
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.HOUR_OF_DAY, cal.getMaximum(Calendar.HOUR_OF_DAY));
+			cal.set(Calendar.MINUTE, cal.getMaximum(Calendar.MINUTE));
+			cal.set(Calendar.SECOND, cal.getMaximum(Calendar.SECOND));
+			cal.set(Calendar.MILLISECOND, cal.getMaximum(Calendar.MILLISECOND));
+			if (cal.getTimeInMillis() < getOrdenesCompraFechaEstimadaEntrega().getTime())
+				throw new DataStoreException("La fecha estimada de entrega debe ser igual o posterior a la fecha actual");
 		}
 		
 		super.update(conn, handleTrans);
