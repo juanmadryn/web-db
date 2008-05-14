@@ -408,12 +408,6 @@ public class AbmRecepcionesController extends BaseEntityController {
 
 					_dsRecepciones.update(conn);
 
-					
-					// actualizo los detalles
-					if (_dsDetalle.getRow() != -1) {
-						_dsDetalle.update(conn);
-					}
-
 					if (_dsAtributos.getRow() == -1) {
 						if (!(_dsRecepciones
 								.getRecepcionesComprasRecepcionCompraId() > 0)) {
@@ -423,8 +417,14 @@ public class AbmRecepcionesController extends BaseEntityController {
 						// manda a generar los atributos de la entidad
 						_dsAtributos.generaAtributosObjetoAplicacion(
 								getRow_id(), getTabla_principal());
-					} else
-						_dsAtributos.update(conn);
+					} else {
+						_dsAtributos.update(conn);						
+					}
+					
+					// actualizo los detalles
+					if (_dsDetalle.getRow() != -1) {
+						_dsDetalle.update(conn);
+					}
 
 					_dsRecepciones.resetStatus();
 					_dsDetalle.resetStatus();

@@ -402,6 +402,7 @@ public class AbmcArticuloController extends BaseController {
 			if ("F".equalsIgnoreCase(_dsArticulo.getArticulosActivo())) {
 				try {
 					_dsAtributos.update();
+					_dsAtributos.validaAtributosUpdate();
 				} catch (ValidationException ex) {
 					for (String er : ex.getStackErrores())
 						displayErrorMessage(er);
