@@ -1377,11 +1377,7 @@ public class MovimientoArticuloModel extends DataStore {
 						.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
 								"ARTICULO_UNIDAD_MEDIDA",
 								getMovimientoArticuloArticuloId(row), "TABLA",
-								"articulos")));
-			if (getMovimientoArticuloCantidadAnulada(row) == 0)
-				setMovimientoArticuloCantidadAnulada(row,
-						getMovimientoArticuloCantidadSolicitada(row)
-								- getMovimientoArticuloCantidadEntregada(row));
+								"articulos")));			
 			super.update(conn, handleTrans);
 		}
 	}
