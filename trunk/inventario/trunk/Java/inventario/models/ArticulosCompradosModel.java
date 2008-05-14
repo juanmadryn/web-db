@@ -19,6 +19,7 @@ public class ArticulosCompradosModel extends DataStore {
 	private static final long serialVersionUID = -1452612161900271696L;
 	// constants for columns
 	public static final String ARTICULOS_COMPRADOS_DETALLE_SC_ID = "articulos_comprados.detalle_SC_id";
+	public static final String ARTICULOS_COMPRADOS_SOLICITUD_COMPRA_ID = "articulos_comprados.solicitud_compra_id";
 	public static final String ARTICULOS_COMPRADOS_ORDEN_COMPRA_ID = "articulos_comprados.orden_compra_id";
 	public static final String ARTICULOS_COMPRADOS_CANTIDAD_PEDIDA = "articulos_comprados.cantidad_pedida";
 	public static final String ARTICULOS_COMPRADOS_CANTIDAD_RECIBIDA = "articulos_comprados.cantidad_recibida";
@@ -29,7 +30,10 @@ public class ArticulosCompradosModel extends DataStore {
 	public static final String ARTICULOS_COMPRADOS_ENTIDAD_ID_PROVEEDOR = "articulos_comprados.entidad_id_proveedor";
 	public static final String ARTICULOS_COMPRADOS_PROVEEDOR_NOMBRE = "articulos_comprados.proveedor_nombre";
 	public static final String ARTICULOS_COMPRADOS_FECHA = "articulos_comprados.fecha";
+	public static final String ARTICULOS_COMPRADOS_USER_ID_COMPRADOR = "articulos_comprados.user_id_comprador";
 	public static final String ARTICULOS_COMPRADOS_COMPRADOR = "articulos_comprados.comprador";
+	public static final String ARTICULOS_COMPRADOS_USER_ID_SOLICITANTE = "articulos_comprados.user_id_solicitante";
+	public static final String ARTICULOS_COMPRADOS_SOLICITANTE = "articulos_comprados.solicitante";
 
 	// $CUSTOMVARS$
 
@@ -64,6 +68,9 @@ public class ArticulosCompradosModel extends DataStore {
 		addColumn(computeTableName("articulos_comprados"), "detalle_SC_id",
 				DataStore.DATATYPE_INT, false, false,
 				ARTICULOS_COMPRADOS_DETALLE_SC_ID);
+		addColumn(computeTableName("articulos_comprados"), "solicitud_compra_id",
+				DataStore.DATATYPE_INT, false, false,
+				ARTICULOS_COMPRADOS_SOLICITUD_COMPRA_ID);
 		addColumn(computeTableName("articulos_comprados"), "orden_compra_id",
 				DataStore.DATATYPE_INT, false, false,
 				ARTICULOS_COMPRADOS_ORDEN_COMPRA_ID);
@@ -94,9 +101,18 @@ public class ArticulosCompradosModel extends DataStore {
 		addColumn(computeTableName("articulos_comprados"), "fecha",
 				DataStore.DATATYPE_DATETIME, false, false,
 				ARTICULOS_COMPRADOS_FECHA);
+		addColumn(computeTableName("articulos_comprados"),
+				"user_id_comprador", DataStore.DATATYPE_INT, false, false,
+				ARTICULOS_COMPRADOS_USER_ID_COMPRADOR);
 		addColumn(computeTableName("articulos_comprados"), "comprador",
 				DataStore.DATATYPE_STRING, false, false,
 				ARTICULOS_COMPRADOS_COMPRADOR);
+		addColumn(computeTableName("articulos_comprados"),
+				"user_id_solicitante", DataStore.DATATYPE_INT, false, false,
+				ARTICULOS_COMPRADOS_USER_ID_SOLICITANTE);
+		addColumn(computeTableName("articulos_comprados"), "solicitante",
+				DataStore.DATATYPE_STRING, false, false,
+				ARTICULOS_COMPRADOS_SOLICITANTE);
 
 		// $CUSTOMCONSTRUCTOR$
 
@@ -157,6 +173,59 @@ public class ArticulosCompradosModel extends DataStore {
 		setInt(row, ARTICULOS_COMPRADOS_DETALLE_SC_ID, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the articulos_comprados.orden_compra_id column for
+	 * the current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getArticulosCompradosSolicitudCompraId() throws DataStoreException {
+		return getInt(ARTICULOS_COMPRADOS_SOLICITUD_COMPRA_ID);
+	}
+
+	/**
+	 * Retrieve the value of the articulos_comprados.orden_compra_id column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getArticulosCompradosSolicitudCompraId(int row)
+			throws DataStoreException {
+		return getInt(row, ARTICULOS_COMPRADOS_SOLICITUD_COMPRA_ID);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.orden_compra_id column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosSolicitudCompraId(int newValue)
+			throws DataStoreException {
+		setInt(ARTICULOS_COMPRADOS_SOLICITUD_COMPRA_ID, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.orden_compra_id column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosSolicitudCompraId(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, ARTICULOS_COMPRADOS_SOLICITUD_COMPRA_ID, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the articulos_comprados.orden_compra_id column for
 	 * the current row.
@@ -693,6 +762,62 @@ public class ArticulosCompradosModel extends DataStore {
 		setDateTime(row, ARTICULOS_COMPRADOS_FECHA, newValue);
 	}
 
+
+	/**
+	 * Retrieve the value of the articulos_comprados.user_id_comprador column
+	 * for the current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getArticulosCompradosUserIdComprador()
+			throws DataStoreException {
+		return getInt(ARTICULOS_COMPRADOS_USER_ID_COMPRADOR);
+	}
+
+	/**
+	 * Retrieve the value of the articulos_comprados.user_id_comprador column
+	 * for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getArticulosCompradosUserIdComprador(int row)
+			throws DataStoreException {
+		return getInt(row, ARTICULOS_COMPRADOS_USER_ID_COMPRADOR);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.user_id_comprador column for
+	 * the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosUserIdComprador(int newValue)
+			throws DataStoreException {
+		setInt(ARTICULOS_COMPRADOS_USER_ID_COMPRADOR, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.user_id_comprador column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosUserIdComprador(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, ARTICULOS_COMPRADOS_USER_ID_COMPRADOR, newValue);
+	}
+	
+	
 	/**
 	 * Retrieve the value of the articulos_comprados.comprador column for
 	 * the current row.
@@ -747,6 +872,114 @@ public class ArticulosCompradosModel extends DataStore {
 		setString(row, ARTICULOS_COMPRADOS_COMPRADOR, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the articulos_comprados.user_id_solicitante column
+	 * for the current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getArticulosCompradosUserIdSolicitante()
+			throws DataStoreException {
+		return getInt(ARTICULOS_COMPRADOS_USER_ID_SOLICITANTE);
+	}
+
+	/**
+	 * Retrieve the value of the articulos_comprados.user_id_solicitante column
+	 * for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getArticulosCompradosUserIdSolicitante(int row)
+			throws DataStoreException {
+		return getInt(row, ARTICULOS_COMPRADOS_USER_ID_SOLICITANTE);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.user_id_solicitante column for
+	 * the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosUserIdSolicitante(int newValue)
+			throws DataStoreException {
+		setInt(ARTICULOS_COMPRADOS_USER_ID_SOLICITANTE, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.user_id_solicitante column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosUserIdSolicitante(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, ARTICULOS_COMPRADOS_USER_ID_SOLICITANTE, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the articulos_comprados.solicitante column for
+	 * the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosCompradosSolicitanteNombreCompleto()
+			throws DataStoreException {
+		return getString(ARTICULOS_COMPRADOS_SOLICITANTE);
+	}
+
+	/**
+	 * Retrieve the value of the articulos_comprados.solicitante column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosCompradosSolicitanteNombreCompleto(int row)
+			throws DataStoreException {
+		return getString(row, ARTICULOS_COMPRADOS_SOLICITANTE);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.solicitante column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosSolicitanteNombreCompleto(String newValue)
+			throws DataStoreException {
+		setString(ARTICULOS_COMPRADOS_SOLICITANTE, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.solicitante column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosSolicitanteNombreCompleto(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_COMPRADOS_SOLICITANTE, newValue);
+	}
+	
 	// $CUSTOMMETHODS$
 
 	// $ENDCUSTOMMETHODS$

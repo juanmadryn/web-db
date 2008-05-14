@@ -1,5 +1,8 @@
 package inventario.models;
 
+import infraestructura.controllers.Constants;
+import infraestructura.models.AtributosEntidadModel;
+
 import java.sql.SQLException;
 
 import com.salmonllc.sql.DBConnection;
@@ -14,7 +17,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * DetalleRCModel: A SOFIA generated model
  */
-public class DetalleRCModel extends DataStore {
+public class DetalleRCModel extends DataStore implements Constants {
 
 	/**
 	 * 
@@ -26,6 +29,7 @@ public class DetalleRCModel extends DataStore {
 	public static final String DETALLES_RC_DETALLE_SC_ID = "detalles_rc.detalle_sc_id";
 	public static final String DETALLES_RC_ALMACEN_ID = "detalles_rc.almacen_id";
 	public static final String DETALLES_RC_CANTIDAD = "detalles_rc.cantidad_recibida";
+	public static final String DETALLES_RC_UNIDAD_MEDIDA_ID = "detalles_rc.unidad_medida_id";
 	public static final String RECEPCIONES_COMPRAS_FECHA = "recepciones_compras.fecha";
 	public static final String RECEPCIONES_COMPRAS_ESTADO = "recepciones_compras.estado";
 	public static final String RECEPCIONES_COMPRAS_PROVEDOR_ID = "recepciones_compras.proveedor_id";
@@ -100,6 +104,8 @@ public class DetalleRCModel extends DataStore {
 			addColumn(computeTableName("detalles_rc"), "cantidad_recibida",
 					DataStore.DATATYPE_DOUBLE, false, true,
 					DETALLES_RC_CANTIDAD);
+			addColumn(computeTableName("detalles_rc"), "unidad_medida_id",
+					DataStore.DATATYPE_INT, false, true, DETALLES_RC_UNIDAD_MEDIDA_ID);
 			addColumn(computeTableName("recepciones_compras"), "fecha",
 					DataStore.DATATYPE_DATETIME, false, false,
 					RECEPCIONES_COMPRAS_FECHA);
@@ -182,7 +188,7 @@ public class DetalleRCModel extends DataStore {
 					computeTableAndFieldName("articulos.articulo_id"), false);
 
 			addJoin(
-					computeTableAndFieldName("detalle_sc.unidad_medida_id"),
+					computeTableAndFieldName("detalles_rc.unidad_medida_id"),
 					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
 					false);
 
@@ -196,12 +202,6 @@ public class DetalleRCModel extends DataStore {
 					"Indique a qué recepción pertenece este artículo");
 
 			// add lookups
-			addLookupRule(
-					DETALLE_SC_UNIDAD_MEDIDA_ID,
-					computeTableName("unidades_medida"),
-					"'inventario.unidades_medida.unidad_medida_id = ' + detalle_sc.unidad_medida_id",
-					"nombre", UNIDAD_MEDIDA_NOMBRE,
-					"Unidad de medida inexistente");
 			addLookupRule(
 					DETALLES_RC_DETALLE_SC_ID,
 					computeTableName("detalle_sc"),
@@ -490,6 +490,59 @@ public class DetalleRCModel extends DataStore {
 		setDouble(row, DETALLES_RC_CANTIDAD, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the detalles_rc.unidad_medida_id column for the
+	 * current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getDetallesRcUnidadMedidaId() throws DataStoreException {
+		return getInt(DETALLES_RC_UNIDAD_MEDIDA_ID);
+	}
+
+	/**
+	 * Retrieve the value of the detalles_rc.unidad_medida_id column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getDetallesRcUnidadMedidaId(int row) throws DataStoreException {
+		return getInt(row, DETALLES_RC_UNIDAD_MEDIDA_ID);
+	}
+
+	/**
+	 * Set the value of the detalles_rc.unidad_medida_id column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetallesRcUnidadMedidaId(int newValue)
+			throws DataStoreException {
+		setInt(DETALLES_RC_UNIDAD_MEDIDA_ID, newValue);
+	}
+
+	/**
+	 * Set the value of the detalles_rc.unidad_medida_id column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetallesRcUnidadMedidaId(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, DETALLES_RC_UNIDAD_MEDIDA_ID, newValue);
+	}
+
+	
 	/**
 	 * Retrieve the value of the recepciones_compras.fecha column for the
 	 * current row.
@@ -1628,17 +1681,21 @@ public class DetalleRCModel extends DataStore {
 		RecepcionesComprasModel recepcion = new RecepcionesComprasModel(
 				"inventario", "inventario");
 
+		DetalleSCModel detalleSC = null;
+		ArticulosModel articulos = null;
 		for (int row = 0; row < getRowCount(); row++) {
 			recepcion.retrieve(connection, "recepcion_compra_id = "
 					+ getDetallesRcRecepcionCompraId(row));
 			recepcion.gotoFirst();
 
-			ArticulosModel articulos;
+			if(detalleSC == null)
+				detalleSC = new DetalleSCModel("inventario");
+			detalleSC.retrieve("detalle_SC_id ="+getDetallesRcDetalleScId(row));
 			// fills detalle_sc.articulo_id field through ArticulosNombre
-			if (getArticulosNombre(row) != null) {
+			if (detalleSC.gotoFirst()) {
 				articulos = new ArticulosModel("inventario", "inventario");
 				articulos.retrieve(connection, "articulos.nombre LIKE '"
-						+ getArticulosNombre(row) + "'");
+						+ detalleSC.getArticulosNombre() + "'");
 				if (!articulos.gotoFirst()) {
 					DataStoreException ex = new DataStoreException(
 							"El código de articulo ingresado no corresponde a ninguno registrado");
@@ -1647,7 +1704,11 @@ public class DetalleRCModel extends DataStore {
 				}
 				;
 				setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
-			}
+				if(getDetallesRcUnidadMedidaId(row) == 0) {
+					setDetallesRcUnidadMedidaId(row, Integer.parseInt(AtributosEntidadModel.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA, articulos.getArticulosArticuloId(), "TABLA", "articulos")));				
+				}
+				System.out.println(Integer.parseInt(AtributosEntidadModel.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA, articulos.getArticulosArticuloId(), "TABLA", "articulos")));
+			}		
 		}
 
 		super.update(connection, handleTrans);

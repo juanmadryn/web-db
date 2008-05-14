@@ -39,6 +39,7 @@ public class MovimientoArticuloModel extends DataStore {
 	public static final String MOVIMIENTO_ARTICULO_DESCRIPCION = "movimiento_articulo.descripcion";
 	public static final String MOVIMIENTO_ARTICULO_OBSERVACIONES = "movimiento_articulo.observaciones";
 	public static final String MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID = "movimiento_articulo.unidad_medida_id";
+	public static final String MOVIMIENTO_ARTICULO_LEGAJO_CARGO = "movimiento_articulo.legajo_cargo";
 	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
 	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
 	public static final String TAREAS_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
@@ -50,7 +51,7 @@ public class MovimientoArticuloModel extends DataStore {
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
 	// be overwritten if the model is regenerated
-
+	public static final String LEGAJOS_APEYNOM = "legajos.APEYNOM";
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -88,7 +89,7 @@ public class MovimientoArticuloModel extends DataStore {
 					"unidades_medida");
 			addTableAlias("proyectos.proyectos", "proyectos");
 			addTableAlias("proyectos.tareas_proyecto",
-					"tareas_proyecto");
+					"tareas_proyecto");			
 
 			// add columns
 			addColumn(computeTableName("movimiento_articulo"),
@@ -148,7 +149,13 @@ public class MovimientoArticuloModel extends DataStore {
 			addColumn(computeTableName("articulos"), "descripcion_completa",
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION_COMPLETA);
-
+			addColumn(computeTableName("movimiento_articulo"),
+					"legajo_cargo", DataStore.DATATYPE_INT, false, true,
+					MOVIMIENTO_ARTICULO_LEGAJO_CARGO);
+			addColumn(computeTableName("legajos"), "APEYNOM",
+					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
+			
+			
 			// add joins
 			addJoin(
 					computeTableAndFieldName("movimiento_articulo.articulo_id"),
@@ -171,6 +178,10 @@ public class MovimientoArticuloModel extends DataStore {
 			
 			addJoin(computeTableAndFieldName("movimiento_articulo.tarea_id"),
 					"tareas_proyecto.tarea_id", false);
+			
+			addJoin(
+					computeTableAndFieldName("movimiento_articulo.legajo_cargo"),
+					computeTableAndFieldName("legajos.nro_legajo"), true);
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("movimiento_articulo.movimiento_articulo_id")
@@ -180,11 +191,7 @@ public class MovimientoArticuloModel extends DataStore {
 			addRequiredRule(MOVIMIENTO_ARTICULO_ARTICULO_ID,
 					"El id del artículo es obligatorio");
 			addRequiredRule(MOVIMIENTO_ARTICULO_CANTIDAD_SOLICITADA,
-					"La cantidad solicitada es obligatoria");
-			addRequiredRule(MOVIMIENTO_ARTICULO_CANTIDAD_ENTREGADA,
-					"La cantidad entregada es obligatoria");
-			addRequiredRule(MOVIMIENTO_ARTICULO_CANTIDAD_ANULADA,
-					"La cantidad anulada es obligatoria");
+					"La cantidad solicitada es obligatoria");			
 			addRequiredRule(MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID,
 					"La unidad de medida es obligatoria");
 
@@ -204,6 +211,13 @@ public class MovimientoArticuloModel extends DataStore {
 					"'proyectos.tareas_proyecto.tarea_id = ' + movimiento_articulo.tarea_id",
 					"nombre", TAREAS_PROYECTO_NOMBRE, "Tarea inexistente");
 
+			addLookupRule(
+					MOVIMIENTO_ARTICULO_LEGAJO_CARGO,
+					"inventario.legajos",
+					"'inventario.legajos.nro_legajo = ' + movimiento_articulo.legajo_cargo",
+					"APEYNOM", LEGAJOS_APEYNOM,
+					"Legajo inexistente");
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -866,7 +880,7 @@ public class MovimientoArticuloModel extends DataStore {
 	 * @throws DataStoreException
 	 */
 	public int getMovimientoArticuloUnidadMedidaId() throws DataStoreException {
-		return getInt(MOVIMIENTO_ARTICULO_ARTICULO_ID);
+		return getInt(MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID);
 	}
 
 	/**
@@ -880,7 +894,7 @@ public class MovimientoArticuloModel extends DataStore {
 	 */
 	public int getMovimientoArticuloUnidadMedidaId(int row)
 			throws DataStoreException {
-		return getInt(row, MOVIMIENTO_ARTICULO_ARTICULO_ID);
+		return getInt(row, MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID);
 	}
 
 	/**
@@ -893,7 +907,7 @@ public class MovimientoArticuloModel extends DataStore {
 	 */
 	public void setMovimientoArticuloUnidadMedidaId(int newValue)
 			throws DataStoreException {
-		setInt(MOVIMIENTO_ARTICULO_ARTICULO_ID, newValue);
+		setInt(MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID, newValue);
 	}
 
 	/**
@@ -908,9 +922,64 @@ public class MovimientoArticuloModel extends DataStore {
 	 */
 	public void setMovimientoArticuloUnidadMedidaId(int row, int newValue)
 			throws DataStoreException {
-		setInt(row, MOVIMIENTO_ARTICULO_ARTICULO_ID, newValue);
+		setInt(row, MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID, newValue);
 	}
 
+
+	/**
+	 * Retrieve the value of the movimiento_articulo.legajo_cargo column for the
+	 * current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getMovimientoArticuloLegajoCargo() throws DataStoreException {
+		return getInt(MOVIMIENTO_ARTICULO_LEGAJO_CARGO);
+	}
+
+	/**
+	 * Retrieve the value of the movimiento_articulo.legajo_cargo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getMovimientoArticuloLegajoCargo(int row)
+			throws DataStoreException {
+		return getInt(row, MOVIMIENTO_ARTICULO_LEGAJO_CARGO);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.legajo_cargo column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMovimientoArticuloLegajoCargo(int newValue)
+			throws DataStoreException {
+		setInt(MOVIMIENTO_ARTICULO_LEGAJO_CARGO, newValue);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.legajo_cargo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMovimientoArticuloLegajoCargo(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, MOVIMIENTO_ARTICULO_LEGAJO_CARGO, newValue);
+	}
+
+	
 	/**
 	 * Retrieve the value of the articulos.nombre column for the current row.
 	 * 
@@ -1206,6 +1275,44 @@ public class MovimientoArticuloModel extends DataStore {
 		setString(row, TAREAS_PROYECTO_NOMBRE, newValue);
 	}
 
+
+	/**
+	 * Retrieve the value of the user_recibe.nombre_completo column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getLegajoApeynom() throws DataStoreException {
+		return getString(LEGAJOS_APEYNOM);
+	}
+
+	/**
+	 * Retrieve the value of the user_recibe.nombre_completo column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getLegajoApeynom(int row) throws DataStoreException {
+		return getString(row, LEGAJOS_APEYNOM);
+	}
+
+	/**
+	 * Set the value of the user_recibe.nombre_completo column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setLegajoApeynom(String newValue) throws DataStoreException {
+		setString(LEGAJOS_APEYNOM, newValue);
+	}
+
+	
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
@@ -1268,7 +1375,7 @@ public class MovimientoArticuloModel extends DataStore {
 			if (getMovimientoArticuloUnidadMedidaId(row) == 0)
 				setMovimientoArticuloUnidadMedidaId(row, Integer
 						.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
-								"UNIDAD_DE_MEDIDA",
+								"ARTICULO_UNIDAD_MEDIDA",
 								getMovimientoArticuloArticuloId(row), "TABLA",
 								"articulos")));
 			if (getMovimientoArticuloCantidadAnulada(row) == 0)
