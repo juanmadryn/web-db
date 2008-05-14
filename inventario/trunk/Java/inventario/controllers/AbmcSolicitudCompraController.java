@@ -422,7 +422,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 					// actualizo los detalles
 					if (_dsDetalleSC.getRow() != -1) {
-						_dsDetalleSC.update(conn);
+						_dsDetalleSC.update(conn, false);
 					}
 
 					_dsSolicitudCompra.resetStatus();

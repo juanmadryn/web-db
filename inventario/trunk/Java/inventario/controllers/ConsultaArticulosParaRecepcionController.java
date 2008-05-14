@@ -3,71 +3,63 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
-import infraestructura.controllers.Constants;
 import infraestructura.models.UsuarioRolesModel;
 
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
+import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.html.events.SubmitListener;
 import com.salmonllc.sql.DataStoreException;
 
 /**
- * ConsultaRecepcionesComprasController: a SOFIA generated controller
+ * ConsultaArticulosParaRecepcionController: a SOFIA generated controller
  */
-public class ConsultaComprobantesMovimientoArticulosController extends
-		BaseController {
+public class ConsultaArticulosParaRecepcionController extends BaseController {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -5233176031862847585L;
+	private static final long serialVersionUID = 6848662870905535478L;
 	// Visual Components
-	public com.salmonllc.html.HtmlDropDownList _estado2;
+	public com.salmonllc.html.HtmlDropDownList _comprador2;
 	public com.salmonllc.html.HtmlDropDownList _solicitante2;
-	public com.salmonllc.html.HtmlImage _bannerDividerImage;
-	public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	public com.salmonllc.html.HtmlImage _imgMainLogo;
-	public com.salmonllc.html.HtmlText _clienteCAP5;
-	public com.salmonllc.html.HtmlText _comprador_nombreTXT3;
-	public com.salmonllc.html.HtmlText _descripcionCAP4;
-	public com.salmonllc.html.HtmlText _descripcionTXT2;
-	public com.salmonllc.html.HtmlText _editar;
-	public com.salmonllc.html.HtmlText _estado1;
-	public com.salmonllc.html.HtmlText _estadoCAP5;
-	public com.salmonllc.html.HtmlText _estadoTXT3;
-	public com.salmonllc.html.HtmlText _fecha_solicitudCAP5;
-	public com.salmonllc.html.HtmlText _fecha_solicitudTXT4;
+	public com.salmonllc.html.HtmlText _articulo1;
+	public com.salmonllc.html.HtmlText _articulo2;
+	public com.salmonllc.html.HtmlText _articulo3;
+	public com.salmonllc.html.HtmlText _articulo4;
+	public com.salmonllc.html.HtmlText _cantidad_pedida1;
+	public com.salmonllc.html.HtmlText _cantidad_pedida2;
+	public com.salmonllc.html.HtmlText _cantidad_recibida1;
+	public com.salmonllc.html.HtmlText _cantidad_recibida2;
+	public com.salmonllc.html.HtmlText _comprador1;
+	public com.salmonllc.html.HtmlText _comprador3;
+	public com.salmonllc.html.HtmlText _comprador4;
+	public com.salmonllc.html.HtmlText _fecha1;
+	public com.salmonllc.html.HtmlText _fecha2;
 	public com.salmonllc.html.HtmlText _fechadesde1;
 	public com.salmonllc.html.HtmlText _fechahasta1;
 	public com.salmonllc.html.HtmlText _n1;
-	public com.salmonllc.html.HtmlText _nombreCAP3;
-	public com.salmonllc.html.HtmlText _numeroCAP2;
-	public com.salmonllc.html.HtmlText _proyectoTXT1;
+	public com.salmonllc.html.HtmlText _orden_compra_id1;
+	public com.salmonllc.html.HtmlText _orden_compra_id2;
+	public com.salmonllc.html.HtmlText _proveedor1;
+	public com.salmonllc.html.HtmlText _proveedor2;
+	public com.salmonllc.html.HtmlText _separador1;
+	public com.salmonllc.html.HtmlText _separador2;
 	public com.salmonllc.html.HtmlText _solicitante1;
-	public com.salmonllc.html.HtmlText _solicitante_nombreTXT3;
-	public com.salmonllc.html.HtmlText _text1Footer;
-	public com.salmonllc.html.HtmlText _text2Footer;
-	public com.salmonllc.html.HtmlText _text3Footer;
-	public com.salmonllc.html.HtmlText _welcomeText;
+	public com.salmonllc.html.HtmlText _solicitante3;
+	public com.salmonllc.html.HtmlText _solicitante4;
 	public com.salmonllc.html.HtmlTextEdit _fechadesde2;
 	public com.salmonllc.html.HtmlTextEdit _fechahasta2;
 	public com.salmonllc.html.HtmlTextEdit _n2;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
-	public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
+	public com.salmonllc.jsp.JspForm _bannerForm;
 	public com.salmonllc.jsp.JspForm _pageForm;
-	public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
-	public com.salmonllc.jsp.JspLink _footerInfDevAbout;
-	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
-	public com.salmonllc.jsp.JspLink _footerSalmonLink;
-	public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	public com.salmonllc.jsp.JspLink _lnkBannerOptions;
-	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _table2;
@@ -79,6 +71,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader4;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader5;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader6;
+	public com.salmonllc.jsp.JspTableCell _datatable1TDHeader7;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDRow0;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDRow1;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDRow2;
@@ -86,7 +79,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	public com.salmonllc.jsp.JspTableCell _datatable1TDRow4;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDRow5;
 	public com.salmonllc.jsp.JspTableCell _datatable1TDRow6;
-	public com.salmonllc.jsp.JspTableCell _navbarTableTDRow0;
+	public com.salmonllc.jsp.JspTableCell _datatable1TDRow7;
 	public com.salmonllc.jsp.JspTableCell _table2TDRow0;
 	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow0;
 	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow1;
@@ -96,37 +89,36 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	public com.salmonllc.jsp.JspTableRow _datatable1TRHeader0;
 	public com.salmonllc.jsp.JspTableRow _datatable1TRRow0;
 	public com.salmonllc.jsp.JspTableRow _navbarTableTRRow0;
-	public com.salmonllc.jsp.JspTableRow _table2TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
 
 	// DataSources
 	public com.salmonllc.sql.DataStore _dsPeriodo;
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
-	public inventario.models.ComprobanteMovimientoArticuloModel _dsComprobantes;
+	public inventario.models.ArticulosCompradosModel _dsArticulosComprados;
 
 	// DataSource Column Constants
 	public static final String DSQBE_N = "n";
-	public static final String DSQBE_ESTADO = "estado";
-	public static final String DSQBE_USUARIO_COMPLETO = "usuario_completo";
+	public static final String DSQBE_COMPRADOR = "comprador";
+	public static final String DSQBE_SOLICITANTE = "solicitante";
+	public static final String DSQBE_PROVEEDOR_ID = "proveedor_id";
 
 	public static final String DSPERIODO_DESDE = "desde";
 	public static final String DSPERIODO_HASTA = "hasta";
 
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_RECEPCION_COMPRA_ID = "recepciones_compras.recepcion_compra_id";
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_FECHA = "recepciones_compras.fecha";
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_ESTADO = "recepciones_compras.estado";
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_PROVEEDOR_ID = "recepciones_compras.proveedor_id";
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_USER_ID_COMPLETA = "recepciones_compras.user_id_completa";
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_USER_ID_RECIBE = "recepciones_compras.user_id_recibe";
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_OBSERVACIONES = "recepciones_compras.observaciones";
-	public static final String DSRECEPCIONES_ESTADOS_NOMBRE = "estados.nombre";
-	public static final String DSRECEPCIONES_PROVEEDORES_NOMBRE = "proveedores.nombre";
-	public static final String DSRECEPCIONES_USER_COMPLETA_NOMBRE_COMPLETO = "user_completa.nombre_completo";
-	public static final String DSRECEPCIONES_USER_RECIBE_NOMBRE_COMPLETO = "user_recibe.nombre_completo";
-	public static final String DSRECEPCIONES_WEBSITE_USER_USER_ID = "website_user.user_id";
-
-	public com.salmonllc.html.HtmlSubmitButton _recuperaRecepcionesAnuladas;
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_DETALLE_SC_ID = "articulos_comprados.detalle_SC_id";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_ORDEN_COMPRA_ID = "articulos_comprados.orden_compra_id";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_CANTIDAD_PEDIDA = "articulos_comprados.cantidad_pedida";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_CANTIDAD_RECIBIDA = "articulos_comprados.cantidad_recibida";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_ESTADO = "articulos_comprados.estado";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_NOMBRE = "articulos_comprados.nombre";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_DESCRIPCION = "articulos_comprados.descripcion";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_DESCRIPCION_COMPLETA = "articulos_comprados.descripcion_completa";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_ENTIDAD_ID_PROVEEDOR = "articulos_comprados.entidad_id_proveedor";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_PROVEEDOR_NOMBRE = "articulos_comprados.proveedor_nombre";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_FECHA = "articulos_comprados.fecha";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_COMPRADOR = "articulos_comprados.comprador";
+	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_SOLICITANTE = "articulos_comprados.solicitante";
 
 	private Timestamp desde;
 	private Timestamp hasta;
@@ -136,13 +128,6 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	 * activities.
 	 */
 	public void initialize() throws Exception {
-		_recuperaRecepcionesAnuladas = new HtmlSubmitButton(
-				"recuperaSolicitudesPendientes", "Recupera recepción anulada",
-				this);
-		_recuperaRecepcionesAnuladas.setAccessKey("R");
-		_listformdisplaybox1.addButton(_recuperaRecepcionesAnuladas);
-		_recuperaRecepcionesAnuladas.addSubmitListener(this);
-		_recuperaRecepcionesAnuladas.setVisible(false);
 
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 
@@ -173,13 +158,13 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 						displayErrorMessage("La fecha desde debe ser anterior a la fecha hasta");
 						return false;
 					}
-					whereFecha = "recepciones_compras.fecha BETWEEN '"
+					whereFecha = "articulos_comprados.fecha BETWEEN '"
 							+ desde.toString() + "' AND '" + hasta.toString()
 							+ "'";
 				}
 			}
-			_dsComprobantes.reset();
-			String where = _dsQBE.generateSQLFilter(_dsComprobantes);
+			_dsArticulosComprados.reset();
+			String where = _dsQBE.generateSQLFilter(_dsArticulosComprados);
 			if (whereFecha != null) {
 				if (where != null)
 					where += " AND ";
@@ -187,19 +172,9 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 					where = "";
 				where += whereFecha;
 			} else if (where != null)
-				where += " AND ";
-			else
-				where = "";
-			where += "comprobante_movimiento_articulo.tipo_movimiento_articulo_id <> "
-					+ getPageProperties().getProperty(
-							TIPO_MOVIMIENTO_RECEPCIONES);
-			_dsComprobantes.retrieve(where);
-			_dsComprobantes.gotoFirst();
-		}
-
-		if (e.getComponent() == _recuperaRecepcionesAnuladas) {
-			_dsComprobantes.setComprobanteMovimientoArticuloEstado("0010.0001");
-			_dsComprobantes.update();
+				where += "";
+			_dsArticulosComprados.retrieve(where);
+			_dsArticulosComprados.gotoFirst();
 		}
 
 		return super.submitPerformed(e);
@@ -220,16 +195,10 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
 		// realizadas por él
 		if (!UsuarioRolesModel.isRolUsuario(currentUser, "RECEPTOR")) {
-			_dsQBE.setString("usuario_completo", String.valueOf(currentUser));
-			_solicitante2.setEnabled(false);
+			_dsQBE.setString("solicitante", String.valueOf(currentUser));
+			_solicitante2.setEnabled(false);			
 		} else {
-			_solicitante2.setEnabled(true);
-			if (_dsComprobantes.getRow() != -1
-					&& "0010.0004".equalsIgnoreCase(_dsComprobantes
-							.getComprobanteMovimientoArticuloEstado()))
-				_recuperaRecepcionesAnuladas.setVisible(true);
-			else
-				_recuperaRecepcionesAnuladas.setVisible(false);
+			_solicitante2.setEnabled(true);			
 		}
 		super.pageRequested(event);
 	}

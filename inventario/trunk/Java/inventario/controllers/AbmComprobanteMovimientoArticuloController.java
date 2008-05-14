@@ -300,6 +300,10 @@ public class AbmComprobanteMovimientoArticuloController extends
 		_tipo_movimiento2.setFocus();
 
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
+		
+		_tipo_movimiento2.setCriteria("tipo_movimiento_articulo_id <> "+getPageProperties().getIntProperty(TIPO_MOVIMIENTO_RECEPCIONES));
+		_tipo_movimiento2.set_reloadDropDownInEveryPageRequest(true);
+		addPageListener(_tipo_movimiento2);
 
 		setTabla_principal("comprobante_movimiento_articulo");
 		set_dsAtributos(_dsAtributos);
@@ -834,8 +838,14 @@ public class AbmComprobanteMovimientoArticuloController extends
 					.getTipoMovimientoArticuloImpresion(),
 					"&Parameter_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
+			
+			System.out.println(URL);
+			
+			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
+			"ShowTareaLookup")))
+				_tarea3.setEnabled(false);
 		} else
-			_dsComprobante.gotoRow(_dsComprobante.insertRow());
+			_dsComprobante.gotoRow(_dsComprobante.insertRow());		
 	}
 
 	/**
