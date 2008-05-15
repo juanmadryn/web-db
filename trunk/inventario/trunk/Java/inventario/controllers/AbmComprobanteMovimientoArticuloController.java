@@ -41,6 +41,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 	public com.salmonllc.html.HtmlLookUpComponent _articulo2;
 	public com.salmonllc.html.HtmlLookUpComponent _legajo1;
 	public com.salmonllc.html.HtmlLookUpComponent _proyecto2;
+	public com.salmonllc.html.HtmlLookUpComponent _cargo2;
 	public com.salmonllc.html.HtmlLookUpComponent _tarea3;
 	public com.salmonllc.html.HtmlLookUpComponent _valorTE11;
 	public com.salmonllc.html.HtmlMultiLineTextEdit _observaciones2;
@@ -300,8 +301,10 @@ public class AbmComprobanteMovimientoArticuloController extends
 		_tipo_movimiento2.setFocus();
 
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
-		
-		_tipo_movimiento2.setCriteria("tipo_movimiento_articulo_id <> "+getPageProperties().getIntProperty(TIPO_MOVIMIENTO_RECEPCIONES));
+
+		_tipo_movimiento2.setCriteria("tipo_movimiento_articulo_id <> "
+				+ getPageProperties().getIntProperty(
+						TIPO_MOVIMIENTO_RECEPCIONES));
 		_tipo_movimiento2.set_reloadDropDownInEveryPageRequest(true);
 		addPageListener(_tipo_movimiento2);
 
@@ -838,14 +841,25 @@ public class AbmComprobanteMovimientoArticuloController extends
 					.getTipoMovimientoArticuloImpresion(),
 					"&Parameter_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
-			
+
 			System.out.println(URL);
-			
+
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
-			"ShowTareaLookup")))
+					"ShowTareaLookup")))
 				_tarea3.setEnabled(false);
+			
+			boolean isModificable = isModificable(_dsComprobante
+					.getComprobanteMovimientoArticuloEstado());
+
+			_cantidad_solicitada2.setReadOnly(!isModificable);
+			_unidad_medida2.setEnabled(isModificable);
+			_descripcion4.setReadOnly(!isModificable);
+			_articulo2.setReadOnly(!isModificable);
+			_proyecto2.setReadOnly(!isModificable);
+			_cargo2.setReadOnly(!isModificable);
+
 		} else
-			_dsComprobante.gotoRow(_dsComprobante.insertRow());		
+			_dsComprobante.gotoRow(_dsComprobante.insertRow());
 	}
 
 	/**
