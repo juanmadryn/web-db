@@ -3,6 +3,9 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseEntityController;
+import infraestructura.models.RolEntidadModel;
+import infraestructura.models.RolesModel;
+import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 
 import java.sql.ResultSet;
@@ -57,6 +60,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 	public com.salmonllc.html.HtmlText _atributoTXT6;
 	public com.salmonllc.html.HtmlText _cantidad_entregada1;
 	public com.salmonllc.html.HtmlText _cantidad_solicitada1;
+	public com.salmonllc.html.HtmlText _cantidad_anulada1;
 	public com.salmonllc.html.HtmlText _descripcion3;
 	public com.salmonllc.html.HtmlText _fecha1;
 	public com.salmonllc.html.HtmlText _fecha2;
@@ -76,6 +80,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 	public com.salmonllc.html.HtmlText _valorCAP16;
 	public com.salmonllc.html.HtmlTextEdit _cantidad_entregada2;
 	public com.salmonllc.html.HtmlTextEdit _cantidad_solicitada2;
+	public com.salmonllc.html.HtmlTextEdit _cantidad_anulada2;
 	public com.salmonllc.html.HtmlTextEdit _descripcion4;
 	public com.salmonllc.html.HtmlTextEdit _observaciones4;
 	public com.salmonllc.jsp.JspBox _box1;
@@ -424,12 +429,12 @@ public class AbmComprobanteMovimientoArticuloController extends
 		}
 
 		if (component == _grabarComprobanteBUT1) {
-			conn = DBConnection.getConnection("inventario", "inventario");
+			conn = DBConnection.getConnection("inventario");
 			conn.beginTransaction();
 
 			// si el comprobante esta en estado generado o esta siendo generada
 			if (isModificable(_dsComprobante
-					.getComprobanteMovimientoArticuloEstado())) {
+					.getComprobanteMovimientoArticuloEstado()) || UsuarioRolesModel.isRolUsuario(userId, USER_ENCARGADO_ALMACEN)) {
 				try {
 					// grabo todos los datasource
 					if (_dsComprobante.getRow() == -1)
@@ -454,11 +459,11 @@ public class AbmComprobanteMovimientoArticuloController extends
 					} else
 						_dsAtributos.update(conn);
 
+					conn.commit();
 					_dsComprobante.resetStatus();
 					_dsMovimientos.resetStatus();
 					_dsAtributos.resetStatus();
-
-					conn.commit();
+					
 					// _dsMovimientos.reloadRows();
 
 				} catch (DataStoreException ex) {
@@ -842,21 +847,32 @@ public class AbmComprobanteMovimientoArticuloController extends
 					"&Parameter_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
 
-			System.out.println(URL);
+			
 
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
 					"ShowTareaLookup")))
 				_tarea3.setEnabled(false);
 			
-			boolean isModificable = isModificable(_dsComprobante
-					.getComprobanteMovimientoArticuloEstado());
-
+			boolean isModificable = isModificable(_dsComprobante.getComprobanteMovimientoArticuloEstado());
+			_tipo_movimiento2.setEnabled(isModificable);
+			_legajo1.setReadOnly(!isModificable);
+			_almacen2.setEnabled(isModificable);			
 			_cantidad_solicitada2.setReadOnly(!isModificable);
 			_unidad_medida2.setEnabled(isModificable);
 			_descripcion4.setReadOnly(!isModificable);
 			_articulo2.setReadOnly(!isModificable);
 			_proyecto2.setReadOnly(!isModificable);
 			_cargo2.setReadOnly(!isModificable);
+			
+			if ("0010.0003".equalsIgnoreCase(_dsComprobante.getComprobanteMovimientoArticuloEstado())) {
+				_cantidad_entregada2.setReadOnly(true);
+				_cantidad_anulada2.setReadOnly(true);
+			} else {
+				_cantidad_entregada2.setReadOnly(false);
+				_cantidad_anulada2.setReadOnly(false);
+			}
+				
+				
 
 		} else
 			_dsComprobante.gotoRow(_dsComprobante.insertRow());

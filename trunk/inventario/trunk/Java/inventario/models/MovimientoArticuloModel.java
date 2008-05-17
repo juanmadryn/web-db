@@ -1085,7 +1085,7 @@ public class MovimientoArticuloModel extends DataStore {
 	 * @throws DataStoreException
 	 */
 	public String getArticulosDescripcionCompleta() throws DataStoreException {
-		return getString(ARTICULOS_DESCRIPCION);
+		return getString(ARTICULOS_DESCRIPCION_COMPLETA);
 	}
 
 	/**
@@ -1099,7 +1099,7 @@ public class MovimientoArticuloModel extends DataStore {
 	 */
 	public String getArticulosDescripcionCompleta(int row)
 			throws DataStoreException {
-		return getString(row, ARTICULOS_DESCRIPCION);
+		return getString(row, ARTICULOS_DESCRIPCION_COMPLETA);
 	}
 
 	/**
@@ -1112,7 +1112,7 @@ public class MovimientoArticuloModel extends DataStore {
 	 */
 	public void setArticulosDescripcionCompleta(String newValue)
 			throws DataStoreException {
-		setString(ARTICULOS_DESCRIPCION, newValue);
+		setString(ARTICULOS_DESCRIPCION_COMPLETA, newValue);
 	}
 
 	/**
@@ -1127,7 +1127,7 @@ public class MovimientoArticuloModel extends DataStore {
 	 */
 	public void setArticulosDescripcionCompleta(int row, String newValue)
 			throws DataStoreException {
-		setString(row, ARTICULOS_DESCRIPCION, newValue);
+		setString(row, ARTICULOS_DESCRIPCION_COMPLETA, newValue);
 	}
 
 	/**
