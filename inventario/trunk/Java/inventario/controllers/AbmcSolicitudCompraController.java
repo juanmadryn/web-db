@@ -408,7 +408,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		}
 
 		if (component == _grabarSolicitudCompraBUT1) {
-			conn = DBConnection.getConnection("inventario", "inventario");
+			conn = DBConnection.getConnection("inventario");
 			conn.beginTransaction();
 
 			// si la solicitud esta en estado generado o esta siendo generada
@@ -422,24 +422,27 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 					// actualizo los detalles
 					if (_dsDetalleSC.getRow() != -1) {
-						_dsDetalleSC.update(conn, false);
+						_dsDetalleSC.update(conn);
 					}
-
+					System.out.println("Salio");
 					_dsSolicitudCompra.resetStatus();
 					_dsDetalleSC.resetStatus();
-
+					System.out.println("AntesCommit");
 					conn.commit();
-
+					System.out.println("DespuesCommit");
 					setTareaLookupURL();
 
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";
+					System.out.println("AntesIF");
 					if (ex.getRow() != -1) {
 						mensaje = " -> Detalle Nº: " + (ex.getRow() + 1);
 						_articulo2.setFocus(ex.getRow());
 					}
+					System.out.println("AntesMensaje");
 					displayErrorMessage(ex.getMessage() + mensaje);
+					System.out.println("DespuesMensaje");
 					return false;
 				} catch (SQLException ex) {
 					MessageLog.writeErrorMessage(ex, null);
@@ -662,6 +665,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			}
 		}
 
+		if(conn != null)
+			conn.freeConnection();
 		armaBotonera();
 		return super.submitPerformed(event);
 
@@ -747,8 +752,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					.parseInt(getPageProperties().getThemeProperty(null,
 							"EsquemaConfiguracionIdSolicitudesCompra")));
 
-			if ((_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW)
-				&& (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW_MODIFIED)) 
+//			if ((_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW)
+//				&& (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW_MODIFIED)) 
 				_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
 						.getAtributoTotalSolicitud());
 			
