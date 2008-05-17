@@ -55,6 +55,8 @@ public class AtributosEntidadModel extends DataStore {
 	public static final String ATRIBUTOS_ENTIDAD_VALOR_LOGICO = "atributos_entidad.valor_logico";
 
 	public static final String ATRIBUTOS_ROL_NOMBRE = "atributos_rol.nombre";
+	
+	public static final String ATRIBUTOS_ROL_DESCRIPCION= "atributos_rol.descripcion";
 
 	public static final String ATRIBUTOS_ROL_ROL = "atributos_rol.rol";
 
@@ -144,6 +146,9 @@ public class AtributosEntidadModel extends DataStore {
 			addColumn(computeTableName("atributos_rol"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					ATRIBUTOS_ROL_NOMBRE);
+			addColumn(computeTableName("atributos_rol"), "descripcion",
+					DataStore.DATATYPE_STRING, false, false,
+					ATRIBUTOS_ROL_DESCRIPCION);
 			addColumn(computeTableName("atributos_rol"), "rol",
 					DataStore.DATATYPE_STRING, false, false, ATRIBUTOS_ROL_ROL);
 			addColumn(computeTableName("entidad_externa"), "nombre",
@@ -834,6 +839,56 @@ public class AtributosEntidadModel extends DataStore {
 		setString(row, ATRIBUTOS_ROL_NOMBRE, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the atributos_rol.nombre column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getAtributosRolDescripcion() throws DataStoreException {
+		return getString(ATRIBUTOS_ROL_DESCRIPCION);
+	}
+
+	/**
+	 * Retrieve the value of the atributos_rol.nombre column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getAtributosRolDescripcion(int row) throws DataStoreException {
+		return getString(row, ATRIBUTOS_ROL_DESCRIPCION);
+	}
+
+	/**
+	 * Set the value of the atributos_rol.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setAtributosRolDescripcion(String newValue)
+			throws DataStoreException {
+		setString(ATRIBUTOS_ROL_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Set the value of the atributos_rol.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setAtributosRolDescripcion(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ATRIBUTOS_ROL_DESCRIPCION, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the atributos_rol.rol column for the current row.
 	 * 
