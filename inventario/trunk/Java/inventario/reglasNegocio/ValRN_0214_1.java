@@ -12,6 +12,7 @@ import inventario.models.ResumenSaldoArticulosModel;
 
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
@@ -54,6 +55,12 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 						.append("Para cargar recepciones de compras realizadas mediante OC ingrese al sistema de Recepciones");
 				return false;
 			}
+			
+			if(ds.getComprobanteMovimientoArticuloUserIdRetira() == 0 && "F".equalsIgnoreCase(ds.getTipoMovimientoArticuloPositivo())) {
+				msg
+				.append("Especifique el legajo de quien retira para completar el comprobante");
+				return false;
+			}
 
 			if (movimientos.getRowCount() == 0) {
 				msg.append("Debe detallar por lo menos un artículo");
@@ -64,13 +71,24 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 			int articulo_id;
 			double cantidad_pedida;
 			double cantidad_disponible;
+			Calendar calendar = Calendar.getInstance();
+			calendar.set(Calendar.DAY_OF_MONTH, 1);
 			for (int row = 0; row < movimientos.getRowCount(); row++) {
+				if("F".equalsIgnoreCase(ds.getTipoMovimientoArticuloPositivo())) {
 				articulo_id = movimientos.getMovimientoArticuloArticuloId(row);
 				resumenes.retrieve("resumen_saldo_articulos.almacen_id ="
 						+ almacen_id
 						+ " AND resumen_saldo_articulos.articulo_id = "
 						+ articulo_id);
-				resumenes.gotoFirst();
+				;
+				if(!resumenes.gotoFirst()) {
+					resumenes.gotoRow(resumenes.insertRow());
+					resumenes.setResumenSaldoArticulosAlmacenId(almacen_id);
+					resumenes.setResumenSaldoArticulosArticuloId(articulo_id);
+					resumenes.setResumenSaldoArticulosPeriodo(new java.sql.Date(
+							calendar.getTimeInMillis()));
+				}
+					
 				cantidad_pedida = movimientos
 						.getMovimientoArticuloCantidadSolicitada(row);
 				cantidad_disponible = resumenes
@@ -86,10 +104,14 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 							+ movimientos.getArticulosDescripcion(row));
 				else 
 					resumenes.setResumenSaldoArticulosEnProceso(cantidad_pedida);
+				}
+				resumenes.update(conn);
+				resumenes.resetStatus();
 			}
 
 			if(msg.length() != 0)
 				return false;
+			
 			
 		} catch (SQLException ex) {
 			msg

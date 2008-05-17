@@ -21,6 +21,8 @@
 			columns="comprobante_movimiento_articulo.estado" />
 		<salmon:qbecriteria name="usuario_completo" type="IN"
 			columns="comprobante_movimiento_articulo.user_id_preparador" />
+			<salmon:qbecriteria name="tipo" type="IN"
+			columns="comprobante_movimiento_articulo.tipo_movimiento_articulo_id" />
 	</salmon:datasource>
 	<salmon:datasource name="dsComprobantes" type="MODEL"
 		dbprofile="inventario"
@@ -82,7 +84,15 @@
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 								<td width="55"></td>
-								<td></td>
+								<td><salmon:text name="tipo1" text="Tipo"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="select" name="tipo2"
+									size="30" datasource="dsQBE:tipo" maxlength="50">
+									<salmon:option display="abc" key="123"
+										table="inventario.tipo_movimiento_articulo" keycolumn="tipo_movimiento_articulo_id"
+										displaycolumn="nombre" nulloption="true"
+										nulloptiontext="Todos"></salmon:option>
+								</salmon:input></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>

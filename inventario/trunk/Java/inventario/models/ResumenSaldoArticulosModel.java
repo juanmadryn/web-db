@@ -106,7 +106,7 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("resumen_saldo_articulos.resumen_saldo_articulo_id")
-					+ " ASC");
+					+ " DESC");
 
 			// add validations
 			addRequiredRule(RESUMEN_SALDO_ARTICULOS_STOCK_EN_MANO,

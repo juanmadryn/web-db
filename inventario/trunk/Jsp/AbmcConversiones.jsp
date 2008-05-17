@@ -68,7 +68,7 @@
 								</salmon:input></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="factor1" text="Impresión"
+								<td><salmon:text name="factor1" text="Factor"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="factor2" size="40"
 									maxlength="90"

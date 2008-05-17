@@ -40,25 +40,42 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			ResumenSaldoArticulosModel resumen = new ResumenSaldoArticulosModel(
 					"inventario");
 
+			ds.update(conn, false);
+			ds.resetStatus();
+
 			int comprobante_movimiento_id = ds
 					.getComprobanteMovimientoArticuloComprobanteMovimientoId();
 			int tipo_movimiento_id = ds
 					.getComprobanteMovimientoArticuloTipoMovimientoArticuloId();
 			int almacen_id = ds.getComprobanteMovimientoArticuloAlmacenId();
 
-			if (ds.getComprobanteMovimientoArticuloUserIdRetira() == 0)
-				throw new DataStoreException(
-						"Indique el legajo de quien retira");
-
 			movimientos
 					.retrieve("movimiento_articulo.comprobante_movimiento_id ="
 							+ comprobante_movimiento_id);
-			for(int row = 0; row < movimientos.getRowCount(); row++) {
-				if (movimientos.getMovimientoArticuloCantidadAnulada(row) == 0)
-					movimientos.setMovimientoArticuloCantidadAnulada(row,
-							movimientos.getMovimientoArticuloCantidadSolicitada(row)
-									- movimientos.getMovimientoArticuloCantidadEntregada(row));
+
+			double cantidad_entregada = 0;
+			double cantidad_solicitada = 0;
+			double cantidad_anulada = 0;
+
+			for (int row = 0; row < movimientos.getRowCount(); row++) {
+				cantidad_entregada = movimientos
+						.getMovimientoArticuloCantidadEntregada(row);
+				cantidad_solicitada = movimientos
+						.getMovimientoArticuloCantidadSolicitada(row);
+				cantidad_anulada = movimientos
+						.getMovimientoArticuloCantidadAnulada(row);
+
+				if (cantidad_entregada > cantidad_solicitada)
+					msg
+							.append("La cantidad entregada no puede ser mayor a la solicitada para el artículo "
+									+ movimientos.getArticulosDescripcion(row));
+				else if (cantidad_solicitada != (cantidad_anulada + cantidad_entregada))
+					msg
+							.append("La cantidad solicitada debe ser igual a lo entregado más lo anulado para el artículo "
+									+ movimientos.getArticulosDescripcion(row));
 			}
+			if (msg.length() > 0)
+				return false;
 
 			st = conn.createStatement();
 			ResultSet rs = st
@@ -70,6 +87,10 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
 
 			int articulo_id = 0;
+			double stock = 0;
+			cantidad_entregada = 0;
+			double cantidad_reservada = 0;
+			double cantidad_en_proceso = 0;
 
 			while (rs.next()) {
 				articulo_id = rs.getInt("articulo_id");
@@ -77,40 +98,58 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 				resumen.retrieve("resumen_saldo_articulos.almacen_id = "
 						+ almacen_id
 						+ " AND resumen_saldo_articulos.articulo_id = "
-						+ articulo_id
-						+ " AND resumen_saldo_articulos.periodo = '"
-						+ new java.sql.Date(calendar.getTimeInMillis()) + "'");
-
-				double stock = ResumenSaldoArticulosModel.getStockEnMano(
-						articulo_id, almacen_id, conn);
-				double cantidad = rs.getDouble("cantidad_entregada");
-
-				if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
-						.getPositivo(tipo_movimiento_id, conn)))
-					stock -= cantidad;
-				else
-					stock += cantidad;
-
-				if (resumen.getRowCount() == 0) {
+						+ articulo_id);
+				resumen.waitForRetrieve();
+				
+				if (resumen.gotoFirst()) {
+					stock = resumen.getResumenSaldoArticulosStockEnMano();
+					cantidad_reservada = resumen
+							.getResumenSaldoArticulosReservado();
+					cantidad_en_proceso = resumen
+							.getResumenSaldoArticulosEnProceso();
+				}
+				
+				java.sql.Date periodo = new java.sql.Date(calendar
+						.getTimeInMillis());
+				
+				if (resumen.getRowCount() == 0
+						|| resumen.getResumenSaldoArticulosPeriodo().equals(periodo)) {
+					System.out.println("resumen: "+resumen.getResumenSaldoArticulosPeriodo() + " periodo: "+ periodo);
 					resumen.gotoRow(resumen.insertRow());
 					resumen.setResumenSaldoArticulosAlmacenId(almacen_id);
 					resumen.setResumenSaldoArticulosArticuloId(articulo_id);
-					resumen.setResumenSaldoArticulosPeriodo(new java.sql.Date(
-							calendar.getTimeInMillis()));
-				} else
-					resumen.gotoFirst();
+					resumen.setResumenSaldoArticulosPeriodo(periodo);
+				}
+				cantidad_entregada = rs.getDouble("cantidad_entregada");
 
-				double cantidad_reservada = ResumenSaldoArticulosModel
-						.getReservado(articulo_id, almacen_id, conn);
-				if (!"F".equalsIgnoreCase(TipoMovimientoArticuloModel
-						.getReserva(tipo_movimiento_id, conn)))
-					cantidad_reservada += cantidad;
+				if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
+						.getPositivo(tipo_movimiento_id, conn))) {
+					if("F".equalsIgnoreCase(TipoMovimientoArticuloModel
+							.getReserva(tipo_movimiento_id, conn)))
+						stock -= cantidad_entregada;
+					else {
+						cantidad_reservada -= cantidad_entregada;						
+					}
+					if (cantidad_en_proceso >= (cantidad_entregada + cantidad_anulada)) 
+						cantidad_en_proceso -= (cantidad_entregada + cantidad_anulada);
+				}
+				else {
+					if("F".equalsIgnoreCase(TipoMovimientoArticuloModel
+							.getReserva(tipo_movimiento_id, conn)))
+						stock += cantidad_entregada;
+					else 
+						cantidad_reservada += cantidad_entregada;
+					
+				}
 				resumen.setResumenSaldoArticulosReservado(cantidad_reservada);
 				resumen.setResumenSaldoArticulosStockEnMano(stock);
+				resumen.setResumenSaldoArticulosEnProceso(cantidad_en_proceso);
 
 				resumen.update(conn);
+				resumen.resetStatus();
 
-				movimientos.filter("movimiento_articulo.articulo_id =="+articulo_id);
+				movimientos.filter("movimiento_articulo.articulo_id =="
+						+ articulo_id);
 				while (movimientos.gotoNext()) {
 					movimientos
 							.setMovimientoArticuloResumenSaldoArticuloId(resumen
