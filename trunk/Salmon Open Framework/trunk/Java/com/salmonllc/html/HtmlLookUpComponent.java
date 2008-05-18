@@ -44,9 +44,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * This class implements a lookup component. It has an edit field and a zoom component to zoom to a list of possible values.
+ * This class implements a lookup component. It has an edit field and a zoom
+ * component to zoom to a list of possible values.
  */
-public class HtmlLookUpComponent extends HtmlComposite implements PageListener, SubmitListener {
+public class HtmlLookUpComponent extends HtmlComposite implements PageListener,
+		SubmitListener {
 	/**
 	 * 
 	 */
@@ -105,9 +107,9 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	protected String _extraParms;
 
 	private boolean _usePopup = false;
-	private boolean _useDiv=false;
-	private String _divBorderStyle=null;
-	private boolean _divScrolling=false;
+	private boolean _useDiv = false;
+	private String _divBorderStyle = null;
+	private boolean _divScrolling = false;
 
 	/* Claudio Pi - 5/25/04 Added for modal popup windows */
 	private boolean _useModal = false;
@@ -130,14 +132,14 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	public static final String PARAM_LOOKUP_VALUE = "LookupComponentRowValue";
 
 	private String _popupAttributes;
-	
+
 	private Vector<FormComponentInfo> _popupURLLineValues;
+
 	private class FormComponentInfo {
 		String compName;
 		String attName;
 		boolean isInDataTable;
-	}	
-
+	}
 
 	/**
 	 * LookUp constructor.
@@ -186,13 +188,16 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * @param p -
 	 *            page the component will be associated with
 	 */
-	public HtmlLookUpComponent(String name, String lookup_page, DataStore ds, String tableName, String columnName, int dataType, boolean pKey, HtmlPage p) { //	 HtmlLookUpComponent(String
+	public HtmlLookUpComponent(String name, String lookup_page, DataStore ds,
+			String tableName, String columnName, int dataType, boolean pKey,
+			HtmlPage p) { // HtmlLookUpComponent(String
 		// name,
 		// String
 		// lookup_page, String browseImage, DataStore ds,
 		// String tableName, String columnName, int dataType,
 		// boolean pKey, HtmlPage p)
-		this(name, lookup_page, "../../Objectstore/Images/Browse.GIF", ds, tableName, columnName, dataType, pKey, p);
+		this(name, lookup_page, "../../Objectstore/Images/Browse.GIF", ds,
+				tableName, columnName, dataType, pKey, p);
 	}
 
 	/**
@@ -207,11 +212,13 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * @param p -
 	 *            page the component will be associated with
 	 */
-	public HtmlLookUpComponent(String name, String lookup_page, String browseImage, HtmlPage p) {
-		//	 HtmlLookUpComponent(String name, String lookup_page, String
+	public HtmlLookUpComponent(String name, String lookup_page,
+			String browseImage, HtmlPage p) {
+		// HtmlLookUpComponent(String name, String lookup_page, String
 		// browseImage, DataStore ds, String tableName, String columnName, int
 		// dataType, boolean pKey, HtmlPage p)
-		this(name, lookup_page, browseImage, null, null, null, DataStore.DATATYPE_INT, false, p);
+		this(name, lookup_page, browseImage, null, null, null,
+				DataStore.DATATYPE_INT, false, p);
 	}
 
 	/**
@@ -236,13 +243,17 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * @param p -
 	 *            page the component will be associated with
 	 */
-	public HtmlLookUpComponent(String name, String lookup_page, String browseImage, DataStore ds, String tableName, String columnName, int dataType, boolean pKey, HtmlPage p) {
+	public HtmlLookUpComponent(String name, String lookup_page,
+			String browseImage, DataStore ds, String tableName,
+			String columnName, int dataType, boolean pKey, HtmlPage p) {
 		super(name, p);
 
 		_hiddenDescriptionHandle = new HtmlHiddenField("hiddenDescr", null, p);
-		addCompositeComponent(_hiddenDescriptionHandle, DataStore.DATATYPE_STRING, false, null, null);
+		addCompositeComponent(_hiddenDescriptionHandle,
+				DataStore.DATATYPE_STRING, false, null, null);
 		_hiddenKeyHandle = new HtmlHiddenField("hiddenKey", null, p);
-		addCompositeComponent(_hiddenKeyHandle, DataStore.DATATYPE_STRING, false, null, null);
+		addCompositeComponent(_hiddenKeyHandle, DataStore.DATATYPE_STRING,
+				false, null, null);
 		_hiddenKeyHandle.setVisible(false);
 
 		setTheme(null);
@@ -252,28 +263,33 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 
 		if (ds == null) {
 			edit = new HtmlTextEdit("_edit", p);
-			_editHandle = addCompositeComponent(edit, dataType, false, null, null);
+			_editHandle = addCompositeComponent(edit, dataType, false, null,
+					null);
 		} else {
 			_ds = ds;
 			/** Don't add the same column twice to the data store. */
 			if (_ds.getColumnIndex(tableName + "." + columnName) == -1) {
 				if (_ds instanceof DataStore)
-					((DataStore) _ds).addColumn(tableName, columnName, dataType, pKey, true);
+					((DataStore) _ds).addColumn(tableName, columnName,
+							dataType, pKey, true);
 			}
 			edit = new HtmlTextEdit(tableName + "_" + columnName, p);
 			edit.setColumn(_ds, tableName + "." + columnName);
 
-			_editHandle = addCompositeComponent(edit, dataType, true, tableName, columnName);
+			_editHandle = addCompositeComponent(edit, dataType, true,
+					tableName, columnName);
 		}
 
 		_browseImage = new HtmlSubmitImage("browseImage", browseImage, p);
 		_browseImage.addSubmitListener(this);
-		_browseImageHandle = addCompositeComponent(_browseImage, DATATYPE_ANY, false, null, null);
+		_browseImageHandle = addCompositeComponent(_browseImage, DATATYPE_ANY,
+				false, null, null);
 
 		_browsePopupImage = new HtmlImage("browsPopupImage", browseImage, p);
 		_browsePopupImageLink = new HtmlLink("browsePopupImageLink", null, p);
 		_browsePopupImageLink.add(_browsePopupImage);
-		_browseImageHandle = addCompositeComponent(_browsePopupImageLink, DATATYPE_ANY, false, null, null);
+		_browseImageHandle = addCompositeComponent(_browsePopupImageLink,
+				DATATYPE_ANY, false, null, null);
 		_browsePopupImageLink.setVisible(false);
 
 		setLookUpPageURL(lookup_page);
@@ -285,9 +301,13 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 */
 	public void add(HtmlComponent comp) {
 		try {
-			throw new Exception(" DO NOT USE: HtmlLookUpComponent.add. Use addLookupComp instead");
+			throw new Exception(
+					" DO NOT USE: HtmlLookUpComponent.add. Use addLookupComp instead");
 		} catch (Exception e) {
-			MessageLog.writeErrorMessage(" DO NOT USE: HtmlLookUpComponent.add. Use addLookupComp instead", e, this);
+			MessageLog
+					.writeErrorMessage(
+							" DO NOT USE: HtmlLookUpComponent.add. Use addLookupComp instead",
+							e, this);
 		}
 	}
 
@@ -397,7 +417,8 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 					if (_descDs.getColumnDataType(_descriptionColumn) == DataStoreBuffer.DATATYPE_STRING) {
 						if (_rowNo == -1)
 							_rowNo = _descDs.getRow();
-						_descDs.setString(_rowNo, _descriptionColumn, returnVal[0]);
+						_descDs.setString(_rowNo, _descriptionColumn,
+								returnVal[0]);
 					}
 				}
 				if (pg instanceof JspController)
@@ -432,14 +453,17 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * @param column -
 	 *            column component is bound to
 	 */
-	public void replaceBrowseImage(HtmlComponent comp, int dataType, boolean bound, String table, String column) {
+	public void replaceBrowseImage(HtmlComponent comp, int dataType,
+			boolean bound, String table, String column) {
 		try {
 
 			/** get the index of the edit field so we can replace it */
 			if (_usePopup) {
-				int browseIndex = _componentsVec.indexOf(_browsePopupImageHandle);
+				int browseIndex = _componentsVec
+						.indexOf(_browsePopupImageHandle);
 				if (browseIndex != -1) {
-					replaceCompositeComponent(comp, _browsePopupImageHandle, dataType, bound, table, column);
+					replaceCompositeComponent(comp, _browsePopupImageHandle,
+							dataType, bound, table, column);
 					_componentsVec.setElementAt(comp, browseIndex);
 					comp.setParent(this);
 					_browsePopupImageHandle = comp;
@@ -447,7 +471,8 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 			} else {
 				int browseIndex = _componentsVec.indexOf(_browseImageHandle);
 				if (browseIndex != -1) {
-					replaceCompositeComponent(comp, _browseImageHandle, dataType, bound, table, column);
+					replaceCompositeComponent(comp, _browseImageHandle,
+							dataType, bound, table, column);
 					_componentsVec.setElementAt(comp, browseIndex);
 					comp.setParent(this);
 					_browseImageHandle = comp;
@@ -475,13 +500,15 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * @param column -
 	 *            column component is bound to
 	 */
-	public void replaceEdit(HtmlComponent comp, int dataType, boolean bound, String table, String column) {
+	public void replaceEdit(HtmlComponent comp, int dataType, boolean bound,
+			String table, String column) {
 		try {
 
 			/** get the index of the edit field so we can replace it */
 			int editIndex = _componentsVec.indexOf(_editHandle);
 			if (editIndex != -1) {
-				replaceCompositeComponent(comp, _editHandle, dataType, bound, table, column);
+				replaceCompositeComponent(comp, _editHandle, dataType, bound,
+						table, column);
 				comp.setParent(this);
 				_editHandle = comp;
 			}
@@ -523,37 +550,65 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		if (_editHandle instanceof HtmlFormComponent)
-			((HtmlFormComponent)_editHandle).setEnabled(enabled);
-		if (_usePopup) 
+			((HtmlFormComponent) _editHandle).setEnabled(enabled);
+		if (_usePopup)
 			_browsePopupImageLink.setVisible(enabled);
-		else	
+		else
 			_browseImage.setVisible(enabled);
 	}
 
+	/**
+	 * Sets the flag for ability to respond to user input (true = does respond).
+	 * 
+	 * @param enabled
+	 *            boolean
+	 */
+	public void setReadOnly(boolean enabled) {
+		//super.setEnabled(enabled);
+		if (_editHandle instanceof HtmlTextEdit)
+			((HtmlTextEdit) _editHandle).setReadOnly(enabled);
+		if (_usePopup)
+			_browsePopupImageLink.setVisible(!enabled);
+		else
+			_browseImage.setVisible(!enabled);
+	}
+	
+	// setFocus() methods was added by Juan Manuel Cortez on April/2008
 	/**
 	 * This method will set the focus to the edit component.
 	 */
 	public void setFocus() {
 		if (_editHandle instanceof HtmlFormComponent)
-			((HtmlFormComponent)_editHandle).setFocus();
+			((HtmlFormComponent) _editHandle).setFocus();
 	}
-	
+
 	/**
 	 * This method will set the focus to the edit component.
 	 */
 	public void setFocus(int row) {
 		if (_editHandle instanceof HtmlFormComponent)
-			((HtmlFormComponent)_editHandle).setFocus(row);
+			((HtmlFormComponent) _editHandle).setFocus(row);
 	}
-	
+
 	/**
 	 * This method will set the focus to the edit component.
 	 */
 	public void setFocus(int row, boolean select) {
 		if (_editHandle instanceof HtmlFormComponent)
-			((HtmlFormComponent)_editHandle).setFocus(row, select);
+			((HtmlFormComponent) _editHandle).setFocus(row, select);
 	}
-	
+
+	// add and remove SubmitListener methods was added by Juan Manuel Cortez on April/2008
+	public void addImageLinkSubmitListener(SubmitListener listener) {
+		if (listener != null)
+			_browsePopupImageLink.addSubmitListener(listener);		
+	}
+
+	public void removeImageLinkSubmitListener(SubmitListener listener) {
+		if (listener != null)
+			_browsePopupImageLink.removeSubmitListener(listener);
+	}
+
 	/**
 	 * This method will append the extra parms string to the url when the user
 	 * clicks the submit image.
@@ -590,13 +645,15 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 		HttpServletResponse resp = e.getPage().getCurrentResponse();
 		String URL = _lookUpPageURL;
 		if (_lookUpPageURL != null && _lookUpPageURL.indexOf("?") == -1)
-			URL += "?returnTo=" + e.getPage().getPageName() + "&comp=" + getFullName() + rowURL;
+			URL += "?returnTo=" + e.getPage().getPageName() + "&comp="
+					+ getFullName() + rowURL;
 		else
-			URL += "&returnTo=" + e.getPage().getPageName() + "&comp=" + getFullName() + rowURL;
+			URL += "&returnTo=" + e.getPage().getPageName() + "&comp="
+					+ getFullName() + rowURL;
 
 		String sCurrentValue = null;
 
-		//Try to get the text that is already entered to the text edit box. We
+		// Try to get the text that is already entered to the text edit box. We
 		// will use this value in the list form to filter the results.
 		if (_rowNo != -1)
 			sCurrentValue = getEditField().getValue(_rowNo);
@@ -604,7 +661,8 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 			sCurrentValue = getEditField().getValue();
 
 		if (sCurrentValue != null && sCurrentValue.length() > 0)
-			URL += "&" + PARAM_LISTFORM_SEARCH_FILTER_STRING + "=" + sCurrentValue;
+			URL += "&" + PARAM_LISTFORM_SEARCH_FILTER_STRING + "="
+					+ sCurrentValue;
 
 		if (_extraParms != null)
 			URL += "&" + _extraParms;
@@ -618,7 +676,8 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * @see com.salmonllc.html.HtmlComponent#generateHTML(java.io.PrintWriter,
 	 *      int, int)
 	 */
-	public void generateHTML(PrintWriter p, int rowStart, int rowEnd) throws Exception {
+	public void generateHTML(PrintWriter p, int rowStart, int rowEnd)
+			throws Exception {
 		generatePopupHtml(rowStart);
 		boolean editReadOnly = setEditReadOnly(rowStart);
 		super.generateHTML(p, rowStart, rowEnd);
@@ -643,12 +702,15 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 
 	private boolean setEditReadOnly(int rowNo) {
 		boolean ret = getEditField().getReadOnly();
-		if (_editDescription) 
-			getEditField().setOnChange(getFormString() + _hiddenKeyHandle.getFullName() + (rowNo != -1 ? "_" + rowNo : "") + ".value=''");
+		if (_editDescription)
+			getEditField().setOnChange(
+					getFormString() + _hiddenKeyHandle.getFullName()
+							+ (rowNo != -1 ? "_" + rowNo : "") + ".value=''");
 		return ret;
 	}
-	
-	private void generateDivHtml(PrintWriter p, int rowNo) throws DataStoreException {
+
+	private void generateDivHtml(PrintWriter p, int rowNo)
+			throws DataStoreException {
 		if (!_showDescription)
 			return;
 		if (_editDescription)
@@ -670,17 +732,22 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 				_hiddenDescriptionHandle.setValue(null);
 			}
 		} else {
-			//Take the description from the hidden field value
-			p.print(_hiddenDescriptionHandle.getValue() == null ? "" : _hiddenDescriptionHandle.getValue());
+			// Take the description from the hidden field value
+			p.print(_hiddenDescriptionHandle.getValue() == null ? ""
+					: _hiddenDescriptionHandle.getValue());
 		}
 		p.print("</span>");
 		p.print(_fontEndTag);
 	}
-	
+
 	private String generatePopupHtml(int row) {
 		if (_showDescription && _editHandle instanceof HtmlTextEdit) {
 			String rowNo = row == -1 ? "" : "_" + row;
-			((HtmlTextEdit) _editHandle).setOnChange("var theSpan=document.getElementById(\'div" + getFullName() + rowNo + "'); if (theSpan) theSpan.innerHTML=''; " + getHiddenDescrFieldFullName(row) + ".value='';");
+			((HtmlTextEdit) _editHandle)
+					.setOnChange("var theSpan=document.getElementById(\'div"
+							+ getFullName() + rowNo
+							+ "'); if (theSpan) theSpan.innerHTML=''; "
+							+ getHiddenDescrFieldFullName(row) + ".value='';");
 		}
 
 		if (_usePopup) {
@@ -690,26 +757,33 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 				if (_editHandle != null) {
 					jsPopupVars.append("obj=");
 					jsPopupVars.append(this.getFormString());
-					jsPopupVars.append(((HtmlComponent) _editHandle).getFullName());
+					jsPopupVars.append(((HtmlComponent) _editHandle)
+							.getFullName());
 					jsPopupVars.append(((row == -1) ? "" : ("_" + row)));
 					jsPopupVars.append(";");
 				}
 
-				String urlParms = PARAM_LOOKUP_CONTROLLER + "=$jsp$" + ((JspController) this.getPage()).getSessionKey() + "&" + PARAM_LOOKUP_COMPONENT + "=" + this.getName() + "&" + PARAM_LOOKUP_ROW + "=" + row;
+				String urlParms = PARAM_LOOKUP_CONTROLLER + "=$jsp$"
+						+ ((JspController) this.getPage()).getSessionKey()
+						+ "&" + PARAM_LOOKUP_COMPONENT + "=" + this.getName()
+						+ "&" + PARAM_LOOKUP_ROW + "=" + row;
 
 				jsPopupVars.append("url='");
-				String lookupPageURL=getLookUpPageURL();
+				String lookupPageURL = getLookUpPageURL();
 				jsPopupVars.append(lookupPageURL);
 				if (lookupPageURL != null && lookupPageURL.indexOf("?") == -1)
 					jsPopupVars.append("?");
 				else
 					jsPopupVars.append("&");
 				jsPopupVars.append(urlParms);
-				jsPopupVars.append("&" + PARAM_LOOKUP_VALUE + "='+escape(obj.value)");
-				//pass any values from other components on the page if necessary
+				jsPopupVars.append("&" + PARAM_LOOKUP_VALUE
+						+ "='+escape(obj.value)");
+				// pass any values from other components on the page if
+				// necessary
 				if (_popupURLLineValues != null) {
-					for (int i=0; i< _popupURLLineValues.size(); i++) {
-						FormComponentInfo inf = (FormComponentInfo) _popupURLLineValues.elementAt(i);
+					for (int i = 0; i < _popupURLLineValues.size(); i++) {
+						FormComponentInfo inf = (FormComponentInfo) _popupURLLineValues
+								.elementAt(i);
 						jsPopupVars.append("+'&");
 						jsPopupVars.append(inf.attName);
 						jsPopupVars.append("='+escape(");
@@ -717,17 +791,29 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 						if (inf.isInDataTable)
 							jsPopupVars.append("_" + row);
 						jsPopupVars.append(".value)");
-					}	
-				}	
-				//add extra parms to the component
-                if (_extraParms!=null) jsPopupVars.append("+" + _extraParms );
+					}
+				}
+				// add extra parms to the component
+				if (_extraParms != null)
+					jsPopupVars.append("+" + _extraParms);
 				jsPopupVars.append(";");
-				HtmlScriptGenerator gen=new HtmlScriptGenerator((JspController) getPage());
-                if (_useDiv)
-					jsPopupVars.append(gen.generatePopupDivScript("url", getPopupPosition(), getPopupTop(), getPopupLeft(), getPopupWidth(), getPopupHeight(), _useModal, _divBorderStyle, (_divScrolling ? "auto" : "no"), (HtmlComponent) _editHandle, row));
+				HtmlScriptGenerator gen = new HtmlScriptGenerator(
+						(JspController) getPage());
+				if (_useDiv)
+					jsPopupVars.append(gen.generatePopupDivScript("url",
+							getPopupPosition(), getPopupTop(), getPopupLeft(),
+							getPopupWidth(), getPopupHeight(), _useModal,
+							_divBorderStyle, (_divScrolling ? "auto" : "no"),
+							(HtmlComponent) _editHandle, row));
 				else
-					jsPopupVars.append(gen.generateOpenPopupScript("url", getPopupPosition(), getPopupTop(), getPopupLeft(), getPopupWidth(), getPopupHeight(), _useModal, _popupAttributes, (HtmlComponent) _editHandle, row));
-				
+					jsPopupVars
+							.append(gen.generateOpenPopupScript("url",
+									getPopupPosition(), getPopupTop(),
+									getPopupLeft(), getPopupWidth(),
+									getPopupHeight(), _useModal,
+									_popupAttributes,
+									(HtmlComponent) _editHandle, row));
+
 				_browsePopupImageLink.setHref("javascript:" + jsPopupVars);
 				return jsPopupVars.toString();
 			}
@@ -735,6 +821,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 		}
 		return null;
 	}
+
 	/**
 	 * @return
 	 */
@@ -801,7 +888,8 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * the current value in the lookup component
 	 */
 	public static String getParentLookupValue(JspController cont) {
-		String value = cont.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_VALUE);
+		String value = cont
+				.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_VALUE);
 		if (value != null && value.trim().length() == 0)
 			value = null;
 
@@ -814,12 +902,16 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 */
 	public static String getParentLookupFormat(JspController cont) {
 		String value = null;
-		String callingController = cont.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_CONTROLLER);
+		String callingController = cont
+				.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_CONTROLLER);
 		if (callingController != null) {
 			try {
-				JspController otherCont = (JspController) cont.getSession().getAttribute(callingController);
+				JspController otherCont = (JspController) cont.getSession()
+						.getAttribute(callingController);
 				if (otherCont != null) {
-					HtmlLookUpComponent luComp = (HtmlLookUpComponent) otherCont.getComponent(cont.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_COMPONENT));
+					HtmlLookUpComponent luComp = (HtmlLookUpComponent) otherCont
+							.getComponent(cont
+									.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_COMPONENT));
 					value = luComp.getEditField().getDisplayFormat();
 				}
 			} catch (Exception ex) {
@@ -832,14 +924,18 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 * This method can be used by controllers of lookup popup windows to find
 	 * the max length of the lookup component
 	 */
-	public static int  getParentLookupMaxLength(JspController cont) {
-		int  value = 0;
-		String callingController = cont.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_CONTROLLER);
+	public static int getParentLookupMaxLength(JspController cont) {
+		int value = 0;
+		String callingController = cont
+				.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_CONTROLLER);
 		if (callingController != null) {
 			try {
-				JspController otherCont = (JspController) cont.getSession().getAttribute(callingController);
+				JspController otherCont = (JspController) cont.getSession()
+						.getAttribute(callingController);
 				if (otherCont != null) {
-					HtmlLookUpComponent luComp = (HtmlLookUpComponent) otherCont.getComponent(cont.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_COMPONENT));
+					HtmlLookUpComponent luComp = (HtmlLookUpComponent) otherCont
+							.getComponent(cont
+									.getParameter(HtmlLookUpComponent.PARAM_LOOKUP_COMPONENT));
 					value = luComp.getEditField().getMaxLength();
 				}
 			} catch (Exception ex) {
@@ -847,6 +943,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 		}
 		return value;
 	}
+
 	/**
 	 * This method will load the font start and end tags from the page
 	 * properties object.See the Constants at the top of the class for valid
@@ -860,8 +957,10 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 			_fontStartTag = props.getProperty(_font + Props.TAG_START);
 			_fontEndTag = props.getProperty(_font + Props.TAG_END);
 		} else {
-			_fontStartTag = props.getProperty(HtmlText.FONT_DEFAULT + Props.TAG_START);
-			_fontEndTag = props.getProperty(HtmlText.FONT_DEFAULT + Props.TAG_END);
+			_fontStartTag = props.getProperty(HtmlText.FONT_DEFAULT
+					+ Props.TAG_START);
+			_fontEndTag = props.getProperty(HtmlText.FONT_DEFAULT
+					+ Props.TAG_END);
 		}
 
 	}
@@ -883,7 +982,8 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	/*
 	 * Sets an expression for the description of the field being looked up
 	 */
-	public void setDescriptionExpression(DataStoreBuffer ds, String exp) throws DataStoreException {
+	public void setDescriptionExpression(DataStoreBuffer ds, String exp)
+			throws DataStoreException {
 		int index = ds.getColumnIndex(exp);
 
 		if (!_editDescription) {
@@ -896,10 +996,12 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 			getEditField().setColumn(ds, index);
 
 	}
+
 	/*
 	 * Sets an expression for the description of the field being looked up
 	 */
-	public void setDescriptionExpression(DataStoreBuffer ds, DataStoreExpression exp) throws DataStoreException {
+	public void setDescriptionExpression(DataStoreBuffer ds,
+			DataStoreExpression exp) throws DataStoreException {
 		if (!_editDescription) {
 			_descriptionEval = new DataStoreEvaluator(ds, exp);
 			_showDescription = true;
@@ -992,6 +1094,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 		else
 			return formString + hiddenKeyFullName;
 	}
+
 	public String getDivFullName(int rowNum) {
 		HtmlLookUpComponent luComp = this;
 		String luName = luComp.getFullName();
@@ -1007,6 +1110,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	public String getPopupAttributes() {
 		return _popupAttributes;
 	}
+
 	/**
 	 * @param popupAttributes
 	 *            The popupAttributes to set if this lookup uses a popup window
@@ -1016,6 +1120,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	public void setPopupAttributes(String popupAttributes) {
 		_popupAttributes = popupAttributes;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1023,22 +1128,35 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	 */
 	public void setTheme(String theme) {
 		Props p = getPage().getPageProperties();
-		_popupAttributes = p.getThemeProperty(theme, Props.LOOKUP_COMPONENT_POPUPATTRIBUTES);
+		_popupAttributes = p.getThemeProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPATTRIBUTES);
 
 		_lookUpPageURL = p.getThemeProperty(theme, Props.LOOKUP_COMPONENT_URL);
-		_usePopup = p.getThemeBooleanProperty(theme, Props.LOOKUP_COMPONENT_USEPOPUP, false);
-		_useModal = p.getThemeBooleanProperty(theme, Props.LOOKUP_COMPONENT_POPUPMODAL, false);
-		_popupWidth = p.getThemeIntProperty(theme, Props.LOOKUP_COMPONENT_POPUPWIDTH, 300);
-		_popupHeight = p.getThemeIntProperty(theme, Props.LOOKUP_COMPONENT_POPUPHEIGHT, 300);
-		_popupTop = p.getThemeIntProperty(theme, Props.LOOKUP_COMPONENT_POPUPTOP, 0);
-		_popupLeft = p.getThemeIntProperty(theme, Props.LOOKUP_COMPONENT_POPUPLEFT, 0);
-		_popupPosition = p.getThemeProperty(theme, Props.LOOKUP_COMPONENT_POPUPPOSITION, Constants.POPUP_POSITION_CUSTOM);
-		_useDiv=p.getThemeBooleanProperty(theme, Props.LOOKUP_COMPONENT_POPUPDIV,false);
-		_divBorderStyle=p.getThemeProperty(theme,Props.LOOKUP_COMPONENT_POPUPDIVBORDERSTYLE);
-		setEditDescription(p.getThemeBooleanProperty(theme, Props.LOOKUP_COMPONENT_EDITDESCRIPTION));
+		_usePopup = p.getThemeBooleanProperty(theme,
+				Props.LOOKUP_COMPONENT_USEPOPUP, false);
+		_useModal = p.getThemeBooleanProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPMODAL, false);
+		_popupWidth = p.getThemeIntProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPWIDTH, 300);
+		_popupHeight = p.getThemeIntProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPHEIGHT, 300);
+		_popupTop = p.getThemeIntProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPTOP, 0);
+		_popupLeft = p.getThemeIntProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPLEFT, 0);
+		_popupPosition = p.getThemeProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPPOSITION,
+				Constants.POPUP_POSITION_CUSTOM);
+		_useDiv = p.getThemeBooleanProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPDIV, false);
+		_divBorderStyle = p.getThemeProperty(theme,
+				Props.LOOKUP_COMPONENT_POPUPDIVBORDERSTYLE);
+		setEditDescription(p.getThemeBooleanProperty(theme,
+				Props.LOOKUP_COMPONENT_EDITDESCRIPTION));
 		super.setTheme(theme);
 
 	}
+
 	/**
 	 * @return Returns whether or not the description is editable. If the
 	 *         description is editable, the key field will not be displayed, but
@@ -1047,6 +1165,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 	public boolean getEditDescription() {
 		return _editDescription;
 	}
+
 	/**
 	 * @param editDescription
 	 *            Sets whether or not the description is editable. If the
@@ -1058,72 +1177,95 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener, 
 		_hiddenKeyHandle.setVisible(editDescription);
 	}
 
-
 	/**
-	 * @return Returns the useDiv flag to indicate if a popup should open in a div.
+	 * @return Returns the useDiv flag to indicate if a popup should open in a
+	 *         div.
 	 */
 	public boolean getUseDiv() {
 		return _useDiv;
 	}
+
 	/**
-	 * @param useDiv The useDiv to set.
+	 * @param useDiv
+	 *            The useDiv to set.
 	 */
 	public void setUseDiv(boolean useDiv) {
 		_useDiv = useDiv;
 	}
+
 	/**
 	 * @return Returns the divBorderStyle.
 	 */
 	public String getDivBorderStyle() {
 		return _divBorderStyle;
 	}
+
 	/**
-	 * @param divBorderStyle For popups that open in divs sets the border style (CSS) for the div border default  is: 1px solid black.
+	 * @param divBorderStyle
+	 *            For popups that open in divs sets the border style (CSS) for
+	 *            the div border default is: 1px solid black.
 	 */
 	public void setDivBorderStyle(String divBorderStyle) {
 		_divBorderStyle = divBorderStyle;
 	}
+
 	/**
 	 * @return Returns the divScrolling.
 	 */
 	public boolean getDivScrolling() {
 		return _divScrolling;
 	}
+
 	/**
-	 * @param divScrolling For popus that open in divs, whether or not a scrollbar will be present for overflow
+	 * @param divScrolling
+	 *            For popus that open in divs, whether or not a scrollbar will
+	 *            be present for overflow
 	 */
 	public void setDivScrolling(boolean divScrolling) {
 		_divScrolling = divScrolling;
 	}
-	
+
 	/**
 	 * Add a form component value to the url line of a popup request
-	 * @param comp The component to get the value from
-	 * @param requestParmName The name of the parameter to add to the URL line
+	 * 
+	 * @param comp
+	 *            The component to get the value from
+	 * @param requestParmName
+	 *            The name of the parameter to add to the URL line
 	 */
-	public void addFormComponentValueToPopup(HtmlComponent comp, String requestParmName) {
+	public void addFormComponentValueToPopup(HtmlComponent comp,
+			String requestParmName) {
 		if (comp == null)
 			return;
 		if (_popupURLLineValues == null)
-			_popupURLLineValues=new Vector<FormComponentInfo>();
+			_popupURLLineValues = new Vector<FormComponentInfo>();
 
-		boolean isInDataTable=false;
-		HtmlComponent parent=comp.getParent();
+		boolean isInDataTable = false;
+		HtmlComponent parent = comp.getParent();
 		while (parent != null) {
-			if (parent instanceof JspDataTable || parent instanceof JspList || parent instanceof HtmlDataTable) {
-				isInDataTable=true;
+			if (parent instanceof JspDataTable || parent instanceof JspList
+					|| parent instanceof HtmlDataTable) {
+				isInDataTable = true;
 				break;
-			}	
-			parent=parent.getParent();
-		}	
-			
+			}
+			parent = parent.getParent();
+		}
+
 		if (comp instanceof HtmlLookUpComponent)
-			comp = ((HtmlLookUpComponent)comp).getEditField();
-		String name=comp.getFormString() + comp.getFullName();
-		FormComponentInfo inf=new FormComponentInfo();
-		inf.attName=requestParmName;
-		inf.compName=name;
-		inf.isInDataTable=isInDataTable;
+			comp = ((HtmlLookUpComponent) comp).getEditField();
+		String name = comp.getFormString() + comp.getFullName();
+		FormComponentInfo inf = new FormComponentInfo();
+		inf.attName = requestParmName;
+		inf.compName = name;
+		inf.isInDataTable = isInDataTable;
 		_popupURLLineValues.add(inf);
-	}	
+	}
+
+	public HtmlLink get_browsePopupImageLink() {
+		return _browsePopupImageLink;
+	}
+
+	public void set_browsePopupImageLink(HtmlLink popupImageLink) {
+		_browsePopupImageLink = popupImageLink;
+	}
 }
