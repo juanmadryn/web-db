@@ -893,6 +893,8 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
     {
         if (getReloadDropDownInEveryPageRequest() && !getPage().isReferredByCurrentPage())
         {
+        	String value = getValue();        		
+                		
             resetOptions();
 
             if (isInputVersion())
@@ -901,6 +903,8 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
             }
 
             populateDropdownOptions();
+            if(value != null)
+            	setValue(value);
         }
     }
 
@@ -946,7 +950,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
                 /**
                  * alias added by ilev 2004/03
                  */
-                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " WHERE " + getCriteria() + " ORDER BY "+_keyColumn+", ";
+                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " WHERE " + getCriteria() + " ORDER BY ";
 
                 if (isToUpper())
                 {
@@ -964,7 +968,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
                 /**
                  * alias added by ilev 2004/03
                  */
-                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " ORDER BY "+_keyColumn+", ";
+                query = "SELECT " + _keyColumn + "," + _dispColumn + alias + " FROM " + _table + " ORDER BY ";
 
                 if (isToUpper())
                 {
