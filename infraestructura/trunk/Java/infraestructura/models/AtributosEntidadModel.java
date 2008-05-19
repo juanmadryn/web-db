@@ -1533,9 +1533,14 @@ public class AtributosEntidadModel extends DataStore {
 
 	public void validaAtributosUpdate() throws DataStoreException,
 			SQLException, ValidationException {
-		// TODO Auto-generated method stub
-		DBConnection conn = DBConnection.getConnection("infraestructura");		
-		validaAtributosUpdate(conn);		
+		DBConnection conn = null;
+		try {			
+			conn = DBConnection.getConnection("infraestructura");
+			validaAtributosUpdate(conn);
+		} finally {
+			if (conn != null)
+				conn.freeConnection();
+		}				
 	}
 
 	public void validaAtributosUpdate(DBConnection conn) throws DataStoreException,
