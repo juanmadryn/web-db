@@ -14,22 +14,22 @@
 		<table width="100%">
 			<tr>
 				<td><salmon:text name="text1"
-					text="Bienvenido al menú de Solicitudes de Compra"
+					text="Bienvenido al menú de Solicitudes de Materiales"
 					textlocalekey="textWelcome" font="SectionHeadingFont" /> <BR>
 				<FONT
 					STYLE="FONT-FAMILY: Times New Roman, Times, Verdana, Helvetica, sans-serif; FONT-SIZE: 12pt;"
-					COLOR="BLACK"><I> Aplicación para Administrar Solicitudes de Compra
+					COLOR="BLACK"><I> Aplicación para Administrar Solicitudes de Materiales
 				</I> </FONT></td>
 			</tr>
 			<tr>
 				<td><br>
 				<br>
-				<salmon:text name="text2" text="Menú para Administrar Solicitudes de Compra"
+				<salmon:text name="text2" text="Menú para Administrar Solicitudes de Materiales"
 					textlocalekey="textWelcome" font="PageHeadingFont" /> <BR>
 				<FONT
 					STYLE="FONT-FAMILY: Times New Roman, Times, Verdana, Helvetica, sans-serif; FONT-SIZE: 12pt;"
 					COLOR="BLACK"><I> Menú principal de la Administración de
-				Solicitudes de Compra </I> </FONT><br>
+				Solicitudes de Materiales </I> </FONT><br>
 				<br>
 				</td>
 			</tr>			

@@ -5,6 +5,7 @@ package inventario.reglasNegocio;
 
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.ComprobanteMovimientoArticuloModel;
+import inventario.models.ConversionesModel;
 import inventario.models.MovimientoArticuloModel;
 import inventario.models.ResumenSaldoArticulosModel;
 import inventario.models.TipoMovimientoArticuloModel;
@@ -40,15 +41,13 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			ResumenSaldoArticulosModel resumen = new ResumenSaldoArticulosModel(
 					"inventario");
 
-			ds.update(conn, false);
-			ds.resetStatus();
-
 			int comprobante_movimiento_id = ds
 					.getComprobanteMovimientoArticuloComprobanteMovimientoId();
 			int tipo_movimiento_id = ds
 					.getComprobanteMovimientoArticuloTipoMovimientoArticuloId();
 			int almacen_id = ds.getComprobanteMovimientoArticuloAlmacenId();
 
+			// obtengo los movimientos asociados al comprobante
 			movimientos
 					.retrieve("movimiento_articulo.comprobante_movimiento_id ="
 							+ comprobante_movimiento_id);
@@ -57,6 +56,8 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			double cantidad_solicitada = 0;
 			double cantidad_anulada = 0;
 
+			// chequeo que las cantidades solicitada, entregada y anulada estén
+			// balanceadas
 			for (int row = 0; row < movimientos.getRowCount(); row++) {
 				cantidad_entregada = movimientos
 						.getMovimientoArticuloCantidadEntregada(row);
@@ -77,9 +78,11 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			if (msg.length() > 0)
 				return false;
 
+			// obtengo las cantidades entregadas de artículos por proyecto -
+			// tarea
 			st = conn.createStatement();
 			ResultSet rs = st
-					.executeQuery("SELECT sum(movimiento.cantidad_entregada) cantidad_entregada, movimiento.articulo_id, movimiento.proyecto_id, movimiento.tarea_id, cantidad_solicitada FROM  comprobante_movimiento_articulo comprobante INNER JOIN movimiento_articulo movimiento ON comprobante.comprobante_movimiento_id = movimiento.comprobante_movimiento_id WHERE comprobante.comprobante_movimiento_id = "
+					.executeQuery("SELECT sum(movimiento.cantidad_entregada) cantidad_entregada, movimiento.articulo_id, movimiento.proyecto_id, movimiento.tarea_id, movimiento.unidad_medida_id, sum(movimiento.cantidad_anulada) cantidad_anulada FROM  comprobante_movimiento_articulo comprobante INNER JOIN movimiento_articulo movimiento ON comprobante.comprobante_movimiento_id = movimiento.comprobante_movimiento_id WHERE comprobante.comprobante_movimiento_id = "
 							+ comprobante_movimiento_id
 							+ " GROUP BY articulo_id, proyecto_id, tarea_id ORDER BY articulo_id");
 
@@ -87,20 +90,24 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
 
 			int articulo_id = 0;
+			int unidad_medida_id = 0;
 			double stock = 0;
 			cantidad_entregada = 0;
+			double cantidad_entregada_convertida = 0;
+			double cantidad_anulada_convertida = 0;
 			double cantidad_reservada = 0;
 			double cantidad_en_proceso = 0;
 
 			while (rs.next()) {
 				articulo_id = rs.getInt("articulo_id");
 
+				// recupero el resumen de stock del articulo y voy al primero,
+				// por orden, el del período más reciente
 				resumen.retrieve("resumen_saldo_articulos.almacen_id = "
 						+ almacen_id
 						+ " AND resumen_saldo_articulos.articulo_id = "
 						+ articulo_id);
 				resumen.waitForRetrieve();
-				
 				if (resumen.gotoFirst()) {
 					stock = resumen.getResumenSaldoArticulosStockEnMano();
 					cantidad_reservada = resumen
@@ -108,39 +115,58 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 					cantidad_en_proceso = resumen
 							.getResumenSaldoArticulosEnProceso();
 				}
-				
+
+				// obtengo el período actual
 				java.sql.Date periodo = new java.sql.Date(calendar
 						.getTimeInMillis());
-				
+
+				// si no hay resumen de saldo del artículo para el período
+				// actual, lo creo
 				if (resumen.getRowCount() == 0
-						|| resumen.getResumenSaldoArticulosPeriodo().equals(periodo)) {
-					System.out.println("resumen: "+resumen.getResumenSaldoArticulosPeriodo() + " periodo: "+ periodo);
+						|| resumen.getResumenSaldoArticulosPeriodo().equals(
+								periodo)) {
 					resumen.gotoRow(resumen.insertRow());
 					resumen.setResumenSaldoArticulosAlmacenId(almacen_id);
 					resumen.setResumenSaldoArticulosArticuloId(articulo_id);
 					resumen.setResumenSaldoArticulosPeriodo(periodo);
 				}
-				cantidad_entregada = rs.getDouble("cantidad_entregada");
 
+				cantidad_entregada = rs.getDouble("cantidad_entregada");
+				cantidad_anulada = rs.getDouble("cantidad_anulada");
+				unidad_medida_id = rs.getInt("unidad_medida_id");
+
+				// Chequea si la unidad de medida indicada tiene el factor de
+				// conversión correspondiente, y devuelve la cantidad convertida
+				cantidad_entregada_convertida = ConversionesModel
+						.getUnidadConvertida(articulo_id, unidad_medida_id,
+								cantidad_entregada, conn);
+				cantidad_anulada_convertida = ConversionesModel
+						.getUnidadConvertida(articulo_id, unidad_medida_id,
+								cantidad_anulada, conn);
+
+				// chequea si el movimiento es positivo, y de reserva, y
+				// actualiza las cantidades correspondientes
 				if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
 						.getPositivo(tipo_movimiento_id, conn))) {
-					if("F".equalsIgnoreCase(TipoMovimientoArticuloModel
+					if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
 							.getReserva(tipo_movimiento_id, conn)))
-						stock -= cantidad_entregada;
+						stock -= cantidad_entregada_convertida;
 					else {
-						cantidad_reservada -= cantidad_entregada;						
+						cantidad_reservada -= cantidad_entregada_convertida;
+						stock -= cantidad_entregada_convertida;
 					}
-					if (cantidad_en_proceso >= (cantidad_entregada + cantidad_anulada)) 
-						cantidad_en_proceso -= (cantidad_entregada + cantidad_anulada);
-				}
-				else {
-					if("F".equalsIgnoreCase(TipoMovimientoArticuloModel
+					if (cantidad_en_proceso >= (cantidad_entregada_convertida + cantidad_anulada_convertida))
+						cantidad_en_proceso -= (cantidad_entregada_convertida + cantidad_anulada_convertida);
+				} else {
+					if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
 							.getReserva(tipo_movimiento_id, conn)))
-						stock += cantidad_entregada;
-					else 
-						cantidad_reservada += cantidad_entregada;
-					
+						stock += cantidad_entregada_convertida;
+					else
+						cantidad_reservada += cantidad_entregada_convertida;
+
 				}
+
+				// setea las cantidad obtenidas anteriormente
 				resumen.setResumenSaldoArticulosReservado(cantidad_reservada);
 				resumen.setResumenSaldoArticulosStockEnMano(stock);
 				resumen.setResumenSaldoArticulosEnProceso(cantidad_en_proceso);
@@ -148,6 +174,8 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 				resumen.update(conn);
 				resumen.resetStatus();
 
+				// en los movimientos correspondientes seteo el resumen de saldo
+				// de artículo que se ha actualizado
 				movimientos.filter("movimiento_articulo.articulo_id =="
 						+ articulo_id);
 				while (movimientos.gotoNext()) {
@@ -156,19 +184,18 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 									.getResumenSaldoArticulosResumenSaldoArticuloId());
 				}
 				movimientos.update(conn);
-				resumen.resetStatus();
 				movimientos.resetStatus();
 			}
 
 		} catch (DataStoreException ex) {
 			msg
-					.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
+					.append("Ocurrió un error (DataStore) mientras se procesaba la confirmación: "
 							+ ex.getMessage());
 
 			return false;
 		} catch (SQLException ex) {
 			msg
-					.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
+					.append("Ocurrió un error (SQL) mientras se procesaba la confirmación: "
 							+ ex.getMessage());
 			return false;
 		} finally {

@@ -1821,7 +1821,7 @@ public class AtributosEntidadModel extends DataStore {
 						tipoObjeto, nombreObjeto);
 			else
 				throw new DataStoreException(
-						"El atributo indicado para recuperar su valor no existe.");
+						"El atributo indicado para recuperar su valor no existe: "+nombreAtributo);
 
 		} finally {
 			if (r != null) {

@@ -24,7 +24,7 @@
 			<salmon:tr>
 				<salmon:td valign="Top">
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
-						caption="Solicitud de compra" width="100%"
+						caption="Solicitud de Materiales" width="100%"
 						datasource="dsSolicitudCompra" buttondisplaylocation="IN_HEADER"
 						addbuttonvisible="false" cancelbuttonvisible="false"
 						savebuttonvisible="false" deletebuttonvisible="false">

@@ -9,7 +9,8 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="buscar" type="CONTAINS" columns="articulos.nombre,articulos.descripcion" />
+		<salmon:qbecriteria name="buscar" type="CONTAINS"
+			columns="articulos.nombre,articulos.descripcion" />
 	</salmon:datasource>
 	<salmon:datasource name="dsConversiones" type="MODEL"
 		dbprofile="inventario" model="inventario.models.ConversionesModel"
@@ -39,7 +40,7 @@
 						caption="Editar conversión" width="100%"
 						datasource="dsConversiones"
 						listformdisplaybox="listformdisplaybox1">
-						<table width="100%">							
+						<table width="100%">
 							<tr>
 								<td><salmon:text name="articulo1" text="Artículo"
 									font="TableHeadingFont" />
@@ -51,14 +52,19 @@
 									showdescription="true"></salmon:lookup></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="articulo_unidad_medida1" text="Unidad de medida principal"
-									font="TableHeadingFont" />
-								<td><salmon:text name="articulo_unidad_medida2" text="" datasource="dsConversiones:articulo_unidad_medida"
-									font="ColumnCaptionFont" /></td>
+								<td><salmon:text name="articulo_unidad_medida1"
+									text="Unidad patrón" font="TableHeadingFont" /> <salmon:td>
+									<salmon:input type="select" name="articulo_unidad_medida2">
+										<salmon:option display="abc" key="123"
+											table="inventario.unidades_medida"
+											keycolumn="unidades_medida.unidad_medida_id"
+											displaycolumn="unidades_medida.nombre" nulloption="false"></salmon:option>
+									</salmon:input>
+								</salmon:td>
 							</tr>
 							<tr>
-								<td><salmon:text name="unidad_medida1" text="Unidad de medida"
-									font="TableHeadingFont" /></td>
+								<td><salmon:text name="unidad_medida1"
+									text="Unidad de medida" font="TableHeadingFont" /></td>
 								<td><salmon:input type="select" name="unidad_medida2"
 									datasource="dsConversiones:conversiones.unidad_medida_id">
 									<salmon:option display="abc" key="123"
@@ -68,20 +74,19 @@
 								</salmon:input></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="factor1" text="Factor"
+								<td><salmon:text name="factor1" text="Factor de conversión"
 									font="TableHeadingFont" /></td>
-								<td><salmon:input type="text" name="factor2" size="40"
-									maxlength="90"
-									datasource="dsConversiones:conversiones.factor"></salmon:input>
+								<td><salmon:input type="text" name="factor2" size="10"
+									maxlength="10" datasource="dsConversiones:conversiones.factor"></salmon:input>
 								</td>
 							</tr>
 							<tr>
-								<td><salmon:text name="observaciones1"
-									text="Observaciones" font="TableHeadingFont" /></td>
+								<td><salmon:text name="observaciones1" text="Observaciones"
+									font="TableHeadingFont" /></td>
 								<td><salmon:input type="textarea" name="observaciones2"
 									cols="50" rows="3"
 									datasource="dsConversiones:conversiones.observaciones"></salmon:input></td>
-							</tr>							
+							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>
@@ -107,29 +112,22 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="factor3" text="Factor"
-								font="TableHeadingFont" />
+							<salmon:text name="factor3" text="Factor" font="TableHeadingFont" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
 					<salmon:tr>
 						<salmon:td>
-							<salmon:text name="articulo4"
-								text=""
-								font="DefaultFont"
+							<salmon:text name="articulo4" text="" font="DefaultFont"
 								datasource="dsConversiones:articulos.nombre + '-' + articulos.descripcion" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="unidad_medida4"
-								text=""
-								font="DefaultFont"
+							<salmon:text name="unidad_medida4" text="" font="DefaultFont"
 								datasource="dsConversiones:unidades_medida.nombre" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="factor4"
-								text=""
-								font="DefaultFont"
+							<salmon:text name="factor4" text="" font="DefaultFont"
 								datasource="dsConversiones:conversiones.factor" />
 						</salmon:td>
 					</salmon:tr>

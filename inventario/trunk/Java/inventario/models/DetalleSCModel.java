@@ -236,7 +236,7 @@ public class DetalleSCModel extends DataStore {
 					"solicitudes_compra",
 					"'solicitudes_compra.solicitud_compra_id = ' + detalle_sc.solicitud_compra_id",
 					"estado", SOLICITUDES_COMPRA_ESTADO,
-					"Solicitud de compra inexistente");
+					"Solicitud de materiales inexistente");
 			addLookupRule(
 					DETALLE_SC_UNIDAD_DE_MEDIDA_ID,
 					"unidades_medida",

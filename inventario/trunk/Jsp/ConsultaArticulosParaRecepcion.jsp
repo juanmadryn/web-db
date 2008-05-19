@@ -38,7 +38,7 @@
 			<salmon:tr>
 				<salmon:td valign="Top">
 					<salmon:searchformdisplaybox
-						caption="Consulta de Recepciones de Compra"
+						caption="Consulta de artículos pendientes de recepción"
 						name="searchformdisplaybox1" buttondisplaylocation="BELOW_TABLE"
 						searchbuttonvisible="true" addbuttonvisible="False"
 						qbebuilder="dsQBE">

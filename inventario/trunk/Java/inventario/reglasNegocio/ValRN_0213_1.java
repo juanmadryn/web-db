@@ -70,7 +70,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 					comprobanteMovimiento
 							.setComprobanteMovimientoArticuloAlmacenId(almacen_id);
 					comprobanteMovimiento
-							.setComprobanteMovimientoArticuloEstado("0010.0003");
+							.setComprobanteMovimientoArticuloEstado("0010.0002");
 					comprobanteMovimiento
 							.setComprobanteMovimientoArticuloFecha(ds
 									.getRecepcionesComprasFecha());
@@ -107,7 +107,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 
 			st = conn.createStatement();
 			ResultSet rs = st
-					.executeQuery("SELECT sum(detalles_rc.cantidad_recibida) cantidad_recibida, detalle_sc.articulo_id, detalles_rc.almacen_id, solicitudes.proyecto_id, detalle_sc.tarea_id, cantidad_pedida FROM  detalles_rc detalles_rc inner join recepciones_compras ON detalles_rc.recepcion_compra_id = recepciones_compras.recepcion_compra_id  inner join detalle_sc detalle_sc ON detalles_rc.detalle_sc_id = detalle_sc.detalle_SC_id  inner join almacenes ON detalles_rc.almacen_id = almacenes.almacen_id  inner join articulos articulos ON detalle_sc.articulo_id = articulos.articulo_id  inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id = unidades_medida.unidad_medida_id JOIN solicitudes_compra solicitudes ON detalle_sc.solicitud_compra_id = solicitudes.solicitud_compra_id WHERE detalles_rc.recepcion_compra_id = "
+					.executeQuery("SELECT sum(detalles_rc.cantidad_recibida) cantidad_recibida, detalle_sc.articulo_id, detalles_rc.almacen_id, solicitudes.proyecto_id, detalle_sc.tarea_id, cantidad_pedida, detalles_rc.unidad_medida_id FROM  detalles_rc detalles_rc inner join recepciones_compras ON detalles_rc.recepcion_compra_id = recepciones_compras.recepcion_compra_id  inner join detalle_sc detalle_sc ON detalles_rc.detalle_sc_id = detalle_sc.detalle_SC_id  inner join almacenes ON detalles_rc.almacen_id = almacenes.almacen_id  inner join articulos articulos ON detalle_sc.articulo_id = articulos.articulo_id  inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id = unidades_medida.unidad_medida_id JOIN solicitudes_compra solicitudes ON detalle_sc.solicitud_compra_id = solicitudes.solicitud_compra_id WHERE detalles_rc.recepcion_compra_id = "
 							+ recepcionCompraId
 							+ " GROUP BY almacen_id, articulo_id ORDER BY almacen_id");
 
@@ -138,53 +138,18 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 						.setMovimientoArticuloComprobanteMovimientoId(comprobante_movimiento_id);
 				movimiento.setMovimientoArticuloProyectoId(rs
 						.getInt("proyecto_id"));
-				movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
+				movimiento.setMovimientoArticuloUnidadMedidaId(rs.getInt("unidad_medida_id"));
+				
+				//movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
 
-				resumen.retrieve("resumen_saldo_articulos.almacen_id = "
-						+ almacen_id
-						+ " AND resumen_saldo_articulos.articulo_id = "
-						+ articulo_id
-						+ " AND resumen_saldo_articulos.periodo = '"
-						+ new java.sql.Date(calendar.getTimeInMillis()) + "'");
-
-				double stock = ResumenSaldoArticulosModel.getStockEnMano(
-						articulo_id, almacen_id, conn);
-				double cantidad = movimiento
-						.getMovimientoArticuloCantidadEntregada();
-
-				if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
-						.getPositivo(tipoMovimiento, conn)))
-					stock -= cantidad;
-				else
-					stock += cantidad;
-
-				if (resumen.getRowCount() == 0) {
-					resumen.gotoRow(resumen.insertRow());
-					resumen.setResumenSaldoArticulosAlmacenId(almacen_id);
-					resumen.setResumenSaldoArticulosArticuloId(articulo_id);
-					resumen.setResumenSaldoArticulosPeriodo(new java.sql.Date(
-							calendar.getTimeInMillis()));
-				} else
-					resumen.gotoFirst();
-
-				double cantidad_reservada = ResumenSaldoArticulosModel
-						.getReservado(articulo_id, almacen_id, conn);
-				if (!"F".equalsIgnoreCase(TipoMovimientoArticuloModel
-						.getReserva(tipoMovimiento, conn)))
-					cantidad_reservada += cantidad;
-				resumen.setResumenSaldoArticulosReservado(cantidad_reservada);
-				resumen.setResumenSaldoArticulosStockEnMano(stock);
-
-				resumen.update(conn);
-
-				movimiento.setMovimientoArticuloResumenSaldoArticuloId(resumen
-						.getResumenSaldoArticulosResumenSaldoArticuloId());
 				movimiento.update(conn);
 
 				resumen.resetStatus();
 				movimiento.resetStatus();
-
 			}
+			System.out.println("1");
+			comprobanteMovimiento.ejecutaAccion(47, "0010", "", ds.getCurrentWebsiteUserId(), "comprobante_movimiento_articulo", conn, false);
+			System.out.println("2");
 
 		} catch (DataStoreException ex) {
 			msg
