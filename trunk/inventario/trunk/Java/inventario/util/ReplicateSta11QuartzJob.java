@@ -291,8 +291,12 @@ public class ReplicateSta11QuartzJob implements Job {
 			
 			connInv.commit();			
 		} finally {
+			if (tangoSt != null)
+				tangoSt.close();
 			if (r != null)
 				r.close();
+			if (rMySql != null) 
+				rMySql.close();
 			if (psTango != null)
 				psTango.close();
 			if (pstMySql != null)

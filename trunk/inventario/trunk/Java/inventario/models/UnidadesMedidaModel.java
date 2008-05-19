@@ -300,14 +300,27 @@ public class UnidadesMedidaModel extends DataStore {
 	}
 
 	public static String getUnidadMedidaNombre(int id) throws SQLException {
-		DBConnection conn = DBConnection.getConnection("inventario");
-		Statement st = conn.createStatement();
-		ResultSet rs = st
+		DBConnection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+			conn = DBConnection.getConnection("inventario");
+		
+		st = conn.createStatement();
+		rs = st
 				.executeQuery("SELECT u.nombre FROM inventario.unidades_medida u WHERE u.unidad_medida_id = "
 						+ id);
 		if (rs.first())
 			return rs.getString(1);
 		return "Unidad de medida no indicada para el artículo";
+		} finally {
+			if(rs != null) 
+				rs.close();
+			if(st != null) 
+				st.close();
+			if(conn != null) 
+				conn.freeConnection();
+		}
 	}
 
 	// $CUSTOMMETHODS$

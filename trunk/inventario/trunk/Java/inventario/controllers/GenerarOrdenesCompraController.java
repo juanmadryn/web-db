@@ -3,17 +3,13 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
-import infraestructura.models.AtributosEntidadModel;
 import infraestructura.reglasNegocio.ValidationException;
 import infraestructura.utils.BusquedaPorAtributo;
 import inventario.models.OrdenesCompraModel;
-import inventario.models.SolicitudCompraModel;
 import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Hashtable;
-import java.util.Iterator;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -23,7 +19,6 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
-import com.salmonllc.util.SalmonDateFormat;
 
 /**
  * GenerarOrdenesCompraController: a SOFIA generated controller
