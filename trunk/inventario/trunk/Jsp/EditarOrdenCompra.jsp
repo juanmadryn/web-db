@@ -51,14 +51,14 @@
 										accesskey="6" visible="False"></salmon:input>
 								</td>
 								<td align="right">
-									<salmon:a href="" target="_blank" 
+									<!-- <salmon:a href="" target="_blank" 
 										name="imprimirOrdenCompraBUT1"
 										onclick="document.forms['bannerForm'].submit();">
 										<salmon:img name="imprimirTXT1"
 											src="%ImageDirectory/logo_excel.gif" height="25"
 											srclocalekey="bannerImageSource" />
-									</salmon:a>
-									<salmon:text name="espacio" text=" " font="TableHeadingFont" />
+									</salmon:a> 
+									<salmon:text name="espacio" text=" " font="TableHeadingFont" /> -->
 									<salmon:a href="" target="_blank"
 										name="imprimirOrdenCompraBUT2"
 										onclick="document.forms['bannerForm'].submit();">

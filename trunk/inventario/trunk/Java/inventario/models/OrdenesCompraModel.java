@@ -751,12 +751,20 @@ public class OrdenesCompraModel extends BaseModel {
 		}
 		
 		if (getOrdenesCompraFechaEstimadaEntrega() != null) {
-			Calendar cal = Calendar.getInstance();
-			cal.set(Calendar.HOUR_OF_DAY, cal.getMaximum(Calendar.HOUR_OF_DAY));
-			cal.set(Calendar.MINUTE, cal.getMaximum(Calendar.MINUTE));
-			cal.set(Calendar.SECOND, cal.getMaximum(Calendar.SECOND));
-			cal.set(Calendar.MILLISECOND, cal.getMaximum(Calendar.MILLISECOND));
-			if (cal.getTimeInMillis() < getOrdenesCompraFechaEstimadaEntrega().getTime())
+			Calendar fechaActual = Calendar.getInstance();			
+			fechaActual.set(Calendar.HOUR_OF_DAY, fechaActual.getMinimum(Calendar.HOUR_OF_DAY));
+			fechaActual.set(Calendar.MINUTE, fechaActual.getMinimum(Calendar.MINUTE));
+			fechaActual.set(Calendar.SECOND, fechaActual.getMinimum(Calendar.SECOND));
+			fechaActual.set(Calendar.MILLISECOND, fechaActual.getMinimum(Calendar.MILLISECOND));
+			
+			Calendar fechaEstEntrega = Calendar.getInstance();
+			fechaEstEntrega.setTimeInMillis(getOrdenesCompraFechaEstimadaEntrega().getTime());
+			fechaEstEntrega.set(Calendar.HOUR_OF_DAY, fechaActual.getMinimum(Calendar.HOUR_OF_DAY));
+			fechaEstEntrega.set(Calendar.MINUTE, fechaActual.getMinimum(Calendar.MINUTE));
+			fechaEstEntrega.set(Calendar.SECOND, fechaActual.getMinimum(Calendar.SECOND));
+			fechaEstEntrega.set(Calendar.MILLISECOND, fechaActual.getMinimum(Calendar.MILLISECOND));
+			
+			if (fechaEstEntrega.getTimeInMillis() < fechaActual.getTimeInMillis())
 				throw new DataStoreException("La fecha estimada de entrega debe ser igual o posterior a la fecha actual");
 		}
 		

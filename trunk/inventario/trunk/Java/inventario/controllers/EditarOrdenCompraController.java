@@ -629,11 +629,11 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);		
 		
 		// setea la URL del reporte a generar al presionar el botón de impresión
-		String URL = armarUrlReporte("XLS", "orden_compra",
+		/*String URL = armarUrlReporte("XLS", "orden_compra",
 				"&orden_compra_id_parameter=" + getRow_id());
-		_imprimirOrdenCompraBUT1.setHref(URL);
+		_imprimirOrdenCompraBUT1.setHref(URL);*/
 
-		URL = armarUrlReporte("PDF", "orden_compra",
+		String URL = armarUrlReporte("PDF", "orden_compra_full",
 				"&orden_compra_id_parameter=" + getRow_id());
 		_imprimirOrdenCompraBUT2.setHref(URL);
 		
