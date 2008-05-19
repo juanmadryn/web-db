@@ -440,7 +440,9 @@ public class AbmcArticuloController extends BaseController {
 			seteaBotonesAtributos(v_objeto_id);
 			recuperaAtributosBotonSeleccionado(v_objeto_id, TABLA_PRINCIPAL);
 		}
-	
+		if(conn != null) 
+			conn.freeConnection();
+		
 		armaBotonera();
 		return super.submitPerformed(e);
 	}

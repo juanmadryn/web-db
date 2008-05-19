@@ -172,15 +172,22 @@
 								datasource="dsArticulosComprados:articulos_comprados.descripcion_completa" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"
-								displayformat="####" />
+							<salmon:a href="none" name="lnkorden1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsArticulosComprados:'%EditarOrdenCompra?orden_compra_id='+articulos_comprados.orden_compra_id">
+								<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
+									datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"
+									displayformat="####" />
+							</salmon:a>							
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="solicitud_compra_id2" text=""
-								font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.solicitud_compra_id"
-								displayformat="####" />
+							<salmon:a href="none" name="lnksolicitudes1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsArticulosComprados:'%AbmcSolicitudCompra?solicitud_compra_id='+articulos_comprados.solicitud_compra_id">
+								<salmon:text name="solicitud_compra_id2" text="" font="DefaultFont"
+									datasource="dsArticulosComprados:articulos_comprados.solicitud_compra_id"
+									displayformat="####" />
+							</salmon:a>
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="proveedor2" text="" font="DefaultFont"

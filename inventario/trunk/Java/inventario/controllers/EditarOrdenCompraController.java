@@ -558,7 +558,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
-		}
+		}	
 		
 		setDatosBasicosOrdenCompra();
 		armaBotonera();
@@ -689,10 +689,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			// circuiro
 			// recupero la columna para el circuito
 			// Si no existe configuración no hace nada
-			SQL = "select nombre_detalle from infraestructura.aplica_circuito where circuito = '"
+			/*SQL = "select nombre_detalle from infraestructura.aplica_circuito where circuito = '"
 					+ CIRCUITO + "'";
 			st = conn.createStatement();
-			r = st.executeQuery(SQL);
+			r = st.executeQuery(SQL);*/
 
 			// en función de la columna del circuito, determino el estado actual
 			estado = _dsOrdenesCompra.getString("ordenes_compra.estado");

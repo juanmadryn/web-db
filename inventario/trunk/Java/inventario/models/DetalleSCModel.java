@@ -1002,18 +1002,30 @@ public class DetalleSCModel extends DataStore {
 	 */
 	public String getArticulosDescripcionCompleta(int row)
 			throws DataStoreException, SQLException {
-		DBConnection conn = DBConnection.getConnection("inventario",
+		DBConnection conn = null;
+		Statement st = null;
+		ResultSet rs = null;
+		try {
+		conn = DBConnection.getConnection("inventario",
 				"inventario");
-		Statement st = conn.createStatement();
-		ResultSet rs = st
+		st = conn.createStatement();
+		rs = st
 				.executeQuery("SELECT descripcion_completa FROM articulos WHERE articulo_id ="
 						+ getDetalleScArticuloId(row));
 		String descripCompleta = null;
 		if (rs.first()) {
 			descripCompleta = rs.getString(1);
 		}
-
 		return descripCompleta;
+		} finally {
+			if (rs != null)
+				rs.close();
+			if (st != null)
+				st.close();
+			if (conn != null) {
+				conn.freeConnection();
+			}
+		}
 	}
 
 	/**
