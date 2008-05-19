@@ -106,7 +106,7 @@
 	</salmon:box>
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
-			mode="Display_single_page" caption="Solicitudes de Compra aprobadas" width="100%"
+			mode="Display_single_page" caption="Solicitudes de Materiales aprobadas" width="100%"
 			datasource="dsDetalleSC" autocreatelink="false">		
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsDetalleSC">
@@ -127,7 +127,7 @@
 							<salmon:text name="articuloClaseCAP12" text="Desc. Completa"	font="TableHeadingFont"/>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="nroSolicitudCAP4" text="Solicitud de Compra"
+							<salmon:text name="nroSolicitudCAP4" text="Solicitud de Materiales"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>

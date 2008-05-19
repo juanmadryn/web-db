@@ -2,10 +2,15 @@ package inventario.models;
 
 import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
+import infraestructura.reglasNegocio.ValidationException;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
-import com.salmonllc.sql.*;
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -691,6 +696,71 @@ public class ConversionesModel extends DataStore implements Constants {
 		super.update(conn, handleTrans);
 	}
 
+	/**
+	 * Devuelve la cantidad convertida a la unidad patrón del artículo para la
+	 * unidad de medida especificada. Crea una nueva DBConnection
+	 * 
+	 * @param articuloId
+	 *            El Id del artículo
+	 * @param unidadMedidaId
+	 *            El Id de la unidad de medida cuyo factor de conversión debe
+	 *            estar indicado en la tabla de conversiones
+	 * @param cantidad
+	 *            La cantidad a convertir
+	 * 
+	 * @return valor double indicando la cantidad convertida
+	 * @throws SQLException
+	 *             Si ocurre algún error en la ejecución del SQL
+	 * @throws DataStoreException
+	 *             Si ocurre algún error en la recuperación del valor del
+	 *             atributo ARTICULO_UNIDAD_MEDIDA o si el factor de conversión
+	 *             no está indicado en la tabla de conversiones
+	 */
+	public static double getUnidadConvertida(int articuloId,
+			int unidadMedidaId, double cantidad) throws SQLException,
+			DataStoreException {
+		DBConnection conn = DBConnection.getConnection("inventario");
+		return getUnidadConvertida(articuloId, unidadMedidaId, cantidad, conn);
+	}
+
+	/**
+	 * Devuelve la cantidad convertida a la unidad patrón del artículo para la
+	 * unidad de medida especificada. Utiliza la DBConnection indicada como
+	 * parámetro
+	 * 
+	 * @param articuloId
+	 *            El Id del artículo
+	 * @param unidadMedidaId
+	 *            El Id de la unidad de medida cuyo factor de conversión debe
+	 *            estar indicado en la tabla de conversiones
+	 * @param cantidad
+	 *            La cantidad a convertir
+	 * @param conn
+	 *            La DBConnection a utilizar
+	 * @return valor double indicando la cantidad convertida
+	 * @throws SQLException
+	 *             Si ocurre algún error en la ejecución del SQL
+	 * @throws DataStoreException
+	 *             Si ocurre algún error en la recuperación del valor del
+	 *             atributo ARTICULO_UNIDAD_MEDIDA o si el factor de conversión
+	 *             no está indicado en la tabla de conversiones
+	 */
+	public static double getUnidadConvertida(int articuloId,
+			int unidadMedidaId, double cantidad, DBConnection conn)
+			throws SQLException, DataStoreException {
+		if (Integer.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
+				ARTICULO_UNIDAD_MEDIDA, articuloId, "TABLA", "articulos")) == unidadMedidaId)
+			return cantidad;
+		Statement st = conn.createStatement();
+		String sql = "SELECT c.factor FROM inventario.conversiones c WHERE c.articulo_id = "
+				+ articuloId + " AND c.unidad_medida_id =" + unidadMedidaId;
+		ResultSet rs = st.executeQuery(sql);
+		if (rs.first())
+			return rs.getDouble(1) * cantidad;
+		else
+			throw new DataStoreException(
+					"No ha indicado el factor de conversión para la unidad de medida indicada para el artículo. Dirijase a la pantalla Configuración --> Tabla de Conversiones para registrarlo.");
+	}
 	// $ENDCUSTOMMETHODS$
 
 }

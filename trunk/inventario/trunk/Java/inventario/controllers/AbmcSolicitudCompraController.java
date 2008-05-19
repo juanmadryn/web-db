@@ -743,7 +743,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			setRow_id(_dsSolicitudCompra
 					.getSolicitudesCompraSolicitudCompraId());
 
-			String titulo = "Solicitud de compra Nº" + getRow_id();
+			String titulo = "Solicitud de materiales Nº" + getRow_id();
 			if (_dsSolicitudCompra.getEstadoNombre() != null)
 				titulo += " (" + _dsSolicitudCompra.getEstadoNombre() + ")";
 			_detailformdisplaybox1.setHeadingCaption(titulo);
@@ -858,7 +858,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		// controla estar dentro de un contexto de Informe
 		if (_dsSolicitudCompra.getRow() == -1) {
 			throw new DataStoreException(
-					"Debe seleccionar una solicitud de compra para recuperar su estado");
+					"Debe seleccionar una solicitud de materiales para recuperar su estado");
 		}
 
 		estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");

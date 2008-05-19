@@ -1347,11 +1347,11 @@ public class MovimientoArticuloModel extends DataStore {
 				setMovimientoArticuloTareaId(row, dsTareas
 						.getTareasProyectoTareaId());
 			}
-			if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = "
+			/*if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = "
 					+ proyecto_id + " AND tareas_proyecto.tarea_id = "
 					+ getMovimientoArticuloTareaId(row)) == 0)
 				throw new DataStoreException(
-						"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+						"La tarea especificada no pertenece al proyecto al cual está imputado el movimiento");*/
 
 			ArticulosModel articulos;
 			// fills detalle_sc.articulo_id field through ArticulosNombre

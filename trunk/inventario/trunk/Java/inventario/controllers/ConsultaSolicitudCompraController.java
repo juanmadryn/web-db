@@ -204,7 +204,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// TODO Auto-generated method stub
 
-		_listformdisplaybox1.setHeadingCaption("Solicitudes de compra");
+		_listformdisplaybox1.setHeadingCaption("Solicitudes de materiales");
 		_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingFont");
 
 		if (e.getComponent() == _searchformdisplaybox1.getSearchButton()) {
@@ -378,12 +378,12 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		switch (modo) {
 		case 0:
 			_listformdisplaybox1
-					.setHeadingCaption("Solicitudes de compra pendientes de aprobación");
+					.setHeadingCaption("Solicitudes de materiales pendientes de aprobación");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");			
 			break;
 		case 1:
 			_listformdisplaybox1
-					.setHeadingCaption("Solicitudes de compra pendientes de observación");
+					.setHeadingCaption("Solicitudes de materiales pendientes de observación");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		}

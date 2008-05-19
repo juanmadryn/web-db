@@ -5,6 +5,7 @@ package inventario.controllers;
 import java.sql.SQLException;
 
 import infraestructura.controllers.BaseController;
+import infraestructura.models.AtributosEntidadModel;
 
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
@@ -29,7 +30,7 @@ public class AbmcConversionesController extends BaseController {
 	public com.salmonllc.html.HtmlText _articulo3;
 	public com.salmonllc.html.HtmlText _articulo4;
 	public com.salmonllc.html.HtmlText _articulo_unidad_medida1;
-	public com.salmonllc.html.HtmlText _articulo_unidad_medida2;
+	public com.salmonllc.html.HtmlDropDownList _articulo_unidad_medida2;
 	public com.salmonllc.html.HtmlText _factor1;
 	public com.salmonllc.html.HtmlText _factor3;
 	public com.salmonllc.html.HtmlText _factor4;
@@ -75,8 +76,21 @@ public class AbmcConversionesController extends BaseController {
 	 * @throws Exception
 	 */
 	public void initialize() throws Exception {
+		_detailformdisplaybox1.getSaveButton().addSubmitListener(this);
 		super.initialize();
 	}
+
+	
+	
+	@Override
+	public boolean submitPerformed(SubmitEvent e) throws Exception {
+		if (e.getComponent() == _detailformdisplaybox1.getSaveButton()) {
+			AtributosEntidadModel.setValorAtributoObjeto(_articulo_unidad_medida2.getValue(), ARTICULO_UNIDAD_MEDIDA, _dsConversiones.getConversionesArticuloId(), "TABLA", "articulos");
+		}
+		return super.submitPerformed(e);
+	}
+
+
 
 	/**
 	 * Process the page requested event
@@ -86,9 +100,11 @@ public class AbmcConversionesController extends BaseController {
 	 */
 	public void pageRequested(PageEvent event) {
 		try {
-			if (_dsConversiones.getRow() != -1)
-				_dsConversiones.setArticuloUnidadMedida(_dsConversiones
-						.getRow());
+			if (_dsConversiones.getRow() != -1) {
+				/*_dsConversiones.setArticuloUnidadMedida(_dsConversiones
+						.getRow());*/
+				_articulo_unidad_medida2.setValue(AtributosEntidadModel.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA, _dsConversiones.getConversionesArticuloId(), "TABLA", "articulos"));
+			}
 			super.pageRequested(event);
 		} catch (DataStoreException e) {
 			// TODO Auto-generated catch block

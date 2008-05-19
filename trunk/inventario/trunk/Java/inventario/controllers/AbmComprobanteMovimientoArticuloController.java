@@ -3,8 +3,6 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseEntityController;
-import infraestructura.models.RolEntidadModel;
-import infraestructura.models.RolesModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 
@@ -434,7 +432,9 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 			// si el comprobante esta en estado generado o esta siendo generada
 			if (isModificable(_dsComprobante
-					.getComprobanteMovimientoArticuloEstado()) || UsuarioRolesModel.isRolUsuario(userId, USER_ENCARGADO_ALMACEN)) {
+					.getComprobanteMovimientoArticuloEstado())
+					|| UsuarioRolesModel.isRolUsuario(userId,
+							USER_ENCARGADO_ALMACEN)) {
 				try {
 					// grabo todos los datasource
 					if (_dsComprobante.getRow() == -1)
@@ -463,7 +463,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 					_dsComprobante.resetStatus();
 					_dsMovimientos.resetStatus();
 					_dsAtributos.resetStatus();
-					
+
 					// _dsMovimientos.reloadRows();
 
 				} catch (DataStoreException ex) {
@@ -518,7 +518,8 @@ public class AbmComprobanteMovimientoArticuloController extends
 					int rowActual = _dsMovimientos.getRow();
 
 					int row = _dsMovimientos.insertRow(0);
-
+					System.out.println("ACA");
+					_dsMovimientos.gotoRow(row);
 					_dsMovimientos
 							.setMovimientoArticuloComprobanteMovimientoId(row,
 									getRow_id());
@@ -769,7 +770,6 @@ public class AbmComprobanteMovimientoArticuloController extends
 		// atributos y completa FK's
 		// Es row de rol válida?
 		try {
-			boolean actualizar = false;
 			int row = _dsComprobante.getRow();
 			int objeto_id = 0;
 			int objeto_id_atributos = 0;
@@ -792,14 +792,6 @@ public class AbmComprobanteMovimientoArticuloController extends
 						// registro
 						objeto_id_atributos = _dsAtributos
 								.getAtributosEntidadObjetoId(0);
-						if (objeto_id_atributos == 0)
-							actualizar = true;
-						if (objeto_id_atributos != objeto_id) {
-							// Es distinto el contexto del rol de atributo
-							actualizar = true;
-						}
-					} else {
-						actualizar = true;
 					}
 				}
 			}
@@ -847,32 +839,30 @@ public class AbmComprobanteMovimientoArticuloController extends
 					"&Parameter_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
 
-			
-
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
 					"ShowTareaLookup")))
 				_tarea3.setEnabled(false);
-			
-			boolean isModificable = isModificable(_dsComprobante.getComprobanteMovimientoArticuloEstado());
+
+			boolean isModificable = isModificable(_dsComprobante
+					.getComprobanteMovimientoArticuloEstado());
 			_tipo_movimiento2.setEnabled(isModificable);
 			_legajo1.setReadOnly(!isModificable);
-			_almacen2.setEnabled(isModificable);			
+			_almacen2.setEnabled(isModificable);
 			_cantidad_solicitada2.setReadOnly(!isModificable);
 			_unidad_medida2.setEnabled(isModificable);
 			_descripcion4.setReadOnly(!isModificable);
 			_articulo2.setReadOnly(!isModificable);
 			_proyecto2.setReadOnly(!isModificable);
 			_cargo2.setReadOnly(!isModificable);
-			
-			if ("0010.0003".equalsIgnoreCase(_dsComprobante.getComprobanteMovimientoArticuloEstado())) {
+
+			if ("0010.0003".equalsIgnoreCase(_dsComprobante
+					.getComprobanteMovimientoArticuloEstado())) {
 				_cantidad_entregada2.setReadOnly(true);
 				_cantidad_anulada2.setReadOnly(true);
 			} else {
 				_cantidad_entregada2.setReadOnly(false);
 				_cantidad_anulada2.setReadOnly(false);
 			}
-				
-				
 
 		} else
 			_dsComprobante.gotoRow(_dsComprobante.insertRow());
