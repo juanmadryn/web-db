@@ -114,6 +114,7 @@ public abstract class BaseModel extends DataStore {
 					+ "' and transicion_estados.accion = "
 					+ Integer.toString(accion));
 
+			System.out.println(nombre_tabla + " " +transicion.getRowCount());
 			if (transicion.gotoFirst()) {
 				proximo_estado = transicion.getTransicionEstadosEstadoDestino();
 				nombre_accion = transicion.getTransicionEstadosPromptAccion();
