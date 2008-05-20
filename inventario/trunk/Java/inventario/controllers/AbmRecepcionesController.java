@@ -270,6 +270,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 		// genero un nuevo proyecto vacio.
 		_dsRecepciones.reset();
 		_dsDetalle.reset();
+		_dsDetalle.setAutoValidate(true);
 
 		_dsRecepciones.insertRow();
 
@@ -408,6 +409,12 @@ public class AbmRecepcionesController extends BaseEntityController {
 
 					_dsRecepciones.update(conn);
 
+
+					// actualizo los detalles
+					if (_dsDetalle.getRow() != -1) {
+						_dsDetalle.update(conn);
+					}
+					
 					if (_dsAtributos.getRow() == -1) {
 						if (!(_dsRecepciones
 								.getRecepcionesComprasRecepcionCompraId() > 0)) {
@@ -419,12 +426,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 								getRow_id(), getTabla_principal());
 					} else {
 						_dsAtributos.update(conn);						
-					}
-					
-					// actualizo los detalles
-					if (_dsDetalle.getRow() != -1) {
-						_dsDetalle.update(conn);
-					}
+					}				
 
 					_dsRecepciones.resetStatus();
 					_dsDetalle.resetStatus();

@@ -724,25 +724,29 @@ public class ConversionesModel extends DataStore implements Constants {
 		boolean connLocal = false;
 		Statement st = null;
 		try {
-		if(conn == null) {
-			conn = DBConnection.getConnection("inventario");
-			connLocal = true;			
-		}
-		
-		if (Integer.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
-				ARTICULO_UNIDAD_MEDIDA, articuloId, "TABLA", "articulos")) == unidadMedidaId)
-			return cantidad;
-		st = conn.createStatement();
-		String sql = "SELECT c.factor FROM inventario.conversiones c WHERE c.articulo_id = "
-				+ articuloId + " AND c.unidad_medida_id =" + unidadMedidaId;
-		ResultSet rs = st.executeQuery(sql);
-		if (rs.first())
-			return rs.getDouble(1) * cantidad;
-		else
-			throw new DataStoreException(
-					"No ha indicado el factor de conversión para la unidad de medida indicada para el artículo. Dirijase a la pantalla Configuración --> Tabla de Conversiones para registrarlo.");
+			if (conn == null) {
+				conn = DBConnection.getConnection("inventario");
+				connLocal = true;
+			}
+
+			int unidad_patron = 0;
+			if ((unidad_patron = Integer.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
+					ARTICULO_UNIDAD_MEDIDA, articuloId, "TABLA", "articulos"))) == unidadMedidaId)
+				return cantidad;
+			st = conn.createStatement();
+			String sql = "SELECT c.factor FROM inventario.conversiones c WHERE c.articulo_id = "
+					+ articuloId + " AND c.unidad_medida_id =" + unidadMedidaId;
+			ResultSet rs = st.executeQuery(sql);
+			if (rs.first())
+				return rs.getDouble(1) * cantidad;
+			else
+				throw new DataStoreException(
+						"No ha indicado el factor de conversión para la unidad de medida indicada para el artículo ("
+								+UnidadesMedidaModel
+										.getUnidadMedidaNombre(unidadMedidaId)
+								+ "). Dirijase a la pantalla Configuración --> Tabla de Conversiones para registrarlo.");
 		} finally {
-			if (st != null) 
+			if (st != null)
 				st.close();
 			if (connLocal && conn != null) {
 				conn.freeConnection();

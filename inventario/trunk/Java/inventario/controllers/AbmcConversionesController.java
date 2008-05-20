@@ -2,15 +2,14 @@
 package inventario.controllers;
 
 //Salmon import statements
-import java.sql.SQLException;
-
 import infraestructura.controllers.BaseController;
 import infraestructura.models.AtributosEntidadModel;
+import inventario.models.ArticulosModel;
+
+import java.sql.SQLException;
 
 import com.salmonllc.html.events.PageEvent;
-import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
-import com.salmonllc.html.events.SubmitListener;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -77,20 +76,20 @@ public class AbmcConversionesController extends BaseController {
 	 */
 	public void initialize() throws Exception {
 		_detailformdisplaybox1.getSaveButton().addSubmitListener(this);
+		_dsConversiones.setAutoValidate(true);
 		super.initialize();
 	}
 
-	
-	
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		if (e.getComponent() == _detailformdisplaybox1.getSaveButton()) {
-			AtributosEntidadModel.setValorAtributoObjeto(_articulo_unidad_medida2.getValue(), ARTICULO_UNIDAD_MEDIDA, _dsConversiones.getConversionesArticuloId(), "TABLA", "articulos");
+			AtributosEntidadModel.setValorAtributoObjeto(
+					_articulo_unidad_medida2.getValue(),
+					ARTICULO_UNIDAD_MEDIDA, _dsConversiones
+							.getConversionesArticuloId(), "TABLA", "articulos");
 		}
 		return super.submitPerformed(e);
 	}
-
-
 
 	/**
 	 * Process the page requested event
@@ -98,14 +97,48 @@ public class AbmcConversionesController extends BaseController {
 	 * @param event
 	 *            the page event to be processed
 	 */
-	public void pageRequested(PageEvent event) {
+	public void pageRequested(PageEvent event) throws Exception {
 		try {
 			if (_dsConversiones.getRow() != -1) {
-				/*_dsConversiones.setArticuloUnidadMedida(_dsConversiones
-						.getRow());*/
-				_articulo_unidad_medida2.setValue(AtributosEntidadModel.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA, _dsConversiones.getConversionesArticuloId(), "TABLA", "articulos"));
+			String unidad_patron = AtributosEntidadModel
+			.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
+					_dsConversiones.getConversionesArticuloId(),
+					"TABLA", "articulos");		
+			if (unidad_patron != "0") 			
+					_articulo_unidad_medida2.setValue(unidad_patron);
+			else
+				displayErrorMessage("Indique la unidad de medida patrón del artículo");
 			}
-			super.pageRequested(event);
+			
+			ArticulosModel dsArticulos = new ArticulosModel("inventario");
+			if (!isReferredByCurrentPage()) {
+				int articulo_id = getIntParameter("articulo_id");
+				int unidad_medida_id = getIntParameter("unidad_medida_id");
+				if (articulo_id != 0 && unidad_medida_id != 0) {
+					_dsConversiones.retrieve("conversiones.articulo_id ="
+							+ articulo_id
+							+ " AND conversiones.unidad_medida_id ="
+							+ unidad_medida_id);
+					if (!_dsConversiones.gotoFirst()) {
+						_dsConversiones.gotoRow(_dsConversiones.insertRow());
+						_dsConversiones.setConversionesArticuloId(articulo_id);
+						_dsConversiones
+								.setConversionesUnidadMedidaId(unidad_medida_id);
+						dsArticulos.retrieve("articulos.articulo_id ="
+								+ articulo_id);
+						dsArticulos.gotoFirst();
+						_dsConversiones.setArticulosNombre(dsArticulos
+								.getArticulosNombre());
+						_dsConversiones.setArticulosDescripcion(dsArticulos
+								.getArticulosDescripcion());
+						_dsConversiones
+								.setArticulosDescripcionCompleta(dsArticulos
+										.getArticulosDescripcionCompleta());
+						_dsConversiones.update();
+					}
+				}
+
+			}
 		} catch (DataStoreException e) {
 			// TODO Auto-generated catch block
 			displayErrorMessage(e.getMessage());
@@ -116,6 +149,6 @@ public class AbmcConversionesController extends BaseController {
 			// TODO Auto-generated catch block
 			displayErrorMessage(e.getMessage());
 		}
+		super.pageRequested(event);
 	}
-
 }

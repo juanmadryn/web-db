@@ -142,8 +142,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 								cantidad_entregada, conn);
 				cantidad_anulada_convertida = ConversionesModel
 						.getUnidadConvertida(articulo_id, unidad_medida_id,
-								cantidad_anulada, conn);
-
+								cantidad_anulada, conn);				
 				// chequea si el movimiento es positivo, y de reserva, y
 				// actualiza las cantidades correspondientes
 				if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
@@ -157,15 +156,17 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 					}
 					if (cantidad_en_proceso >= (cantidad_entregada_convertida + cantidad_anulada_convertida))
 						cantidad_en_proceso -= (cantidad_entregada_convertida + cantidad_anulada_convertida);
-				} else {
+					resumen.incrementarCantTransaccionesEgresos();
+					resumen.incrementarTotalEgresos(cantidad_entregada_convertida);
+				} else {					
 					if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
 							.getReserva(tipo_movimiento_id, conn)))
 						stock += cantidad_entregada_convertida;
 					else
-						cantidad_reservada += cantidad_entregada_convertida;
-
-				}
-
+						cantidad_reservada += cantidad_entregada_convertida;					
+					resumen.incrementarCantTransaccionesIngresos();
+					resumen.incrementarTotalIngresos(cantidad_entregada_convertida);					
+				}				
 				// setea las cantidad obtenidas anteriormente
 				resumen.setResumenSaldoArticulosReservado(cantidad_reservada);
 				resumen.setResumenSaldoArticulosStockEnMano(stock);
@@ -189,8 +190,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 
 		} catch (DataStoreException ex) {
 			msg
-					.append("Ocurrió un error (DataStore) mientras se procesaba la confirmación: "
-							+ ex.getMessage());
+					.append(ex.getMessage());
 
 			return false;
 		} catch (SQLException ex) {

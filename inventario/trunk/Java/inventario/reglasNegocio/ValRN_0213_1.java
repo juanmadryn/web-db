@@ -9,8 +9,6 @@ import inventario.models.DetalleRCModel;
 import inventario.models.DetalleSCModel;
 import inventario.models.MovimientoArticuloModel;
 import inventario.models.RecepcionesComprasModel;
-import inventario.models.ResumenSaldoArticulosModel;
-import inventario.models.TipoMovimientoArticuloModel;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,8 +50,6 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			ComprobanteMovimientoArticuloModel comprobanteMovimiento = new ComprobanteMovimientoArticuloModel(
 					"inventario");
 			MovimientoArticuloModel movimiento = new MovimientoArticuloModel(
-					"inventario");
-			ResumenSaldoArticulosModel resumen = new ResumenSaldoArticulosModel(
 					"inventario");
 
 			int tipoMovimiento = Props.getProps("inventario", null)
@@ -104,6 +100,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 				detallesSC.resetStatus();
 			} while (detalles.gotoNext());
 			comprobanteMovimiento.update(conn);
+			comprobanteMovimiento.resetStatus();
 
 			st = conn.createStatement();
 			ResultSet rs = st
@@ -138,24 +135,25 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 						.setMovimientoArticuloComprobanteMovimientoId(comprobante_movimiento_id);
 				movimiento.setMovimientoArticuloProyectoId(rs
 						.getInt("proyecto_id"));
-				movimiento.setMovimientoArticuloUnidadMedidaId(rs.getInt("unidad_medida_id"));
-				
-				//movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
+				movimiento.setMovimientoArticuloUnidadMedidaId(rs
+						.getInt("unidad_medida_id"));
 
-				movimiento.update(conn);
+				// movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
 
-				resumen.resetStatus();
-				movimiento.resetStatus();
 			}
-			System.out.println("1");
-			comprobanteMovimiento.ejecutaAccion(47, "0010", "", ds.getCurrentWebsiteUserId(), "comprobante_movimiento_articulo", conn, false);
-			System.out.println("2");
+			movimiento.update(conn);
+			movimiento.resetStatus();
 
+			System.out.println(comprobanteMovimiento.getRowCount());
+			for (int row = 0; row < comprobanteMovimiento.getRowCount(); row++) {
+				comprobanteMovimiento.gotoRow(row);
+				comprobanteMovimiento.ejecutaAccion(47, "0010", "", ds
+						.getCurrentWebsiteUserId(),
+						"comprobante_movimiento_articulo", conn, false);
+			}
+			
 		} catch (DataStoreException ex) {
-			msg
-					.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
-							+ ex.getMessage());
-
+			msg.append(ex.getMessage());
 			return false;
 		} catch (SQLException ex) {
 			msg

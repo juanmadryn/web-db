@@ -105,7 +105,8 @@ public class DetalleRCModel extends DataStore implements Constants {
 					DataStore.DATATYPE_DOUBLE, false, true,
 					DETALLES_RC_CANTIDAD);
 			addColumn(computeTableName("detalles_rc"), "unidad_medida_id",
-					DataStore.DATATYPE_INT, false, true, DETALLES_RC_UNIDAD_MEDIDA_ID);
+					DataStore.DATATYPE_INT, false, true,
+					DETALLES_RC_UNIDAD_MEDIDA_ID);
 			addColumn(computeTableName("recepciones_compras"), "fecha",
 					DataStore.DATATYPE_DATETIME, false, false,
 					RECEPCIONES_COMPRAS_FECHA);
@@ -200,6 +201,8 @@ public class DetalleRCModel extends DataStore implements Constants {
 					"Debe indicar el artículo al que está relacionado esta recepción");
 			addRequiredRule(DETALLES_RC_RECEPCION_COMPRA_ID,
 					"Indique a qué recepción pertenece este artículo");
+			addRequiredRule(DETALLES_RC_UNIDAD_MEDIDA_ID,
+					"Debe especificar la unidad de medida de la recepción");
 
 			// add lookups
 			addLookupRule(
@@ -217,6 +220,11 @@ public class DetalleRCModel extends DataStore implements Constants {
 					"'articulos.articulo_id = ' + detalle_sc.articulo_id",
 					"descripcion", ARTICULOS_DESCRIPCION,
 					"Articulo inexistente");
+			addLookupRule(DETALLES_RC_UNIDAD_MEDIDA_ID,
+					computeTableName("unidades_medida"),
+					"'unidades_medida.unidad_medida_id = ' + detalles_rc.unidad_medida_id",
+					"nombre", UNIDAD_MEDIDA_NOMBRE,
+					"Unidad de medida inexistente");
 
 			setAutoIncrement(DETALLES_RC_DETALLE_RC_ID, true);
 
@@ -528,8 +536,8 @@ public class DetalleRCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the detalles_rc.unidad_medida_id column for the specified
-	 * row.
+	 * Set the value of the detalles_rc.unidad_medida_id column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -542,7 +550,6 @@ public class DetalleRCModel extends DataStore implements Constants {
 		setInt(row, DETALLES_RC_UNIDAD_MEDIDA_ID, newValue);
 	}
 
-	
 	/**
 	 * Retrieve the value of the recepciones_compras.fecha column for the
 	 * current row.
@@ -1688,9 +1695,10 @@ public class DetalleRCModel extends DataStore implements Constants {
 					+ getDetallesRcRecepcionCompraId(row));
 			recepcion.gotoFirst();
 
-			if(detalleSC == null)
+			if (detalleSC == null)
 				detalleSC = new DetalleSCModel("inventario");
-			detalleSC.retrieve("detalle_SC_id ="+getDetallesRcDetalleScId(row));
+			detalleSC.retrieve("detalle_SC_id ="
+					+ getDetallesRcDetalleScId(row));
 			// fills detalle_sc.articulo_id field through ArticulosNombre
 			if (detalleSC.gotoFirst()) {
 				articulos = new ArticulosModel("inventario", "inventario");
@@ -1704,11 +1712,16 @@ public class DetalleRCModel extends DataStore implements Constants {
 				}
 				;
 				setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
-				if(getDetallesRcUnidadMedidaId(row) == 0) {
-					setDetallesRcUnidadMedidaId(row, Integer.parseInt(AtributosEntidadModel.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA, articulos.getArticulosArticuloId(), "TABLA", "articulos")));				
-				}
-				System.out.println(Integer.parseInt(AtributosEntidadModel.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA, articulos.getArticulosArticuloId(), "TABLA", "articulos")));
-			}		
+				int unidad_patron = Integer
+				.parseInt(AtributosEntidadModel
+						.getValorAtributoObjeto(
+								ARTICULO_UNIDAD_MEDIDA, articulos
+										.getArticulosArticuloId(),
+								"TABLA", "articulos"));
+				if (getDetallesRcUnidadMedidaId(row) == 0 && unidad_patron != 0) {
+					setDetallesRcUnidadMedidaId(row, unidad_patron);
+				}				
+			}
 		}
 
 		super.update(connection, handleTrans);
