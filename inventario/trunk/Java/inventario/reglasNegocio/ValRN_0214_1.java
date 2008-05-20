@@ -97,6 +97,8 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 						resumenes
 								.setResumenSaldoArticulosPeriodo(new java.sql.Date(
 										calendar.getTimeInMillis()));
+						resumenes.setResumenSaldoArticulosStockEnMano(0);
+						resumenes.setResumenSaldoArticulosReservado(0);						
 					}
 
 					cantidad_en_proceso = resumenes
@@ -121,13 +123,14 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 						msg.append("La cantidad disponible en este momento es "
 								+ cantidad_disponible + " para el artículo "
 								+ movimientos.getArticulosDescripcion(row));
-					else
+					else {
 						resumenes
 								.setResumenSaldoArticulosEnProceso(cantidad_pedida
-										+ cantidad_en_proceso);
-				}
-				resumenes.update(conn);
-				resumenes.resetStatus();
+										+ cantidad_en_proceso);						
+					}
+					resumenes.update(conn);
+					resumenes.resetStatus();
+				}				
 			}
 
 			if (msg.length() != 0)

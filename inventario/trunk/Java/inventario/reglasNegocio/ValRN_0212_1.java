@@ -14,7 +14,6 @@ import java.util.Hashtable;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
-import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 /**
  * @author Francisco
