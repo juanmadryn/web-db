@@ -219,7 +219,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
 		// realizadas por él
-		if (!UsuarioRolesModel.isRolUsuario(currentUser, "RECEPTOR")) {
+		if (!UsuarioRolesModel.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
 			_dsQBE.setString("usuario_completo", String.valueOf(currentUser));
 			_solicitante2.setEnabled(false);
 		} else {
