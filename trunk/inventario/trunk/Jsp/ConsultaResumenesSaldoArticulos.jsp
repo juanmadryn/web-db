@@ -1,22 +1,15 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page
-	controller="inventario.controllers.ConsultaResumenesSaldoArticulosController" />
+<salmon:page controller="infraestructura.controllers.BaseController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
-	<salmon:datasource name="dsPeriodo" type="SQL" autoretrieve="Never">
-		<salmon:datasourcedef>
-			<salmon:bucket name="desde" datatype="DATETIME" />
-			<salmon:bucket name="hasta" datatype="DATETIME" />
-		</salmon:datasourcedef>
-	</salmon:datasource>
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="articulo" type="IN"
-			columns="resumen_saldo_articulos.articulo_id" />
+		<salmon:qbecriteria name="articulo" type="CONTAINS"
+			columns="resumen_saldo_articulos.articulo_id,articulos.nombre,articulos.descripcion" />
 		<salmon:qbecriteria name="almacen" type="IN"
 			columns="resumen_saldo_articulos.almacen_id" />
 		<salmon:qbecriteria name="periodo" type="IN"
@@ -44,7 +37,7 @@
 								<td><salmon:text name="articulo1" text="Artículo"
 									font="TableHeadingFont" />
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-									lookupurl="%LkpArticulos" name="articulo2" size="10"
+									lookupurl="%LkpArticulos" name="articulo2" size="40"
 									maxlength="15" datasource="dsQBE:articulo" popupheight="450"
 									popupwidth="600" usepopup="true" showdescription="true"></salmon:lookup></td>
 							</tr>
@@ -80,14 +73,14 @@
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
 						addbuttonvisible="false" cancelbuttonvisible="false"
 						savebuttonvisible="false" deletebuttonvisible="false"
-						caption="Detalle de solicitud" width="100%"
-						datasource="dsResumenes" listformdisplaybox="listformdisplaybox1">
-						<table width="100%">							
+						caption="Detalle del stock" width="100%" datasource="dsResumenes"
+						listformdisplaybox="listformdisplaybox1">
+						<table width="100%">
 							<tr>
 								<td><salmon:text name="articulo3" text="Artículo"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="articulo4" text=""
-									datasource="dsResumenes:articulos.nombre +' - '+ articulos.descripcion"></salmon:text></td>
+									datasource="dsResumenes:articulos.nombre +' - '+ articulos.descripcion + articulos.descripcion_completa"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="almacen3" text="Almacen"
@@ -96,36 +89,54 @@
 									datasource="dsResumenes:almacenes.nombre"></salmon:text></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="nombre_completo_solicitante1"
-									text="Solicitante" font="TableHeadingFont" /></td>
-								<td><salmon:text name="nombre_completo_solicitante2"
-									text="" datasource="dsResumenes:nombre_completo_solicitante"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="nombre_completo_comprador1"
-									text="Comprador" font="TableHeadingFont" /></td>
-								<td><salmon:text name="nombre_completo_comprador2" text=""
-									datasource="dsResumenes:nombre_completo_comprador"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="fecha_solicitud1"
-									text="Fecha de solicitud" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_solicitud2" text=""
-									displayformat="dd/MM/yyyy HH:mm"
-									datasource="dsResumenes:resumen_saldo_articulos.fecha_solicitud"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="fecha_aprobacion1"
-									text="Fecha de aprobación" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_aprobacion2" text=""
-									displayformat="dd/MM/yyyy HH:mm"
-									datasource="dsResumenes:resumen_saldo_articulos.fecha_aprobacion"></salmon:text></td>
-							</tr>
-							<tr>
-								<td><salmon:text name="proyectos_proyecto1" text="Proyecto"
+								<td><salmon:text name="periodo3" text="Periodo"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="proyectos_proyecto2" text=""
-									datasource="dsResumenes:proyectos.proyecto + ' - ' + proyectos.nombre"></salmon:text></td>
+								<td><salmon:text name="periodo4" text=""
+									datasource="dsResumenes:resumen_saldo_articulos.periodo"
+									displayformat="MM-yyyy"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="stock_en_mano1" text="Stock"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="stock_en_mano2" text=""
+									datasource="dsResumenes:resumen_saldo_articulos.stock_en_mano"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="reservado1" text="Reservado"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="reservado2" text=""
+									datasource="dsResumenes:resumen_saldo_articulos.reservado"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="en_proceso1" text="En proceso"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="en_proceso2" text=""
+									datasource="dsResumenes:resumen_saldo_articulos.en_proceso"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="total_ingresos1"
+									text="Total de ingresos" font="TableHeadingFont" /></td>
+								<td><salmon:text name="total_ingresos2" text=""
+									datasource="dsResumenes:resumen_saldo_articulos.total_ingresos"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="total_egresos1"
+									text="Total de egresos" font="TableHeadingFont" /></td>
+								<td><salmon:text name="total_egresos2" text=""
+									datasource="dsResumenes:resumen_saldo_articulos.total_egresos"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="cant_transacciones_ingresos1"
+									text="Transacciones de ingresos" font="TableHeadingFont" /></td>
+								<td><salmon:text name="cant_transacciones_ingresos2"
+									text=""
+									datasource="dsResumenes:resumen_saldo_articulos.cant_transacciones_ingresos"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="cant_transacciones_egresos1"
+									text="Transacciones de egresos" font="TableHeadingFont" /></td>
+								<td><salmon:text name="cant_transacciones_egresos2" text=""
+									datasource="dsResumenes:resumen_saldo_articulos.cant_transacciones_egresos"></salmon:text></td>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>
@@ -135,87 +146,65 @@
 	</salmon:box>
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
-			mode="Display_single_page" caption=" " width="100%"
-			datasource="dsResumenes" searchformdisplaybox="searchformdisplaybox1">
+			mode="Display_single_page" caption="Resumen de stock de artículos"
+			width="100%" datasource="dsResumenes"
+			searchformdisplaybox="searchformdisplaybox1">
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsResumenes">
 				<salmon:datatableheader>
 					<salmon:tr>
 						<salmon:td>
-							<salmon:text name="numeroCAP2" text="Nº" font="TableHeadingFont" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:text name="clienteCAP5" text="Descripción"
+							<salmon:text name="articulo5" text="Artículo"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="descripcionCAP4" text="Solicitante"
+							<salmon:text name="almacen5" text="Almacen"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="nombreCAP3" text="Comprador"
+							<salmon:text name="periodo5" text="Periodo"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fecha_solicitudCAP5" text="Fecha de solicitud"
+							<salmon:text name="stock_en_mano3" text="Stock"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fecha_aprobacionCAP6"
-								text="Fecha de aprobación" font="TableHeadingFont" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:text name="estadoCAP5" text="Estado"
+							<salmon:text name="reservado3" text="Reservado"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
+							<salmon:text name="en_proceso3" text="En proceso"
+								font="TableHeadingFont" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
 					<salmon:tr>
 						<salmon:td>
-							<salmon:text name="proyectoTXT1" text="proyecto Goes Here"
-								font="DefaultFont"
-								datasource="dsResumenes:resumen_saldo_articulos.solicitud_compra_id" />
-
+							<salmon:text name="articulo6" text=""
+								datasource="dsResumenes:articulos.nombre +' - '+ articulos.descripcion + articulos.descripcion_completa"></salmon:text>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="descripcionTXT2" text="nombre Goes Here"
-								font="DefaultFont"
-								datasource="dsResumenes:resumen_saldo_articulos.descripcion" />
+							<salmon:text name="almacen6" text=""
+								datasource="dsResumenes:almacenes.nombre"></salmon:text>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="solicitante_nombreTXT3"
-								text="descripcion Goes Here" font="DefaultFont"
-								datasource="dsResumenes:nombre_completo_solicitante" />
+							<salmon:text name="periodo6" text=""
+								datasource="dsResumenes:resumen_saldo_articulos.periodo"
+								displayformat="MM-yyyy"></salmon:text>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="comprador_nombreTXT3"
-								text="descripcion Goes Here" font="DefaultFont"
-								datasource="dsResumenes:nombre_completo_comprador" />
+							<salmon:text name="stock_en_mano4" text=""
+								datasource="dsResumenes:resumen_saldo_articulos.stock_en_mano"></salmon:text>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fecha_solicitudTXT4" text="cliente Goes Here"
-								font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
-								datasource="dsResumenes:resumen_saldo_articulos.fecha_solicitud" />
+							<salmon:text name="reservado4" text=""
+								datasource="dsResumenes:resumen_saldo_articulos.reservado"></salmon:text>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="fecha_aprobacionTXT5"
-								text="fecha aprobacion Goes Here" font="DefaultFont"
-								displayformat="dd/MM/yyyy HH:mm"
-								datasource="dsResumenes:resumen_saldo_articulos.fecha_aprobacion" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:text name="estadoTXT3" text="descripcion Goes Here"
-								font="DefaultFont" datasource="dsResumenes:estados.nombre" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:a href="none" name="lnksolicitud1"
-								onclick="document.forms['bannerForm'].submit();"
-								datasource="dsResumenes:'%AbmcSolicitudCompra?solicitud_compra_id='+resumen_saldo_articulos.solicitud_compra_id">
-								<salmon:text name="editar" text="Editar" />
-							</salmon:a>
+							<salmon:text name="en_proceso4" text=""
+								datasource="dsResumenes:resumen_saldo_articulos.en_proceso"></salmon:text>
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>

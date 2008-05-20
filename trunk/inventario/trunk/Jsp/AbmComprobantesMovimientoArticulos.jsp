@@ -75,7 +75,7 @@
 								<td width="10"></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="recibe1" text="Retira"
+								<td><salmon:text name="recibe1" text="Retira/Entrega"
 									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpLegajoLegajo" name="legajo1" size="6"
@@ -236,12 +236,16 @@
 								checkedtruevalue="1"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+							<salmon:a href="none" name="lnkConversiones"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsMovimientos:'%AbmcConversiones?articulo_id='+movimiento_articulo.articulo_id+'&unidad_medida_id='+movimiento_articulo.unidad_medida_id">
+								<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 								lookupurl="%LkpArticulos" name="articulo2" size="10"
 								maxlength="15" datasource="dsMovimientos:articulos.nombre"
 								descriptiondatasource="dsMovimientos:articulos.descripcion"
 								popupheight="450" popupwidth="600" usepopup="true"
 								showdescription="true"></salmon:lookup>
+							</salmon:a>						
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="descripcion4" size="30"
