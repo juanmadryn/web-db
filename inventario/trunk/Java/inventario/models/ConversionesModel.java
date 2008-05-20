@@ -741,10 +741,10 @@ public class ConversionesModel extends DataStore implements Constants {
 				return rs.getDouble(1) * cantidad;
 			else
 				throw new DataStoreException(
-						"No ha indicado el factor de conversión para la unidad de medida indicada para el artículo ("
+						"Indique el factor de conversión para la unidad de medida "
 								+UnidadesMedidaModel
 										.getUnidadMedidaNombre(unidadMedidaId)
-								+ "). Dirijase a la pantalla Configuración --> Tabla de Conversiones para registrarlo.");
+								+ " para el artículo. Dirijase a la pantalla Configuración --> Tabla de Conversiones para registrarlo.");
 		} finally {
 			if (st != null)
 				st.close();

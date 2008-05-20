@@ -99,31 +99,48 @@ public class AbmcConversionesController extends BaseController {
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
 		try {
+			int unidad_patron = 0;
 			if (_dsConversiones.getRow() != -1) {
-			String unidad_patron = AtributosEntidadModel
-			.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
-					_dsConversiones.getConversionesArticuloId(),
-					"TABLA", "articulos");		
-			if (unidad_patron != "0") 			
-					_articulo_unidad_medida2.setValue(unidad_patron);
-			else
-				displayErrorMessage("Indique la unidad de medida patrón del artículo");
+				unidad_patron = Integer.parseInt(AtributosEntidadModel
+						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
+								_dsConversiones.getConversionesArticuloId(),
+								"TABLA", "articulos"));
+				if (unidad_patron != 0)
+					_articulo_unidad_medida2.setValue(String
+							.valueOf(unidad_patron));
+				else
+					displayErrorMessage("Indique la unidad de medida patrón del artículo");
 			}
-			
+
 			ArticulosModel dsArticulos = new ArticulosModel("inventario");
 			if (!isReferredByCurrentPage()) {
 				int articulo_id = getIntParameter("articulo_id");
 				int unidad_medida_id = getIntParameter("unidad_medida_id");
-				if (articulo_id != 0 && unidad_medida_id != 0) {
+				if (articulo_id > 0) {
 					_dsConversiones.retrieve("conversiones.articulo_id ="
 							+ articulo_id
 							+ " AND conversiones.unidad_medida_id ="
 							+ unidad_medida_id);
 					if (!_dsConversiones.gotoFirst()) {
 						_dsConversiones.gotoRow(_dsConversiones.insertRow());
+						if (unidad_medida_id <= 0) {
+							System.out.println(unidad_medida_id + " "
+									+ unidad_patron);
+							unidad_medida_id = Integer
+									.parseInt(AtributosEntidadModel
+											.getValorAtributoObjeto(
+													ARTICULO_UNIDAD_MEDIDA,
+													articulo_id, "TABLA",
+													"articulos"));
+							;
+							_articulo_unidad_medida2.setValue(String
+									.valueOf(unidad_patron));
+							_dsConversiones.setConversionesFactor("1");
+						}
 						_dsConversiones.setConversionesArticuloId(articulo_id);
-						_dsConversiones
-								.setConversionesUnidadMedidaId(unidad_medida_id);
+						if (unidad_medida_id > 0)
+							_dsConversiones
+									.setConversionesUnidadMedidaId(unidad_medida_id);
 						dsArticulos.retrieve("articulos.articulo_id ="
 								+ articulo_id);
 						dsArticulos.gotoFirst();

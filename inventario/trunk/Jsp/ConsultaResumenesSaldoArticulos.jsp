@@ -58,8 +58,8 @@
 								<td><salmon:text name="periodo1" text="Período"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="select" name="periodo2" size="10"
-									datasource="dsQBE:periodo" displayformat="MM-yyyy"
-									maxlength="10">
+									datasource="dsQBE:periodo"
+									maxlength="10" displayformat="MM-yyyy">
 									<salmon:option display="abc" key="123"
 										table="inventario.periodo_en_stock" keycolumn="periodo"
 										displaycolumn="periodo_formateado" nulloption="true"
@@ -80,7 +80,7 @@
 								<td><salmon:text name="articulo3" text="Artículo"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="articulo4" text=""
-									datasource="dsResumenes:articulos.nombre +' - '+ articulos.descripcion + articulos.descripcion_completa"></salmon:text></td>
+									datasource="dsResumenes:articulos.nombre +' - '+ articulos.descripcion + ' - ' + articulos.descripcion_completa"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="almacen3" text="Almacen"

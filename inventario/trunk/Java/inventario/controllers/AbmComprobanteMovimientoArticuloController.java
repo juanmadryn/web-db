@@ -849,6 +849,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 			boolean isModificable = isModificable(_dsComprobante
 					.getComprobanteMovimientoArticuloEstado());
+			System.out.println(isModificable);
 			_tipo_movimiento2.setEnabled(isModificable);
 			_legajo1.setReadOnly(!isModificable);
 			_almacen2.setEnabled(isModificable);

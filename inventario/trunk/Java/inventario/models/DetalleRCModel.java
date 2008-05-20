@@ -200,9 +200,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 			addRequiredRule(DETALLES_RC_DETALLE_SC_ID,
 					"Debe indicar el artículo al que está relacionado esta recepción");
 			addRequiredRule(DETALLES_RC_RECEPCION_COMPRA_ID,
-					"Indique a qué recepción pertenece este artículo");
-			addRequiredRule(DETALLES_RC_UNIDAD_MEDIDA_ID,
-					"Debe especificar la unidad de medida de la recepción");
+					"Indique a qué recepción pertenece este artículo");			
 
 			// add lookups
 			addLookupRule(
@@ -1719,8 +1717,8 @@ public class DetalleRCModel extends DataStore implements Constants {
 										.getArticulosArticuloId(),
 								"TABLA", "articulos"));
 				if (getDetallesRcUnidadMedidaId(row) == 0 && unidad_patron != 0) {
-					setDetallesRcUnidadMedidaId(row, unidad_patron);
-				}				
+					 setDetallesRcUnidadMedidaId(row, unidad_patron);
+				} 
 			}
 		}
 
