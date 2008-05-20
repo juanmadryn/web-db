@@ -764,6 +764,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 			if ("0006.0002".equalsIgnoreCase(estado)
 					|| "0006.0004".equalsIgnoreCase(estado)
+					|| "0006.0003".equalsIgnoreCase(estado)
 					|| "0006.0005".equalsIgnoreCase(estado)) {
 				_observacionX1.setVisible(true);
 				_observacionX2.setVisible(true);
@@ -863,19 +864,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
 
-		// para ciertos estados no mostramos la botonera de transicion de
-		// estados
-		if ("0006.0003".equalsIgnoreCase(estado)
-				|| "0006.0006".equalsIgnoreCase(estado)
+		if ("0006.0006".equalsIgnoreCase(estado)
 				|| "0006.0007".equalsIgnoreCase(estado)) {
-			// mostrar el boton de generar OC solo si hay articulos sin OC
-			// asociado
-			_dsDetalleSC
-					.setFindExpression("detalle_sc.orden_compra_id == null");
+			// mostrar el boton de generar OC solo si hay articulos sin OC asociado
+			_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
 			if (_dsDetalleSC.findFirst()) {
 				_generarOCBUT1.setVisible(true);
-			}
-			return;
+			}			
 		}
 
 		try {
@@ -895,7 +890,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			// _dsSolicitudCompra.getString("solicitudes_compra.estado");
 
 			// recorro los estados y seteo los botones
-			SQL = "SELECT prompt_accion,accion FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado "
+			SQL = "SELECT t.prompt_accion,t.accion,a.manual FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado " +
+					" left join infraestructura.acciones_apps a on t.accion = a.accion "
 					+ "where e.circuito = '"
 					+ CIRCUITO
 					+ "' and t.estado_origen = '" + estado + "'";
@@ -906,19 +902,20 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				int i = 100;
 				com.salmonllc.html.HtmlSubmitButton boton;
 				do {
-					nombre_boton = "customBUT" + i;
-					boton = (com.salmonllc.html.HtmlSubmitButton) this
-							.getComponent(nombre_boton);
-					if (boton != null) {
-						boton.setVisible(true);
-						boton.setDisplayName(r.getString(1));
-						boton.setDisplayNameLocaleKey(Integer.toString(r
-								.getInt(2)));
-						boton
-								.setButtonFontStyle("font-weight:bold; COLOR: red");
+					if (r.getBoolean(3) == true) {
+						nombre_boton = "customBUT" + i;
+						boton = (com.salmonllc.html.HtmlSubmitButton) this
+						.getComponent(nombre_boton);
+						if (boton != null) {
+							boton.setVisible(true);
+							boton.setDisplayName(r.getString(1));
+							boton.setDisplayNameLocaleKey(Integer.toString(r
+									.getInt(2)));
+							boton
+							.setButtonFontStyle("font-weight:bold; COLOR: red");
+						}
+						i = i + 10;
 					}
-
-					i = i + 10;
 				} while (r.next() && i < 150);
 			}
 
