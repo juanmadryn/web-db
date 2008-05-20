@@ -837,6 +837,100 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			throws DataStoreException {
 		setString(row, ARTICULOS_NOMBRE, newValue);
 	}
+	
+	/**
+	 * Retrieve the value of the articulos.descripcion column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcion() throws DataStoreException {
+		return getString(ARTICULOS_DESCRIPCION);
+	}
+
+	/**
+	 * Retrieve the value of the articulos.descripcion column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcion(int row) throws DataStoreException {
+		return getString(row, ARTICULOS_DESCRIPCION);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcion(String newValue) throws DataStoreException {
+		setString(ARTICULOS_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcion(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_DESCRIPCION, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the articulos.descripcion_completa column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcionCompleta() throws DataStoreException {
+		return getString(ARTICULOS_DESCRIPCION_COMPLETA);
+	}
+
+	/**
+	 * Retrieve the value of the articulos.descripcion_completa column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosDescripcionCompleta(int row) throws DataStoreException {
+		return getString(row, ARTICULOS_DESCRIPCION_COMPLETA);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion_completa column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcionCompleta(String newValue) throws DataStoreException {
+		setString(ARTICULOS_DESCRIPCION_COMPLETA, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.descripcion_completa column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosDescripcionCompleta(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_DESCRIPCION_COMPLETA, newValue);
+	}
 
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
