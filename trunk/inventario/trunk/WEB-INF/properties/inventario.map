@@ -3,6 +3,12 @@
 <siteMap>
 
 	<entry>
+     	<name>ConsultaResumenesSaldoArticulos</name>
+    	<uri>/Jsp/ConsultaResumenesSaldoArticulos.jsp</uri>
+		<useForward>false</useForward>
+		<secure>false</secure>
+	</entry>
+	<entry>
      	<name>AbmcConversiones</name>
     	<uri>/Jsp/AbmcConversiones.jsp</uri>
 		<useForward>false</useForward>
