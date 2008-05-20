@@ -1,13 +1,5 @@
 package inventario.reglasNegocio;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Iterator;
-
-import com.salmonllc.sql.DBConnection;
-import com.salmonllc.sql.DataStoreException;
-
 import infraestructura.models.AtributosConfiguracionModel;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
@@ -15,9 +7,16 @@ import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.reglasNegocio.ValidationException;
 import infraestructura.utils.DeterminaConfiguracionServicio;
 import inventario.models.CadenasAprobacionModel;
-import inventario.models.DetalleSCModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.SolicitudCompraModel;
+
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Iterator;
+
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStoreException;
 
 /**
  * Agrega al circuito de SC una acción que permita pasar de aprobada /
@@ -132,10 +131,10 @@ public class ValRN_0216_1 extends ValidadorReglasNegocio {
 			return true;
 			
 		} catch (DataStoreException ex) {
-			msg.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
+			msg.append("Ocurrió un error en el DataStore mientras se procesaba su revisión: "
 					+ ex.getMessage());
 		} catch (SQLException ex) {
-			msg.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
+			msg.append("Ocurrió un error de SQL mientras se procesaba su revisión: "
 					+ ex.getMessage());
 		}		
 

@@ -182,6 +182,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public HtmlSubmitButton _articulosCancelarBUT1;
 	public HtmlSubmitButton _generarOCBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
+	public com.salmonllc.jsp.JspLink _lnkOc1;
 
 	public com.salmonllc.html.HtmlSubmitButton _customBUT100;
 
@@ -711,8 +712,15 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							+ Integer.toString(getRow_id()));
 
 					if (_dsDetalleSC.gotoFirst())
-						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++)
+						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i, _dsSolicitudCompra);
+							// activo el link a la OC si corresponde
+							if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0) 	
+								_lnkOc1.setVisible(true);					
+							else
+								_lnkOc1.setVisible(false);
+					
+						}
 
 					setDatosBasicosSolicitud();
 					setTareaLookupURL();
@@ -864,13 +872,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
 
-		if ("0006.0006".equalsIgnoreCase(estado)
-				|| "0006.0007".equalsIgnoreCase(estado)) {
-			// mostrar el boton de generar OC solo si hay articulos sin OC asociado
-			_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
-			if (_dsDetalleSC.findFirst()) {
-				_generarOCBUT1.setVisible(true);
-			}			
+		// mostrar el boton de generar OC solo si hay articulos sin OC asociado
+		_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
+		if (_dsDetalleSC.findFirst()) {
+			_generarOCBUT1.setVisible(true);
 		}
 
 		try {
