@@ -646,8 +646,7 @@ public class ArticulosModel extends BaseModel {
 			throw new DataStoreException("Error determinando clase de artículo");
 		}		
 		return claseId;
-	}	
-	
+	}
 	//$ENDCUSTOMMETHODS$
 
 }

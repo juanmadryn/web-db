@@ -104,10 +104,10 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 					DataStore.DATATYPE_DOUBLE, false, true,
 					RESUMEN_SALDO_ARTICULOS_TOTAL_EGRESOS);
 			addColumn(computeTableName("resumen_saldo_articulos"), "cant_transacciones_ingresos",
-					DataStore.DATATYPE_DOUBLE, false, true,
+					DataStore.DATATYPE_INT, false, true,
 					RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_INGRESOS);
 			addColumn(computeTableName("resumen_saldo_articulos"), "cant_transacciones_egresos",
-					DataStore.DATATYPE_DOUBLE, false, true,
+					DataStore.DATATYPE_INT, false, true,
 					RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_EGRESOS);
 			addColumn(computeTableName("almacenes"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ALMACENES_NOMBRE);
@@ -895,8 +895,26 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 		}
 	}
 	
+	public void incrementarTotalIngresos(double cantidad) throws DataStoreException {
+		System.out.println("cantidad "+(getResumenSaldoArticulosTotalIngresos()-cantidad));
+		setResumenSaldoArticulosTotalIngresos(getResumenSaldoArticulosTotalIngresos()+cantidad);		
+	}
+	
+	public void incrementarTotalEgresos(double cantidad) throws DataStoreException {
+		setResumenSaldoArticulosTotalEgresos(getResumenSaldoArticulosTotalEgresos()+cantidad);
+	}
+	
+	public void decrementarTotalIngresos(double cantidad) throws DataStoreException {
+		setResumenSaldoArticulosTotalIngresos(getResumenSaldoArticulosTotalIngresos()-cantidad);		
+	}
+	
+	public void decrementarTotalEgresos(double cantidad) throws DataStoreException {
+		setResumenSaldoArticulosTotalEgresos(getResumenSaldoArticulosTotalEgresos()-cantidad);		
+	}
+	
 	public void incrementarCantTransaccionesIngresos() throws DataStoreException {
-		setResumenSaldoArticulosCantTransaccionesIngresos(getResumenSaldoArticulosCantTransaccionesIngresos()+1);
+		System.out.println("cant trans "+(getResumenSaldoArticulosCantTransaccionesIngresos()+1));
+		setResumenSaldoArticulosCantTransaccionesIngresos(getResumenSaldoArticulosCantTransaccionesIngresos()+1);		
 	}
 	
 	public void incrementarCantTransaccionesEgresos() throws DataStoreException {

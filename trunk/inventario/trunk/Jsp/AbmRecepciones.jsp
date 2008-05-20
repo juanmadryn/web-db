@@ -204,8 +204,12 @@
 								font="ColumnCaptionFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="nombre_articulo1" text=""
-								datasource="dsDetalle:articulos.nombre" font="ColumnCaptionFont" />
+						<salmon:a href="none" name="lnkConversiones"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsDetalle:'%AbmcConversiones?articulo_id='+detalle_sc.articulo_id+'&unidad_medida_id='+detalles_rc.unidad_medida_id">
+								<salmon:text name="nombre_articulo1" text="" font="DefaultFont"	
+								datasource="dsDetalle:articulos.nombre"	/>
+							</salmon:a>							
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
