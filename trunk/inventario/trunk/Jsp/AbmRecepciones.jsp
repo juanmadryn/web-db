@@ -187,6 +187,10 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
+							<salmon:text name="cantidad_excedencia1" text="Excedido"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="almacen1" text="Almacén"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -236,6 +240,11 @@
 							<salmon:input type="text" name="cantidad_recibida2" size="8"
 								maxlength="15"
 								datasource="dsDetalle:detalles_rc.cantidad_recibida"></salmon:input>
+						</salmon:td>
+						<salmon:td>
+							<salmon:input type="text" name="cantidad_excedencia2" size="8"
+								maxlength="15"
+								datasource="dsDetalle:detalles_rc.cantidad_excedencia"></salmon:input>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="select" name="almacen2" size="30"

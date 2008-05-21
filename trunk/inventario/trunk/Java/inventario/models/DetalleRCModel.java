@@ -29,6 +29,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 	public static final String DETALLES_RC_DETALLE_SC_ID = "detalles_rc.detalle_sc_id";
 	public static final String DETALLES_RC_ALMACEN_ID = "detalles_rc.almacen_id";
 	public static final String DETALLES_RC_CANTIDAD = "detalles_rc.cantidad_recibida";
+	public static final String DETALLES_RC_CANTIDAD_EXCEDENCIA = "detalles_rc.cantidad_excedencia";
 	public static final String DETALLES_RC_UNIDAD_MEDIDA_ID = "detalles_rc.unidad_medida_id";
 	public static final String RECEPCIONES_COMPRAS_FECHA = "recepciones_compras.fecha";
 	public static final String RECEPCIONES_COMPRAS_ESTADO = "recepciones_compras.estado";
@@ -104,6 +105,9 @@ public class DetalleRCModel extends DataStore implements Constants {
 			addColumn(computeTableName("detalles_rc"), "cantidad_recibida",
 					DataStore.DATATYPE_DOUBLE, false, true,
 					DETALLES_RC_CANTIDAD);
+			addColumn(computeTableName("detalles_rc"), "cantidad_excedencia",
+							DataStore.DATATYPE_DOUBLE, false, true,
+							DETALLES_RC_CANTIDAD_EXCEDENCIA);
 			addColumn(computeTableName("detalles_rc"), "unidad_medida_id",
 					DataStore.DATATYPE_INT, false, true,
 					DETALLES_RC_UNIDAD_MEDIDA_ID);
@@ -191,7 +195,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 			addJoin(
 					computeTableAndFieldName("detalles_rc.unidad_medida_id"),
 					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
-					false);
+					true);
 
 			// add validations
 			addRequiredRule(DETALLES_RC_ALMACEN_ID, "El almacén es obligatorio");
@@ -200,7 +204,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 			addRequiredRule(DETALLES_RC_DETALLE_SC_ID,
 					"Debe indicar el artículo al que está relacionado esta recepción");
 			addRequiredRule(DETALLES_RC_RECEPCION_COMPRA_ID,
-					"Indique a qué recepción pertenece este artículo");			
+					"Indique a qué recepción pertenece este artículo");
 
 			// add lookups
 			addLookupRule(
@@ -218,11 +222,12 @@ public class DetalleRCModel extends DataStore implements Constants {
 					"'articulos.articulo_id = ' + detalle_sc.articulo_id",
 					"descripcion", ARTICULOS_DESCRIPCION,
 					"Articulo inexistente");
-			addLookupRule(DETALLES_RC_UNIDAD_MEDIDA_ID,
+			/*addLookupRule(
+					DETALLES_RC_UNIDAD_MEDIDA_ID,
 					computeTableName("unidades_medida"),
 					"'unidades_medida.unidad_medida_id = ' + detalles_rc.unidad_medida_id",
 					"nombre", UNIDAD_MEDIDA_NOMBRE,
-					"Unidad de medida inexistente");
+					"Unidad de medida inexistente");*/
 
 			setAutoIncrement(DETALLES_RC_DETALLE_RC_ID, true);
 
@@ -496,6 +501,58 @@ public class DetalleRCModel extends DataStore implements Constants {
 		setDouble(row, DETALLES_RC_CANTIDAD, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the detalles_rc.cantidad_excedencia column for the
+	 * current row.
+	 * 
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getDetallesRcCantidadExcedencia() throws DataStoreException {
+		return getDouble(DETALLES_RC_CANTIDAD_EXCEDENCIA);
+	}
+
+	/**
+	 * Retrieve the value of the detalles_rc.cantidad_excedencia column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getDetallesRcCantidadExcedencia(int row) throws DataStoreException {
+		return getDouble(row, DETALLES_RC_CANTIDAD_EXCEDENCIA);
+	}
+
+	/**
+	 * Set the value of the detalles_rc.cantidad_excedencia column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetallesRcCantidadExcedencia(double newValue)
+			throws DataStoreException {
+		setDouble(DETALLES_RC_CANTIDAD_EXCEDENCIA, newValue);
+	}
+
+	/**
+	 * Set the value of the detalles_rc.cantidad_excedencia column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetallesRcCantidadExcedencia(int row, double newValue)
+			throws DataStoreException {
+		setDouble(row, DETALLES_RC_CANTIDAD_EXCEDENCIA, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the detalles_rc.unidad_medida_id column for the
 	 * current row.
@@ -1684,12 +1741,12 @@ public class DetalleRCModel extends DataStore implements Constants {
 			throws DataStoreException, SQLException {
 
 		RecepcionesComprasModel recepcion = new RecepcionesComprasModel(
-				"inventario", "inventario");
+				"inventario");
 
 		DetalleSCModel detalleSC = null;
 		ArticulosModel articulos = null;
 		for (int row = 0; row < getRowCount(); row++) {
-			recepcion.retrieve(connection, "recepcion_compra_id = "
+			recepcion.retrieve("recepcion_compra_id = "
 					+ getDetallesRcRecepcionCompraId(row));
 			recepcion.gotoFirst();
 
@@ -1699,8 +1756,9 @@ public class DetalleRCModel extends DataStore implements Constants {
 					+ getDetallesRcDetalleScId(row));
 			// fills detalle_sc.articulo_id field through ArticulosNombre
 			if (detalleSC.gotoFirst()) {
-				articulos = new ArticulosModel("inventario", "inventario");
-				articulos.retrieve(connection, "articulos.nombre LIKE '"
+				if (articulos == null)
+					articulos = new ArticulosModel("inventario", "inventario");
+				articulos.retrieve("articulos.nombre LIKE '"
 						+ detalleSC.getArticulosNombre() + "'");
 				if (!articulos.gotoFirst()) {
 					DataStoreException ex = new DataStoreException(
@@ -1710,15 +1768,13 @@ public class DetalleRCModel extends DataStore implements Constants {
 				}
 				;
 				setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
-				int unidad_patron = Integer
-				.parseInt(AtributosEntidadModel
-						.getValorAtributoObjeto(
-								ARTICULO_UNIDAD_MEDIDA, articulos
-										.getArticulosArticuloId(),
-								"TABLA", "articulos"));
+				int unidad_patron = Integer.parseInt(AtributosEntidadModel
+						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
+								articulos.getArticulosArticuloId(), "TABLA",
+								"articulos"));
 				if (getDetallesRcUnidadMedidaId(row) == 0 && unidad_patron != 0) {
-					 setDetallesRcUnidadMedidaId(row, unidad_patron);
-				} 
+					setDetallesRcUnidadMedidaId(row, unidad_patron);
+				}				
 			}
 		}
 
@@ -1726,8 +1782,20 @@ public class DetalleRCModel extends DataStore implements Constants {
 	}
 
 	public void reloadRows() throws DataStoreException, SQLException {
+		DBConnection conn = DBConnection.getConnection("inventario");
+		try {
 		for (int row = 0; row < getRowCount(); row++) {
-			reloadRow(row);
+			reloadRow(conn, row);
+		}
+		} finally {
+			if(conn != null)
+				conn.freeConnection();
+		}
+	}
+	
+	public void reloadRows(DBConnection conn) throws DataStoreException, SQLException {
+		for (int row = 0; row < getRowCount(); row++) {
+			reloadRow(conn, row);
 		}
 	}
 	// $ENDCUSTOMMETHODS$

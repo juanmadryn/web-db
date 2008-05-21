@@ -58,8 +58,8 @@
 								<td><salmon:text name="periodo1" text="Período"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="select" name="periodo2" size="10"
-									datasource="dsQBE:periodo"
-									maxlength="10" displayformat="MM-yyyy">
+									datasource="dsQBE:periodo" maxlength="10"
+									displayformat="MM-yyyy">
 									<salmon:option display="abc" key="123"
 										table="inventario.periodo_en_stock" keycolumn="periodo"
 										displaycolumn="periodo_formateado" nulloption="true"
@@ -94,6 +94,12 @@
 								<td><salmon:text name="periodo4" text=""
 									datasource="dsResumenes:resumen_saldo_articulos.periodo"
 									displayformat="MM-yyyy"></salmon:text></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="unidad_medida_patron1" text="UM"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="unidad_medida_patron2" text=""
+									datasource="dsResumenes:articulos.unidad_patron"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="stock_en_mano1" text="Stock"
@@ -166,6 +172,10 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
+							<salmon:text name="unidad_medida_patron3" text="UM"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="stock_en_mano3" text="Stock"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -193,6 +203,10 @@
 							<salmon:text name="periodo6" text=""
 								datasource="dsResumenes:resumen_saldo_articulos.periodo"
 								displayformat="MM-yyyy"></salmon:text>
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="unidad_medida_patron4" text=""
+								datasource="dsResumenes:articulos.unidad_patron"></salmon:text>
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="stock_en_mano4" text=""

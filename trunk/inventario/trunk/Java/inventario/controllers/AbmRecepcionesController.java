@@ -57,7 +57,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _recibe1;
 	public com.salmonllc.html.HtmlText _recibe2;
 	public com.salmonllc.html.HtmlText _seleccion_detalle1;
-	public com.salmonllc.html.HtmlText _unidad_medida1;
+	public com.salmonllc.html.HtmlDropDownList _unidad_medida1;
 	public com.salmonllc.html.HtmlText _unidad_medida2;
 	public com.salmonllc.html.HtmlText _valorCAP16;
 	public com.salmonllc.html.HtmlTextEdit _cantidad_recibida2;
@@ -368,19 +368,17 @@ public class AbmRecepcionesController extends BaseEntityController {
 
 				}
 			}
-
 			conn.commit();
 		} catch (DataStoreException ex) {
-			conn.rollback();
 			displayErrorMessage(ex.getMessage());
 			return false;
-		} catch (ValidationException ex) {
-			conn.rollback();
+		} catch (ValidationException ex) {			
 			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
 			}
 			return false;
 		} finally {
+			conn.rollback();
 			conn.freeConnection();
 		}
 
@@ -396,13 +394,12 @@ public class AbmRecepcionesController extends BaseEntityController {
 		
 		
 	if (component == _grabarRecepcionCompraBUT1) {	
-			conn = DBConnection.getConnection("inventario", "inventario");
+			conn = DBConnection.getConnection("inventario");
 			conn.beginTransaction();
+			
 			// si la recepcion esta en estado generado o esta siendo generada
 			if (isModificable(_dsRecepciones.getRecepcionesComprasEstado())) {
-				try {
-					if(!conn.isTransactionStarted())
-						conn.beginTransaction();
+				try {					
 					// grabo todos los datasource
 					if (_dsRecepciones.getRow() == -1)
 						return false;
@@ -427,14 +424,10 @@ public class AbmRecepcionesController extends BaseEntityController {
 					} else {
 						_dsAtributos.update(conn);						
 					}				
-
+					conn.commit();	
 					_dsRecepciones.resetStatus();
 					_dsDetalle.resetStatus();
 					_dsAtributos.resetStatus();
-
-					conn.commit();
-					_dsDetalle.reloadRows();
-
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";
@@ -453,7 +446,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 					displayErrorMessage(ex.getMessage());
 					return false;
 				} finally {
-					if (conn != null) {
+					if (conn != null) {						
 						conn.rollback();
 						conn.freeConnection();
 					}
