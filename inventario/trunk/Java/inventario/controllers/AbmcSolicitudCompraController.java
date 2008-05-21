@@ -576,6 +576,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		// genera OCs para articulos seleccionados
 		if (component == _generarOCBUT1) {
 			try {
+				// chequeo que el usuario tenga el rol COMPRADOR
+				int currentUser = getSessionManager().getWebSiteUser().getUserID();
+				if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+					displayErrorMessage("Debe ser COMPRADOR para revisar una solicitud aprobada.");
+					return false;
+				}	
+				
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
 
@@ -844,8 +851,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	 *             transiciones entre estados TODO considerar recuperar todo el
 	 *             circuito para la entidad actual y recuperar los estados de un
 	 *             mismo model. Se reducirían las interacciones con la BD.
+	 * @throws SQLException 
 	 */
-	private void armaBotonera() throws DataStoreException {
+	private void armaBotonera() throws DataStoreException, SQLException {
 		DBConnection conn = null;
 		Statement st = null;
 		ResultSet r = null;
@@ -875,7 +883,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		// mostrar el boton de generar OC solo si hay articulos sin OC asociado
 		_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
 		if (_dsDetalleSC.findFirst()) {
-			_generarOCBUT1.setVisible(true);
+			// chequeo que el usuario tenga el rol COMPRADOR
+			int currentUser = getSessionManager().getWebSiteUser().getUserID();
+			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
+				_generarOCBUT1.setVisible(true);
+			else
+				_generarOCBUT1.setVisible(false);
 		}
 
 		try {
