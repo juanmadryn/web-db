@@ -9,7 +9,7 @@ import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.ArticulosModel;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Vector;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -621,7 +621,7 @@ public class AbmcArticuloController extends BaseController {
 	 */
 	private void seteaBotonesAtributos(int p_articulo_id) {
 
-		ArrayList<String> et = null;
+		Vector<String> et = null;
 
 		// resetea la botonera
 		_atributoEtiquetaBUT1.setVisible(false);
