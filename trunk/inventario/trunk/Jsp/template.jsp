@@ -1,6 +1,6 @@
 <%@ taglib  uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="../../infraestructura/Jsp/ErrorPage.jsp" extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page controller="infdev.controllers.BaseController" />
+<salmon:page controller="infraestructura.controllers.BaseController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 <%@include file="message.jsp"%> </td>

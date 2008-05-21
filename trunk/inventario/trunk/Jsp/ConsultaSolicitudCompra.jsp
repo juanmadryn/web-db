@@ -103,7 +103,7 @@
 							<tr>
 								<td><salmon:text name="descripcion1" text="Descripción"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="descripción2" text=""
+								<td><salmon:text name="descripcion2" text=""
 									datasource="dsSolicitudes:solicitudes_compra.descripcion"></salmon:text></td>
 							</tr>
 							<tr>

@@ -79,7 +79,7 @@ public class ValRN_0216_1 extends ValidadorReglasNegocio {
 			else {
 				configuracion_id = DeterminaConfiguracionServicio
 						.determinaConfiguracion(AtributosConfiguracionModel
-								.determinaAtributosConfiguración(ds
+								.determinaAtributosConfiguracion(ds
 										.getEsquemaConfiguracionId(),
 										solicitudCompraId, "TABLA",
 										"solicitudes_compra"));
