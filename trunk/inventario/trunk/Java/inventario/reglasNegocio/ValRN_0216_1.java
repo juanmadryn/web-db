@@ -46,7 +46,7 @@ public class ValRN_0216_1 extends ValidadorReglasNegocio {
 			// chequeo que el usuario tenga el rol COMPRADOR
 			int currentUser = ds.getCurrentWebsiteUserId();
 			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
-				msg.append("Debe ser COMPRADOR o el solicitante original revisar una solicitud.");
+				msg.append("Debe ser COMPRADOR para revisar una solicitud aprobada.");
 				return false;
 			}			
 			
