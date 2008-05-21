@@ -1149,8 +1149,8 @@ public class AtributosEntidadModel extends DataStore {
 	// overwritten if the model is regenerated
 
 	/**
-	 * Inserta todos los atributos definidos para el objecto de la aplicacción
-	 * según p_objeto_id, p_tabla, Sólo completa los atributos que faltan.
+	 * Inserta todos los atributos definidos para el objecto de la aplicacciï¿½n
+	 * segï¿½n p_objeto_id, p_tabla, Sï¿½lo completa los atributos que faltan.
 	 * Dejando intactos los atributos existente para el objeto
 	 * 
 	 * @param p_objeto_id
@@ -1199,10 +1199,10 @@ public class AtributosEntidadModel extends DataStore {
 
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
-			// además de escribir en el log mando mensaje a la página
+			// ademï¿½s de escribir en el log mando mensaje a la pï¿½gina
 			conexion.rollback();
 			throw new SQLException(
-					"Error insertando atributos para objeto de la aplicación: "
+					"Error insertando atributos para objeto de la aplicaciï¿½n: "
 							+ p_tabla + " --> " + e.getMessage());
 		} finally {
 			if (st != null)
@@ -1226,8 +1226,8 @@ public class AtributosEntidadModel extends DataStore {
 	}
 
 	/**
-	 * Inserta todos los atributos definidos para una entidad según p_entidad_id
-	 * Sólo completa los atributos que faltan. Dejando intactos los atributos
+	 * Inserta todos los atributos definidos para una entidad segï¿½n p_entidad_id
+	 * Sï¿½lo completa los atributos que faltan. Dejando intactos los atributos
 	 * existente para la entidad
 	 * 
 	 * @param p_entidad_id
@@ -1296,7 +1296,7 @@ public class AtributosEntidadModel extends DataStore {
 
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
-			// además de escribir en el log mando mensaje a la página
+			// ademï¿½s de escribir en el log mando mensaje a la pï¿½gina
 			conexion.rollback();
 			throw new SQLException(
 					"Error insertando atributos para la entidad: "
@@ -1323,8 +1323,8 @@ public class AtributosEntidadModel extends DataStore {
 	}
 
 	/**
-	 * recupera los atributos de un objeto de la aplicación según la etiqueta
-	 * pasada como parámetro
+	 * recupera los atributos de un objeto de la aplicaciï¿½n segï¿½n la etiqueta
+	 * pasada como parï¿½metro
 	 * 
 	 * @param p_etiqueta
 	 *            --> Etiqueta a recuperar
@@ -1366,8 +1366,8 @@ public class AtributosEntidadModel extends DataStore {
 	}
 
 	/**
-	 * recupera los atributos de una entidad según la etiqueta pasada como
-	 * parámetro
+	 * recupera los atributos de una entidad segï¿½n la etiqueta pasada como
+	 * parï¿½metro
 	 * 
 	 * @param p_etiqueta
 	 *            --> Etiqueta a recuperar
@@ -1405,18 +1405,18 @@ public class AtributosEntidadModel extends DataStore {
 
 	/**
 	 * Recupera la lista completa de etiquetas para las definiciones de los
-	 * atributos de una tabla (objeto de la aplicación) Este procedimiento
+	 * atributos de una tabla (objeto de la aplicaciï¿½n) Este procedimiento
 	 * permite armar los labels de los botones para la carga de atributos
 	 * 
 	 * @param p_tabla
-	 *            la tabla de la aplicación para la cual se desea recuperar las
+	 *            la tabla de la aplicaciï¿½n para la cual se desea recuperar las
 	 *            etiquetas correspondientes
 	 * @return etiquetas ArrayList conteniendo las etiquetas correspondientes a
 	 *         la tabla indicada
 	 */
-	public ArrayList<String> recuperaEtiquetasAtributosObjetoAplicacion(
+	public Vector<String> recuperaEtiquetasAtributosObjetoAplicacion(
 			String p_tabla) throws SQLException, DataStoreException {
-		ArrayList<String> etiquetas = new ArrayList<String>();
+		Vector<String> etiquetas = new Vector<String>();
 
 		String etiqueta;
 
@@ -1588,7 +1588,7 @@ public class AtributosEntidadModel extends DataStore {
 				if (valor == null) {
 					if (obligatorio.equalsIgnoreCase("V"))
 						mensajeError
-								.add("Debe introducir algún valor para el atributo "
+								.add("Debe introducir algï¿½n valor para el atributo "
 										+ nombre_rol);
 				} else {
 					if (clave.equalsIgnoreCase("V"))
@@ -1597,11 +1597,11 @@ public class AtributosEntidadModel extends DataStore {
 								mensajeError
 										.add("El valor introducido para el atributo "
 												+ nombre_rol
-												+ " debe ser único");
+												+ " debe ser ï¿½nico");
 						} else if (!isClaveUnicaEntidad(i))
 							mensajeError
 									.add("El valor introducido para el atributo "
-											+ nombre_rol + " debe ser único");
+											+ nombre_rol + " debe ser ï¿½nico");
 
 					if (lov_atributo != 0) {
 
@@ -1609,7 +1609,7 @@ public class AtributosEntidadModel extends DataStore {
 							mensajeError
 									.add("El valor introducido para el atributo "
 											+ nombre_rol
-											+ " debe pertenecer a la lista de valores nº "
+											+ " debe pertenecer a la lista de valores nï¿½ "
 											+ lov_atributo);
 						;
 					}
@@ -1662,9 +1662,9 @@ public class AtributosEntidadModel extends DataStore {
 		}
 	}
 
-	// Chequea si el valor introducido para un atributo clave es único para la
+	// Chequea si el valor introducido para un atributo clave es ï¿½nico para la
 	// tabla seleccionada
-	// Este código se extrajo del método validaAtributos para ganar claridad
+	// Este cï¿½digo se extrajo del mï¿½todo validaAtributos para ganar claridad
 	private boolean isClaveUnicaObjetoAplicacion(int i)
 			throws DataStoreException, SQLException {
 		StringBuilder criteria = new StringBuilder();
@@ -1687,9 +1687,9 @@ public class AtributosEntidadModel extends DataStore {
 		return true;
 	}
 
-	// Chequea si el valor introducido para un atributo clave es único para la
+	// Chequea si el valor introducido para un atributo clave es ï¿½nico para la
 	// entidad seleccionada
-	// Este código se extrajo del método validaAtributos para ganar claridad
+	// Este cï¿½digo se extrajo del mï¿½todo validaAtributos para ganar claridad
 	private boolean isClaveUnicaEntidad(int i) throws DataStoreException,
 			SQLException {
 		StringBuilder criteria = new StringBuilder();
@@ -1718,7 +1718,7 @@ public class AtributosEntidadModel extends DataStore {
 
 	// Chequea si el valor introducido para un atributo con una lista de valores
 	// asociada pertenece a esa lista
-	// Este código se extrajo del método validaAtributos para ganar claridad
+	// Este cï¿½digo se extrajo del mï¿½todo validaAtributos para ganar claridad
 	private boolean isEnLista(int i, int lov_atributo)
 			throws DataStoreException, SQLException {
 		LovAtributoModel dsLov = new LovAtributoModel(getAppName(),
