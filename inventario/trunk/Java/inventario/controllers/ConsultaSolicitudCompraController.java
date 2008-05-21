@@ -38,7 +38,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlText _descripcion1;
 	public com.salmonllc.html.HtmlText _descripcionCAP4;
 	public com.salmonllc.html.HtmlText _descripcionTXT2;
-	public com.salmonllc.html.HtmlText _descripción2;
+	public com.salmonllc.html.HtmlText _descripcion2;
 	public com.salmonllc.html.HtmlText _editar;
 	public com.salmonllc.html.HtmlText _estado1;
 	public com.salmonllc.html.HtmlText _estadoCAP5;
@@ -299,13 +299,13 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
-		// si la página es requerida por si misma no hago nada
+		// si la pï¿½gina es requerida por si misma no hago nada
 		if (!isReferredByCurrentPage()) {
 			int user_id = getIntParameter("user_id", -1);
 			int mode = getIntParameter("mode", -1);
 
 			if (user_id != -1) {
-				// verifica si cambión el contexto
+				// verifica si cambiï¿½n el contexto
 				try {
 					switch (mode) {
 					case 0:
@@ -357,7 +357,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		}
 
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
-		// realizadas por él
+		// realizadas por ï¿½l
 		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 			_dsQBE.setString("solicitante", String.valueOf(currentUser));
 			_solicitante2.setEnabled(false);
@@ -378,12 +378,12 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		switch (modo) {
 		case 0:
 			_listformdisplaybox1
-					.setHeadingCaption("Solicitudes de materiales pendientes de aprobación");
+					.setHeadingCaption("Solicitudes de materiales pendientes de aprobaciï¿½n");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");			
 			break;
 		case 1:
 			_listformdisplaybox1
-					.setHeadingCaption("Solicitudes de materiales pendientes de observación");
+					.setHeadingCaption("Solicitudes de materiales pendientes de observaciï¿½n");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		}

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" path="Java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="/Salmon Open Framework"/>
 	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/portlet-api-1.0.jar"/>
 	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/jsp-api.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/infraestructura"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/proyectos"/>
+	<classpathentry kind="lib" path="/share/opt/jakarta-tomcat-5.0.28/common/lib/quartz-1.6.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
