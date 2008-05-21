@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/portlet-api-1.0.jar"/>
 	<classpathentry kind="lib" path="/usr/share/tomcat5/common/lib/jsp-api.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/infraestructura"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/proyectos"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
