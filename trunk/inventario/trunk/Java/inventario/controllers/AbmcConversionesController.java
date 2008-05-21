@@ -107,6 +107,14 @@ public class AbmcConversionesController extends BaseController {
 			int unidad_patron = 0;			
 			dsArticulos = new ArticulosModel("inventario");
 			dsResumenes = new ResumenSaldoArticulosModel("inventario");
+			
+			if (_dsConversiones.getRowCount() != -1 && dsResumenes.estimateRowsRetrieved("resumen_saldo_articulos.articulo_id ="
+					+ _dsConversiones.getConversionesArticuloId()) == 0) {
+				_articulo_unidad_medida2.setEnabled(true);
+			} else {
+				_articulo_unidad_medida2.setEnabled(false);
+			}
+			
 			if (!isReferredByCurrentPage()) {
 				int articulo_id = getIntParameter("articulo_id");
 				int unidad_medida_id = getIntParameter("unidad_medida_id");
@@ -157,13 +165,8 @@ public class AbmcConversionesController extends BaseController {
 
 					displayErrorMessage("Indique la unidad de medida patrón del artículo");
 				}
-				if (dsResumenes.estimateRowsRetrieved("resumen_saldo_articulos.articulo_id ="
-						+ _dsConversiones.getConversionesArticuloId()) == 0) {
-					_articulo_unidad_medida2.setEnabled(true);
-				} else {
-					_articulo_unidad_medida2.setEnabled(false);
-				}
 			}
+
 		} catch (DataStoreException e) {
 			// TODO Auto-generated catch block
 			displayErrorMessage(e.getMessage());

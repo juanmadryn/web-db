@@ -51,6 +51,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			movimientos
 					.retrieve("movimiento_articulo.comprobante_movimiento_id ="
 							+ comprobante_movimiento_id);
+			movimientos.waitForRetrieve();
 
 			double cantidad_entregada = 0;
 			double cantidad_solicitada = 0;

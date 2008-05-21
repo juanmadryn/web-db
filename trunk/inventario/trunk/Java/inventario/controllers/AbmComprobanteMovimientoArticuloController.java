@@ -851,7 +851,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 					.getComprobanteMovimientoArticuloEstado());
 			System.out.println(isModificable);
 			_tipo_movimiento2.setEnabled(isModificable);
-			_legajo1.setReadOnly(!isModificable);
+			//_legajo1.setReadOnly(!isModificable);
 			_almacen2.setEnabled(isModificable);
 			_cantidad_solicitada2.setReadOnly(!isModificable);
 			_unidad_medida2.setEnabled(isModificable);
