@@ -458,7 +458,12 @@ public class BaseController extends JspController implements SubmitListener,
 		}
 		
 		// chequea si el sistema va a ser dado de baja y avisa al usuario
-		if (!getPageProperties().getProperty("MantenimientoSistema").isEmpty()) {
+		// modificado por Demian Barry el 18/05/2008
+		// Codigo protectivo por si la propiedad de MantenimientoSistema
+		// no está seteada en el system.properties
+		// ya que de otra forma explota la aplicación
+		String hayMantenimiento = getPageProperties().getProperty("MantenimientoSistema");
+		if (hayMantenimiento != null && hayMantenimiento.isEmpty()) {
 			_avisoMantenimiento.setText("El sistema será detenido a las " 
 					+ getPageProperties().getProperty("MantenimientoSistema")
 					+ " horas para tareas de mantenimiento. Guarde los trabajos realizados y salga de su cuenta.");

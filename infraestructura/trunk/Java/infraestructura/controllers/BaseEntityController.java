@@ -86,7 +86,7 @@ public class BaseEntityController extends BaseController {
 							seteaNuevoBoton(attButton.getIndex());
 							recuperaAtributosBotonSeleccionado();
 						} else {
-							// no está en contexto de nungún proyecto reseteo
+							// no estï¿½ en contexto de nungï¿½n proyecto reseteo
 							// las
 							// vistas
 							_dsAttributes.reset();
@@ -120,12 +120,12 @@ public class BaseEntityController extends BaseController {
 	}
 
 	/**
-	 * Arma la botonera de atributos en función del id de proyecto indicado.
+	 * Arma la botonera de atributos en funciï¿½n del id de proyecto indicado.
 	 * 
 	 * @param p_proyecto_id
 	 *            el id del proyecto para el cual se quieren setear los botones
 	 * 
-	 * TODO generalizar este método a un número indefinido de etiquetas para
+	 * TODO generalizar este mï¿½todo a un nï¿½mero indefinido de etiquetas para
 	 * atributos
 	 */
 	public void seteaBotonesAtributos() throws DataStoreException, SQLException {
@@ -138,11 +138,10 @@ public class BaseEntityController extends BaseController {
 
 		
 		
-		// setea los botones de los atributos según las etiquetas
+		// setea los botones de los atributos segï¿½n las etiquetas
 		try {
 			
-			et = _dsAttributes
-					.recuperaEtiquetasAtributosObjetoAplicacion(tabla_principal);
+			et = _dsAttributes.recuperaEtiquetasAtributosObjetoAplicacion(tabla_principal);
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getLocalizedMessage());
 			return;
@@ -215,7 +214,7 @@ public class BaseEntityController extends BaseController {
 	}
 
 	/**
-	 * Recupera los atributos correspondientes a la etiqueta del botón
+	 * Recupera los atributos correspondientes a la etiqueta del botï¿½n
 	 * seleccionado para el objeto .
 	 * 
 	 * @param p_objeto_id
@@ -225,11 +224,11 @@ public class BaseEntityController extends BaseController {
 	 *            nombre de la tabla para la cual se desean recuperar los
 	 *            atributos
 	 * @throws SQLException
-	 *             en caso de que surja un error de conexión o interacción con
+	 *             en caso de que surja un error de conexiï¿½n o interacciï¿½n con
 	 *             la base de datos
 	 * @throws DataStoreException
 	 *             en caso de que ocurra un error de manejos de los DataStore's
-	 *             TODO generalizar este método a un número indefinido de
+	 *             TODO generalizar este mï¿½todo a un nï¿½mero indefinido de
 	 *             etiquetas para atributos
 	 */
 	public void recuperaAtributosBotonSeleccionado() throws SQLException,
