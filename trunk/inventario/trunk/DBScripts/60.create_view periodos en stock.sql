@@ -1,0 +1,2 @@
+DROP VIEW IF EXISTS `inventario`.`periodo_en_stock`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW  `inventario`.`periodo_en_stock` AS select distinct date_format(`resumen_saldo_articulos`.`periodo`,_utf8'%m-%Y') AS `periodo_formateado`,`resumen_saldo_articulos`.`periodo` AS `periodo` from `resumen_saldo_articulos`;
