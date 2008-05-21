@@ -120,7 +120,7 @@ public class AtributosConfiguracionModel extends DataStore {
 			addRequiredRule(ATRIBUTOS_CONFIGURACION_ATRIBUTO_ID,
 					"El atributo es obligatorio");
 			addRequiredRule(ATRIBUTOS_CONFIGURACION_CONFIGURACION_ID,
-					"La configuración es obligatoria");
+					"La configuraciï¿½n es obligatoria");
 			addRequiredRule(ATRIBUTOS_CONFIGURACION_VALOR,
 					"El valor para el atributo es obligatorio");
 			addRequiredRule(ATRIBUTOS_CONFIGURACION_VALOR_HASTA,
@@ -509,7 +509,7 @@ public class AtributosConfiguracionModel extends DataStore {
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
 
-	public static Iterator<AtributoConfiguracion> determinaAtributosConfiguración(
+	public static Iterator<AtributoConfiguracion> determinaAtributosConfiguracion(
 			int esquema_configuracion_id, int objeto_id, String tipo_objeto,
 			String nombre_objeto) throws DataStoreException, SQLException {
 
@@ -526,7 +526,7 @@ public class AtributosConfiguracionModel extends DataStore {
 					"infraestructura");
 
 			// Selecciona todos los id's de atributos utilizados para determinar
-			// cadenas de aprobación de solicitudes de compra
+			// cadenas de aprobaciï¿½n de solicitudes de compra
 			sql = "SELECT DISTINCT atributo_id "
 					+ "FROM atributos_configuracion NATURAL JOIN configuracion "
 					+ "WHERE esquema_configuracion_id = "
