@@ -1,5 +1,7 @@
 package inventario.models;
 
+import infraestructura.controllers.Constants;
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
 
 import java.sql.ResultSet;
@@ -18,7 +20,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * ResumenSaldoArticulosModel: A SOFIA generated model
  */
-public class ResumenSaldoArticulosModel extends BaseModel {
+public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 
 	/**
 	 * 
@@ -36,10 +38,11 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	public static final String RESUMEN_SALDO_ARTICULOS_TOTAL_EGRESOS = "resumen_saldo_articulos.total_egresos";
 	public static final String RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_INGRESOS = "resumen_saldo_articulos.cant_transacciones_ingresos";
 	public static final String RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_EGRESOS = "resumen_saldo_articulos.cant_transacciones_egresos";
-	public static final String ALMACENES_NOMBRE = "almacenes.nombre";	
+	public static final String ALMACENES_NOMBRE = "almacenes.nombre";
 	public static final String ARTICULOS_NOMBRE = "articulos.nombre";
 	public static final String ARTICULOS_DESCRIPCION = "articulos.descripcion";
 	public static final String ARTICULOS_DESCRIPCION_COMPLETA = "articulos.descripcion_completa";
+	public static final String ARTICULOS_UNIDAD_PATRON = "articulos.unidad_patron";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
@@ -94,29 +97,35 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			addColumn(computeTableName("resumen_saldo_articulos"), "reservado",
 					DataStore.DATATYPE_DOUBLE, false, true,
 					RESUMEN_SALDO_ARTICULOS_RESERVADO);
-			addColumn(computeTableName("resumen_saldo_articulos"), "en_proceso",
-					DataStore.DATATYPE_DOUBLE, false, true,
+			addColumn(computeTableName("resumen_saldo_articulos"),
+					"en_proceso", DataStore.DATATYPE_DOUBLE, false, true,
 					RESUMEN_SALDO_ARTICULOS_EN_PROCESO);
-			addColumn(computeTableName("resumen_saldo_articulos"), "total_ingresos",
-					DataStore.DATATYPE_DOUBLE, false, true,
+			addColumn(computeTableName("resumen_saldo_articulos"),
+					"total_ingresos", DataStore.DATATYPE_DOUBLE, false, true,
 					RESUMEN_SALDO_ARTICULOS_TOTAL_INGRESOS);
-			addColumn(computeTableName("resumen_saldo_articulos"), "total_egresos",
-					DataStore.DATATYPE_DOUBLE, false, true,
+			addColumn(computeTableName("resumen_saldo_articulos"),
+					"total_egresos", DataStore.DATATYPE_DOUBLE, false, true,
 					RESUMEN_SALDO_ARTICULOS_TOTAL_EGRESOS);
-			addColumn(computeTableName("resumen_saldo_articulos"), "cant_transacciones_ingresos",
-					DataStore.DATATYPE_INT, false, true,
+			addColumn(computeTableName("resumen_saldo_articulos"),
+					"cant_transacciones_ingresos", DataStore.DATATYPE_INT,
+					false, true,
 					RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_INGRESOS);
-			addColumn(computeTableName("resumen_saldo_articulos"), "cant_transacciones_egresos",
-					DataStore.DATATYPE_INT, false, true,
+			addColumn(computeTableName("resumen_saldo_articulos"),
+					"cant_transacciones_egresos", DataStore.DATATYPE_INT,
+					false, true,
 					RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_EGRESOS);
 			addColumn(computeTableName("almacenes"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ALMACENES_NOMBRE);
 			addColumn(computeTableName("articulos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ARTICULOS_NOMBRE);
 			addColumn(computeTableName("articulos"), "descripcion",
-					DataStore.DATATYPE_STRING, false, false, ARTICULOS_DESCRIPCION);
+					DataStore.DATATYPE_STRING, false, false,
+					ARTICULOS_DESCRIPCION);
 			addColumn(computeTableName("articulos"), "descripcion_completa",
-					DataStore.DATATYPE_STRING, false, false, ARTICULOS_DESCRIPCION_COMPLETA);
+					DataStore.DATATYPE_STRING, false, false,
+					ARTICULOS_DESCRIPCION_COMPLETA);
+
+			addBucket(ARTICULOS_UNIDAD_PATRON, DataStore.DATATYPE_STRING);
 
 			// add joins
 			addJoin(
@@ -133,10 +142,11 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			// add validations
 			addRequiredRule(RESUMEN_SALDO_ARTICULOS_STOCK_EN_MANO,
 					"El stock en mano es obligatorio");
-			addRequiredRule(RESUMEN_SALDO_ARTICULOS_RESERVADO,					
+			addRequiredRule(RESUMEN_SALDO_ARTICULOS_RESERVADO,
 					"La cantidad de reservas es obligatoria");
-			
-			setAutoIncrement(RESUMEN_SALDO_ARTICULOS_RESUMEN_SALDO_ARTICULO_ID, true);
+
+			setAutoIncrement(RESUMEN_SALDO_ARTICULOS_RESUMEN_SALDO_ARTICULO_ID,
+					true);
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -204,7 +214,7 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			int newValue) throws DataStoreException {
 		setInt(row, RESUMEN_SALDO_ARTICULOS_RESUMEN_SALDO_ARTICULO_ID, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the resumen_saldo_articulos.almacen_id column for
 	 * the current row.
@@ -524,21 +534,22 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			throws DataStoreException {
 		setDouble(row, RESUMEN_SALDO_ARTICULOS_EN_PROCESO, newValue);
 	}
-	
+
 	/**
-	 * Retrieve the value of the resumen_saldo_articulos.total_egresos column for
-	 * the current row.
+	 * Retrieve the value of the resumen_saldo_articulos.total_egresos column
+	 * for the current row.
 	 * 
 	 * @return double
 	 * @throws DataStoreException
 	 */
-	public double getResumenSaldoArticulosTotalEgresos() throws DataStoreException {
+	public double getResumenSaldoArticulosTotalEgresos()
+			throws DataStoreException {
 		return getDouble(RESUMEN_SALDO_ARTICULOS_TOTAL_EGRESOS);
 	}
 
 	/**
-	 * Retrieve the value of the resumen_saldo_articulos.total_egresos column for
-	 * the specified row.
+	 * Retrieve the value of the resumen_saldo_articulos.total_egresos column
+	 * for the specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -577,21 +588,22 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			throws DataStoreException {
 		setDouble(row, RESUMEN_SALDO_ARTICULOS_TOTAL_EGRESOS, newValue);
 	}
-	
+
 	/**
-	 * Retrieve the value of the resumen_saldo_articulos.total_ingresos column for
-	 * the current row.
+	 * Retrieve the value of the resumen_saldo_articulos.total_ingresos column
+	 * for the current row.
 	 * 
 	 * @return double
 	 * @throws DataStoreException
 	 */
-	public double getResumenSaldoArticulosTotalIngresos() throws DataStoreException {
+	public double getResumenSaldoArticulosTotalIngresos()
+			throws DataStoreException {
 		return getDouble(RESUMEN_SALDO_ARTICULOS_TOTAL_INGRESOS);
 	}
 
 	/**
-	 * Retrieve the value of the resumen_saldo_articulos.total_ingresos column for
-	 * the specified row.
+	 * Retrieve the value of the resumen_saldo_articulos.total_ingresos column
+	 * for the specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -604,8 +616,8 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	}
 
 	/**
-	 * Set the value of the resumen_saldo_articulos.total_ingresos column for the
-	 * current row.
+	 * Set the value of the resumen_saldo_articulos.total_ingresos column for
+	 * the current row.
 	 * 
 	 * @param newValue
 	 *            the new item value
@@ -617,8 +629,8 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	}
 
 	/**
-	 * Set the value of the resumen_saldo_articulos.total_ingresos column for the
-	 * specified row.
+	 * Set the value of the resumen_saldo_articulos.total_ingresos column for
+	 * the specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -630,12 +642,11 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			throws DataStoreException {
 		setDouble(row, RESUMEN_SALDO_ARTICULOS_TOTAL_INGRESOS, newValue);
 	}
-	
 
 	/**
 	 * Retrieve the value of the
-	 * resumen_saldo_articulos.cant_transacciones_ingresos column for the current
-	 * row.
+	 * resumen_saldo_articulos.cant_transacciones_ingresos column for the
+	 * current row.
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -685,9 +696,10 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	 */
 	public void setResumenSaldoArticulosCantTransaccionesIngresos(int row,
 			int newValue) throws DataStoreException {
-		setInt(row, RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_INGRESOS, newValue);
+		setInt(row, RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_INGRESOS,
+				newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the
 	 * resumen_saldo_articulos.cant_transacciones_egresos column for the current
@@ -741,9 +753,10 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	 */
 	public void setResumenSaldoArticulosCantTransaccionesEgresos(int row,
 			int newValue) throws DataStoreException {
-		setInt(row, RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_EGRESOS, newValue);
+		setInt(row, RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_EGRESOS,
+				newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the almacenes.nombre column for the current row.
 	 * 
@@ -837,9 +850,10 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			throws DataStoreException {
 		setString(row, ARTICULOS_NOMBRE, newValue);
 	}
-	
+
 	/**
-	 * Retrieve the value of the articulos.descripcion column for the current row.
+	 * Retrieve the value of the articulos.descripcion column for the current
+	 * row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -849,7 +863,8 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the articulos.descripcion column for the specified row.
+	 * Retrieve the value of the articulos.descripcion column for the specified
+	 * row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -867,7 +882,8 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setArticulosDescripcion(String newValue) throws DataStoreException {
+	public void setArticulosDescripcion(String newValue)
+			throws DataStoreException {
 		setString(ARTICULOS_DESCRIPCION, newValue);
 	}
 
@@ -884,9 +900,10 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 			throws DataStoreException {
 		setString(row, ARTICULOS_DESCRIPCION, newValue);
 	}
-	
+
 	/**
-	 * Retrieve the value of the articulos.descripcion_completa column for the current row.
+	 * Retrieve the value of the articulos.descripcion_completa column for the
+	 * current row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -896,30 +913,35 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the articulos.descripcion_completa column for the specified row.
+	 * Retrieve the value of the articulos.descripcion_completa column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getArticulosDescripcionCompleta(int row) throws DataStoreException {
+	public String getArticulosDescripcionCompleta(int row)
+			throws DataStoreException {
 		return getString(row, ARTICULOS_DESCRIPCION_COMPLETA);
 	}
 
 	/**
-	 * Set the value of the articulos.descripcion_completa column for the current row.
+	 * Set the value of the articulos.descripcion_completa column for the
+	 * current row.
 	 * 
 	 * @param newValue
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setArticulosDescripcionCompleta(String newValue) throws DataStoreException {
+	public void setArticulosDescripcionCompleta(String newValue)
+			throws DataStoreException {
 		setString(ARTICULOS_DESCRIPCION_COMPLETA, newValue);
 	}
 
 	/**
-	 * Set the value of the articulos.descripcion_completa column for the specified row.
+	 * Set the value of the articulos.descripcion_completa column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -930,6 +952,34 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 	public void setArticulosDescripcionCompleta(int row, String newValue)
 			throws DataStoreException {
 		setString(row, ARTICULOS_DESCRIPCION_COMPLETA, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.unidad_patron column for the specified
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosUnidadPatron(String newValue)
+			throws DataStoreException {
+		setString(ARTICULOS_UNIDAD_PATRON, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos.unidad_patron column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosUnidadPatron(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_UNIDAD_PATRON, newValue);
 	}
 
 	// $CUSTOMMETHODS$
@@ -966,7 +1016,7 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 				st.close();
 		}
 	}
-	
+
 	public static double getReservado(int articulo_id, int almacen_id,
 			DBConnection conn) throws DataStoreException, SQLException {
 		Statement st = null;
@@ -988,41 +1038,70 @@ public class ResumenSaldoArticulosModel extends BaseModel {
 				st.close();
 		}
 	}
-	
-	public void incrementarTotalIngresos(double cantidad) throws DataStoreException {
-		System.out.println("cantidad "+(getResumenSaldoArticulosTotalIngresos()-cantidad));
-		setResumenSaldoArticulosTotalIngresos(getResumenSaldoArticulosTotalIngresos()+cantidad);		
+
+	public void incrementarTotalIngresos(double cantidad)
+			throws DataStoreException {
+		System.out.println("cantidad "
+				+ (getResumenSaldoArticulosTotalIngresos() - cantidad));
+		setResumenSaldoArticulosTotalIngresos(getResumenSaldoArticulosTotalIngresos()
+				+ cantidad);
 	}
-	
-	public void incrementarTotalEgresos(double cantidad) throws DataStoreException {
-		setResumenSaldoArticulosTotalEgresos(getResumenSaldoArticulosTotalEgresos()+cantidad);
+
+	public void incrementarTotalEgresos(double cantidad)
+			throws DataStoreException {
+		setResumenSaldoArticulosTotalEgresos(getResumenSaldoArticulosTotalEgresos()
+				+ cantidad);
 	}
-	
-	public void decrementarTotalIngresos(double cantidad) throws DataStoreException {
-		setResumenSaldoArticulosTotalIngresos(getResumenSaldoArticulosTotalIngresos()-cantidad);		
+
+	public void decrementarTotalIngresos(double cantidad)
+			throws DataStoreException {
+		setResumenSaldoArticulosTotalIngresos(getResumenSaldoArticulosTotalIngresos()
+				- cantidad);
 	}
-	
-	public void decrementarTotalEgresos(double cantidad) throws DataStoreException {
-		setResumenSaldoArticulosTotalEgresos(getResumenSaldoArticulosTotalEgresos()-cantidad);		
+
+	public void decrementarTotalEgresos(double cantidad)
+			throws DataStoreException {
+		setResumenSaldoArticulosTotalEgresos(getResumenSaldoArticulosTotalEgresos()
+				- cantidad);
 	}
-	
-	public void incrementarCantTransaccionesIngresos() throws DataStoreException {
-		System.out.println("cant trans "+(getResumenSaldoArticulosCantTransaccionesIngresos()+1));
-		setResumenSaldoArticulosCantTransaccionesIngresos(getResumenSaldoArticulosCantTransaccionesIngresos()+1);		
+
+	public void incrementarCantTransaccionesIngresos()
+			throws DataStoreException {
+		System.out.println("cant trans "
+				+ (getResumenSaldoArticulosCantTransaccionesIngresos() + 1));
+		setResumenSaldoArticulosCantTransaccionesIngresos(getResumenSaldoArticulosCantTransaccionesIngresos() + 1);
 	}
-	
+
 	public void incrementarCantTransaccionesEgresos() throws DataStoreException {
-		setResumenSaldoArticulosCantTransaccionesEgresos(getResumenSaldoArticulosCantTransaccionesEgresos()+1);
+		setResumenSaldoArticulosCantTransaccionesEgresos(getResumenSaldoArticulosCantTransaccionesEgresos() + 1);
 	}
-	
-	public void decrementarCantTransaccionesIngresos() throws DataStoreException {
-		setResumenSaldoArticulosCantTransaccionesIngresos(getResumenSaldoArticulosCantTransaccionesIngresos()-1);
+
+	public void decrementarCantTransaccionesIngresos()
+			throws DataStoreException {
+		setResumenSaldoArticulosCantTransaccionesIngresos(getResumenSaldoArticulosCantTransaccionesIngresos() - 1);
 	}
-	
+
 	public void decrementarCantTransaccionesEgresos() throws DataStoreException {
-		setResumenSaldoArticulosCantTransaccionesEgresos(getResumenSaldoArticulosCantTransaccionesEgresos()-1);
+		setResumenSaldoArticulosCantTransaccionesEgresos(getResumenSaldoArticulosCantTransaccionesEgresos() - 1);
 	}
-	
+
+	@Override
+	public synchronized void retrieve(String criteria) throws SQLException,
+			DataStoreException {
+		// TODO Auto-generated method stub
+		super.retrieve(criteria);
+		for (int row = 0; row < getRowCount(); row++) {
+			setArticulosUnidadPatron(
+					row,
+					UnidadesMedidaModel
+							.getUnidadMedidaNombre(Integer
+									.parseInt(AtributosEntidadModel
+											.getValorAtributoObjeto(
+													ARTICULO_UNIDAD_MEDIDA,
+													getResumenSaldoArticulosArticuloId(row),
+													"TABLA", "articulos"))));
+		}
+	}
 	// $ENDCUSTOMMETHODS$
 
 }

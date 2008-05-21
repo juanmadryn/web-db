@@ -5,6 +5,7 @@ package inventario.controllers;
 import infraestructura.controllers.BaseController;
 import infraestructura.models.AtributosEntidadModel;
 import inventario.models.ArticulosModel;
+import inventario.models.ResumenSaldoArticulosModel;
 
 import java.sql.SQLException;
 
@@ -52,6 +53,8 @@ public class AbmcConversionesController extends BaseController {
 	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public inventario.models.ConversionesModel _dsConversiones;
+	public inventario.models.ArticulosModel dsArticulos;
+	public inventario.models.ResumenSaldoArticulosModel dsResumenes;
 
 	// DataSource Column Constants
 	public static final String DSCONVERSIONES_CONVERSIONES_CONVERSION_ID = "conversiones.conversion_id";
@@ -83,10 +86,12 @@ public class AbmcConversionesController extends BaseController {
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		if (e.getComponent() == _detailformdisplaybox1.getSaveButton()) {
-			AtributosEntidadModel.setValorAtributoObjeto(
-					_articulo_unidad_medida2.getValue(),
-					ARTICULO_UNIDAD_MEDIDA, _dsConversiones
-							.getConversionesArticuloId(), "TABLA", "articulos");
+			if (_dsConversiones.getRow() != -1)
+				AtributosEntidadModel.setValorAtributoObjeto(
+						_articulo_unidad_medida2.getValue(),
+						ARTICULO_UNIDAD_MEDIDA, _dsConversiones
+								.getConversionesArticuloId(), "TABLA",
+						"articulos");
 		}
 		return super.submitPerformed(e);
 	}
@@ -99,20 +104,9 @@ public class AbmcConversionesController extends BaseController {
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
 		try {
-			int unidad_patron = 0;
-			if (_dsConversiones.getRow() != -1) {
-				unidad_patron = Integer.parseInt(AtributosEntidadModel
-						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
-								_dsConversiones.getConversionesArticuloId(),
-								"TABLA", "articulos"));
-				if (unidad_patron != 0)
-					_articulo_unidad_medida2.setValue(String
-							.valueOf(unidad_patron));
-				else
-					displayErrorMessage("Indique la unidad de medida patrón del artículo");
-			}
-
-			ArticulosModel dsArticulos = new ArticulosModel("inventario");
+			int unidad_patron = 0;			
+			dsArticulos = new ArticulosModel("inventario");
+			dsResumenes = new ResumenSaldoArticulosModel("inventario");
 			if (!isReferredByCurrentPage()) {
 				int articulo_id = getIntParameter("articulo_id");
 				int unidad_medida_id = getIntParameter("unidad_medida_id");
@@ -124,17 +118,12 @@ public class AbmcConversionesController extends BaseController {
 					if (!_dsConversiones.gotoFirst()) {
 						_dsConversiones.gotoRow(_dsConversiones.insertRow());
 						if (unidad_medida_id <= 0) {
-							System.out.println(unidad_medida_id + " "
-									+ unidad_patron);
 							unidad_medida_id = Integer
 									.parseInt(AtributosEntidadModel
 											.getValorAtributoObjeto(
 													ARTICULO_UNIDAD_MEDIDA,
 													articulo_id, "TABLA",
 													"articulos"));
-							;
-							_articulo_unidad_medida2.setValue(String
-									.valueOf(unidad_patron));
 							_dsConversiones.setConversionesFactor("1");
 						}
 						_dsConversiones.setConversionesArticuloId(articulo_id);
@@ -155,6 +144,25 @@ public class AbmcConversionesController extends BaseController {
 					}
 				}
 
+			}
+			if (_dsConversiones.getRow() != -1) {
+				unidad_patron = Integer.parseInt(AtributosEntidadModel
+						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
+								_dsConversiones.getConversionesArticuloId(),
+								"TABLA", "articulos"));
+				if (unidad_patron != 0) {
+					_articulo_unidad_medida2.setValue(String
+							.valueOf(unidad_patron));
+				} else {
+
+					displayErrorMessage("Indique la unidad de medida patrón del artículo");
+				}
+				if (dsResumenes.estimateRowsRetrieved("resumen_saldo_articulos.articulo_id ="
+						+ _dsConversiones.getConversionesArticuloId()) == 0) {
+					_articulo_unidad_medida2.setEnabled(true);
+				} else {
+					_articulo_unidad_medida2.setEnabled(false);
+				}
 			}
 		} catch (DataStoreException e) {
 			// TODO Auto-generated catch block

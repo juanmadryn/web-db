@@ -40,6 +40,7 @@ public final class ValRN_0212_1 extends ValidadorReglasNegocio {
 
 			detalles.retrieve("detalles_rc.recepcion_compra_id ="
 					+ recepcionCompraId);
+			detalles.waitForRetrieve();
 
 			/*if (ds.getRecepcionesComprasUserIdRecibe() == 0)
 				throw new DataStoreException("Indique el legajo de quien recibe");*/

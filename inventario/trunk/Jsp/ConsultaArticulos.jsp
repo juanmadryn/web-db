@@ -35,50 +35,46 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="buscarTE3" size="60"
 									maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
-							</tr>							
+							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
 				</salmon:td>
 				<salmon:td valign="top" width="40%">
-					<salmon:searchformdisplaybox					
-						name="searchformdisplaybox2" searchbuttonvisible="false" 
-						caption="Atributos de artículo"
+					<salmon:searchformdisplaybox name="searchformdisplaybox2"
+						searchbuttonvisible="false" caption="Atributos de artículo"
 						addbuttonvisible="false" width="100%">
 						<table width="100%">
-							<tr>									
-								<td><salmon:text name="atributo1" text="Atributo" font="TableHeadingFont" /></td>
-								<td><salmon:text name="valor1" text="Valor" font="TableHeadingFont" /></td>
-								<td align="right"><salmon:input name="operador" type="select" /></td>
+							<tr>
+								<td><salmon:text name="atributo1" text="Atributo"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="valor1" text="Valor"
+									font="TableHeadingFont" /></td>
+								<td align="right"><salmon:input name="operador"
+									type="select" /></td>
 							</tr>
 							<tr>
-								<td>
-									<salmon:lookup
-										browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP1" 
-										size="15"	maxlength="25" popupheight="450"
-										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpAtributosRol?nombre_objeto=articulos"
+									name="lkpAttrINP1" size="15" maxlength="25" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
 								<td colspan="2"><salmon:input name="valorAttr1" type="text" /></td>
 							</tr>
 							<tr>
-								<td>
-									<salmon:lookup
-										browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP2" 
-										size="15"	maxlength="25"popupheight="450"
-										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpAtributosRol?nombre_objeto=articulos"
+									name="lkpAttrINP2" size="15" maxlength="25" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
 								<td colspan="2"><salmon:input name="valorAttr2" type="text" /></td>
 							</tr>
 							<tr>
-								<td>	
-									<salmon:lookup
-										browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpAtributosRol?nombre_objeto=articulos" name="lkpAttrINP3" 
-										size="15"	maxlength="25" popupheight="450"
-										popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpAtributosRol?nombre_objeto=articulos"
+									name="lkpAttrINP3" size="15" maxlength="25" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="false"></salmon:lookup>
 								</td>
-								<td colspan="2"><salmon:input name="valorAttr3" type="text"/></td>
+								<td colspan="2"><salmon:input name="valorAttr3" type="text" /></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
@@ -89,7 +85,8 @@
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
 			mode="Display_single_page" caption="" width="100%"
-			datasource="dsArticulos" searchformdisplaybox="searchformdisplaybox1">
+			datasource="dsArticulos" searchformdisplaybox="searchformdisplaybox1"
+			savebuttonvisible="TRUE">
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="10"
 				datasource="dsArticulos">
 				<salmon:datatableheader>
@@ -104,7 +101,7 @@
 						<salmon:td>
 							<salmon:text name="descripcionCAP23" text="Descripción"
 								font="TableHeadingFont" />
-						</salmon:td>
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="claseCAP24" text="Clase de Artículo"
 								font="TableHeadingFont" />
@@ -134,7 +131,7 @@
 							<salmon:text name="descripcionTE23" text="articulos.descripcion"
 								font="DefaultFont"
 								datasource="dsArticulos:articulos.descripcion" />
-						</salmon:td>
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="claseArticuloTE24"
 								text="clase_articulo.nombre" font="DefaultFont"
