@@ -130,7 +130,7 @@ public class BaseEntityController extends BaseController {
 	 */
 	public void seteaBotonesAtributos() throws DataStoreException, SQLException {
 
-		ArrayList<String> et = null;
+		Vector<String> et = null;
 
 		// si no hay seteado proyecto termina
 		if (!(row_id > 0))
