@@ -23,6 +23,8 @@
 		<salmon:table name="table2" width="100%" border="0">
 			<salmon:tr>
 				<salmon:td valign="Top">
+					<salmon:input type="button" name="regresar1" value="Regresar"
+						onclick="window.history.back()"></salmon:input>
 					<salmon:searchformdisplaybox name="searchformdisplaybox1"
 						caption="Conversiones de unidades de medida" qbebuilder="dsQBE">
 						<table width="100%">
@@ -43,7 +45,7 @@
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="articulo1" text="Artículo"
-									font="TableHeadingFont" />
+									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpArticulos" name="articulo2" size="10"
 									maxlength="15" datasource="dsConversiones:articulos.nombre"
@@ -53,7 +55,8 @@
 							</tr>
 							<tr>
 								<td><salmon:text name="articulo_unidad_medida1"
-									text="Unidad patrón" font="TableHeadingFont" /> <salmon:td>
+									text="Unidad patrón" font="TableHeadingFont" /></td>
+								<salmon:td>
 									<salmon:input type="select" name="articulo_unidad_medida2">
 										<salmon:option display="abc" key="123"
 											table="inventario.unidades_medida"

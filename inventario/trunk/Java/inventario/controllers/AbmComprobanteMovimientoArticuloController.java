@@ -20,6 +20,7 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreBuffer;
 import com.salmonllc.sql.DataStoreException;
+import com.salmonllc.sql.DirtyDataException;
 import com.salmonllc.util.MessageLog;
 
 /**
@@ -440,12 +441,15 @@ public class AbmComprobanteMovimientoArticuloController extends
 					if (_dsComprobante.getRow() == -1)
 						return false;
 
+					System.out.println("Antes");
 					_dsComprobante.update(conn);
+					System.out.println("Despues");
 
 					// actualizo los detalles
 					if (_dsMovimientos.getRow() != -1) {
 						_dsMovimientos.update(conn);
 					}
+					System.out.println("Despues 2");
 
 					if (_dsAtributos.getRow() == -1) {
 						if (!(_dsComprobante
@@ -464,8 +468,20 @@ public class AbmComprobanteMovimientoArticuloController extends
 					_dsMovimientos.resetStatus();
 					_dsAtributos.resetStatus();
 
-					// _dsMovimientos.reloadRows();
+					// _dsMovimientos.reloadRows(conn);
 
+				} catch (DirtyDataException ex) {
+					try {
+						_dsMovimientos.reset();
+						_dsMovimientos.resetStatus();
+						_dsMovimientos
+								.retrieve("movimiento_articulo.comprobante_movimiento_id ="
+										+ getRow_id());
+						_dsMovimientos.gotoFirst();
+						_dsMovimientos.update();
+					} catch (Exception e) {
+						throw e;
+					}
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";
@@ -676,10 +692,10 @@ public class AbmComprobanteMovimientoArticuloController extends
 			// seteaBotonesAtributos();
 			// recuperaAtributosBotonSeleccionado();
 		}
-		
-		if(conn != null) 
+
+		if (conn != null)
 			conn.freeConnection();
-		
+
 		armaBotonera();
 		return super.submitPerformed(event);
 	}
@@ -851,7 +867,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 					.getComprobanteMovimientoArticuloEstado());
 			System.out.println(isModificable);
 			_tipo_movimiento2.setEnabled(isModificable);
-			//_legajo1.setReadOnly(!isModificable);
+			// _legajo1.setReadOnly(!isModificable);
 			_almacen2.setEnabled(isModificable);
 			_cantidad_solicitada2.setReadOnly(!isModificable);
 			_unidad_medida2.setEnabled(isModificable);
@@ -914,15 +930,15 @@ public class AbmComprobanteMovimientoArticuloController extends
 			// circuiro
 			// recupero la columna para el circuito
 			// Si no existe configuración no hace nada
-			/*SQL = "select nombre_detalle from infraestructura.aplica_circuito where circuito = '"
-					+ CIRCUITO + "'";
-			st = conn.createStatement();
-			r = st.executeQuery(SQL);*/
-			
+			/*
+			 * SQL = "select nombre_detalle from infraestructura.aplica_circuito
+			 * where circuito = '" + CIRCUITO + "'"; st =
+			 * conn.createStatement(); r = st.executeQuery(SQL);
+			 */
+
 			// en función de la columna del circuito, determino el estado actual
 			// estado =
 			// _dsComprobante.getString("solicitudes_compra.estado");
-
 			// recorro los estados y seteo los botones
 			SQL = "SELECT prompt_accion,accion FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado "
 					+ "where e.circuito = '"

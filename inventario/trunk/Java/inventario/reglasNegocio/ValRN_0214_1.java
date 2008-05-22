@@ -79,11 +79,19 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 			Calendar calendar = Calendar.getInstance();
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
 			for (int row = 0; row < movimientos.getRowCount(); row++) {
+				articulo_id = movimientos
+				.getMovimientoArticuloArticuloId(row);
+				cantidad_pedida = ConversionesModel
+				.getUnidadConvertida(
+						articulo_id,
+						movimientos
+								.getMovimientoArticuloUnidadMedidaId(row),
+						movimientos
+								.getMovimientoArticuloCantidadSolicitada(row),
+						conn);
 				if ("F"
 						.equalsIgnoreCase(ds
-								.getTipoMovimientoArticuloPositivo())) {
-					articulo_id = movimientos
-							.getMovimientoArticuloArticuloId(row);
+								.getTipoMovimientoArticuloPositivo())) {					
 					resumenes.retrieve("resumen_saldo_articulos.almacen_id ="
 							+ almacen_id
 							+ " AND resumen_saldo_articulos.articulo_id = "
@@ -102,15 +110,7 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 					}
 
 					cantidad_en_proceso = resumenes
-							.getResumenSaldoArticulosEnProceso();
-					cantidad_pedida = ConversionesModel
-							.getUnidadConvertida(
-									articulo_id,
-									movimientos
-											.getMovimientoArticuloUnidadMedidaId(row),
-									movimientos
-											.getMovimientoArticuloCantidadSolicitada(row),
-									conn);
+							.getResumenSaldoArticulosEnProceso();					
 					cantidad_disponible = resumenes
 							.getResumenSaldoArticulosStockEnMano()
 							- cantidad_en_proceso

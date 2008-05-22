@@ -16,6 +16,8 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Hashtable;
 
+import proyectos.models.ProyectoModel;
+
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
@@ -104,7 +106,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 
 			st = conn.createStatement();
 			ResultSet rs = st
-					.executeQuery("SELECT sum(detalles_rc.cantidad_recibida) cantidad_recibida, detalle_sc.articulo_id, detalles_rc.almacen_id, solicitudes.proyecto_id, detalle_sc.tarea_id, cantidad_pedida, detalles_rc.unidad_medida_id FROM  detalles_rc detalles_rc inner join recepciones_compras ON detalles_rc.recepcion_compra_id = recepciones_compras.recepcion_compra_id  inner join detalle_sc detalle_sc ON detalles_rc.detalle_sc_id = detalle_sc.detalle_SC_id  inner join almacenes ON detalles_rc.almacen_id = almacenes.almacen_id  inner join articulos articulos ON detalle_sc.articulo_id = articulos.articulo_id  inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id = unidades_medida.unidad_medida_id JOIN solicitudes_compra solicitudes ON detalle_sc.solicitud_compra_id = solicitudes.solicitud_compra_id WHERE detalles_rc.recepcion_compra_id = "
+					.executeQuery("SELECT sum(detalles_rc.cantidad_recibida) cantidad_recibida, sum(detalles_rc.cantidad_excedencia) cantidad_excedencia, detalle_sc.articulo_id, detalles_rc.almacen_id, solicitudes.proyecto_id, detalle_sc.tarea_id, cantidad_pedida, detalles_rc.unidad_medida_id FROM  detalles_rc detalles_rc inner join recepciones_compras ON detalles_rc.recepcion_compra_id = recepciones_compras.recepcion_compra_id  inner join detalle_sc detalle_sc ON detalles_rc.detalle_sc_id = detalle_sc.detalle_SC_id  inner join almacenes ON detalles_rc.almacen_id = almacenes.almacen_id  inner join articulos articulos ON detalle_sc.articulo_id = articulos.articulo_id  inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id = unidades_medida.unidad_medida_id JOIN solicitudes_compra solicitudes ON detalle_sc.solicitud_compra_id = solicitudes.solicitud_compra_id WHERE detalles_rc.recepcion_compra_id = "
 							+ recepcionCompraId
 							+ " GROUP BY almacen_id, articulo_id ORDER BY almacen_id");
 
@@ -127,24 +129,23 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 				movimiento.gotoRow(movimiento.insertRow());
 				movimiento.setMovimientoArticuloArticuloId(articulo_id);
 				movimiento.setMovimientoArticuloCantidadEntregada(rs
-						.getDouble("cantidad_recibida"));
+						.getDouble("cantidad_recibida")+rs.getDouble("cantidad_excedencia"));
 
 				movimiento.setMovimientoArticuloCantidadSolicitada(rs
 						.getDouble("cantidad_pedida"));
 				movimiento
 						.setMovimientoArticuloComprobanteMovimientoId(comprobante_movimiento_id);
 				movimiento.setMovimientoArticuloProyectoId(rs
-						.getInt("proyecto_id"));
+						.getInt("proyecto_id"));				
 				movimiento.setMovimientoArticuloUnidadMedidaId(rs
 						.getInt("unidad_medida_id"));
 
-				// movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
+				movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
 
 			}
 			movimiento.update(conn);
 			movimiento.resetStatus();
-
-			System.out.println(comprobanteMovimiento.getRowCount());
+			
 			for (int row = 0; row < comprobanteMovimiento.getRowCount(); row++) {
 				comprobanteMovimiento.gotoRow(row);
 				comprobanteMovimiento.ejecutaAccion(47, "0010", "", ds

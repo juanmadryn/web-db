@@ -104,19 +104,26 @@ public class AbmcConversionesController extends BaseController {
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
 		try {
-			int unidad_patron = 0;			
+			int unidad_patron = 0;
 			dsArticulos = new ArticulosModel("inventario");
 			dsResumenes = new ResumenSaldoArticulosModel("inventario");
+
+			int articulo_id = 0;
+			if(_dsConversiones.getRow() == -1) 
+				if(!isReferredByCurrentPage())
+					articulo_id = getIntParameter("articulo_id");
+			else
+				articulo_id = _dsConversiones.getConversionesArticuloId();
 			
-			if (_dsConversiones.getRowCount() != -1 && dsResumenes.estimateRowsRetrieved("resumen_saldo_articulos.articulo_id ="
-					+ _dsConversiones.getConversionesArticuloId()) == 0) {
+			if (dsResumenes
+					.estimateRowsRetrieved("resumen_saldo_articulos.articulo_id ="
+							+ articulo_id) == 0) {				
 				_articulo_unidad_medida2.setEnabled(true);
 			} else {
 				_articulo_unidad_medida2.setEnabled(false);
 			}
-			
-			if (!isReferredByCurrentPage()) {
-				int articulo_id = getIntParameter("articulo_id");
+						 
+			if (!isReferredByCurrentPage()) {				
 				int unidad_medida_id = getIntParameter("unidad_medida_id");
 				if (articulo_id > 0) {
 					_dsConversiones.retrieve("conversiones.articulo_id ="
@@ -153,6 +160,7 @@ public class AbmcConversionesController extends BaseController {
 				}
 
 			}
+			
 			if (_dsConversiones.getRow() != -1) {
 				unidad_patron = Integer.parseInt(AtributosEntidadModel
 						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,

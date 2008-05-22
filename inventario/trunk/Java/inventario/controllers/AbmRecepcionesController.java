@@ -428,6 +428,8 @@ public class AbmRecepcionesController extends BaseEntityController {
 					_dsRecepciones.resetStatus();
 					_dsDetalle.resetStatus();
 					_dsAtributos.resetStatus();
+					
+					_dsDetalle.reloadRows(conn);
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";

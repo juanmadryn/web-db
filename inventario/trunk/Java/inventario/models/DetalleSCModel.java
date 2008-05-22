@@ -190,7 +190,7 @@ public class DetalleSCModel extends DataStore {
 			addJoin(
 					computeTableAndFieldName("articulos.clase_articulo_id"),
 					computeTableAndFieldName("clase_articulo.clase_articulo_id"),
-					false);
+					true);
 			addJoin(computeTableAndFieldName("detalle_sc.tarea_id"),
 					computeTableAndFieldName("tareas_proyecto.tarea_id"), true);
 			addJoin(
