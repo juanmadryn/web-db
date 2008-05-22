@@ -3,6 +3,7 @@
  */
 package inventario.reglasNegocio;
 
+import infraestructura.controllers.Constants;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.ComprobanteMovimientoArticuloModel;
 import inventario.models.DetalleRCModel;
@@ -28,7 +29,8 @@ import com.salmonllc.sql.DataStoreException;
  * Regla de negocio asociada al rechazo de una OC
  * 
  */
-public final class ValRN_0213_1 extends ValidadorReglasNegocio {
+public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
+		Constants {
 
 	/*
 	 * (non-Javadoc)
@@ -129,30 +131,37 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 				movimiento.gotoRow(movimiento.insertRow());
 				movimiento.setMovimientoArticuloArticuloId(articulo_id);
 				movimiento.setMovimientoArticuloCantidadEntregada(rs
-						.getDouble("cantidad_recibida")+rs.getDouble("cantidad_excedencia"));
+						.getDouble("cantidad_recibida")
+						+ rs.getDouble("cantidad_excedencia"));
 
 				movimiento.setMovimientoArticuloCantidadSolicitada(rs
 						.getDouble("cantidad_pedida"));
 				movimiento
 						.setMovimientoArticuloComprobanteMovimientoId(comprobante_movimiento_id);
 				movimiento.setMovimientoArticuloProyectoId(rs
-						.getInt("proyecto_id"));				
+						.getInt("proyecto_id"));
 				movimiento.setMovimientoArticuloUnidadMedidaId(rs
 						.getInt("unidad_medida_id"));
 
 				movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
-
 			}
 			movimiento.update(conn);
 			movimiento.resetStatus();
-			
+
+			int accion = Props.getProps("inventario", "inventario")
+					.getIntProperty(ACCION_CONFIRMA_MOVIMIENTO);
+			System.out.println(accion);
 			for (int row = 0; row < comprobanteMovimiento.getRowCount(); row++) {
 				comprobanteMovimiento.gotoRow(row);
-				comprobanteMovimiento.ejecutaAccion(47, "0010", "", ds
-						.getCurrentWebsiteUserId(),
-						"comprobante_movimiento_articulo", conn, false);
+				if (accion > 0)
+					comprobanteMovimiento.ejecutaAccion(accion, "0010", "", ds
+							.getCurrentWebsiteUserId(),
+							"comprobante_movimiento_articulo", conn, false);
+				else
+					throw new DataStoreException(
+							"No se ha indicado en el archivo System.properties la acción correspondiente a la confirmación de un movimiento de inventario.");
 			}
-			
+
 		} catch (DataStoreException ex) {
 			msg.append(ex.getMessage());
 			return false;
