@@ -463,13 +463,12 @@ public class BaseController extends JspController implements SubmitListener,
 		// no está seteada en el system.properties
 		// ya que de otra forma explota la aplicación
 		String hayMantenimiento = getPageProperties().getProperty("MantenimientoSistema");
-		if (hayMantenimiento != null && hayMantenimiento.isEmpty()) {
+		if (hayMantenimiento != null && !hayMantenimiento.isEmpty()) {
 			_avisoMantenimiento.setText("El sistema será detenido a las " 
-					+ getPageProperties().getProperty("MantenimientoSistema")
+					+ hayMantenimiento
 					+ " horas para tareas de mantenimiento. Guarde los trabajos realizados y salga de su cuenta.");
 			_avisoMantenimiento.setVisible(true);			
-		} else {
-			_avisoMantenimiento.setText(null);
+		} else {			
 			_avisoMantenimiento.setVisible(false);
 		}
 		
