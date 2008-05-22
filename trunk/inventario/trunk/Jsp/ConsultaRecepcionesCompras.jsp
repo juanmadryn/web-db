@@ -87,8 +87,7 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpProveedores" name="proveedor2" size="6"
-									maxlength="10" displayformat="#########0"
-									datasource="dsQBE:proveedor_id" popupheight="450"
+									maxlength="10" datasource="dsQBE:proveedor_id" popupheight="450"
 									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
 								</td>
 							</tr>
