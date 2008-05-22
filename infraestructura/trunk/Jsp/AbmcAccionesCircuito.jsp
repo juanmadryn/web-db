@@ -84,6 +84,12 @@
                            maxlength="255"
                            datasource="dsAccionesAplicacion:acciones_apps.observaciones"></salmon:input></td>
                      </tr>
+                     <tr>
+                        <td><salmon:text name="manualINPCAP"
+                           text="¿Requiere acción del usuario?" font="ColumnCaptionFont" /></td>
+                        <td><salmon:input type="checkbox"
+                           name="manualINP" datasource="dsAccionesAplicacion:acciones_apps.manual"></salmon:input></td>
+                     </tr>
                   </table>
                </salmon:detailformdisplaybox>
             </salmon:td>
@@ -114,6 +120,11 @@
                         name="acciones_aplicacion.descripcionCAP"
                         text="Descripción" font="TableHeadingFont" />
                   </salmon:td>
+                  <salmon:td>
+                     <salmon:text
+                        name="acciones_aplicacion.manualCAP"
+                        text="Acción del Usuario" font="TableHeadingFont" />
+                  </salmon:td>
                </salmon:tr>
             </salmon:datatableheader>
             <salmon:datatablerows>
@@ -135,6 +146,12 @@
                         text="NO FIELDS FOUND Goes Here"
                         font="DefaultFont"
                         datasource="dsAccionesAplicacion:acciones_apps.descripcion" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="accAppManualTXT"
+                        text="NO FIELDS FOUND Goes Here"
+                        font="DefaultFont"
+                        datasource="dsAccionesAplicacion:acciones_apps.manual" />
                   </salmon:td>
                </salmon:tr>
             </salmon:datatablerows>

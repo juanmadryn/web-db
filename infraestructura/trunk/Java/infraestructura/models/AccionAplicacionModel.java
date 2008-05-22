@@ -29,7 +29,7 @@ public class AccionAplicacionModel extends DataStore {
 
      //$CUSTOMVARS$
      //Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
-     
+     public static final String ACCIONES_APLICACION_MANUAL="acciones_apps.manual";
      //$ENDCUSTOMVARS$
      
      /**
@@ -81,6 +81,10 @@ public class AccionAplicacionModel extends DataStore {
 			// Put custom constructor code between these comments, otherwise it
 			// be overwritten if the model is regenerated
 			setAutoIncrement(ACCIONES_APLICACION_ACCION, true);
+			
+			addColumn(computeTableName("acciones_apps"), "manual",
+					DataStore.DATATYPE_STRING, false, true,
+					ACCIONES_APLICACION_MANUAL);
 			// $ENDCUSTOMCONSTRUCTOR$
 
 		} catch (DataStoreException e) {
@@ -318,7 +322,43 @@ public class AccionAplicacionModel extends DataStore {
      
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
-     
+     /**
+      * Retrieve the value of the acciones_apps.manual column for the current row.
+      * @return String
+      * @throws DataStoreException
+      */ 
+     public String getAccionesAplicacionManual() throws DataStoreException {
+          return  getString(ACCIONES_APLICACION_MANUAL);
+     }
+
+     /**
+      * Retrieve the value of the acciones_apps.manual column for the specified row.
+      * @param row which row in the table
+      * @return String
+      * @throws DataStoreException
+      */ 
+     public String getAccionesAplicacionManual(int row) throws DataStoreException {
+          return  getString(row,ACCIONES_APLICACION_MANUAL);
+     }
+
+     /**
+      * Set the value of the acciones_apps.manual column for the current row.
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setAccionesAplicacionManual(String newValue) throws DataStoreException {
+          setString(ACCIONES_APLICACION_MANUAL, newValue);
+     }
+
+     /**
+      * Set the value of the acciones_apps.manual column for the specified row.
+      * @param row which row in the table
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setAccionesAplicacionManual(int row,String newValue) throws DataStoreException {
+          setString(row,ACCIONES_APLICACION_MANUAL, newValue);
+     }
      //$ENDCUSTOMMETHODS$
      
 }

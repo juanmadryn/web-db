@@ -920,7 +920,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				int i = 100;
 				com.salmonllc.html.HtmlSubmitButton boton;
 				do {
-					if (r.getBoolean(3) == true) {
+					if ("V".equalsIgnoreCase(r.getString(3))) {
 						nombre_boton = "customBUT" + i;
 						boton = (com.salmonllc.html.HtmlSubmitButton) this
 						.getComponent(nombre_boton);
