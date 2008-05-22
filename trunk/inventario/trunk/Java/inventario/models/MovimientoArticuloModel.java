@@ -220,6 +220,7 @@ public class MovimientoArticuloModel extends DataStore {
 					"APEYNOM", LEGAJOS_APEYNOM,
 					"Legajo inexistente");
 			
+			setAutoIncrement(MOVIMIENTO_ARTICULO_MOVIMIENTO_ARTICULO_ID, true);
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}

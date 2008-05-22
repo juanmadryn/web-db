@@ -114,7 +114,7 @@
 					<salmon:listformdisplaybox name="listformdisplaybox4"
 						mode="Display_single_page" caption="Atributos de la recepción"
 						width="100%" datasource="dsAtributos" addbuttonvisible="false"
-						savebuttonvisible="true">
+						savebuttonvisible="true" autocreatelink="false">
 						<salmon:datatable name="datatable1" width="100%"
 							datasource="dsAtributos" rowsperpage="5">
 							<salmon:datatableheader>
@@ -156,7 +156,7 @@
 		<salmon:listformdisplaybox name="listformdisplaybox2"
 			mode="Display_single_page" caption="Artículos" width="100%"
 			datasource="dsDetalle" addbuttonvisible="false"
-			savebuttonvisible="false">
+			savebuttonvisible="false" autocreatelink="false">
 			<salmon:datatable name="datatable2" width="100%"
 				datasource="dsDetalle" rowsperpage="5">
 				<salmon:datatableheader>
@@ -203,9 +203,13 @@
 								checkedtruevalue="1"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="orden_de_compra_id2" text=""
-								datasource="dsDetalle:detalle_sc.orden_compra_id"
-								font="ColumnCaptionFont" />
+							<salmon:a href="none" name="lnkorden1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsDetalle:'%EditarOrdenCompra?orden_compra_id='+detalle_sc.orden_compra_id">
+								<salmon:text name="orden_de_compra_id2" text=""
+									datasource="dsDetalle:detalle_sc.orden_compra_id"
+									font="ColumnCaptionFont" />
+							</salmon:a>
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="nombre_articulo1" text="" font="DefaultFont"

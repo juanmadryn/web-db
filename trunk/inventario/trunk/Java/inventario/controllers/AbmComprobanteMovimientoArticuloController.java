@@ -405,16 +405,15 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 			conn.commit();
 		} catch (DataStoreException ex) {
-			conn.rollback();
 			displayErrorMessage(ex.getMessage());
 			return false;
-		} catch (ValidationException ex) {
-			conn.rollback();
+		} catch (ValidationException ex) {			
 			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
 			}
 			return false;
 		} finally {
+			conn.rollback();
 			conn.freeConnection();
 		}
 
@@ -428,28 +427,24 @@ public class AbmComprobanteMovimientoArticuloController extends
 		}
 
 		if (component == _grabarComprobanteBUT1) {
-			conn = DBConnection.getConnection("inventario");
-			conn.beginTransaction();
-
 			// si el comprobante esta en estado generado o esta siendo generada
 			if (isModificable(_dsComprobante
 					.getComprobanteMovimientoArticuloEstado())
 					|| UsuarioRolesModel.isRolUsuario(userId,
 							USER_ENCARGADO_ALMACEN)) {
+				conn = DBConnection.getConnection("inventario");
+				conn.beginTransaction();
 				try {
 					// grabo todos los datasource
 					if (_dsComprobante.getRow() == -1)
 						return false;
-
-					System.out.println("Antes");
+					
 					_dsComprobante.update(conn);
-					System.out.println("Despues");
 
 					// actualizo los detalles
 					if (_dsMovimientos.getRow() != -1) {
 						_dsMovimientos.update(conn);
 					}
-					System.out.println("Despues 2");
 
 					if (_dsAtributos.getRow() == -1) {
 						if (!(_dsComprobante
@@ -470,18 +465,6 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 					// _dsMovimientos.reloadRows(conn);
 
-				} catch (DirtyDataException ex) {
-					try {
-						_dsMovimientos.reset();
-						_dsMovimientos.resetStatus();
-						_dsMovimientos
-								.retrieve("movimiento_articulo.comprobante_movimiento_id ="
-										+ getRow_id());
-						_dsMovimientos.gotoFirst();
-						_dsMovimientos.update();
-					} catch (Exception e) {
-						throw e;
-					}
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";

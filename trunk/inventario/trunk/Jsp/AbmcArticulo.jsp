@@ -117,7 +117,7 @@
 					<salmon:listformdisplaybox name="listformdisplaybox1"
 						mode="Display_single_page" caption="Atributos"
 						width="100%" datasource="dsAtributos" addbuttonvisible="false"
-						savebuttonvisible="true">
+						savebuttonvisible="true" autocreatelink="false">
 						<salmon:datatable name="datatable1" width="100%"
 							datasource="dsAtributos" rowsperpage="5">
 							<salmon:datatableheader>

@@ -3,7 +3,6 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
-import infraestructura.controllers.Constants;
 import infraestructura.models.UsuarioRolesModel;
 
 import java.sql.Timestamp;
@@ -32,6 +31,8 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	public com.salmonllc.html.HtmlImage _bannerDivImage2;
 	public com.salmonllc.html.HtmlImage _imgMainLogo;
 	public com.salmonllc.html.HtmlText _clienteCAP5;
+	public com.salmonllc.html.HtmlText _tipo1;
+	public com.salmonllc.html.HtmlDropDownList _tipo2;
 	public com.salmonllc.html.HtmlText _comprador_nombreTXT3;
 	public com.salmonllc.html.HtmlText _descripcionCAP4;
 	public com.salmonllc.html.HtmlText _descripcionTXT2;
@@ -151,7 +152,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 		seteaPeriodo(null, null); // valores por defecto para el periodo de
 		// fechas
 		_dsPeriodo.gotoFirst();
-
+			
 		super.initialize();
 	}
 
@@ -215,11 +216,11 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	public void pageRequested(PageEvent event) throws Exception {
 		// si la página es requerida por si misma no hago nada
 
-		int currentUser = getSessionManager().getWebSiteUser().getUserID();
-
+		int currentUser = getSessionManager().getWebSiteUser().getUserID();			
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
 		// realizadas por él
-		if (!UsuarioRolesModel.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
+		if (!UsuarioRolesModel
+				.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
 			_dsQBE.setString("usuario_completo", String.valueOf(currentUser));
 			_solicitante2.setEnabled(false);
 		} else {

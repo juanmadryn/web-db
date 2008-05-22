@@ -119,10 +119,11 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 									.getValorAtributoObjeto(
 											ARTICULO_STOCK_MINIMO, articulo_id,
 											"TABLA", "articulos"));
-					if (cantidad_disponible < cantidad_pedida)
+					if (cantidad_disponible < cantidad_pedida) {
 						msg.append("La cantidad disponible en este momento es "
 								+ cantidad_disponible + " para el artículo "
-								+ movimientos.getArticulosDescripcion(row));
+								+ movimientos.getArticulosDescripcion(row));						
+					}
 					else {
 						resumenes
 								.setResumenSaldoArticulosEnProceso(cantidad_pedida

@@ -356,6 +356,18 @@ public class ReplicateSta11QuartzJob implements Job {
 					} else if ("TN".equalsIgnoreCase(unidad_med)) {
 						uni = "11";
 						uniInt = 11;
+					} else if ("VIA".equalsIgnoreCase(unidad_med)) {
+						uni = "12";
+						uniInt = 12;
+					} else if ("PAR".equalsIgnoreCase(unidad_med)) {
+						uni = "13";
+						uniInt = 13;
+					} else if ("DIA".equalsIgnoreCase(unidad_med)) {
+						uni = "14";
+						uniInt = 14;
+					} else if ("BOL".equalsIgnoreCase(unidad_med)) {
+						uni = "15";
+						uniInt = 15;
 					}
 
 					pstMySql.setString(1, uni);
