@@ -176,8 +176,7 @@
 								onclick="document.forms['bannerForm'].submit();"
 								datasource="dsArticulosComprados:'%EditarOrdenCompra?orden_compra_id='+articulos_comprados.orden_compra_id">
 								<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
-									datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"
-									displayformat="####" />
+									datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"/>
 							</salmon:a>							
 						</salmon:td>
 						<salmon:td>
