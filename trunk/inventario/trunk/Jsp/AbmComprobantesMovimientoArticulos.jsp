@@ -221,7 +221,8 @@
 							<salmon:text name="tarea1" text="Tarea" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="cargo1" text="Con cargo a" font="TableHeadingFont" />
+							<salmon:text name="cargo1" text="Con cargo a"
+								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td colspan="3">
 							<salmon:text name="observaciones3" text="Observaciones"
@@ -236,16 +237,12 @@
 								checkedtruevalue="1"></salmon:input>
 						</salmon:td>
 						<salmon:td>
-							<salmon:a href="none" name="lnkConversiones"
-								onclick="document.forms['bannerForm'].submit();"
-								datasource="dsMovimientos:'%AbmcConversiones?articulo_id='+movimiento_articulo.articulo_id+'&unidad_medida_id='+movimiento_articulo.unidad_medida_id">
-								<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 								lookupurl="%LkpArticulos" name="articulo2" size="10"
 								maxlength="15" datasource="dsMovimientos:articulos.nombre"
 								descriptiondatasource="dsMovimientos:articulos.descripcion"
 								popupheight="450" popupwidth="600" usepopup="true"
 								showdescription="true"></salmon:lookup>
-							</salmon:a>						
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="descripcion4" size="30"
@@ -258,8 +255,14 @@
 								<salmon:option display="abc" key="123"
 									table="inventario.unidades_medida"
 									keycolumn="unidades_medida.unidad_medida_id"
-									displaycolumn="unidades_medida.nombre" nulloption="false"></salmon:option>
+									displaycolumn="unidades_medida.nombre" nulloption="true"></salmon:option>
 							</salmon:input>
+							<salmon:a href="none" name="lnkConversiones"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsMovimientos:'%AbmcConversiones?articulo_id='+movimiento_articulo.articulo_id+'&unidad_medida_id='+movimiento_articulo.unidad_medida_id">
+								<salmon:text name="txtConversiones" text="C"
+									font="TableHeadingFont" />
+							</salmon:a>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="cantidad_solicitada2" size="8"

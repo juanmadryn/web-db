@@ -1040,9 +1040,7 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 	}
 
 	public void incrementarTotalIngresos(double cantidad)
-			throws DataStoreException {
-		System.out.println("cantidad "
-				+ (getResumenSaldoArticulosTotalIngresos() - cantidad));
+			throws DataStoreException {		
 		setResumenSaldoArticulosTotalIngresos(getResumenSaldoArticulosTotalIngresos()
 				+ cantidad);
 	}
@@ -1066,9 +1064,7 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 	}
 
 	public void incrementarCantTransaccionesIngresos()
-			throws DataStoreException {
-		System.out.println("cant trans "
-				+ (getResumenSaldoArticulosCantTransaccionesIngresos() + 1));
+			throws DataStoreException {		
 		setResumenSaldoArticulosCantTransaccionesIngresos(getResumenSaldoArticulosCantTransaccionesIngresos() + 1);
 	}
 

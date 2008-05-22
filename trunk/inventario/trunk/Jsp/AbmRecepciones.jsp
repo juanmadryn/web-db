@@ -208,12 +208,8 @@
 								font="ColumnCaptionFont" />
 						</salmon:td>
 						<salmon:td>
-						<salmon:a href="none" name="lnkConversiones"
-								onclick="document.forms['bannerForm'].submit();"
-								datasource="dsDetalle:'%AbmcConversiones?articulo_id='+detalle_sc.articulo_id+'&unidad_medida_id='+detalles_rc.unidad_medida_id">
-								<salmon:text name="nombre_articulo1" text="" font="DefaultFont"	
-								datasource="dsDetalle:articulos.nombre"	/>
-							</salmon:a>							
+							<salmon:text name="nombre_articulo1" text="" font="DefaultFont"
+								datasource="dsDetalle:articulos.nombre" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
@@ -227,7 +223,7 @@
 								datasource="dsDetalle:detalle_sc.descripcion"
 								font="ColumnCaptionFont" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td nowrap="true">
 							<salmon:input type="select" name="unidad_medida2"
 								datasource="dsDetalle:detalles_rc.unidad_medida_id">
 								<salmon:option display="abc" key="123"
@@ -235,6 +231,11 @@
 									keycolumn="unidades_medida.unidad_medida_id"
 									displaycolumn="unidades_medida.nombre" nulloption="true"></salmon:option>
 							</salmon:input>
+							<salmon:a href="none" name="lnkConversiones"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsDetalle:'%AbmcConversiones?articulo_id='+detalle_sc.articulo_id+'&unidad_medida_id='+detalles_rc.unidad_medida_id">
+								<salmon:text name="txtConversiones" text="C" font="DefaultFont" />
+							</salmon:a>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="cantidad_recibida2" size="8"

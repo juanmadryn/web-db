@@ -171,13 +171,13 @@ public class MovimientoArticuloModel extends DataStore {
 			addJoin(
 					computeTableAndFieldName("movimiento_articulo.unidad_medida_id"),
 					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
-					false);			
+					true);			
 			addJoin(
 					computeTableAndFieldName("movimiento_articulo.proyecto_id"),
-					"proyectos.proyecto_id", false);
+					"proyectos.proyecto_id", true);
 			
 			addJoin(computeTableAndFieldName("movimiento_articulo.tarea_id"),
-					"tareas_proyecto.tarea_id", false);
+					"tareas_proyecto.tarea_id", true);
 			
 			addJoin(
 					computeTableAndFieldName("movimiento_articulo.legajo_cargo"),
@@ -194,6 +194,8 @@ public class MovimientoArticuloModel extends DataStore {
 					"La cantidad solicitada es obligatoria");			
 			addRequiredRule(MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID,
 					"La unidad de medida es obligatoria");
+			addRequiredRule(MOVIMIENTO_ARTICULO_PROYECTO_ID,
+			"Indique el número de proyecto");
 
 			addLookupRule(
 					MOVIMIENTO_ARTICULO_ARTICULO_ID,
@@ -1333,8 +1335,9 @@ public class MovimientoArticuloModel extends DataStore {
 				else
 					throw new DataStoreException(
 							"El proyecto indicado no existe");
-			} else
-				setMovimientoArticuloProyectoId(row, 0);
+			} else {
+				//setMovimientoArticuloProyectoId(row, 0);
+			}
 
 			// checks if tarea exist for specified project
 			TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",

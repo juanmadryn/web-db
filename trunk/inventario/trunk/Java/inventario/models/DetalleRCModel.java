@@ -222,12 +222,12 @@ public class DetalleRCModel extends DataStore implements Constants {
 					"'articulos.articulo_id = ' + detalle_sc.articulo_id",
 					"descripcion", ARTICULOS_DESCRIPCION,
 					"Articulo inexistente");
-			/*addLookupRule(
+			addLookupRule(
 					DETALLES_RC_UNIDAD_MEDIDA_ID,
 					computeTableName("unidades_medida"),
 					"'unidades_medida.unidad_medida_id = ' + detalles_rc.unidad_medida_id",
 					"nombre", UNIDAD_MEDIDA_NOMBRE,
-					"Unidad de medida inexistente");*/
+					"Unidad de medida inexistente");
 
 			setAutoIncrement(DETALLES_RC_DETALLE_RC_ID, true);
 
@@ -1739,25 +1739,20 @@ public class DetalleRCModel extends DataStore implements Constants {
 	@Override
 	public void update(DBConnection connection, boolean handleTrans)
 			throws DataStoreException, SQLException {
-
-		RecepcionesComprasModel recepcion = new RecepcionesComprasModel(
-				"inventario");
-
 		DetalleSCModel detalleSC = null;
 		ArticulosModel articulos = null;
 		for (int row = 0; row < getRowCount(); row++) {
-			recepcion.retrieve("recepcion_compra_id = "
-					+ getDetallesRcRecepcionCompraId(row));
-			recepcion.gotoFirst();
+			
 
 			if (detalleSC == null)
 				detalleSC = new DetalleSCModel("inventario");
 			detalleSC.retrieve("detalle_SC_id ="
 					+ getDetallesRcDetalleScId(row));
+			detalleSC.waitForRetrieve();
 			// fills detalle_sc.articulo_id field through ArticulosNombre
 			if (detalleSC.gotoFirst()) {
 				if (articulos == null)
-					articulos = new ArticulosModel("inventario", "inventario");
+					articulos = new ArticulosModel("inventario");
 				articulos.retrieve("articulos.nombre LIKE '"
 						+ detalleSC.getArticulosNombre() + "'");
 				if (!articulos.gotoFirst()) {
@@ -1772,10 +1767,12 @@ public class DetalleRCModel extends DataStore implements Constants {
 						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
 								articulos.getArticulosArticuloId(), "TABLA",
 								"articulos"));
+				
 				if (getDetallesRcUnidadMedidaId(row) == 0 && unidad_patron != 0) {
 					setDetallesRcUnidadMedidaId(row, unidad_patron);
 				}				
 			}
+			System.out.println("uni: "+getDetallesRcUnidadMedidaId(row));
 		}
 
 		super.update(connection, handleTrans);
