@@ -1,0 +1,67 @@
+<project name="partesmo" default="jar">
+	
+	<property name="inventario_src" value="${basedir}/Java"/> 
+	<property name="partesmo_bld" value="${basedir}/bin"/>
+	<property name="dist" value="${basedir}/dist"/>
+	<property name="dist_jar" value="${dist}/jar"/>
+	<property name="tomcat_server" value="C:\Archivos de programa\Apache Software Foundation\Tomcat 5.0"/>
+	<property name="tomcat_common_jar" value="${tomcat_server}\common\lib"/>
+	<property name="tomcat_server_jar" value="${tomcat_server}\server\lib"/>
+	<property name="workspace" value="C:\Documents and Settings\Administrador\workspace3"/>
+	<property name="infraestructura_src" value="${workspace}\infraestructura/Java"/> 
+	<property name="infraestructura_bld" value="workspace}\infraestructura/bin"/>
+	<property name="proyectos_src" value="${workspace}\proyectos/Java"/> 
+	<property name="proyectos_bld" value="workspace}\proyectos/bin"/>
+	<property name="sofiafwk_src" value="${workspace}\Salmon Open Framework/Java"/> 
+	<property name="sofiafwk_bld" value="${workspace}\Salmon Open Framework/bin"/>
+	<property name="deploy_dir" value="C:\Documents and Settings\Administrador\Escritorio\Deploys\tmp"/>
+	
+	<path id="compile.classpath">
+		<pathelement location="${tomcat_common_jar}\*"/>
+		<pathelement location="${tomcat_server_jar}\*"/>
+		<pathelement location="${sofiafwk_bld}"/>
+		<pathelement location="${infraestructura_bld}"/>
+		<pathelement location="${proyectos_bld}"/>
+	</path>
+	
+	<target name="compile_salmon"> 
+		<!-- Compile the java code from ${src} into ${build} --> 
+		<javac source="1.5" srcdir="${sofiafwk_src}" destdir="${sofiafwk_bld}"> 
+			<classpath refid="compile.classpath"/> 
+		</javac> 
+	</target> 
+	
+	<target name="compile_infraestructura" depends="compile_salmon">
+		<javac source="1.5" srcdir="${infraestructura_src}" destdir="${infraestructura_bld}">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="compile_proyectos" depends="compile_infraestructura">
+		<javac source="1.5" srcdir="${proyectos_src}" destdir="${proyectos_bld}">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="compile" depends="compile_proyectos">
+		<javac source="1.5" srcdir="${partesmo_src}" destdir="${partesmo_bld}">
+			<classpath refid="compile.classpath"/>
+		</javac>
+	</target>
+			
+	<target name="jar">
+		<mkdir dir="${dist_jar}"/>
+		<tstamp>
+		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<jar destfile="${dist_jar}/partesmo.jar"
+			basedir="${partesmo_bld}/partesMO"
+			includes="**/*.class">
+		</jar>
+	</target>
+	
+	<target name="deploy" depends="jar"> 
+		<copy file="${dist_jar}/partesmo.jar" todir="${deploy_dir}"/> 
+	</target>
+	
+</project>
