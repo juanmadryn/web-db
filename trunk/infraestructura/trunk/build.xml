@@ -4,6 +4,7 @@
 	<property name="infraestructura_bld" value="${basedir}/bin"/>	
 	<property name="dist" value="${basedir}/dist"/>
 	<property name="dist_jar" value="${dist}/jar"/>
+	<property name="jarfile" value="${ant.project.name}.jar"/>
 	<property name="jsp" value="${basedir}/Jsp"/>
 	<property name="tomcat_server" value="C:\Archivos de programa\Apache Software Foundation\Tomcat 5.0"/>
 	<property name="tomcat_common_jar" value="${tomcat_server}\common\lib"/>
@@ -48,7 +49,7 @@
 		<tstamp>
 		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>
-		<jar destfile="${dist_jar}/${ant.project.name}.jar"
+		<jar destfile="${dist_jar}/${jarfile}"
 			basedir="${infraestructura_bld}"
 			includes="**/*.class">
 		</jar>
@@ -56,14 +57,14 @@
 	
 	<target name="deploy" depends="jar">
 		<!-- Copia el JAR en el directorio de deploy -->
-		<copy file="${dist_jar}/infraestructura.jar" todir="${deploy_dir}" overwrite="yes"/>
-		<!-- Copia los JSPs		
+		<copy file="${dist_jar}/${jarfile}" todir="${deploy_dir}" overwrite="yes"/>
+		<!-- Copia los JSPs -->		
 		<copy todir="${deploy_dir_jsp}">			
 		  <fileset dir="${jsp}">
 		    <include name="**/*.jsp"/>		  	
 		  	<include name="**/*.css"/>
 		  </fileset>
-		</copy>		 -->
+		</copy>
 	</target>
 	
 	<target name="clean"> 
