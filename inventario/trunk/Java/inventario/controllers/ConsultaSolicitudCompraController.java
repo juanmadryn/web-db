@@ -299,13 +299,13 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
-		// si la pï¿½gina es requerida por si misma no hago nada
+		// si la página es requerida por si misma no hago nada
 		if (!isReferredByCurrentPage()) {
 			int user_id = getIntParameter("user_id", -1);
 			int mode = getIntParameter("mode", -1);
 
 			if (user_id != -1) {
-				// verifica si cambiï¿½n el contexto
+				// verifica si cambió el contexto
 				try {
 					switch (mode) {
 					case 0:
@@ -357,7 +357,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		}
 
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
-		// realizadas por ï¿½l
+		// realizadas por él
 		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 			_dsQBE.setString("solicitante", String.valueOf(currentUser));
 			_solicitante2.setEnabled(false);
