@@ -378,12 +378,12 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		switch (modo) {
 		case 0:
 			_listformdisplaybox1
-					.setHeadingCaption("Solicitudes de materiales pendientes de aprobaciï¿½n");
+					.setHeadingCaption("Solicitudes de materiales pendientes de aprobación");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");			
 			break;
 		case 1:
 			_listformdisplaybox1
-					.setHeadingCaption("Solicitudes de materiales pendientes de observaciï¿½n");
+					.setHeadingCaption("Solicitudes de materiales pendientes de observación");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		}
