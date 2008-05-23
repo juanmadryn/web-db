@@ -57,8 +57,8 @@
 		<tstamp>
 		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>
-		<jar destfile="${dist_jar}/tango.jar"
-			basedir="${tango_bld}/tango"
+		<jar destfile="${dist_jar}/${ant.project.name}.jar"
+			basedir="${tango_bld}"
 			includes="**/*.class">
 		</jar>
 	</target>
