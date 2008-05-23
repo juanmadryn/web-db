@@ -4,6 +4,7 @@
 	<property name="partesmo_bld" value="${basedir}/bin"/>
 	<property name="dist" value="${basedir}/dist"/>
 	<property name="dist_jar" value="${dist}/jar"/>
+	<property name="jarfile" value="${ant.project.name}.jar"/>
 	<property name="tomcat_server" value="C:\Archivos de programa\Apache Software Foundation\Tomcat 5.0"/>
 	<property name="tomcat_common_jar" value="${tomcat_server}\common\lib"/>
 	<property name="tomcat_server_jar" value="${tomcat_server}\server\lib"/>
@@ -57,14 +58,14 @@
 		<tstamp>
 		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>
-		<jar destfile="${dist_jar}/${ant.project.name}.jar"
+		<jar destfile="${dist_jar}/${jarfile}"
 			basedir="${partesmo_bld}"
 			includes="**/*.class">
 		</jar>
 	</target>
 	
 	<target name="deploy" depends="jar"> 
-		<copy file="${dist_jar}/partesmo.jar" todir="${deploy_dir}"/>
+		<copy file="${dist_jar}/${jarfile}" todir="${deploy_dir}"/>
 		<!-- Copia los JSPs -->		
 		<copy todir="${deploy_dir_jsp}">			
 			<fileset dir="${jsp}">
