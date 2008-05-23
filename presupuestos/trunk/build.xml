@@ -45,8 +45,8 @@
 		<tstamp>
 		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>
-		<jar destfile="${dist_jar}/presupuestos.jar"
-			basedir="${presupuestos_bld}/presupuestos"
+		<jar destfile="${dist_jar}/${ant.project.name}.jar"
+			basedir="${presupuestos_bld}"
 			includes="**/*.class">
 		</jar>
 	</target>

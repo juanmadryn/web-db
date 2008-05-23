@@ -48,8 +48,8 @@
 		<tstamp>
 		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>
-		<jar destfile="${dist_jar}/infraestructura.jar"
-			basedir="${infraestructura_bld}/infraestructura"
+		<jar destfile="${dist_jar}/${ant.project.name}.jar"
+			basedir="${infraestructura_bld}"
 			includes="**/*.class">
 		</jar>
 	</target>
@@ -57,13 +57,13 @@
 	<target name="deploy" depends="jar">
 		<!-- Copia el JAR en el directorio de deploy -->
 		<copy file="${dist_jar}/infraestructura.jar" todir="${deploy_dir}" overwrite="yes"/>
-		<!-- Copia los JSPs -->		
+		<!-- Copia los JSPs		
 		<copy todir="${deploy_dir_jsp}">			
 		  <fileset dir="${jsp}">
 		    <include name="**/*.jsp"/>		  	
 		  	<include name="**/*.css"/>
 		  </fileset>
-		</copy>		
+		</copy>		 -->
 	</target>
 	
 	<target name="clean"> 
