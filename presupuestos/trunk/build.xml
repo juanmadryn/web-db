@@ -14,7 +14,10 @@
 	<property name="proyectos_bld" value="workspace}\proyectos/bin"/>
 	<property name="sofiafwk_src" value="${workspace}\Salmon Open Framework/Java"/> 
 	<property name="sofiafwk_bld" value="${workspace}\Salmon Open Framework/bin"/>
-	<property name="deploy_dir" value="C:\Documents and Settings\Administrador\Escritorio\Deploys\tmp"/>
+	<!-- directorio en donde se copia el JAR -->	
+	<property name="deploy_dir" value="${tomcat_common_jar}"/>
+	<!-- directorio en donde se copian los JSP -->
+	<property name="deploy_dir_jsp" value="${tomcat_server}\webapps\${ant.project.name}\Jsp"/>
 	
 	<path id="compile.classpath">
 		<pathelement location="${tomcat_common_jar}\*"/>
@@ -49,7 +52,14 @@
 	</target>
 	
 	<target name="deploy" depends="jar"> 
-		<copy file="${dist_jar}/presupuestos.jar" todir="${deploy_dir}"/> 
+		<copy file="${dist_jar}/presupuestos.jar" todir="${deploy_dir}"/>
+		<!-- Copia los JSPs -->		
+		<copy todir="${deploy_dir_jsp}">			
+			<fileset dir="${jsp}">
+				<include name="**/*.jsp"/>		  	
+				 <include name="**/*.css"/>
+			</fileset>
+		</copy>
 	</target>
 	
 </project>
