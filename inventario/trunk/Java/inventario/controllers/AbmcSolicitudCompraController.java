@@ -5,6 +5,8 @@ package inventario.controllers;
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
+import inventario.models.CotizacionesCompraModel;
+import inventario.models.DetalleCotizacionModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
 import inventario.util.SolicitudCompraTransiciones;
@@ -31,8 +33,10 @@ import com.salmonllc.util.MessageLog;
 public class AbmcSolicitudCompraController extends BaseEntityController {
 
 	/**
-	 * 
+	 * Modificado por Demian Barry el 21/05/2008
+	 * Agrega funcionalidadpara el tratamiento de las Cotizaciones de Compra cc 
 	 */
+	
 	private static final long serialVersionUID = 6985914806600939656L;
 	// Visual Components
 	public com.salmonllc.html.HtmlText _observacionX1;
@@ -131,6 +135,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspTableCell _cantidadPedidaHeaderTd;
 	public com.salmonllc.jsp.JspTableCell _ocRowTd;
 	public com.salmonllc.jsp.JspTableCell _ocHeaderTd;
+	public com.salmonllc.jsp.JspTableCell _ccRowTd;
+	public com.salmonllc.jsp.JspTableCell _ccHeaderTd;
 
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
@@ -158,6 +164,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public static final String DSDETALLESC_DETALLE_SC_DETALLE_SC_ID = "detalle_sc.detalle_SC_id";
 	public static final String DSDETALLESC_DETALLE_SC_RECEPCION_COMPRA_ID = "detalle_sc.recepcion_compra_id";
 	public static final String DSDETALLESC_DETALLE_SC_ORDEN_COMPRA_ID = "detalle_sc.orden_compra_id";
+	public static final String DSDETALLESC_DETALLE_SC_COTIZACION_COMPRA_ID = "detalle_sc.cotizacion_compra_id";
 	public static final String DSDETALLESC_DETALLE_SC_ARTICULO_ID = "detalle_sc.articulo_id";
 	public static final String DSDETALLESC_DETALLE_SC_SOLICITUD_COMPRA_ID = "detalle_sc.solicitud_compra_id";
 	public static final String DSDETALLESC_DETALLE_SC_CANTIDAD_SOLICITADA = "detalle_sc.cantidad_solicitada";
@@ -181,8 +188,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public HtmlSubmitButton _articulosEliminarBUT1;
 	public HtmlSubmitButton _articulosCancelarBUT1;
 	public HtmlSubmitButton _generarOCBUT1;
+	public HtmlSubmitButton _generarCCBUT1;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	public com.salmonllc.jsp.JspLink _lnkOc1;
+	public com.salmonllc.jsp.JspLink _lnkCc1;
 
 	public com.salmonllc.html.HtmlSubmitButton _customBUT100;
 
@@ -224,37 +233,37 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_nuevaSolicitudCompraBUT1.setAccessKey("N");
 		_detailformdisplaybox1.addButton(_nuevaSolicitudCompraBUT1);
 
-		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1",
-				"Agregar", this);
+		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1","Agregar", this);
 		_articulosAgregarBUT1.setAccessKey("A");
 		_listformdisplaybox2.addButton(_articulosAgregarBUT1);
 
-		_articulosEliminarBUT1 = new HtmlSubmitButton("articulosEliminarBUT1",
-				"Eliminar", this);
+		_articulosEliminarBUT1 = new HtmlSubmitButton("articulosEliminarBUT1","Eliminar", this);
 		_articulosEliminarBUT1.setAccessKey("E");
 		_listformdisplaybox2.addButton(_articulosEliminarBUT1);
 
-		_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1",
-				"Cancelar", this);
+		_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1","Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
 
-		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",
-				"Seleccionar todo", this);
+		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Seleccionar todo", this);
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 
-		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",
-				this);
+		_generarCCBUT1 = new HtmlSubmitButton("generarCCBUT1", "generar Cotización",this);
+		_generarCCBUT1.setAccessKey("C");
+		_listformdisplaybox2.addButton(_generarCCBUT1);
+
+		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",this);
 		_generarOCBUT1.setAccessKey("O");
 		_listformdisplaybox2.addButton(_generarOCBUT1);
 
-		// agrega los listener a lso botones
+		// agrega los listener a los botones
 		_nuevaSolicitudCompraBUT1.addSubmitListener(this);
 		_grabarSolicitudCompraBUT1.addSubmitListener(this);
 		_articulosAgregarBUT1.addSubmitListener(this);
 		_articulosEliminarBUT1.addSubmitListener(this);
 		_articulosCancelarBUT1.addSubmitListener(this);
+		_generarCCBUT1.addSubmitListener(this);
 		_generarOCBUT1.addSubmitListener(this);
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
@@ -269,15 +278,27 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_seleccion_detalle2.setColumn(_dsDetalleSC, SELECCION_DETALLE_FLAG);
 		_seleccion_detalle2.setFalseValue(null);
 		
-		// muestro link a OC solo si el rol es COMPRADOR
+		/**
+		 * Modificado por Demian Barry el 21/05/2008, agregando funcionalidad para cotizaciones  
+		 */
+		// muestro link a CC y OC solo si el rol es COMPRADOR
 		int userId = getSessionManager().getWebSiteUser().getUserID();
 		if (!UsuarioRolesModel.isRolUsuario(userId, "COMPRADOR")) {
+			_ccHeaderTd.setVisible(false);
+			_ccRowTd.setVisible(false);
 			_ocHeaderTd.setVisible(false);
 			_ocRowTd.setVisible(false);
 			_cantidadPedidaHeaderTd.setColSpan(2);
 			_cantidadPedidaRowTd.setColSpan(2);
+		} else {
+			_ccHeaderTd.setVisible(true);
+			_ccRowTd.setVisible(true);
+			_ocHeaderTd.setVisible(true);
+			_ocRowTd.setVisible(true);
+			_cantidadPedidaHeaderTd.setColSpan(1);
+			_cantidadPedidaRowTd.setColSpan(1);
 		}
-
+	
 		// seteo la validación para los datasource
 		_dsSolicitudCompra.setAutoValidate(true);
 		_dsDetalleSC.setAutoValidate(true);
@@ -573,6 +594,91 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			}
 		}
 
+		/**
+		 * Agregado por Demian Barry el 21/05/2008, nueva funcionalidad de cotización de compra 
+		 */
+		// genera Cotizaciones para articulos seleccionados
+		if (component == _generarCCBUT1) {
+			try {
+				// chequeo que el usuario tenga el rol COMPRADOR
+				int currentUser = getSessionManager().getWebSiteUser().getUserID();
+				if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+					displayErrorMessage("Debe ser COMPRADOR para generar una cotización de compra");
+					return false;
+				}	
+				
+				conn = DBConnection.getConnection(getApplicationName());
+				conn.beginTransaction();
+
+				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null " + "&& detalle_sc.cotizacion_compra_id == null");
+				_dsDetalleSC.gotoFirst();
+
+				if (_dsDetalleSC.getRowCount() <= 0) {
+					displayErrorMessage("Debe seleccionar al menos un artículo sin Cotización");
+					_dsDetalleSC.filter(null);
+					return false;
+				}
+
+				CotizacionesCompraModel dsCotizacionCompra = new CotizacionesCompraModel("inventario");
+				DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario");
+
+				int ccId = dsCotizacionCompra.insertRow();
+				dsCotizacionCompra.setCurrentWebsiteUserId(getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+				dsCotizacionCompra.setCotizacionesCompraEstado(ccId,"0008.0001");
+
+				dsCotizacionCompra.update(conn);
+
+				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+					int CotizacionCompraId = dsCotizacionCompra.getCotizacionesCompraCotizacionCompraId(ccId);
+					int ScId = _dsDetalleSC.getDetalleScDetalleScId(row); 
+					_dsDetalleSC.setDetalleScCotizacionCompraId(row,CotizacionCompraId);
+					// para cada artículo seleccionado lo inserta en le detalle de la cotización
+					int dccId = dsDetalleCotizacion.insertRow();
+					dsDetalleCotizacion.setDetalleCotizacionDetalleScId(dccId,ScId);
+					dsDetalleCotizacion.setDetalleCotizacionCotizacionCompraId(dccId,CotizacionCompraId);
+					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor1(dccId, 0);
+					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor2(dccId, 0);
+					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor3(dccId, 0);
+					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor4(dccId, 0);
+					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor5(dccId, 0);
+				}
+
+				_dsDetalleSC.update(conn);
+				dsDetalleCotizacion.update(conn);
+
+
+				dsCotizacionCompra.resetStatus();
+				dsDetalleCotizacion.resetStatus();
+				_dsDetalleSC.resetStatus();
+				conn.commit();
+
+				_dsDetalleSC.filter(null);
+
+				this.gotoSiteMapPage("EditarCotizacionCompra", "?cotizacion_compra_id="
+						+ dsCotizacionCompra.getCotizacionesCompraCotizacionCompraId(ccId));
+
+			} catch (DataStoreException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+				return false;
+			} catch (SQLException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+				return false;
+			} catch (ValidationException ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				for (String er : ex.getStackErrores()) {
+					displayErrorMessage(er);
+				}
+				return false;
+			} finally {
+				if (conn != null) {
+					conn.rollback();
+					conn.freeConnection();
+				}
+			}
+		}
+
 		// genera OCs para articulos seleccionados
 		if (component == _generarOCBUT1) {
 			try {
@@ -695,8 +801,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				// verifico si tiene parámetro
 				setRow_id(getIntParameter("solicitud_compra_id"));
 				if (isRecargar())
-					setRow_id(_dsSolicitudCompra
-							.getSolicitudesCompraSolicitudCompraId());
+					setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
 				if (getRow_id() > 0) {
 					// Viene seteado el proyecto. lo recupero sino no se hace
 					// nada
@@ -706,21 +811,23 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					_dsDetalleSC.reset();
 
 					// recupera toda la información para el proyecto
-					_dsSolicitudCompra
-							.retrieve("solicitudes_compra.solicitud_compra_id = "
-									+ Integer.toString(getRow_id()));
+					_dsSolicitudCompra.retrieve("solicitudes_compra.solicitud_compra_id = "	+ Integer.toString(getRow_id()));
 					_dsSolicitudCompra.waitForRetrieve();
 					_dsSolicitudCompra.gotoFirst();
 
 					// sigue recuperando información del resto de los detalles
 					// (actividades y tareas)
 
-					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = "
-							+ Integer.toString(getRow_id()));
+					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = " + Integer.toString(getRow_id()));
 
 					if (_dsDetalleSC.gotoFirst())
 						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i, _dsSolicitudCompra);
+							// activo el link a la CC si corresponde
+							if (_dsDetalleSC.getDetalleScCotizacionCompraId(i) > 0) 	
+								_lnkCc1.setVisible(true);					
+							else
+								_lnkOc1.setVisible(false);
 							// activo el link a la OC si corresponde
 							if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0) 	
 								_lnkOc1.setVisible(true);					

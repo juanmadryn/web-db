@@ -36,6 +36,7 @@ public class DetalleSCModel extends DataStore {
 	public static final String DETALLE_SC_DETALLE_SC_ID = "detalle_sc.detalle_SC_id";
 	public static final String DETALLE_SC_RECEPCION_COMPRA_ID = "detalle_sc.recepcion_compra_id";
 	public static final String DETALLE_SC_ORDEN_COMPRA_ID = "detalle_sc.orden_compra_id";
+	public static final String DETALLE_SC_COTIZACION_COMPRA_ID = "detalle_sc.cotizacion_compra_id";
 	public static final String DETALLE_SC_ARTICULO_ID = "detalle_sc.articulo_id";
 	public static final String DETALLE_SC_SOLICITUD_COMPRA_ID = "detalle_sc.solicitud_compra_id";
 	public static final String DETALLE_SC_CANTIDAD_SOLICITADA = "detalle_sc.cantidad_solicitada";
@@ -120,6 +121,9 @@ public class DetalleSCModel extends DataStore {
 			addColumn(computeTableName("detalle_sc"), "orden_compra_id",
 					DataStore.DATATYPE_INT, false, true,
 					DETALLE_SC_ORDEN_COMPRA_ID);
+			addColumn(computeTableName("detalle_sc"), "cotizacion_compra_id",
+					DataStore.DATATYPE_INT, false, true,
+					DETALLE_SC_COTIZACION_COMPRA_ID);
 			addColumn(computeTableName("detalle_sc"), "articulo_id",
 					DataStore.DATATYPE_INT, false, true, DETALLE_SC_ARTICULO_ID);
 			addColumn(computeTableName("detalle_sc"), "solicitud_compra_id",
@@ -469,6 +473,58 @@ public class DetalleSCModel extends DataStore {
 	public void setDetalleScOrdenCompraId(int row, int newValue)
 			throws DataStoreException {
 		setInt(row, DETALLE_SC_ORDEN_COMPRA_ID, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.Cotizacion_compra_id column for the
+	 * current row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getDetalleScCotizacionCompraId() throws DataStoreException {
+		return getInt(DETALLE_SC_COTIZACION_COMPRA_ID);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.Cotizacion_compra_id column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getDetalleScCotizacionCompraId(int row) throws DataStoreException {
+		return getInt(row, DETALLE_SC_COTIZACION_COMPRA_ID);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.Cotizacion_compra_id column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScCotizacionCompraId(int newValue)
+			throws DataStoreException {
+		setInt(DETALLE_SC_COTIZACION_COMPRA_ID, newValue);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.Cotizacion_compra_id column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScCotizacionCompraId(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, DETALLE_SC_COTIZACION_COMPRA_ID, newValue);
 	}
 
 	/**
