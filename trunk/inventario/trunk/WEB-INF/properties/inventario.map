@@ -138,6 +138,13 @@
 	</entry>
 
 	<entry>
+    	<name>EditarCotizacionCompra</name>
+     	<uri>/Jsp/EditarCotizacionCompra.jsp</uri>
+     	<useForward>false</useForward>
+     	<secure>false</secure>
+  	</entry>
+
+	<entry>
     	<name>EditarOrdenCompra</name>
      	<uri>/Jsp/EditarOrdenCompra.jsp</uri>
      	<useForward>false</useForward>

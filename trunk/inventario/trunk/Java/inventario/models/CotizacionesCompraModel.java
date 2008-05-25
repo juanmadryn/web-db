@@ -69,7 +69,7 @@ public class CotizacionesCompraModel extends BaseModel {
 	public static final String NOMBRE_FORMA_PAGO_PROVEEDOR4 = "formas_pago_proveedor4.nombre";
 	public static final String NOMBRE_FORMA_PAGO_PROVEEDOR5 = "formas_pago_proveedor5.nombre";
 	public static final String ESTADO_NOMBRE = "estados.nombre";
-	public static final String WEBSITE_USER_NOMBRE_COMPRADOR = "nombre_completo_comprador";
+	public static final String WEBSITE_USER_NOMBRE_COMPRADOR = "nombre_completo";
 	public static final String CURRENT_WEBSITE_USER_ID = "website_user.user_id";
 	public static final String ENTIDAD_EXTERNA_CODIGO_PROVEEDOR1 = "entidad_externa_proveedor1.codigo";
 	public static final String ENTIDAD_EXTERNA_NOMBRE_PROVEEDOR1 = "entidad_externa_proveedor1.nombre";
@@ -270,6 +270,12 @@ public class CotizacionesCompraModel extends BaseModel {
 			addColumn(computeTableName("cotizaciones_compra"), "observaciones",
 					DataStore.DATATYPE_STRING, false, true,
 					COTIZACIONES_COMPRA_OBSERVACIONES);
+			addColumn(computeTableName("estados"),
+					"nombre", DataStore.DATATYPE_STRING, false, false,
+					ESTADO_NOMBRE);
+			addColumn(computeTableName("website_user_comprador"),
+					"nombre_completo", DataStore.DATATYPE_STRING, false, false,
+					WEBSITE_USER_NOMBRE_COMPRADOR);
 			addColumn(computeTableName("condiciones_compra_proveedor1"),
 					"nombre", DataStore.DATATYPE_STRING, false, false,
 					NOMBRE_CONDICION_COMPRA_PROVEEDOR1);
@@ -330,68 +336,82 @@ public class CotizacionesCompraModel extends BaseModel {
 			addColumn(computeTableName("entidad_externa_proveedor5"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					ENTIDAD_EXTERNA_NOMBRE_PROVEEDOR5);
+			
+			// add buckets
+			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
+			
+			setAutoIncrement(COTIZACIONES_COMPRA_COTIZACION_COMPRA_ID, true);
+			setUpdateable(COTIZACIONES_COMPRA_COTIZACION_COMPRA_ID, false);
 
 			// add joins
 			addJoin(
+					computeTableAndFieldName("cotizaciones_compra.estado"),
+					computeTableAndFieldName("estados.estado"),
+					true);
+			addJoin(
+					computeTableAndFieldName("cotizaciones_compra.user_id_comprador"),
+					computeTableAndFieldName("website_user_comprador.user_id"),
+					true);
+			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.condicion_compra_id_proveedor1"),
 					computeTableAndFieldName("condiciones_compra_proveedor1.condicion_compra_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.condicion_compra_id_proveedor2"),
 					computeTableAndFieldName("condiciones_compra_proveedor2.condicion_compra_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.condicion_compra_id_proveedor3"),
 					computeTableAndFieldName("condiciones_compra_proveedor3.condicion_compra_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.condicion_compra_id_proveedor4"),
 					computeTableAndFieldName("condiciones_compra_proveedor4.condicion_compra_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.condicion_compra_id_proveedor5"),
 					computeTableAndFieldName("condiciones_compra_proveedor5.condicion_compra_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.forma_pago_id_proveedor1"),
 					computeTableAndFieldName("formas_pago_proveedor1.forma_pago_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.forma_pago_id_proveedor2"),
 					computeTableAndFieldName("formas_pago_proveedor2.forma_pago_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.forma_pago_id_proveedor3"),
 					computeTableAndFieldName("formas_pago_proveedor3.forma_pago_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.forma_pago_id_proveedor4"),
 					computeTableAndFieldName("formas_pago_proveedor4.forma_pago_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.forma_pago_id_proveedor5"),
 					computeTableAndFieldName("formas_pago_proveedor5.forma_pago_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.entidad_id_proveedor1"),
 					computeTableAndFieldName("entidad_externa_proveedor1.entidad_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.entidad_id_proveedor2"),
 					computeTableAndFieldName("entidad_externa_proveedor2.entidad_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.entidad_id_proveedor3"),
 					computeTableAndFieldName("entidad_externa_proveedor3.entidad_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.entidad_id_proveedor4"),
 					computeTableAndFieldName("entidad_externa_proveedor4.entidad_id"),
-					false);
+					true);
 			addJoin(
 					computeTableAndFieldName("cotizaciones_compra.entidad_id_proveedor5"),
 					computeTableAndFieldName("entidad_externa_proveedor5.entidad_id"),
-					false);
+					true);
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("cotizaciones_compra.cotizacion_compra_id")	+ " ASC");
@@ -403,7 +423,7 @@ public class CotizacionesCompraModel extends BaseModel {
 			addLookupRule(
 					COTIZACIONES_COMPRA_ESTADO,
 					"infraestructura.estados",
-					"'infraestructura.estados.estado = \"' + cotizaciones_compra.estado + '\"",
+					"'infraestructura.estados.estado = \"' + cotizaciones_compra.estado + '\"'",
 					"nombre", ESTADO_NOMBRE, "Estado inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_USER_ID_COMPRADOR,
@@ -489,35 +509,35 @@ public class CotizacionesCompraModel extends BaseModel {
 			// lookup a las condiciones de pago
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR1,
-					"condiciones_compa",
+					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor1",
 					"nombre",
 					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR1),
 					"Condición de compra para el proveedor 1 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR2,
-					"condiciones_compa",
+					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor2",
 					"nombre",
 					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR2),
 					"Condición de compra para el proveedor 2 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR3,
-					"condiciones_compa",
+					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor3",
 					"nombre",
 					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR3),
 					"Condición de compra para el proveedor 3 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR4,
-					"condiciones_compa",
+					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor4",
 					"nombre",
 					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR4),
 					"Condición de compra para el proveedor 4 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR5,
-					"condiciones_compa",
+					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor5",
 					"nombre",
 					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR5),
@@ -3189,6 +3209,27 @@ public class CotizacionesCompraModel extends BaseModel {
 			throws DataStoreException {
 		setString(row, NOMBRE_FORMA_PAGO_PROVEEDOR5, newValue);
 	}
+
+	/**
+	 * Retrieve the value of the current website user id bucket
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getCurrentWebsiteUserId() throws DataStoreException {
+		return getInt(CURRENT_WEBSITE_USER_ID);
+	}
+
+	/**
+	 * Set the value of the current website user id bucket for the current row.
+	 * 
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCurrentWebsiteUserId(int newValue) throws DataStoreException {
+		setInt(CURRENT_WEBSITE_USER_ID, newValue);
+	}
+	
 
 	@Override
 	public String getEstadoActual() throws DataStoreException {

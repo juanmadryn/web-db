@@ -98,83 +98,7 @@
                   </table>
                   <salmon:table name="detalleCotizacion" border="1">
                      <salmon:tr>
-                        <salmon:td>
-                           <salmon:text name="articuloId1"
-                              text="Articulo" font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="descripcion3"
-                              text="Descripción" font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="descComplArticulo3"
-                              text="Desc. Completa"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="solicitudCompra3"
-                              text="Nro. Solicitud"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="cantidad_solicitada1"
-                              text="Cant. solicitada"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text
-                              name="monto_fecha_ultima_compra1"
-                              text="Precio referncia"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text
-                              name="precio_unitario_proveedor1"
-                              text="Precio proveedor 1"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="marca_proveedor1"
-                              text="Marca proveedor 1"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="seleccion_proveedor1"
-                              text=" X " font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text
-                              name="precio_unitario_proveedor2"
-                              text="Precio proveedor 2"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="marca_proveedor2"
-                              text="Marca proveedor 2"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="seleccion_proveedor2"
-                              text=" X " font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text
-                              name="precio_unitario_proveedor3"
-                              text="Precio proveedor 3"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="marca_proveedor3"
-                              text="Marca proveedor 3"
-                              font="TableHeadingFont" />
-                        </salmon:td>
-                        <salmon:td>
-                           <salmon:text name="seleccion_proveedor3"
-                              text=" X " font="TableHeadingFont" />
-                        </salmon:td>
-                     </salmon:tr>
-                     <salmon:tr>
-                        <salmon:td colspan="6">
+                        <salmon:td colspan="6" width="300">
                            <salmon:text name="forma_pagoHeading1"
                               text="Forma de Pago"
                               font="TableHeadingFont" />
@@ -326,159 +250,6 @@
                               usepopup="true" showdescription="true"></salmon:lookup>
                         </salmon:td>
                      </salmon:tr>
-                     <salmon:tr>
-                        <salmon:listformdisplaybox
-                           name="listformdisplaybox2"
-                           mode="Display_single_page"
-                           caption="Detalle Cotización de Materiales"
-                           datasource="dsDetalleCotizacion"
-                           addbuttonvisible="false"
-                           savebuttonvisible="false"
-                           autocreatelink="false">
-                           <salmon:datatable name="datatable2"
-                              border="1"
-                              datasource="dsDetalleCotizacion"
-                              rowsperpage="1000">
-                              <salmon:datatableheader>
-                              </salmon:datatableheader>
-                              <salmon:datatablerows>
-                                 <salmon:tr>
-                                    <salmon:td>
-                                       <salmon:a href="none"
-                                          name="lnkpartes1"
-                                          onclick="document.forms['bannerForm'].submit();"
-                                          datasource="dsDetalleCotizacion:'%AbmcArticulo?p_articulo_id='+detalle_sc.articulo_id">
-                                          <salmon:text name="articulo2"
-                                             text="articulos.nombre goes here"
-                                             font="DefaultFont"
-                                             datasource="dsDetalleCotizacion:articulos.nombre" />
-                                       </salmon:a>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:text name="descripcion4"
-                                          text="articulos.descripcion Goes Here"
-                                          font="DefaultFont"
-                                          datasource="dsDetalleCotizacion:articulos.descripcion" />
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:text
-                                          name="descComplArticulo4"
-                                          text="articulos.descripcion_completa clase Goes Here"
-                                          font="DefaultFont"
-                                          datasource="dsDetalleCotizacion:articulos.descripcion_completa" />
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:a href="none"
-                                          name="lnksolicitud1"
-                                          onclick="document.forms['bannerForm'].submit();"
-                                          datasource="dsDetalleCotizacion:'%AbmcSolicitudCompra?solicitud_compra_id='+detalle_sc.solicitud_compra_id">
-                                          <salmon:text
-                                             name="solicitudCompra4"
-                                             text="solicitud compra Goes Here"
-                                             font="DefaultFont"
-                                             datasource="dsDetalleCotizacion:detalle_sc.solicitud_compra_id" />
-                                       </salmon:a>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:text
-                                          name="cantidad_solicitada2"
-                                          text="cantidad_solicitada Goes Here"
-                                          font="DefaultFont"
-                                          displayformatlocalekey="CantidadPedidaFormat"
-                                          datasource="dsDetalleCotizacion:detalle_sc.cantidad_solicitada" />
-                                       <salmon:text name="text2"
-                                          text=" - " font="DefaultFont" />
-                                       <salmon:text name="unidadMedida"
-                                          text=""
-                                          datasource="dsDetalleCotizacion:unidades_medida.nombre"></salmon:text>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:text
-                                          name="monto_unitario1" text=""
-                                          displayformatlocalekey="CurrencyFormatConSigno"
-                                          datasource="dsDetalleCotizacion:detalle_sc.monto_ultima_compra" />
-                                       <salmon:text name="text2"
-                                          text=" - " font="DefaultFont" />
-                                       <salmon:text
-                                          name="monto_fecha_ultima_compra2"
-                                          text="fecha_ultima_compra goes here"
-                                          displayformatlocalekey="DateFormat"
-                                          datasource="dsDetalleCotizacion:detalle_sc.fecha_ultima_compra"></salmon:text>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input
-                                          name="precio_proveedor1"
-                                          type="text" size="6"
-                                          maxlength="10"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor1">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input
-                                          name="input_marca_proveedor1"
-                                          type="text" size="10"
-                                          maxlength="255"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor1">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input type="checkbox"
-                                          name="cotizacion_seleccionada_proveedor1"
-                                          checkedtruevalue="1"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor1">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input
-                                          name="precio_proveedor2"
-                                          type="text" size="6"
-                                          maxlength="10"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor2">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input
-                                          name="input_marca_proveedor2"
-                                          type="text" size="10"
-                                          maxlength="255"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor2">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input type="checkbox"
-                                          name="cotizacion_seleccionada_proveedor2"
-                                          checkedtruevalue="1"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor2">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input
-                                          name="precio_proveedor3"
-                                          type="text" size="6"
-                                          maxlength="10"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor3">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input
-                                          name="input_marca_proveedor3"
-                                          type="text" size="10"
-                                          maxlength="255"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor3">
-                                       </salmon:input>
-                                    </salmon:td>
-                                    <salmon:td>
-                                       <salmon:input type="checkbox"
-                                          name="cotizacion_seleccionada_proveedor3"
-                                          checkedtruevalue="1"
-                                          datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor3">
-                                       </salmon:input>
-                                    </salmon:td>
-                                 </salmon:tr>
-                              </salmon:datatablerows>
-                           </salmon:datatable>
-                        </salmon:listformdisplaybox>
-                     </salmon:tr>
                   </salmon:table>
                </salmon:detailformdisplaybox>
             </salmon:td>
@@ -486,6 +257,200 @@
       </salmon:table>
    </salmon:box>
    <salmon:box name="box2">
+      <salmon:listformdisplaybox name="listformdisplaybox2"
+         mode="Display_single_page"
+         caption="Detalle Cotización de Compra"
+         datasource="dsDetalleCotizacion" addbuttonvisible="false"
+         savebuttonvisible="false" autocreatelink="false">
+         <salmon:datatable name="datatable2" border="1"
+            datasource="dsDetalleCotizacion" rowsperpage="1000">
+            <salmon:datatableheader>
+               <salmon:tr>
+                  <salmon:td width="300">
+                     <salmon:text name="articuloId1" text="Articulo"
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="descripcion3" text="Descripción"
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="descComplArticulo3"
+                        text="Desc. Completa" font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="solicitudCompra3"
+                        text="Nro. Solicitud" font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="cantidad_solicitada1"
+                        text="Cant. solicitada" font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="monto_fecha_ultima_compra1"
+                        text="Precio referncia" font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="precio_unitario_proveedor1"
+                        text="Precio proveedor 1"
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="marca_proveedor1"
+                        text="Marca proveedor 1" font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="seleccion_proveedor1" text=" X "
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="precio_unitario_proveedor2"
+                        text="Precio proveedor 2"
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="marca_proveedor2"
+                        text="Marca proveedor 2" font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="seleccion_proveedor2" text=" X "
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="precio_unitario_proveedor3"
+                        text="Precio proveedor 3"
+                        font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="marca_proveedor3"
+                        text="Marca proveedor 3" font="TableHeadingFont" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="seleccion_proveedor3" text=" X "
+                        font="TableHeadingFont" />
+                  </salmon:td>
+               </salmon:tr>
+            </salmon:datatableheader>
+            <salmon:datatablerows>
+               <salmon:tr>
+                  <salmon:td width="300">
+                     <salmon:a href="none" name="lnkpartes1"
+                        onclick="document.forms['bannerForm'].submit();"
+                        datasource="dsDetalleCotizacion:'%AbmcArticulo?p_articulo_id='+detalle_sc.articulo_id">
+                        <salmon:text name="articulo2"
+                           text="articulos.nombre goes here"
+                           font="DefaultFont"
+                           datasource="dsDetalleCotizacion:articulos.nombre" />
+                     </salmon:a>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="descripcion4"
+                        text="articulos.descripcion Goes Here"
+                        font="DefaultFont"
+                        datasource="dsDetalleCotizacion:articulos.descripcion" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="descComplArticulo4"
+                        text="articulos.descripcion_completa clase Goes Here"
+                        font="DefaultFont"
+                        datasource="dsDetalleCotizacion:articulos.descripcion_completa" />
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:a href="none" name="lnksolicitud1"
+                        onclick="document.forms['bannerForm'].submit();"
+                        datasource="dsDetalleCotizacion:'%AbmcSolicitudCompra?solicitud_compra_id='+detalle_sc.solicitud_compra_id">
+                        <salmon:text name="solicitudCompra4"
+                           text="solicitud compra Goes Here"
+                           font="DefaultFont"
+                           datasource="dsDetalleCotizacion:detalle_sc.solicitud_compra_id" />
+                        <!-- <salmon:text name="guionSep" text=" - " font="DefaultFont" />
+                        <salmon:text name="descripcionSc" text="detalle_sc.descripcion goes here"                          
+                           datasource="dsDetalleCotizacion:detalle_sc.descripcion"></salmon:text> -->
+                     </salmon:a>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="cantidad_solicitada2"
+                        text="cantidad_solicitada Goes Here"
+                        font="DefaultFont"
+                        displayformatlocalekey="CantidadPedidaFormat"
+                        datasource="dsDetalleCotizacion:detalle_sc.cantidad_solicitada" />
+                     <salmon:text name="text2" text=" - "
+                        font="DefaultFont" />
+                     <salmon:text name="unidadMedida" text=""
+                        datasource="dsDetalleCotizacion:unidades_medida.nombre"></salmon:text>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:text name="monto_unitario1" text=""
+                        displayformatlocalekey="CurrencyFormatConSigno"
+                        datasource="dsDetalleCotizacion:detalle_sc.monto_ultima_compra" />
+                     <salmon:text name="text2" text=" - "
+                        font="DefaultFont" />
+                     <salmon:text name="monto_fecha_ultima_compra2"
+                        text="fecha_ultima_compra goes here"
+                        displayformatlocalekey="DateFormat"
+                        datasource="dsDetalleCotizacion:detalle_sc.fecha_ultima_compra"></salmon:text>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input name="precio_proveedor1" type="text"
+                        size="6" maxlength="10"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor1">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input name="input_marca_proveedor1"
+                        type="text" size="10" maxlength="255"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor1">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input type="checkbox"
+                        name="cotizacion_seleccionada_proveedor1"
+                        checkedtruevalue="1"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor1">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input name="precio_proveedor2" type="text"
+                        size="6" maxlength="10"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor2">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input name="input_marca_proveedor2"
+                        type="text" size="10" maxlength="255"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor2">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input type="checkbox"
+                        name="cotizacion_seleccionada_proveedor2"
+                        checkedtruevalue="1"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor2">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input name="precio_proveedor3" type="text"
+                        size="6" maxlength="10"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor3">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input name="input_marca_proveedor3"
+                        type="text" size="10" maxlength="255"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor3">
+                     </salmon:input>
+                  </salmon:td>
+                  <salmon:td>
+                     <salmon:input type="checkbox"
+                        name="cotizacion_seleccionada_proveedor3"
+                        checkedtruevalue="1"
+                        datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor3">
+                     </salmon:input>
+                  </salmon:td>
+               </salmon:tr>
+            </salmon:datatablerows>
+         </salmon:datatable>
+      </salmon:listformdisplaybox>
    </salmon:box>
    <!-- Fin de código agregado -->
 </salmon:form>

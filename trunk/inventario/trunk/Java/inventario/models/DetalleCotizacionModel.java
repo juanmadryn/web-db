@@ -44,6 +44,7 @@ public class DetalleCotizacionModel extends BaseModel {
      public static final String DETALLE_SC_MONTO_ULTIMA_COMPRA="detalle_sc.monto_ultima_compra";
      public static final String DETALLE_SC_FECHA_ULTIMA_COMPRA="detalle_sc.fecha_ultima_compra";
      public static final String DETALLE_SC_UNIDAD_MEDIDA_ID="detalle_sc.unidad_medida_id";
+     public static final String DETALLE_SC_ORDEN_COMPRA_ID="detalle_sc.orden_compra_id";
      public static final String ARTICULOS_NOMBRE="articulos.nombre";
      public static final String ARTICULOS_DESCRIPCION="articulos.descripcion";
      public static final String ARTICULOS_DESCRIPCION_COMPLETA="articulos.descripcion_completa";
@@ -102,6 +103,7 @@ public class DetalleCotizacionModel extends BaseModel {
           addColumn(computeTableName("detalle_sc"),"monto_ultima_compra",DataStore.DATATYPE_STRING,false,false,DETALLE_SC_MONTO_ULTIMA_COMPRA);
           addColumn(computeTableName("detalle_sc"),"fecha_ultima_compra",DataStore.DATATYPE_DATE,false,false,DETALLE_SC_FECHA_ULTIMA_COMPRA);
           addColumn(computeTableName("detalle_sc"),"unidad_medida_id",DataStore.DATATYPE_INT,false,false,DETALLE_SC_UNIDAD_MEDIDA_ID);
+          addColumn(computeTableName("detalle_sc"),"orden_compra_id",DataStore.DATATYPE_INT,false,false,DETALLE_SC_ORDEN_COMPRA_ID);
           addColumn(computeTableName("articulos"),"nombre",DataStore.DATATYPE_STRING,false,false,ARTICULOS_NOMBRE);
           addColumn(computeTableName("articulos"),"descripcion",DataStore.DATATYPE_STRING,false,false,ARTICULOS_DESCRIPCION);
           addColumn(computeTableName("articulos"),"descripcion_completa",DataStore.DATATYPE_STRING,false,false,ARTICULOS_DESCRIPCION_COMPLETA);
@@ -1067,6 +1069,44 @@ public class DetalleCotizacionModel extends BaseModel {
       */ 
      public void setDetalleScUnidadMedidaId(int row,int newValue) throws DataStoreException {
           setInt(row,DETALLE_SC_UNIDAD_MEDIDA_ID, newValue);
+     }
+
+     /**
+      * Retrieve the value of the detalle_sc.Orden_Compra_id column for the current row.
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public int getDetalleScOrdenCompraId() throws DataStoreException {
+          return  getInt(DETALLE_SC_ORDEN_COMPRA_ID);
+     }
+
+     /**
+      * Retrieve the value of the detalle_sc.Orden_Compra_id column for the specified row.
+      * @param row which row in the table
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public int getDetalleScOrdenCompraId(int row) throws DataStoreException {
+          return  getInt(row,DETALLE_SC_ORDEN_COMPRA_ID);
+     }
+
+     /**
+      * Set the value of the detalle_sc.Orden_Compra_id column for the current row.
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setDetalleScOrdenCompraId(int newValue) throws DataStoreException {
+          setInt(DETALLE_SC_ORDEN_COMPRA_ID, newValue);
+     }
+
+     /**
+      * Set the value of the detalle_sc.Orden_Compra_id column for the specified row.
+      * @param row which row in the table
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setDetalleScOrdenCompraId(int row,int newValue) throws DataStoreException {
+          setInt(row,DETALLE_SC_ORDEN_COMPRA_ID, newValue);
      }
 
      /**
