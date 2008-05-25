@@ -1,7 +1,8 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page controller="infraestructura.controllers.BaseController" />
+<salmon:page
+	controller="inventario.controllers.ConsultaResumenesSaldoArticulosController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
@@ -18,6 +19,11 @@
 	<salmon:datasource name="dsResumenes" type="MODEL"
 		dbprofile="inventario"
 		model="inventario.models.ResumenSaldoArticulosModel"
+		autoretrieve="Never">
+	</salmon:datasource>
+	<salmon:datasource name="dsComprobantes" type="MODEL"
+		dbprofile="inventario"
+		model="inventario.models.ComprobanteMovimientoArticuloModel"
 		autoretrieve="Never">
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
@@ -219,6 +225,79 @@
 						<salmon:td>
 							<salmon:text name="en_proceso4" text=""
 								datasource="dsResumenes:resumen_saldo_articulos.en_proceso"></salmon:text>
+						</salmon:td>
+					</salmon:tr>
+				</salmon:datatablerows>
+			</salmon:datatable>
+		</salmon:listformdisplaybox>
+	</salmon:box>
+	<salmon:box name="box3" width="100%">
+		<salmon:listformdisplaybox name="listformdisplaybox2"
+			mode="Display_single_page" caption="Resumen de stock de artículos"
+			width="100%" datasource="dsResumenes"
+			searchformdisplaybox="searchformdisplaybox1">
+			<salmon:datatable name="datatable2" width="100%" rowsperpage="5"
+				datasource="dsResumenes">
+				<salmon:datatableheader>
+					<salmon:tr>
+						<salmon:td>
+							<salmon:text name="n1" text="Nº" font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="tipo_movimiento1" text="Tipo de movimiento"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="fecha1" text="Fecha" font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="completo1" text="Completó"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="retiro1" text="Retiró/Entregó"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="recepcion1" text="Recepción"
+								font="TableHeadingFont" />
+						</salmon:td>
+					</salmon:tr>
+				</salmon:datatableheader>
+				<salmon:datatablerows>
+					<salmon:tr>
+						<salmon:td>
+							<salmon:a href="none" name="lnkcomprobante1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsComprobantes:'%AbmComprobantesMovimientoArticulos?comprobante_movimiento_id='+comprobante_movimiento_articulo.comprobante_movimiento_id">
+								<salmon:text name="n2" text=""
+									datasource="dsComprobantes:comprobante_movimiento_articulo.comprobante_movimiento_id"></salmon:text>
+							</salmon:a>
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="tipo_movimiento2" text=""
+								datasource="dsComprobantes:tipo_movimiento_articulo.nombre"></salmon:text>
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="fecha2" text=""
+								datasource="dsComprobantes:comprobante_movimiento_articulo.fecha"
+								displayformatlocalekey="DateFormat"></salmon:text>
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="completo2" text=""
+								datasource="dsComprobantes:website_user_preparador.nombre_completo"></salmon:text>
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="retiro2" text=""
+								datasource="dsComprobantes:legajos.APEYNOM"></salmon:text>
+						</salmon:td>
+						<salmon:td>
+							<salmon:a href="none" name="lnkrecepcion1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsComprobantes:'%AbmRecepciones?recepcion_compra_id='+comprobante_movimiento_articulo.recepcion_compra_id">
+								<salmon:text name="recepcion2" text=""
+									datasource="dsComprobantes:comprobante_movimiento_articulo.recepcion_compra_id"></salmon:text>
+							</salmon:a>
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>
