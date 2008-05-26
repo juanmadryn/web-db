@@ -135,7 +135,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="proveedor1" text="Proveedor"
+							<salmon:text name="proveedor3" text="Proveedor"
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
@@ -189,7 +189,7 @@
 							</salmon:a>
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="proveedor2" text="" font="DefaultFont"
+							<salmon:text name="proveedor4" text="" font="DefaultFont"
 								datasource="dsArticulosComprados:articulos_comprados.proveedor_nombre" />
 						</salmon:td>
 						<salmon:td>

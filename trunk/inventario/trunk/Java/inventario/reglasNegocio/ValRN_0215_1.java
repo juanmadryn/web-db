@@ -3,6 +3,8 @@
  */
 package inventario.reglasNegocio;
 
+import infraestructura.controllers.Constants;
+import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.ComprobanteMovimientoArticuloModel;
 import inventario.models.ConversionesModel;
@@ -24,7 +26,7 @@ import com.salmonllc.sql.DataStoreException;
  * Regla de negocio asociada al rechazo de una OC
  * 
  */
-public final class ValRN_0215_1 extends ValidadorReglasNegocio {
+public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Constants {
 
 	/*
 	 * (non-Javadoc)
@@ -36,6 +38,9 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 		Statement st = null;
 		try {
 			ComprobanteMovimientoArticuloModel ds = (ComprobanteMovimientoArticuloModel) obj;
+			if(!UsuarioRolesModel.isRolUsuario(ds.getCurrentWebsiteUserId(), USER_ENCARGADO_ALMACEN))
+				throw new DataStoreException("Ud. no está autorizado para confirmar movimientos de almacén.");
+			
 			MovimientoArticuloModel movimientos = new MovimientoArticuloModel(
 					"inventario");
 			ResumenSaldoArticulosModel resumen = new ResumenSaldoArticulosModel(
@@ -179,8 +184,8 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 				// en los movimientos correspondientes seteo el resumen de saldo
 				// de artículo que se ha actualizado
 				movimientos.filter("movimiento_articulo.articulo_id =="
-						+ articulo_id);
-				while (movimientos.gotoNext()) {
+						+ articulo_id);				
+				while (movimientos.gotoNext()) {					
 					movimientos
 							.setMovimientoArticuloResumenSaldoArticuloId(resumen
 									.getResumenSaldoArticulosResumenSaldoArticuloId());

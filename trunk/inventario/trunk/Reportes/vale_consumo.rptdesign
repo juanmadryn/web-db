@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -520,19 +520,22 @@ ORDER BY movimiento_articulo.movimiento_articulo_id ASC</property>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
-            <property name="topMargin">0.5cm</property>
-            <property name="leftMargin">0.5cm</property>
-            <property name="bottomMargin">0.5cm</property>
-            <property name="rightMargin">0.5cm</property>
+            <property name="topMargin">1cm</property>
+            <property name="leftMargin">0.05cm</property>
+            <property name="bottomMargin">1cm</property>
+            <property name="rightMargin">0.05cm</property>
+            <property name="headerHeight">0.5in</property>
         </simple-master-page>
     </page-setup>
     <body>
         <grid id="168">
             <property name="marginTop">0pt</property>
             <property name="verticalAlign">middle</property>
-            <property name="height">30cm</property>
+            <property name="height">100%</property>
             <property name="width">100%</property>
-            <column id="169"/>
+            <column id="169">
+                <property name="width">100%</property>
+            </column>
             <row id="170">
                 <property name="height">50%</property>
                 <cell id="171">
@@ -580,6 +583,20 @@ ORDER BY movimiento_articulo.movimiento_articulo_id ASC</property>
                                     <column id="28">
                                         <property name="width">50%</property>
                                     </column>
+                                    <row id="246">
+                                        <property name="height">50%</property>
+                                        <cell id="247">
+                                            <property name="colSpan">2</property>
+                                            <property name="rowSpan">1</property>
+                                            <property name="fontSize">larger</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="textAlign">center</property>
+                                            <label id="249">
+                                                <text-property name="text">VALE DE MATERIALES</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
                                     <row id="29">
                                         <property name="height">50%</property>
                                         <cell id="30">
@@ -1000,7 +1017,7 @@ ORDER BY movimiento_articulo.movimiento_articulo_id ASC</property>
                 </cell>
             </row>
             <row id="244">
-                <property name="height">50%</property>
+                <property name="height">0%</property>
                 <cell id="245"/>
             </row>
             <row id="172">
@@ -1050,6 +1067,20 @@ ORDER BY movimiento_articulo.movimiento_articulo_id ASC</property>
                                     <column id="185">
                                         <property name="width">50%</property>
                                     </column>
+                                    <row id="250">
+                                        <property name="height">50%</property>
+                                        <cell id="251">
+                                            <property name="colSpan">2</property>
+                                            <property name="rowSpan">1</property>
+                                            <property name="textAlign">left</property>
+                                            <label id="253">
+                                                <property name="fontSize">larger</property>
+                                                <property name="fontWeight">bold</property>
+                                                <property name="textAlign">center</property>
+                                                <text-property name="text">VALE DE MATERIALES</text-property>
+                                            </label>
+                                        </cell>
+                                    </row>
                                     <row id="186">
                                         <property name="height">50%</property>
                                         <cell id="187">
