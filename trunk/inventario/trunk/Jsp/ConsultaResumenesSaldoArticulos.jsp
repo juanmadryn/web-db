@@ -233,11 +233,11 @@
 	</salmon:box>
 	<salmon:box name="box3" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox2"
-			mode="Display_single_page" caption="Resumen de stock de artículos"
-			width="100%" datasource="dsResumenes"
+			mode="Display_single_page" caption="Comprobantes asociados al resumen"
+			width="100%" datasource="dsComprobantes"
 			searchformdisplaybox="searchformdisplaybox1">
 			<salmon:datatable name="datatable2" width="100%" rowsperpage="5"
-				datasource="dsResumenes">
+				datasource="dsComprobantes">
 				<salmon:datatableheader>
 					<salmon:tr>
 						<salmon:td>

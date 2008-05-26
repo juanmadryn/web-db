@@ -87,6 +87,18 @@
 									datasource="dsComprobante:legajos.APEYNOM" /></td>
 							</tr>
 							<tr>
+								<td><salmon:text name="autoriza1" text="Autoriza"
+									font="TableHeadingFont" /></td>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpLegajoLegajo" name="legajo2" size="6"
+									maxlength="10" displayformat="##########0"
+									datasource="dsComprobante:comprobante_movimiento_articulo.user_id_autoriza"
+									popupheight="450" popupwidth="500" usepopup="true"
+									showdescription="false"></salmon:lookup> <salmon:text
+									name="autoriza2" text=""
+									datasource="dsComprobante:legajos.APEYNOM_AUTORIZA" /></td>
+							</tr>
+							<tr>
 								<td><salmon:text name="almacen1" text="Almacén"
 									font="TableHeadingFont" /></td>
 								<salmon:td>
