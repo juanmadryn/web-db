@@ -31,6 +31,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_RETIRA = "comprobante_movimiento_articulo.user_id_retira";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_PREPARADOR = "comprobante_movimiento_articulo.user_id_preparador";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA = "comprobante_movimiento_articulo.user_id_autoriza";
+	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_CONFIRMA = "comprobante_movimiento_articulo.user_id_confirma";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO = "comprobante_movimiento_articulo.estado";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID = "comprobante_movimiento_articulo.tipo_movimiento_articulo_id";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA = "comprobante_movimiento_articulo.fecha";
@@ -46,6 +47,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	// be overwritten if the model is regenerated
 	public static final String ESTADOS_NOMBRE = "estados.nombre";
 	public static final String WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO = "website_user_preparador.nombre_completo";
+	public static final String WEBSITE_USER_CONFIRMA_NOMBRE_COMPLETO = "website_user_confirma.nombre_completo";
 	public static final String LEGAJOS_APEYNOM = "legajos.APEYNOM";
 	public static final String LEGAJOS_APEYNOM_AUTORIZA = "legajos.APEYNOM_AUTORIZA";
 	public static final String CURRENT_WEBSITE_USER_ID = "website_user.user_id";
@@ -85,6 +87,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addTableAlias("infraestructura.estados", "estados");
 			addTableAlias("infraestructura.website_user",
 					"website_user_preparador");
+			addTableAlias("infraestructura.website_user",
+			"website_user_confirma");
 			addTableAlias("legajos", "legajos_retira");
 			addTableAlias("legajos", "legajos_autoriza");
 
@@ -105,6 +109,9 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
 					"user_id_autoriza", DataStore.DATATYPE_INT, false, true,
 					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA);
+			addColumn(computeTableName("comprobante_movimiento_articulo"),
+					"user_id_confirma", DataStore.DATATYPE_INT, false, true,
+					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_CONFIRMA);
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
 					"estado", DataStore.DATATYPE_STRING, false, true,
 					COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO);
@@ -520,6 +527,62 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 		setInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the
+	 * comprobante_movimiento_articulo.user_id_confirma column for the current
+	 * row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getComprobanteMovimientoArticuloUserIdConfirma()
+			throws DataStoreException {
+		return getInt(COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_CONFIRMA);
+	}
+
+	/**
+	 * Retrieve the value of the
+	 * comprobante_movimiento_articulo.user_id_confirma column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getComprobanteMovimientoArticuloUserIdConfirma(int row)
+			throws DataStoreException {
+		return getInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_CONFIRMA);
+	}
+
+	/**
+	 * Set the value of the comprobante_movimiento_articulo.user_id_confirma
+	 * column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setComprobanteMovimientoArticuloUserIdConfirma(int newValue)
+			throws DataStoreException {
+		setInt(COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_CONFIRMA, newValue);
+	}
+
+	/**
+	 * Set the value of the comprobante_movimiento_articulo.user_id_confirma
+	 * column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setComprobanteMovimientoArticuloUserIdConfirma(int row,
+			int newValue) throws DataStoreException {
+		setInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_CONFIRMA, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the comprobante_movimiento_articulo.estado column
 	 * for the current row.
