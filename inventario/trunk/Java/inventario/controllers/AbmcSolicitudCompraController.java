@@ -210,6 +210,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	private static final String CIRCUITO = "0006";
 
 	private boolean recargar = false;
+	
+	// Indica si se debe seleccionar o deseleccionar elementos de la lista de detalles
+	private Boolean seleccionarTodo = true;
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -763,20 +766,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {
-			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1
-					.getDisplayNameLocaleKey())) {
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG, 1);
-				}
-				_desSeleccionaTodoBUT1
-						.setDisplayNameLocaleKey("text.deseleccion");
-			} else {
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_FLAG, 0);
-				}
-				_desSeleccionaTodoBUT1
-						.setDisplayNameLocaleKey("text.seleccion");
-			}
+			seleccionarTodo = !seleccionarTodo;
 		}
 
 		if(conn != null)
@@ -942,6 +932,17 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
 					"ShowTareaLookup")))
 				_tarea3.setEnabled(false);
+			
+			// setea el boton de seleccion/deseleccion segun corresponda
+			if (_dsDetalleSC.getRowCount() == 0) seleccionarTodo = true;
+			
+			if (seleccionarTodo)
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+			else
+				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
+			
+			_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
+
 		} catch (ParseException ex) {
 			displayErrorMessage("Ocurrió un error de parseo en la aplicación: "
 					+ ex.getMessage());
