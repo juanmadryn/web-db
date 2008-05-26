@@ -4,6 +4,7 @@
 package inventario.reglasNegocio;
 
 import infraestructura.controllers.Constants;
+import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.ComprobanteMovimientoArticuloModel;
 import inventario.models.DetalleRCModel;
@@ -16,8 +17,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Hashtable;
-
-import proyectos.models.ProyectoModel;
 
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
@@ -42,9 +41,13 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
 		Statement st = null;
 		try {
 			RecepcionesComprasModel ds = (RecepcionesComprasModel) obj;
+			
+			if(!UsuarioRolesModel.isRolUsuario(ds.getCurrentWebsiteUserId(), USER_ENCARGADO_ALMACEN))
+				throw new DataStoreException("Usted no está autorizado para confirmar recepciones.");
+			
 			DetalleRCModel detalles = new DetalleRCModel("inventario");
-			DetalleSCModel detallesSC = new DetalleSCModel("inventario");
-
+			DetalleSCModel detallesSC = new DetalleSCModel("inventario");		
+			
 			int recepcionCompraId = ds.getRecepcionesComprasRecepcionCompraId();
 
 			detalles.setOrderBy("detalles_rc.almacen_id");
@@ -148,7 +151,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
 			movimiento.update(conn);
 			movimiento.resetStatus();
 
-			int accion = Props.getProps("inventario", "inventario")
+			int accion = Props.getProps("inventario", null)
 					.getIntProperty(ACCION_CONFIRMA_MOVIMIENTO);
 			System.out.println(accion);
 			for (int row = 0; row < comprobanteMovimiento.getRowCount(); row++) {
