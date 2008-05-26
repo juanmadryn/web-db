@@ -1,0 +1,2 @@
+DROP VIEW IF EXISTS `infraestructura`.`legajos`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `infraestructura`.`legajos` AS select `legajos`.`ID_LEGAJO` AS `ID_LEGAJO`,`legajos`.`NRO_LEGAJO` AS `NRO_LEGAJO`,`legajos`.`APELLIDO` AS `APELLIDO`,`legajos`.`NOMBRE` AS `NOMBRE`,`legajos`.`CUIL` AS `CUIL`,`legajos`.`APEYNOM` AS `APEYNOM` from `inventario`.`legajos`;

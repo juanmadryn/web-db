@@ -85,6 +85,14 @@
 									<salmon:option display="Supervición" key="Supervición"></salmon:option>
 									<salmon:option display="Propio" key="Propio"></salmon:option>
 								</salmon:input></td>
+								<td><salmon:text name="nro_legajo1" text="Legajo"
+									font="ColumnCaptionFont" /></td>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpLegajoLegajo" name="nro_legajo2" size="6"
+									maxlength="10" displayformat="##########0"
+									datasource="dsWebSiteUser:website_user.nro_legajo"
+									popupheight="450" popupwidth="500" usepopup="true"
+									showdescription="false"></salmon:lookup>
 							</tr>
 						</table>
 					</salmon:detailformdisplaybox>

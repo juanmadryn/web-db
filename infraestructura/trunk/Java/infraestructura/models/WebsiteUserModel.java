@@ -24,10 +24,12 @@ public class WebsiteUserModel extends DataStore {
 	public static final String WEBSITE_USER_NIVEL_VISIBILIDAD = "website_user.nivel_visibilidad";
 	public static final String WEBSITE_USER_APEYNOM = "website_user.nombre_completo";
 	public static final String WEBSITE_USER_EMAIL = "website_user.email";
+	public static final String WEBSITE_USER_NRO_LEGAJO = "website_user.nro_legajo";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
 	// be overwritten if the model is regenerated
+	public static final String LEGAJOS_APEYNOM = "legajos.APEYNOM";
 
 	// $ENDCUSTOMVARS$
 
@@ -51,33 +53,43 @@ public class WebsiteUserModel extends DataStore {
 	 */
 	public WebsiteUserModel(String appName, String profile) {
 		super(appName, profile);
+		
 
-		// add aliases
-		addTableAlias(computeTableName("website_user"), null);
 
-		// add columns
-		addColumn(computeTableName("website_user"), "user_id",
-				DataStore.DATATYPE_INT, true, true, WEBSITE_USER_USER_ID);
-		addColumn(computeTableName("website_user"), "login_name",
-				DataStore.DATATYPE_STRING, false, true, WEBSITE_USER_LOGIN_NAME);
-		addColumn(computeTableName("website_user"), "login_password",
-				DataStore.DATATYPE_STRING, false, true,
-				WEBSITE_USER_LOGIN_PASSWORD);
-		addColumn(computeTableName("website_user"), "nivel_visibilidad",
-				DataStore.DATATYPE_STRING, false, true,
-				WEBSITE_USER_NIVEL_VISIBILIDAD);
-		addColumn(computeTableName("website_user"), "nombre_completo",
-				DataStore.DATATYPE_STRING, false, true, WEBSITE_USER_APEYNOM);
-		addColumn(computeTableName("website_user"), "email",
-				DataStore.DATATYPE_STRING, false, true, WEBSITE_USER_EMAIL);
+			// add aliases
+			addTableAlias(computeTableName("website_user"), null);
 
-		// add joins
+			// add columns
+			addColumn(computeTableName("website_user"), "user_id",
+					DataStore.DATATYPE_INT, true, true, WEBSITE_USER_USER_ID);
+			addColumn(computeTableName("website_user"), "login_name",
+					DataStore.DATATYPE_STRING, false, true,
+					WEBSITE_USER_LOGIN_NAME);
+			addColumn(computeTableName("website_user"), "login_password",
+					DataStore.DATATYPE_STRING, false, true,
+					WEBSITE_USER_LOGIN_PASSWORD);
+			addColumn(computeTableName("website_user"), "nivel_visibilidad",
+					DataStore.DATATYPE_STRING, false, true,
+					WEBSITE_USER_NIVEL_VISIBILIDAD);
+			addColumn(computeTableName("website_user"), "nombre_completo",
+					DataStore.DATATYPE_STRING, false, true,
+					WEBSITE_USER_APEYNOM);
+			addColumn(computeTableName("website_user"), "email",
+					DataStore.DATATYPE_STRING, false, true, WEBSITE_USER_EMAIL);
+			addColumn(computeTableName("website_user"), "nro_legajo",
+					DataStore.DATATYPE_INT, false, true,
+					WEBSITE_USER_NRO_LEGAJO);
+			addColumn(computeTableName("legajos"), "APEYNOM",
+					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
 
-		// $CUSTOMCONSTRUCTOR$
-		// Put custom constructor code between these comments, otherwise it be
-		// overwritten if the model is regenerated
+			// add joins
 
-		// $ENDCUSTOMCONSTRUCTOR$
+			// $CUSTOMCONSTRUCTOR$
+			// Put custom constructor code between these comments, otherwise it
+			// be
+			// overwritten if the model is regenerated
+
+			// $ENDCUSTOMCONSTRUCTOR$
 
 	}
 
@@ -386,6 +398,56 @@ public class WebsiteUserModel extends DataStore {
 		setString(row, WEBSITE_USER_EMAIL, newValue);
 	}
 
+
+	/**
+	 * Retrieve the value of the website_user.nro_legajo column for the current
+	 * row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getWebsiteUserNroLegajo() throws DataStoreException {
+		return getInt(WEBSITE_USER_NRO_LEGAJO);
+	}
+
+	/**
+	 * Retrieve the value of the website_user.nro_legajo column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getWebsiteUserNroLegajo(int row) throws DataStoreException {
+		return getInt(row, WEBSITE_USER_NRO_LEGAJO);
+	}
+
+	/**
+	 * Set the value of the website_user.nro_legajo column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNroLegajo(int newValue) throws DataStoreException {
+		setInt(WEBSITE_USER_NRO_LEGAJO, newValue);
+	}
+
+	/**
+	 * Set the value of the website_user.nro_legajo column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNroLegajo(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, WEBSITE_USER_NRO_LEGAJO, newValue);
+	}
+	
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
