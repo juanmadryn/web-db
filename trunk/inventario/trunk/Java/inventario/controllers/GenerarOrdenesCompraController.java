@@ -31,10 +31,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 	private static final long serialVersionUID = 3410350530842061433L;
 	//Visual Components
 	public com.salmonllc.html.HtmlCheckBox _selSolicitudCB;
-	/*public com.salmonllc.html.HtmlImage _bannerDividerImage;
-	public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	public com.salmonllc.html.HtmlImage _imgMainLogo;
-	*/public com.salmonllc.html.HtmlText _articuloCAP3;
+	public com.salmonllc.html.HtmlText _articuloCAP3;
 	public com.salmonllc.html.HtmlText _articuloDescCAP4;
 	public com.salmonllc.html.HtmlText _articuloDescTXT3;
 	public com.salmonllc.html.HtmlText _articuloClaseTXT3;
@@ -53,11 +50,6 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlText _tareaTXT7;
 	public com.salmonllc.html.HtmlText _centroCostoCAP11;
 	public com.salmonllc.html.HtmlText _centroCostoTXT8;	
-	/*public com.salmonllc.html.HtmlText _text1Footer;
-	public com.salmonllc.html.HtmlText _text2Footer;
-	public com.salmonllc.html.HtmlText _text3Footer;
-	public com.salmonllc.html.HtmlText _txtBannerOptions;
-	public com.salmonllc.html.HtmlText _welcomeText;*/
 	public com.salmonllc.html.HtmlTextEdit _cantPedidaINP8;
 	public com.salmonllc.html.HtmlTextEdit _montoUnitINP9;
 	public com.salmonllc.html.HtmlTextEdit _valorAttr1;
@@ -68,16 +60,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP2;
 	public com.salmonllc.html.HtmlLookUpComponent _lkpAttrINP3;
 	public com.salmonllc.jsp.JspBox _box2;
-	//public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
-	/*public com.salmonllc.jsp.JspForm _bannerForm;
-	public com.salmonllc.jsp.JspForm _pageForm;
-	public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
-	public com.salmonllc.jsp.JspLink _footerInfDevAbout;
-	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
-	public com.salmonllc.jsp.JspLink _footerSalmonLink;
-	public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	public com.salmonllc.jsp.JspLink _lnkBannerOptions;*/
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _tableFooter;
@@ -162,6 +145,9 @@ public class GenerarOrdenesCompraController extends BaseController {
 	public static final String DSDETALLESC_MONTO_TOTAL = "monto_total";
 	
 	public static final String SELECCION_DETALLE_SC_FLAG = "detalle_sc.SELECCION_DETALLE_SC_FLAG";
+	
+	// Indica si se debe seleccionar o deseleccionar elementos de la lista de detalles
+	private Boolean seleccionarTodo = true;
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -183,7 +169,6 @@ public class GenerarOrdenesCompraController extends BaseController {
 		
 		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT1",null,this);
 		_desSeleccionaTodoBUT1.setAccessKey("e");
-		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox1.addButton(_desSeleccionaTodoBUT1);
 		
 		_desSeleccionaTodoBUT1.addSubmitListener(this);
@@ -246,17 +231,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (e.getComponent() == _desSeleccionaTodoBUT1) {
-			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayNameLocaleKey()) ) {
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,1);
-				}
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
-			} else {
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,0);
-				}
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
-			}
+			seleccionarTodo = !seleccionarTodo;
 		}
 	
 		// genera ordenes de compra
@@ -366,6 +341,16 @@ public class GenerarOrdenesCompraController extends BaseController {
 		
 		// habilitacion del boton de seleccion
 		_desSeleccionaTodoBUT1.setVisible(_dsDetalleSC.getRowCount() == 0 ? false : true);
+		
+		// setea el boton de seleccion/deseleccion segun corresponda
+		if (_dsDetalleSC.getRowCount() == 0) seleccionarTodo = true;
+		
+		if (seleccionarTodo)
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+		else
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
+		
+		_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
 		
 		super.pageRequested(p);
 	}

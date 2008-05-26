@@ -165,6 +165,9 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	
 	private boolean recargar = false;
 	
+	// Indica si se debe seleccionar o deseleccionar elementos de la lista de detalles
+	private Boolean seleccionarTodo = true;
+	
 	/** 
 	 * Initialize the page. Set up listeners and perform other initialization activities.
 	 * @throws Exception 
@@ -204,7 +207,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",null,this);
 		_desSeleccionaTodoBUT1.setAccessKey("E");
-		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+		
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 		
 		// buttons listeners
@@ -424,18 +427,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		}
 		
 		// marca - desmarca todos los partes del datasource como seleccionados
-		if (e.getComponent() == _desSeleccionaTodoBUT1) {
-			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1.getDisplayNameLocaleKey()) ) {
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,1);
-				}
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
-			} else {
-				for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-					_dsDetalleSC.setInt(i, SELECCION_DETALLE_SC_FLAG,0);
-				}
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
-			}
+		if (e.getComponent() == _desSeleccionaTodoBUT1) {			
+			seleccionarTodo = !seleccionarTodo;
 		}
 		
 		// marca para eliminacion las linea de la orden de compra seleccionadas
@@ -629,10 +622,6 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);		
 		
 		// setea la URL del reporte a generar al presionar el botón de impresión
-		/*String URL = armarUrlReporte("XLS", "orden_compra",
-				"&orden_compra_id_parameter=" + getRow_id());
-		_imprimirOrdenCompraBUT1.setHref(URL);*/
-
 		String URL = armarUrlReporte("PDF", "orden_compra_full",
 				"&orden_compra_id_parameter=" + getRow_id());
 		_imprimirOrdenCompraBUT2.setHref(URL);
@@ -641,7 +630,17 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_verFirmantes.setHref("ListaFirmantes.jsp?orden_id=" + getRow_id());
 		
 		// setea la URL de lista de solicitantes
-		_verSolicitantes.setHref("ListaSolicitantes.jsp?orden_id=" + getRow_id());				
+		_verSolicitantes.setHref("ListaSolicitantes.jsp?orden_id=" + getRow_id());
+		
+		// setea el boton de seleccion/deseleccion segun corresponda
+		if (_dsDetalleSC.getRowCount() == 0) seleccionarTodo = true;
+		
+		if (seleccionarTodo)
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+		else
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
+		
+		_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
 	}
 	
 	/**

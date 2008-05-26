@@ -188,6 +188,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 	private static final String CIRCUITO = "0009";
 
 	private boolean recargar = false;
+	private boolean seleccionarTodo = false;
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -569,20 +570,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {
-			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1
-					.getDisplayNameLocaleKey())) {
-				for (int i = 0; i < _dsDetalle.getRowCount(); i++) {
-					_dsDetalle.setInt(i, SELECCION_DETALLE_FLAG, 1);
-				}
-				_desSeleccionaTodoBUT1
-						.setDisplayNameLocaleKey("text.deseleccion");
-			} else {
-				for (int i = 0; i < _dsDetalle.getRowCount(); i++) {
-					_dsDetalle.setInt(i, SELECCION_DETALLE_FLAG, 0);
-				}
-				_desSeleccionaTodoBUT1
-						.setDisplayNameLocaleKey("text.seleccion");
-			}
+			seleccionarTodo = !seleccionarTodo;
 		}
 
 		// graba atributos de entidad
@@ -799,6 +787,16 @@ public class AbmRecepcionesController extends BaseEntityController {
 			_proveedor2.setEnabled(false);
 		else
 			_proveedor2.setEnabled(true);
+		
+		// setea el boton de seleccion/deseleccion segun corresponda
+		if (_dsDetalle.getRowCount() == 0) seleccionarTodo  = true;
+		
+		if (seleccionarTodo)
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+		else
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
+		
+		_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
 	}
 
 	/**

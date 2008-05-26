@@ -215,7 +215,8 @@ public class AbmComprobanteMovimientoArticuloController extends
 	private static final String CIRCUITO = "0010";
 
 	private boolean recargar = false;
-
+	private boolean seleccionarTodo = false;
+ 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
 	 * activities.
@@ -617,20 +618,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {
-			if ("text.seleccion".equalsIgnoreCase(_desSeleccionaTodoBUT1
-					.getDisplayNameLocaleKey())) {
-				for (int i = 0; i < _dsMovimientos.getRowCount(); i++) {
-					_dsMovimientos.setInt(i, SELECCION_DETALLE_FLAG, 1);
-				}
-				_desSeleccionaTodoBUT1
-						.setDisplayNameLocaleKey("text.deseleccion");
-			} else {
-				for (int i = 0; i < _dsMovimientos.getRowCount(); i++) {
-					_dsMovimientos.setInt(i, SELECCION_DETALLE_FLAG, 0);
-				}
-				_desSeleccionaTodoBUT1
-						.setDisplayNameLocaleKey("text.seleccion");
-			}
+			seleccionarTodo = !seleccionarTodo;
 		}
 
 		// graba atributos de entidad
@@ -876,6 +864,16 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 		} else
 			_dsComprobante.gotoRow(_dsComprobante.insertRow());
+		
+		// setea el boton de seleccion/deseleccion segun corresponda
+		if (_dsMovimientos.getRowCount() == 0) seleccionarTodo = true;
+		
+		if (seleccionarTodo)
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+		else
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
+		
+		_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
 	}
 
 	/**

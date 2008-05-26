@@ -1,6 +1,18 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
+<script type="text/javascript">
+<!--
+function CheckAll(checked) {  
+	for ( var i=0; i<document.forms['PageForm'].elements.length; i++) { 
+		var e = document.forms['PageForm'].elements[i]; 
+			if (e.type=='checkbox') { 
+				e.checked = checked; 
+			} 
+	} 
+} 
+//-->
+</script>
 <salmon:page
 	controller="inventario.controllers.AbmRecepcionesController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
