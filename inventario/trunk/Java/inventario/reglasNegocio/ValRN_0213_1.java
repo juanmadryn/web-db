@@ -153,9 +153,10 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
 
 			int accion = Props.getProps("inventario", null)
 					.getIntProperty(ACCION_CONFIRMA_MOVIMIENTO);
-			System.out.println(accion);
+			
 			for (int row = 0; row < comprobanteMovimiento.getRowCount(); row++) {
 				comprobanteMovimiento.gotoRow(row);
+				comprobanteMovimiento.setCurrentWebsiteUserId(ds.getCurrentWebsiteUserId());
 				if (accion > 0)
 					comprobanteMovimiento.ejecutaAccion(accion, "0010", "", ds
 							.getCurrentWebsiteUserId(),

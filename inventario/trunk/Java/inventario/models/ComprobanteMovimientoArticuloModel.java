@@ -86,9 +86,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"recepciones_compras");
 			addTableAlias("infraestructura.estados", "estados");
 			addTableAlias("infraestructura.website_user",
-					"website_user_preparador");
-			addTableAlias("infraestructura.website_user",
-			"website_user_confirma");
+					"website_user_preparador");			
 			addTableAlias("legajos", "legajos_retira");
 			addTableAlias("legajos", "legajos_autoriza");
 
