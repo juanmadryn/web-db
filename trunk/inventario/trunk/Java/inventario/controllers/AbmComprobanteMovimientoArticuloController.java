@@ -844,8 +844,9 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 			URL = armarUrlReporte("PDF", _dsComprobante
 					.getTipoMovimientoArticuloImpresion(),
-					"&Parameter_comprobante_movimiento_id=" + getRow_id());
+					"&param_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
+			System.out.println(URL);
 
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
 					"ShowTareaLookup")))

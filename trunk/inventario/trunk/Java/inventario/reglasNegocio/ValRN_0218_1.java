@@ -24,7 +24,7 @@ import com.salmonllc.sql.DataStoreException;
  * Regla de negocio asociada al rechazo de una OC
  * 
  */
-public final class ValRN_0215_1 extends ValidadorReglasNegocio {
+public final class ValRN_0218_1 extends ValidadorReglasNegocio {
 
 	/*
 	 * (non-Javadoc)
@@ -188,8 +188,6 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 				movimientos.update(conn);
 				movimientos.resetStatus();
 			}
-			ds.setComprobanteMovimientoArticuloUserIdConfirma(ds.getCurrentWebsiteUserId());
-			ds.update(conn);
 
 		} catch (DataStoreException ex) {
 			msg
