@@ -20,7 +20,6 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreBuffer;
 import com.salmonllc.sql.DataStoreException;
-import com.salmonllc.sql.DirtyDataException;
 import com.salmonllc.util.MessageLog;
 
 /**
@@ -407,7 +406,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 		} catch (DataStoreException ex) {
 			displayErrorMessage(ex.getMessage());
 			return false;
-		} catch (ValidationException ex) {			
+		} catch (ValidationException ex) {
 			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
 			}
@@ -438,7 +437,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 					// grabo todos los datasource
 					if (_dsComprobante.getRow() == -1)
 						return false;
-					
+
 					_dsComprobante.update(conn);
 
 					// actualizo los detalles
@@ -714,6 +713,12 @@ public class AbmComprobanteMovimientoArticuloController extends
 					_dsComprobante.waitForRetrieve();
 					_dsComprobante.gotoFirst();
 
+					if (_dsComprobante
+							.getComprobanteMovimientoArticuloTipoMovimientoArticuloId() == getPageProperties()
+							.getIntProperty(TIPO_MOVIMIENTO_RECEPCIONES))
+						sendRedirect("AbmRecepciones.jsp?recepcion_compra_id="
+								+ _dsComprobante
+										.getComprobanteMovimientoArticuloRecepcionCompraId());
 					// genero atributos si faltan
 					_dsAtributos.generaAtributosObjetoAplicacion(getRow_id(),
 							getTabla_principal());
