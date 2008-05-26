@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 
 import infraestructura.models.BaseModel;
+import infraestructura.models.WebsiteUserModel;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
@@ -29,6 +30,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_ALMACEN_ID = "comprobante_movimiento_articulo.almacen_id";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_RETIRA = "comprobante_movimiento_articulo.user_id_retira";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_PREPARADOR = "comprobante_movimiento_articulo.user_id_preparador";
+	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA = "comprobante_movimiento_articulo.user_id_autoriza";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO = "comprobante_movimiento_articulo.estado";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_TIPO_MOVIMIENTO_ARTICULO_ID = "comprobante_movimiento_articulo.tipo_movimiento_articulo_id";
 	public static final String COMPROBANTE_MOVIMIENTO_ARTICULO_FECHA = "comprobante_movimiento_articulo.fecha";
@@ -45,6 +47,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	public static final String ESTADOS_NOMBRE = "estados.nombre";
 	public static final String WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO = "website_user_preparador.nombre_completo";
 	public static final String LEGAJOS_APEYNOM = "legajos.APEYNOM";
+	public static final String LEGAJOS_APEYNOM_AUTORIZA = "legajos.APEYNOM_AUTORIZA";
 	public static final String CURRENT_WEBSITE_USER_ID = "website_user.user_id";
 
 	// $ENDCUSTOMVARS$
@@ -77,11 +80,13 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"comprobante_movimiento_articulo");
 			addTableAlias(computeTableName("tipo_movimiento_articulo"),
 					"tipo_movimiento_articulo");
-			addTableAlias(computeTableName("recepciones_compras"), "recepciones_compras");
-			addTableAlias("infraestructura.estados",
-					"estados");
+			addTableAlias(computeTableName("recepciones_compras"),
+					"recepciones_compras");
+			addTableAlias("infraestructura.estados", "estados");
 			addTableAlias("infraestructura.website_user",
 					"website_user_preparador");
+			addTableAlias("legajos", "legajos_retira");
+			addTableAlias("legajos", "legajos_autoriza");
 
 			// add columns
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
@@ -97,6 +102,9 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
 					"user_id_preparador", DataStore.DATATYPE_INT, false, true,
 					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_PREPARADOR);
+			addColumn(computeTableName("comprobante_movimiento_articulo"),
+					"user_id_autoriza", DataStore.DATATYPE_INT, false, true,
+					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA);
 			addColumn(computeTableName("comprobante_movimiento_articulo"),
 					"estado", DataStore.DATATYPE_STRING, false, true,
 					COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO);
@@ -130,8 +138,11 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addColumn(computeTableName("website_user_preparador"),
 					"nombre_completo", DataStore.DATATYPE_STRING, false, false,
 					WEBSITE_USER_PREPARADOR_NOMBRE_COMPLETO);
-			addColumn(computeTableName("legajos"), "APEYNOM",
+			addColumn(computeTableName("legajos_retira"), "APEYNOM",
 					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
+			addColumn(computeTableName("legajos_autoriza"), "APEYNOM",
+					DataStore.DATATYPE_STRING, false, false,
+					LEGAJOS_APEYNOM_AUTORIZA);
 
 			// add buckets
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
@@ -154,8 +165,11 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"website_user_preparador.user_id", false);
 			addJoin(
 					computeTableAndFieldName("comprobante_movimiento_articulo.user_id_retira"),
-					computeTableAndFieldName("legajos.nro_legajo"), true);
-			
+					computeTableAndFieldName("legajos_retira.nro_legajo"), true);
+			addJoin(
+					computeTableAndFieldName("comprobante_movimiento_articulo.user_id_autoriza"),
+					computeTableAndFieldName("legajos_autoriza.nro_legajo"), true);
+
 			// set order by
 			setOrderBy(computeTableAndFieldName("comprobante_movimiento_articulo.comprobante_movimiento_id")
 					+ " ASC");
@@ -164,7 +178,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_ALMACEN_ID,
 					"El almacen es requerido");
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_PREPARADOR,
-					"El usuario preparador es obligatorio");			
+					"El usuario preparador es obligatorio");
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_ESTADO,
 					"El estado es obligatorio");
 			addRequiredRule(
@@ -201,12 +215,17 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_RETIRA,
 					"inventario.legajos",
 					"'inventario.legajos.nro_legajo = ' + comprobante_movimiento_articulo.user_id_retira",
-					"APEYNOM", LEGAJOS_APEYNOM,
-					"Legajo inexistente");
+					"APEYNOM", LEGAJOS_APEYNOM, "Legajo inexistente");
+			addLookupRule(
+					COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA,
+					"inventario.legajos",
+					"'inventario.legajos.nro_legajo = ' + comprobante_movimiento_articulo.user_id_autoriza",
+					"APEYNOM", LEGAJOS_APEYNOM_AUTORIZA, "Legajo inexistente");
 
-			
-			setAutoIncrement(COMPROBANTE_MOVIMIENTO_ARTICULO_COMPROBANTE_MOVIMIENTO_ID, true);
-			
+			setAutoIncrement(
+					COMPROBANTE_MOVIMIENTO_ARTICULO_COMPROBANTE_MOVIMIENTO_ID,
+					true);
+
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -214,7 +233,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
 		// overwritten if the model is regenerated
-		// add aliases		
+		// add aliases
 		// $ENDCUSTOMCONSTRUCTOR$
 
 	}
@@ -443,6 +462,62 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			int newValue) throws DataStoreException {
 		setInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_PREPARADOR,
 				newValue);
+	}
+
+	/**
+	 * Retrieve the value of the
+	 * comprobante_movimiento_articulo.user_id_autoriza column for the current
+	 * row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getComprobanteMovimientoArticuloUserIdAutoriza()
+			throws DataStoreException {
+		return getInt(COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA);
+	}
+
+	/**
+	 * Retrieve the value of the
+	 * comprobante_movimiento_articulo.user_id_autoriza column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getComprobanteMovimientoArticuloUserIdAutoriza(int row)
+			throws DataStoreException {
+		return getInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA);
+	}
+
+	/**
+	 * Set the value of the comprobante_movimiento_articulo.user_id_autoriza
+	 * column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setComprobanteMovimientoArticuloUserIdAutoriza(int newValue)
+			throws DataStoreException {
+		setInt(COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA, newValue);
+	}
+
+	/**
+	 * Set the value of the comprobante_movimiento_articulo.user_id_autoriza
+	 * column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setComprobanteMovimientoArticuloUserIdAutoriza(int row,
+			int newValue) throws DataStoreException {
+		setInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_AUTORIZA, newValue);
 	}
 
 	/**
@@ -1002,6 +1077,21 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	}
 
 	/**
+	 * Set the value of the user_recibe.nombre_completo column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setLegajoApeynom(int row, String newValue)
+			throws DataStoreException {
+		setString(row, LEGAJOS_APEYNOM, newValue);
+	}
+
+	/**
 	 * Retrieve the value of the estados.nombre column for the current row.
 	 * 
 	 * @return String
@@ -1048,21 +1138,6 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 		setString(row, ESTADOS_NOMBRE, newValue);
 	}
 
-	/**
-	 * Set the value of the user_recibe.nombre_completo column for the specified
-	 * row.
-	 * 
-	 * @param row
-	 *            which row in the table
-	 * @param newValue
-	 *            the new item value
-	 * @throws DataStoreException
-	 */
-	public void setLegajoApeynom(int row, String newValue)
-			throws DataStoreException {
-		setString(row, LEGAJOS_APEYNOM, newValue);
-	}
-
 	@Override
 	public String getEstadoActual() throws DataStoreException {
 		return getComprobanteMovimientoArticuloEstado();
@@ -1079,6 +1154,15 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 		// TODO Auto-generated method stub
 		if (getComprobanteMovimientoArticuloUserIdPreparador() == 0)
 			setComprobanteMovimientoArticuloUserIdPreparador(getCurrentWebsiteUserId());
+		if (getComprobanteMovimientoArticuloUserIdAutoriza() == 0) {
+			WebsiteUserModel user = new WebsiteUserModel("infraestructura",
+					"infraestructura");
+			user.retrieve("user_id =" + getCurrentWebsiteUserId());
+			user.waitForRetrieve();
+			if (user.gotoFirst())
+				setComprobanteMovimientoArticuloUserIdAutoriza(user
+						.getWebsiteUserNroLegajo());
+		}
 		if (getComprobanteMovimientoArticuloEstado() == null)
 			setComprobanteMovimientoArticuloEstado("0010.0001");
 		if (getComprobanteMovimientoArticuloFecha() == null)
