@@ -9,7 +9,7 @@
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="legajo" type="complex"
 			columns="legajos.ID_LEGAJO, legajos.NRO_LEGAJO" />
-		<salmon:qbecriteria name="nombre" type="complex"
+		<salmon:qbecriteria name="nombre" type="CONTAINS"
 			columns="legajos.CUIL, legajos.NOMBRE, legajos.APELLIDO" />
 	</salmon:datasource>
 	<salmon:datasource name="dsLegajo" type="SQL">

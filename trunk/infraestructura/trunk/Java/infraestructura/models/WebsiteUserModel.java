@@ -83,7 +83,9 @@ public class WebsiteUserModel extends DataStore {
 					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
 
 			// add joins
-
+			addJoin(computeTableAndFieldName("website_user.nro_legajo"), computeTableAndFieldName("legajos.nro_legajo"), true);
+			
+			
 			// $CUSTOMCONSTRUCTOR$
 			// Put custom constructor code between these comments, otherwise it
 			// be
