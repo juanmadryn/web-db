@@ -21,12 +21,12 @@
 	<!-- directorio en donde se copian los JSP -->
 	<property name="deploy_dir_jsp" value="${tomcat_server}\webapps\${ant.project.name}\Jsp"/>
 	<!-- directorio para backups jsp -->
-			<property name="backup_dir_jsp" value="${tomcat_server}\webapps"/>
-			<!-- directorio para backups jar -->
-			<property name="backup_dir_jar" value="${tomcat_common_jar}"/>
-			<!-- webapps -->
-			<property name="webapps_dir" value="${tomcat_server}\webapps"/>
-	
+	<property name="backup_dir_jsp" value="${tomcat_server}\webapps"/>
+	<!-- directorio para backups jar -->
+	<property name="backup_dir_jar" value="${tomcat_common_jar}"/>
+	<!-- webapps -->
+	<property name="webapps_dir" value="${tomcat_server}\webapps"/>
+		
 	<path id="compile.classpath">
 		<pathelement location="${tomcat_common_jar}\*"/>
 		<pathelement location="${tomcat_server_jar}\*"/>
@@ -59,6 +59,20 @@
 			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
+	
+	<target name="backup">
+		<tstamp/>
+		<!-- backup jar -->
+		<mkdir dir="${backup_dir_jar}/${DSTAMP}"/>
+		<copy file="${deploy_dir}/${jarfile}" todir="${backup_dir_jar}/${DSTAMP}"/>
+		<!-- backup jsp -->
+		<mkdir dir="${backup_dir_jsp}/${DSTAMP}"/>
+		<zip 
+			destfile="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}.zip" 
+			basedir="${webapps_dir}/${ant.project.name}" 
+			comment="Backup de ${ant.project.name} - Fecha: ${DSTAMP}">
+		</zip>
+	</target>
 			
 	<target name="jar">
 		<mkdir dir="${dist_jar}"/>
@@ -71,23 +85,8 @@
 			update="false">
 		</jar>
 	</target>
-	
-	<target name="backup">
-			<tstamp/>
-			<!-- backup jar -->
-			<mkdir dir="${backup_dir_jar}/${DSTAMP}"/>
-			<copy file="${deploy_dir}/${jarfile}" todir="${backup_dir_jar}/${DSTAMP}"/>
-			<!-- backup jsp -->
-			<mkdir dir="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}"/>
-			<copy todir="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}">			
-				<fileset dir="${webapps_dir}/${ant.project.name}">
-				    <include name="**/*.*"/>
-				</fileset>
-			</copy>
-			<bzip2 src="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}/*.*" destfile="${ant.project.name}.tar"/>
-		</target>
 		
-		<target name="deploy" depends="backup,jar"> 
+	<target name="deploy" depends="backup,jar"> 
 		<copy file="${dist_jar}/${jarfile}" todir="${deploy_dir}"/>
 		<!-- Copia los JSPs -->		
 		<copy todir="${deploy_dir_jsp}">			
