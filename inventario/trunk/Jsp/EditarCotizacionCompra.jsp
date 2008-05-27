@@ -5,8 +5,7 @@
 	controller="inventario.controllers.EditarCotizacionCompraController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
-	<%@include file="message.jsp"%>
-	</td>
+	<%@include file="message.jsp"%>	
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsCotizacionesCompra" type="MODEL"
