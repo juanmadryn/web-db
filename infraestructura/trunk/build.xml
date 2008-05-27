@@ -51,6 +51,20 @@
 			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
+	
+	<target name="backup">
+		<tstamp/>
+		<!-- backup jar -->
+		<mkdir dir="${backup_dir_jar}/${DSTAMP}"/>
+		<copy file="${deploy_dir}/${jarfile}" todir="${backup_dir_jar}/${DSTAMP}"/>
+		<!-- backup jsp -->
+		<mkdir dir="${backup_dir_jsp}/${DSTAMP}"/>
+		<zip 
+			destfile="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}.zip" 
+			basedir="${webapps_dir}/${ant.project.name}" 
+			comment="Backup de ${ant.project.name} - Fecha: ${DSTAMP}">
+		</zip>
+	</target>
 			
 	<target name="jar">
 		<mkdir dir="${dist_jar}"/>
@@ -61,21 +75,6 @@
 			basedir="${infraestructura_bld}"
 			includes="**/*.class">
 		</jar>
-	</target>
-	
-	<target name="backup">
-		<tstamp/>
-		<!-- backup jar -->
-		<mkdir dir="${backup_dir_jar}/${DSTAMP}"/>
-		<copy file="${deploy_dir}/${jarfile}" todir="${backup_dir_jar}/${DSTAMP}"/>
-		<!-- backup jsp -->
-		<mkdir dir="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}"/>
-		<copy todir="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}">			
-			<fileset dir="${webapps_dir}/${ant.project.name}">
-			    <include name="**/*.*"/>
-			</fileset>
-		</copy>
-		<bzip2 src="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}/*.*" destfile="${ant.project.name}.tar"/>
 	</target>
 	
 	<target name="deploy" depends="backup,jar">		
