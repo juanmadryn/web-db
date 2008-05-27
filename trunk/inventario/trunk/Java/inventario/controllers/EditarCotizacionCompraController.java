@@ -272,7 +272,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 
 				// oculta el menú para ganar espacio, total, lo único que puede
 				// hacer es regresar a la SC
-				// _rawAddRow.setHtml("</tr><tr>");
+				_rawAddRow.setHtml("</tr><tr>");
 				_navbarTable.setVisible(false);
 
 			}

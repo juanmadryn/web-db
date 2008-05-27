@@ -1,5 +1,7 @@
 package inventario.models;
 
+import java.sql.SQLException;
+
 import infraestructura.models.BaseModel;
 
 import com.salmonllc.sql.*;
@@ -63,6 +65,11 @@ public class CotizacionesCompraModel extends BaseModel {
 	public static final String NOMBRE_CONDICION_COMPRA_PROVEEDOR3 = "condiciones_compra_proveedor3.nombre";
 	public static final String NOMBRE_CONDICION_COMPRA_PROVEEDOR4 = "condiciones_compra_proveedor4.nombre";
 	public static final String NOMBRE_CONDICION_COMPRA_PROVEEDOR5 = "condiciones_compra_proveedor5.nombre";
+	public static final String DESCRIPCION_CONDICION_COMPRA_PROVEEDOR1 = "condiciones_compra_proveedor1.descripcion";
+	public static final String DESCRIPCION_CONDICION_COMPRA_PROVEEDOR2 = "condiciones_compra_proveedor2.descripcion";
+	public static final String DESCRIPCION_CONDICION_COMPRA_PROVEEDOR3 = "condiciones_compra_proveedor3.descripcion";
+	public static final String DESCRIPCION_CONDICION_COMPRA_PROVEEDOR4 = "condiciones_compra_proveedor4.descripcion";
+	public static final String DESCRIPCION_CONDICION_COMPRA_PROVEEDOR5 = "condiciones_compra_proveedor5.descripcion";
 	public static final String NOMBRE_FORMA_PAGO_PROVEEDOR1 = "formas_pago_proveedor1.nombre";
 	public static final String NOMBRE_FORMA_PAGO_PROVEEDOR2 = "formas_pago_proveedor2.nombre";
 	public static final String NOMBRE_FORMA_PAGO_PROVEEDOR3 = "formas_pago_proveedor3.nombre";
@@ -291,6 +298,21 @@ public class CotizacionesCompraModel extends BaseModel {
 			addColumn(computeTableName("condiciones_compra_proveedor5"),
 					"nombre", DataStore.DATATYPE_STRING, false, false,
 					NOMBRE_CONDICION_COMPRA_PROVEEDOR5);
+			addColumn(computeTableName("condiciones_compra_proveedor1"),
+					"descripcion", DataStore.DATATYPE_STRING, false, false,
+					DESCRIPCION_CONDICION_COMPRA_PROVEEDOR1);
+			addColumn(computeTableName("condiciones_compra_proveedor2"),
+					"descripcion", DataStore.DATATYPE_STRING, false, false,
+					DESCRIPCION_CONDICION_COMPRA_PROVEEDOR2);
+			addColumn(computeTableName("condiciones_compra_proveedor3"),
+					"descripcion", DataStore.DATATYPE_STRING, false, false,
+					DESCRIPCION_CONDICION_COMPRA_PROVEEDOR3);
+			addColumn(computeTableName("condiciones_compra_proveedor4"),
+					"descripcion", DataStore.DATATYPE_STRING, false, false,
+					DESCRIPCION_CONDICION_COMPRA_PROVEEDOR4);
+			addColumn(computeTableName("condiciones_compra_proveedor5"),
+					"descripcion", DataStore.DATATYPE_STRING, false, false,
+					DESCRIPCION_CONDICION_COMPRA_PROVEEDOR5);
 			addColumn(computeTableName("formas_pago_proveedor1"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					NOMBRE_FORMA_PAGO_PROVEEDOR1);
@@ -511,36 +533,36 @@ public class CotizacionesCompraModel extends BaseModel {
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR1,
 					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor1",
-					"nombre",
-					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR1),
+					"descripcion",
+					computeTableAndFieldName(DESCRIPCION_CONDICION_COMPRA_PROVEEDOR1),
 					"Condición de compra para el proveedor 1 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR2,
 					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor2",
-					"nombre",
-					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR2),
+					"descripcion",
+					computeTableAndFieldName(DESCRIPCION_CONDICION_COMPRA_PROVEEDOR2),
 					"Condición de compra para el proveedor 2 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR3,
 					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor3",
-					"nombre",
-					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR3),
+					"descripcion",
+					computeTableAndFieldName(DESCRIPCION_CONDICION_COMPRA_PROVEEDOR3),
 					"Condición de compra para el proveedor 3 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR4,
 					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor4",
-					"nombre",
-					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR4),
+					"descripcion",
+					computeTableAndFieldName(DESCRIPCION_CONDICION_COMPRA_PROVEEDOR4),
 					"Condición de compra para el proveedor 4 inexistente");
 			addLookupRule(
 					COTIZACIONES_COMPRA_CONDICION_COMPRA_ID_PROVEEDOR5,
 					"condiciones_compra",
 					"'condiciones_compra.condicion_compra_id = ' + cotizaciones_compra.condicion_compra_id_proveedor5",
-					"nombre",
-					computeTableAndFieldName(NOMBRE_CONDICION_COMPRA_PROVEEDOR5),
+					"descripcion",
+					computeTableAndFieldName(DESCRIPCION_CONDICION_COMPRA_PROVEEDOR5),
 					"Condición de compra para el proveedor 5 inexistente");
 
 		
@@ -3244,7 +3266,54 @@ public class CotizacionesCompraModel extends BaseModel {
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
-
+	@Override
+	public void update(DBConnection conn, boolean handleTrans)
+			throws DataStoreException, SQLException {
+		CondicionesCompraModel condicionesCompraModel = new CondicionesCompraModel(getAppName());		
+		
+		if (getNombreCondicionCompraProveedor1() != null) {
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor1());
+			if (condicionesCompraModel.gotoFirst()) {
+				setCotizacionesCompraCondicionCompraIdProveedor1(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
+			} else {
+				throw new DataStoreException("No existe la condición de compra especificada para el proveedor 1");
+			}
+		}
+		if (getNombreCondicionCompraProveedor2() != null) {
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor2());
+			if (condicionesCompraModel.gotoFirst()) {
+				setCotizacionesCompraCondicionCompraIdProveedor2(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
+			} else {
+				throw new DataStoreException("No existe la condición de compra especificada para el proveedor 2");
+			}
+		}
+		if (getNombreCondicionCompraProveedor3() != null) {
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor3());
+			if (condicionesCompraModel.gotoFirst()) {
+				setCotizacionesCompraCondicionCompraIdProveedor3(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
+			} else {
+				throw new DataStoreException("No existe la condición de compra especificada para el proveedor 3");
+			}	
+		}
+		if (getNombreCondicionCompraProveedor4() != null) {
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor4());
+			if (condicionesCompraModel.gotoFirst()) {
+				setCotizacionesCompraCondicionCompraIdProveedor4(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
+			} else {
+				throw new DataStoreException("No existe la condición de compra especificada para el proveedor 4");
+			}
+		}
+		if (getNombreCondicionCompraProveedor5() != null) {
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor5());
+			if (condicionesCompraModel.gotoFirst()) {
+				setCotizacionesCompraCondicionCompraIdProveedor5(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
+			} else {
+				throw new DataStoreException("No existe la condición de compra especificada para el proveedor 5");
+			}
+		}
+	
+		super.update(conn, handleTrans);
+	}
 	// $ENDCUSTOMMETHODS$
 
 }
