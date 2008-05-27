@@ -144,6 +144,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
+	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT3;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 	public com.salmonllc.jsp.JspLink _verFirmantes;
 	public com.salmonllc.jsp.JspTableCell _tareaTableTd;
@@ -622,9 +623,11 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);		
 		
 		// setea la URL del reporte a generar al presionar el botón de impresión
-		String URL = armarUrlReporte("PDF", "orden_compra_full",
-				"&orden_compra_id_parameter=" + getRow_id());
-		_imprimirOrdenCompraBUT2.setHref(URL);
+		_imprimirOrdenCompraBUT2.setHref(armarUrlReporte("PDF", "orden_compra",
+				"&orden_compra_id_parameter=" + getRow_id()));
+		
+		_imprimirOrdenCompraBUT3.setHref(armarUrlReporte("PDF", "orden_compra_full",
+				"&orden_compra_id_parameter=" + getRow_id()));
 		
 		// setea la URL de lista de firmantes y transiciones de estado
 		_verFirmantes.setHref("ListaFirmantes.jsp?orden_id=" + getRow_id());
