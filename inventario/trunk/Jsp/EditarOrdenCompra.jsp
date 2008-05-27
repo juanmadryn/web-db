@@ -47,7 +47,7 @@ function CheckAll(checked) {
 						headerbgcolor="#fffd99" bgcolor="fffdce">						
 						<table width="100%" border="0">
 							<tr>
-								<td colspan="6">
+								<td colspan="5">
 									<salmon:input name="customBUT100" type="submit" value="boton 1"
 										accesskey="1" visible="False"></salmon:input>
 									<salmon:input name="customBUT110" type="submit" value="boton 2"
@@ -61,7 +61,7 @@ function CheckAll(checked) {
 									<salmon:input name="customBUT150" type="submit" value="boton 6"
 										accesskey="6" visible="False"></salmon:input>
 								</td>
-								<td align="right">
+								<td align="right" colspan="2">
 									<!-- <salmon:a href="" target="_blank" 
 										name="imprimirOrdenCompraBUT1"
 										onclick="document.forms['bannerForm'].submit();">
@@ -73,7 +73,16 @@ function CheckAll(checked) {
 									<salmon:a href="" target="_blank"
 										name="imprimirOrdenCompraBUT2"
 										onclick="document.forms['bannerForm'].submit();">
-										<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
+										<salmon:text name="imprimirTXT2" text="preimpresa" />
+										<salmon:img name="imprimirIMG2" src="%ImageDirectory/pdf.jpg"
+											height="25" srclocalekey="bannerImageSource" />
+									</salmon:a>
+									<salmon:text name="espacio" text=" " font="TableHeadingFont"/>
+									<salmon:a href="" target="_blank"
+										name="imprimirOrdenCompraBUT3"
+										onclick="document.forms['bannerForm'].submit();">
+										<salmon:text name="imprimirTXT3" text="completa" />
+										<salmon:img name="imprimirIMG3" src="%ImageDirectory/pdf.jpg"
 											height="25" srclocalekey="bannerImageSource" />
 									</salmon:a>
 								</td>					
