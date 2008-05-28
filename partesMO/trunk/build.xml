@@ -92,9 +92,6 @@
 	<target name="war">		
 		<mkdir dir="${dist_war}"/>		
 		<war destfile="${dist_war}/${warfile}" webxml="WEB-INF/web.xml">
-			<tstamp>
-			     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
-			</tstamp>
 			<webinf dir="WEB-INF"></webinf>
 			<classes dir="${partesmo_bld}"></classes>
 			<zipfileset dir="${jsp}" prefix="Jsp"/>
