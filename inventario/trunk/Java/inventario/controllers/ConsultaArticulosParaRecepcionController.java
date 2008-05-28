@@ -4,15 +4,19 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
+import inventario.models.DetalleRCModel;
+import inventario.models.RecepcionesComprasModel;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
-import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
-import com.salmonllc.html.events.SubmitListener;
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -120,14 +124,32 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_COMPRADOR = "articulos_comprados.comprador";
 	public static final String DSARTICULOSCOMPRADOR_ARTICULOS_COMPRADOS_SOLICITANTE = "articulos_comprados.solicitante";
 
+	// customs components
+	public HtmlSubmitButton _generarRecepcionCompraBUT1;
+	public com.salmonllc.html.HtmlCheckBox _seleccion_detalle;
+
 	private Timestamp desde;
 	private Timestamp hasta;
+
+	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
 	 * activities.
 	 */
 	public void initialize() throws Exception {
+		_generarRecepcionCompraBUT1 = new HtmlSubmitButton(
+				"generarRecepcionCompraBUT1", "Generar Recepción", this);
+		_generarRecepcionCompraBUT1.setAccessKey("G");
+		_generarRecepcionCompraBUT1.addSubmitListener(this);
+		_listformdisplaybox1.addButton(_generarRecepcionCompraBUT1);
+
+		// agrego columna de seleccion
+		_dsArticulosComprados.addBucket(SELECCION_DETALLE_FLAG,
+				DataStore.DATATYPE_INT);
+		_seleccion_detalle.setColumn(_dsArticulosComprados,
+				SELECCION_DETALLE_FLAG);
+		_seleccion_detalle.setFalseValue(null);
 
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 
@@ -177,7 +199,78 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 			_dsArticulosComprados.gotoFirst();
 		}
 
+		if (e.getComponent() == _generarRecepcionCompraBUT1) {
+			DBConnection conn = DBConnection.getConnection("inventario");
+			try {
+				conn.beginTransaction();
+				RecepcionesComprasModel recepcion = new RecepcionesComprasModel(
+						"inventario");
+				DetalleRCModel detalleRCModel = new DetalleRCModel("inventario");
+				for (int row = _dsArticulosComprados.getRowCount() - 1; row >= 0; row--) {
+					if (_dsArticulosComprados.getInt(row,
+							SELECCION_DETALLE_FLAG) == 1) {
+						// Rol marcado para selección
+
+						if (recepcion.getRow() == -1) {
+							recepcion.gotoRow(recepcion.insertRow());
+							recepcion.setRecepcionesComprasEstado("0009.0001");
+							recepcion
+									.setRecepcionesComprasFecha(new java.sql.Timestamp(
+											Calendar.getInstance()
+													.getTimeInMillis()));
+							recepcion
+									.setRecepcionesComprasProvedorId(_dsArticulosComprados
+											.getArticulosCompradosEntidadIdProveedor(0));
+							recepcion
+									.setRecepcionesComprasUserIdCompleta(getSessionManager()
+											.getWebSiteUser().getUserID());
+							recepcion.update(conn);
+						}
+						System.out
+								.println(recepcion
+										.getRecepcionesComprasProvedorId()
+										+ " - "
+										+ _dsArticulosComprados
+												.getArticulosCompradosEntidadIdProveedor(row));
+						if (recepcion.getRecepcionesComprasProvedorId() != _dsArticulosComprados
+								.getArticulosCompradosEntidadIdProveedor(row))
+							throw new DataStoreException(
+									"Para generar una recepción debe seleccionar artículos del mismo proveedor");
+						detalleRCModel.gotoRow(detalleRCModel.insertRow());
+						detalleRCModel
+								.setDetallesRcAlmacenId(getPageProperties()
+										.getIntProperty(ALMACEN_GENERAL));
+						detalleRCModel
+								.setDetallesRcCantidad(_dsArticulosComprados
+										.getArticulosCompradosCantidadPedida(row)
+										- _dsArticulosComprados
+												.getArticulosCompradosCantidadRecibida(row));
+						detalleRCModel
+								.setDetallesRcDetalleScId(_dsArticulosComprados
+										.getArticulosCompradosDetalleScId(row));
+						detalleRCModel.setDetallesRcRecepcionCompraId(recepcion
+								.getRecepcionesComprasRecepcionCompraId());
+
+					}
+				}
+				if (detalleRCModel.getRowCount() > 0)
+					detalleRCModel.update(conn);
+				conn.commit();
+				sendRedirect("AbmRecepciones.jsp?recepcion_compra_id="
+						+ recepcion.getRecepcionesComprasRecepcionCompraId());
+			} catch (DataStoreException ex) {
+				displayErrorMessage(ex.getMessage());
+			} catch (SQLException ex) {
+				displayErrorMessage(ex.getMessage());
+			} finally {
+				if (conn != null) {
+					conn.rollback();
+					conn.freeConnection();
+				}
+			}
+		}
 		return super.submitPerformed(e);
+
 	}
 
 	/**
@@ -194,11 +287,12 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
 		// realizadas por él
-		if (!UsuarioRolesModel.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
+		if (!UsuarioRolesModel
+				.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
 			_dsQBE.setString("solicitante", String.valueOf(currentUser));
-			_solicitante2.setEnabled(false);			
+			_solicitante2.setEnabled(false);
 		} else {
-			_solicitante2.setEnabled(true);			
+			_solicitante2.setEnabled(true);
 		}
 		super.pageRequested(event);
 	}

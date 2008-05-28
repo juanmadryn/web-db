@@ -229,12 +229,7 @@ public class DetalleSCModel extends DataStore {
 					DETALLE_SC_TAREA_ID,
 					"proyectos.tareas_proyecto",
 					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
-					"nombre", TAREA_PROYECTO_NOMBRE, "Tarea inexistente");
-			addLookupRule(
-					ARTICULOS_CLASE_ARTICULO_ID,
-					"inventario.clase_articulo",
-					"'inventario.clase_articulo.clase_articulo_id = ' + articulos.clase_articulo_id",
-					"nombre", CLASE_ARTICULO_NOMBRE, "Proyecto inexistente");
+					"nombre", TAREA_PROYECTO_NOMBRE, "Tarea inexistente");			
 			addLookupRule(
 					DETALLE_SC_SOLICITUD_COMPRA_ID,
 					"solicitudes_compra",
