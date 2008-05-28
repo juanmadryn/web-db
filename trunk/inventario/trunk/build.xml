@@ -6,6 +6,7 @@
 	<property name="dist_jar" value="${dist}/jar"/>
 	<property name="dist_war" value="${dist}/war"/>
 	<property name="jarfile" value="${ant.project.name}.jar"/>
+	<property name="warfile" value="${ant.project.name}.war"/>
 	<property name="jsp" value="${basedir}/Jsp"/>
 	<property name="tomcat_server" value="C:\Archivos de programa\Apache Software Foundation\Tomcat 5.0"/>
 	<property name="tomcat_common_jar" value="${tomcat_server}\common\lib"/>
