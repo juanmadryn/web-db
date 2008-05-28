@@ -123,6 +123,8 @@
 				<salmon:datatableheader>
 					<salmon:tr>
 						<salmon:td>
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="articulo1" text="Articulo"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -162,6 +164,10 @@
 				<salmon:datatablerows>
 					<salmon:tr>
 						<salmon:td>
+							<salmon:input type="checkbox" name="seleccion_detalle"
+								checkedtruevalue="1"></salmon:input>
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="articulo2" text="" font="DefaultFont"
 								datasource="dsArticulosComprados:articulos_comprados.nombre" />
 							<salmon:text name="separador1" text="-" font="DefaultFont" />
@@ -176,14 +182,15 @@
 								onclick="document.forms['bannerForm'].submit();"
 								datasource="dsArticulosComprados:'%EditarOrdenCompra?orden_compra_id='+articulos_comprados.orden_compra_id">
 								<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
-									datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"/>
-							</salmon:a>							
+									datasource="dsArticulosComprados:articulos_comprados.orden_compra_id" />
+							</salmon:a>
 						</salmon:td>
 						<salmon:td>
 							<salmon:a href="none" name="lnksolicitudes1"
 								onclick="document.forms['bannerForm'].submit();"
 								datasource="dsArticulosComprados:'%AbmcSolicitudCompra?solicitud_compra_id='+articulos_comprados.solicitud_compra_id">
-								<salmon:text name="solicitud_compra_id2" text="" font="DefaultFont"
+								<salmon:text name="solicitud_compra_id2" text=""
+									font="DefaultFont"
 									datasource="dsArticulosComprados:articulos_comprados.solicitud_compra_id"
 									displayformat="####" />
 							</salmon:a>
