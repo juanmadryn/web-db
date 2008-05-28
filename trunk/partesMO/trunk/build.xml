@@ -1,9 +1,10 @@
 <project name="partesmo" default="jar">
 	
-	<property name="inventario_src" value="${basedir}/Java"/> 
+	<property name="partesmo_src" value="${basedir}/Java"/> 
 	<property name="partesmo_bld" value="${basedir}/bin"/>
 	<property name="dist" value="${basedir}/dist"/>
 	<property name="dist_jar" value="${dist}/jar"/>
+	<property name="dist_war" value="${dist}/war"/>
 	<property name="jarfile" value="${ant.project.name}.jar"/>
 	<property name="tomcat_server" value="C:\Archivos de programa\Apache Software Foundation\Tomcat 5.0"/>
 	<property name="tomcat_common_jar" value="${tomcat_server}\common\lib"/>
@@ -23,7 +24,7 @@
 	<property name="backup_dir_jsp" value="${tomcat_server}\webapps"/>
 	<!-- directorio para backups jar -->
 	<property name="backup_dir_jar" value="${tomcat_common_jar}"/>
-	<!-- webapps -->
+	<!-- directorio webapps -->
 	<property name="webapps_dir" value="${tomcat_server}\webapps"/>
 	
 	<path id="compile.classpath">
@@ -60,14 +61,18 @@
 	</target>
 	
 	<target name="backup">
-		<tstamp/>
+		<!-- nombre del directorio de backups -->
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy-MM-dd" />
+		</tstamp>
+		<property name="bkpDir" value="Bkp${DSTAMP}"/>
 		<!-- backup jar -->
-		<mkdir dir="${backup_dir_jar}/${DSTAMP}"/>
-		<copy file="${deploy_dir}/${jarfile}" todir="${backup_dir_jar}/${DSTAMP}"/>
+		<mkdir dir="${backup_dir_jar}/${bkpDir}"/>
+		<copy file="${deploy_dir}/${jarfile}" todir="${backup_dir_jar}/${bkpDir}"/>
 		<!-- backup jsp -->
-		<mkdir dir="${backup_dir_jsp}/${DSTAMP}"/>
+		<mkdir dir="${backup_dir_jsp}/${bkpDir}"/>
 		<zip 
-			destfile="${backup_dir_jsp}/${DSTAMP}/${ant.project.name}.zip" 
+			destfile="${backup_dir_jsp}/${bkpDir}/${ant.project.name}.zip" 
 			basedir="${webapps_dir}/${ant.project.name}" 
 			comment="Backup de ${ant.project.name} - Fecha: ${DSTAMP}">
 		</zip>
@@ -82,6 +87,18 @@
 			basedir="${partesmo_bld}"
 			includes="**/*.class">
 		</jar>
+	</target>
+	
+	<target name="war">		
+		<mkdir dir="${dist_war}"/>		
+		<war destfile="${dist_war}/${warfile}" webxml="WEB-INF/web.xml">
+			<tstamp>
+			     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+			</tstamp>
+			<webinf dir="WEB-INF"></webinf>
+			<classes dir="${infraestructura_bld}"></classes>
+			<zipfileset dir="${jsp}" prefix="Jsp"/>
+		</war>
 	</target>
 	
 	<target name="deploy" depends="backup,jar"> 
