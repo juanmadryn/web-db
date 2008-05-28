@@ -129,5 +129,9 @@ public interface Constants {
 	static final String USER_ENCARGADO_ALMACEN = "ALMACENERO";
 	
 	static final String ACCION_CONFIRMA_MOVIMIENTO = "AccionConfirmaMovimiento";
+	
+	static final String ALMACEN_GENERAL = "AlmacenGeneralId";
+	
+	
 }
 
