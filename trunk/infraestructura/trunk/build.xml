@@ -1,114 +1,127 @@
-<project name="infraestructura" default="jar">
+<project name="infraestructura" default="dist">
 	
-	<property name="infraestructura_src" value="${basedir}/Java"/> 
-	<property name="infraestructura_bld" value="${basedir}/bin"/>	
+	<property name="webapp.name" value="${ant.project.name}"/>
+	<property name="webapp.src" value="${basedir}/Java"/> 
+	<property name="webapp.bld" value="${basedir}/bin"/>	
 	<property name="dist" value="${basedir}/dist"/>
-	<property name="dist_jar" value="${dist}/jar"/>
-	<property name="dist_war" value="${dist}/war"/>
+	<property name="dist.jar" value="${dist}/jar"/>
+	<property name="dist.war" value="${dist}/war"/>
 	<property name="jarfile" value="${ant.project.name}.jar"/>
 	<property name="warfile" value="${ant.project.name}.war"/>
 	<property name="jsp" value="${basedir}/Jsp"/>
-	<property name="tomcat_server" value="C:\Archivos de programa\Apache Software Foundation\Tomcat 5.0"/>
-	<property name="tomcat_common_jar" value="${tomcat_server}\common\lib"/>
-	<property name="tomcat_server_jar" value="${tomcat_server}\server\lib"/>
-	<property name="workspace" value="C:\Documents and Settings\Administrador\workspace3"/>
-	<property name="sofiafwk_src" value="${workspace}\Salmon Open Framework/Java"/> 
-	<property name="sofiafwk_bld" value="${workspace}\Salmon Open Framework/bin"/>
-	<!-- directorio en donde se copia el JAR -->	
-	<property name="deploy_dir" value="${tomcat_common_jar}"/>
-	<!-- directorio en donde se copian los JSP -->
-	<property name="deploy_dir_jsp" value="${tomcat_server}\webapps\${ant.project.name}\Jsp"/>
+	<property name="tomcat.path" value="/usr/share/tomcat"/>
+	<property name="tomcat.commonlibs" value="${tomcat.path}/common/lib"/>
+	<property name="tomcat.serverlibs" value="${tomcat.path}/server/lib"/>
+	<property name="workspace" value="/home/fep/workspace"/>
+	<property name="sofiafwk.src" value="${workspace}/Salmon Open Framework/Java"/> 
+	<property name="sofiafwk.bld" value="${workspace}/Salmon Open Framework/bin"/>
+	<!-- directorio en donde se copia el JAR (infraestructura / salmon solamente) -->	
+	<property name="deploy.jar.dir" value="${tomcat.commonlibs}"/>
+	<!-- directorio webapp -->
+	<property name="deploy.war.dir" value="${tomcat.path}/webapps"/>
 	<!-- directorio para backups jsp -->
-	<property name="backup_dir_jsp" value="${tomcat_server}\webapps"/>
+	<property name="backup.war.dir" value="${tomcat.path}/webapps"/>
 	<!-- directorio para backups jar -->
-	<property name="backup_dir_jar" value="${tomcat_common_jar}"/>
-	<!-- directorio webapps -->
-	<property name="webapps_dir" value="${tomcat_server}\webapps"/>
+	<property name="backup.jar.dir" value="${tomcat.commonlibs}"/>	
+	<!-- user, pass, url  para deploy de war -->
+	<property name="deploy.user" value="admin"/>
+	<property name="deploy.pass" value="admin"/>
+	<property name="deploy.url" value="http://localhost:8080/manager"/>	
 	
 	<path id="compile.classpath">
-		<pathelement location="${tomcat_common_jar}\*"/>
-		<pathelement location="${tomcat_server_jar}\*"/>
-		<pathelement location="${sofiafwk_bld}"/>
-	</path>
+		<pathelement location="${sofiafwk.bld}"/>
+	    <fileset dir="${tomcat.commonlibs}">
+	    	<include name="*.jar"/>
+	    </fileset>
+	    <fileset dir="${tomcat.serverlibs}">
+	    	<include name="*.jar"/>
+	    </fileset>		
+	</path>	
+
+	<!-- Configura Ant tasks de la aplicación Manager -->
+	<taskdef resource="org/apache/catalina/ant/catalina.tasks" 
+		classpathref="compile.classpath"/>
 	
 	<target name="init"> 
 		<!-- Create the time stamp -->
 		<tstamp prefix="hoy">
 			<format property="today" pattern="yyyy-MM-dd" locale="ar"/>
 		</tstamp>		 
-		<!-- Create the build directory structure used by compile --> 
-		<!-- <mkdir dir="${sofiafwk_bld}"/> 
-		<mkdir dir="${infraestructura_bld}"/> --> 
 	</target> 
 	
 	<target name="compile_salmon" depends="init"> 
 		<!-- Compile the java code from ${src} into ${build} --> 
-		<javac source="1.5" srcdir="${sofiafwk_src}" destdir="${sofiafwk_bld}"> 
+		<javac source="1.5" srcdir="${sofiafwk.src}" destdir="${sofiafwk.bld}"> 
 			<classpath refid="compile.classpath"/> 
 		</javac> 
 	</target> 
 	
 	<target name="compile" depends="compile_salmon">
-		<javac source="1.5" srcdir="${infraestructura_src}" destdir="${infraestructura_bld}">
+		<javac source="1.5" srcdir="${webapp.src}" destdir="${webapp.bld}">
 			<classpath refid="compile.classpath"/>
 		</javac>
 	</target>
 	
-	<target name="backup">
+	<!-- backup jar -->
+	<target name="backup.jar">
 		<!-- nombre del directorio de backups -->
 		<tstamp>
 			<format property="DSTAMP" pattern="yyyy-MM-dd" />
 		</tstamp>
-		<property name="bkpDir" value="Bkp${DSTAMP}"/>
-		<!-- backup jar -->
-		<mkdir dir="${backup_dir_jar}/${bkpDir}"/>
-		<copy file="${deploy_dir}/${jarfile}" todir="${backup_dir_jar}/${bkpDir}"/>
-		<!-- backup jsp -->
-		<mkdir dir="${backup_dir_jsp}/${bkpDir}"/>
-		<zip 
-			destfile="${backup_dir_jsp}/${bkpDir}/${ant.project.name}.zip" 
-			basedir="${webapps_dir}/${ant.project.name}" 
-			comment="Backup de ${ant.project.name} - Fecha: ${DSTAMP}">
-		</zip>
+		<property name="bkp.dir" value="Bkp${DSTAMP}"/>		
+		<mkdir dir="${backup.jar.dir}/${bkp.dir}"/>		
+		<copy file="${deploy.jar.dir}/${jarfile}" todir="${backup.jar.dir}/${bkp.dir}" failonerror="false"/>
+	</target>
+	
+	<!-- backup war -->
+	<target name="backup.war">
+		<!-- nombre del directorio de backups -->
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy-MM-dd" />
+		</tstamp>
+		<property name="bkp.dir" value="Bkp${DSTAMP}"/>
+		<mkdir dir="${backup.war.dir}/${bkp.dir}"/>
+		<copy file="${deploy.war.dir}/${warfile}" todir="${backup.war.dir}/${bkp.dir}" failonerror="false"/>
 	</target>
 			
-	<target name="jar">
-		<mkdir dir="${dist_jar}"/>
+	<target name="dist.jar">
+		<mkdir dir="${dist.jar}"/>
 		<tstamp>
 		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
 		</tstamp>
-		<jar destfile="${dist_jar}/${jarfile}"
-			basedir="${infraestructura_bld}"
+		<jar destfile="${dist.jar}/${jarfile}"
+			basedir="${webapp.bld}"
 			includes="**/*.class">
 		</jar>
 	</target>
 	
-	<target name="war">		
-		<mkdir dir="${dist_war}"/>
-		<war destfile="${dist_war}/${warfile}" webxml="WEB-INF/web.xml">
-			<webinf dir="WEB-INF"></webinf>
-			<classes dir="${infraestructura_bld}"></classes>
+	<target name="dist" depends="dist.jar">				
+		<mkdir dir="${dist.war}"/>
+		<war destfile="${dist.war}/${warfile}" webxml="WEB-INF/web.xml">	
+			<webinf dir="WEB-INF"></webinf>			
 			<zipfileset dir="${jsp}" prefix="Jsp"/>
 		</war>
 	</target>
 	
-	<target name="deploy" depends="backup,jar">		
+	<target name="deploy.jar" depends="backup.jar,dist.jar">		
 		<!-- Copia el JAR en el directorio de deploy -->
-		<copy file="${dist_jar}/${jarfile}" todir="${deploy_dir}" overwrite="yes"/>
-		<!-- Copia los JSPs -->		
-		<copy todir="${deploy_dir_jsp}">			
-		  <fileset dir="${jsp}">
-		    <include name="**/*.jsp"/>		  	
-		  	<include name="**/*.css"/>
-		  </fileset>
-		</copy>
+		<copy file="${dist.jar}/${jarfile}" todir="${deploy.jar.dir}" overwrite="yes"/>		
 	</target>	
+		
+	<target name="deploy" depends="backup.war,dist,deploy.jar">		
+	  <deploy 
+	  	url="${deploy.url}" 
+	  	username="${deploy.user}" password="${deploy.pass}" 
+	  	path="/${webapp.name}" 
+	  	war="${dist.war}/${warfile}"
+	  	update="true"/>                   
+	</target>
 	
 	<target name="clean"> 
 		<!-- delete the ${build} and ${dist} directory trees -->  
-		<delete dir="${infraestructura_bld}"/> 
-		<delete dir="${sofiafwk_bld}"/> 
-		<delete dir="${dist_jar}"/> 
+		<delete dir="${webapp.bld}"/> 
+		<delete dir="${sofiafwk.bld}"/> 
+		<delete dir="${dist.jar}"/> 
 	</target>
 	
 </project>
