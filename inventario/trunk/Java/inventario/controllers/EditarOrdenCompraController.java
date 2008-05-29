@@ -8,6 +8,7 @@ import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
+import inventario.util.OrdenesDeCompraTANGO;
 import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.ResultSet;
@@ -395,8 +396,9 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					_dsOrdenesCompra.resetStatus();
 					_dsDetalleSC.resetStatus();
 					
-					conn.commit();
-					
+					conn.commit();				
+					System.out.println(_dsOrdenesCompra.getEntidadExternaCodigo());
+					(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra, "OT ");
 					_dsOrdenesCompra.reloadRow();
 					setRecargar(true);
 					
