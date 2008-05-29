@@ -1,6 +1,7 @@
 package inventario.models;
 
 import infraestructura.models.BaseModel;
+import infraestructura.models.WebsiteUserModel;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -784,7 +785,16 @@ public class RecepcionesComprasModel extends BaseModel {
 			setRecepcionesComprasFecha(new Timestamp((Calendar.getInstance()
 					.getTimeInMillis())));
 		if(getRecepcionesComprasUserIdCompleta() == 0)
-			setRecepcionesComprasUserIdCompleta(getCurrentWebsiteUserId());		
+			setRecepcionesComprasUserIdCompleta(getCurrentWebsiteUserId());
+		if (getRecepcionesComprasUserIdRecibe() == 0) {
+			WebsiteUserModel user = new WebsiteUserModel("infraestructura",
+					"infraestructura");
+			user.retrieve("user_id =" + getCurrentWebsiteUserId());
+			user.waitForRetrieve();
+			if (user.gotoFirst())
+				setRecepcionesComprasUserIdRecibe(user
+						.getWebsiteUserNroLegajo());
+		}
 	}
 	
 	@Override

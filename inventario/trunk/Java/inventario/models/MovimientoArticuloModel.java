@@ -1381,8 +1381,7 @@ public class MovimientoArticuloModel extends DataStore {
 						.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
 								"ARTICULO_UNIDAD_MEDIDA",
 								getMovimientoArticuloArticuloId(row), "TABLA",
-								"articulos")));		
-			System.out.println("Va a updatear super");		
+								"articulos")));
 		}
 		super.update(conn, handleTrans);
 	}

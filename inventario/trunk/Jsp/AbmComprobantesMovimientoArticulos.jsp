@@ -42,7 +42,7 @@ function CheckAll(checked) {
 				<salmon:td valign="Top">
 					<salmon:detailformdisplaybox name="detailformdisplaybox1"
 						caption="Comprobantes de movimientos de artículos" width="100%"
-						datasource="dsComprobante" buttondisplaylocation="IN_HEADER"
+						datasource="dsComprobante" buttondisplaylocation="BELOW_TABLE"
 						addbuttonvisible="false" cancelbuttonvisible="false"
 						savebuttonvisible="false" deletebuttonvisible="false">
 						<salmon:input name="customBUT100" type="submit" value="boton 1"
@@ -139,13 +139,7 @@ function CheckAll(checked) {
 								<td width="10"></td>
 							</tr>
 							<tr>
-								<td><salmon:a href="" target="_blank"
-									name="imprimirComprobante1"
-									onclick="document.forms['bannerForm'].submit();">
-									<salmon:img name="imprimirTXT1"
-										src="%ImageDirectory/logo_excel.gif" height="25"
-										srclocalekey="bannerImageSource" />
-								</salmon:a> <salmon:a href="" target="_blank" name="imprimirComprobante2"
+								<td><salmon:a href="" target="_blank" name="imprimirComprobante2"
 									onclick="document.forms['bannerForm'].submit();">
 									<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
 										height="25" srclocalekey="bannerImageSource" />
@@ -156,7 +150,7 @@ function CheckAll(checked) {
 				</salmon:td>
 				<salmon:td align="LEFT" valign="Top">
 					<salmon:listformdisplaybox name="listformdisplaybox4"
-						mode="Display_single_page" caption="Atributos de la recepción"
+						mode="Display_single_page" caption="Atributos del movimiento"
 						width="100%" datasource="dsAtributos" addbuttonvisible="false"
 						savebuttonvisible="true" autocreatelink="false">
 						<salmon:datatable name="datatable1" width="100%"

@@ -36,8 +36,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 	public com.salmonllc.html.HtmlCheckBox _seleccion_detalle2;
 	public com.salmonllc.html.HtmlDropDownList _almacen2;
 	public com.salmonllc.html.HtmlDropDownList _tipo_movimiento2;
-	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;
-	public com.salmonllc.html.HtmlImage _imprimirTXT1;
+	public com.salmonllc.html.HtmlDropDownList _unidad_medida2;	
 	public com.salmonllc.html.HtmlImage _imprimirTXT2;
 	public com.salmonllc.html.HtmlLookUpComponent _articulo2;
 	public com.salmonllc.html.HtmlLookUpComponent _legajo1;
@@ -86,8 +85,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
-	public com.salmonllc.jsp.JspForm _pageForm;
-	public com.salmonllc.jsp.JspLink _imprimirComprobante1;
+	public com.salmonllc.jsp.JspForm _pageForm;	
 	public com.salmonllc.jsp.JspLink _imprimirComprobante2;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox4;
@@ -516,8 +514,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 					// recupero el row actual
 					int rowActual = _dsMovimientos.getRow();
 
-					int row = _dsMovimientos.insertRow(0);
-					System.out.println("ACA");
+					int row = _dsMovimientos.insertRow(0);					
 					_dsMovimientos.gotoRow(row);
 					_dsMovimientos
 							.setMovimientoArticuloComprobanteMovimientoId(row,
@@ -825,12 +822,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 			// setea la URL del reporte a generar al presionar el botón de
 			// impresión
-			String URL = armarUrlReporte("XLS", _dsComprobante
-					.getTipoMovimientoArticuloImpresion(),
-					"&Parameter_comprobante_movimiento_id=" + getRow_id());
-			_imprimirComprobante1.setHref(URL);
-
-			URL = armarUrlReporte("PDF", _dsComprobante
+			String URL = armarUrlReporte("PDF", _dsComprobante
 					.getTipoMovimientoArticuloImpresion(),
 					"&param_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
@@ -841,8 +833,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 				_tarea3.setEnabled(false);
 
 			boolean isModificable = isModificable(_dsComprobante
-					.getComprobanteMovimientoArticuloEstado());
-			System.out.println(isModificable);
+					.getComprobanteMovimientoArticuloEstado());			
 			_tipo_movimiento2.setEnabled(isModificable);
 			// _legajo1.setReadOnly(!isModificable);
 			_almacen2.setEnabled(isModificable);
