@@ -86,7 +86,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					"recepciones_compras");
 			addTableAlias("infraestructura.estados", "estados");
 			addTableAlias("infraestructura.website_user",
-					"website_user_preparador");			
+					"website_user_preparador");
 			addTableAlias("legajos", "legajos_retira");
 			addTableAlias("legajos", "legajos_autoriza");
 
@@ -173,7 +173,8 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					computeTableAndFieldName("legajos_retira.nro_legajo"), true);
 			addJoin(
 					computeTableAndFieldName("comprobante_movimiento_articulo.user_id_autoriza"),
-					computeTableAndFieldName("legajos_autoriza.nro_legajo"), true);
+					computeTableAndFieldName("legajos_autoriza.nro_legajo"),
+					true);
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("comprobante_movimiento_articulo.comprobante_movimiento_id")
@@ -580,7 +581,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 			int newValue) throws DataStoreException {
 		setInt(row, COMPROBANTE_MOVIMIENTO_ARTICULO_USER_ID_CONFIRMA, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the comprobante_movimiento_articulo.estado column
 	 * for the current row.
@@ -1213,15 +1214,37 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 	public void update(DBConnection conn, boolean handleTrans)
 			throws DataStoreException, SQLException {
 		// TODO Auto-generated method stub
+		WebsiteUserModel user = null;
+		int currentUser = 0;
+		if (getRow() != -1) {
+			currentUser = getCurrentWebsiteUserId();
+		}
 		if (getComprobanteMovimientoArticuloUserIdPreparador() == 0)
 			setComprobanteMovimientoArticuloUserIdPreparador(getCurrentWebsiteUserId());
+		// si el no está indicado el usuario que autoriza, seteo el legajo del usuario actual
 		if (getComprobanteMovimientoArticuloUserIdAutoriza() == 0) {
-			WebsiteUserModel user = new WebsiteUserModel("infraestructura",
-					"infraestructura");
-			user.retrieve("user_id =" + getCurrentWebsiteUserId());
-			user.waitForRetrieve();
-			if (user.gotoFirst())
+			if (user == null)
+				user = new WebsiteUserModel("infraestructura",
+						"infraestructura");
+			if (user.getRow() != -1 && user.getWebsiteUserUserId() != currentUser) {
+				user.retrieve("user_id =" + currentUser);
+				user.waitForRetrieve();
+			}			
+			if (user.gotoFirst() && user.getWebsiteUserNroLegajo() != 0)
 				setComprobanteMovimientoArticuloUserIdAutoriza(user
+						.getWebsiteUserNroLegajo());
+		}
+		// si no está indicado el usuario que retira, seteo el legajo del usuario actual
+		if (getComprobanteMovimientoArticuloUserIdRetira() == 0) {
+			if (user == null)
+				user = new WebsiteUserModel("infraestructura",
+						"infraestructura");			
+			if (user.getRow() != -1 && user.getWebsiteUserUserId() != currentUser) {
+				user.retrieve("user_id =" + currentUser);
+				user.waitForRetrieve();
+			}			
+			if (user.gotoFirst() && user.getWebsiteUserNroLegajo() != 0)
+				setComprobanteMovimientoArticuloUserIdRetira(user
 						.getWebsiteUserNroLegajo());
 		}
 		if (getComprobanteMovimientoArticuloEstado() == null)
