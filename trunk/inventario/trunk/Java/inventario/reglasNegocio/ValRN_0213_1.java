@@ -61,10 +61,12 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
 
 			int tipoMovimiento = Props.getProps("inventario", null)
 					.getIntProperty("TipoMovimientoRecepciones");
-			int almacen_id = 0;
-
+			int almacen_id = 0;	
+			
 			detallesSC.retrieve();
 			Hashtable<Integer, Integer> almacen_comprobantes = new Hashtable<Integer, Integer>();
+			
+			float cantidad_recibida = 0;
 			do {
 				if (almacen_id != detalles.getDetallesRcAlmacenId()) {
 					almacen_id = detalles.getDetallesRcAlmacenId();
@@ -99,13 +101,15 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
 				detallesSC.filter("detalle_sc.detalle_SC_id =="
 						+ detalles.getDetallesRcDetalleScId());
 				detallesSC.gotoFirst();
-				float cantidad_recibida = (float) (detallesSC
-						.getDetalleScCantidadRecibida() + detalles
-						.getDetallesRcCantidad());
-				detallesSC.setDetalleScCantidadRecibida(cantidad_recibida);
-				detallesSC.update(conn);
-				detallesSC.resetStatus();
+				
+				cantidad_recibida = detallesSC
+						.getDetalleScCantidadRecibida()+ (float) detalles.getDetallesRcCantidad();
+				
+				detallesSC.setDetalleScCantidadRecibida(cantidad_recibida);				
 			} while (detalles.gotoNext());
+			
+			detallesSC.update(conn);
+			detallesSC.resetStatus();
 			comprobanteMovimiento.update(conn);
 			comprobanteMovimiento.resetStatus();
 
@@ -119,6 +123,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
 			calendar.set(Calendar.DAY_OF_MONTH, 1);
 			int articulo_id = 0;
 			int comprobante_movimiento_id = 0;
+			double cantidad_entregada = 0;
 
 			while (rs.next()) {
 				almacen_id = rs.getInt("almacen_id");
@@ -133,14 +138,10 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio implements
 
 				movimiento.gotoRow(movimiento.insertRow());
 				movimiento.setMovimientoArticuloArticuloId(articulo_id);
-				movimiento.setMovimientoArticuloCantidadEntregada(rs
-						.getDouble("cantidad_recibida")
-						+ rs.getDouble("cantidad_excedencia"));
-
-				movimiento.setMovimientoArticuloCantidadSolicitada(rs
-						.getDouble("cantidad_pedida"));
-				movimiento
-						.setMovimientoArticuloComprobanteMovimientoId(comprobante_movimiento_id);
+				cantidad_entregada = rs.getDouble("cantidad_recibida")	+ rs.getDouble("cantidad_excedencia");
+				movimiento.setMovimientoArticuloCantidadEntregada(cantidad_entregada);
+				movimiento.setMovimientoArticuloCantidadSolicitada(cantidad_entregada);
+				movimiento.setMovimientoArticuloComprobanteMovimientoId(comprobante_movimiento_id);
 				movimiento.setMovimientoArticuloProyectoId(rs
 						.getInt("proyecto_id"));
 				movimiento.setMovimientoArticuloUnidadMedidaId(rs

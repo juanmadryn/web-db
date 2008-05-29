@@ -1771,8 +1771,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 				if (getDetallesRcUnidadMedidaId(row) == 0 && unidad_patron != 0) {
 					setDetallesRcUnidadMedidaId(row, unidad_patron);
 				}				
-			}
-			System.out.println("uni: "+getDetallesRcUnidadMedidaId(row));
+			}			
 		}
 
 		super.update(connection, handleTrans);

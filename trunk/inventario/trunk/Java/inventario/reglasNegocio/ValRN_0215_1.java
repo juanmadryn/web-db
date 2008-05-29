@@ -54,10 +54,11 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 
 			// obtengo los movimientos asociados al comprobante
 			movimientos
-					.retrieve("movimiento_articulo.comprobante_movimiento_id ="
+					.retrieve(conn, "movimiento_articulo.comprobante_movimiento_id ="
 							+ comprobante_movimiento_id);
-			movimientos.waitForRetrieve();
-
+			movimientos.waitForRetrieve();			
+			System.out.println(movimientos.getRowCount());
+			
 			double cantidad_entregada = 0;
 			double cantidad_solicitada = 0;
 			double cantidad_anulada = 0;
@@ -182,10 +183,10 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 				resumen.resetStatus();
 
 				// en los movimientos correspondientes seteo el resumen de saldo
-				// de artículo que se ha actualizado
+				// de artículo que se ha actualizado				
 				movimientos.filter("movimiento_articulo.articulo_id =="
-						+ articulo_id);				
-				while (movimientos.gotoNext()) {					
+						+ articulo_id);							
+				while (movimientos.gotoNext()) {				
 					movimientos
 							.setMovimientoArticuloResumenSaldoArticuloId(resumen
 									.getResumenSaldoArticulosResumenSaldoArticuloId());
