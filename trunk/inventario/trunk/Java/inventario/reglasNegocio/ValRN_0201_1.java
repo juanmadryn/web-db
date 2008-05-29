@@ -72,7 +72,7 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 			if (instancia.gotoFirst()) {
 				return true;
 			}
-
+			
 			String valorAtributo = AtributosEntidadModel
 					.getValorAtributoObjeto("CONFIGURACION_ID",
 							solicitudCompraId, "TABLA", "solicitudes_compra");
