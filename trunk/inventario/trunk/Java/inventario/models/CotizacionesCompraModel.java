@@ -3,8 +3,13 @@ package inventario.models;
 import java.sql.SQLException;
 
 import infraestructura.models.BaseModel;
+import inventario.util.SolicitudCompraTransiciones;
 
-import com.salmonllc.sql.*;
+import java.sql.SQLException;
+
+import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -3314,6 +3319,245 @@ public class CotizacionesCompraModel extends BaseModel {
 	
 		super.update(conn, handleTrans);
 	}
+	public void setTotalesProveedor(int row) throws DataStoreException, SQLException {
+		this.gotoRow(row);
+		setTotalesProveedor();
+	}
+	public void setTotalesProveedor() throws DataStoreException, SQLException {
+		
+		double total_proveedor1 = 0,total_proveedor2 = 0,total_proveedor3 = 0,total_proveedor4 = 0, total_proveedor5 = 0;
+
+		DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario", "inventario");
+		
+		// recupera los detalles de la cotización actual
+		dsDetalleCotizacion.retrieve("detalle_cotizacion.cotizacion_compra_id = " + getCotizacionesCompraCotizacionCompraId());
+		dsDetalleCotizacion.waitForRetrieve();
+		
+		// si recueró registros, itera sumando los totales
+		if (dsDetalleCotizacion.getRowCount() > 0) {
+			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
+				
+				total_proveedor1 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i);
+				total_proveedor2 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i);
+				total_proveedor3 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i);
+				total_proveedor4 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i);
+				total_proveedor5 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i);
+			}
+			
+			// setea los totales en el datastore
+			setCotizacionesCompraTotalProveedor1(total_proveedor1);
+			setCotizacionesCompraTotalProveedor2(total_proveedor2);
+			setCotizacionesCompraTotalProveedor3(total_proveedor3);
+			setCotizacionesCompraTotalProveedor4(total_proveedor4);
+			setCotizacionesCompraTotalProveedor5(total_proveedor5);
+		}
+	}
+	
+	/**
+	 * @author demian
+	 * Permite validar y generar las ordenes de compra asociadas a una cotización en función de la selección
+	 * @param row
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void generaOrdenesCompra(int row,String host,DBConnection conn) throws DataStoreException, SQLException {
+		gotoRow(row);
+		generaOrdenesCompra(host,conn);
+	}
+	
+	public void generaOrdenesCompra(String host,DBConnection conn) throws DataStoreException, SQLException {
+		DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario", "inventario");
+		DetalleSCModel dsDetalleSC = new DetalleSCModel("inventario","inventario");
+		OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario","inventario");
+		int detalleSCId = -1;
+
+		int ocIdProveedor1 = -1, ocIdProveedor2 = -1,ocIdProveedor3 = -1,ocIdProveedor4 = -1,ocIdProveedor5 = -1;
+		
+		// recupera los detalles de la cotización actual
+		dsDetalleCotizacion.retrieve("detalle_cotizacion.cotizacion_compra_id = " + getCotizacionesCompraCotizacionCompraId());
+		dsDetalleSC.retrieve("detalle_sc.cotizacion_compra_id = "
+				+ getCotizacionesCompraCotizacionCompraId()
+				+ " and detalle_sc.orden_compra_id is null");
+		dsDetalleCotizacion.waitForRetrieve();
+		dsDetalleSC.waitForRetrieve();
+		
+		conn.beginTransaction();
+
+		// si recueró registros, itera controlando, validando y generando las OC
+		if (dsDetalleCotizacion.getRowCount() > 0) {
+			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
+				// verifica que el detalle esté oc
+				int proveedor = dsDetalleCotizacion.verificaIntegridadDetalle(i);
+				// verifica que el proveedor seleecionado tenga FK al proveedor
+				switch (proveedor) {
+				case 1:
+					if (!(getCotizacionesCompraEntidadIdProveedor1() > 0))
+						throw new DataStoreException(
+								"Existe articulo seleccionado para el proveedor 1, pero no se indica cual es el proveedor");
+
+					// busca el detalle de SC correspondiente
+					detalleSCId = -1;
+					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
+						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
+								.getDetalleCotizacionDetalleScId(i))
+							detalleSCId = j;
+					}
+					
+					// si está ok, y no está en ona OC YA va armando la data
+					// para armar la OC
+					if (detalleSCId != -1) {
+						if (ocIdProveedor1 == -1) {
+							// no se creó OC aún para el proveedor, la crea
+							ocIdProveedor1 = dsOrdenCompra.insertRow();
+							dsOrdenCompra.setCurrentWebsiteUserId(getCurrentWebsiteUserId());
+							dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(getCotizacionesCompraEntidadIdProveedor1());
+							dsOrdenCompra.setOrdenesCompraCondicionCompraId(getCotizacionesCompraCondicionCompraIdProveedor1());
+							dsOrdenCompra.setOrdenesCompraDescuento((float)getCotizacionesCompraBonificacionProveedor1());
+							dsOrdenCompra.update(conn);
+						}
+						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
+								.getOrdenesCompraOrdenCompraId(ocIdProveedor1));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
+								.getDetalleScCantidadSolicitada(detalleSCId));
+					}
+					break;
+				case 2:
+					if (!(getCotizacionesCompraEntidadIdProveedor2() > 0))
+						throw new DataStoreException(
+								"Existe articulo seleccionado para el proveedor 2, pero no se indica cual es el proveedor");
+
+					// busca el detalle de SC correspondiente
+					detalleSCId = -1;
+					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
+						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
+								.getDetalleCotizacionDetalleScId(i))
+							detalleSCId = j;
+					}
+					
+					// si está ok, y no está en ona OC YA va armando la data
+					// para armar la OC
+					if (detalleSCId != -1) {
+						if (ocIdProveedor2 == -1) {
+							// no se creó OC aún para el proveedor, la crea
+							ocIdProveedor2 = dsOrdenCompra.insertRow();
+							dsOrdenCompra.setCurrentWebsiteUserId(getCurrentWebsiteUserId());
+							dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(getCotizacionesCompraEntidadIdProveedor2());
+							dsOrdenCompra.setOrdenesCompraCondicionCompraId(getCotizacionesCompraCondicionCompraIdProveedor2());
+							dsOrdenCompra.setOrdenesCompraDescuento((float)getCotizacionesCompraBonificacionProveedor2());
+							dsOrdenCompra.update(conn);
+						}
+						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
+								.getOrdenesCompraOrdenCompraId(ocIdProveedor2));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
+								.getDetalleScCantidadSolicitada(detalleSCId));
+					}
+					break;
+				case 3:
+					if (!(getCotizacionesCompraEntidadIdProveedor3() > 0))
+						throw new DataStoreException(
+								"Existe articulo seleccionado para el proveedor 3, pero no se indica cual es el proveedor");
+
+					// busca el detalle de SC correspondiente
+					detalleSCId = -1;
+					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
+						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
+								.getDetalleCotizacionDetalleScId(i))
+							detalleSCId = j;
+					}
+					
+					// si está ok, y no está en ona OC YA va armando la data
+					// para armar la OC
+					if (detalleSCId != -1) {
+						if (ocIdProveedor3 == -1) {
+							// no se creó OC aún para el proveedor, la crea
+							ocIdProveedor3 = dsOrdenCompra.insertRow();
+							dsOrdenCompra.setCurrentWebsiteUserId(getCurrentWebsiteUserId());
+							dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(getCotizacionesCompraEntidadIdProveedor3());
+							dsOrdenCompra.setOrdenesCompraCondicionCompraId(getCotizacionesCompraCondicionCompraIdProveedor3());
+							dsOrdenCompra.setOrdenesCompraDescuento((float)getCotizacionesCompraBonificacionProveedor3());
+							dsOrdenCompra.update(conn);
+						}
+						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
+								.getOrdenesCompraOrdenCompraId(ocIdProveedor3));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
+								.getDetalleScCantidadSolicitada(detalleSCId));
+					}
+					break;
+				case 4:
+					if (!(getCotizacionesCompraEntidadIdProveedor4() > 0))
+						throw new DataStoreException(
+								"Existe articulo seleccionado para el proveedor 4, pero no se indica cual es el proveedor");
+
+					// busca el detalle de SC correspondiente
+					detalleSCId = -1;
+					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
+						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
+								.getDetalleCotizacionDetalleScId(i))
+							detalleSCId = j;
+					}
+					
+					// si está ok, y no está en ona OC YA va armando la data
+					// para armar la OC
+					if (detalleSCId != -1) {
+						if (ocIdProveedor4 == -1) {
+							// no se creó OC aún para el proveedor, la crea
+							ocIdProveedor4 = dsOrdenCompra.insertRow();
+							dsOrdenCompra.setCurrentWebsiteUserId(getCurrentWebsiteUserId());
+							dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(getCotizacionesCompraEntidadIdProveedor4());
+							dsOrdenCompra.setOrdenesCompraCondicionCompraId(getCotizacionesCompraCondicionCompraIdProveedor4());
+							dsOrdenCompra.setOrdenesCompraDescuento((float)getCotizacionesCompraBonificacionProveedor4());
+							dsOrdenCompra.update(conn);
+						}
+						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
+								.getOrdenesCompraOrdenCompraId(ocIdProveedor4));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
+								.getDetalleScCantidadSolicitada(detalleSCId));
+					}
+					break;
+				case 5:
+					if (!(getCotizacionesCompraEntidadIdProveedor5() > 0))
+						throw new DataStoreException(
+								"Existe articulo seleccionado para el proveedor 5, pero no se indica cual es el proveedor");
+					// busca el detalle de SC correspondiente
+					detalleSCId = -1;
+					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
+						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
+								.getDetalleCotizacionDetalleScId(i))
+							detalleSCId = j;
+					}
+					
+					// si está ok, y no está en ona OC YA va armando la data
+					// para armar la OC
+					if (detalleSCId != -1) {
+						if (ocIdProveedor5 == -1) {
+							// no se creó OC aún para el proveedor, la crea
+							ocIdProveedor5 = dsOrdenCompra.insertRow();
+							dsOrdenCompra.setCurrentWebsiteUserId(getCurrentWebsiteUserId());
+							dsOrdenCompra.setOrdenesCompraEntidadIdProveedor(getCotizacionesCompraEntidadIdProveedor5());
+							dsOrdenCompra.setOrdenesCompraCondicionCompraId(getCotizacionesCompraCondicionCompraIdProveedor5());
+							dsOrdenCompra.setOrdenesCompraDescuento((float)getCotizacionesCompraBonificacionProveedor5());
+							dsOrdenCompra.update(conn);
+						}
+						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
+								.getOrdenesCompraOrdenCompraId(ocIdProveedor5));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
+								.getDetalleScCantidadSolicitada(detalleSCId));
+					}
+					break;
+				default:
+					break;
+				} 
+			}
+			
+			// update the SC states			
+			dsDetalleSC.update(conn);
+			dsDetalleSC.filter("detalle_sc.orden_compra_id != null");
+			SolicitudCompraTransiciones.agregarEnOc(conn,dsDetalleSC, host,	getCurrentWebsiteUserId());
+
+		}
+		
+	}
+	
 	// $ENDCUSTOMMETHODS$
 
 }

@@ -230,8 +230,46 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 
 		if (e.getComponent() == _grabarCotizacionCompraBUT1) {
 			// graba la información
-			_dsCotizacionesCompra.update();
-			_dsDetalleCotizacion.update();
+			try {
+				_dsDetalleCotizacion.update();
+				// calcula totales
+				_dsCotizacionesCompra.setTotalesProveedor();
+				_dsCotizacionesCompra.update();
+			} catch (DataStoreException ex) {
+				displayErrorMessage(ex.getMessage());
+				return false;
+			}
+		}
+		
+		if (e.getComponent() == _generarOCBUT1) {
+			//verifica y genera OC's correspondientes
+			DBConnection conn = DBConnection.getConnection(getApplicationName());
+			try {
+				// primero graba por si existen commit pendiente
+				_dsDetalleCotizacion.update();
+				// calcula totales
+				_dsCotizacionesCompra.setTotalesProveedor();
+				_dsCotizacionesCompra.update();
+
+				// luego genera las OC's
+				conn.beginTransaction();
+
+				_dsCotizacionesCompra.generaOrdenesCompra(getCurrentRequest().getRemoteHost(),conn);
+
+				conn.commit();
+				
+				sendPageRedirect();
+
+			} catch (Exception ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+				return false;
+			} finally {
+				if (conn != null) {
+					conn.rollback();
+					conn.freeConnection();
+				}
+			}
 		}
 
 		return super.submitPerformed(e);
