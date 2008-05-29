@@ -56,15 +56,7 @@ public final class ValRN_0214_1 extends ValidadorReglasNegocio implements
 						.append("Para cargar recepciones de compras realizadas mediante OC ingrese al sistema de Recepciones");
 				return false;
 			}
-
-			if (ds.getComprobanteMovimientoArticuloUserIdRetira() == 0
-					&& "F".equalsIgnoreCase(ds
-							.getTipoMovimientoArticuloPositivo())) {
-				msg
-						.append("Especifique el legajo de quien retira para completar el comprobante");
-				return false;
-			}
-
+			
 			if (movimientos.getRowCount() == 0) {
 				msg.append("Debe detallar por lo menos un artículo");
 				return false;

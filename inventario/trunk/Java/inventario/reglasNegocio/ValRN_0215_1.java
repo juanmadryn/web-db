@@ -40,6 +40,13 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 			ComprobanteMovimientoArticuloModel ds = (ComprobanteMovimientoArticuloModel) obj;
 			if(!UsuarioRolesModel.isRolUsuario(ds.getCurrentWebsiteUserId(), USER_ENCARGADO_ALMACEN))
 				throw new DataStoreException("Ud. no está autorizado para confirmar movimientos de almacén.");
+			if (ds.getComprobanteMovimientoArticuloUserIdRetira() == 0
+					&& "F".equalsIgnoreCase(ds
+							.getTipoMovimientoArticuloPositivo())) {
+				msg
+						.append("Especifique el legajo de quien retira para completar el comprobante");
+				return false;
+			}
 			
 			MovimientoArticuloModel movimientos = new MovimientoArticuloModel(
 					"inventario");
