@@ -1456,15 +1456,22 @@ public class OrdenesCompraModel extends BaseModel {
 	 * Obtiene los posibles estados en los cuales una OC es modificable
 	 * @return set con los estados susceptibles de modificacion
 	 */
-	private Set<String> getEstadosDeModificacion() {	
-		Props p = Props.getProps(getAppName(),null);
+	private Set<String> getEstadosDeModificacion() {
+		Props p = Props.getProps(getAppName(), null);
 		estadosDeModificacion = new HashSet<String>();
-		String[] estados = p.getProperty(Constants.ESTADOS_DE_MODIFICACION_ORDENES_COMPRA).split(",");
-		
-		for (String e : estados) {
-			estadosDeModificacion.add(e);
+		// modificado por demian barry el 28/05/2008 agregando código protectivo
+		// por si la propiedad NO está definida
+		String[] estados = null;
+		if (p.getProperty(Constants.ESTADOS_DE_MODIFICACION_ORDENES_COMPRA) != null) {
+			estados = p.getProperty(
+					Constants.ESTADOS_DE_MODIFICACION_ORDENES_COMPRA)
+					.split(",");
+
+			for (String e : estados) {
+				estadosDeModificacion.add(e);
+			}
 		}
-		
+
 		return estadosDeModificacion;
 	}
 	

@@ -2,7 +2,8 @@ package inventario.models;
 
 import infraestructura.models.BaseModel;
 
-import com.salmonllc.sql.*;
+import com.salmonllc.sql.DataStore;
+import com.salmonllc.sql.DataStoreException;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -1235,6 +1236,86 @@ public class DetalleCotizacionModel extends BaseModel {
      
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
+	
+	/**
+	 * @author demian
+	 * Permite verificar la coherencia de los datos entre los proveedores del artículo
+	 * básicamente creado para verificar el check de compra
+	 * @param row de la fila del datasotore a verificar
+	 * @throws DataStoreException cuando NO verificó la línea
+	 */
+	public int verificaIntegridadDetalle(int row) throws DataStoreException {
+		gotoRow(row);
+		return verificaIntegridadDetalle();
+	}
+	
+	/**
+	 * @author demian
+	 * Permite verificar la coherencia de los datos entre los proveedores del artículo
+	 * básicamente creado para verificar el check de compra
+	 * @throws DataStoreException cuando NO verificó la línea
+	 */
+	public int verificaIntegridadDetalle() throws DataStoreException {
+		int check1 = 0, check2 = 0, check3 = 0, check4 = 0, check5 = 0;
+		
+		check1 = getDetalleCotizacionCotizacionSeleccionadaProveedor1();
+		check2 = getDetalleCotizacionCotizacionSeleccionadaProveedor2();
+		check3 = getDetalleCotizacionCotizacionSeleccionadaProveedor3();
+		check4 = getDetalleCotizacionCotizacionSeleccionadaProveedor4();
+		check5 = getDetalleCotizacionCotizacionSeleccionadaProveedor5();
+		
+		if ((check1 + check2 + check3 + check4 + check5) > 1)
+			throw new DataStoreException("El artículo " + getArticulosNombre()
+					+ " - " + getArticulosDescripcion()
+					+ " Tiene seleccionado mas de un proveedor.");
+
+		// verifica que para el proveedor seleccionado tenga precio
+		if (check1 > 0	&& !(getDetalleCotizacionMontoUnitarioProveedor1() > 0.000))
+			throw new DataStoreException(
+					"El proveedor seleccionado para el artículo "
+							+ getArticulosNombre() + " - "
+							+ getArticulosDescripcion()
+							+ " No tiene precio asignado");
+		if (check2 > 0	&& !(getDetalleCotizacionMontoUnitarioProveedor2() > 0.000))
+			throw new DataStoreException(
+					"El proveedor seleccionado para el artículo "
+							+ getArticulosNombre() + " - "
+							+ getArticulosDescripcion()
+							+ " No tiene precio asignado");
+		if (check3 > 0	&& !(getDetalleCotizacionMontoUnitarioProveedor3() > 0.000))
+			throw new DataStoreException(
+					"El proveedor seleccionado para el artículo "
+							+ getArticulosNombre() + " - "
+							+ getArticulosDescripcion()
+							+ " No tiene precio asignado");
+		if (check4 > 0	&& !(getDetalleCotizacionMontoUnitarioProveedor4() > 0.000))
+			throw new DataStoreException(
+					"El proveedor seleccionado para el artículo "
+							+ getArticulosNombre() + " - "
+							+ getArticulosDescripcion()
+							+ " No tiene precio asignado");
+		if (check5 > 0	&& !(getDetalleCotizacionMontoUnitarioProveedor5() > 0.000))
+			throw new DataStoreException(
+					"El proveedor seleccionado para el artículo "
+							+ getArticulosNombre() + " - "
+							+ getArticulosDescripcion()
+							+ " No tiene precio asignado");
+
+		//determina que proveedor está seleccionado
+		if (check1 > 0)
+			return 1;
+		if (check2 > 0)
+			return 2;
+		if (check3 > 0)
+			return 3;
+		if (check4 > 0)
+			return 4;
+		if (check5 > 0)
+			return 5;
+		
+		return 0;
+		
+	}
      
      //$ENDCUSTOMMETHODS$
      
