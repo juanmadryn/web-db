@@ -9,10 +9,10 @@
 	<property name="jarfile" value="${ant.project.name}.jar"/>
 	<property name="warfile" value="${ant.project.name}.war"/>
 	<property name="jsp" value="${basedir}/Jsp"/>
-	<property name="tomcat.path" value="/usr/share/tomcat"/>
+	<property name="tomcat.path" value="C:\Archivos de programa\Apache Software Foundation\Tomcat 5.0"/>
 	<property name="tomcat.commonlibs" value="${tomcat.path}/common/lib"/>
 	<property name="tomcat.serverlibs" value="${tomcat.path}/server/lib"/>
-	<property name="workspace" value="/home/fep/workspace"/>
+	<property name="workspace" value="C:\Documents and Settings\Administrador\workspace3"/>
 	<property name="sofiafwk.src" value="${workspace}/Salmon Open Framework/Java"/> 
 	<property name="sofiafwk.bld" value="${workspace}/Salmon Open Framework/bin"/>
 	<!-- directorio en donde se copia el JAR (infraestructura / salmon solamente) -->	
@@ -26,9 +26,7 @@
 	<!-- user, pass, url  para deploy de war -->
 	<property name="deploy.user" value="admin"/>
 	<property name="deploy.pass" value="admin"/>
-	<property name="deploy.url" value="http://localhost:8080/manager"/>	
-	<!-- JAR proyectos -->
-	<property name="proyectos.jar" value="${workspace}/proyectos/dist/jar"/>
+	<property name="deploy.url" value="http://localhost:8080/manager"/>
 	
 	<path id="compile.classpath">
 		<pathelement location="${sofiafwk.bld}"/>
@@ -41,8 +39,8 @@
 	</path>	
 
 	<!-- Configura Ant tasks de la aplicación Manager -->
-	<taskdef resource="org/apache/catalina/ant/catalina.tasks" 
-		classpathref="compile.classpath"/>
+	<!-- <taskdef resource="org/apache/catalina/ant/catalina.tasks" 
+		classpathref="compile.classpath"/> -->
 	
 	<target name="init"> 
 		<!-- Create the time stamp -->
@@ -64,6 +62,17 @@
 		</javac>
 	</target>
 	
+	<!-- backup jar -->
+	<target name="backup.jar">
+		<!-- nombre del directorio de backups -->
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy-MM-dd" />
+		</tstamp>
+		<property name="bkp.dir" value="Bkp${DSTAMP}"/>		
+		<mkdir dir="${backup.jar.dir}/${bkp.dir}"/>		
+		<copy file="${deploy.jar.dir}/${jarfile}" todir="${backup.jar.dir}/${bkp.dir}" failonerror="false"/>
+	</target>
+	
 	<!-- backup war -->
 	<target name="backup">
 		<!-- nombre del directorio de backups -->
@@ -74,24 +83,43 @@
 		<mkdir dir="${backup.war.dir}/${bkp.dir}"/>
 		<copy file="${deploy.war.dir}/${warfile}" todir="${backup.war.dir}/${bkp.dir}" failonerror="false"/>
 	</target>
+	
+	<target name="dist.jar">
+		<mkdir dir="${dist.jar}"/>
+		<tstamp>
+		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<jar destfile="${dist.jar}/${jarfile}"
+			basedir="${webapp.bld}"
+			includes="**/*.class">
+		</jar>
+	</target>
 			
-	<target name="dist">				
+	<target name="dist" depends="dist.jar">				
 		<mkdir dir="${dist.war}"/>
+		<replace file="WEB-INF/properties/System.properties" token="SecurePort=9080" value="SecurePort=8080"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=9080" value="UnSecurePort=8080"/>
 		<war destfile="${dist.war}/${warfile}" webxml="WEB-INF/web.xml">	
 			<webinf dir="WEB-INF"></webinf>
-			<lib dir="${proyectos.jar}"></lib>
-			<classes dir="${webapp.bld}"></classes>
 			<zipfileset dir="${jsp}" prefix="Jsp"/>
 		</war>
+		<replace file="WEB-INF/properties/System.properties" token="SecurePort=8080" value="SecurePort=9080"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=8080" value="UnSecurePort=9080"/>
+	</target>
+	
+	<target name="deploy.jar" depends="backup.jar,dist.jar">		
+		<!-- Copia el JAR en el directorio de deploy -->
+		<copy file="${dist.jar}/${jarfile}" todir="${deploy.jar.dir}" overwrite="yes"/>		
 	</target>
 	
 	<target name="deploy" depends="backup,dist">		
-	  <deploy 
+	  <!--<deploy 
 	  	url="${deploy.url}" 
 	  	username="${deploy.user}" password="${deploy.pass}" 
 	  	path="/${webapp.name}" 
 	  	war="${dist.war}/${warfile}"
-	  	update="true"/>                   
+	  	update="true"/>-->
+		<copy file="${dist.war}/${warfile}" todir="${deploy.war.dir}" overwrite="yes"/>
 	</target>
 	
 	<target name="clean"> 
