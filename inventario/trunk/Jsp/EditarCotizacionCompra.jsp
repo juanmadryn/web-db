@@ -104,11 +104,11 @@
                         </salmon:td>
                         <salmon:td>
                            <salmon:text name="descripcion23"
-                              text="+++++++++++" font="TableHeadingFont" />
+                              text="+++++++++++++++++" font="TableHeadingFont" />
                         </salmon:td>
                         <salmon:td>
                            <salmon:text name="descComplArticulo23"
-                              text="++++++++"
+                              text="+++++++++++++++++"
                               font="TableHeadingFont" />
                         </salmon:td>
                         <salmon:td>
@@ -180,38 +180,62 @@
                               font="TableHeadingFont" />
                         </salmon:td>
                         <salmon:td colspan="3" align="CENTER">
-                           <salmon:input type="select"
-                              name="forma_Pago_proveedor1" size="40"
+                           <!-- <salmon:input type="select" width="15"
+                              name="forma_Pago_proveedor1" size="10"
                               datasource="dsCotizacionesCompra:cotizaciones_compra.condicion_compra_id_proveedor1">
                               <salmon:option display="abc" key="123"
                                  table="condiciones_compra"
                                  keycolumn="condicion_compra_id"
-                                 displaycolumn="nombre"
+                                 displaycolumn="descripcion"
                                  nulloption="true"></salmon:option>
-                           </salmon:input>
+                           </salmon:input> -->
+                           <salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpCondicionesCompra" name="lkpCondicionesCompra1"
+										size="2" maxlength="50"
+										descriptiondatasource="dsCotizacionesCompra:condiciones_compra_proveedor1.descripcion"
+										datasource="dsCotizacionesCompra:condiciones_compra_proveedor1.nombre"
+										popupheight="450" popupwidth="500" usepopup="true"
+										showdescription="true"></salmon:lookup>
+                           
                         </salmon:td>
                         <salmon:td colspan="3" align="CENTER">
-                           <salmon:input type="select"
+                           <!--<salmon:input type="select" width="15"
                               name="forma_Pago_proveedor2" size="40"
                               datasource="dsCotizacionesCompra:cotizaciones_compra.condicion_compra_id_proveedor2">
                               <salmon:option display="abc" key="123"
                                  table="condiciones_compra"
                                  keycolumn="condicion_compra_id"
-                                 displaycolumn="nombre"
+                                 displaycolumn="descripcion"                                 
                                  nulloption="true"></salmon:option>
                            </salmon:input>
+                        -->
+                        <salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpCondicionesCompra" name="lkpCondicionesCompra2"
+										size="2" maxlength="50"
+										descriptiondatasource="dsCotizacionesCompra:condiciones_compra_proveedor2.descripcion"
+										datasource="dsCotizacionesCompra:condiciones_compra_proveedor2.nombre"
+										popupheight="450" popupwidth="500" usepopup="true"
+										showdescription="true"></salmon:lookup>
                         </salmon:td>
                         <salmon:td colspan="3" align="CENTER">
-                           <salmon:input type="select"
+                           <!--<salmon:input type="select" width="15"
                               name="forma_Pago_proveedor3" size="40"
                               datasource="dsCotizacionesCompra:cotizaciones_compra.condicion_compra_id_proveedor3">
                               <salmon:option display="abc" key="123"
                                  table="condiciones_compra"
                                  keycolumn="condicion_compra_id"
-                                 displaycolumn="nombre"
+                                 displaycolumn="descripcion"
                                  nulloption="true"></salmon:option>
                            </salmon:input>
-                        </salmon:td>
+                        -->
+                        <salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpCondicionesCompra" name="lkpCondicionesCompra3"
+										size="2" maxlength="50"
+										descriptiondatasource="dsCotizacionesCompra:condiciones_compra_proveedor3.descripcion"
+										datasource="dsCotizacionesCompra:condiciones_compra_proveedor3.nombre"
+										popupheight="450" popupwidth="500" usepopup="true"
+										showdescription="true"></salmon:lookup>
+						</salmon:td>
                      </salmon:tr>
                      <salmon:tr>
                         <salmon:td colspan="6">
