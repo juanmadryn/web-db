@@ -26,7 +26,7 @@ public class DetalleCotizacionModel extends BaseModel {
      public static final String DETALLE_COTIZACION_MARCA_PROVEEDOR1="detalle_cotizacion.marca_proveedor1";
      public static final String DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR1="detalle_cotizacion.cotizacion_seleccionada_proveedor1";
      public static final String DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR2="detalle_cotizacion.monto_unitario_proveedor2";
-     public static final String DETALLE_COTIZACION_MARACA_PROVEEDOR2="detalle_cotizacion.maraca_proveedor2";
+     public static final String DETALLE_COTIZACION_MARCA_PROVEEDOR2="detalle_cotizacion.marca_proveedor2";
      public static final String DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR2="detalle_cotizacion.cotizacion_seleccionada_proveedor2";
      public static final String DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR3="detalle_cotizacion.monto_unitario_proveedor3";
      public static final String DETALLE_COTIZACION_MARCA_PROVEEDOR3="detalle_cotizacion.marca_proveedor3";
@@ -85,7 +85,7 @@ public class DetalleCotizacionModel extends BaseModel {
           addColumn(computeTableName("detalle_cotizacion"),"marca_proveedor1",DataStore.DATATYPE_STRING,false,true,DETALLE_COTIZACION_MARCA_PROVEEDOR1);
           addColumn(computeTableName("detalle_cotizacion"),"cotizacion_seleccionada_proveedor1",DataStore.DATATYPE_INT,false,true,DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR1);
           addColumn(computeTableName("detalle_cotizacion"),"monto_unitario_proveedor2",DataStore.DATATYPE_DOUBLE,false,true,DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR2);
-          addColumn(computeTableName("detalle_cotizacion"),"maraca_proveedor2",DataStore.DATATYPE_STRING,false,true,DETALLE_COTIZACION_MARACA_PROVEEDOR2);
+          addColumn(computeTableName("detalle_cotizacion"),"marca_proveedor2",DataStore.DATATYPE_STRING,false,true,DETALLE_COTIZACION_MARCA_PROVEEDOR2);
           addColumn(computeTableName("detalle_cotizacion"),"cotizacion_seleccionada_proveedor2",DataStore.DATATYPE_INT,false,true,DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR2);
           addColumn(computeTableName("detalle_cotizacion"),"monto_unitario_proveedor3",DataStore.DATATYPE_DOUBLE,false,true,DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR3);
           addColumn(computeTableName("detalle_cotizacion"),"marca_proveedor3",DataStore.DATATYPE_STRING,false,true,DETALLE_COTIZACION_MARCA_PROVEEDOR3);
@@ -351,41 +351,41 @@ public class DetalleCotizacionModel extends BaseModel {
      }
 
      /**
-      * Retrieve the value of the detalle_cotizacion.maraca_proveedor2 column for the current row.
+      * Retrieve the value of the detalle_cotizacion.marca_proveedor2 column for the current row.
       * @return String
       * @throws DataStoreException
       */ 
      public String getDetalleCotizacionMaracaProveedor2() throws DataStoreException {
-          return  getString(DETALLE_COTIZACION_MARACA_PROVEEDOR2);
+          return  getString(DETALLE_COTIZACION_MARCA_PROVEEDOR2);
      }
 
      /**
-      * Retrieve the value of the detalle_cotizacion.maraca_proveedor2 column for the specified row.
+      * Retrieve the value of the detalle_cotizacion.marca_proveedor2 column for the specified row.
       * @param row which row in the table
       * @return String
       * @throws DataStoreException
       */ 
      public String getDetalleCotizacionMaracaProveedor2(int row) throws DataStoreException {
-          return  getString(row,DETALLE_COTIZACION_MARACA_PROVEEDOR2);
+          return  getString(row,DETALLE_COTIZACION_MARCA_PROVEEDOR2);
      }
 
      /**
-      * Set the value of the detalle_cotizacion.maraca_proveedor2 column for the current row.
+      * Set the value of the detalle_cotizacion.marca_proveedor2 column for the current row.
       * @param newValue the new item value
       * @throws DataStoreException
       */ 
      public void setDetalleCotizacionMaracaProveedor2(String newValue) throws DataStoreException {
-          setString(DETALLE_COTIZACION_MARACA_PROVEEDOR2, newValue);
+          setString(DETALLE_COTIZACION_MARCA_PROVEEDOR2, newValue);
      }
 
      /**
-      * Set the value of the detalle_cotizacion.maraca_proveedor2 column for the specified row.
+      * Set the value of the detalle_cotizacion.marca_proveedor2 column for the specified row.
       * @param row which row in the table
       * @param newValue the new item value
       * @throws DataStoreException
       */ 
      public void setDetalleCotizacionMaracaProveedor2(int row,String newValue) throws DataStoreException {
-          setString(row,DETALLE_COTIZACION_MARACA_PROVEEDOR2, newValue);
+          setString(row,DETALLE_COTIZACION_MARCA_PROVEEDOR2, newValue);
      }
 
      /**
