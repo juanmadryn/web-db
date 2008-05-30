@@ -3277,7 +3277,7 @@ public class CotizacionesCompraModel extends BaseModel {
 		CondicionesCompraModel condicionesCompraModel = new CondicionesCompraModel(getAppName());		
 		
 		if (getNombreCondicionCompraProveedor1() != null) {
-			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor1());
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = '" + getNombreCondicionCompraProveedor1()+"'");
 			if (condicionesCompraModel.gotoFirst()) {
 				setCotizacionesCompraCondicionCompraIdProveedor1(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
 			} else {
@@ -3285,7 +3285,7 @@ public class CotizacionesCompraModel extends BaseModel {
 			}
 		}
 		if (getNombreCondicionCompraProveedor2() != null) {
-			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor2());
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = '" + getNombreCondicionCompraProveedor2()+"'");
 			if (condicionesCompraModel.gotoFirst()) {
 				setCotizacionesCompraCondicionCompraIdProveedor2(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
 			} else {
@@ -3293,7 +3293,7 @@ public class CotizacionesCompraModel extends BaseModel {
 			}
 		}
 		if (getNombreCondicionCompraProveedor3() != null) {
-			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor3());
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = '" + getNombreCondicionCompraProveedor3()+"'");
 			if (condicionesCompraModel.gotoFirst()) {
 				setCotizacionesCompraCondicionCompraIdProveedor3(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
 			} else {
@@ -3301,7 +3301,7 @@ public class CotizacionesCompraModel extends BaseModel {
 			}	
 		}
 		if (getNombreCondicionCompraProveedor4() != null) {
-			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor4());
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = '" + getNombreCondicionCompraProveedor4()+"'");
 			if (condicionesCompraModel.gotoFirst()) {
 				setCotizacionesCompraCondicionCompraIdProveedor4(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
 			} else {
@@ -3309,7 +3309,7 @@ public class CotizacionesCompraModel extends BaseModel {
 			}
 		}
 		if (getNombreCondicionCompraProveedor5() != null) {
-			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = " + getNombreCondicionCompraProveedor5());
+			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = '" + getNombreCondicionCompraProveedor5()+"'");
 			if (condicionesCompraModel.gotoFirst()) {
 				setCotizacionesCompraCondicionCompraIdProveedor5(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
 			} else {
