@@ -94,8 +94,7 @@ public final class ValRN_0203_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 
-			// actualizo el mensaje de la instancia con las observaciones
-			// indicadas
+			// actualizo el mensaje de la instancia con las observaciones indicadas
 			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
 			instancia.update(conn);
 
