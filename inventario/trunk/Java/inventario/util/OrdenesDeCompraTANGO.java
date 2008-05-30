@@ -49,8 +49,12 @@ public class OrdenesDeCompraTANGO {
 
 			int COD_LISTA = 0;
 			String COD_COMPRA = "01";
+			
+			String AUTORIZO = oc.getWebsiteUserNombreComprador(); 
+			
 			// TODO
 			String COD_PROVEE = oc.getEntidadExternaCodigo();
+			
 			// TODO
 			int COND_COMPR = Integer.parseInt(oc
 					.getOrdenesCompraCondicionNombre());
@@ -58,26 +62,29 @@ public class OrdenesDeCompraTANGO {
 			float COTIZ = 3.0f;
 			int ESTADO = ESTADO_EMITIDA;
 			char EXPORTADO = 0;
+			
 			// TODO
 			Timestamp FEC_AUTORI = oc.getOrdenesCompraFechaAprobacion();
+			
 			// TODO
 			Timestamp FEC_EMISIO = new Timestamp(System.currentTimeMillis());
+			
 			// TODO
 			Timestamp FEC_GENER = oc.getOrdenesCompraFecha();
+			
 			// TODO
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(new Timestamp(System.currentTimeMillis()));
 			calendar.add(Calendar.MONTH, 1);
 			Timestamp FEC_VIGENC = new Timestamp(calendar.getTimeInMillis());
+			
 			// TODO
 			String HORA_AUTOR = null;
 			SimpleDateFormat dateFormat = new SimpleDateFormat("HHmm");
 			if (oc.getOrdenesCompraFechaAprobacion() != null) {
-				HORA_AUTOR = dateFormat.format(oc
-						.getOrdenesCompraFechaAprobacion());
+				HORA_AUTOR = dateFormat.format(oc.getOrdenesCompraFechaAprobacion());
 			} else
-				HORA_AUTOR = dateFormat.format(new Timestamp(System
-						.currentTimeMillis()));
+				HORA_AUTOR = dateFormat.format(new Timestamp(System.currentTimeMillis()));
 
 			String INC_II = "N";
 			String INC_IVA = "N";
@@ -133,7 +140,7 @@ public class OrdenesDeCompraTANGO {
 			pstTango.setFloat(26, TOTAL_II);
 			pstTango.setFloat(27, TOTAL_IVA);
 
-			pstTango.execute();
+			//pstTango.execute();
 			connTango.commit();
 
 		} catch (ClassNotFoundException e) {
@@ -175,10 +182,10 @@ public class OrdenesDeCompraTANGO {
 
 			if (r.first()) {
 				DecimalFormat format = new DecimalFormat("00000000");
-				tangoSt2
+				/*tangoSt2
 						.executeUpdate("UPDATE [FABRI_S.A.].[dbo].[CPA56] SET PROXIMO = "
 								+ format.format((Integer.parseInt(r
-										.getString(2)) + 1)) + " WHERE TALONARIO = 11");
+										.getString(2)) + 1)) + " WHERE TALONARIO = 11");*/
 				return " " + r.getString(1) + r.getString(2);
 			}
 
@@ -188,6 +195,8 @@ public class OrdenesDeCompraTANGO {
 				r.close();
 			if (tangoSt != null)
 				tangoSt.close();
+			if (tangoSt2 != null)
+				tangoSt2.close();
 		}
 	}
 }

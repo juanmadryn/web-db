@@ -47,24 +47,7 @@
                            value="boton 5" accesskey="5" visible="False"></salmon:input>
                         <salmon:input name="customBUT150" type="submit"
                            value="boton 6" accesskey="6" visible="False"></salmon:input>
-                        </td>
-                        <td align="right"><salmon:a href=""
-                           target="_blank"
-                           name="imprimirCotizacionCompraBUT1"
-                           onclick="document.forms['bannerForm'].submit();">
-                           <salmon:img name="imprimirTXT1"
-                              src="%ImageDirectory/logo_excel.gif"
-                              height="25"
-                              srclocalekey="bannerImageSource" />
-                        </salmon:a> <salmon:text name="espacio" text=" "
-                           font="TableHeadingFont" /> <salmon:a href=""
-                           target="_blank"
-                           name="imprimirCotizacionCompraBUT2"
-                           onclick="document.forms['bannerForm'].submit();">
-                           <salmon:img name="imprimirTXT2"
-                              src="%ImageDirectory/pdf.jpg" height="25"
-                              srclocalekey="bannerImageSource" />
-                        </salmon:a></td>
+                        </td>                        
                         <td><salmon:a
                            href="javascript:window.history.back()"
                            name="lnkBack">
