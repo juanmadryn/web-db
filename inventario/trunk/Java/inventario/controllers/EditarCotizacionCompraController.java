@@ -104,7 +104,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_MARCA_PROVEEDOR1 = "detalle_cotizacion.marca_proveedor1";
 	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR1 = "detalle_cotizacion.cotizacion_seleccionada_proveedor1";
 	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR2 = "detalle_cotizacion.monto_unitario_proveedor2";
-	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_MARACA_PROVEEDOR2 = "detalle_cotizacion.maraca_proveedor2";
+	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_MARCA_PROVEEDOR2 = "detalle_cotizacion.marca_proveedor2";
 	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR2 = "detalle_cotizacion.cotizacion_seleccionada_proveedor2";
 	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR3 = "detalle_cotizacion.monto_unitario_proveedor3";
 	public static final String DSDETALLECOTIZACION_DETALLE_COTIZACION_MARCA_PROVEEDOR3 = "detalle_cotizacion.marca_proveedor3";
