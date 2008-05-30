@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -477,7 +477,7 @@ inner join articulos articulos ON movimiento_articulo.articulo_id = articulos.ar
 left outer join resumen_saldo_articulos resumen_saldo_articulos ON movimiento_articulo.resumen_saldo_articulo_id = resumen_saldo_articulos.resumen_saldo_articulo_id  
 inner join comprobante_movimiento_articulo comprobante_movimiento_articulo ON movimiento_articulo.comprobante_movimiento_id = comprobante_movimiento_articulo.comprobante_movimiento_id  
 inner join infraestructura.website_user user_preparador ON comprobante_movimiento_articulo.user_id_preparador = user_preparador.user_id
-inner join infraestructura.website_user user_confirma ON comprobante_movimiento_articulo.user_id_confirma = user_confirma.user_id
+left outer join infraestructura.website_user user_confirma ON comprobante_movimiento_articulo.user_id_confirma = user_confirma.user_id
 left outer join unidades_medida unidades_medida ON movimiento_articulo.unidad_medida_id = unidades_medida.unidad_medida_id  
 left outer join proyectos.proyectos proyectos ON movimiento_articulo.proyecto_id = proyectos.proyecto_id  
 left outer join proyectos.tareas_proyecto tareas_proyecto ON movimiento_articulo.tarea_id = tareas_proyecto.tarea_id  
@@ -559,13 +559,15 @@ ORDER BY movimiento_articulo.movimiento_articulo_id ASC</property>
                         <column id="12">
                             <property name="width">0.4895833333in</property>
                         </column>
-                        <column id="13"/>
+                        <column id="13">
+                            <property name="textAlign">right</property>
+                        </column>
                         <row id="14">
                             <property name="height">20%</property>
                             <cell id="15">
                                 <image id="6">
-                                    <property name="height">80px</property>
-                                    <property name="width">373px</property>
+                                    <property name="height">61px</property>
+                                    <property name="width">302px</property>
                                     <property name="source">embed</property>
                                     <property name="imageName">banner_logo.png</property>
                                 </image>
