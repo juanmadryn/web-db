@@ -189,7 +189,7 @@ public class OrdenesCompraModel extends BaseModel {
 					ORDENES_COMPRA_ENTIDAD_ID_PROVEEDOR,
 					"infraestructura.entidad_externa",
 					"'infraestructura.entidad_externa.entidad_id = ' + ordenes_compra.entidad_id_proveedor",
-					"nombre", computeTableAndFieldName("entidad_externa.nombre"),
+					"nombre", ENTIDAD_EXTERNA_NOMBRE,
 					"Proveedor inexistente");
 			addLookupRule(
 					ORDENES_COMPRA_USER_ID_GENERADOR,
