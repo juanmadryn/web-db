@@ -397,9 +397,9 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					_dsDetalleSC.resetStatus();
 					
 					conn.commit();				
-					System.out.println(_dsOrdenesCompra.getEntidadExternaCodigo());
+					/*System.out.println(_dsOrdenesCompra.getEntidadExternaCodigo());
 					(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra, "OT ");
-					_dsOrdenesCompra.reloadRow();
+					_dsOrdenesCompra.reloadRow();*/
 					setRecargar(true);
 					
 				} catch (DataStoreException ex) {					
