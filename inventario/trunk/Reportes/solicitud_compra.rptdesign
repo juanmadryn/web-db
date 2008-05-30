@@ -44,6 +44,24 @@
                     <property name="dataType">float</property>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
+                <structure>
+                    <property name="name">total_proveedor1</property>
+                    <expression name="expression">row["cantidad_solicitada"]*row["monto_unitario_proveedor1"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">total_proveedor2</property>
+                    <expression name="expression">row["cantidad_solicitada"]*row["monto_unitario_proveedor2"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">total_proveedor3</property>
+                    <expression name="expression">row["cantidad_solicitada"]*row["monto_unitario_proveedor3"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
             </list-property>
             <list-property name="columnHints">
                 <structure>
@@ -435,6 +453,21 @@
                     <structure>
                         <property name="position">52</property>
                         <property name="name">TotalSolicitud</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">53</property>
+                        <property name="name">total_proveedor1</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">54</property>
+                        <property name="name">total_proveedor2</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">55</property>
+                        <property name="name">total_proveedor3</property>
                         <property name="dataType">float</property>
                     </structure>
                 </list-property>
@@ -868,10 +901,10 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
             <property name="orientation">landscape</property>
-            <property name="topMargin">0.5cm</property>
+            <property name="topMargin">1cm</property>
             <property name="leftMargin">1cm</property>
-            <property name="bottomMargin">0in</property>
-            <property name="rightMargin">2cm</property>
+            <property name="bottomMargin">1cm</property>
+            <property name="rightMargin">0cm</property>
             <property name="showHeaderOnFirst">false</property>
             <property name="showFooterOnLast">false</property>
             <page-footer>
@@ -884,13 +917,15 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
     </page-setup>
     <body>
         <grid id="141">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">larger</property>
             <property name="height">3.3854166667in</property>
-            <property name="width">10.9583333333in</property>
+            <property name="width">100%</property>
             <column id="142">
-                <property name="width">2.2in</property>
+                <property name="width">20%</property>
             </column>
             <column id="143">
-                <property name="width">8.71875in</property>
+                <property name="width">80%</property>
             </column>
             <row id="922">
                 <property name="height">15mm</property>
@@ -1039,6 +1074,8 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
             </row>
         </grid>
         <table id="940">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">larger</property>
             <property name="marginTop">0pt</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set - solicitudes_compra</property>
@@ -1231,19 +1268,19 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
                 <structure>
                     <property name="name">plazo_entrega_proveedor1</property>
                     <expression name="expression">if(dataSetRow["plazo_entrega_proveedor1"] ==0) {"Inmediato"}
-else {dataSetRow["plazo_entrega_proveedor1"]+" día/s"}</expression>
+else {if (dataSetRow["plazo_entrega_proveedor1"] !=null) {dataSetRow["plazo_entrega_proveedor1"]+" día/s"}}</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">plazo_entrega_proveedor2</property>
                     <expression name="expression">if(dataSetRow["plazo_entrega_proveedor2"] ==0) {"Inmediato"}
-else {dataSetRow["plazo_entrega_proveedor2"]+" día/s"}</expression>
+else {if (dataSetRow["plazo_entrega_proveedor2"] !=null) {dataSetRow["plazo_entrega_proveedor2"]+" día/s"}}</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
                     <property name="name">plazo_entrega_proveedor3</property>
                     <expression name="expression">if(dataSetRow["plazo_entrega_proveedor3"] ==0) {"Inmediato"}
-else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
+else {if (dataSetRow["plazo_entrega_proveedor3"] !=null) {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}}</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -1291,51 +1328,82 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                     <expression name="expression">dataSetRow["nombre_41"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">total_proveedor1</property>
+                    <expression name="expression">dataSetRow["total_proveedor1"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">total_proveedor2</property>
+                    <expression name="expression">dataSetRow["total_proveedor2"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">total_proveedor3</property>
+                    <expression name="expression">dataSetRow["total_proveedor3"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_36</property>
+                    <expression name="expression">dataSetRow["nombre_36"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_37</property>
+                    <expression name="expression">dataSetRow["nombre_37"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_38</property>
+                    <expression name="expression">dataSetRow["nombre_38"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
             <column id="977">
-                <property name="width">5cm</property>
+                <property name="width">10cm</property>
+                <property name="fontSize">large</property>
             </column>
             <column id="979">
-                <property name="width">1cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="980">
-                <property name="width">0.4791666667in</property>
+                <property name="width">3cm</property>
             </column>
             <column id="981">
-                <property name="width">1.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="982">
-                <property name="width">1.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="983">
-                <property name="width">1.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="984">
-                <property name="width">1.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="985">
-                <property name="width">1.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="986">
-                <property name="width">1.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <column id="987">
-                <property name="width">1.5cm</property>
+                <property name="width">3cm</property>
             </column>
             <header>
                 <row id="941">
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">thick</property>
+                    <property name="borderBottomWidth">medium</property>
                     <property name="borderLeftColor">#000000</property>
                     <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">thick</property>
+                    <property name="borderLeftWidth">medium</property>
                     <property name="borderRightColor">#000000</property>
                     <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">thick</property>
+                    <property name="borderRightWidth">medium</property>
                     <property name="borderTopColor">#000000</property>
                     <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">thick</property>
+                    <property name="borderTopWidth">medium</property>
                     <cell id="942">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
@@ -1531,7 +1599,13 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
             <detail>
                 <row id="953">
                     <property name="height">3mm</property>
-                    <property name="fontSize">small</property>
+                    <property name="fontSize">large</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <property name="textIndent">0em</property>
                     <property name="verticalAlign">middle</property>
                     <cell id="954">
@@ -1750,10 +1824,18 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
             </detail>
             <footer>
                 <row id="965">
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <property name="borderTopColor">#000000</property>
                     <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">4px</property>
+                    <property name="borderTopWidth">medium</property>
                     <cell id="966">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1770,48 +1852,6 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Forma de pago</text-property>
                         </label>
-                    </cell>
-                    <cell id="968">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">medium</property>
-                    </cell>
-                    <cell id="969">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">medium</property>
-                    </cell>
-                    <cell id="970">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">medium</property>
                     </cell>
                     <cell id="971">
                         <property name="colSpan">2</property>
@@ -1880,8 +1920,110 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                         </data>
                     </cell>
                 </row>
+                <row id="1105">
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">thin</property>
+                    <cell id="1106">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="1116">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Condiciones de compra</text-property>
+                        </label>
+                    </cell>
+                    <cell id="1110">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">medium</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data id="1117">
+                            <property name="resultSetColumn">nombre_36</property>
+                        </data>
+                    </cell>
+                    <cell id="1112">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">medium</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data id="1118">
+                            <property name="resultSetColumn">nombre_37</property>
+                        </data>
+                    </cell>
+                    <cell id="1114">
+                        <property name="colSpan">2</property>
+                        <property name="rowSpan">1</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">medium</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data id="1119">
+                            <property name="resultSetColumn">nombre_38</property>
+                        </data>
+                    </cell>
+                </row>
                 <row id="999">
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <cell id="1000">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -1898,48 +2040,6 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Plazo de entrega</text-property>
                         </label>
-                    </cell>
-                    <cell id="1002">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1003">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1004">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
                     </cell>
                     <cell id="1005">
                         <property name="colSpan">2</property>
@@ -2009,7 +2109,15 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                     </cell>
                 </row>
                 <row id="1011">
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <cell id="1012">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -2026,48 +2134,6 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Bonificación</text-property>
                         </label>
-                    </cell>
-                    <cell id="1014">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1015">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1016">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
                     </cell>
                     <cell id="1017">
                         <property name="colSpan">2</property>
@@ -2137,7 +2203,15 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                     </cell>
                 </row>
                 <row id="1023">
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <cell id="1024">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -2155,48 +2229,6 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                             <text-property name="text">Total</text-property>
                         </label>
                     </cell>
-                    <cell id="1026">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1027">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1028">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
                     <cell id="1029">
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
@@ -2212,6 +2244,11 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data id="1102">
+                            <property name="resultSetColumn">total_proveedor1</property>
+                        </data>
                     </cell>
                     <cell id="1031">
                         <property name="colSpan">2</property>
@@ -2228,6 +2265,12 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data id="1103">
+                            <property name="resultSetColumn">total_proveedor2</property>
+                        </data>
                     </cell>
                     <cell id="1033">
                         <property name="colSpan">2</property>
@@ -2244,10 +2287,24 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
+                        <property name="textAlign">right</property>
+                        <data id="1104">
+                            <property name="resultSetColumn">total_proveedor3</property>
+                        </data>
                     </cell>
                 </row>
                 <row id="1035">
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <cell id="1036">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -2264,48 +2321,6 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Proveedor</text-property>
                         </label>
-                    </cell>
-                    <cell id="1038">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1039">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1040">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
                     </cell>
                     <cell id="1041">
                         <property name="colSpan">2</property>
@@ -2375,7 +2390,15 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                     </cell>
                 </row>
                 <row id="1047">
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <cell id="1048">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -2392,48 +2415,6 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Teléfono y contacto proveedor</text-property>
                         </label>
-                    </cell>
-                    <cell id="1050">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1051">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1052">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
                     </cell>
                     <cell id="1053">
                         <property name="colSpan">2</property>
@@ -2485,7 +2466,18 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                     </cell>
                 </row>
                 <row id="1059">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
+                    <property name="borderLeftColor">#000000</property>
+                    <property name="borderLeftStyle">solid</property>
+                    <property name="borderLeftWidth">medium</property>
+                    <property name="borderRightColor">#000000</property>
+                    <property name="borderRightStyle">solid</property>
+                    <property name="borderRightWidth">medium</property>
                     <cell id="1060">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">thin</property>
@@ -2502,48 +2494,6 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Dirección proveedor</text-property>
                         </label>
-                    </cell>
-                    <cell id="1062">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1063">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                    </cell>
-                    <cell id="1064">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
                     </cell>
                     <cell id="1065">
                         <property name="colSpan">2</property>
@@ -2597,17 +2547,20 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
             </footer>
         </table>
         <table id="667">
+            <property name="fontFamily">"Arial"</property>
+            <property name="fontSize">larger</property>
+            <property name="marginTop">0pt</property>
             <property name="height">4.0208333333in</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set - solicitudes_compra</property>
             <column id="681">
-                <property name="width">1.6145833333in</property>
+                <property name="width">10%</property>
             </column>
             <column id="674">
-                <property name="width">7.6354166667in</property>
+                <property name="width">80%</property>
             </column>
             <column id="684">
-                <property name="width">40%</property>
+                <property name="width">10%</property>
             </column>
             <header>
                 <row id="932">
@@ -2647,6 +2600,7 @@ else {dataSetRow["plazo_entrega_proveedor3"]+" día/s"}</expression>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <property name="paddingTop">80pt</property>
+                        <property name="verticalAlign">top</property>
                         <text-data id="927">
                             <property name="fontSize">medium</property>
                             <property name="paddingTop">1pt</property>
