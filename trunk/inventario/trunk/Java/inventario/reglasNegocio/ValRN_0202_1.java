@@ -125,6 +125,10 @@ public final class ValRN_0202_1 extends ValidadorReglasNegocio {
 								.next());
 				instancia.setInstanciasAprobacionOrden(cadena.getOrder());
 			}
+			
+			// actualizo el mensaje de la instancia con las observaciones indicadas
+			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
+
 			instancia.update(connection);
 			connection.commit();
 			msg.append("Su aprobación fue registrada exitosamente");
