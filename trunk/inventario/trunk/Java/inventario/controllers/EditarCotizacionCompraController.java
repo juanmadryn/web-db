@@ -443,17 +443,6 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		String titulo = "Cotización de materiales Nº" + getRow_id();
 		_detailformdisplaybox1.setHeadingCaption(titulo);
 		_dsCotizacionesCompra.setCurrentWebsiteUserId(currentUser);
-		
-		// setea la URL del reporte a generar al presionar el botón de
-		// impresión
-		String URL = armarUrlReporte("XLS", "cotizacion_compra",
-				"&param_cotizacion_compra_id=" + getRow_id());
-		_imprimirCotizacionCompraBUT1.setHref(URL);
-
-		URL = armarUrlReporte("PDF", "cotizacion_compra",
-				"&param_cotizacion_compra_id=" + getRow_id());
-		_imprimirCotizacionCompraBUT2.setHref(URL);
-
 	}
 
 }
