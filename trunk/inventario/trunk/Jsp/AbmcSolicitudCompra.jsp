@@ -133,7 +133,7 @@ function CheckAll(checked) {
                         <td><salmon:text name="total_solicitud1"
                            text="Total" font="TableHeadingFont" /></td>
                         <td><salmon:text name="total_solicitud2"
-                           text="" displayformat="###,###,##0.00"
+                           text="" displayformatlocalekey="CurrencyFormatConSigno"
                            datasource="dsSolicitudCompra:total_solicitud_compra"></salmon:text></td>
                         <td></td>
                         <td><salmon:a href="" target="_blank"
@@ -299,7 +299,7 @@ function CheckAll(checked) {
                   <salmon:td />
                   <salmon:td align="RIGHT">
                      <salmon:text name="monto_total2" text=""
-                        displayformat="###,###,##0.00"
+                        displayformatlocalekey="CurrencyFormatConSigno"
                         datasource="dsDetalleSC:monto_total"></salmon:text>
                   </salmon:td>
                </salmon:tr>
