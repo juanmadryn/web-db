@@ -290,9 +290,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			_ccHeaderTd.setVisible(false);
 			_ccRowTd.setVisible(false);
 			_ocHeaderTd.setVisible(false);
-			_ocRowTd.setVisible(false);
-			_cantidadPedidaHeaderTd.setColSpan(2);
-			_cantidadPedidaRowTd.setColSpan(2);
+			_ocRowTd.setVisible(false);			
+			_cantidadPedidaHeaderTd.setColSpan(3);
+			_cantidadPedidaRowTd.setColSpan(3);
+			_cantidadPedidaRowTd.setAlign("LEFT");
 		} else {
 			_ccHeaderTd.setVisible(true);
 			_ccRowTd.setVisible(true);

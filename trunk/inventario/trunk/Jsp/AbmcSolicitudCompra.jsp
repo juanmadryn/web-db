@@ -188,7 +188,8 @@ function CheckAll(checked) {
       <salmon:listformdisplaybox name="listformdisplaybox2"
          mode="Display_single_page" caption="Detalle" width="100%"
          datasource="dsDetalleSC" addbuttonvisible="false"
-         savebuttonvisible="true" savebuttoncaption="Eliminar">
+         savebuttonvisible="true" savebuttoncaption="Eliminar"
+         autocreatelink="false">
          <salmon:datatable name="datatable2" width="100%"
             datasource="dsDetalleSC" rowsperpage="10">
             <salmon:datatableheader>
@@ -293,7 +294,8 @@ function CheckAll(checked) {
                      <salmon:input type="text" name="monto_unitario1"
                         size="8" maxlength="15"
                         datasource="dsDetalleSC:detalle_sc.monto_unitario"></salmon:input> -
-								<salmon:text name="fecha_ultima_compra" text=""
+						<salmon:text name="fecha_ultima_compra" text="" 
+						displayformatlocalekey="DateFormat"
                         datasource="dsDetalleSC:detalle_sc.fecha_ultima_compra"></salmon:text>
                   </salmon:td>
                   <salmon:td />

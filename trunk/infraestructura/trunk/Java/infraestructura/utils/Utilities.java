@@ -1,5 +1,7 @@
 package infraestructura.utils;
 
+import infraestructura.models.UsuarioRolesModel;
+
 import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +10,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
 import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
 /*  
@@ -105,6 +108,54 @@ public class Utilities {
 				conn.freeConnection();
 		}
 		return solicitudes_pendientes;
+	}
+	
+	/**
+	 * Calcula el número de Solicitudes de Compra (Materiales) que han sido cotizadas
+	 * @param user_id
+	 * @return
+	 */
+	public static int getSolicitudesCompraCotizadas(int user_id) {
+		DBConnection conn = null;
+		Statement st = null;
+		ResultSet r = null;
+		int scCotizadas = 0;
+		try {
+			conn = DBConnection.getConnection("inventario", "inventario");
+				
+			String SQL = "SELECT count(*) " +
+					"FROM  solicitudes_compra solicitudes_compra " +					
+					"WHERE solicitudes_compra.estado LIKE '0006.0008'";
+			
+			st = conn.createStatement();
+			r = st.executeQuery(SQL);
+
+			if (r.first()) {
+				// guarda la cantidad actual
+				scCotizadas = r.getInt(1);				
+			}
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);		
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			if (conn != null)
+				conn.freeConnection();
+		}
+
+		return scCotizadas;
 	}
 	
 	/**
