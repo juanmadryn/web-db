@@ -322,7 +322,7 @@ function CheckAll(checked) {
                         size="40" maxlength="255"
                         datasource="dsDetalleSC:detalle_sc.observaciones"></salmon:input>
                   </salmon:td>
-                  <salmon:td align="RIGHT" name="ccRowTd">
+                  <salmon:td align="center" name="ccRowTd">
                      <salmon:a href="none" name="lnkCc1"
                         onclick="document.forms['bannerForm'].submit();"
                         datasource="dsDetalleSC:'%EditarCotizacionCompra?cotizacion_compra_id='+detalle_sc.cotizacion_compra_id">
@@ -330,11 +330,11 @@ function CheckAll(checked) {
                            datasource="dsDetalleSC:detalle_sc.cotizacion_compra_id"></salmon:text>
                      </salmon:a>
                   </salmon:td>
-                  <salmon:td align="RIGHT" name="cantidadPedidaRowTd">
+                  <salmon:td align="center" name="cantidadPedidaRowTd">
                      <salmon:text name="cantidad_pedida2" text=""
                         datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:text>
                   </salmon:td>
-                  <salmon:td align="RIGHT" name="ocRowTd">
+                  <salmon:td align="center" name="ocRowTd">
                      <salmon:a href="none" name="lnkOc1"
                         onclick="document.forms['bannerForm'].submit();"
                         datasource="dsDetalleSC:'%EditarOrdenCompra?orden_compra_id='+detalle_sc.orden_compra_id">

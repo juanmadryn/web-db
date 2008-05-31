@@ -200,6 +200,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesCotizadas.setVisible(false);
 
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
+		
+		_n2.setFocus();
 
 		_dsPeriodo.reset();
 		_dsPeriodo.insertRow();
