@@ -19,6 +19,7 @@ package infraestructura.controllers;
 //For more information please visit http://www.salmonllc.com
 
 import infraestructura.models.MenuModel;
+import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.Utilities;
 
 import java.io.IOException;
@@ -138,6 +139,10 @@ public class BaseController extends JspController implements SubmitListener,
 	public com.salmonllc.jsp.JspLink _lnkBannerSolicitudesObservadas;
 
 	public com.salmonllc.html.HtmlText _txtBannerSolicitudesObservadas;
+
+	public com.salmonllc.jsp.JspLink _lnkBannerSolicitudesCotizadas;
+
+	public com.salmonllc.html.HtmlText _txtBannerSolicitudesCotizadas;
 
 	public com.salmonllc.jsp.JspLink _lnkBannerOrdenesObservadas;
 
@@ -330,6 +335,8 @@ public class BaseController extends JspController implements SubmitListener,
 			_txtBannerOrdenesPendientes.setVisible(false);
 			_lnkBannerSolicitudesObservadas.setVisible(false);
 			_txtBannerSolicitudesObservadas.setVisible(false);
+			_lnkBannerSolicitudesCotizadas.setVisible(false);
+			_txtBannerSolicitudesCotizadas.setVisible(false);
 			_lnkBannerOrdenesObservadas.setVisible(false);
 			_txtBannerOrdenesObservadas.setVisible(false);
 			_txtBannerAccount.setVisible(false);
@@ -394,6 +401,7 @@ public class BaseController extends JspController implements SubmitListener,
 			int ordenes_pendientes = 0;
 			int solicitudes_observadas = 0;
 			int ordenes_observadas = 0;
+			int solicitudes_cotizadas = 0;
 
 			if ((solicitudes_pendientes = Utilities
 					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {
@@ -453,6 +461,21 @@ public class BaseController extends JspController implements SubmitListener,
 			} else {
 				_lnkBannerOrdenesObservadas.setVisible(false);
 				_txtBannerOrdenesObservadas.setVisible(false);
+			}
+			
+			if (UsuarioRolesModel.isRolUsuario(user_id, "COMPRADOR")) {
+				if ((solicitudes_cotizadas = Utilities.getSolicitudesCompraCotizadas(user_id)) > 0) {
+					_lnkBannerSolicitudesCotizadas.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="+user.getUserID()+"&mode=2");
+					_txtBannerSolicitudesCotizadas.setText("Solicitudes cotizadas: " + solicitudes_cotizadas);
+					_lnkBannerSolicitudesCotizadas.setVisible(true);
+					_txtBannerSolicitudesCotizadas.setVisible(true);
+				} else {
+					_lnkBannerSolicitudesCotizadas.setVisible(false);
+					_txtBannerSolicitudesCotizadas.setVisible(false);
+				}
+			} else {
+				_lnkBannerSolicitudesCotizadas.setVisible(false);
+				_txtBannerSolicitudesCotizadas.setVisible(false);
 			}
 
 		}

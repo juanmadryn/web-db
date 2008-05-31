@@ -40,6 +40,11 @@
 					</salmon:a></td>
 				</tr>
 				<tr>
+					<td><salmon:a href="" name="lnkBannerSolicitudesCotizadas">
+						<salmon:text name="txtBannerSolicitudesCotizadas" text="" />
+					</salmon:a></td>
+				</tr>
+				<tr>
 					<td><salmon:a href="" name="lnkBannerOrdenesPendientes">
 						<salmon:text name="txtBannerOrdenesPendientes" text="" />
 					</salmon:a></td>

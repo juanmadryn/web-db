@@ -5,6 +5,7 @@ package inventario.controllers;
 import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.Utilities;
+import inventario.models.SolicitudCompraModel;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -154,10 +155,12 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 
 	public static final int MODO_TITULO_ESPECIAL_PENDIENTES = 0;
 	public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
+	public static final int MODO_TITULO_ESPECIAL_COTIZADAS = 2;
 
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesPendientes;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesRechazadas;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesObservadas;
+	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesCotizadas;
 	
 	private Timestamp desde;
 	private Timestamp hasta;
@@ -168,7 +171,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	 */
 	public void initialize() throws Exception {
 		_recuperaSolicitudesPendientes = new HtmlSubmitButton(
-				"recuperaSolicitudesPendientes", "SC's pendientes", this);
+				"recuperaSolicitudesPendientes", "SM's pendientes", this);
 		_recuperaSolicitudesPendientes.setAccessKey("R");
 		_listformdisplaybox1.addButton(_recuperaSolicitudesPendientes);
 		_recuperaSolicitudesPendientes.addSubmitListener(this);
@@ -183,11 +186,18 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesRechazadas.setVisible(false);
 
 		_recuperaSolicitudesObservadas = new HtmlSubmitButton(
-				"recuperaSolicitudesObservadas", "SC's Observadas", this);
+				"recuperaSolicitudesObservadas", "SM's Observadas", this);
 		_recuperaSolicitudesObservadas.setAccessKey("O");
 		_listformdisplaybox1.addButton(_recuperaSolicitudesObservadas);
 		_recuperaSolicitudesObservadas.addSubmitListener(this);
 		_recuperaSolicitudesObservadas.setVisible(false);
+		
+		_recuperaSolicitudesCotizadas = new HtmlSubmitButton(
+				"recuperaSolicitudesCotizadas", "SM's Cotizadas", this);
+		_recuperaSolicitudesCotizadas.setAccessKey("O");
+		_listformdisplaybox1.addButton(_recuperaSolicitudesCotizadas);
+		_recuperaSolicitudesCotizadas.addSubmitListener(this);
+		_recuperaSolicitudesCotizadas.setVisible(false);
 
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 
@@ -278,6 +288,22 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				ex.printStackTrace();
 			}
 		}
+		
+		if (e.getComponent() == _recuperaSolicitudesCotizadas) {
+			try {
+				_dsSolicitudes
+					.retrieve("solicitudes_compra.estado LIKE '0006.0008'");
+				_dsSolicitudes.waitForRetrieve();
+				_dsSolicitudes.gotoFirst();
+				setSpecialTitle(MODO_TITULO_ESPECIAL_COTIZADAS);
+			} catch (SQLException ex) {
+				displayErrorMessage(ex.getMessage());
+				ex.printStackTrace();
+			} catch (DataStoreException ex) {
+				displayErrorMessage(ex.getMessage());
+				ex.printStackTrace();
+			}
+		}
 
 		if (e.getComponent() == _recuperaSolicitudesRechazadas) {
 			_dsSolicitudes.setSolicitudesCompraEstado("0006.0001");
@@ -324,7 +350,14 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 						_dsSolicitudes.gotoFirst();
 						setSpecialTitle(MODO_TITULO_ESPECIAL_OBSERVADAS);
 						break;
-					}
+					case 2:
+						_dsSolicitudes.setOrderBy(SolicitudCompraModel.SOLICITUDES_COMPRA_FECHA_SOLICITUD + " DESC");
+						_dsSolicitudes.retrieve("solicitudes_compra.estado LIKE '0006.0008'");						
+						_dsSolicitudes.waitForRetrieve();
+						_dsSolicitudes.gotoFirst();
+						setSpecialTitle(MODO_TITULO_ESPECIAL_COTIZADAS);
+						break;
+					}					
 
 				} catch (SQLException e) {
 					displayErrorMessage(e.getMessage());
@@ -354,8 +387,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			_recuperaSolicitudesObservadas.setVisible(true);
 		} else {
 			_recuperaSolicitudesObservadas.setVisible(false);
-		}
-
+		}		
+		
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
 		// realizadas por él
 		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
@@ -369,6 +402,14 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				_recuperaSolicitudesRechazadas.setVisible(true);
 			else
 				_recuperaSolicitudesRechazadas.setVisible(false);
+			
+			int solicitudes_cotizadas = Utilities.getSolicitudesCompraCotizadas(currentUser);
+			if (solicitudes_cotizadas > 0) {
+				_recuperaSolicitudesCotizadas.setVisible(true);
+			} else {
+				_recuperaSolicitudesCotizadas.setVisible(false);
+			}
+
 		}
 		super.pageRequested(event);
 	}
@@ -386,7 +427,11 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 					.setHeadingCaption("Solicitudes de materiales pendientes de observación");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
-		}
+		case 2:
+			_listformdisplaybox1.setHeadingCaption("Solicitudes de materiales cotizadas");
+			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
+			break;
+		}		
 	}
 
 	/**
