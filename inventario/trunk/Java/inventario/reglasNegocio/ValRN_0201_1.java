@@ -122,9 +122,7 @@ public final class ValRN_0201_1 extends ValidadorReglasNegocio {
 				instancia.setInstanciasAprobacionUserFirmante(siguientesFirmantes.next());
 				instancia.setInstanciasAprobacionOrden(cadena.getOrder());
 
-			}
-			
-			System.out.println("----> " + ds.getObservaciones());
+			}						
 			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
 			instancia.update(conn);
 			
