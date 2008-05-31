@@ -257,7 +257,7 @@ function CheckAll(checked) {
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="solicitudCompra3" text="Nro. Solicitud"
+							<salmon:text name="solicitudCompra3" text="Nro. S.M."
 								font="TableHeadingFont" />
 						</salmon:td>						
 						<salmon:td>
