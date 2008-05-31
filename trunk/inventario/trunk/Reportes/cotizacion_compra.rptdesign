@@ -256,6 +256,42 @@
                     <property name="columnName">plazo_entrega_proveedor3</property>
                     <property name="displayName">plazo_entrega_proveedor3</property>
                 </structure>
+                <structure>
+                    <property name="columnName">direccion_proveedor1</property>
+                    <property name="displayName">direccion_proveedor1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">direccion_proveedor2</property>
+                    <property name="displayName">direccion_proveedor2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">direccion_proveedor3</property>
+                    <property name="displayName">direccion_proveedor3</property>
+                </structure>
+                <structure>
+                    <property name="columnName">telefono_proveedor1</property>
+                    <property name="displayName">telefono_proveedor1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">telefono_proveedor2</property>
+                    <property name="displayName">telefono_proveedor2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">telefono_proveedor3</property>
+                    <property name="displayName">telefono_proveedor3</property>
+                </structure>
+                <structure>
+                    <property name="columnName">email_proveedor1</property>
+                    <property name="displayName">email_proveedor1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">email_proveedor2</property>
+                    <property name="displayName">email_proveedor2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">email_proveedor3</property>
+                    <property name="displayName">email_proveedor3</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -501,26 +537,71 @@
                     </structure>
                     <structure>
                         <property name="position">49</property>
+                        <property name="name">direccion_proveedor1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">50</property>
+                        <property name="name">direccion_proveedor2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">51</property>
+                        <property name="name">direccion_proveedor3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">52</property>
+                        <property name="name">telefono_proveedor1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">53</property>
+                        <property name="name">telefono_proveedor2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">54</property>
+                        <property name="name">telefono_proveedor3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">55</property>
+                        <property name="name">email_proveedor1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">56</property>
+                        <property name="name">email_proveedor2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">57</property>
+                        <property name="name">email_proveedor3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">58</property>
                         <property name="name">Total</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">50</property>
+                        <property name="position">59</property>
                         <property name="name">TotalSolicitud</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">51</property>
+                        <property name="position">60</property>
                         <property name="name">total_proveedor1</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">52</property>
+                        <property name="position">61</property>
                         <property name="name">total_proveedor2</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">53</property>
+                        <property name="position">62</property>
                         <property name="name">total_proveedor3</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -875,8 +956,71 @@
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
+                <structure>
+                    <property name="position">49</property>
+                    <property name="name">direccion_proveedor1</property>
+                    <property name="nativeName">direccion_proveedor1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">50</property>
+                    <property name="name">direccion_proveedor2</property>
+                    <property name="nativeName">direccion_proveedor2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">51</property>
+                    <property name="name">direccion_proveedor3</property>
+                    <property name="nativeName">direccion_proveedor3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">52</property>
+                    <property name="name">telefono_proveedor1</property>
+                    <property name="nativeName">telefono_proveedor1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">53</property>
+                    <property name="name">telefono_proveedor2</property>
+                    <property name="nativeName">telefono_proveedor2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">54</property>
+                    <property name="name">telefono_proveedor3</property>
+                    <property name="nativeName">telefono_proveedor3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">55</property>
+                    <property name="name">email_proveedor1</property>
+                    <property name="nativeName">email_proveedor1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">56</property>
+                    <property name="name">email_proveedor2</property>
+                    <property name="nativeName">email_proveedor2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">57</property>
+                    <property name="name">email_proveedor3</property>
+                    <property name="nativeName">email_proveedor3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
-            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, solicitudes_compra.solicitud_compra_id,solicitudes_compra.user_id_comprador,solicitudes_compra.user_id_solicita,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion descripcion_solicitud,solicitudes_compra.observaciones observaciones_solicitud,solicitudes_compra.proyecto_id,website_user_solicitante.nombre_completo solicitante,website_user_comprador.nombre_completo comprador,proyectos.nombre nombre_proyecto,proyectos.proyecto,detalle_sc.detalle_SC_id,detalle_sc.articulo_id,detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle,articulos.clase_articulo_id,articulos.nombre codigo_articulo,articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario,detalle_sc.unidad_medida_id,tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3, condiciones_compra_proveedor1.nombre condicion_compra_proveedor1, condiciones_compra_proveedor2.nombre condicion_compra_proveedor2, condiciones_compra_proveedor3.nombre condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3
+            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, solicitudes_compra.solicitud_compra_id,solicitudes_compra.user_id_comprador,solicitudes_compra.user_id_solicita,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion descripcion_solicitud,solicitudes_compra.observaciones observaciones_solicitud,solicitudes_compra.proyecto_id,website_user_solicitante.nombre_completo solicitante,website_user_comprador.nombre_completo comprador,proyectos.nombre nombre_proyecto,proyectos.proyecto,detalle_sc.detalle_SC_id,detalle_sc.articulo_id,detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle,articulos.clase_articulo_id,articulos.nombre codigo_articulo,articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario,detalle_sc.unidad_medida_id,tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3, condiciones_compra_proveedor1.nombre condicion_compra_proveedor1, condiciones_compra_proveedor2.nombre condicion_compra_proveedor2, condiciones_compra_proveedor3.nombre condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3, atributos_entidad_direccion_proveedor1.valor direccion_proveedor1, atributos_entidad_direccion_proveedor2.valor direccion_proveedor2, atributos_entidad_direccion_proveedor3.valor direccion_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3, atributos_entidad_email_proveedor1.valor email_proveedor1, atributos_entidad_email_proveedor2.valor email_proveedor2, atributos_entidad_email_proveedor3.valor email_proveedor3
 FROM  inventario.detalle_cotizacion detalle_cotizacion
 left outer join inventario.cotizaciones_compra cotizaciones_compra ON detalle_cotizacion.cotizacion_compra_id = cotizaciones_compra.cotizacion_compra_id
 left outer join infraestructura.entidad_externa entidad_externa_proveedor1 ON cotizaciones_compra.entidad_id_proveedor1 = entidad_externa_proveedor1.entidad_id
@@ -901,6 +1045,15 @@ left outer join inventario.formas_pago formas_pago_proveedor5 ON cotizaciones_co
 left outer join infraestructura.estados estados ON cotizaciones_compra.estado = estados.estado
 left outer join infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id
+left outer join infraestructura.atributos_entidad atributos_entidad_direccion_proveedor1 ON (cotizaciones_compra.entidad_id_proveedor1 = atributos_entidad_direccion_proveedor1.entidad_id AND atributos_entidad_direccion_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'DIRECCION' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_direccion_proveedor2 ON (cotizaciones_compra.entidad_id_proveedor2 = atributos_entidad_direccion_proveedor2.entidad_id AND atributos_entidad_direccion_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'DIRECCION' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_direccion_proveedor3 ON (cotizaciones_compra.entidad_id_proveedor3 = atributos_entidad_direccion_proveedor3.entidad_id AND atributos_entidad_direccion_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'DIRECCION' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_telefono_proveedor1 ON (cotizaciones_compra.entidad_id_proveedor1 = atributos_entidad_telefono_proveedor1.entidad_id AND atributos_entidad_telefono_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TELEFONO' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_telefono_proveedor2 ON (cotizaciones_compra.entidad_id_proveedor2 = atributos_entidad_telefono_proveedor2.entidad_id AND atributos_entidad_telefono_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TELEFONO' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_telefono_proveedor3 ON (cotizaciones_compra.entidad_id_proveedor3 = atributos_entidad_telefono_proveedor3.entidad_id AND atributos_entidad_telefono_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TELEFONO' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_email_proveedor1 ON (cotizaciones_compra.entidad_id_proveedor1 = atributos_entidad_email_proveedor1.entidad_id AND atributos_entidad_email_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'EMAIL' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_email_proveedor2 ON (cotizaciones_compra.entidad_id_proveedor2 = atributos_entidad_email_proveedor2.entidad_id AND atributos_entidad_email_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'EMAIL' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_email_proveedor3 ON (cotizaciones_compra.entidad_id_proveedor3 = atributos_entidad_email_proveedor3.entidad_id AND atributos_entidad_email_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'EMAIL' ))
 left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id
 left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tarea_id = detalle_SC.tarea_id
 where detalle_cotizacion.cotizacion_compra_id = ?</property>
@@ -1261,6 +1414,46 @@ else{if(dataSetRow["plazo_entrega_proveedor2"]!=null){dataSetRow["plazo_entrega_
                     <expression name="expression">if(dataSetRow["plazo_entrega_proveedor3"]==0) {"Inmediato"}
 else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_proveedor3"]+" día/s"}}</expression>
                     <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">telefono_proveedor1</property>
+                    <expression name="expression">if(dataSetRow["telefono_proveedor1"]!=null) {dataSetRow["telefono_proveedor1"]}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">email_proveedor1</property>
+                    <expression name="expression">dataSetRow["email_proveedor1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">telefono_proveedor2</property>
+                    <expression name="expression">dataSetRow["telefono_proveedor2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">email_proveedor2</property>
+                    <expression name="expression">dataSetRow["email_proveedor2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">telefono_proveedor3</property>
+                    <expression name="expression">dataSetRow["telefono_proveedor3"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">direccion_proveedor1</property>
+                    <expression name="expression">dataSetRow["direccion_proveedor1"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">direccion_proveedor2</property>
+                    <expression name="expression">dataSetRow["direccion_proveedor2"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">direccion_proveedor3</property>
+                    <expression name="expression">dataSetRow["direccion_proveedor3"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
             </list-property>
             <column id="977">
@@ -2307,12 +2500,16 @@ else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_
                     </cell>
                 </row>
                 <row id="1047">
+                    <property name="suppressDuplicates">false</property>
                     <property name="borderLeftColor">#000000</property>
                     <property name="borderLeftStyle">solid</property>
                     <property name="borderLeftWidth">medium</property>
                     <property name="borderRightColor">#000000</property>
                     <property name="borderRightStyle">solid</property>
                     <property name="borderRightWidth">medium</property>
+                    <property name="textIndent">0em</property>
+                    <property name="display">block</property>
+                    <property name="canShrink">true</property>
                     <cell id="1048">
                         <property name="colSpan">4</property>
                         <property name="rowSpan">1</property>
@@ -2348,6 +2545,13 @@ else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">center</property>
+                        <data id="1155">
+                            <property name="resultSetColumn">telefono_proveedor1</property>
+                        </data>
+                        <data id="1156">
+                            <property name="resultSetColumn">email_proveedor1</property>
+                        </data>
                     </cell>
                     <cell id="1055">
                         <property name="colSpan">2</property>
@@ -2364,6 +2568,13 @@ else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">center</property>
+                        <data id="1157">
+                            <property name="resultSetColumn">telefono_proveedor2</property>
+                        </data>
+                        <data id="1158">
+                            <property name="resultSetColumn">email_proveedor2</property>
+                        </data>
                     </cell>
                     <cell id="1057">
                         <property name="colSpan">2</property>
@@ -2380,6 +2591,13 @@ else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">center</property>
+                        <data id="1159">
+                            <property name="resultSetColumn">telefono_proveedor3</property>
+                        </data>
+                        <data id="1160">
+                            <property name="resultSetColumn">telefono_proveedor3</property>
+                        </data>
                     </cell>
                 </row>
                 <row id="1059">
@@ -2427,6 +2645,10 @@ else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">center</property>
+                        <data id="1161">
+                            <property name="resultSetColumn">direccion_proveedor1</property>
+                        </data>
                     </cell>
                     <cell id="1067">
                         <property name="colSpan">2</property>
@@ -2443,6 +2665,10 @@ else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">center</property>
+                        <data id="1162">
+                            <property name="resultSetColumn">direccion_proveedor2</property>
+                        </data>
                     </cell>
                     <cell id="1069">
                         <property name="colSpan">2</property>
@@ -2459,6 +2685,11 @@ else{if(dataSetRow["plazo_entrega_proveedor3"]!=null){dataSetRow["plazo_entrega_
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="textAlign">center</property>
+                        <data id="1163">
+                            <property name="resultSetColumn">direccion_proveedor3</property>
+                        </data>
                     </cell>
                 </row>
             </footer>
