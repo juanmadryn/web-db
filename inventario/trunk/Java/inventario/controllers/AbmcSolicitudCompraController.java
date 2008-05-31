@@ -7,6 +7,7 @@ import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.CotizacionesCompraModel;
 import inventario.models.DetalleCotizacionModel;
+import inventario.models.DetalleSCModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
 import inventario.util.SolicitudCompraTransiciones;
@@ -998,6 +999,21 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				_generarOCBUT1.setVisible(true);
 			else
 				_generarOCBUT1.setVisible(false);
+		} else {
+			_generarOCBUT1.setVisible(false);
+		}
+		
+		// mostrar el boton de generar CC solo si hay articulos sin CC asociada
+		_dsDetalleSC.setFindExpression(DetalleSCModel.DETALLE_SC_COTIZACION_COMPRA_ID + " == null");
+		if (_dsDetalleSC.findFirst()) {
+			// chequeo que el usuario tenga el rol COMPRADOR
+			int currentUser = getSessionManager().getWebSiteUser().getUserID();
+			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
+				_generarCCBUT1.setVisible(true);
+			else
+				_generarCCBUT1.setVisible(false);
+		} else {
+			_generarCCBUT1.setVisible(false);
 		}
 
 		try {
