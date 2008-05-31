@@ -6,7 +6,6 @@
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
    <%@include file="message.jsp"%>
-   </td>
    <!-- ********************************************************************************************* -->
    <!-- Agregar definición de DataSource aquí -->
    <salmon:datasource name="dsCotizacionesCompra" type="MODEL"
