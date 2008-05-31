@@ -818,7 +818,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							if (_dsDetalleSC.getDetalleScCotizacionCompraId(i) > 0) 	
 								_lnkCc1.setVisible(true);					
 							else
-								_lnkOc1.setVisible(false);
+								_lnkCc1.setVisible(false);
 							// activo el link a la OC si corresponde
 							if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0) 	
 								_lnkOc1.setVisible(true);					
