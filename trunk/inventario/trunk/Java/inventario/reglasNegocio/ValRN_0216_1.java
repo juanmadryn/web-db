@@ -121,7 +121,6 @@ public class ValRN_0216_1 extends ValidadorReglasNegocio {
 			}
 			
 			// agrega el mensaje de revision
-			System.out.println("---> " + ds.getObservaciones());
 			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
 			instancia.update(conn);
 			

@@ -16,6 +16,7 @@ import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
+import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -206,6 +207,9 @@ public class OrdenesCompraModel extends BaseModel {
 			
 			// Obtiene los posibles estados de modificacion para este modelo
 			estadosDeModificacion = getEstadosDeModificacion();
+			
+			// Formato de los campos de fecha
+			setFormat(ORDENES_COMPRA_FECHA_ESTIMADA_ENTREGA, "dd/MM/yyyy");
 			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
@@ -750,7 +754,7 @@ public class OrdenesCompraModel extends BaseModel {
 			setOrdenesCompraCondicionCompraId(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
 		}
 		
-		if (getOrdenesCompraFechaEstimadaEntrega() != null) {
+		if (getOrdenesCompraFechaEstimadaEntrega() != null) {			
 			Calendar fechaActual = Calendar.getInstance();			
 			fechaActual.set(Calendar.HOUR_OF_DAY, fechaActual.getMinimum(Calendar.HOUR_OF_DAY));
 			fechaActual.set(Calendar.MINUTE, fechaActual.getMinimum(Calendar.MINUTE));
@@ -764,7 +768,7 @@ public class OrdenesCompraModel extends BaseModel {
 			fechaEstEntrega.set(Calendar.SECOND, fechaActual.getMinimum(Calendar.SECOND));
 			fechaEstEntrega.set(Calendar.MILLISECOND, fechaActual.getMinimum(Calendar.MILLISECOND));
 			
-			if (fechaEstEntrega.getTimeInMillis() < fechaActual.getTimeInMillis())
+			if (fechaEstEntrega.before(fechaActual))
 				throw new DataStoreException("La fecha estimada de entrega debe ser igual o posterior a la fecha actual");
 		}
 		

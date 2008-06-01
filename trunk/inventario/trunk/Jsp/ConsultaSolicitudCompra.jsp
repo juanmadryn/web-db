@@ -100,12 +100,12 @@
 								<td><salmon:text name="numero2" text=""
 									datasource="dsSolicitudes:solicitudes_compra.solicitud_compra_id"></salmon:text></td>
 							</tr>
-							<tr>
+							<!-- <tr>
 								<td><salmon:text name="descripcion1" text="Descripción"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="descripcion2" text=""
 									datasource="dsSolicitudes:solicitudes_compra.descripcion"></salmon:text></td>
-							</tr>
+							</tr> -->
 							<tr>
 								<td><salmon:text name="observacion1" text="Observaciones"
 									font="TableHeadingFont" /></td>
@@ -161,11 +161,7 @@
 					<salmon:tr>
 						<salmon:td>
 							<salmon:text name="numeroCAP2" text="Nº" font="TableHeadingFont" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:text name="clienteCAP5" text="Descripción"
-								font="TableHeadingFont" />
-						</salmon:td>
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="descripcionCAP4" text="Solicitante"
 								font="TableHeadingFont" />
@@ -183,6 +179,10 @@
 								text="Fecha de aprobación" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
+							<salmon:text name="clienteCAP5" text="Observaciones"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -196,13 +196,7 @@
 							<salmon:text name="proyectoTXT1" text="proyecto Goes Here"
 								font="DefaultFont"
 								datasource="dsSolicitudes:solicitudes_compra.solicitud_compra_id" />
-
-						</salmon:td>
-						<salmon:td>
-							<salmon:text name="descripcionTXT2" text="nombre Goes Here"
-								font="DefaultFont"
-								datasource="dsSolicitudes:solicitudes_compra.descripcion" />
-						</salmon:td>
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="solicitante_nombreTXT3"
 								text="descripcion Goes Here" font="DefaultFont"
@@ -223,6 +217,11 @@
 								text="fecha aprobacion Goes Here" font="DefaultFont"
 								displayformat="dd/MM/yyyy HH:mm"
 								datasource="dsSolicitudes:solicitudes_compra.fecha_aprobacion" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="descripcionTXT2" text="nombre Goes Here"
+								font="DefaultFont"
+								datasource="dsSolicitudes:solicitudes_compra.observaciones" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="estadoTXT3" text="descripcion Goes Here"
