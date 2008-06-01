@@ -222,6 +222,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_muestraDescAdicionalBUT.addSubmitListener(this);
 		//_articulosNuevoBUT1.addSubmitListener(this);
 		
+		_fecha_estimada_entrega2.addValueChangedListener(this);
+		
 		_customBUT150.addSubmitListener(this);
 		_customBUT140.addSubmitListener(this);
 		_customBUT130.addSubmitListener(this);
@@ -253,6 +255,9 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		// run datasources validations at the update event
 		_dsOrdenesCompra.setAutoValidate(true);
 		_dsDetalleSC.setAutoValidate(true);
+		
+		// Foco en la lista de compradores
+		_nombre_completo_comprador2.setFocus();
 
 		// an empty OC as default view
 		_dsOrdenesCompra.reset();
@@ -761,9 +766,23 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		this.recargar = recargar;
 	}
 
-	public boolean valueChanged(ValueChangedEvent e) throws Exception {		
-
-		return false;
-	}
+	/* (non-Javadoc)
+	 * @see com.salmonllc.html.events.ValueChangedListener#valueChanged(com.salmonllc.html.events.ValueChangedEvent)
+	 */
+	public boolean valueChanged(ValueChangedEvent e) throws Exception {
+		
+		if (e.getComponent() == _fecha_estimada_entrega2) {			
+			if (!_dsOrdenesCompra.isFormattedStringValid(e.getColumn(), e.getNewValue())) {
+				// No movemos el nuevo valor al dataStore,pero evitamos 
+				// que sea eliminado la proxima vez que la pagina sea mostrada					
+				e.setAcceptValue(ValueChangedEvent.PROCESSING_KEEP_CHANGE_IN_QUEUE); 
+				_fecha_estimada_entrega2.setFocus();
+				displayErrorMessage("Error: Fecha estimada de entrega inválida");
+				return false;				
+			}
+		}		
+		
+		return true;	
+	}	
 	
 }

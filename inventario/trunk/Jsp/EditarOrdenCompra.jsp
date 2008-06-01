@@ -110,7 +110,7 @@ function CheckAll(checked) {
 								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada entrega" font="TableHeadingFont" /></td>
 								<td><salmon:input name="fecha_estimada_entrega2" type="text"
-									displayformatlocalekey="DateFormat" size="10" maxlength="15"
+									size="10" maxlength="15"
 									datasource="dsOrdenesCompra:ordenes_compra.fecha_estimada_entrega"></salmon:input></td>
 							</tr>
 							<tr>
