@@ -19,6 +19,10 @@ import com.salmonllc.util.MessageLog;
  */
 public class SolicitudCompraTransiciones {
 	
+	private static String ESTADO_APROBADA = "0006.0003";
+	private static String ESTADO_COTIZADA = "0006.0008";
+	private static String ESTADO_OC_COMPLETA = "0006.0007";
+	private static String ESTADO_OC_PARCIAL = "0006.0006";
 	
 	/**
 	 * Ejecuta acciones de cambios de estado cuando se remueve un detalle de SC de una OC.
@@ -42,7 +46,7 @@ public class SolicitudCompraTransiciones {
 				"inventario");
 		
 		for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {					
-			if ("0006.0007".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+			if (ESTADO_OC_COMPLETA.equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
 				dsSolicitudCompra.retrieve(conn,
 						SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
 						" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
@@ -61,7 +65,7 @@ public class SolicitudCompraTransiciones {
 		}				
 
 		for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
-			if ("0006.0006".equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
+			if (ESTADO_OC_PARCIAL.equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
 				dsSolicitudCompra.retrieve(conn,
 						SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID +
 						" = " + _dsDetalleSC.getDetalleScSolicitudCompraId(i) 
@@ -82,7 +86,10 @@ public class SolicitudCompraTransiciones {
 	/**
 	 * Ejecuta acciones de cambios de estado cuando se agrega un detalle de SC de una OC.
 	 * Las acciones que se ejecutan son las siguientes:
-	 * 1) Aprobada --> Con OC Parcial
+	 * 
+	 * 1) Si la SC se encuentra aprobada: Aprobada --> Con OC Parcial 
+	 * 	  Si la SC se encuentra cotizada: Cotizada --> Con OC Parcial
+	 * 
 	 * 2) Con OC Parcial --> Con OC Completa
 	 * 
 	 * @param conn conexion en la que se enmarca la transaccion
@@ -106,7 +113,17 @@ public class SolicitudCompraTransiciones {
 					);					
 			dsSolicitudCompra.gotoFirst();					
 			
-			if ("0006.0003".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
+			// aprobada
+			if (ESTADO_APROBADA.equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
+				try {
+					dsSolicitudCompra.ejecutaAccion(18,	"0006",
+							remoteHost,	webSiteUserId, 
+							"solicitudes_compra", conn, false);	
+				} catch (DataStoreException ex) {
+					MessageLog.writeErrorMessage(ex, null);
+				}	
+			// cotizada
+			} else if (ESTADO_COTIZADA.equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
 				try {
 					dsSolicitudCompra.ejecutaAccion(18,	"0006",
 							remoteHost,	webSiteUserId, 
@@ -124,7 +141,7 @@ public class SolicitudCompraTransiciones {
 					);					
 			dsSolicitudCompra.gotoFirst();
 			
-			if ("0006.0006".equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
+			if (ESTADO_OC_PARCIAL.equalsIgnoreCase(dsSolicitudCompra.getEstadoActual())) {
 				try {
 					dsSolicitudCompra.ejecutaAccion(19,	"0006",
 							remoteHost,	webSiteUserId, 

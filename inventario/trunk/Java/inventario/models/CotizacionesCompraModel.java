@@ -3315,14 +3315,24 @@ public class CotizacionesCompraModel extends BaseModel {
 			} else {
 				throw new DataStoreException("No existe la condición de compra especificada para el proveedor 5");
 			}
-		}
-	
+		}	
 		super.update(conn, handleTrans);
 	}
+	
+	/**
+	 * @param row
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
 	public void setTotalesProveedor(int row) throws DataStoreException, SQLException {
 		this.gotoRow(row);
 		setTotalesProveedor();
 	}
+	
+	/**
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
 	public void setTotalesProveedor() throws DataStoreException, SQLException {
 		
 		double total_proveedor1 = 0,total_proveedor2 = 0,total_proveedor3 = 0,total_proveedor4 = 0, total_proveedor5 = 0;
@@ -3335,8 +3345,7 @@ public class CotizacionesCompraModel extends BaseModel {
 		
 		// si recueró registros, itera sumando los totales
 		if (dsDetalleCotizacion.getRowCount() > 0) {
-			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
-				
+			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {				
 				total_proveedor1 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i);
 				total_proveedor2 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i);
 				total_proveedor3 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i);
@@ -3365,6 +3374,12 @@ public class CotizacionesCompraModel extends BaseModel {
 		generaOrdenesCompra(host,conn);
 	}
 	
+	/**
+	 * @param host
+	 * @param conn
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
 	public void generaOrdenesCompra(String host,DBConnection conn) throws DataStoreException, SQLException {
 		DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario", "inventario");
 		DetalleSCModel dsDetalleSC = new DetalleSCModel("inventario","inventario");
@@ -3553,7 +3568,6 @@ public class CotizacionesCompraModel extends BaseModel {
 			dsDetalleSC.update(conn);
 			dsDetalleSC.filter("detalle_sc.orden_compra_id != null");
 			SolicitudCompraTransiciones.agregarEnOc(conn,dsDetalleSC, host,	getCurrentWebsiteUserId());
-
 		}
 		
 	}
