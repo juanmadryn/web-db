@@ -415,6 +415,12 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					MessageLog.writeErrorMessage(ex, null);
 					displayErrorMessage(ex.getMessage());
 					return false;									
+				} catch (ValidationException ex) {			
+					MessageLog.writeErrorMessage(ex, null);
+					for (String er : ex.getStackErrores()) {						
+						displayErrorMessage(er);
+					}										
+					return false;
 				} catch (Exception ex) {
 					MessageLog.writeErrorMessage(ex, _dsOrdenesCompra);
 					displayErrorMessage(ex.getMessage());
