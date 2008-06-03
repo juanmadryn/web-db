@@ -3567,7 +3567,7 @@ public class CotizacionesCompraModel extends BaseModel {
 			// update the SC states			
 			dsDetalleSC.update(conn);
 			dsDetalleSC.filter("detalle_sc.orden_compra_id != null");
-			SolicitudCompraTransiciones.agregarEnOc(conn,dsDetalleSC, host,	getCurrentWebsiteUserId());
+			//SolicitudCompraTransiciones.agregarEnOc(conn,dsDetalleSC, host,	getCurrentWebsiteUserId());
 		}
 		
 	}

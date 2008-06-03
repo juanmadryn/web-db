@@ -129,6 +129,10 @@ public abstract class BaseModel extends DataStore {
 					ValidadorReglasNegocio val = (ValidadorReglasNegocio) claseVal
 							.newInstance();
 
+					// Para ejecutar acciones desde la regla de negocio 
+					val.setRemoteHost(remoteAddr);
+					val.setUserId(userId);
+
 					resultado = new StringBuilder("");
 					if (val.esValido(this, resultado, conn)) {
 						ok = true;

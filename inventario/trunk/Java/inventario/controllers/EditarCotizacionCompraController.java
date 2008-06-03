@@ -305,7 +305,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 					_dsCotizacionesCompra.gotoFirst();
 
 				} else {
-					displayErrorMessage("Debe Especificar uan cotización de Compra");
+					displayErrorMessage("Debe Especificar una cotización de Compra");
 				}
 
 				// oculta el menú para ganar espacio, total, lo único que puede
