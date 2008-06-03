@@ -7,17 +7,6 @@
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
-        <scalar-parameter name="param_solicitud_compra_id" id="56">
-            <property name="valueType">static</property>
-            <property name="dataType">integer</property>
-            <property name="paramType">simple</property>
-            <text-property name="promptText">Ingreses el número de solicitud de compra</text-property>
-            <property name="controlType">text-box</property>
-            <property name="distinct">true</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
-        </scalar-parameter>
         <scalar-parameter name="param_cotizacion_compra_id" id="58">
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
@@ -122,7 +111,7 @@
             <list-property name="parameters">
                 <structure>
                     <property name="name">param_solicitud_compra_id</property>
-                    <property name="paramName">param_solicitud_compra_id</property>
+                    <property name="paramName">param_cotizacion_compra_id</property>
                     <property name="dataType">integer</property>
                     <property name="position">1</property>
                     <property name="isInput">true</property>
@@ -189,172 +178,12 @@
             </list-property>
             <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id, solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion, solicitudes_compra.observaciones observaciones_solicitud, website_user_solicitante.nombre_completo solicitante, website_user_comprador.nombre_completo comprador, proyectos.nombre nombre_proyecto, proyectos.proyecto
 FROM  inventario.solicitudes_compra solicitudes_compra
+left outer join inventario.detalle_sc detalle_sc ON detalle_sc.solicitud_compra_id = solicitudes_compra.solicitud_compra_id
+left outer join inventario.detalle_cotizacion detalle_cotizacion ON detalle_cotizacion.detalle_SC_id = detalle_sc.detalle_SC_id
 left outer join infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id
 left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id
-where solicitudes_compra.solicitud_compra_id = ?</property>
-            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
-<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
-  <Version>1.0</Version>
-  <design:ResultSets derivedMetaData="true">
-    <design:resultSetDefinitions>
-      <design:resultSetColumns>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>solicitud_compra_id</design:name>
-            <design:position>1</design:position>
-            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
-            <design:precision>10</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>solicitud_compra_id</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>solicitud_compra_id</design:label>
-            <design:formattingHints>
-              <design:displaySize>10</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>fecha_solicitud</design:name>
-            <design:position>2</design:position>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>NotNullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>fecha_solicitud</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>fecha_solicitud</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>fecha_aprobacion</design:name>
-            <design:position>3</design:position>
-            <design:nativeDataTypeCode>93</design:nativeDataTypeCode>
-            <design:precision>19</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>fecha_aprobacion</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>fecha_aprobacion</design:label>
-            <design:formattingHints>
-              <design:displaySize>19</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>observaciones_solicitud</design:name>
-            <design:position>4</design:position>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>16777215</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>observaciones_solicitud</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>observaciones_solicitud</design:label>
-            <design:formattingHints>
-              <design:displaySize>16777215</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>solicitante</design:name>
-            <design:position>5</design:position>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>90</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>solicitante</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>solicitante</design:label>
-            <design:formattingHints>
-              <design:displaySize>90</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>comprador</design:name>
-            <design:position>6</design:position>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>90</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>comprador</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>comprador</design:label>
-            <design:formattingHints>
-              <design:displaySize>90</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>nombre_proyecto</design:name>
-            <design:position>7</design:position>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>90</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>nombre_proyecto</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>nombre_proyecto</design:label>
-            <design:formattingHints>
-              <design:displaySize>90</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-        <design:resultColumnDefinitions>
-          <design:attributes>
-            <design:name>proyecto</design:name>
-            <design:position>8</design:position>
-            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
-            <design:precision>15</design:precision>
-            <design:scale>0</design:scale>
-            <design:nullability>Nullable</design:nullability>
-            <design:uiHints>
-              <design:displayName>proyecto</design:displayName>
-            </design:uiHints>
-          </design:attributes>
-          <design:usageHints>
-            <design:label>proyecto</design:label>
-            <design:formattingHints>
-              <design:displaySize>15</design:displaySize>
-            </design:formattingHints>
-          </design:usageHints>
-        </design:resultColumnDefinitions>
-      </design:resultSetColumns>
-    </design:resultSetDefinitions>
-  </design:ResultSets>
-</model:DesignValues>]]></xml-property>
+where detalle_cotizacion.cotizacion_compra_id= ?</property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set - cotizaciones_compra" id="57">
             <list-property name="columnHints">
@@ -1343,6 +1172,10 @@ group by detalle_cotizacion.detalle_SC_id</property>
                                     </cell>
                                     <cell id="126">
                                         <data id="135">
+                                            <structure name="dateTimeFormat">
+                                                <property name="category">Medium Date</property>
+                                                <property name="pattern">Medium Date</property>
+                                            </structure>
                                             <property name="dataSet">Data Set - solicitudes_compra</property>
                                             <list-property name="boundDataColumns">
                                                 <structure>
@@ -1372,6 +1205,10 @@ group by detalle_cotizacion.detalle_SC_id</property>
                                     </cell>
                                     <cell id="129">
                                         <data id="136">
+                                            <structure name="dateTimeFormat">
+                                                <property name="category">Medium Date</property>
+                                                <property name="pattern">Medium Date</property>
+                                            </structure>
                                             <property name="dataSet">Data Set - solicitudes_compra</property>
                                             <list-property name="boundDataColumns">
                                                 <structure>
@@ -2822,7 +2659,7 @@ else{"Inmediato"}}</expression>
                                 <property name="width">80%</property>
                             </column>
                             <row id="1357">
-                                <property name="height">1cm</property>
+                                <property name="height">0.5cm</property>
                                 <cell id="1358"/>
                                 <cell id="1359"/>
                             </row>
