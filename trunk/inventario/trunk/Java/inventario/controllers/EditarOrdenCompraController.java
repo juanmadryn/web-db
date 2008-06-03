@@ -386,16 +386,17 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 					if (_dsDetalleSC.getRow() != -1) {
 						// remueve detalles marcados para eliminar
-						boolean detalleEliminado = _dsDetalleSC.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);						
+						//boolean detalleEliminado = _dsDetalleSC.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);						
+						_dsDetalleSC.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);
 												
 						_dsDetalleSC.update(conn);
 						
 						// update the SC states
-						if (detalleEliminado) {							
+						/*if (detalleEliminado) {							
 							SolicitudCompraTransiciones.remueveDeOc(conn,
 									_dsDetalleSC, getCurrentRequest().getRemoteHost(),
 									getSessionManager().getWebSiteUser().getUserID());
-						}
+						}*/
 					}
 					
 					_dsOrdenesCompra.resetStatus();

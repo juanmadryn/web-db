@@ -253,7 +253,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 
-		_generarCCBUT1 = new HtmlSubmitButton("generarCCBUT1", "generar Cotización",this);
+		_generarCCBUT1 = new HtmlSubmitButton("generarCCBUT1", "Generar Cotización",this);
 		_generarCCBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_generarCCBUT1);
 
@@ -730,9 +730,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				_dsDetalleSC.update(conn);
 
 				// update the SC states			
-				SolicitudCompraTransiciones.agregarEnOc(conn,
+				/*SolicitudCompraTransiciones.agregarEnOc(conn,
 						_dsDetalleSC, getCurrentRequest().getRemoteHost(),
-						getSessionManager().getWebSiteUser().getUserID());
+						getSessionManager().getWebSiteUser().getUserID());*/
 
 
 				dsOrdenCompra.resetStatus();
@@ -981,6 +981,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_customBUT140.setVisible(false);
 		_customBUT150.setVisible(false);
 		_generarOCBUT1.setVisible(false);
+		_generarCCBUT1.setVisible(false);
 
 		// controla estar dentro de un contexto de Informe
 		if (_dsSolicitudCompra.getRow() == -1) {
@@ -988,33 +989,25 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					"Debe seleccionar una solicitud de materiales para recuperar su estado");
 		}
 
-		estado = _dsSolicitudCompra.getString("solicitudes_compra.estado");
-
-		// mostrar el boton de generar OC solo si hay articulos sin OC asociado
-		_dsDetalleSC.setFindExpression("detalle_sc.orden_compra_id == null");
-		if (_dsDetalleSC.findFirst()) {
-			// chequeo que el usuario tenga el rol COMPRADOR
-			int currentUser = getSessionManager().getWebSiteUser().getUserID();
-			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
+		estado = _dsSolicitudCompra.getSolicitudesCompraEstado();	
+		
+		int currentUser = getSessionManager().getWebSiteUser().getUserID();
+		
+		// si la solicitud se encuentra en los estados correctos
+		if (("0006.0003".equalsIgnoreCase(estado) || "0006.0008".equalsIgnoreCase(estado))
+				&& UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+			
+			// mostrar el boton de generar OC solo si hay articulos sin OC asociado
+			_dsDetalleSC.setFindExpression(DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID  + " == null");
+			if (_dsDetalleSC.findFirst()) 
 				_generarOCBUT1.setVisible(true);
-			else
-				_generarOCBUT1.setVisible(false);
-		} else {
-			_generarOCBUT1.setVisible(false);
+
+			// mostrar el boton de generar CC solo si hay articulos sin CC asociada
+			_dsDetalleSC.setFindExpression(DetalleSCModel.DETALLE_SC_COTIZACION_COMPRA_ID + " == null");
+			if (_dsDetalleSC.findFirst()) 				
+				_generarCCBUT1.setVisible(true);			
 		}
 		
-		// mostrar el boton de generar CC solo si hay articulos sin CC asociada
-		_dsDetalleSC.setFindExpression(DetalleSCModel.DETALLE_SC_COTIZACION_COMPRA_ID + " == null");
-		if (_dsDetalleSC.findFirst()) {
-			// chequeo que el usuario tenga el rol COMPRADOR
-			int currentUser = getSessionManager().getWebSiteUser().getUserID();
-			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
-				_generarCCBUT1.setVisible(true);
-			else
-				_generarCCBUT1.setVisible(false);
-		} else {
-			_generarCCBUT1.setVisible(false);
-		}
 
 		try {
 			conn = DBConnection.getConnection("infraestructura");
