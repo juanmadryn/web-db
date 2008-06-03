@@ -34,10 +34,10 @@ import com.salmonllc.util.MessageLog;
 public class AbmcSolicitudCompraController extends BaseEntityController {
 
 	/**
-	 * Modificado por Demian Barry el 21/05/2008
-	 * Agrega funcionalidadpara el tratamiento de las Cotizaciones de Compra cc 
+	 * Modificado por Demian Barry el 21/05/2008 Agrega funcionalidadpara el
+	 * tratamiento de las Cotizaciones de Compra cc
 	 */
-	
+
 	private static final long serialVersionUID = 6985914806600939656L;
 	// Visual Components
 	public com.salmonllc.html.HtmlText _observacionX1;
@@ -211,8 +211,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	private static final String CIRCUITO = "0006";
 
 	private boolean recargar = false;
-	
-	// Indica si se debe seleccionar o deseleccionar elementos de la lista de detalles
+
+	// Indica si se debe seleccionar o deseleccionar elementos de la lista de
+	// detalles
 	private Boolean seleccionarTodo = true;
 
 	/**
@@ -237,27 +238,33 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_nuevaSolicitudCompraBUT1.setAccessKey("N");
 		_detailformdisplaybox1.addButton(_nuevaSolicitudCompraBUT1);
 
-		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1","Agregar", this);
+		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1",
+				"Agregar", this);
 		_articulosAgregarBUT1.setAccessKey("A");
 		_listformdisplaybox2.addButton(_articulosAgregarBUT1);
 
-		_articulosEliminarBUT1 = new HtmlSubmitButton("articulosEliminarBUT1","Eliminar", this);
+		_articulosEliminarBUT1 = new HtmlSubmitButton("articulosEliminarBUT1",
+				"Eliminar", this);
 		_articulosEliminarBUT1.setAccessKey("E");
 		_listformdisplaybox2.addButton(_articulosEliminarBUT1);
 
-		_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1","Cancelar", this);
+		_articulosCancelarBUT1 = new HtmlSubmitButton("articulosCancelarBUT1",
+				"Cancelar", this);
 		_articulosCancelarBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_articulosCancelarBUT1);
 
-		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2","Seleccionar todo", this);
+		_desSeleccionaTodoBUT1 = new HtmlSubmitButton("desSeleccionaTodoBUT2",
+				"Seleccionar todo", this);
 		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		_listformdisplaybox2.addButton(_desSeleccionaTodoBUT1);
 
-		_generarCCBUT1 = new HtmlSubmitButton("generarCCBUT1", "Generar Cotización",this);
+		_generarCCBUT1 = new HtmlSubmitButton("generarCCBUT1",
+				"Generar Cotización", this);
 		_generarCCBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_generarCCBUT1);
 
-		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",this);
+		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",
+				this);
 		_generarOCBUT1.setAccessKey("O");
 		_listformdisplaybox2.addButton(_generarOCBUT1);
 
@@ -281,9 +288,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_FLAG, DataStore.DATATYPE_INT);
 		_seleccion_detalle2.setColumn(_dsDetalleSC, SELECCION_DETALLE_FLAG);
 		_seleccion_detalle2.setFalseValue(null);
-		
+
 		/**
-		 * Modificado por Demian Barry el 21/05/2008, agregando funcionalidad para cotizaciones  
+		 * Modificado por Demian Barry el 21/05/2008, agregando funcionalidad
+		 * para cotizaciones
 		 */
 		// muestro link a CC y OC solo si el rol es COMPRADOR
 		int userId = getSessionManager().getWebSiteUser().getUserID();
@@ -291,7 +299,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			_ccHeaderTd.setVisible(false);
 			_ccRowTd.setVisible(false);
 			_ocHeaderTd.setVisible(false);
-			_ocRowTd.setVisible(false);			
+			_ocRowTd.setVisible(false);
 			_cantidadPedidaHeaderTd.setColSpan(3);
 			_cantidadPedidaRowTd.setColSpan(3);
 			_cantidadPedidaRowTd.setAlign("LEFT");
@@ -303,7 +311,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			_cantidadPedidaHeaderTd.setColSpan(1);
 			_cantidadPedidaRowTd.setColSpan(1);
 		}
-	
+
 		// seteo la validación para los datasource
 		_dsSolicitudCompra.setAutoValidate(true);
 		_dsDetalleSC.setAutoValidate(true);
@@ -600,22 +608,25 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		}
 
 		/**
-		 * Agregado por Demian Barry el 21/05/2008, nueva funcionalidad de cotización de compra 
+		 * Agregado por Demian Barry el 21/05/2008, nueva funcionalidad de
+		 * cotización de compra
 		 */
 		// genera Cotizaciones para articulos seleccionados
 		if (component == _generarCCBUT1) {
 			try {
 				// chequeo que el usuario tenga el rol COMPRADOR
-				int currentUser = getSessionManager().getWebSiteUser().getUserID();
+				int currentUser = getSessionManager().getWebSiteUser()
+						.getUserID();
 				if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 					displayErrorMessage("Debe ser COMPRADOR para generar una cotización de compra");
 					return false;
-				}	
-				
+				}
+
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
 
-				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null " + "&& detalle_sc.cotizacion_compra_id == null");
+				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null "
+						+ "&& detalle_sc.cotizacion_compra_id == null");
 				_dsDetalleSC.gotoFirst();
 
 				if (_dsDetalleSC.getRowCount() <= 0) {
@@ -624,33 +635,51 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					return false;
 				}
 
-				CotizacionesCompraModel dsCotizacionCompra = new CotizacionesCompraModel("inventario");
-				DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario");
+				CotizacionesCompraModel dsCotizacionCompra = new CotizacionesCompraModel(
+						"inventario");
+				DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel(
+						"inventario");
 
 				int ccId = dsCotizacionCompra.insertRow();
-				dsCotizacionCompra.setCurrentWebsiteUserId(getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
-				dsCotizacionCompra.setCotizacionesCompraEstado(ccId,"0008.0001");
+				dsCotizacionCompra.setCurrentWebsiteUserId(getUserFromSession(
+						getCurrentRequest().getRemoteAddr()).getUserID());
+				dsCotizacionCompra.setCotizacionesCompraEstado(ccId,
+						"0008.0001");
 
 				dsCotizacionCompra.update(conn);
 
 				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
-					int CotizacionCompraId = dsCotizacionCompra.getCotizacionesCompraCotizacionCompraId(ccId);
-					int ScId = _dsDetalleSC.getDetalleScDetalleScId(row); 
-					_dsDetalleSC.setDetalleScCotizacionCompraId(row,CotizacionCompraId);
-					// para cada artículo seleccionado lo inserta en le detalle de la cotización
+					int CotizacionCompraId = dsCotizacionCompra
+							.getCotizacionesCompraCotizacionCompraId(ccId);
+					int ScId = _dsDetalleSC.getDetalleScDetalleScId(row);
+					_dsDetalleSC.setDetalleScCotizacionCompraId(row,
+							CotizacionCompraId);
+					// para cada artículo seleccionado lo inserta en le detalle
+					// de la cotización
 					int dccId = dsDetalleCotizacion.insertRow();
-					dsDetalleCotizacion.setDetalleCotizacionDetalleScId(dccId,ScId);
-					dsDetalleCotizacion.setDetalleCotizacionCotizacionCompraId(dccId,CotizacionCompraId);
-					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor1(dccId, 0);
-					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor2(dccId, 0);
-					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor3(dccId, 0);
-					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor4(dccId, 0);
-					dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor5(dccId, 0);
+					dsDetalleCotizacion.setDetalleCotizacionDetalleScId(dccId,
+							ScId);
+					dsDetalleCotizacion.setDetalleCotizacionCotizacionCompraId(
+							dccId, CotizacionCompraId);
+					dsDetalleCotizacion
+							.setDetalleCotizacionCotizacionSeleccionadaProveedor1(
+									dccId, 0);
+					dsDetalleCotizacion
+							.setDetalleCotizacionCotizacionSeleccionadaProveedor2(
+									dccId, 0);
+					dsDetalleCotizacion
+							.setDetalleCotizacionCotizacionSeleccionadaProveedor3(
+									dccId, 0);
+					dsDetalleCotizacion
+							.setDetalleCotizacionCotizacionSeleccionadaProveedor4(
+									dccId, 0);
+					dsDetalleCotizacion
+							.setDetalleCotizacionCotizacionSeleccionadaProveedor5(
+									dccId, 0);
 				}
 
 				_dsDetalleSC.update(conn);
 				dsDetalleCotizacion.update(conn);
-
 
 				dsCotizacionCompra.resetStatus();
 				dsDetalleCotizacion.resetStatus();
@@ -659,8 +688,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 				_dsDetalleSC.filter(null);
 
-				this.gotoSiteMapPage("EditarCotizacionCompra", "?cotizacion_compra_id="
-						+ dsCotizacionCompra.getCotizacionesCompraCotizacionCompraId(ccId));
+				this
+						.gotoSiteMapPage(
+								"EditarCotizacionCompra",
+								"?cotizacion_compra_id="
+										+ dsCotizacionCompra
+												.getCotizacionesCompraCotizacionCompraId(ccId));
 
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
@@ -688,12 +721,13 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		if (component == _generarOCBUT1) {
 			try {
 				// chequeo que el usuario tenga el rol COMPRADOR
-				int currentUser = getSessionManager().getWebSiteUser().getUserID();
+				int currentUser = getSessionManager().getWebSiteUser()
+						.getUserID();
 				if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 					displayErrorMessage("Debe ser COMPRADOR para revisar una solicitud aprobada.");
 					return false;
-				}	
-				
+				}
+
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
 
@@ -711,12 +745,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 						"inventario");
 
 				int ocId = dsOrdenCompra.insertRow();
-				dsOrdenCompra.setCurrentWebsiteUserId(
-						getUserFromSession(getCurrentRequest().getRemoteAddr()).getUserID());
+				dsOrdenCompra.setCurrentWebsiteUserId(getUserFromSession(
+						getCurrentRequest().getRemoteAddr()).getUserID());
 
-				/*dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
-						getUserFromSession(getCurrentRequest().getRemoteAddr())
-								.getUserID());*/
+				/*
+				 * dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
+				 * getUserFromSession(getCurrentRequest().getRemoteAddr())
+				 * .getUserID());
+				 */
 
 				dsOrdenCompra.update(conn);
 
@@ -729,11 +765,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 				_dsDetalleSC.update(conn);
 
-				// update the SC states			
-				/*SolicitudCompraTransiciones.agregarEnOc(conn,
-						_dsDetalleSC, getCurrentRequest().getRemoteHost(),
-						getSessionManager().getWebSiteUser().getUserID());*/
-
+				// update the SC states
+				SolicitudCompraTransiciones.agregarEnOc(conn, _dsDetalleSC,
+						getCurrentRequest().getRemoteHost(),
+						getSessionManager().getWebSiteUser().getUserID());
 
 				dsOrdenCompra.resetStatus();
 				_dsDetalleSC.resetStatus();
@@ -771,7 +806,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			seleccionarTodo = !seleccionarTodo;
 		}
 
-		if(conn != null)
+		if (conn != null)
 			conn.freeConnection();
 		armaBotonera();
 		return super.submitPerformed(event);
@@ -793,7 +828,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				// verifico si tiene parámetro
 				setRow_id(getIntParameter("solicitud_compra_id"));
 				if (isRecargar())
-					setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
+					setRow_id(_dsSolicitudCompra
+							.getSolicitudesCompraSolicitudCompraId());
 				if (getRow_id() > 0) {
 					// Viene seteado el proyecto. lo recupero sino no se hace
 					// nada
@@ -803,29 +839,32 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					_dsDetalleSC.reset();
 
 					// recupera toda la información para el proyecto
-					_dsSolicitudCompra.retrieve("solicitudes_compra.solicitud_compra_id = "	+ Integer.toString(getRow_id()));
+					_dsSolicitudCompra
+							.retrieve("solicitudes_compra.solicitud_compra_id = "
+									+ Integer.toString(getRow_id()));
 					_dsSolicitudCompra.waitForRetrieve();
 					_dsSolicitudCompra.gotoFirst();
 
 					// sigue recuperando información del resto de los detalles
 					// (actividades y tareas)
 
-					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = " + Integer.toString(getRow_id()));
+					_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id = "
+							+ Integer.toString(getRow_id()));
 
 					if (_dsDetalleSC.gotoFirst())
 						for (int i = 0; i < _dsDetalleSC.getRowCount(); i++) {
 							_dsDetalleSC.setMontoTotal(i, _dsSolicitudCompra);
 							// activo el link a la CC si corresponde
-							if (_dsDetalleSC.getDetalleScCotizacionCompraId(i) > 0) 	
-								_lnkCc1.setVisible(true);					
+							if (_dsDetalleSC.getDetalleScCotizacionCompraId(i) > 0)
+								_lnkCc1.setVisible(true);
 							else
 								_lnkCc1.setVisible(false);
 							// activo el link a la OC si corresponde
-							if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0) 	
-								_lnkOc1.setVisible(true);					
+							if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0)
+								_lnkOc1.setVisible(true);
 							else
 								_lnkOc1.setVisible(false);
-					
+
 						}
 
 					setDatosBasicosSolicitud();
@@ -866,20 +905,23 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					.parseInt(getPageProperties().getThemeProperty(null,
 							"EsquemaConfiguracionIdSolicitudesCompra")));
 
-//			if ((_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW)
-//				&& (_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW_MODIFIED)) 
-				_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
-						.getAtributoTotalSolicitud());
-			
+			// if ((_dsSolicitudCompra.getRowStatus() != DataStore.STATUS_NEW)
+			// && (_dsSolicitudCompra.getRowStatus() !=
+			// DataStore.STATUS_NEW_MODIFIED))
+			_dsSolicitudCompra.setTotalSolicitud(_dsSolicitudCompra
+					.getAtributoTotalSolicitud());
 
 			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
-			if (!"0006.0002".equalsIgnoreCase(estado))
+			if (!"0006.0002".equalsIgnoreCase(estado)) {
 				_dsSolicitudCompra.setObservaciones();
+				// _dsSolicitudCompra.recuperaObservaciones();
+			}
 
 			if ("0006.0002".equalsIgnoreCase(estado)
 					|| "0006.0004".equalsIgnoreCase(estado)
 					|| "0006.0003".equalsIgnoreCase(estado)
-					|| "0006.0005".equalsIgnoreCase(estado)) {
+					|| "0006.0005".equalsIgnoreCase(estado)
+					|| "0006.0008".equalsIgnoreCase(estado)) {
 				_observacionX1.setVisible(true);
 				_observacionX2.setVisible(true);
 			} else {
@@ -934,16 +976,20 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
 					"ShowTareaLookup")))
 				_tarea3.setEnabled(false);
-			
+
 			// setea el boton de seleccion/deseleccion segun corresponda
-			if (_dsDetalleSC.getRowCount() == 0) seleccionarTodo = true;
-			
+			if (_dsDetalleSC.getRowCount() == 0)
+				seleccionarTodo = true;
+
 			if (seleccionarTodo)
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+				_desSeleccionaTodoBUT1
+						.setDisplayNameLocaleKey("text.seleccion");
 			else
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
-			
-			_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
+				_desSeleccionaTodoBUT1
+						.setDisplayNameLocaleKey("text.deseleccion");
+
+			_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo
+					+ ");");
 
 		} catch (ParseException ex) {
 			displayErrorMessage("Ocurrió un error de parseo en la aplicación: "
@@ -961,7 +1007,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	 *             transiciones entre estados TODO considerar recuperar todo el
 	 *             circuito para la entidad actual y recuperar los estados de un
 	 *             mismo model. Se reducirían las interacciones con la BD.
-	 * @throws SQLException 
+	 * @throws SQLException
 	 */
 	private void armaBotonera() throws DataStoreException, SQLException {
 		DBConnection conn = null;
@@ -989,25 +1035,31 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					"Debe seleccionar una solicitud de materiales para recuperar su estado");
 		}
 
-		estado = _dsSolicitudCompra.getSolicitudesCompraEstado();	
-		
+		estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
+
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
-		
+
 		// si la solicitud se encuentra en los estados correctos
-		if (("0006.0003".equalsIgnoreCase(estado) || "0006.0008".equalsIgnoreCase(estado))
+		if (("0006.0003".equalsIgnoreCase(estado) || "0006.0008"
+				.equalsIgnoreCase(estado))
 				&& UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
-			
-			// mostrar el boton de generar OC solo si hay articulos sin OC asociado
-			_dsDetalleSC.setFindExpression(DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID  + " == null");
-			if (_dsDetalleSC.findFirst()) 
+
+			// mostrar el boton de generar OC solo si hay articulos sin OC
+			// asociado
+			_dsDetalleSC
+					.setFindExpression(DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID
+							+ " == null");
+			if (_dsDetalleSC.findFirst())
 				_generarOCBUT1.setVisible(true);
 
-			// mostrar el boton de generar CC solo si hay articulos sin CC asociada
-			_dsDetalleSC.setFindExpression(DetalleSCModel.DETALLE_SC_COTIZACION_COMPRA_ID + " == null");
-			if (_dsDetalleSC.findFirst()) 				
-				_generarCCBUT1.setVisible(true);			
+			// mostrar el boton de generar CC solo si hay articulos sin CC
+			// asociada
+			_dsDetalleSC
+					.setFindExpression(DetalleSCModel.DETALLE_SC_COTIZACION_COMPRA_ID
+							+ " == null");
+			if (_dsDetalleSC.findFirst())
+				_generarCCBUT1.setVisible(true);
 		}
-		
 
 		try {
 			conn = DBConnection.getConnection("infraestructura");
@@ -1016,18 +1068,18 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			// circuiro
 			// recupero la columna para el circuito
 			// Si no existe configuración no hace nada
-			/*SQL = "select nombre_detalle from infraestructura.aplica_circuito where circuito = '"
-					+ CIRCUITO + "'";
-			st = conn.createStatement();
-			r = st.executeQuery(SQL);*/
+			/*
+			 * SQL = "select nombre_detalle from infraestructura.aplica_circuito
+			 * where circuito = '" + CIRCUITO + "'"; st =
+			 * conn.createStatement(); r = st.executeQuery(SQL);
+			 */
 
 			// en función de la columna del circuito, determino el estado actual
 			// estado =
 			// _dsSolicitudCompra.getString("solicitudes_compra.estado");
-
 			// recorro los estados y seteo los botones
-			SQL = "SELECT t.prompt_accion,t.accion,a.manual FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado " +
-					" left join infraestructura.acciones_apps a on t.accion = a.accion "
+			SQL = "SELECT t.prompt_accion,t.accion,a.manual FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado "
+					+ " left join infraestructura.acciones_apps a on t.accion = a.accion "
 					+ "where e.circuito = '"
 					+ CIRCUITO
 					+ "' and t.estado_origen = '" + estado + "'";
@@ -1041,14 +1093,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					if ("V".equalsIgnoreCase(r.getString(3))) {
 						nombre_boton = "customBUT" + i;
 						boton = (com.salmonllc.html.HtmlSubmitButton) this
-						.getComponent(nombre_boton);
+								.getComponent(nombre_boton);
 						if (boton != null) {
 							boton.setVisible(true);
 							boton.setDisplayName(r.getString(1));
 							boton.setDisplayNameLocaleKey(Integer.toString(r
 									.getInt(2)));
 							boton
-							.setButtonFontStyle("font-weight:bold; COLOR: red");
+									.setButtonFontStyle("font-weight:bold; COLOR: red");
 						}
 						i = i + 10;
 					}
