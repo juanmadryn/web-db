@@ -1,7 +1,5 @@
 package inventario.models;
 
-import java.sql.SQLException;
-
 import infraestructura.models.BaseModel;
 import inventario.util.SolicitudCompraTransiciones;
 
@@ -3389,8 +3387,8 @@ public class CotizacionesCompraModel extends BaseModel {
 		int ocIdProveedor1 = -1, ocIdProveedor2 = -1,ocIdProveedor3 = -1,ocIdProveedor4 = -1,ocIdProveedor5 = -1;
 		
 		// recupera los detalles de la cotización actual
-		dsDetalleCotizacion.retrieve("detalle_cotizacion.cotizacion_compra_id = " + getCotizacionesCompraCotizacionCompraId());
-		dsDetalleSC.retrieve("detalle_sc.cotizacion_compra_id = "
+		dsDetalleCotizacion.retrieve(conn, "detalle_cotizacion.cotizacion_compra_id = " + getCotizacionesCompraCotizacionCompraId());
+		dsDetalleSC.retrieve(conn, "detalle_sc.cotizacion_compra_id = "
 				+ getCotizacionesCompraCotizacionCompraId()
 				+ " and detalle_sc.orden_compra_id is null");
 		dsDetalleCotizacion.waitForRetrieve();
@@ -3400,6 +3398,7 @@ public class CotizacionesCompraModel extends BaseModel {
 
 		// si recueró registros, itera controlando, validando y generando las OC
 		if (dsDetalleCotizacion.getRowCount() > 0) {
+			
 			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
 				// verifica que el detalle esté oc
 				int proveedor = dsDetalleCotizacion.verificaIntegridadDetalle(i);
@@ -3434,6 +3433,7 @@ public class CotizacionesCompraModel extends BaseModel {
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor1));
 						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
 								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i));
 					}
 					break;
 				case 2:
@@ -3465,6 +3465,7 @@ public class CotizacionesCompraModel extends BaseModel {
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor2));
 						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
 								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i));
 					}
 					break;
 				case 3:
@@ -3496,6 +3497,7 @@ public class CotizacionesCompraModel extends BaseModel {
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor3));
 						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
 								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i));
 					}
 					break;
 				case 4:
@@ -3527,6 +3529,7 @@ public class CotizacionesCompraModel extends BaseModel {
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor4));
 						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
 								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i));
 					}
 					break;
 				case 5:
@@ -3557,6 +3560,7 @@ public class CotizacionesCompraModel extends BaseModel {
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor5));
 						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
 								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i));
 					}
 					break;
 				default:
@@ -3567,7 +3571,7 @@ public class CotizacionesCompraModel extends BaseModel {
 			// update the SC states			
 			dsDetalleSC.update(conn);
 			dsDetalleSC.filter("detalle_sc.orden_compra_id != null");
-			//SolicitudCompraTransiciones.agregarEnOc(conn,dsDetalleSC, host,	getCurrentWebsiteUserId());
+			SolicitudCompraTransiciones.agregarEnOc(conn,dsDetalleSC, host,	getCurrentWebsiteUserId());
 		}
 		
 	}

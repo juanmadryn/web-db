@@ -1327,4 +1327,21 @@ public class SolicitudCompraModel extends BaseModel {
 		}
 		return orden;
 	}
+	
+	/**
+	 * Recupera observaciones hechas a la OC actual en el bucket observaciones  
+	 * 
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void recuperaObservaciones() throws DataStoreException, SQLException {
+		InstanciasAprobacionModel instancia = new InstanciasAprobacionModel(
+				"inventario", "inventario");		
+		instancia.retrieve(
+				"nombre_objeto = 'solicitudes_compra' AND " +
+				"objeto_id = " + getSolicitudesCompraSolicitudCompraId() + 
+				" AND mensaje IS NOT NULL order by fecha_entrada desc");
+		if (instancia.gotoFirst())
+			setObservaciones(instancia.getInstanciasAprobacionMensaje());
+	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -957,7 +957,7 @@ where detalle_cotizacion.cotizacion_compra_id= ?</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, cotizaciones_compra.observaciones observaciones_cotizacion, condiciones_compra_proveedor1.nombre condicion_compra_proveedor1, condiciones_compra_proveedor2.nombre condicion_compra_proveedor2, condiciones_compra_proveedor3.nombre condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3, atributos_entidad_direccion_proveedor1.valor direccion_proveedor1, atributos_entidad_direccion_proveedor2.valor direccion_proveedor2, atributos_entidad_direccion_proveedor3.valor direccion_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3, atributos_entidad_email_proveedor1.valor email_proveedor1, atributos_entidad_email_proveedor2.valor email_proveedor2, atributos_entidad_email_proveedor3.valor email_proveedor3, sum(detalle_sc.cantidad_solicitada*detalle_cotizacion.monto_unitario_proveedor1*(100-cotizaciones_compra.bonificacion_proveedor1)) total_proveedor1, sum(detalle_sc.cantidad_solicitada*detalle_cotizacion.monto_unitario_proveedor2*(100-cotizaciones_compra.bonificacion_proveedor2)) total_proveedor2, sum(detalle_sc.cantidad_solicitada*detalle_cotizacion.monto_unitario_proveedor3*(100-cotizaciones_compra.bonificacion_proveedor3)) total_proveedor3, detalle_sc.detalle_SC_id, detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle, articulos.nombre codigo_articulo, articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario, tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_SC.solicitud_compra_id, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3
+            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, cotizaciones_compra.observaciones observaciones_cotizacion, condiciones_compra_proveedor1.descripcion condicion_compra_proveedor1, condiciones_compra_proveedor2.descripcion condicion_compra_proveedor2, condiciones_compra_proveedor3.descripcion condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3, atributos_entidad_direccion_proveedor1.valor direccion_proveedor1, atributos_entidad_direccion_proveedor2.valor direccion_proveedor2, atributos_entidad_direccion_proveedor3.valor direccion_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3, atributos_entidad_email_proveedor1.valor email_proveedor1, atributos_entidad_email_proveedor2.valor email_proveedor2, atributos_entidad_email_proveedor3.valor email_proveedor3, sum(detalle_sc.cantidad_solicitada*detalle_cotizacion.monto_unitario_proveedor1*(100-cotizaciones_compra.bonificacion_proveedor1)) total_proveedor1, sum(detalle_sc.cantidad_solicitada*detalle_cotizacion.monto_unitario_proveedor2*(100-cotizaciones_compra.bonificacion_proveedor2)) total_proveedor2, sum(detalle_sc.cantidad_solicitada*detalle_cotizacion.monto_unitario_proveedor3*(100-cotizaciones_compra.bonificacion_proveedor3)) total_proveedor3, detalle_sc.detalle_SC_id, detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle, articulos.nombre codigo_articulo, articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario, tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_SC.solicitud_compra_id, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3
 FROM  inventario.cotizaciones_compra cotizaciones_compra
 inner join inventario.detalle_cotizacion detalle_cotizacion ON detalle_cotizacion.cotizacion_compra_id = cotizaciones_compra.cotizacion_compra_id
 inner join inventario.detalle_sc detalle_sc ON detalle_sc.detalle_SC_id = detalle_cotizacion.detalle_SC_id
@@ -1826,6 +1826,8 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
                         <text-data id="1201">
                             <expression name="valueExpr">row["cantidad_solicitada"]</expression>
@@ -1865,6 +1867,7 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
                         <text-data id="1203">
                             <expression name="valueExpr">row["monto_unitario"]</expression>
@@ -1884,11 +1887,16 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
-                        <text-data id="1204">
-                            <expression name="valueExpr">row["monto_unitario_proveedor1"]</expression>
-                            <property name="contentType">html</property>
-                        </text-data>
+                        <data id="1362">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$#,##0.00</property>
+                            </structure>
+                            <property name="resultSetColumn">monto_unitario_proveedor1</property>
+                        </data>
                     </cell>
                     <cell id="1140">
                         <property name="borderBottomColor">#000000</property>
@@ -1922,11 +1930,16 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
-                        <text-data id="1206">
-                            <expression name="valueExpr">row["monto_unitario_proveedor2"]</expression>
-                            <property name="contentType">html</property>
-                        </text-data>
+                        <data id="1361">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$#,##0.00</property>
+                            </structure>
+                            <property name="resultSetColumn">monto_unitario_proveedor2</property>
+                        </data>
                     </cell>
                     <cell id="1142">
                         <property name="borderBottomColor">#000000</property>
@@ -1960,13 +1973,16 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
-                        <text-data id="1208">
-                            <property name="marginTop">0pt</property>
-                            <property name="paddingTop">1pt</property>
-                            <expression name="valueExpr">row["monto_unitario_proveedor3"]</expression>
-                            <property name="contentType">html</property>
-                        </text-data>
+                        <data id="1360">
+                            <structure name="numberFormat">
+                                <property name="category">Currency</property>
+                                <property name="pattern">$#,##0.00</property>
+                            </structure>
+                            <property name="resultSetColumn">monto_unitario_proveedor3</property>
+                        </data>
                     </cell>
                     <cell id="1144">
                         <property name="borderBottomColor">#000000</property>
@@ -2196,6 +2212,7 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">left</property>
                         <data id="1263">
                             <property name="resultSetColumn">condicion_compra_proveedor1</property>
                         </data>
@@ -2215,6 +2232,7 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">left</property>
                         <data id="1264">
                             <property name="resultSetColumn">condicion_compra_proveedor2</property>
                         </data>
@@ -2231,6 +2249,7 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">left</property>
                         <data id="1265">
                             <property name="resultSetColumn">condicion_compra_proveedor3</property>
                         </data>
@@ -2274,6 +2293,7 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">justify</property>
                         <data id="1266">
                             <property name="resultSetColumn">forma_pago_proveedor1</property>
                         </data>
@@ -2293,6 +2313,7 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">justify</property>
                         <data id="1267">
                             <property name="resultSetColumn">forma_pago_proveedor2</property>
                         </data>
@@ -2309,6 +2330,7 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
+                        <property name="textAlign">justify</property>
                         <data id="1268">
                             <property name="resultSetColumn">forma_pago_proveedor3</property>
                         </data>
@@ -2575,6 +2597,10 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <data id="1315">
+                            <property name="paddingTop">1pt</property>
+                            <structure name="stringFormat">
+                                <property name="category">Unformatted</property>
+                            </structure>
                             <property name="resultSetColumn">telefono_proveedor1</property>
                         </data>
                     </cell>
