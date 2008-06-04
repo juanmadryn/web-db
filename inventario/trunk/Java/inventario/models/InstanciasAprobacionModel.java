@@ -751,6 +751,12 @@ public class InstanciasAprobacionModel extends DataStore {
 			return true;
 		return false;
 	}
+	
+	public void recuperaObservaciones(String nombre_objeto, int objeto_id) throws SQLException, DataStoreException{
+		setGroupBy(INSTANCIAS_APROBACION_USER_FIRMANTE);
+		setOrderBy(INSTANCIAS_APROBACION_FECHA_ACCION + " DESC ");
+		retrieve("nombre_objeto = '"+nombre_objeto+"' AND mensaje IS NOT NULL AND objeto_id ="+objeto_id);		
+	}
 	// $ENDCUSTOMMETHODS$
 
 }

@@ -83,6 +83,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public com.salmonllc.html.HtmlTextEdit _observaciones4;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
+	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspForm _pageForm;
@@ -142,6 +143,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.SolicitudCompraModel _dsSolicitudCompra;
+	public inventario.models.InstanciasAprobacionModel _dsInstanciasAprobacion;
 
 	// DataSource Column Constants
 	public static final String DSSOLICITUDCOMPRA_SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID = "solicitudes_compra.solicitud_compra_id";
@@ -320,6 +322,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		// genero un nuevo proyecto vacio.
 		_dsSolicitudCompra.reset();
 		_dsDetalleSC.reset();
+		_dsInstanciasAprobacion.reset();
 
 		_dsSolicitudCompra.insertRow();
 
@@ -864,11 +867,17 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 								_lnkOc1.setVisible(true);
 							else
 								_lnkOc1.setVisible(false);
-							
+
 							// test
-							System.out.println(" --> " + _dsDetalleSC.getOrdenesCompraEstadoNombre(i));
-							System.out.println(" --> " + _dsDetalleSC.getWebsiteUserNombreSolicitante(i));
-							System.out.println(" --> " + _dsDetalleSC.getOrdenesCompraEstado(i));
+							System.out.println(" --> "
+									+ _dsDetalleSC
+											.getOrdenesCompraEstadoNombre(i));
+							System.out
+									.println(" --> "
+											+ _dsDetalleSC
+													.getWebsiteUserNombreSolicitante(i));
+							System.out.println(" --> "
+									+ _dsDetalleSC.getOrdenesCompraEstado(i));
 						}
 
 					setDatosBasicosSolicitud();
@@ -883,7 +892,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		setDatosBasicosSolicitud();
 		armaBotonera();
-		
+
 		super.pageRequested(event);
 	}
 
@@ -900,6 +909,15 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 			setRow_id(_dsSolicitudCompra
 					.getSolicitudesCompraSolicitudCompraId());
+
+			// obtengo las intancias de aprobación correspondientes agrupadas
+			// por usuario para mostrar las observaciones de todos los firmantes
+			_dsInstanciasAprobacion.recuperaObservaciones("solicitudes_compra",
+					getRow_id());
+			if (_dsInstanciasAprobacion.getRowCount() == 0)
+				_datatable1.setVisible(false);
+			else
+				_datatable1.setVisible(true);
 
 			String titulo = "Solicitud de materiales Nº" + getRow_id();
 			if (_dsSolicitudCompra.getEstadoNombre() != null)
@@ -924,7 +942,6 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 			if ("0006.0002".equalsIgnoreCase(estado)
 					|| "0006.0004".equalsIgnoreCase(estado)
-					|| "0006.0003".equalsIgnoreCase(estado)
 					|| "0006.0005".equalsIgnoreCase(estado)
 					|| "0006.0008".equalsIgnoreCase(estado)) {
 				_observacionX1.setVisible(true);
