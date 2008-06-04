@@ -16,7 +16,6 @@ import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
-import com.sun.org.apache.bcel.internal.generic.GETSTATIC;
 
 //$CUSTOMIMPORTS$
 //Put custom imports between these comments, otherwise they will be overwritten if the model is regenerated
@@ -1467,10 +1466,7 @@ public class OrdenesCompraModel extends BaseModel {
 		// por si la propiedad NO está definida
 		String[] estados = null;
 		if (p.getProperty(Constants.ESTADOS_DE_MODIFICACION_ORDENES_COMPRA) != null) {
-			estados = p.getProperty(
-					Constants.ESTADOS_DE_MODIFICACION_ORDENES_COMPRA)
-					.split(",");
-
+			estados = p.getProperty(Constants.ESTADOS_DE_MODIFICACION_ORDENES_COMPRA).split(",");
 			for (String e : estados) {
 				estadosDeModificacion.add(e);
 			}

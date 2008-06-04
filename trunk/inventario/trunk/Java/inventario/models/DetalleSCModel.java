@@ -76,6 +76,9 @@ public class DetalleSCModel extends DataStore {
 	public static final String SOLICITUDES_COMPRA_USER_ID_SOLICITA = "solicitudes_compra.user_id_solicita";
 	public static final String DETALLE_SC_MONTO_TOTAL_PEDIDO = "monto_total_pedido";
 	public static final String DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO = "monto_total_neto_pedido";
+	
+	public static final String ORDENES_COMPRA_ESTADO="ordenes_compra.estado";
+	public static final String ORDENES_COMPRA_ESTADO_NOMBRE = "oc_estado_nombre";
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -255,8 +258,8 @@ public class DetalleSCModel extends DataStore {
 		addTableAlias(computeTableName("proyectos.proyectos"), "proyectos");
 		addTableAlias(computeTableName("centro_costo"), "centro_costo");
 		addTableAlias(computeTableName("ordenes_compra"), "ordenes_compra");
-		addTableAlias(computeTableName("infraestructura.website_user"),
-				"website_user_solicitante");
+		addTableAlias(computeTableName("infraestructura.website_user"), "website_user_solicitante");
+		addTableAlias(computeTableName("infraestructura.estados"),"estados");
 
 		addColumn(computeTableName("proyectos"), "nombre",
 				DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
@@ -288,6 +291,12 @@ public class DetalleSCModel extends DataStore {
 		addColumn(computeTableName("detalle_sc"), "descuento",
 				DataStore.DATATYPE_FLOAT, false, true,
 				DETALLE_SC_DESCUENTO);
+		addColumn(computeTableName("ordenes_compra"),"estado",
+				DataStore.DATATYPE_STRING,false,false,
+				ORDENES_COMPRA_ESTADO);		
+		addColumn(computeTableName("estados"),"nombre",
+				DataStore.DATATYPE_STRING,false,false,
+				ORDENES_COMPRA_ESTADO_NOMBRE);
 		
 		// add bucket
 		addBucket(DETALLE_SC_MONTO_TOTAL_PEDIDO, DataStore.DATATYPE_FLOAT);
@@ -301,6 +310,8 @@ public class DetalleSCModel extends DataStore {
 				computeTableAndFieldName("ordenes_compra.orden_compra_id"),true);
 		addJoin(computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
 				computeTableAndFieldName("website_user_solicitante.user_id"),true);
+		addJoin(computeTableAndFieldName("ordenes_compra.estado"),
+				computeTableAndFieldName("estados.estado"),true);
 
 		try {
 			addLookupRule(
@@ -309,6 +320,13 @@ public class DetalleSCModel extends DataStore {
 					"'infraestructura.website_user.user_id = ' + solicitudes_compra.user_id_solicita",
 					"nombre_completo", WEBSITE_USER_NOMBRE_SOLICITANTE,
 					"Usuario inexistente");
+			addLookupRule(
+					ORDENES_COMPRA_ESTADO,
+					"infraestructura.estados",
+					"'infraestructura.estados.estado = ' + ordenes_compra.estado",
+					"nombre", ORDENES_COMPRA_ESTADO_NOMBRE, 
+					"Estado inexistente");
+			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -2421,6 +2439,82 @@ public class DetalleSCModel extends DataStore {
 	public void setMontoTotalPedidoNeto(int row, float newValue)
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the ordenes_compra.estado column for the current row.
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraEstado() throws DataStoreException {
+		return  getString(ORDENES_COMPRA_ESTADO);
+	}
+
+	/**
+	 * Retrieve the value of the ordenes_compra.estado column for the specified row.
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraEstado(int row) throws DataStoreException {
+		return  getString(row,ORDENES_COMPRA_ESTADO);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.estado column for the current row.
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraEstado(String newValue) throws DataStoreException {
+		setString(ORDENES_COMPRA_ESTADO, newValue);
+	}
+
+	/**
+	 * Set the value of the ordenes_compra.estado column for the specified row.
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraEstado(int row,String newValue) throws DataStoreException {
+		setString(row,ORDENES_COMPRA_ESTADO, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the oc_estado_nombre column for the current row.
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraEstadoNombre() throws DataStoreException {
+		return  getString(ORDENES_COMPRA_ESTADO_NOMBRE);
+	}
+
+	/**
+	 * Retrieve the value of the oc_estado_nombre column for the specified row.
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */ 
+	public String getOrdenesCompraEstadoNombre(int row) throws DataStoreException {
+		return  getString(row,ORDENES_COMPRA_ESTADO_NOMBRE);
+	}
+	
+	/**
+	 * Set the value of the oc_estado_nombre column for the current row.
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraEstadoNombre(String newValue) throws DataStoreException {
+		setString(ORDENES_COMPRA_ESTADO_NOMBRE, newValue);
+	}
+
+	/**
+	 * Set the value of the oc_estado_nombre column for the specified row.
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */ 
+	public void setOrdenesCompraEstadoNombre(int row,String newValue) throws DataStoreException {
+		setString(row,ORDENES_COMPRA_ESTADO_NOMBRE, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 
