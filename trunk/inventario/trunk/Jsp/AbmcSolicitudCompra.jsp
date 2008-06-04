@@ -281,7 +281,7 @@ function CheckAll(checked) {
                            table="inventario.unidades_medida"
                            keycolumn="unidades_medida.unidad_medida_id"
                            displaycolumn="unidades_medida.nombre"
-                           nulloption="false"></salmon:option>
+                           nulloption="true"></salmon:option>
                      </salmon:input>
                   </salmon:td>
                   <salmon:td>

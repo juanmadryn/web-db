@@ -1743,7 +1743,6 @@ public class DetalleRCModel extends DataStore implements Constants {
 		ArticulosModel articulos = null;
 		for (int row = 0; row < getRowCount(); row++) {
 			
-
 			if (detalleSC == null)
 				detalleSC = new DetalleSCModel("inventario");
 			detalleSC.retrieve("detalle_SC_id ="
@@ -1761,7 +1760,6 @@ public class DetalleRCModel extends DataStore implements Constants {
 					ex.setRowNo(row);
 					throw ex;
 				}
-				;
 				setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
 				int unidad_patron = Integer.parseInt(AtributosEntidadModel
 						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
