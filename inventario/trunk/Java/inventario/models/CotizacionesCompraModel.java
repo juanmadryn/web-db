@@ -3233,8 +3233,8 @@ public class CotizacionesCompraModel extends BaseModel {
 	public void setNombreFormaPagoProveedor5(int row, String newValue)
 			throws DataStoreException {
 		setString(row, NOMBRE_FORMA_PAGO_PROVEEDOR5, newValue);
-	}
-
+	}	
+	
 	/**
 	 * Retrieve the value of the current website user id bucket
 	 * 
