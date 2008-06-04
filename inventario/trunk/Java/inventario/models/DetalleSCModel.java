@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-	
+
 import proyectos.models.TareasProyectoModel;
 
 import com.salmonllc.sql.DBConnection;
@@ -26,7 +26,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * DetalleSCModel: A SOFIA generated model
  */
-public class DetalleSCModel extends DataStore {
+public class DetalleSCModel extends DataStore implements Constants{
 
 	/**
 	 * 
@@ -1677,12 +1677,15 @@ public class DetalleSCModel extends DataStore {
 				setDetalleScMontoUnitario(row,
 						getDetalleScMontoUltimaCompra(row));
 
-			if (getDetalleScUnidadMedida(row) == 0)
-				setDetalleScUnidadMedida(row, Integer
-						.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
-								"ARTICULO_UNIDAD_MEDIDA",
-								getDetalleScArticuloId(row), "TABLA",
-								"articulos")));
+			int unidad_patron = Integer.parseInt(AtributosEntidadModel
+					.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
+							getDetalleScArticuloId(row), "TABLA",
+							"articulos"));
+			
+			if (getDetalleScUnidadMedida(row) == 0 && unidad_patron != 0) {
+				setDetalleScUnidadMedida(row, unidad_patron);
+			}				
+			
 			
 			if (getDetalleScIva(row) == 0) {				
 				setDetalleScIva(row, Float.parseFloat(AtributosEntidadModel
