@@ -339,7 +339,7 @@ function CheckAll(checked) {
                         onclick="document.forms['bannerForm'].submit();"
                         datasource="dsDetalleSC:'%EditarOrdenCompra?orden_compra_id='+detalle_sc.orden_compra_id">
                         <salmon:text name="oc2" text=""
-                           datasource="dsDetalleSC:detalle_sc.orden_compra_id"></salmon:text>
+                           datasource="dsDetalleSC:detalle_sc.orden_compra_id + ' - ' + oc_estado_nombre"></salmon:text>
                      </salmon:a>
                   </salmon:td>
                   <salmon:td align="RIGHT">

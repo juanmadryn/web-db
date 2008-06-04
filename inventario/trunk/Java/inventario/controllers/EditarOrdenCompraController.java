@@ -621,11 +621,9 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		if ("0008.0002".equalsIgnoreCase(estado)
 				|| "0008.0004".equalsIgnoreCase(estado)
 				|| "0008.0005".equalsIgnoreCase(estado)) {
-			_dsOrdenesCompra.recuperaObservaciones();
-			if (_dsOrdenesCompra.getObservaciones() != null) {
-				_observacionX1.setVisible(true);
-				_observacionX2.setVisible(true);
-			}
+			_dsOrdenesCompra.recuperaObservaciones();			
+			_observacionX1.setVisible(true);
+			_observacionX2.setVisible(true);
 		} else {
 			_observacionX1.setVisible(false);
 			_observacionX2.setVisible(false);

@@ -864,7 +864,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 								_lnkOc1.setVisible(true);
 							else
 								_lnkOc1.setVisible(false);
-
+							
+							// test
+							System.out.println(" --> " + _dsDetalleSC.getOrdenesCompraEstadoNombre(i));
+							System.out.println(" --> " + _dsDetalleSC.getWebsiteUserNombreSolicitante(i));
+							System.out.println(" --> " + _dsDetalleSC.getOrdenesCompraEstado(i));
 						}
 
 					setDatosBasicosSolicitud();
@@ -879,6 +883,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		setDatosBasicosSolicitud();
 		armaBotonera();
+		
 		super.pageRequested(event);
 	}
 
