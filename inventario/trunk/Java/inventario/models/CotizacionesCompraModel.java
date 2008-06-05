@@ -3381,6 +3381,7 @@ public class CotizacionesCompraModel extends BaseModel {
 	public void generaOrdenesCompra(String host,DBConnection conn) throws DataStoreException, SQLException {
 		DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario", "inventario");
 		DetalleSCModel dsDetalleSC = new DetalleSCModel("inventario","inventario");
+		SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario","infentario");
 		OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario","inventario");
 		int detalleSCId = -1;
 
@@ -3400,6 +3401,31 @@ public class CotizacionesCompraModel extends BaseModel {
 		if (dsDetalleCotizacion.getRowCount() > 0) {
 			
 			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
+				// verifico que la SC asociada esté en estado cotizada, sino aborto la operación
+				dsSolicitudCompra.reset();
+				dsSolicitudCompra.retrieve("solicitud_compra.solicitud_compra_id = " + dsDetalleCotizacion.getDetalleScSolicitudCompraId(i));
+				dsSolicitudCompra.waitForRetrieve();
+				dsSolicitudCompra.gotoFirst();
+				if (dsSolicitudCompra.getRowCount() == 0)
+					throw new DataStoreException(
+							"No se recuperó ningina Solicitud asociada al artículo: "
+									+ dsDetalleCotizacion.getArticulosNombre()
+									+ " - "
+									+ dsDetalleCotizacion.getArticulosDescripcion());
+				if (dsSolicitudCompra.getRowCount() > 1)
+					throw new DataStoreException(
+							"Se recuperó más de una Solicitud asociada al artículo: "
+									+ dsDetalleCotizacion.getArticulosNombre()
+									+ " - "
+									+ dsDetalleCotizacion.getArticulosDescripcion());
+				if (!dsSolicitudCompra.getEstadoActual().equalsIgnoreCase("0006.0008"))
+					throw new DataStoreException(
+							"La Solicitud asociada al artículo: "
+									+ dsDetalleCotizacion.getArticulosNombre()
+									+ " - "
+									+ dsDetalleCotizacion.getArticulosDescripcion()
+									+ " No está en estado Cotizada. Primero debe finalizar la cotización");
+				
 				// verifica que el detalle esté oc
 				int proveedor = dsDetalleCotizacion.verificaIntegridadDetalle(i);
 				// verifica que el proveedor seleecionado tenga FK al proveedor

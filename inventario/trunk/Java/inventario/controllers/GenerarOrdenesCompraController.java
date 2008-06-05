@@ -377,7 +377,7 @@ public class GenerarOrdenesCompraController extends BaseController {
 		StringBuilder sb = new StringBuilder(500);
 		
 		// recuperamos SC aprobadas o con OC parcial
-		sb.append(" (solicitudes_compra.estado IN ('0006.0003','0006.0006') and detalle_sc.orden_compra_id is null) ");		
+		sb.append(" (solicitudes_compra.estado IN ('0006.0008','0006.0006') and detalle_sc.orden_compra_id is null) ");		
 		
 		// agrega a la clausula where restricciones en base a atributos				
 		//String criterioAtributos = armarBusquedaPorAtributos();		

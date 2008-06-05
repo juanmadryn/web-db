@@ -254,10 +254,11 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				// luego genera las OC's
 				conn.beginTransaction();
 
-				_dsCotizacionesCompra.generaOrdenesCompra(getCurrentRequest().getRemoteHost(),conn);
+				_dsCotizacionesCompra.generaOrdenesCompra(getCurrentRequest()
+						.getRemoteHost(), conn);
 
 				conn.commit();
-				
+
 				sendPageRedirect();
 
 			} catch (Exception ex) {
