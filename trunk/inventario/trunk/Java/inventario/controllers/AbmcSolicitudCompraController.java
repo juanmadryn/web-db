@@ -647,7 +647,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				dsCotizacionCompra.setCurrentWebsiteUserId(getUserFromSession(
 						getCurrentRequest().getRemoteAddr()).getUserID());
 				dsCotizacionCompra.setCotizacionesCompraEstado(ccId,
-						"0008.0001");
+						"0006.0003");
 
 				dsCotizacionCompra.update(conn);
 
@@ -730,6 +730,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					displayErrorMessage("Debe ser COMPRADOR para revisar una solicitud aprobada.");
 					return false;
 				}
+				
+				// verifico que la solicitud de compra esté en estado cotizada
+				if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase("0006.0008")) {
+					displayErrorMessage("La Solicitud debe estar en estado COTIZADA para poder generar la Orden de Compra.");
+					return false;
+				}
 
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
@@ -744,8 +750,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					return false;
 				}
 
-				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel(
-						"inventario");
+				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario");
 
 				int ocId = dsOrdenCompra.insertRow();
 				dsOrdenCompra.setCurrentWebsiteUserId(getUserFromSession(
