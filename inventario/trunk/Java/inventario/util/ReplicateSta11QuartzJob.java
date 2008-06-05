@@ -144,8 +144,15 @@ public class ReplicateSta11QuartzJob implements Job {
 			/*******************************************************************
 			 * importa precio/fecha ultima compra
 			 */
-			String SQLimportaPrecioFechaTango = "SELECT COD_ARTICU, MAX(FECHA_MOV) AS FECHA, MAX(PRECIO_NET) AS MONTO "
-					+ "FROM CPA46 GROUP BY COD_ARTICU ORDER BY COD_ARTICU";
+			/*String SQLimportaPrecioFechaTango = "SELECT COD_ARTICU, MAX(FECHA_MOV) AS FECHA, MAX(PRECIO_NET) AS MONTO "
+					+ "FROM CPA46 GROUP BY COD_ARTICU ORDER BY COD_ARTICU";*/
+			String SQLimportaPrecioFechaTango =
+					"SELECT CPA46.COD_ARTICU, CPA46.FECHA_MOV AS FECHA, CPA46.PRECIO_NET AS MONTO " +
+					"FROM CPA46 " +
+					"JOIN ( " +
+					"SELECT COD_ARTICU, MAX(FECHA_MOV) AS FECHA, MAX(ID_CPA46) AS ID_CPA46 " + 
+					"FROM CPA46 GROUP BY COD_ARTICU " +
+					") UP ON CPA46.ID_CPA46 = UP.ID_CPA46";		
 			psTango = connTango
 					.prepareStatement(SQLimportaPrecioFechaTango,
 							ResultSet.TYPE_SCROLL_SENSITIVE,

@@ -404,7 +404,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					
 					conn.commit();				
 					/*System.out.println(_dsOrdenesCompra.getEntidadExternaCodigo());*/
-					//(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra, "OT ");
+					(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra, "OT ");
 					_dsOrdenesCompra.reloadRow();
 					setRecargar(true);
 					

@@ -30,6 +30,7 @@ public class WebsiteUserModel extends DataStore {
 	// Put custom instance variables between these comments, otherwise they will
 	// be overwritten if the model is regenerated
 	public static final String LEGAJOS_APEYNOM = "legajos.APEYNOM";
+	public static final String LEGAJO_APELLIDO = "legajo.APELLIDO";
 
 	// $ENDCUSTOMVARS$
 
@@ -53,11 +54,9 @@ public class WebsiteUserModel extends DataStore {
 	 */
 	public WebsiteUserModel(String appName, String profile) {
 		super(appName, profile);
-		
-
-
 			// add aliases
-			addTableAlias(computeTableName("website_user"), null);
+			addTableAlias(computeTableName("infraestructura.website_user"), "website_user");
+			addTableAlias(computeTableName("infraestructura.legajos"), "legajos");
 
 			// add columns
 			addColumn(computeTableName("website_user"), "user_id",
@@ -81,10 +80,12 @@ public class WebsiteUserModel extends DataStore {
 					WEBSITE_USER_NRO_LEGAJO);
 			addColumn(computeTableName("legajos"), "APEYNOM",
 					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
+			addColumn(computeTableName("legajos"), "APELLIDO",
+					DataStore.DATATYPE_STRING, false, false, LEGAJO_APELLIDO);
 
 			// add joins
-			addJoin(computeTableAndFieldName("website_user.nro_legajo"), computeTableAndFieldName("legajos.nro_legajo"), true);
-			
+			//addJoin(computeTableAndFieldName("website_user.nro_legajo"), computeTableAndFieldName("legajos.nro_legajo"), true);			
+			addJoin(computeTableAndFieldName("website_user.nro_legajo"), computeTableAndFieldName("legajos.NRO_LEGAJO"), true);
 			
 			// $CUSTOMCONSTRUCTOR$
 			// Put custom constructor code between these comments, otherwise it
@@ -453,7 +454,54 @@ public class WebsiteUserModel extends DataStore {
 	// $CUSTOMMETHODS$
 	// Put custom methods between these comments, otherwise they will be
 	// overwritten if the model is regenerated
+	/**
+	 * Retrieve the value of the website_user.nro_legajo column for the current
+	 * row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public String getLegajoApellido() throws DataStoreException {
+		return getString(LEGAJO_APELLIDO);
+	}
 
+	/**
+	 * Retrieve the value of the website_user.nro_legajo column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public String getLegajoApellido(int row) throws DataStoreException {
+		return getString(row, LEGAJO_APELLIDO);
+	}
+
+	/**
+	 * Set the value of the website_user.nro_legajo column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setLegajoApellido(String newValue) throws DataStoreException {
+		setString(LEGAJO_APELLIDO, newValue);
+	}
+
+	/**
+	 * Set the value of the website_user.nro_legajo column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setLegajoApellido(int row, String newValue)
+			throws DataStoreException {
+		setString(row, LEGAJO_APELLIDO, newValue);
+	}
 	// $ENDCUSTOMMETHODS$
 
 }

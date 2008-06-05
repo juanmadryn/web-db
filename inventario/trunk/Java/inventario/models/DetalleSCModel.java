@@ -1632,8 +1632,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 			// if is
 			// null
 			if (getDetalleScDescripcion(row) == null)
-				setDetalleScDescripcion(row,
-						getArticulosDescripcionCompleta(row));
+				setDetalleScDescripcion(row, getArticulosDescripcionCompleta(row));
 
 			// si tiene un oc asignado
 			if (getDetalleScOrdenCompraId(row) > 0) {

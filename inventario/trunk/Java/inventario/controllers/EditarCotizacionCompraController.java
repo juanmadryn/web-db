@@ -4,7 +4,6 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.UsuarioRolesModel;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -234,7 +233,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				_dsDetalleCotizacion.update();
 				// calcula totales
 				_dsCotizacionesCompra.setTotalesProveedor();
-				_dsCotizacionesCompra.update();
+				_dsCotizacionesCompra.update();				
 			} catch (DataStoreException ex) {
 				displayErrorMessage(ex.getMessage());
 				return false;
