@@ -43,6 +43,7 @@ public class SolicitudCompraTransiciones {
 	private static int REVERTIR_A_OC_PARCIAL = 20;
 	private static int REVERTIR_A_SC_APROBADA = 21;
 	private static int REVERTIR_A_SC_COTIZADA = 35;
+	private static int FIN_DE_COTIZACION = 54;
 	
 	// Circuito
 	private static String CIRCUITO_SC = "0006";
@@ -198,6 +199,35 @@ public class SolicitudCompraTransiciones {
 		}	
 	}
 	
+	public static void cotizarSolicitudCompra(DBConnection conn, SolicitudCompraModel solicitud, 
+			String remoteHost, int webSiteUserId) throws SQLException, DataStoreException {
+		cotizarSolicitudCompra(conn, solicitud.getSolicitudesCompraSolicitudCompraId(), remoteHost, webSiteUserId);
+	}
+	
+	/**
+	 * Ejecuta la transicion a cotizada
+	 * 
+	 * @param conn
+	 * @param _dsDetalleSC
+	 * @param remoteHost
+	 * @param webSiteUserId
+	 * @throws SQLException 
+	 */
+	public static void cotizarSolicitudCompra(DBConnection conn, int SolicitudId, 
+			String remoteHost, int webSiteUserId) throws SQLException {
+		SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario");
+		dsSolicitudCompra.retrieve(
+				conn, SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID + " = " + SolicitudId);
+		
+		try {
+			dsSolicitudCompra.ejecutaAccion(FIN_DE_COTIZACION, CIRCUITO_SC,
+					remoteHost,	webSiteUserId, 
+					NOMBRE_TABLA_SC, conn, false);	
+		} catch (DataStoreException ex) {
+			MessageLog.writeErrorMessage(ex, null);
+		}
+	}
+	
 	/**
 	 * Recupera los ids de las acciones a ejecutar desde el archivo de propiedades.
 	 * TODO: el codigo funciona, pero es un asco, refactorear.
@@ -235,6 +265,12 @@ public class SolicitudCompraTransiciones {
 			errores.add("No se ha indicado acción REVERTIR_A_SC_COTIZADA en archivo de configuración");
 		else
 			REVERTIR_A_SC_COTIZADA = revertirScCotizadaProp;
+		
+		int finCotizacionProp = props.getIntProperty("FIN_DE_COTIZACION");
+		if (revertirScCotizadaProp == -1) 
+			errores.add("No se ha indicado acción FIN_DE_COTIZACION en archivo de configuración");
+		else
+			FIN_DE_COTIZACION = finCotizacionProp;
 		
 		if (errores.size() > 0) 
 			throw new ValidationException(errores);
