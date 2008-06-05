@@ -103,10 +103,14 @@
 								font="TableHeadingFont" />
 						</salmon:td>						
 						<salmon:td>
+							<salmon:text name="descripcionAdicionalCAP23" text="Descripción adicional"
+								font="TableHeadingFont" />
+						</salmon:td>
+						<!--<salmon:td>
 							<salmon:text name="claseCAP24" text="Clase de Artículo"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
+						--><salmon:td>
 							<salmon:text name="observacionCAP26" text="Observaciones"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -131,13 +135,18 @@
 							<salmon:text name="descripcionTE23" text="articulos.descripcion"
 								font="DefaultFont"
 								datasource="dsArticulos:articulos.descripcion" />
-						</salmon:td>						
+						</salmon:td>		
+												<salmon:td>
+							<salmon:text name="descripcionAdicionalTE23" text="articulos.descripcion_completa"
+								font="DefaultFont"
+								datasource="dsArticulos:articulos.descripcion_completa" />
+						</salmon:td><!--					
 						<salmon:td>
 							<salmon:text name="claseArticuloTE24"
 								text="clase_articulo.nombre" font="DefaultFont"
 								datasource="dsArticulos:clase_articulo.nombre" />
 						</salmon:td>
-						<salmon:td>
+						--><salmon:td>
 							<salmon:text name="articulosTE26" text="articulos.observaciones"
 								font="DefaultFont"
 								datasource="dsArticulos:articulos.observaciones" />
