@@ -158,6 +158,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	//public com.salmonllc.jsp.JspTableRow _nuevoDetalleSinSc;
 	public com.salmonllc.html.HtmlTextEdit _descuento2;
+	public HtmlSubmitButton _exportaTangoBUT1;
 	
 	private static final String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 	private static final String REMOVER_DE_OC = "REMOVER_DE_OC";
@@ -189,6 +190,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		/*_articulosNuevoBUT1 = new HtmlSubmitButton("articulosNuevoBUT1", "Nuevo", this);
 		_articulosNuevoBUT1.setAccessKey("V");
 		_listformdisplaybox2.addButton(_articulosNuevoBUT1);*/
+		_exportaTangoBUT1 = new HtmlSubmitButton("exportaTangoBUT1", "Exporta TANGO", this);
+		_detailformdisplaybox1.addButton(_exportaTangoBUT1);
 		
 		_articulosAgregarBUT1 = new HtmlSubmitButton("articulosAgregarBUT1", "Agregar", this);
 		_articulosAgregarBUT1.setAccessKey("A");
@@ -221,6 +224,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_desSeleccionaTodoBUT1.addSubmitListener(this);
 		_muestraDescAdicionalBUT.addSubmitListener(this);
 		//_articulosNuevoBUT1.addSubmitListener(this);
+		_exportaTangoBUT1.addSubmitListener(this);
 		
 		_fecha_estimada_entrega2.addValueChangedListener(this);
 		
@@ -402,9 +406,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 					_dsOrdenesCompra.resetStatus();
 					_dsDetalleSC.resetStatus();
 					
-					conn.commit();				
-					/*System.out.println(_dsOrdenesCompra.getEntidadExternaCodigo());*/
-					(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra, "OT ");
+					conn.commit();
+					
 					_dsOrdenesCompra.reloadRow();
 					setRecargar(true);
 					
@@ -511,6 +514,12 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 				pageRequested(new PageEvent(this));
 				return false;
 			}
+		}
+		
+		// Para test
+		if (component == _exportaTangoBUT1) {
+			// Inserta la cabecera de la Orden de Compra en Tango
+			(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra);
 		}
 	
 		armaBotonera();

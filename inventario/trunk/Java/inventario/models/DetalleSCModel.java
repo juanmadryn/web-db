@@ -76,6 +76,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 	public static final String SOLICITUDES_COMPRA_USER_ID_SOLICITA = "solicitudes_compra.user_id_solicita";
 	public static final String DETALLE_SC_MONTO_TOTAL_PEDIDO = "monto_total_pedido";
 	public static final String DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO = "monto_total_neto_pedido";
+	public static final String DETALLE_SC_MONTO_UNITARIO_PAM = "monto_unitario_pam";
 	
 	public static final String ORDENES_COMPRA_ESTADO="ordenes_compra.estado";
 	public static final String ORDENES_COMPRA_ESTADO_NOMBRE = "oc_estado_nombre";
@@ -301,6 +302,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 		// add bucket
 		addBucket(DETALLE_SC_MONTO_TOTAL_PEDIDO, DataStore.DATATYPE_FLOAT);
 		addBucket(DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, DataStore.DATATYPE_FLOAT);
+		addBucket(DETALLE_SC_MONTO_UNITARIO_PAM, DataStore.DATATYPE_FLOAT);
 
 		addJoin(computeTableAndFieldName("solicitudes_compra.proyecto_id"),
 				computeTableAndFieldName("proyectos.proyecto_id"), true);
@@ -2518,6 +2520,111 @@ public class DetalleSCModel extends DataStore implements Constants{
 	public void setOrdenesCompraEstadoNombre(int row,String newValue) throws DataStoreException {
 		setString(row,ORDENES_COMPRA_ESTADO_NOMBRE, newValue);
 	}
-	// $ENDCUSTOMMETHODS$
+	
+	/**
+	 * Calculate the value of the monto_total column.
+	 *
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void calculaPrecioUnitarioPam() throws DataStoreException, SQLException,
+			ParseException {
+		calculaPrecioUnitarioPam(getRow(), null);
+	}
+	
+	/**
+	 * Calculate the value of the monto_total column for the specified column.
+	 *
+	 * @param row
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void calculaPrecioUnitarioPam(int row) throws DataStoreException, SQLException,
+			ParseException {
+		calculaPrecioUnitarioPam(row, null);
+	}
+	
+	/**
+	 * @param row
+	 * @param porc
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 * @throws ParseException
+	 */
+	public void calculaPrecioUnitarioPam(int row, Float porc) throws DataStoreException, SQLException,
+			ParseException {
+		Float monto_unitario = getDetalleScMontoUnitario(row);
+		Float total = 0F;
 
+		// preciso formatear el total antes de guardarlo, para que no agregue
+		// decimales innecesarios, y para que los totales generales luego
+		// muestren la suma exacta de cada detalle.
+		if (monto_unitario != null) {
+			total = monto_unitario;
+			
+			DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
+			format.setMaximumFractionDigits(2);
+			format.setRoundingMode(RoundingMode.HALF_UP);
+			DecimalFormatSymbols decimalSymbol = DecimalFormatSymbols
+					.getInstance();
+			decimalSymbol.setDecimalSeparator('.');
+			decimalSymbol.setGroupingSeparator(',');
+			format.setDecimalFormatSymbols(decimalSymbol);
+						
+			if ((porc != null) && (porc > 0)) {
+				total -= monto_unitario * (porc / 100);
+			} else if (getDetalleScDescuento(row) > 0) {
+				total -= monto_unitario * (getDetalleScDescuento(row) / 100);				
+			}			
+			setMontoUnitarioPam(row, Float.parseFloat(format.format(total).replace(",", "")));			
+		}		
+	}
+	
+	/**
+	 * Retrieve the value of the monto_unitario_pam bucket for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public Float getMontoUnitarioPam() throws DataStoreException {
+		return getFloat(DETALLE_SC_MONTO_UNITARIO_PAM);
+	}
+
+	/**
+	 * Retrieve the value of monto_unitario_pam bucket for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public Float getMontoUnitarioPam(int row) throws DataStoreException {
+		return getFloat(row, DETALLE_SC_MONTO_UNITARIO_PAM);
+	}
+
+	/**
+	 * Set the value of the monto_unitario_pam bucket for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMontoUnitarioPam(Float newValue) throws DataStoreException {
+		setFloat(DETALLE_SC_MONTO_UNITARIO_PAM, newValue);
+	}
+
+	/**
+	 * Set the value of the monto_unitario_pam bucket for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMontoUnitarioPam(int row, float newValue)
+			throws DataStoreException {
+		setFloat(row, DETALLE_SC_MONTO_UNITARIO_PAM, newValue);
+	}
+	// $ENDCUSTOMMETHODS$
 }
