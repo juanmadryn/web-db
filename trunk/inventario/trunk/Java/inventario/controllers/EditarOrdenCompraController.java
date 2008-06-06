@@ -518,8 +518,16 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		// Para test
 		if (component == _exportaTangoBUT1) {
-			// Inserta la cabecera de la Orden de Compra en Tango
-			(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra);
+			try {
+				// Inserta la cabecera de la Orden de Compra en Tango
+				(new OrdenesDeCompraTANGO()).insertaCabeceraOC(_dsOrdenesCompra);
+			} catch (ValidationException ex) {			
+				MessageLog.writeErrorMessage(ex, null);
+				for (String er : ex.getStackErrores()) {						
+					displayErrorMessage(er);
+				}										
+				return false;
+			}
 		}
 	
 		armaBotonera();
