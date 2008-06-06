@@ -1,6 +1,8 @@
 package inventario.util;
 
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.WebsiteUserModel;
+import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
 import inventario.models.OrdenesCompraModel;
 import inventario.models.SolicitudCompraModel;
@@ -16,7 +18,9 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Vector;
 
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -35,6 +39,10 @@ public class OrdenesDeCompraTANGO {
 	private String userTango = "Axoft";
 	private String passWordTango = "Axoft";
 	private int ESTADO_EMITIDA = 3;
+	
+	private static Integer N_ORDEN_CO_PROP = null;
+	
+	private boolean debug = true;
 	
 	/**
 	 * Inserta la cabecera de la Orden de Compra en Tango. 
@@ -260,41 +268,50 @@ public class OrdenesDeCompraTANGO {
 			pstTango.setFloat(26, TOTAL_II);
 			pstTango.setFloat(27, TOTAL_IVA);
 
-			// pstTango.execute();			
+			/*
+			 * Imprime a la salida estandar para debug
+			 */
+			if (debug) {
+				System.out.println("== CABECERA OC ==");
+				System.out.println("AUTORIZO\t-->\t" + AUTORIZO);
+				System.out.println("COD_COMPRA\t-->\t" + COD_COMPRA);
+				System.out.println("COD_LISTA\t-->\t" + COD_LISTA);
+				System.out.println("COD_PROVEE\t-->\t" + COD_PROVEE);
+				System.out.println("COND_COMPR\t-->\t" + COND_COMPR);
+				System.out.println("CONGELA \t-->\t" + CONGELA);
+				System.out.println("COTIZ   \t-->\t" + COTIZ);
+				System.out.println("ESTADO  \t-->\t" + ESTADO);
+				System.out.println("EXPORTADO\t-->\t" + EXPORTADO);
+				System.out.println("FEC_AUTORI\t-->\t" + FEC_AUTORI);
+				System.out.println("FEC_EMISIO\t-->\t" + FEC_EMISIO);
+				System.out.println("FEC_GENER\t-->\t" + FEC_GENER);
+				System.out.println("FEC_VIGENC\t-->\t" + FEC_VIGENC);
+				System.out.println("HORA_AUTOR\t-->\t" + HORA_AUTOR);
+				System.out.println("INC_II  \t-->\t" + INC_II);
+				System.out.println("INC_IVA \t-->\t" + INC_IVA);
+				System.out.println("LEYENDA 1\t-->\t" + LEYENDA_1);
+				System.out.println("LEYENDA 2\t-->\t" + LEYENDA_2);
+				System.out.println("MONTO_CTE\t-->\t" + MONTO_CTE);
+				System.out.println("N_ORDEN_CO\t-->\t" + N_ORDEN_CO);
+				System.out.println("NRO_SUCURS\t-->\t" + NRO_SUCURS);
+				System.out.println("OBSERVACIO\t-->\t" + OBSERVACIO);
+				System.out.println("PORC_BONIF\t-->\t" + PORC_BONIF);
+				System.out.println("TALONARIO\t-->\t" + TALONARIO);
+				System.out.println("TOTAL_BONI\t-->\t" + TOTAL_BONI);
+				System.out.println("TOTAL_II\t-->\t" + TOTAL_II);
+				System.out.println("TOTAL_IVA\t-->\t" + TOTAL_IVA);
+			}
 			
-			// Para debug
-			System.out.println("== CABECERA OC ==");
-			System.out.println("AUTORIZO\t-->\t" + AUTORIZO);
-			System.out.println("COD_COMPRA\t-->\t" + COD_COMPRA);
-			System.out.println("COD_LISTA\t-->\t" + COD_LISTA);
-			System.out.println("COD_PROVEE\t-->\t" + COD_PROVEE);
-			System.out.println("COND_COMPR\t-->\t" + COND_COMPR);
-			System.out.println("CONGELA \t-->\t" + CONGELA);
-			System.out.println("COTIZ   \t-->\t" + COTIZ);
-			System.out.println("ESTADO  \t-->\t" + ESTADO);
-			System.out.println("EXPORTADO\t-->\t" + EXPORTADO);
-			System.out.println("FEC_AUTORI\t-->\t" + FEC_AUTORI);
-			System.out.println("FEC_EMISIO\t-->\t" + FEC_EMISIO);
-			System.out.println("FEC_GENER\t-->\t" + FEC_GENER);
-			System.out.println("FEC_VIGENC\t-->\t" + FEC_VIGENC);
-			System.out.println("HORA_AUTOR\t-->\t" + HORA_AUTOR);
-			System.out.println("INC_II  \t-->\t" + INC_II);
-			System.out.println("INC_IVA \t-->\t" + INC_IVA);
-			System.out.println("LEYENDA 1\t-->\t" + LEYENDA_1);
-			System.out.println("LEYENDA 2\t-->\t" + LEYENDA_2);
-			System.out.println("MONTO_CTE\t-->\t" + MONTO_CTE);
-			System.out.println("N_ORDEN_CO\t-->\t" + N_ORDEN_CO);
-			System.out.println("NRO_SUCURS\t-->\t" + NRO_SUCURS);
-			System.out.println("OBSERVACIO\t-->\t" + OBSERVACIO);
-			System.out.println("PORC_BONIF\t-->\t" + PORC_BONIF);
-			System.out.println("TALONARIO\t-->\t" + TALONARIO);
-			System.out.println("TOTAL_BONI\t-->\t" + TOTAL_BONI);
-			System.out.println("TOTAL_II\t-->\t" + TOTAL_II);
-			System.out.println("TOTAL_IVA\t-->\t" + TOTAL_IVA);
+			/*if (!debug)
+				pstTango.execute();*/
 			
+			/*
+			 * Inserta los detalles de la OC en la tabla correspondiente
+			 */
 			insertaDetalleOC(oc, connTango, N_ORDEN_CO);
 			
-			connTango.rollback();
+			if (debug)
+				connTango.rollback();
 
 		} catch (ClassNotFoundException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
@@ -342,6 +359,12 @@ public class OrdenesDeCompraTANGO {
 				dsDetalleSc.calculaPrecioUnitarioPam(row);
 				dsDetalleSc.calculaMontoTotalPedido(row);
 				dsDetalleSc.calculaMontoTotalNetoPedido(row);
+				
+				/*
+				 * ======================================================
+				 * Tabla CPA36
+				 * ======================================================
+				 */
 				
 				// Segun lo que se investigo, este valor no se setea
 				String FILLER = "";
@@ -395,43 +418,72 @@ public class OrdenesDeCompraTANGO {
 				
 				Float PRECIO_PAN = dsDetalleSc.getDetalleScMontoUnitario(row);
 				
-				// Para debug
-				System.out.println("== DETALLE " + N_RENGL_OC + " OC " + N_ORDEN_CO + " ==");
-				System.out.println("FILLER  \t-->\t" + FILLER);
-				System.out.println("CAN_EQUIVA\t-->\t" + CAN_EQUIVA);
-				System.out.println("CAN_PEDIDA\t-->\t" + CAN_PEDIDA);
-				System.out.println("CAN_PENDIE\t-->\t" + CAN_PENDIE);
-				System.out.println("CAN_RECIBI\t-->\t" + CAN_RECIBI);
-				System.out.println("CIERRE  \t-->\t" + CIERRE);
-				System.out.println("COD_ARTICU\t-->\t" + COD_ARTICU);
-				System.out.println("COD_DEPOSI\t-->\t" + COD_DEPOSI);
-				System.out.println("COD_PRE_CO\t-->\t" + COD_PRE_CO);
-				System.out.println("IMP_INT  \t-->\t" + IMP_INT);
-				System.out.println("N_ORDEN_CO\t-->\t" + N_ORDEN_CO);
-				System.out.println("N_RENGL_OC\t-->\t" + N_RENGL_OC);
-				System.out.println("PORC_DESC\t-->\t" + PORC_DESC);
-				System.out.println("PRECIO  \t-->\t" + PRECIO);
-				System.out.println("PRECIO_PAN\t-->\t" + PRECIO_PAN);
+				/*
+				 * Se imprime en la salida estandar para debug
+				 */
+				if (debug) {
+					System.out.println("== DETALLE " + N_RENGL_OC + " OC " + N_ORDEN_CO + " ==");
+					System.out.println("FILLER  \t-->\t" + FILLER);
+					System.out.println("CAN_EQUIVA\t-->\t" + CAN_EQUIVA);
+					System.out.println("CAN_PEDIDA\t-->\t" + CAN_PEDIDA);
+					System.out.println("CAN_PENDIE\t-->\t" + CAN_PENDIE);
+					System.out.println("CAN_RECIBI\t-->\t" + CAN_RECIBI);
+					System.out.println("CIERRE  \t-->\t" + CIERRE);
+					System.out.println("COD_ARTICU\t-->\t" + COD_ARTICU);
+					System.out.println("COD_DEPOSI\t-->\t" + COD_DEPOSI);
+					System.out.println("COD_PRE_CO\t-->\t" + COD_PRE_CO);
+					System.out.println("IMP_INT  \t-->\t" + IMP_INT);
+					System.out.println("N_ORDEN_CO\t-->\t" + N_ORDEN_CO);
+					System.out.println("N_RENGL_OC\t-->\t" + N_RENGL_OC);
+					System.out.println("PORC_DESC\t-->\t" + PORC_DESC);
+					System.out.println("PRECIO  \t-->\t" + PRECIO);
+					System.out.println("PRECIO_PAN\t-->\t" + PRECIO_PAN);
+				}
 				
 				/*
-				 * ===========================================================================
+				 * =======================================================
 				 * Tabla CPA37
-				 * ===========================================================================
-				 * 
-				 */
+				 * Se almancena aqui una linea para cada detalle indicando
+				 * la fecha de recepecion.
+				 * =======================================================
+				 */				
 				String CPA37_FILLER = "";
-				Float CPA37_CANTIDAD = CAN_PEDIDA;
-				Timestamp CPA37_FEC_RECEPC = new Timestamp(oc.getOrdenesCompraFechaEstimadaEntrega().getTime());
+				Float CPA37_CANTIDAD = CAN_PEDIDA;				
+				// Se setea como fecha de recepecion la fecha estimada de entrega
+				Timestamp CPA37_FEC_RECEPC = new Timestamp(oc.getOrdenesCompraFechaEstimadaEntrega().getTime());				
 				String CPA37_N_ORDEN_CO = N_ORDEN_CO;
 				int CPA37_N_RENGL_OC = N_RENGL_OC;
 				
-				// Para debug
-				System.out.println("== CPA37 ==");
-				System.out.println("FILLER  \t-->\t" + CPA37_FILLER);
-				System.out.println("CANTIDAD\t-->\t" + CPA37_CANTIDAD);
-				System.out.println("FEC_RECEPC\t-->\t" + CPA37_FEC_RECEPC);
-				System.out.println("N_ORDEN_CO\t-->\t" + CPA37_N_ORDEN_CO);
-				System.out.println("N_RENGL_OC\t-->\t" + CPA37_N_RENGL_OC);
+				/*
+				 * Imprime a la salida estandar para debug
+				 */
+				if (debug) {
+					System.out.println("== CPA37 ==");
+					System.out.println("FILLER  \t-->\t" + CPA37_FILLER);
+					System.out.println("CANTIDAD\t-->\t" + CPA37_CANTIDAD);
+					System.out.println("FEC_RECEPC\t-->\t" + CPA37_FEC_RECEPC);
+					System.out.println("N_ORDEN_CO\t-->\t" + CPA37_N_ORDEN_CO);
+					System.out.println("N_RENGL_OC\t-->\t" + CPA37_N_RENGL_OC);
+				}
+				
+				/*
+				 * TODO: Agregar sentencias de INSERT en tablas CPA36 y CPA37 
+				 */
+				
+				/*
+				 * TODO: Agregar el nro. de orden de compra de tango en la propiedad
+				 * correspondiente de la OC del sistema. 
+				 */
+				Props props = Props.getProps("inventario", null);
+				Vector<String> errores = new Vector<String>();	
+				
+				N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
+				if (N_ORDEN_CO_PROP == -1) {
+					errores.add("No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración");
+					throw new ValidationException(errores);
+				}
+				
+				//AtributosEntidadModel.setValorAtributoObjeto(valor, nombreAtributo, objetoId, tipoObjeto, nombreObjeto)				
 			}
 		} finally {
 			if (r != null)
