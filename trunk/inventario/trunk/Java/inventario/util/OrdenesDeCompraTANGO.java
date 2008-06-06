@@ -469,20 +469,31 @@ public class OrdenesDeCompraTANGO {
 				/*
 				 * TODO: Agregar sentencias de INSERT en tablas CPA36 y CPA37 
 				 */
+				/* 
+				 * INSERT INTO [FABRI_S.A.].[dbo].[CPA36]([FILLER], [CAN_EQUIVA], [CAN_PEDIDA], [CAN_PENDIE], [CAN_RECIBI], [CIERRE], [COD_ARTICU], [COD_DEPOSI], [COD_PRE_CO], [IMPINT], [N_ORDEN_CO], [N_RENGL_OC], [PORC_DCTO], [PRECIO], [PRECIO_PAN])
+				 * VALUES(FILLER, CAN_EQUIVA, CAN_PEDIDA, CAN_PENDIE, CAN_RECIBI, CIERRE, COD_ARTICU, COD_DEPOSI, COD_PRE_CO, IMPINT, N_ORDEN_CO, N_RENGL_OC, PORC_DCTO, PRECIO, PRECIO_PAN)
+				 * 
+				 * INSERT INTO [FABRI_S.A.].[dbo].[CPA37]([FILLER], [CANTIDAD], [FEC_RECEPC], [N_ORDEN_CO], [N_RENGL_OC])
+				 * VALUES(CPA37_FILLER, CPA37_CANTIDAD, CPA37_FEC_RECEPC, CPA37_N_ORDEN_CO, CPA37_N_RENGL_OC)
+				 * 
+				 */
 				
 				/*
-				 * TODO: Agregar el nro. de orden de compra de tango en la propiedad
-				 * correspondiente de la OC del sistema. 
+				 * Buscamos en el archivo System.properties el  id de la propiedad
+				 * N_ORDEN_CO para almacenar el nro. de orden de compra generado por Tango
 				 */
 				Props props = Props.getProps("inventario", null);
-				Vector<String> errores = new Vector<String>();	
-				
+				Vector<String> errores = new Vector<String>();				
 				N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
 				if (N_ORDEN_CO_PROP == -1) {
 					errores.add("No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración");
 					throw new ValidationException(errores);
 				}
 				
+				/*
+				 * TODO: Agregar el nro. de orden de compra de tango en la propiedad
+				 * correspondiente de la OC del sistema. 
+				 */				
 				//AtributosEntidadModel.setValorAtributoObjeto(valor, nombreAtributo, objetoId, tipoObjeto, nombreObjeto)				
 			}
 		} finally {
