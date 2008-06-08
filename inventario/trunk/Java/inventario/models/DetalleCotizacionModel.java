@@ -22,6 +22,8 @@ public class DetalleCotizacionModel extends BaseModel {
 	//constants for columns
      public static final String DETALLE_COTIZACION_DETALLE_SC_ID="detalle_cotizacion.detalle_SC_id";
      public static final String DETALLE_COTIZACION_COTIZACION_COMPRA_ID="detalle_cotizacion.cotizacion_compra_id";
+     public static final String DETALLE_COTIZACION_UNIDAD_MEDIDA_ID="detalle_cotizacion.unidad_medida_id";
+     public static final String DETALLE_COTIZACION_CANTIDAD="detalle_cotizacion.cantidad";
      public static final String DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR1="detalle_cotizacion.monto_unitario_proveedor1";
      public static final String DETALLE_COTIZACION_MARCA_PROVEEDOR1="detalle_cotizacion.marca_proveedor1";
      public static final String DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR1="detalle_cotizacion.cotizacion_seleccionada_proveedor1";
@@ -50,6 +52,7 @@ public class DetalleCotizacionModel extends BaseModel {
      public static final String ARTICULOS_DESCRIPCION="articulos.descripcion";
      public static final String ARTICULOS_DESCRIPCION_COMPLETA="articulos.descripcion_completa";
      public static final String UNIDADES_MEDIDA_NOMBRE="unidades_medida.nombre";
+     public static final String UNIDADES_MEDIDA_NOMBRE_DETALLE_SC="unidades_medida_detalle_sc.nombre";
 
      //$CUSTOMVARS$
      //Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -77,10 +80,13 @@ public class DetalleCotizacionModel extends BaseModel {
           addTableAlias(computeTableName("detalle_sc"),null);
           addTableAlias(computeTableName("articulos"),null);
           addTableAlias(computeTableName("unidades_medida"),null);
+          addTableAlias(computeTableName("unidades_medida"),"unidades_medida_detalle_sc");
 
           //add columns
           addColumn(computeTableName("detalle_cotizacion"),"detalle_SC_id",DataStore.DATATYPE_INT,true,true,DETALLE_COTIZACION_DETALLE_SC_ID);
           addColumn(computeTableName("detalle_cotizacion"),"cotizacion_compra_id",DataStore.DATATYPE_INT,false,true,DETALLE_COTIZACION_COTIZACION_COMPRA_ID);
+          addColumn(computeTableName("detalle_cotizacion"),"unidad_medida_id",DataStore.DATATYPE_INT,false,true,DETALLE_COTIZACION_UNIDAD_MEDIDA_ID);
+          addColumn(computeTableName("detalle_cotizacion"),"cantidad",DataStore.DATATYPE_FLOAT,false,true,DETALLE_COTIZACION_CANTIDAD);
           addColumn(computeTableName("detalle_cotizacion"),"monto_unitario_proveedor1",DataStore.DATATYPE_DOUBLE,false,true,DETALLE_COTIZACION_MONTO_UNITARIO_PROVEEDOR1);
           addColumn(computeTableName("detalle_cotizacion"),"marca_proveedor1",DataStore.DATATYPE_STRING,false,true,DETALLE_COTIZACION_MARCA_PROVEEDOR1);
           addColumn(computeTableName("detalle_cotizacion"),"cotizacion_seleccionada_proveedor1",DataStore.DATATYPE_INT,false,true,DETALLE_COTIZACION_COTIZACION_SELECCIONADA_PROVEEDOR1);
@@ -109,11 +115,13 @@ public class DetalleCotizacionModel extends BaseModel {
           addColumn(computeTableName("articulos"),"descripcion",DataStore.DATATYPE_STRING,false,false,ARTICULOS_DESCRIPCION);
           addColumn(computeTableName("articulos"),"descripcion_completa",DataStore.DATATYPE_STRING,false,false,ARTICULOS_DESCRIPCION_COMPLETA);
           addColumn(computeTableName("unidades_medida"),"nombre",DataStore.DATATYPE_STRING,false,false,UNIDADES_MEDIDA_NOMBRE);
+          addColumn(computeTableName("unidades_medida_detalle_sc"),"nombre",DataStore.DATATYPE_STRING,false,false,UNIDADES_MEDIDA_NOMBRE_DETALLE_SC);
 
           //add joins
           addJoin(computeTableAndFieldName("detalle_cotizacion.detalle_SC_id"),computeTableAndFieldName("detalle_sc.detalle_SC_id"),false);
+          addJoin(computeTableAndFieldName("detalle_cotizacion.unidad_medida_id"),computeTableAndFieldName("unidades_medida.unidad_medida_id"),false);
           addJoin(computeTableAndFieldName("detalle_sc.articulo_id"),computeTableAndFieldName("articulos.articulo_id"),false);
-          addJoin(computeTableAndFieldName("detalle_sc.unidad_medida_id"),computeTableAndFieldName("unidades_medida.unidad_medida_id"),false);
+          addJoin(computeTableAndFieldName("detalle_sc.unidad_medida_id"),computeTableAndFieldName("unidades_medida_detalle_sc.unidad_medida_id"),false);
 
           //$CUSTOMCONSTRUCTOR$
           //Put custom constructor code between these comments, otherwise it be overwritten if the model is regenerated
@@ -196,6 +204,82 @@ public class DetalleCotizacionModel extends BaseModel {
       */ 
      public void setDetalleCotizacionCotizacionCompraId(int row,int newValue) throws DataStoreException {
           setInt(row,DETALLE_COTIZACION_COTIZACION_COMPRA_ID, newValue);
+     }
+
+     /**
+      * Retrieve the value of the detalle_cotizacion.UnidadMedida_id column for the current row.
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public int getDetalleCotizacionUnidadMedidaId() throws DataStoreException {
+          return  getInt(DETALLE_COTIZACION_UNIDAD_MEDIDA_ID);
+     }
+
+     /**
+      * Retrieve the value of the detalle_cotizacion.UnidadMedida_id column for the specified row.
+      * @param row which row in the table
+      * @return int
+      * @throws DataStoreException
+      */ 
+     public int getDetalleCotizacionUnidadMedidaId(int row) throws DataStoreException {
+          return  getInt(row,DETALLE_COTIZACION_UNIDAD_MEDIDA_ID);
+     }
+
+     /**
+      * Set the value of the detalle_cotizacion.UnidadMedida_id column for the current row.
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setDetalleCotizacionUnidadMedidaId(int newValue) throws DataStoreException {
+          setInt(DETALLE_COTIZACION_UNIDAD_MEDIDA_ID, newValue);
+     }
+
+     /**
+      * Set the value of the detalle_cotizacion.UnidadMedida_id column for the specified row.
+      * @param row which row in the table
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setDetalleCotizacionUnidadMedidaId(int row,int newValue) throws DataStoreException {
+          setInt(row,DETALLE_COTIZACION_UNIDAD_MEDIDA_ID, newValue);
+     }
+
+     /**
+      * Retrieve the value of the detalle_cotizacion.Cantidad column for the current row.
+      * @return float
+      * @throws DataStoreException
+      */ 
+     public float getDetalleCotizacionCantidad() throws DataStoreException {
+          return  getFloat(DETALLE_COTIZACION_CANTIDAD);
+     }
+
+     /**
+      * Retrieve the value of the detalle_cotizacion.Cantidad column for the specified row.
+      * @param row which row in the table
+      * @return float
+      * @throws DataStoreException
+      */ 
+     public float getDetalleCotizacionCantidad(int row) throws DataStoreException {
+          return  getFloat(row,DETALLE_COTIZACION_CANTIDAD);
+     }
+
+     /**
+      * Set the value of the detalle_cotizacion.Cantidad column for the current row.
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setDetalleCotizacionCantidad(float newValue) throws DataStoreException {
+          setFloat(DETALLE_COTIZACION_CANTIDAD, newValue);
+     }
+
+     /**
+      * Set the value of the detalle_cotizacion.Cantidad column for the specified row.
+      * @param row which row in the table
+      * @param newValue the new item value
+      * @throws DataStoreException
+      */ 
+     public void setDetalleCotizacionCantidad(int row,float newValue) throws DataStoreException {
+          setFloat(row,DETALLE_COTIZACION_CANTIDAD, newValue);
      }
 
      /**
