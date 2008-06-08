@@ -3343,12 +3343,13 @@ public class CotizacionesCompraModel extends BaseModel {
 		
 		// si recueró registros, itera sumando los totales
 		if (dsDetalleCotizacion.getRowCount() > 0) {
-			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {				
-				total_proveedor1 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i);
-				total_proveedor2 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i);
-				total_proveedor3 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i);
-				total_proveedor4 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i);
-				total_proveedor5 += dsDetalleCotizacion.getDetalleScCantidadSolicitada(i) * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i);
+			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
+				float cantidad = dsDetalleCotizacion.getDetalleCotizacionCantidad(i);
+				total_proveedor1 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i);
+				total_proveedor2 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i);
+				total_proveedor3 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i);
+				total_proveedor4 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i);
+				total_proveedor5 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i);
 			}
 			
 			// setea los totales en el datastore
@@ -3443,7 +3444,7 @@ public class CotizacionesCompraModel extends BaseModel {
 							detalleSCId = j;
 					}
 					
-					// si está ok, y no está en ona OC YA va armando la data
+					// si está ok, y no está en una OC YA va armando la data
 					// para armar la OC
 					if (detalleSCId != -1) {
 						if (ocIdProveedor1 == -1) {
@@ -3457,8 +3458,8 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor1));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
-								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
 						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i));
 					}
 					break;
@@ -3489,8 +3490,8 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor2));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
-								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
 						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i));
 					}
 					break;
@@ -3521,8 +3522,8 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor3));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
-								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
 						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i));
 					}
 					break;
@@ -3553,8 +3554,8 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor4));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
-								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
 						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i));
 					}
 					break;
@@ -3584,8 +3585,8 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor5));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleSC
-								.getDetalleScCantidadSolicitada(detalleSCId));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
 						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i));
 					}
 					break;

@@ -664,6 +664,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							ScId);
 					dsDetalleCotizacion.setDetalleCotizacionCotizacionCompraId(
 							dccId, CotizacionCompraId);
+					dsDetalleCotizacion.setDetalleCotizacionUnidadMedidaId(
+							dccId, _dsDetalleSC.getDetalleScUnidadMedida(row));
+					dsDetalleCotizacion.setDetalleCotizacionCantidad(dccId,
+							_dsDetalleSC.getDetalleScCantidadSolicitada(row));
 					dsDetalleCotizacion
 							.setDetalleCotizacionCotizacionSeleccionadaProveedor1(
 									dccId, 0);
@@ -769,6 +773,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							.getOrdenesCompraOrdenCompraId(ocId));
 					_dsDetalleSC.setDetalleScCantidadPedida(row, _dsDetalleSC
 							.getDetalleScCantidadSolicitada(row));
+					_dsDetalleSC.setDetalleScUnidadMedidaPedida(row, _dsDetalleSC.getDetalleScUnidadMedida(row));
 				}
 
 				_dsDetalleSC.update(conn);
