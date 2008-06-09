@@ -54,7 +54,9 @@ public class DetalleSCModel extends DataStore implements Constants{
 	public static final String DETALLE_SC_MONTO_ULTIMA_COMPRA = "detalle_sc.monto_ultima_compra";
 	public static final String DETALLE_SC_FECHA_ULTIMA_COMPRA = "detalle_sc.fecha_ultima_compra";
 	public static final String DETALLE_SC_UNIDAD_DE_MEDIDA_ID = "detalle_sc.unidad_medida_id";
+	public static final String DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA = "detalle_sc.unidad_medida_id_pedida";
 	public static final String UNIDAD_DE_MEDIDA_NOMBRE = "unidades_medida.nombre";
+	public static final String UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA = "unidades_medida_pedida.nombre";
 	public static final String DETALLE_SC_IVA = "detalle_sc.iva";
 	public static final String DETALLE_SC_DESCUENTO = "detalle_sc.descuento";
 
@@ -114,6 +116,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 					"solicitudes_compra");
 			addTableAlias(computeTableName("unidades_medida"),
 					"unidades_medida");
+			addTableAlias(computeTableName("unidades_medida"),
+					"unidades_medida_pedida");
 
 			// add columns
 			addColumn(computeTableName("detalle_sc"), "detalle_SC_id",
@@ -188,6 +192,12 @@ public class DetalleSCModel extends DataStore implements Constants{
 			addColumn(computeTableName("unidades_medida"), "nombre",
 					DataStore.DATATYPE_STRING, false, true,
 					UNIDAD_DE_MEDIDA_NOMBRE);
+			addColumn(computeTableName("detalle_sc"), "unidad_medida_id_pedida",
+					DataStore.DATATYPE_INT, false, true,
+					DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
+			addColumn(computeTableName("unidades_medida_pedida"), "nombre",
+					DataStore.DATATYPE_STRING, false, true,
+					UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
 
 			// add bucket
 			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_FLOAT);
@@ -208,6 +218,10 @@ public class DetalleSCModel extends DataStore implements Constants{
 			addJoin(
 					computeTableAndFieldName("detalle_sc.unidad_medida_id"),
 					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
+					false);
+			addJoin(
+					computeTableAndFieldName("detalle_sc.unidad_medida_id_pedida"),
+					computeTableAndFieldName("unidades_medida_pedida.unidad_medida_id"),
 					false);
 
 			// add validations
@@ -246,6 +260,12 @@ public class DetalleSCModel extends DataStore implements Constants{
 					"'unidades_medida.unidad_medida_id = ' + detalle_sc.unidad_medida_id",
 					"nombre", UNIDAD_DE_MEDIDA_NOMBRE,
 					"Unidad de medida inexistente");
+			addLookupRule(
+					DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA,
+					"unidades_medida_pedida",
+					"'unidades_medida_pedida.unidad_medida_id = ' + detalle_sc.unidad_medida_id_pedida",
+					"nombre", UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA,
+					"Unidad de medida pedida en la OC inexistente");
 
 			setAutoIncrement(DETALLE_SC_DETALLE_SC_ID, true);
 			setUpdateable(DETALLE_SC_DETALLE_SC_ID, false);
@@ -1329,6 +1349,57 @@ public class DetalleSCModel extends DataStore implements Constants{
 		setInt(row, DETALLE_SC_UNIDAD_DE_MEDIDA_ID, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the detalle_sc.unidad_medida_Pedida column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public int getDetalleScUnidadMedidaPedida() throws DataStoreException {
+		return getInt(DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.unidad_medida_Pedida column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public int getDetalleScUnidadMedidaPedida(int row) throws DataStoreException {
+		return getInt(row, DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.unidad_medida_Pedida column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScUnidadMedidaPedida(int newValue)
+			throws DataStoreException {
+		setInt(DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA, newValue);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.unidad_medida_Pedida column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScUnidadMedidaPedida(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA, newValue);
+	}
+
 	// $CUSTOMMETHODS$
 	/**
 	 * Retrieve the value of the tareas_proyecto.nombre column for the current
@@ -1896,6 +1967,56 @@ public class DetalleSCModel extends DataStore implements Constants{
 	public void setUnidadMedidaNombre(int row, String newValue)
 			throws DataStoreException {
 		setString(row, UNIDAD_DE_MEDIDA_NOMBRE, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the unidades_medida.nombre column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getUnidadMedidaNombrePedida() throws DataStoreException {
+		return getString(UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
+	}
+
+	/**
+	 * Retrieve the value of the unidades_medida.nombre column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getUnidadMedidaNombrePedida(int row) throws DataStoreException {
+		return getString(row, UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
+	}
+
+	/**
+	 * Set the value of the unidades_medida.nombre column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setUnidadMedidaNombrePedida(String newValue)
+			throws DataStoreException {
+		setString(UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA, newValue);
+	}
+
+	/**
+	 * Set the value of the unidades_medida.nombre column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setUnidadMedidaNombrePedida(int row, String newValue)
+			throws DataStoreException {
+		setString(row, UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA, newValue);
 	}
 
 	/**
