@@ -39,12 +39,20 @@ public class TangoQuartzInit extends HttpServlet implements Servlet {
 					"ReplicateLegajoQuartzJob", null,
 					ReplicateLegajoQuartzJob.class);
 			
+			JobDetail replicateCpa50Detail = new JobDetail(
+					"ReplicateCpa50QuartzJob", null,
+					ReplicateCpa50QuartzJob.class);
+			
 			// Configura los triggers - makeDailyTrigger(hora, minuto)			
 			Trigger replicateCpa49Trigger = TriggerUtils.makeDailyTrigger(1, 30);
 			replicateCpa49Trigger.setName("replicateLegajoTrigger");
 			
+			Trigger replicateCpa50Trigger = TriggerUtils.makeDailyTrigger(1, 35);
+			replicateCpa50Trigger.setName("replicateCpa50Trigger");
+			
 			Scheduler scheduler = factory.getScheduler();
 			scheduler.scheduleJob(replicateLegajoDetail, replicateCpa49Trigger);
+			scheduler.scheduleJob(replicateCpa50Detail, replicateCpa50Trigger);
 			
 			scheduler.start();
 

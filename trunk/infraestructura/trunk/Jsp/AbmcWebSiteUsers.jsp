@@ -5,8 +5,7 @@
 	controller="infraestructura.controllers.WebSiteUserController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
-	<%@include file="message.jsp"%>
-	</td>
+	<%@include file="message.jsp"%>	
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
@@ -91,6 +90,16 @@
 									lookupurl="%LkpLegajoLegajo" name="nro_legajo2" size="6"
 									maxlength="10" displayformat="##########0"
 									datasource="dsWebSiteUser:website_user.nro_legajo"
+									popupheight="450" popupwidth="500" usepopup="true"
+									showdescription="false"></salmon:lookup>
+							</tr>
+							<tr>
+								<td><salmon:text name="nro_comprador1" text="Cod. Comprador"
+									font="ColumnCaptionFont" /></td>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpCompradores" name="nro_comprador2" size="6"
+									maxlength="10"
+									datasource="dsWebSiteUser:website_user.nro_comprador"
 									popupheight="450" popupwidth="500" usepopup="true"
 									showdescription="false"></salmon:lookup>
 							</tr>
