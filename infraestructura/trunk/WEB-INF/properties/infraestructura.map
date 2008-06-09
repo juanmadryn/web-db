@@ -3,6 +3,13 @@
 <siteMap>
 
   <entry>
+     <name>LkpCompradores</name>
+     <uri>/Jsp/LkpCompradores.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
      <name>LkpLegajoLegajo</name>
      <uri>/Jsp/LkpLegajoLegajo.jsp</uri>
      <useForward>false</useForward>

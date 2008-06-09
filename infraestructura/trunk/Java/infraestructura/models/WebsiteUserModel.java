@@ -25,6 +25,7 @@ public class WebsiteUserModel extends DataStore {
 	public static final String WEBSITE_USER_APEYNOM = "website_user.nombre_completo";
 	public static final String WEBSITE_USER_EMAIL = "website_user.email";
 	public static final String WEBSITE_USER_NRO_LEGAJO = "website_user.nro_legajo";
+	public static final String WEBSITE_USER_NRO_COMPRADOR = "website_user.nro_comprador";
 
 	// $CUSTOMVARS$
 	// Put custom instance variables between these comments, otherwise they will
@@ -78,6 +79,9 @@ public class WebsiteUserModel extends DataStore {
 			addColumn(computeTableName("website_user"), "nro_legajo",
 					DataStore.DATATYPE_INT, false, true,
 					WEBSITE_USER_NRO_LEGAJO);
+			addColumn(computeTableName("website_user"), "nro_comprador",
+					DataStore.DATATYPE_STRING, false, true,
+					WEBSITE_USER_NRO_COMPRADOR);
 			addColumn(computeTableName("legajos"), "APEYNOM",
 					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
 			addColumn(computeTableName("legajos"), "APELLIDO",
@@ -501,6 +505,51 @@ public class WebsiteUserModel extends DataStore {
 	public void setLegajoApellido(int row, String newValue)
 			throws DataStoreException {
 		setString(row, LEGAJO_APELLIDO, newValue);
+	}
+	
+	/**
+	 * Retrieve the value of the website_user.nro_comprador column for the current
+	 * row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getWebsiteUserNroComprador() throws DataStoreException {
+		return getString(WEBSITE_USER_NRO_COMPRADOR);
+	}
+
+	/**
+	 * Retrieve the value of the website_user.nro_comprador column for the specified
+	 * row.
+	 * 
+	 * @param row which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getWebsiteUserNroComprador(int row) throws DataStoreException {
+		return getString(row, WEBSITE_USER_NRO_COMPRADOR);
+	}
+
+	/**
+	 * Set the value of the website_user.nro_comprador column for the current row.
+	 * 
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNroComprador(String newValue) throws DataStoreException {
+		setString(WEBSITE_USER_NRO_COMPRADOR, newValue);
+	}
+
+	/**
+	 * Set the value of the website_user.nro_comprador column for the specified row.
+	 * 
+	 * @param row which row in the table
+	 * @param newValue the new item value
+	 * @throws DataStoreException
+	 */
+	public void setWebsiteUserNroComprador(int row, String newValue)
+			throws DataStoreException {
+		setString(row, WEBSITE_USER_NRO_COMPRADOR, newValue);
 	}
 	// $ENDCUSTOMMETHODS$
 

@@ -8,9 +8,11 @@ import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
 import inventario.models.OrdenesCompraModel;
+import inventario.util.OrdenesDeCompraTANGO;
 import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
@@ -41,25 +43,21 @@ public final class ValRN_0220_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
-			// Obtiene los detalles de la orden de compra correspondiente 
-			DetalleSCModel detalles = new DetalleSCModel("inventario","inventario");			
-			detalles.retrieve(conn, DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " = " + ds.getOrdenesCompraOrdenCompraId());
-			detalles.waitForRetrieve();
+			// Ejecutamos la replicación en tango			
+			/*OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
+			ordenesDeCompraTANGO.insertaCabeceraOC(ds);*/
 			
-			// Actualiza los estados de la Solicitudes de Compras asociadas
-			SolicitudCompraTransiciones.agregarEnOc(conn,
-					detalles, getRemoteHost(), getUserId());
-			
-			// Somos buenos con el garbage collector...
-			detalles = null;
-						
 			return true;
 		} catch (DataStoreException ex) {
-			msg.append("Ocurrió un error en el DataStore mientras se procesaba la cotización: "	+ ex.getMessage());
+			msg.append("Ocurrió un error en el DataStore mientras se procesaba la emisión: " + ex.getMessage());
 			return false;
 		} catch (SQLException ex) {
-			msg.append("Ocurrió un error de SQL mientras se procesaba su cotización: " + ex.getMessage());
-			return false;
+			msg.append("Ocurrió un error de SQL mientras se procesaba la emisión: " + ex.getMessage());
+			return false;		
+		/*} catch (ParseException e) {
+			msg.append("Ocurrio un error mientras se procesaba la emisión: " + e.getMessage());
+			e.printStackTrace();
+			return false;*/
 		} catch (ValidationException ex) {
 			for (String er : ex.getStackErrores()) {						
 				msg.append(er + '\n');
