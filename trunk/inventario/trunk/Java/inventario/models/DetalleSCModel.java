@@ -222,7 +222,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 			addJoin(
 					computeTableAndFieldName("detalle_sc.unidad_medida_id_pedida"),
 					computeTableAndFieldName("unidades_medida_pedida.unidad_medida_id"),
-					false);
+					true);
 
 			// add validations
 			addRequiredRule(ARTICULOS_NOMBRE,
