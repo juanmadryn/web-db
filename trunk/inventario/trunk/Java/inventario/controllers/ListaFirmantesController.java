@@ -15,12 +15,14 @@ import com.salmonllc.util.MessageLog;
 /**
  * ListaFirmantesController: a SOFIA generated controller
  */
-public class ListaFirmantesController extends JspController
-	implements
-		SubmitListener,
-		PageListener {
+public class ListaFirmantesController extends JspController implements
+		PageListener, SubmitListener {
 
-	//Visual Components
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3957439995391706234L;
+	// Visual Components
 	public com.salmonllc.html.HtmlSubmitButton _cerrar;
 	public com.salmonllc.html.HtmlText _accion1;
 	public com.salmonllc.html.HtmlText _accion2;
@@ -71,12 +73,12 @@ public class ListaFirmantesController extends JspController
 	public com.salmonllc.jsp.JspTableRow _datatable2TRHeader0;
 	public com.salmonllc.jsp.JspTableRow _datatable2TRRow0;
 
-	//DataSources
+	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public infraestructura.models.AuditaEstadosCircuitosModel _dsAuditoria;
 	public inventario.models.InstanciasAprobacionModel _dsFirmantes;
 
-	//DataSource Column Constants
+	// DataSource Column Constants
 	public static final String DSQBE_BUSCAR = "buscar";
 
 	public static final String DSAUDITORIA_AUDITA_ESTADOS_CIRCUITOS_AUDITA_ID = "audita_estados_circuitos.audita_id";
@@ -109,9 +111,10 @@ public class ListaFirmantesController extends JspController
 	public static final String DSFIRMANTES_USER_FIRMANTE_NOMBRE_COMPLETO = "user_firmante.nombre_completo";
 
 	/**
-	 * Initialize the page. Set up listeners and perform other initialization activities.
+	 * Initialize the page. Set up listeners and perform other initialization
+	 * activities.
 	 */
-	public void initialize() throws Exception{
+	public void initialize() throws Exception {
 		super.initialize();
 		addPageListener(this);
 		_cerrar.addSubmitListener(this);
@@ -119,57 +122,66 @@ public class ListaFirmantesController extends JspController
 
 	/**
 	 * Process the page requested event
-	 * @param event the page event to be processed
+	 * 
+	 * @param event
+	 *            the page event to be processed
 	 */
 	public void pageRequested(PageEvent event) {
 		try {
-			System.out.println();
 			// si la página es requerida por si misma no hago nada
 			if (!isReferredByCurrentPage()) {
 				// verifico si tiene parámetro
 				int solicitud_id = getIntParameter("solicitud_id");
 				if (solicitud_id > 0) {
 					_dsFirmantes.setOrderBy("instancia_aprobacion_id DESC");
-					_dsFirmantes.retrieve("instancias_aprobacion.nombre_objeto LIKE 'solicitudes_compra' AND instancias_aprobacion.objeto_id="+solicitud_id+" AND (instancias_aprobacion.fecha_accion IS NOT NULL OR instancias_aprobacion.estado LIKE '0007.0001')");
+					_dsFirmantes
+							.retrieve("instancias_aprobacion.nombre_objeto LIKE 'solicitudes_compra' AND instancias_aprobacion.objeto_id="
+									+ solicitud_id
+									+ " AND (instancias_aprobacion.fecha_accion IS NOT NULL OR instancias_aprobacion.estado LIKE '0007.0001')");
 					_dsFirmantes.gotoFirst();
-					_dsFirmantes.setOrderBy("audita_id DESC");
-					_dsAuditoria.retrieve("audita_estados_circuitos.nombre_tabla LIKE 'inventario.solicitudes_compra' AND audita_estados_circuitos.registro_id ="+solicitud_id);
+					_dsAuditoria
+							.setOrderBy("audita_estados_circuitos.fecha DESC");
+					_dsAuditoria
+							.retrieve("audita_estados_circuitos.nombre_tabla LIKE 'inventario.solicitudes_compra' AND audita_estados_circuitos.registro_id ="
+									+ solicitud_id);
 					_dsAuditoria.gotoFirst();
 				}
-				
+
 				int orden_id = getIntParameter("orden_id");
 				if (orden_id > 0) {
 					_dsFirmantes.setOrderBy("instancia_aprobacion_id DESC");
-					_dsFirmantes.retrieve("instancias_aprobacion.nombre_objeto LIKE 'ordenes_compra' AND instancias_aprobacion.objeto_id="+orden_id+" AND (instancias_aprobacion.fecha_accion IS NOT NULL OR instancias_aprobacion.estado LIKE '0007.0001')");
+					_dsFirmantes
+							.retrieve("instancias_aprobacion.nombre_objeto LIKE 'ordenes_compra' AND instancias_aprobacion.objeto_id="
+									+ orden_id
+									+ " AND (instancias_aprobacion.fecha_accion IS NOT NULL OR instancias_aprobacion.estado LIKE '0007.0001')");
 					_dsFirmantes.gotoFirst();
-					_dsFirmantes.setOrderBy("audita_id DESC");
-					_dsAuditoria.retrieve("audita_estados_circuitos.nombre_tabla LIKE 'inventario.ordenes_compra' AND audita_estados_circuitos.registro_id ="+orden_id);
+					_dsAuditoria.setOrderBy("audita_id DESC");
+					_dsAuditoria
+							.retrieve("audita_estados_circuitos.nombre_tabla LIKE 'inventario.ordenes_compra' AND audita_estados_circuitos.registro_id ="
+									+ orden_id);
 					_dsAuditoria.gotoFirst();
-				}				
+				}
 			}
-
 		} catch (DataStoreException e) {
 			MessageLog.writeInfoMessage(e.getMessage(), this);
 		} catch (SQLException e) {
 			MessageLog.writeInfoMessage(e.getMessage(), this);
 		}
-		
 	}
-	
 
 	public void pageRequestEnd(PageEvent p) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void pageSubmitEnd(PageEvent p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void pageSubmitted(PageEvent p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public boolean submitPerformed(SubmitEvent e) throws Exception {

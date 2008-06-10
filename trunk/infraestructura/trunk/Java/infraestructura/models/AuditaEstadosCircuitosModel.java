@@ -37,6 +37,8 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 	public static final String AUDITA_ESTADOS_CIRCUITOS_REGISTRO_ID = "audita_estados_circuitos.registro_id";
 
 	public static final String AUDITA_ESTADOS_CIRCUITOS_HOST = "audita_estados_circuitos.host";
+	
+	public static final String AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES = "audita_estados_circuitos.observaciones";
 
 	public static final String CIRCUITOS_ESTADOS_NOMBRE = "circuitos_estados.nombre";
 
@@ -123,6 +125,9 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 		addColumn(computeTableName("audita_estados_circuitos"), "host",
 				DataStore.DATATYPE_STRING, false, true,
 				AUDITA_ESTADOS_CIRCUITOS_HOST);
+		addColumn(computeTableName("audita_estados_circuitos"), "observaciones",
+				DataStore.DATATYPE_STRING, false, true,
+				AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES);
 		addColumn(computeTableName("circuitos_estados"), "nombre",
 				DataStore.DATATYPE_STRING, false, true,
 				CIRCUITOS_ESTADOS_NOMBRE);
@@ -703,6 +708,59 @@ public class AuditaEstadosCircuitosModel extends DataStore {
 		setString(row, AUDITA_ESTADOS_CIRCUITOS_HOST, newValue);
 	}
 
+	/**
+	 * Retrieve the value of the audita_estados_circuitos.observaciones column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getAuditaEstadosCircuitosObservaciones() throws DataStoreException {
+		return getString(AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES);
+	}
+
+	/**
+	 * Retrieve the value of the audita_estados_circuitos.observaciones column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getAuditaEstadosCircuitosObservaciones(int row)
+			throws DataStoreException {
+		return getString(row, AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES);
+	}
+
+	/**
+	 * Set the value of the audita_estados_circuitos.observaciones column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setAuditaEstadosCircuitosObservaciones(String newValue)
+			throws DataStoreException {
+		setString(AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES, newValue);
+	}
+
+	/**
+	 * Set the value of the audita_estados_circuitos.observaciones column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setAuditaEstadosCircuitosObservaciones(int row, String newValue)
+			throws DataStoreException {
+		setString(row, AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the circuitos_estados.nombre column for the current
 	 * row.
