@@ -356,70 +356,19 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		setDatosBasicosSolicitud();
 
 		try {
-			if (component == _customBUT100) {
+			if (component == _customBUT100 || component == _customBUT110
+					|| component == _customBUT120 || component == _customBUT130
+					|| component == _customBUT140 || component == _customBUT150) {
 				if (CIRCUITO != null) {
 					_dsSolicitudCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT100.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
+							.parseInt(((HtmlSubmitButton) component)
+									.getDisplayNameLocaleKey()), CIRCUITO,
+							remoteAddr, userId, nombre_tabla, conn,
+							batchInserts, _observacionX2.getValue());
 					armaBotonera();
 
-				}
-			}
-
-			if (component == _customBUT110) {
-				if (CIRCUITO != null) {
-					_dsSolicitudCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT110.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT120) {
-				if (CIRCUITO != null) {
-					_dsSolicitudCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT120.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT130) {
-				if (CIRCUITO != null) {
-					_dsSolicitudCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT130.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT140) {
-				if (CIRCUITO != null) {
-					_dsSolicitudCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT140.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT150) {
-				if (CIRCUITO != null) {
-					_dsSolicitudCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT150.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
+				}			
+				_observacionX2.setValue(null);
 			}
 
 			conn.commit();
@@ -445,6 +394,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			_proyecto2.setFocus();
 		}
 
+		System.out.println("---> Salio1");
 		if (component == _grabarSolicitudCompraBUT1) {
 			conn = DBConnection.getConnection("inventario");
 			conn.beginTransaction();
@@ -462,12 +412,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					if (_dsDetalleSC.getRow() != -1) {
 						_dsDetalleSC.update(conn);
 					}
-					System.out.println("Salio");
+					System.out.println("---> Salio");
 					_dsSolicitudCompra.resetStatus();
 					_dsDetalleSC.resetStatus();
-					System.out.println("AntesCommit");
+					System.out.println("---> AntesCommit");
 					conn.commit();
-					System.out.println("DespuesCommit");
+					System.out.println("---> DespuesCommit");
 					setTareaLookupURL();
 
 				} catch (DataStoreException ex) {
@@ -734,9 +684,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					displayErrorMessage("Debe ser COMPRADOR para revisar una solicitud aprobada.");
 					return false;
 				}
-				
+
 				// verifico que la solicitud de compra esté en estado cotizada
-				if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase("0006.0008")) {
+				if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase(
+						"0006.0008")) {
 					displayErrorMessage("La Solicitud debe estar en estado COTIZADA para poder generar la Orden de Compra.");
 					return false;
 				}
@@ -754,7 +705,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					return false;
 				}
 
-				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario");
+				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel(
+						"inventario");
 
 				int ocId = dsOrdenCompra.insertRow();
 				dsOrdenCompra.setCurrentWebsiteUserId(getUserFromSession(
@@ -773,7 +725,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							.getOrdenesCompraOrdenCompraId(ocId));
 					_dsDetalleSC.setDetalleScCantidadPedida(row, _dsDetalleSC
 							.getDetalleScCantidadSolicitada(row));
-					_dsDetalleSC.setDetalleScUnidadMedidaPedida(row, _dsDetalleSC.getDetalleScUnidadMedida(row));
+					_dsDetalleSC.setDetalleScUnidadMedidaPedida(row,
+							_dsDetalleSC.getDetalleScUnidadMedida(row));
 				}
 
 				_dsDetalleSC.update(conn);
