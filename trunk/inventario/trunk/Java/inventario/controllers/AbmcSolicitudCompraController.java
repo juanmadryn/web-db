@@ -3,6 +3,7 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseEntityController;
+import infraestructura.models.AuditaEstadosCircuitosModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.CotizacionesCompraModel;
@@ -143,7 +144,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.SolicitudCompraModel _dsSolicitudCompra;
-	public inventario.models.InstanciasAprobacionModel _dsInstanciasAprobacion;
+	public infraestructura.models.AuditaEstadosCircuitosModel _dsAuditoria;
 
 	// DataSource Column Constants
 	public static final String DSSOLICITUDCOMPRA_SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID = "solicitudes_compra.solicitud_compra_id";
@@ -322,7 +323,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		// genero un nuevo proyecto vacio.
 		_dsSolicitudCompra.reset();
 		_dsDetalleSC.reset();
-		_dsInstanciasAprobacion.reset();
+		_dsAuditoria.reset();
 
 		_dsSolicitudCompra.insertRow();
 
@@ -367,7 +368,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							batchInserts, _observacionX2.getValue());
 					armaBotonera();
 
-				}			
+				}
 				_observacionX2.setValue(null);
 			}
 
@@ -875,9 +876,17 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 			// obtengo las intancias de aprobación correspondientes agrupadas
 			// por usuario para mostrar las observaciones de todos los firmantes
-			_dsInstanciasAprobacion.recuperaObservaciones("solicitudes_compra",
-					getRow_id());
-			if (_dsInstanciasAprobacion.getRowCount() == 0)
+			_dsAuditoria
+					.setOrderBy(AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_FECHA
+							+ " DESC");
+			_dsAuditoria
+					.retrieve(AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES
+							+ " IS NOT NULL AND "
+							+ AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_NOMBRE_TABLA
+							+ "= 'inventario.solicitudes_compra' AND "
+							+ AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_REGISTRO_ID
+							+ " = " + getRow_id());
+			if (_dsAuditoria.getRowCount() == 0)
 				_datatable1.setVisible(false);
 			else
 				_datatable1.setVisible(true);
@@ -898,13 +907,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					.getAtributoTotalSolicitud());
 
 			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
-			/*if (!"0006.0002".equalsIgnoreCase(estado)) {
-				_dsSolicitudCompra.setObservaciones();
-				// _dsSolicitudCompra.recuperaObservaciones();
-			}*/
+			/*
+			 * if (!"0006.0002".equalsIgnoreCase(estado)) {
+			 * _dsSolicitudCompra.setObservaciones(); //
+			 * _dsSolicitudCompra.recuperaObservaciones(); }
+			 */
 
 			if ("0006.0002".equalsIgnoreCase(estado)
-					|| "0006.0004".equalsIgnoreCase(estado)
+					|| "0006.0003".equalsIgnoreCase(estado)
 					|| "0006.0005".equalsIgnoreCase(estado)
 					|| "0006.0008".equalsIgnoreCase(estado)) {
 				_observacionX1.setVisible(true);
@@ -914,10 +924,21 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				_observacionX2.setVisible(false);
 			}
 
-			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+			// Si la solicitud se está confeccionando o el usuario actual es el
+			// comprador asociado permito modificar el solicitante, sino no
+			if ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
+					.getSolicitudesCompraEstado())
+					|| _dsSolicitudCompra.getSolicitudesCompraUserIdComprador() == currentUser) {
+				if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
+					_dsSolicitudCompra
+							.setSolicitudesCompraUserIdComprador(currentUser);
 				_nombre_completo_solicitante2.setEnabled(true);
-				_dsSolicitudCompra
-						.setSolicitudesCompraUserIdComprador(currentUser);
+			} else {
+				_nombre_completo_solicitante2.setEnabled(false);
+			}
+
+			if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+				// _nombre_completo_solicitante2.setEnabled(true);
 				if (_monto_unitario1 != null)
 					_monto_unitario1.setReadOnly(false);
 			} else {

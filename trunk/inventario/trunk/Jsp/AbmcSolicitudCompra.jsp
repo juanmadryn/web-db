@@ -33,6 +33,11 @@ function CheckAll(checked) {
 		model="inventario.models.InstanciasAprobacionModel"
 		autoretrieve="Never">
 	</salmon:datasource>
+	<salmon:datasource name="dsAuditoria" type="MODEL"
+		dbprofile="inventario"
+		model="infraestructura.models.AuditaEstadosCircuitosModel"
+		autoretrieve="Never">		
+	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
 	<!-- Add page code here -->
 	<!-- ********************************************************************************************* -->
@@ -161,51 +166,58 @@ function CheckAll(checked) {
 							<td><salmon:input type="textarea" name="observacionX2"
 								cols="60" rows="4" wrap="HARD" size="40" maxlength="255"
 								datasource="dsSolicitudCompra:observaciones" visible="false"></salmon:input></td>
-						</tr>						
+						</tr>
 					</table>
 				</salmon:td>
 				<salmon:td>
-							<salmon:datatable name="datatable1" width="100%"
-								datasource="dsInstanciasAprobacion">
-								<salmon:datatableheader>
-									<salmon:tr>
-										<salmon:td>
-											<salmon:text name="nombre_completo1" text="Nombre Completo"
-												font="TableHeadingFont" />
-										</salmon:td>
-										<salmon:td>
-											<salmon:text name="fecha2" text="Fecha"
-												font="TableHeadingFont" />
-										</salmon:td>
-										<salmon:td>
-											<salmon:text name="mensaje1" text="Observaciones"
-												font="TableHeadingFont" />
-										</salmon:td>
-									</salmon:tr>
-								</salmon:datatableheader>
-								<salmon:datatablerows>
-									<salmon:tr>
-										<salmon:td>
-											<salmon:text name="nombre_completo2"
-												text="website_user.nombre_completo Goes Here"
-												font="DefaultFont"
-												datasource="dsInstanciasAprobacion:user_firmante.nombre_completo" />
-										</salmon:td>
-										<salmon:td>
-											<salmon:text name="fecha3"
-												text="website_user.login_name Goes Here" font="DefaultFont"
-												displayformatlocalekey="DateTimeFormat"
-												datasource="dsInstanciasAprobacion:instancias_aprobacion.fecha_accion" />
-										</salmon:td>
-										<salmon:td>
-											<salmon:text name="mensaje2" text="Observaciones"
-												font="TableHeadingFont"
-												datasource="dsInstanciasAprobacion:instancias_aprobacion.mensaje" />
-										</salmon:td>
-									</salmon:tr>
-								</salmon:datatablerows>
-							</salmon:datatable>
-						</salmon:td>
+					<salmon:datatable name="datatable1" width="100%"
+						datasource="dsAuditoria" rowsperpage="3" rowsperpageselector="false">
+						<salmon:datatableheader>
+							<salmon:tr>
+								<salmon:td>
+									<salmon:text name="fecha2" text="Fecha" font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="usuario" text="Usuario"
+										font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="accion1" text="Accion"
+										font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="observaciones5" text="Observaciones"
+										font="TableHeadingFont" />
+								</salmon:td>
+							</salmon:tr>
+						</salmon:datatableheader>
+						<salmon:datatablerows>
+							<salmon:tr>
+								<salmon:td>
+									<salmon:text name="fecha3"
+										text="audita_estados_circuitos.fecha Goes Here"
+										font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
+										datasource="dsAuditoria:audita_estados_circuitos.fecha" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="usuario2"
+										text="website_user.nombre_completo Goes Here"
+										font="DefaultFont"
+										datasource="dsAuditoria:website_user.nombre_completo" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="accion2"
+										text="acciones_apps.nombre Goes Here" font="DefaultFont"
+										datasource="dsAuditoria:acciones_apps.nombre" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="observaciones6" text="" font="DefaultFont"
+										datasource="dsAuditoria:audita_estados_circuitos.observaciones" />
+								</salmon:td>
+							</salmon:tr>
+						</salmon:datatablerows>
+					</salmon:datatable>
+				</salmon:td>
 			</salmon:tr>
 		</salmon:table>
 	</salmon:box>
@@ -285,7 +297,7 @@ function CheckAll(checked) {
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 								lookupurl="%LkpArticulos" name="articulo2" size="10"
 								maxlength="15" datasource="dsDetalleSC:articulos.nombre"
-								descriptiondatasource="dsDetalleSC:articulos.descripcion"
+								descriptiondatasource="dsDetalleSC:articulos.descripcion +' - '+ articulos.descripcion_completa"
 								popupheight="450" popupwidth="600" usepopup="true"
 								showdescription="true"></salmon:lookup>
 						</salmon:td>
