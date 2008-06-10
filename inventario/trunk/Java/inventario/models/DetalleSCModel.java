@@ -26,7 +26,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * DetalleSCModel: A SOFIA generated model
  */
-public class DetalleSCModel extends DataStore implements Constants{
+public class DetalleSCModel extends DataStore implements Constants {
 
 	/**
 	 * 
@@ -71,7 +71,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
 	public static final String CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
 	public static final String SOLICITUDES_COMPRA_FECHA_APROBACION = "solicitudes_compra.fecha_aprobacion";
-	public static final String SOLICITUDES_COMPRA_FECHA_SOLICITUD= "solicitudes_compra.fecha_solicitud";
+	public static final String SOLICITUDES_COMPRA_FECHA_SOLICITUD = "solicitudes_compra.fecha_solicitud";
 	public static final String SOLICITUDES_COMPRA_DESCRIPCION = "solicitudes_compra.descripcion";
 
 	public static final String WEBSITE_USER_NOMBRE_SOLICITANTE = "nombre_completo_solicitante";
@@ -79,9 +79,10 @@ public class DetalleSCModel extends DataStore implements Constants{
 	public static final String DETALLE_SC_MONTO_TOTAL_PEDIDO = "monto_total_pedido";
 	public static final String DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO = "monto_total_neto_pedido";
 	public static final String DETALLE_SC_MONTO_UNITARIO_PAM = "monto_unitario_pam";
-	
-	public static final String ORDENES_COMPRA_ESTADO="ordenes_compra.estado";
+
+	public static final String ORDENES_COMPRA_ESTADO = "ordenes_compra.estado";
 	public static final String ORDENES_COMPRA_ESTADO_NOMBRE = "oc_estado_nombre";
+
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -151,7 +152,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 					DETALLE_SC_DESCRIPCION);
 			addColumn(computeTableName("detalle_sc"), "observaciones",
 					DataStore.DATATYPE_STRING, false, true,
-					DETALLE_SC_OBSERVACIONES);			
+					DETALLE_SC_OBSERVACIONES);
 			addColumn(computeTableName("articulos"), "clase_articulo_id",
 					DataStore.DATATYPE_INT, false, true,
 					ARTICULOS_CLASE_ARTICULO_ID);
@@ -192,9 +193,9 @@ public class DetalleSCModel extends DataStore implements Constants{
 			addColumn(computeTableName("unidades_medida"), "nombre",
 					DataStore.DATATYPE_STRING, false, true,
 					UNIDAD_DE_MEDIDA_NOMBRE);
-			addColumn(computeTableName("detalle_sc"), "unidad_medida_id_pedida",
-					DataStore.DATATYPE_INT, false, true,
-					DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
+			addColumn(computeTableName("detalle_sc"),
+					"unidad_medida_id_pedida", DataStore.DATATYPE_INT, false,
+					true, DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
 			addColumn(computeTableName("unidades_medida_pedida"), "nombre",
 					DataStore.DATATYPE_STRING, false, true,
 					UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
@@ -247,7 +248,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 					DETALLE_SC_TAREA_ID,
 					"proyectos.tareas_proyecto",
 					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
-					"nombre", TAREA_PROYECTO_NOMBRE, "Tarea inexistente");			
+					"nombre", TAREA_PROYECTO_NOMBRE, "Tarea inexistente");
 			addLookupRule(
 					DETALLE_SC_SOLICITUD_COMPRA_ID,
 					"solicitudes_compra",
@@ -262,15 +263,15 @@ public class DetalleSCModel extends DataStore implements Constants{
 					"Unidad de medida inexistente");
 			addLookupRule(
 					DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA,
-					"unidades_medida_pedida",
-					"'unidades_medida_pedida.unidad_medida_id = ' + detalle_sc.unidad_medida_id_pedida",
+					"unidades_medida",
+					"'unidades_medida.unidad_medida_id = ' + detalle_sc.unidad_medida_id_pedida",
 					"nombre", UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA,
 					"Unidad de medida pedida en la OC inexistente");
 
 			setAutoIncrement(DETALLE_SC_DETALLE_SC_ID, true);
 			setUpdateable(DETALLE_SC_DETALLE_SC_ID, false);
 			setOrderBy(DETALLE_SC_DETALLE_SC_ID + " DESC");
-			
+
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -279,8 +280,9 @@ public class DetalleSCModel extends DataStore implements Constants{
 		addTableAlias(computeTableName("proyectos.proyectos"), "proyectos");
 		addTableAlias(computeTableName("centro_costo"), "centro_costo");
 		addTableAlias(computeTableName("ordenes_compra"), "ordenes_compra");
-		addTableAlias(computeTableName("infraestructura.website_user"), "website_user_solicitante");
-		addTableAlias(computeTableName("infraestructura.estados"),"estados");
+		addTableAlias(computeTableName("infraestructura.website_user"),
+				"website_user_solicitante");
+		addTableAlias(computeTableName("infraestructura.estados"), "estados");
 
 		addColumn(computeTableName("proyectos"), "nombre",
 				DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
@@ -307,18 +309,15 @@ public class DetalleSCModel extends DataStore implements Constants{
 				DataStore.DATATYPE_DATE, false, false,
 				SOLICITUDES_COMPRA_FECHA_SOLICITUD);
 		addColumn(computeTableName("detalle_sc"), "iva",
-				DataStore.DATATYPE_FLOAT, false, true,
-				DETALLE_SC_IVA);
+				DataStore.DATATYPE_FLOAT, false, true, DETALLE_SC_IVA);
 		addColumn(computeTableName("detalle_sc"), "descuento",
-				DataStore.DATATYPE_FLOAT, false, true,
-				DETALLE_SC_DESCUENTO);
-		addColumn(computeTableName("ordenes_compra"),"estado",
-				DataStore.DATATYPE_STRING,false,false,
-				ORDENES_COMPRA_ESTADO);		
-		addColumn(computeTableName("estados"),"nombre",
-				DataStore.DATATYPE_STRING,false,false,
+				DataStore.DATATYPE_FLOAT, false, true, DETALLE_SC_DESCUENTO);
+		addColumn(computeTableName("ordenes_compra"), "estado",
+				DataStore.DATATYPE_STRING, false, false, ORDENES_COMPRA_ESTADO);
+		addColumn(computeTableName("estados"), "nombre",
+				DataStore.DATATYPE_STRING, false, false,
 				ORDENES_COMPRA_ESTADO_NOMBRE);
-		
+
 		// add bucket
 		addBucket(DETALLE_SC_MONTO_TOTAL_PEDIDO, DataStore.DATATYPE_FLOAT);
 		addBucket(DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, DataStore.DATATYPE_FLOAT);
@@ -329,11 +328,14 @@ public class DetalleSCModel extends DataStore implements Constants{
 		addJoin(computeTableAndFieldName("solicitudes_compra.centro_costo_id"),
 				computeTableAndFieldName("centro_costo.centro_costo_id"), true);
 		addJoin(computeTableAndFieldName("detalle_sc.orden_compra_id"),
-				computeTableAndFieldName("ordenes_compra.orden_compra_id"),true);
-		addJoin(computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
-				computeTableAndFieldName("website_user_solicitante.user_id"),true);
+				computeTableAndFieldName("ordenes_compra.orden_compra_id"),
+				true);
+		addJoin(
+				computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
+				computeTableAndFieldName("website_user_solicitante.user_id"),
+				true);
 		addJoin(computeTableAndFieldName("ordenes_compra.estado"),
-				computeTableAndFieldName("estados.estado"),true);
+				computeTableAndFieldName("estados.estado"), true);
 
 		try {
 			addLookupRule(
@@ -346,9 +348,9 @@ public class DetalleSCModel extends DataStore implements Constants{
 					ORDENES_COMPRA_ESTADO,
 					"infraestructura.estados",
 					"'infraestructura.estados.estado = ' + ordenes_compra.estado",
-					"nombre", ORDENES_COMPRA_ESTADO_NOMBRE, 
+					"nombre", ORDENES_COMPRA_ESTADO_NOMBRE,
 					"Estado inexistente");
-			
+
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
 		}
@@ -530,13 +532,14 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getDetalleScCotizacionCompraId(int row) throws DataStoreException {
+	public int getDetalleScCotizacionCompraId(int row)
+			throws DataStoreException {
 		return getInt(row, DETALLE_SC_COTIZACION_COMPRA_ID);
 	}
 
 	/**
-	 * Set the value of the detalle_sc.Cotizacion_compra_id column for the current
-	 * row.
+	 * Set the value of the detalle_sc.Cotizacion_compra_id column for the
+	 * current row.
 	 * 
 	 * @param newValue
 	 *            the new item value
@@ -548,8 +551,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 	}
 
 	/**
-	 * Set the value of the detalle_sc.Cotizacion_compra_id column for the specified
-	 * row.
+	 * Set the value of the detalle_sc.Cotizacion_compra_id column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -1097,17 +1100,16 @@ public class DetalleSCModel extends DataStore implements Constants{
 		Statement st = null;
 		ResultSet rs = null;
 		try {
-		conn = DBConnection.getConnection("inventario",
-				"inventario");
-		st = conn.createStatement();
-		rs = st
-				.executeQuery("SELECT descripcion_completa FROM articulos WHERE articulo_id ="
-						+ getDetalleScArticuloId(row));
-		String descripCompleta = null;
-		if (rs.first()) {
-			descripCompleta = rs.getString(1);
-		}
-		return descripCompleta;
+			conn = DBConnection.getConnection("inventario", "inventario");
+			st = conn.createStatement();
+			rs = st
+					.executeQuery("SELECT descripcion_completa FROM articulos WHERE articulo_id ="
+							+ getDetalleScArticuloId(row));
+			String descripCompleta = null;
+			if (rs.first()) {
+				descripCompleta = rs.getString(1);
+			}
+			return descripCompleta;
 		} finally {
 			if (rs != null)
 				rs.close();
@@ -1350,8 +1352,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 	}
 
 	/**
-	 * Retrieve the value of the detalle_sc.unidad_medida_Pedida column for the current
-	 * row.
+	 * Retrieve the value of the detalle_sc.unidad_medida_Pedida column for the
+	 * current row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -1369,12 +1371,14 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public int getDetalleScUnidadMedidaPedida(int row) throws DataStoreException {
+	public int getDetalleScUnidadMedidaPedida(int row)
+			throws DataStoreException {
 		return getInt(row, DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
 	}
 
 	/**
-	 * Set the value of the detalle_sc.unidad_medida_Pedida column for the current row.
+	 * Set the value of the detalle_sc.unidad_medida_Pedida column for the
+	 * current row.
 	 * 
 	 * @param newValue
 	 *            the new item value
@@ -1386,8 +1390,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 	}
 
 	/**
-	 * Set the value of the detalle_sc.unidad_medida_Pedida column for the specified
-	 * row.
+	 * Set the value of the detalle_sc.unidad_medida_Pedida column for the
+	 * specified row.
 	 * 
 	 * @param row
 	 *            which row in the table
@@ -1636,7 +1640,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 			throws DataStoreException, SQLException, ParseException {
 		Float monto_unitario = getDetalleScMontoUnitario(row);
 		Float cantidad = getDetalleScCantidadSolicitada(row);
-		
+
 		// preciso formatear el total antes de guardarlo, para que no agregue
 		// decimales innecesarios, y para que los totales generales luego
 		// muestren la suma exacta de cada detalle.
@@ -1649,8 +1653,9 @@ public class DetalleSCModel extends DataStore implements Constants{
 			decimalSymbol.setDecimalSeparator('.');
 			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
-			Float total = monto_unitario * cantidad;			
-			setMontoTotal(row, Float.parseFloat(format.format(total).replace(",", "")));			
+			Float total = monto_unitario * cantidad;
+			setMontoTotal(row, Float.parseFloat(format.format(total).replace(
+					",", "")));
 		}
 	}
 
@@ -1704,17 +1709,22 @@ public class DetalleSCModel extends DataStore implements Constants{
 			// fills detalle_sc.descripcion with articulos.descripcion_completa
 			// if is
 			// null
-			if (getDetalleScDescripcion(row) == null)
-				setDetalleScDescripcion(row, getArticulosDescripcionCompleta(row));
+			/*
+			 * if (getDetalleScDescripcion(row) == null)
+			 * setDetalleScDescripcion(row,
+			 * getArticulosDescripcionCompleta(row));
+			 */
 
 			// si tiene un oc asignado
 			if (getDetalleScOrdenCompraId(row) > 0) {
 				if (getDetalleScCantidadPedida(row) <= 0)
-					throw new DataStoreException("La cantidad pedida debe ser un número positivo mayor que cero");
+					throw new DataStoreException(
+							"La cantidad pedida debe ser un número positivo mayor que cero");
 				if (getDetalleScDescuento(row) < 0)
-					throw new DataStoreException("El descuento debe ser un número positivo mayor o igual que cero");
+					throw new DataStoreException(
+							"El descuento debe ser un número positivo mayor o igual que cero");
 			}
-			
+
 			// sets monto and fecha ultima compra with value stored in
 			// attributes table
 			if (getDetalleScMontoUltimaCompra(row) == 0) {
@@ -1736,7 +1746,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 						setDetalleScFechaUltimaCompra(row, new java.sql.Date(df
 								.parse(fecha_ultima_compra).getTime()));
 					}
-					
+
 				} catch (ParseException e) {
 					throw new DataStoreException(
 							"Error de parseo en el seteo del monto y fecha de última compra: "
@@ -1751,21 +1761,20 @@ public class DetalleSCModel extends DataStore implements Constants{
 
 			int unidad_patron = Integer.parseInt(AtributosEntidadModel
 					.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
-							getDetalleScArticuloId(row), "TABLA",
-							"articulos"));
-			
+							getDetalleScArticuloId(row), "TABLA", "articulos"));
+
 			if (getDetalleScUnidadMedida(row) == 0 && unidad_patron != 0) {
 				setDetalleScUnidadMedida(row, unidad_patron);
-			}				
-			
-			
-			if (getDetalleScIva(row) == 0) {				
+			}
+
+			if (getDetalleScIva(row) == 0) {
 				setDetalleScIva(row, Float.parseFloat(AtributosEntidadModel
-						.getValorAtributoObjeto(Constants.ARTICULO_IVA_PORCENTAJE,
+						.getValorAtributoObjeto(
+								Constants.ARTICULO_IVA_PORCENTAJE,
 								getDetalleScArticuloId(row), "TABLA",
 								"articulos")));
 			}
-			
+
 			try {
 				setMontoTotal(row);
 				calculaMontoTotalPedido(row);
@@ -1989,7 +1998,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getUnidadMedidaNombrePedida(int row) throws DataStoreException {
+	public String getUnidadMedidaNombrePedida(int row)
+			throws DataStoreException {
 		return getString(row, UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
 	}
 
@@ -2169,10 +2179,10 @@ public class DetalleSCModel extends DataStore implements Constants{
 			throws DataStoreException {
 		setInt(row, SOLICITUDES_COMPRA_USER_ID_SOLICITA, newValue);
 	}
-	
+
 	/**
-	 * Retrieve the value of the detalle_sc.observaciones_oc column for the current
-	 * row.
+	 * Retrieve the value of the detalle_sc.observaciones_oc column for the
+	 * current row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -2185,18 +2195,21 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * Retrieve the value of the detalle_sc.observaciones_oc column for the
 	 * specified row.
 	 * 
-	 * @param row which row in the table
+	 * @param row
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getDetalleScObservacionesOc(int row) throws DataStoreException {
+	public String getDetalleScObservacionesOc(int row)
+			throws DataStoreException {
 		return getString(row, DETALLE_SC_OBSERVACIONES);
 	}
 
 	/**
 	 * Set the value of the detalle_sc.observaciones column for the current row.
 	 * 
-	 * @param newValue the new item value
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScObservacionesOc(String newValue)
@@ -2208,15 +2221,17 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * Set the value of the detalle_sc.observaciones_oc column for the specified
 	 * row.
 	 * 
-	 * @param row which row in the table
-	 * @param newValue the new item value
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScObservacionesOc(int row, String newValue)
 			throws DataStoreException {
 		setString(row, DETALLE_SC_OBSERVACIONES_OC, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the monto_total_pedido bucket for the current row.
 	 * 
@@ -2263,27 +2278,27 @@ public class DetalleSCModel extends DataStore implements Constants{
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_MONTO_TOTAL_PEDIDO, newValue);
 	}
-	
+
 	/**
 	 * Calculate the value of the monto_total column.
-	 *
+	 * 
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	public void calculaMontoTotalPedido() throws DataStoreException, SQLException,
-			ParseException {
+	public void calculaMontoTotalPedido() throws DataStoreException,
+			SQLException, ParseException {
 		calculaMontoTotalPedido(getRow(), null);
 	}
-	
+
 	/**
 	 * Calculate the value of the monto_total column for the specified column.
-	 *
+	 * 
 	 * @param row
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	public void calculaMontoTotalPedido(int row) throws DataStoreException, SQLException,
-			ParseException {
+	public void calculaMontoTotalPedido(int row) throws DataStoreException,
+			SQLException, ParseException {
 		calculaMontoTotalPedido(row, null);
 	}
 
@@ -2294,8 +2309,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	public void calculaMontoTotalPedido(int row, Float porc) throws DataStoreException, SQLException,
-			ParseException {
+	public void calculaMontoTotalPedido(int row, Float porc)
+			throws DataStoreException, SQLException, ParseException {
 		Float monto_unitario = getDetalleScMontoUnitario(row);
 		Float cantidad = getDetalleScCantidadPedida(row);
 
@@ -2311,17 +2326,18 @@ public class DetalleSCModel extends DataStore implements Constants{
 			decimalSymbol.setDecimalSeparator('.');
 			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
-			
+
 			Float total = (monto_unitario * cantidad);
 			if ((porc != null) && (porc > 0)) {
 				total -= total * (porc / 100);
 			} else if (getDetalleScDescuento(row) > 0) {
-				total -= total * (getDetalleScDescuento(row) / 100);				
-			}			
-			setMontoTotalPedido(row, Float.parseFloat(format.format(total).replace(",", "")));			
-		}		
+				total -= total * (getDetalleScDescuento(row) / 100);
+			}
+			setMontoTotalPedido(row, Float.parseFloat(format.format(total)
+					.replace(",", "")));
+		}
 	}
-	
+
 	/**
 	 * checks if every detail has monto_unitario filled
 	 * 
@@ -2340,7 +2356,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Retrieve the value of the solicitudes_compra.fecha_solicitud column for
 	 * the current row.
@@ -2357,7 +2373,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * Retrieve the value of the solicitudes_compra.fecha_solicitud column for
 	 * the specified row.
 	 * 
-	 * @param row which row in the table
+	 * @param row
+	 *            which row in the table
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -2365,46 +2382,49 @@ public class DetalleSCModel extends DataStore implements Constants{
 			throws DataStoreException {
 		return getDate(row, SOLICITUDES_COMPRA_FECHA_SOLICITUD);
 	}
-	
+
 	/**
-	 * Filtra el datastore obteniendo los detalles a remover del OC actual, 
+	 * Filtra el datastore obteniendo los detalles a remover del OC actual,
 	 * elimina el fk al OC y resetea el campo cantidad pedida.
-	 * @param conn La conexión en la que se enmarca la transacción
-	 * @param bucketName nombre del bucket que contiene el flag de seleccion
+	 * 
+	 * @param conn
+	 *            La conexión en la que se enmarca la transacción
+	 * @param bucketName
+	 *            nombre del bucket que contiene el flag de seleccion
 	 * @return true si han sido eliminado algun detalle
 	 * @throws DataStoreException
 	 */
-	public boolean eliminaDetallesSeleccionados(DBConnection conn, String bucketName) throws DataStoreException {
+	public boolean eliminaDetallesSeleccionados(DBConnection conn,
+			String bucketName) throws DataStoreException {
 		// filtramos detalles marcados para remoción
 		filter(bucketName + " == 1");
-		
+
 		boolean detalleEliminado = getRowCount() > 0 ? true : false;
 		int row = 0;
-		
+
 		try {
 			for (row = 0; row < getRowCount(); row++) {
-				setAny(row,
-						DetalleSCModel.DETALLE_SC_CANTIDAD_PEDIDA, getNullDefault(DataStore.DATATYPE_INT));
-				setAny(row,
-						DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID, getNullDefault(DataStore.DATATYPE_INT));				
-			}			
+				setAny(row, DetalleSCModel.DETALLE_SC_CANTIDAD_PEDIDA,
+						getNullDefault(DataStore.DATATYPE_INT));
+				setAny(row, DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID,
+						getNullDefault(DataStore.DATATYPE_INT));
+			}
 			return detalleEliminado;
-			
+
 		} catch (DataStoreException ex) {
 			undoChanges(row);
 			setInt(row, bucketName, 0);
 			throw new DataStoreException(
 					"No se ha podido remover el artículo seleccionado. Error: "
-					+ ex.getMessage());
+							+ ex.getMessage());
 		} finally {
 			// removemos el filtro
 			filter(null);
 		}
 	}
-	
+
 	/**
-	 * Retrieve the value of the detalle_sc.iva column for the current
-	 * row.
+	 * Retrieve the value of the detalle_sc.iva column for the current row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -2414,10 +2434,10 @@ public class DetalleSCModel extends DataStore implements Constants{
 	}
 
 	/**
-	 * Retrieve the value of the detalle_sc.iva column for the
-	 * specified row.
+	 * Retrieve the value of the detalle_sc.iva column for the specified row.
 	 * 
-	 * @param row which row in the table
+	 * @param row
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2428,26 +2448,28 @@ public class DetalleSCModel extends DataStore implements Constants{
 	/**
 	 * Set the value of the detalle_sc.iva column for the current row.
 	 * 
-	 * @param newValue the new item value
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setDetalleScIva(float newValue)
-			throws DataStoreException {
+	public void setDetalleScIva(float newValue) throws DataStoreException {
 		setFloat(DETALLE_SC_IVA, newValue);
 	}
 
 	/**
 	 * Set the value of the detalle_sc.iva column for the specified row.
 	 * 
-	 * @param row which row in the table
-	 * @param newValue the new item value
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScIva(int row, float newValue)
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_IVA, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the detalle_sc.descuento column for the current
 	 * row.
@@ -2460,10 +2482,11 @@ public class DetalleSCModel extends DataStore implements Constants{
 	}
 
 	/**
-	 * Retrieve the value of the detalle_sc.descuento column for the
-	 * specified row.
+	 * Retrieve the value of the detalle_sc.descuento column for the specified
+	 * row.
 	 * 
-	 * @param row which row in the table
+	 * @param row
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2474,34 +2497,36 @@ public class DetalleSCModel extends DataStore implements Constants{
 	/**
 	 * Set the value of the detalle_sc.descuento column for the current row.
 	 * 
-	 * @param newValue the new item value
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setDetalleScDescuento(float newValue)
-			throws DataStoreException {
+	public void setDetalleScDescuento(float newValue) throws DataStoreException {
 		setFloat(DETALLE_SC_DESCUENTO, newValue);
 	}
 
 	/**
 	 * Set the value of the detalle_sc.descuento column for the specified row.
 	 * 
-	 * @param row which row in the table
-	 * @param newValue the new item value
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScDescuento(int row, float newValue)
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_DESCUENTO, newValue);
 	}
-	
+
 	/**
 	 * @param row
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	public void calculaMontoTotalNetoPedido(int row) throws DataStoreException, SQLException,
-			ParseException {
+	public void calculaMontoTotalNetoPedido(int row) throws DataStoreException,
+			SQLException, ParseException {
 		Float monto_unitario = getDetalleScMontoUnitario(row);
 		Float cantidad = getDetalleScCantidadPedida(row);
 
@@ -2517,14 +2542,16 @@ public class DetalleSCModel extends DataStore implements Constants{
 			decimalSymbol.setDecimalSeparator('.');
 			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
-			Float total = (monto_unitario * cantidad);			
-			setMontoTotalPedidoNeto(row, Float.parseFloat(format.format(total).replace(",", "")));			
+			Float total = (monto_unitario * cantidad);
+			setMontoTotalPedidoNeto(row, Float.parseFloat(format.format(total)
+					.replace(",", "")));
 		}
-		
+
 	}
-	
+
 	/**
-	 * Retrieve the value of the monto_total_pedido_neto bucket for the current row.
+	 * Retrieve the value of the monto_total_pedido_neto bucket for the current
+	 * row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -2534,9 +2561,11 @@ public class DetalleSCModel extends DataStore implements Constants{
 	}
 
 	/**
-	 * Retrieve the value of monto_total_pedido_neto bucket for the specified row.
+	 * Retrieve the value of monto_total_pedido_neto bucket for the specified
+	 * row.
 	 * 
-	 * @param row which row in the table
+	 * @param row
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2547,124 +2576,152 @@ public class DetalleSCModel extends DataStore implements Constants{
 	/**
 	 * Set the value of the monto_total_pedido_neto bucket for the current row.
 	 * 
-	 * @param newValue the new item value
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setMontoTotalPedidoNeto(Float newValue) throws DataStoreException {
+	public void setMontoTotalPedidoNeto(Float newValue)
+			throws DataStoreException {
 		setFloat(DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, newValue);
 	}
 
 	/**
-	 * Set the value of the monto_total_pedido_neto bucket for the specified row.
+	 * Set the value of the monto_total_pedido_neto bucket for the specified
+	 * row.
 	 * 
-	 * @param row which row in the table
-	 * @param newValue the new item value
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoTotalPedidoNeto(int row, float newValue)
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO, newValue);
 	}
-	
+
 	/**
-	 * Retrieve the value of the ordenes_compra.estado column for the current row.
+	 * Retrieve the value of the ordenes_compra.estado column for the current
+	 * row.
+	 * 
 	 * @return String
 	 * @throws DataStoreException
-	 */ 
+	 */
 	public String getOrdenesCompraEstado() throws DataStoreException {
-		return  getString(ORDENES_COMPRA_ESTADO);
+		return getString(ORDENES_COMPRA_ESTADO);
 	}
 
 	/**
-	 * Retrieve the value of the ordenes_compra.estado column for the specified row.
-	 * @param row which row in the table
+	 * Retrieve the value of the ordenes_compra.estado column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
-	 */ 
+	 */
 	public String getOrdenesCompraEstado(int row) throws DataStoreException {
-		return  getString(row,ORDENES_COMPRA_ESTADO);
+		return getString(row, ORDENES_COMPRA_ESTADO);
 	}
 
 	/**
 	 * Set the value of the ordenes_compra.estado column for the current row.
-	 * @param newValue the new item value
+	 * 
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
-	 */ 
-	public void setOrdenesCompraEstado(String newValue) throws DataStoreException {
+	 */
+	public void setOrdenesCompraEstado(String newValue)
+			throws DataStoreException {
 		setString(ORDENES_COMPRA_ESTADO, newValue);
 	}
 
 	/**
 	 * Set the value of the ordenes_compra.estado column for the specified row.
-	 * @param row which row in the table
-	 * @param newValue the new item value
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
-	 */ 
-	public void setOrdenesCompraEstado(int row,String newValue) throws DataStoreException {
-		setString(row,ORDENES_COMPRA_ESTADO, newValue);
+	 */
+	public void setOrdenesCompraEstado(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ORDENES_COMPRA_ESTADO, newValue);
 	}
-	
+
 	/**
 	 * Retrieve the value of the oc_estado_nombre column for the current row.
+	 * 
 	 * @return String
 	 * @throws DataStoreException
-	 */ 
+	 */
 	public String getOrdenesCompraEstadoNombre() throws DataStoreException {
-		return  getString(ORDENES_COMPRA_ESTADO_NOMBRE);
+		return getString(ORDENES_COMPRA_ESTADO_NOMBRE);
 	}
 
 	/**
 	 * Retrieve the value of the oc_estado_nombre column for the specified row.
-	 * @param row which row in the table
+	 * 
+	 * @param row
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
-	 */ 
-	public String getOrdenesCompraEstadoNombre(int row) throws DataStoreException {
-		return  getString(row,ORDENES_COMPRA_ESTADO_NOMBRE);
+	 */
+	public String getOrdenesCompraEstadoNombre(int row)
+			throws DataStoreException {
+		return getString(row, ORDENES_COMPRA_ESTADO_NOMBRE);
 	}
-	
+
 	/**
 	 * Set the value of the oc_estado_nombre column for the current row.
-	 * @param newValue the new item value
+	 * 
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
-	 */ 
-	public void setOrdenesCompraEstadoNombre(String newValue) throws DataStoreException {
+	 */
+	public void setOrdenesCompraEstadoNombre(String newValue)
+			throws DataStoreException {
 		setString(ORDENES_COMPRA_ESTADO_NOMBRE, newValue);
 	}
 
 	/**
 	 * Set the value of the oc_estado_nombre column for the specified row.
-	 * @param row which row in the table
-	 * @param newValue the new item value
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
 	 * @throws DataStoreException
-	 */ 
-	public void setOrdenesCompraEstadoNombre(int row,String newValue) throws DataStoreException {
-		setString(row,ORDENES_COMPRA_ESTADO_NOMBRE, newValue);
+	 */
+	public void setOrdenesCompraEstadoNombre(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ORDENES_COMPRA_ESTADO_NOMBRE, newValue);
 	}
-	
+
 	/**
 	 * Calculate the value of the monto_total column.
-	 *
+	 * 
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	public void calculaPrecioUnitarioPam() throws DataStoreException, SQLException,
-			ParseException {
+	public void calculaPrecioUnitarioPam() throws DataStoreException,
+			SQLException, ParseException {
 		calculaPrecioUnitarioPam(getRow(), null);
 	}
-	
+
 	/**
 	 * Calculate the value of the monto_total column for the specified column.
-	 *
+	 * 
 	 * @param row
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
-	public void calculaPrecioUnitarioPam(int row) throws DataStoreException, SQLException,
-			ParseException {
+	public void calculaPrecioUnitarioPam(int row) throws DataStoreException,
+			SQLException, ParseException {
 		calculaPrecioUnitarioPam(row, null);
 	}
-	
+
 	/**
 	 * @param row
 	 * @param porc
@@ -2672,8 +2729,8 @@ public class DetalleSCModel extends DataStore implements Constants{
 	 * @throws SQLException
 	 * @throws ParseException
 	 */
-	public void calculaPrecioUnitarioPam(int row, Float porc) throws DataStoreException, SQLException,
-			ParseException {
+	public void calculaPrecioUnitarioPam(int row, Float porc)
+			throws DataStoreException, SQLException, ParseException {
 		Float monto_unitario = getDetalleScMontoUnitario(row);
 		Float total = 0F;
 
@@ -2682,7 +2739,7 @@ public class DetalleSCModel extends DataStore implements Constants{
 		// muestren la suma exacta de cada detalle.
 		if (monto_unitario != null) {
 			total = monto_unitario;
-			
+
 			DecimalFormat format = (DecimalFormat) DecimalFormat.getInstance();
 			format.setMaximumFractionDigits(2);
 			format.setRoundingMode(RoundingMode.HALF_UP);
@@ -2691,16 +2748,17 @@ public class DetalleSCModel extends DataStore implements Constants{
 			decimalSymbol.setDecimalSeparator('.');
 			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
-						
+
 			if ((porc != null) && (porc > 0)) {
 				total -= monto_unitario * (porc / 100);
 			} else if (getDetalleScDescuento(row) > 0) {
-				total -= monto_unitario * (getDetalleScDescuento(row) / 100);				
-			}			
-			setMontoUnitarioPam(row, Float.parseFloat(format.format(total).replace(",", "")));			
-		}		
+				total -= monto_unitario * (getDetalleScDescuento(row) / 100);
+			}
+			setMontoUnitarioPam(row, Float.parseFloat(format.format(total)
+					.replace(",", "")));
+		}
 	}
-	
+
 	/**
 	 * Retrieve the value of the monto_unitario_pam bucket for the current row.
 	 * 
