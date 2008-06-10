@@ -86,9 +86,7 @@
 			<salmon:datatable name="datatable2" width="100%"
 				datasource="dsAuditoria">
 				<salmon:datatableheader>
-					<salmon:tr>
-						<salmon:td>
-						</salmon:td>
+					<salmon:tr>						
 						<salmon:td>
 							<salmon:text name="fecha2" text="Fecha" font="TableHeadingFont" />
 						</salmon:td>
@@ -107,15 +105,14 @@
 							<salmon:text name="aEstado1" text="Estado destino"
 								font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td>
+							<salmon:text name="observaciones1" text="Observaciones"
+								font="TableHeadingFont" />
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
-					<salmon:tr>
-						<salmon:td>
-							<salmon:text name="id"
-								text="audita_estados_circuitos.id Goes Here" font="DefaultFont"
-								datasource="dsAuditoria:audita_estados_circuitos.audita_id" />
-						</salmon:td>
+					<salmon:tr>						
 						<salmon:td>
 							<salmon:text name="fecha3"
 								text="audita_estados_circuitos.fecha Goes Here"
@@ -140,6 +137,11 @@
 							<salmon:text name="aEstado2"
 								text="website_user.login_name Goes Here" font="DefaultFont"
 								datasource="dsAuditoria:a_estados.nombre" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="observaciones2"
+								text="" font="DefaultFont"
+								datasource="dsAuditoria:audita_estados_circuitos.observaciones" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>

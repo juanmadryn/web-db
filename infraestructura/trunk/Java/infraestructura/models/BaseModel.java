@@ -35,16 +35,16 @@ public abstract class BaseModel extends DataStore {
 	 * Ejecuta la acción dada para el informe de devolución. Concentra TODAS las
 	 * acciones posibles para un informe de devolición
 	 * 
-	 * @param row
-	 *            número de fila sobre la cual se desea hacer la operacion
-	 * @param accion
-	 *            accion grabada en la tabla de tarnsición de estados
-	 * @param circuito
-	 *            circuito al cual pertenece la acción. Permite recuperar la
+	 * @param row número de fila sobre la cual se ejecuta el cambio de estado
+	 * @param accion accion grabada en la tabla de tarnsición de estados
+	 * @param circuito circuito al cual pertenece la acción. Permite recuperar la
 	 *            columna de estado
-	 * @param pagina
-	 *            Página de la cual se realiza la operación
-	 */
+	 * @param remoteAddr dirección IP desde donde se ejecutó la acción
+	 * @param userId Id del usuario que ejecutó la acción
+	 * @param nombre_tabla nombre de la tabla sobre la que se ejecuta el cambió de estado
+	 * @param conn conexión mediante la cual se interactúa con la BD
+	 * @param batchInserts flag que indica si los registros de auditoría se insertan en batchs
+	 */	
 	public void ejecutaAccion(int row, int accion, String circuito,
 			String remoteAddr, int userId, String nombre_tabla,
 			DBConnection conn, boolean batchInserts) throws DataStoreException, SQLException, ValidationException {
@@ -52,9 +52,29 @@ public abstract class BaseModel extends DataStore {
 			throw new DataStoreException("Fila " + row + " fuera de contexto");
 		}
 		ejecutaAccion(accion, circuito, remoteAddr, userId, nombre_tabla, conn,
-				batchInserts);
+				batchInserts, null);
 	}
 
+	/**
+	 * Ejecuta la acción dada para el informe de devolución. Concentra TODAS las
+	 * acciones posibles para un informe de devolición
+	 * 
+	 * @param accion accion grabada en la tabla de tarnsición de estados
+	 * @param circuito circuito al cual pertenece la acción. Permite recuperar la
+	 *            columna de estado
+	 * @param remoteAddr dirección IP desde donde se ejecutó la acción
+	 * @param userId Id del usuario que ejecutó la acción
+	 * @param nombre_tabla nombre de la tabla sobre la que se ejecuta el cambió de estado
+	 * @param conn conexión mediante la cual se interactúa con la BD
+	 * @param batchInserts flag que indica si los registros de auditoría se insertan en batchs
+	 */	
+	public void ejecutaAccion(int accion, String circuito,
+			String remoteAddr, int userId, String nombre_tabla,
+			DBConnection conn, boolean batchInserts) throws DataStoreException, SQLException, ValidationException {
+		ejecutaAccion(accion, circuito, remoteAddr, userId, nombre_tabla, conn,
+				batchInserts, null);
+	}
+	
 	/**
 	 * Ejecuta la acción dada para el registro actual. Concentra TODAS las
 	 * acciones posibles para un registro
@@ -62,11 +82,16 @@ public abstract class BaseModel extends DataStore {
 	 * @param accion accion grabada en la tabla de tarnsición de estados
 	 * @param circuito circuito al cual pertenece la acción. Permite recuperar la
 	 *            columna de estado
-	 * @param pagina Página de la cual se realiza la operación
-	 */
+	 * @param remoteAddr dirección IP desde donde se ejecutó la acción
+	 * @param userId Id del usuario que ejecutó la acción
+	 * @param nombre_tabla nombre de la tabla sobre la que se ejecuta el cambió de estado
+	 * @param conn conexión mediante la cual se interactúa con la BD
+	 * @param batchInserts flag que indica si los registros de auditoría se insertan en batchs
+	 * @param observaciones observaciones indicadas por el usuario en el cambio de estado
+	 */	
 	public void ejecutaAccion(int accion, String circuito, String remoteAddr,
 			int userId, String nombre_tabla, DBConnection conn,
-			boolean batchInserts) throws DataStoreException, SQLException,
+			boolean batchInserts, String observaciones) throws DataStoreException, SQLException,
 			ValidationException {
 		String estado_actual = null;
 		String proximo_estado = null;
@@ -113,8 +138,7 @@ public abstract class BaseModel extends DataStore {
 					+ "' and estado_origen = '" + estado_actual
 					+ "' and transicion_estados.accion = "
 					+ Integer.toString(accion));
-
-			System.out.println(nombre_tabla + " " +transicion.getRowCount());
+		
 			if (transicion.gotoFirst()) {
 				proximo_estado = transicion.getTransicionEstadosEstadoDestino();
 				nombre_accion = transicion.getTransicionEstadosPromptAccion();
@@ -189,7 +213,8 @@ public abstract class BaseModel extends DataStore {
 						.setAuditaEstadosCircuitosRegistroId(getIdRegistro());
 				auditoriaModel.setAuditaEstadosCircuitosHost(remoteAddr);
 				auditoriaModel.setAuditaEstadosCircuitosAccion(accion);
-
+				auditoriaModel.setAuditaEstadosCircuitosObservaciones(observaciones);
+				
 				auditoriaModel.update(conn);
 			}
 			if (!ok)
@@ -203,6 +228,8 @@ public abstract class BaseModel extends DataStore {
 		}
 	}
 
+	
+	
 	/**
 	 * Se debe definir en cada Model el estado del registro actual
 	 * 

@@ -898,10 +898,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					.getAtributoTotalSolicitud());
 
 			String estado = _dsSolicitudCompra.getSolicitudesCompraEstado();
-			if (!"0006.0002".equalsIgnoreCase(estado)) {
+			/*if (!"0006.0002".equalsIgnoreCase(estado)) {
 				_dsSolicitudCompra.setObservaciones();
 				// _dsSolicitudCompra.recuperaObservaciones();
-			}
+			}*/
 
 			if ("0006.0002".equalsIgnoreCase(estado)
 					|| "0006.0004".equalsIgnoreCase(estado)
