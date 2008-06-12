@@ -11,6 +11,7 @@ import java.sql.Statement;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.jsp.JspLink;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
@@ -191,7 +192,12 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	// custom componenets
 	public HtmlSubmitButton _grabarCotizacionCompraBUT1;
 	public HtmlSubmitButton _generarOCBUT1;
+	public JspLink _lnkordencompra1;
+	
 	private static final String CIRCUITO = "0006";
+	
+	// especifica si hay que recargar la pagina
+	private boolean recargar = false;
 
 	@Override
 	public void initialize() throws Exception {
@@ -257,6 +263,8 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 						.getRemoteHost(), conn);
 
 				conn.commit();
+				
+				setRecargar(true);
 
 				sendPageRedirect();
 
@@ -280,7 +288,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		try {
 			// si la página es requerida por si misma o está en proceso de
 			// recargar un proyecto no hago nada
-			if (!isReferredByCurrentPage()) {
+			if (!isReferredByCurrentPage() || isRecargar()) {
 				// verifico si tiene parámetro
 				setRow_id(getIntParameter("cotizacion_compra_id"));
 				if (getRow_id() > 0) {
@@ -312,11 +320,11 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				// hacer es regresar a la SC
 				_rawAddRow.setHtml("</tr><tr>");
 				_navbarTable.setVisible(false);
-
 			}
 			
 			setDatosBasicosSolicitud();
 			armaBotonera();
+			setRecargar(false);
 
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
@@ -452,6 +460,35 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		URL = armarUrlReporte("PDF", "cotizacion_compra",
 				"&param_cotizacion_compra_id=" + getRow_id());
 		_imprimirCotizacionCompraBUT2.setHref(URL);
+		
+		// si no existe solicitud desactivo el enlace en cada detalle
+		for (int row=0; row < _dsDetalleCotizacion.getRowCount(); row++) {
+			if (_dsDetalleCotizacion.getDetalleScOrdenCompraId(row) == 0) {
+				_lnkordencompra1.setVisible(false);
+			} else {
+				_lnkordencompra1.setVisible(true);
+			}
+		}
+		
+	}
+
+	/**
+	 * Setea la variable recargar al valor boleano indicado
+	 * 
+	 * @param recargar el valor boleano a setear
+	 */
+	public void setRecargar(boolean recargar) {
+		this.recargar = recargar;
+	}
+
+	/**
+	 * Indica si se debe o no recargar los datastores de controlador
+	 * en el request actual
+	 * 
+	 * @return el valor boleano actual de recargar
+	 */
+	public boolean isRecargar() {
+		return recargar;
 	}
 
 }
