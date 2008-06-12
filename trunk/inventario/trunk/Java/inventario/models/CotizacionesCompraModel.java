@@ -3382,7 +3382,7 @@ public class CotizacionesCompraModel extends BaseModel {
 	public void generaOrdenesCompra(String host,DBConnection conn) throws DataStoreException, SQLException {
 		DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario", "inventario");
 		DetalleSCModel dsDetalleSC = new DetalleSCModel("inventario","inventario");
-		SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario","infentario");
+		SolicitudCompraModel dsSolicitudCompra = new SolicitudCompraModel("inventario","inventario");
 		OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel("inventario","inventario");
 		int detalleSCId = -1;
 
@@ -3401,34 +3401,34 @@ public class CotizacionesCompraModel extends BaseModel {
 		// si recueró registros, itera controlando, validando y generando las OC
 		if (dsDetalleCotizacion.getRowCount() > 0) {
 			
-			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
+			for (int row = 0 ; row < dsDetalleCotizacion.getRowCount(); row++) {
 				// verifico que la SC asociada esté en estado cotizada, sino aborto la operación
 				dsSolicitudCompra.reset();
-				dsSolicitudCompra.retrieve("solicitud_compra.solicitud_compra_id = " + dsDetalleCotizacion.getDetalleScSolicitudCompraId(i));
+				dsSolicitudCompra.retrieve("solicitudes_compra.solicitud_compra_id = " + dsDetalleCotizacion.getDetalleScSolicitudCompraId(row));
 				dsSolicitudCompra.waitForRetrieve();
 				dsSolicitudCompra.gotoFirst();
 				if (dsSolicitudCompra.getRowCount() == 0)
 					throw new DataStoreException(
 							"No se recuperó ningina Solicitud asociada al artículo: "
-									+ dsDetalleCotizacion.getArticulosNombre()
+									+ dsDetalleCotizacion.getArticulosNombre(row)
 									+ " - "
-									+ dsDetalleCotizacion.getArticulosDescripcion());
+									+ dsDetalleCotizacion.getArticulosDescripcion(row));
 				if (dsSolicitudCompra.getRowCount() > 1)
 					throw new DataStoreException(
 							"Se recuperó más de una Solicitud asociada al artículo: "
-									+ dsDetalleCotizacion.getArticulosNombre()
+									+ dsDetalleCotizacion.getArticulosNombre(row)
 									+ " - "
-									+ dsDetalleCotizacion.getArticulosDescripcion());
+									+ dsDetalleCotizacion.getArticulosDescripcion(row));
 				if (!dsSolicitudCompra.getEstadoActual().equalsIgnoreCase("0006.0008"))
 					throw new DataStoreException(
 							"La Solicitud asociada al artículo: "
-									+ dsDetalleCotizacion.getArticulosNombre()
+									+ dsDetalleCotizacion.getArticulosNombre(row)
 									+ " - "
-									+ dsDetalleCotizacion.getArticulosDescripcion()
+									+ dsDetalleCotizacion.getArticulosDescripcion(row)
 									+ " No está en estado Cotizada. Primero debe finalizar la cotización");
 				
 				// verifica que el detalle esté oc
-				int proveedor = dsDetalleCotizacion.verificaIntegridadDetalle(i);
+				int proveedor = dsDetalleCotizacion.verificaIntegridadDetalle(row);
 				// verifica que el proveedor seleecionado tenga FK al proveedor
 				switch (proveedor) {
 				case 1:
@@ -3440,7 +3440,7 @@ public class CotizacionesCompraModel extends BaseModel {
 					detalleSCId = -1;
 					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
 						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
-								.getDetalleCotizacionDetalleScId(i))
+								.getDetalleCotizacionDetalleScId(row))
 							detalleSCId = j;
 					}
 					
@@ -3458,9 +3458,9 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor1));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
-						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
-						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(row));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(row));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(row));
 					}
 					break;
 				case 2:
@@ -3472,7 +3472,7 @@ public class CotizacionesCompraModel extends BaseModel {
 					detalleSCId = -1;
 					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
 						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
-								.getDetalleCotizacionDetalleScId(i))
+								.getDetalleCotizacionDetalleScId(row))
 							detalleSCId = j;
 					}
 					
@@ -3490,9 +3490,9 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor2));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
-						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
-						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(row));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(row));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(row));
 					}
 					break;
 				case 3:
@@ -3504,7 +3504,7 @@ public class CotizacionesCompraModel extends BaseModel {
 					detalleSCId = -1;
 					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
 						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
-								.getDetalleCotizacionDetalleScId(i))
+								.getDetalleCotizacionDetalleScId(row))
 							detalleSCId = j;
 					}
 					
@@ -3522,9 +3522,9 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor3));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
-						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
-						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(row));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(row));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(row));
 					}
 					break;
 				case 4:
@@ -3536,7 +3536,7 @@ public class CotizacionesCompraModel extends BaseModel {
 					detalleSCId = -1;
 					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
 						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
-								.getDetalleCotizacionDetalleScId(i))
+								.getDetalleCotizacionDetalleScId(row))
 							detalleSCId = j;
 					}
 					
@@ -3554,9 +3554,9 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor4));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
-						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
-						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(row));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(row));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(row));
 					}
 					break;
 				case 5:
@@ -3567,7 +3567,7 @@ public class CotizacionesCompraModel extends BaseModel {
 					detalleSCId = -1;
 					for (int j = 0; j < dsDetalleSC.getRowCount(); j++) {
 						if (dsDetalleSC.getDetalleScDetalleScId(j) == dsDetalleCotizacion
-								.getDetalleCotizacionDetalleScId(i))
+								.getDetalleCotizacionDetalleScId(row))
 							detalleSCId = j;
 					}
 					
@@ -3585,9 +3585,9 @@ public class CotizacionesCompraModel extends BaseModel {
 						}
 						dsDetalleSC.setDetalleScOrdenCompraId(detalleSCId, dsOrdenCompra
 								.getOrdenesCompraOrdenCompraId(ocIdProveedor5));
-						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(i));
-						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(i));
-						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i));
+						dsDetalleSC.setDetalleScCantidadPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionCantidad(row));
+						dsDetalleSC.setDetalleScUnidadMedidaPedida(detalleSCId, dsDetalleCotizacion.getDetalleCotizacionUnidadMedidaId(row));
+						dsDetalleSC.setDetalleScMontoUnitario(detalleSCId, (float)dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(row));
 					}
 					break;
 				default:
