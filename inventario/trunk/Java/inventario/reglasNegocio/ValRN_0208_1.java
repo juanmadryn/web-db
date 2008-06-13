@@ -24,7 +24,26 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Francisco
  * 
- * Regla de negocio asociadas a la transicion de estado "Generada" a "Completa" 
+ * Regla de Negocio.
+ * 
+ * Objeto asociado: ordenes_compra
+ * 
+ * Transición: "Generada" -> "Completa"
+ * 
+ * Acción: "Completar"
+ * 
+ * Ejecuta validaciones asociadas con la acción de completar una orden de compra.
+ * 
+ * Chequea:
+ * 1) Rol del usuario que ejecuta la transición debe ser COMPRADOR.
+ * 2) El nro. de detalles en la orden de ser mayor que cero
+ * 3) El proveedor debe estar especificado.
+ * 4) La fecha estimada de entrega debe estar indicada.
+ * 4) La condición de compra debe estar especificada.
+ * 5) Todos los montos unitarios deben ser mayores que cero.
+ * 
+ * Si todos las verificaciones son exitosas se genera una cadena de aprobación 
+ * para el firmado de la orden de compra.
  * 
  */
 public final class ValRN_0208_1 extends ValidadorReglasNegocio {

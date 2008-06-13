@@ -22,7 +22,17 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Francisco
  * 
- * Cadena de firmas 
+ * Regla de Negocio.
+ * 
+ * Objeto asociado: ordenes_compra
+ * 
+ * Transición: "Completa" -> "Aprobada"
+ * 
+ * Acción: "Aprobar"
+ * 
+ * Regla de negocio asociada con la validación de la cadena de firmas
+ * de una orden de compra. Si se consume la cadena de firmas de manera
+ * exitosa, se pasa al estado "Aprobada".
  * 
  */
 public final class ValRN_0209_1 extends ValidadorReglasNegocio {

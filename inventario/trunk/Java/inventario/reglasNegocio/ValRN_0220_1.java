@@ -6,13 +6,9 @@ package inventario.reglasNegocio;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.reglasNegocio.ValidationException;
-import inventario.models.DetalleSCModel;
 import inventario.models.OrdenesCompraModel;
-import inventario.util.OrdenesDeCompraTANGO;
-import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.SQLException;
-import java.text.ParseException;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;

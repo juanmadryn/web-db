@@ -19,7 +19,17 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Francisco
  * 
- * Regla de negocio asociada a la revision
+ * Regla de Negocio
+ * 
+ * Objeto asociado: ordenes_compra
+ * 
+ * Transición: "Completa" -> "Observada"
+ * 
+ * Acción: "Observar"
+ * 
+ * Regla de negocio asociada a la revision. Chequea que se halla 
+ * ingresado una descripción acerca de la motivación que lleva a 
+ * marcar la orden de compra para revisión.
  * 
  */
 public final class ValRN_0210_1 extends ValidadorReglasNegocio {
@@ -96,8 +106,7 @@ public final class ValRN_0210_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 
-			// actualizo el mensaje de la instancia con las observaciones
-			// indicadas
+			// actualizo el mensaje de la instancia con las observaciones indicadas
 			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
 			instancia.update(conn);
 
@@ -106,9 +115,8 @@ public final class ValRN_0210_1 extends ValidadorReglasNegocio {
 					+ ex.getMessage());
 			return false;
 		} catch (SQLException ex) {
-			msg
-					.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
-							+ ex.getMessage());
+			msg.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
+					+ ex.getMessage());
 			return false;
 		}
 		return true;

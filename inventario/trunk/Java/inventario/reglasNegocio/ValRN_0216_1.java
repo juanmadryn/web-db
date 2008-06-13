@@ -19,6 +19,19 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 
 /**
+ * @author francisco
+ * 
+ * Regla de Negocio
+ * 
+ * Objeto asociado: solicitudes_compra
+ * 
+ * Transición:	"Aprobada" -> "Observada"
+ * 				"Cotizada" -> "Aprobada"
+ * 
+ * Acción: "Revisar"
+ * 
+ * Ejecuta validaciones asociadas con la acción de completar una orden de compra.
+ * 
  * Agrega al circuito de SC una acción que permita pasar de aprobada /
  * cotizada a revisión. Esta situación se debe ante la situación de cambio de
  * artículo de una Solicitud de Compra en la etapa de cotización (por ejemplo
@@ -29,8 +42,13 @@ import com.salmonllc.sql.DataStoreException;
  * Issue 10: Agregar al circuito de SC una acción que permita pasar de aprobada / cotizada a revisión
  * http://code.google.com/p/web-db/issues/detail?id=10
  * 
- * @author fep
- *
+ * Chequea:
+ * 1) Rol del usuario que ejecuta la transición debe ser COMPRADOR.
+ * 2) La solicitud debe tener seteada las observaciones
+ * 
+ * Si todos las verificaciones son exitosas se genera una cadena de aprobación 
+ * nueva para el firmado de la solicitud de compra revisada.
+ * 
  */
 public class ValRN_0216_1 extends ValidadorReglasNegocio {
 
