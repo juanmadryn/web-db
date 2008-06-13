@@ -38,6 +38,7 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 	public static final String RESUMEN_SALDO_ARTICULOS_TOTAL_EGRESOS = "resumen_saldo_articulos.total_egresos";
 	public static final String RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_INGRESOS = "resumen_saldo_articulos.cant_transacciones_ingresos";
 	public static final String RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_EGRESOS = "resumen_saldo_articulos.cant_transacciones_egresos";
+	public static final String RESUMEN_SALDO_ARTICULOS_PRECIO_REPOSICION = "resumen_saldo_articulos.precio_reposicion";
 	public static final String ALMACENES_NOMBRE = "almacenes.nombre";
 	public static final String ARTICULOS_NOMBRE = "articulos.nombre";
 	public static final String ARTICULOS_DESCRIPCION = "articulos.descripcion";
@@ -114,6 +115,10 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 					"cant_transacciones_egresos", DataStore.DATATYPE_INT,
 					false, true,
 					RESUMEN_SALDO_ARTICULOS_CANT_TRANSACCIONES_EGRESOS);
+			addColumn(computeTableName("resumen_saldo_articulos"),
+					"precio_reposicion", DataStore.DATATYPE_DOUBLE,
+					false, true,
+					RESUMEN_SALDO_ARTICULOS_PRECIO_REPOSICION);
 			addColumn(computeTableName("almacenes"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ALMACENES_NOMBRE);
 			addColumn(computeTableName("articulos"), "nombre",
@@ -757,6 +762,59 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 				newValue);
 	}
 
+	/**
+	 * Retrieve the value of the resumen_saldo_articulos.precio_reposicion column for
+	 * the current row.
+	 * 
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getResumenSaldoArticulosPrecioReposicion() throws DataStoreException {
+		return getDouble(RESUMEN_SALDO_ARTICULOS_PRECIO_REPOSICION);
+	}
+
+	/**
+	 * Retrieve the value of the resumen_saldo_articulos.precio_reposicion column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getResumenSaldoArticulosPrecioReposicion(int row)
+			throws DataStoreException {
+		return getDouble(row, RESUMEN_SALDO_ARTICULOS_PRECIO_REPOSICION);
+	}
+
+	/**
+	 * Set the value of the resumen_saldo_articulos.precio_reposicion column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setResumenSaldoArticulosPrecioReposicion(double newValue)
+			throws DataStoreException {
+		setDouble(RESUMEN_SALDO_ARTICULOS_PRECIO_REPOSICION, newValue);
+	}
+
+	/**
+	 * Set the value of the resumen_saldo_articulos.precio_reposicion column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setResumenSaldoArticulosPrecioReposicion(int row, double newValue)
+			throws DataStoreException {
+		setDouble(row, RESUMEN_SALDO_ARTICULOS_PRECIO_REPOSICION, newValue);
+	}
+	
 	/**
 	 * Retrieve the value of the almacenes.nombre column for the current row.
 	 * 
