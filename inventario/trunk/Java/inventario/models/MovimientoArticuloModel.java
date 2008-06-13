@@ -40,6 +40,7 @@ public class MovimientoArticuloModel extends DataStore {
 	public static final String MOVIMIENTO_ARTICULO_OBSERVACIONES = "movimiento_articulo.observaciones";
 	public static final String MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID = "movimiento_articulo.unidad_medida_id";
 	public static final String MOVIMIENTO_ARTICULO_LEGAJO_CARGO = "movimiento_articulo.legajo_cargo";
+	public static final String MOVIMIENTO_ARTICULO_MONTO_UNITARIO = "movimiento_articulo.monto_unitario";
 	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
 	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
 	public static final String TAREAS_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
@@ -131,6 +132,9 @@ public class MovimientoArticuloModel extends DataStore {
 			addColumn(computeTableName("movimiento_articulo"),
 					"unidad_medida_id", DataStore.DATATYPE_INT, false, true,
 					MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID);
+			addColumn(computeTableName("movimiento_articulo"),
+					"monto_unitario", DataStore.DATATYPE_DOUBLE, false, true,
+					MOVIMIENTO_ARTICULO_MONTO_UNITARIO);
 			addColumn(computeTableName("proyectos"), "proyecto",
 					DataStore.DATATYPE_STRING, false, false, PROYECTOS_PROYECTO);
 			addColumn(computeTableName("proyectos"), "nombre",
@@ -153,7 +157,7 @@ public class MovimientoArticuloModel extends DataStore {
 					"legajo_cargo", DataStore.DATATYPE_INT, false, true,
 					MOVIMIENTO_ARTICULO_LEGAJO_CARGO);
 			addColumn(computeTableName("legajos"), "APEYNOM",
-					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);
+					DataStore.DATATYPE_STRING, false, false, LEGAJOS_APEYNOM);			
 			
 			
 			// add joins
@@ -928,6 +932,60 @@ public class MovimientoArticuloModel extends DataStore {
 		setInt(row, MOVIMIENTO_ARTICULO_UNIDAD_MEDIDA_ID, newValue);
 	}
 
+
+	/**
+	 * Retrieve the value of the movimiento_articulo.monto_unitario column
+	 * for the current row.
+	 * 
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getMovimientoArticuloMontoUnitario()
+			throws DataStoreException {
+		return getDouble(MOVIMIENTO_ARTICULO_MONTO_UNITARIO);
+	}
+
+	/**
+	 * Retrieve the value of the movimiento_articulo.monto_unitario column
+	 * for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getMovimientoArticuloMontoUnitario(int row)
+			throws DataStoreException {
+		return getDouble(row, MOVIMIENTO_ARTICULO_MONTO_UNITARIO);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.monto_unitario column for
+	 * the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMovimientoArticuloMontoUnitario(double newValue)
+			throws DataStoreException {
+		setDouble(MOVIMIENTO_ARTICULO_MONTO_UNITARIO, newValue);
+	}
+
+	/**
+	 * Set the value of the movimiento_articulo.monto_unitario column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setMovimientoArticuloMontoUnitario(int row, double newValue)
+			throws DataStoreException {
+		setDouble(row, MOVIMIENTO_ARTICULO_MONTO_UNITARIO, newValue);
+	}
 
 	/**
 	 * Retrieve the value of the movimiento_articulo.legajo_cargo column for the
