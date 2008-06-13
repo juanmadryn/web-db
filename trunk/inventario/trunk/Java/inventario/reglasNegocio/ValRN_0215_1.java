@@ -26,7 +26,8 @@ import com.salmonllc.sql.DataStoreException;
  * Regla de negocio asociada al rechazo de una OC
  * 
  */
-public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Constants {
+public final class ValRN_0215_1 extends ValidadorReglasNegocio implements
+		Constants {
 
 	/*
 	 * (non-Javadoc)
@@ -38,8 +39,10 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 		Statement st = null;
 		try {
 			ComprobanteMovimientoArticuloModel ds = (ComprobanteMovimientoArticuloModel) obj;
-			if(!UsuarioRolesModel.isRolUsuario(ds.getCurrentWebsiteUserId(), USER_ENCARGADO_ALMACEN))
-				throw new DataStoreException("Ud. no está autorizado para confirmar movimientos de almacén.");
+			if (!UsuarioRolesModel.isRolUsuario(ds.getCurrentWebsiteUserId(),
+					USER_ENCARGADO_ALMACEN))
+				throw new DataStoreException(
+						"Ud. no está autorizado para confirmar movimientos de almacén.");
 			if (ds.getComprobanteMovimientoArticuloUserIdRetira() == 0
 					&& "F".equalsIgnoreCase(ds
 							.getTipoMovimientoArticuloPositivo())) {
@@ -47,7 +50,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 						.append("Especifique el legajo de quien retira para completar el comprobante");
 				return false;
 			}
-			
+
 			MovimientoArticuloModel movimientos = new MovimientoArticuloModel(
 					"inventario");
 			ResumenSaldoArticulosModel resumen = new ResumenSaldoArticulosModel(
@@ -60,12 +63,11 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 			int almacen_id = ds.getComprobanteMovimientoArticuloAlmacenId();
 
 			// obtengo los movimientos asociados al comprobante
-			movimientos
-					.retrieve(conn, "movimiento_articulo.comprobante_movimiento_id ="
+			movimientos.retrieve(conn,
+					"movimiento_articulo.comprobante_movimiento_id ="
 							+ comprobante_movimiento_id);
-			movimientos.waitForRetrieve();			
-			System.out.println(movimientos.getRowCount());
-			
+			movimientos.waitForRetrieve();
+
 			double cantidad_entregada = 0;
 			double cantidad_solicitada = 0;
 			double cantidad_anulada = 0;
@@ -96,12 +98,15 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 			// tarea
 			st = conn.createStatement();
 			ResultSet rs = st
-					.executeQuery("SELECT sum(movimiento.cantidad_entregada) cantidad_entregada, movimiento.articulo_id, movimiento.proyecto_id, movimiento.tarea_id, movimiento.unidad_medida_id, sum(movimiento.cantidad_anulada) cantidad_anulada FROM  comprobante_movimiento_articulo comprobante INNER JOIN movimiento_articulo movimiento ON comprobante.comprobante_movimiento_id = movimiento.comprobante_movimiento_id WHERE comprobante.comprobante_movimiento_id = "
+					.executeQuery("SELECT sum(movimiento.cantidad_entregada) cantidad_entregada, movimiento.articulo_id, movimiento.proyecto_id, movimiento.tarea_id, movimiento.unidad_medida_id, sum(movimiento.cantidad_anulada) cantidad_anulada, max(monto_unitario) monto_unitario "
+							+ "FROM comprobante_movimiento_articulo comprobante "
+							+ "INNER JOIN movimiento_articulo movimiento ON comprobante.comprobante_movimiento_id = movimiento.comprobante_movimiento_id "
+							+ "WHERE comprobante.comprobante_movimiento_id = "
 							+ comprobante_movimiento_id
 							+ " GROUP BY articulo_id, proyecto_id, tarea_id ORDER BY articulo_id");
 
 			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.DAY_OF_MONTH, 1);
+			calendar.set(Calendar.DAY_OF_MONTH, 1);	
 
 			int articulo_id = 0;
 			int unidad_medida_id = 0;
@@ -137,8 +142,8 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 				// si no hay resumen de saldo del artículo para el período
 				// actual, lo creo
 				if (resumen.getRowCount() == 0
-						|| resumen.getResumenSaldoArticulosPeriodo().equals(
-								periodo)) {
+						|| !resumen.getResumenSaldoArticulosPeriodo().toString().equals(
+								periodo.toString())) {				
 					resumen.gotoRow(resumen.insertRow());
 					resumen.setResumenSaldoArticulosAlmacenId(almacen_id);
 					resumen.setResumenSaldoArticulosArticuloId(articulo_id);
@@ -156,7 +161,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 								cantidad_entregada, conn);
 				cantidad_anulada_convertida = ConversionesModel
 						.getUnidadConvertida(articulo_id, unidad_medida_id,
-								cantidad_anulada, conn);				
+								cantidad_anulada, conn);
 				// chequea si el movimiento es positivo, y de reserva, y
 				// actualiza las cantidades correspondientes
 				if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
@@ -171,29 +176,38 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 					if (cantidad_en_proceso >= (cantidad_entregada_convertida + cantidad_anulada_convertida))
 						cantidad_en_proceso -= (cantidad_entregada_convertida + cantidad_anulada_convertida);
 					resumen.incrementarCantTransaccionesEgresos();
-					resumen.incrementarTotalEgresos(cantidad_entregada_convertida);
-				} else {					
+					resumen
+							.incrementarTotalEgresos(cantidad_entregada_convertida);
+				} else {
 					if ("F".equalsIgnoreCase(TipoMovimientoArticuloModel
 							.getReserva(tipo_movimiento_id, conn)))
 						stock += cantidad_entregada_convertida;
 					else
-						cantidad_reservada += cantidad_entregada_convertida;					
+						cantidad_reservada += cantidad_entregada_convertida;
 					resumen.incrementarCantTransaccionesIngresos();
-					resumen.incrementarTotalIngresos(cantidad_entregada_convertida);					
-				}				
+					resumen
+							.incrementarTotalIngresos(cantidad_entregada_convertida);
+				}
 				// setea las cantidad obtenidas anteriormente
 				resumen.setResumenSaldoArticulosReservado(cantidad_reservada);
 				resumen.setResumenSaldoArticulosStockEnMano(stock);
 				resumen.setResumenSaldoArticulosEnProceso(cantidad_en_proceso);
+				resumen
+						.setResumenSaldoArticulosPrecioReposicion(ConversionesModel
+								.getUnidadConvertida(articulo_id,
+										unidad_medida_id, rs
+												.getDouble("monto_unitario"),
+										conn));
 
 				resumen.update(conn);
 				resumen.resetStatus();
 
 				// en los movimientos correspondientes seteo el resumen de saldo
-				// de artículo que se ha actualizado				
+				// de artículo que se ha actualizado
 				movimientos.filter("movimiento_articulo.articulo_id =="
-						+ articulo_id);							
-				while (movimientos.gotoNext()) {				
+						+ articulo_id);
+				for (int row = 0; row < movimientos.getRowCount(); row++) {
+					movimientos.gotoRow(row);
 					movimientos
 							.setMovimientoArticuloResumenSaldoArticuloId(resumen
 									.getResumenSaldoArticulosResumenSaldoArticuloId());
@@ -201,12 +215,12 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements Consta
 				movimientos.update(conn);
 				movimientos.resetStatus();
 			}
-			ds.setComprobanteMovimientoArticuloUserIdConfirma(ds.getCurrentWebsiteUserId());
+			ds.setComprobanteMovimientoArticuloUserIdConfirma(ds
+					.getCurrentWebsiteUserId());
 			ds.update(conn);
 
 		} catch (DataStoreException ex) {
-			msg
-					.append(ex.getMessage());
+			msg.append(ex.getMessage());
 
 			return false;
 		} catch (SQLException ex) {
