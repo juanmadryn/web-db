@@ -620,13 +620,14 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 						"EsquemaConfiguracionIdOrdenesCompra")));
 		
 		// Deshabilita descuento en detalles si es seteado uno en la cabecera		
-		if (_dsOrdenesCompra.getOrdenesCompraDescuento() > 0) {
+		/*if (_dsOrdenesCompra.getOrdenesCompraDescuento() > 0) {
 			_descuento2.setEnabled(false);
 			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO);			
 		} else {
 			_descuento2.setEnabled(true);
 			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_PEDIDO);
-		}
+		}*/
+		_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_PEDIDO);
 		_monto_total2.setDisplayFormatLocaleKey("CurrencyFormatConSigno");
 				
 		// Neto

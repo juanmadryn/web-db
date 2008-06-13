@@ -1265,10 +1265,13 @@ public class OrdenesCompraModel extends BaseModel {
 		}
 
 		for (int row = 0; row < detalles.getRowCount(); row++) {
-			descuento = getOrdenesCompraDescuento() > 0 ?
+			/*descuento = getOrdenesCompraDescuento() > 0 ?
 				getOrdenesCompraDescuento() / 100 :	
 				detalles.getDetalleScDescuento(row) / 100				 
-				;
+				;*/
+			descuento = (getOrdenesCompraDescuento() / 100) +
+						(detalles.getDetalleScDescuento(row) / 100);
+			
 			detalles.calculaMontoTotalNetoPedido(row);		
 			
 			totalDescuento += Float.parseFloat(Utilities
