@@ -132,6 +132,7 @@ public interface Constants {
 	
 	static final String ALMACEN_GENERAL = "AlmacenGeneralId";
 	
-	
+	// Nombre de atributo que almacena el nro. de orden de compra generado por tango.
+	static final String N_ORDEN_CO = "N_ORDEN_CO";
 }
 

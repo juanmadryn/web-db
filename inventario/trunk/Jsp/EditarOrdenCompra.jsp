@@ -168,6 +168,11 @@ function CheckAll(checked) {
                            name="descuentoGlobal2"
                            datasource="dsOrdenesCompra:ordenes_compra.descuento"></salmon:input>
                         </td>
+                        <td/>
+                        <td><salmon:text name="nroOcTango1"
+                        	text="Nro. OC Tango" font="TableHeadingFont"/></td>
+                        <td><salmon:text name="nroOcTango2" text="00000001"/>
+                        </td>
                      </tr>
                      <tr>
                         <!-- <td valign="top"><salmon:text name="descripcion1" text="Descripcion"
