@@ -16,7 +16,15 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Francisco
  * 
- * Regla de Negocio asociada con la cotización de una Solicitud de Compra
+ * Regla de Negocio
+ * 
+ * Objeto asociado: ordenes_compra
+ * 
+ * Transición: "Aprobada" -> "Cotizada"
+ * 
+ * Acción: "Cotizar"
+ * 
+ * Regla de Negocio asociada con la cotización de una Solicitud de Compra.
  *  
  */
 public final class ValRN_0219_1 extends ValidadorReglasNegocio {
@@ -34,12 +42,14 @@ public final class ValRN_0219_1 extends ValidadorReglasNegocio {
 			DetalleSCModel detalles = new DetalleSCModel("inventario",
 					"inventario");
 						
+			// El usuario que cotiza debe tener rol COMPRADOR			 
 			int currentUser = ds.getCurrentWebsiteUserId();
 			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 				msg.append("Debe ser COMPRADOR para cotizar la Solicitud de Materiales.");
 				return false;
 			}
 			
+			// La solicitud debe tener al menos un detalle cotizado
 			if (detalles.estimateRowsRetrieved(
 					DetalleSCModel.DETALLE_SC_COTIZACION_COMPRA_ID + " IS NOT NULL AND " + 
 					DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID + " = " + ds.getSolicitudesCompraSolicitudCompraId()) == 0) 

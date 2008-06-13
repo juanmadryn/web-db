@@ -25,6 +25,7 @@ import com.salmonllc.util.MessageLog;
  *	REVERTIR_A_OC_PARCIAL = 20
  *	REVERTIR_A_SC_APROBADA = 21
  *	REVERTIR_A_SC_COTIZADA = 35
+ *  FIN_DE_COTIZACION = 54
  * 
  * @author fep
  *

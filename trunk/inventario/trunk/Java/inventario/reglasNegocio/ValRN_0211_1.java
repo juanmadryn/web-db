@@ -19,7 +19,15 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Francisco
  * 
- * Regla de negocio asociada al rechazo de una OC
+ * Regla de Negocio
+ * 
+ * Objeto asociado: ordenes_compra
+ * 
+ * Transición: 	"Completa" -> "Rechazada"
+ * 
+ * Acción: "Rechazar"
+ * 
+ * Regla de negocio asociada al rechazo de una OC.
  * 
  */
 public final class ValRN_0211_1 extends ValidadorReglasNegocio {
@@ -99,12 +107,10 @@ public final class ValRN_0211_1 extends ValidadorReglasNegocio {
 			instancia.gotoFirst();
 			instancia.firmarInstanciasAprobacionSolicitud(currentWebsiteUser,
 					conn);
-
 			
 			// actualizo el mensaje de la instancia con las observaciones indicadas
 			instancia.setInstanciasAprobacionMensaje(ds.getObservaciones());
 			instancia.update(conn);
-
 			
 		} catch (DataStoreException ex) {
 			msg.append("Ocurrió un error en el DataStore mientras se procesaba su aprobación: "
