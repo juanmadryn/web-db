@@ -160,6 +160,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	//public com.salmonllc.jsp.JspTableRow _nuevoDetalleSinSc;
 	public com.salmonllc.html.HtmlTextEdit _descuento2;
 	//public HtmlSubmitButton _exportaTangoBUT1;
+	public com.salmonllc.html.HtmlText _nroOcTango2;
 	
 	private static final String SELECCION_DETALLE_SC_FLAG = "SELECCION_DETALLE_FLAG";
 	private static final String REMOVER_DE_OC = "REMOVER_DE_OC";
@@ -582,12 +583,15 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			
 			setRecargar(false);
 
+			setDatosBasicosOrdenCompra();
+			armaBotonera();
+			
 		} catch (DataStoreException e) {
 			displayErrorMessage(e.getMessage());
-		}	
+		} catch (SQLException e) {
+			displayErrorMessage(e.getMessage());
+		}
 		
-		setDatosBasicosOrdenCompra();
-		armaBotonera();
 		super.pageRequested(p);	
 	}
 	
@@ -674,6 +678,14 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
 		
 		_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
+		
+		// setea el nro. de oc en tango si la propiedad correspondiente esta seteada
+		String nroOrdenCompra = AtributosEntidadModel.getValorAtributoObjeto(
+				N_ORDEN_CO, _dsOrdenesCompra.getOrdenesCompraOrdenCompraId(), "TABLA", "ordenes_compra");
+		if (nroOrdenCompra == null) 
+			nroOrdenCompra = "-";
+		
+		_nroOcTango2.setText(nroOrdenCompra);
 	}
 	
 	/**
