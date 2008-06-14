@@ -39,8 +39,6 @@ public class ConsultaCompradoresController extends BaseController {
 	public com.salmonllc.jsp.JspContainer _noCache;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
-	public com.salmonllc.jsp.JspNavBar _navbar1;
-	public com.salmonllc.jsp.JspRaw _rawAddRow;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _table2;
 	public com.salmonllc.jsp.JspTable _tableFooter;
@@ -61,7 +59,6 @@ public class ConsultaCompradoresController extends BaseController {
 	public com.salmonllc.jsp.JspTableCell _tableFooterTDRow4;
 	public com.salmonllc.jsp.JspTableRow _datatable1TRHeader0;
 	public com.salmonllc.jsp.JspTableRow _datatable1TRRow0;
-	public com.salmonllc.jsp.JspTableRow _navbarTableTRRow0;
 	public com.salmonllc.jsp.JspTableRow _table2TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
@@ -100,7 +97,9 @@ public class ConsultaCompradoresController extends BaseController {
 	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 	
-		// TODO: change
+		/*
+		 * Importa tabla de usuarios con roles comprador desde tango
+		 */
 		if (e.getComponent() == _importarBUT1) {
 			ReplicateCpa50QuartzJob replicateCpa50QuartzJob = new ReplicateCpa50QuartzJob();
 			replicateCpa50QuartzJob.importaCompradores();
