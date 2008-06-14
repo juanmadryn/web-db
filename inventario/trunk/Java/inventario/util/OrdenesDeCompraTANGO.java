@@ -34,15 +34,22 @@ public class OrdenesDeCompraTANGO {
 	
 	/**
 	 * Parametros para la conexión con SQL Server 2000
+	 * TODO: Almacenarlos en el archivo properties correspondiente
 	 */
 	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-	private String urlTango = "jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
+	private String urlTango = "jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT;prepareSQL=3";
 	private String userTango = "Axoft";
 	private String passWordTango = "Axoft";
 	private int ESTADO_EMITIDA = 3;
 	
 	private static Integer N_ORDEN_CO_PROP = null;
 	
+	/**
+	 * Flag para debug. Si se asigna true, no se ejecutan los
+	 * prepared statements, se muestra por la salida estandar
+	 * los valores de los atributos a insertar en tango y se 
+	 * realiza automaticamente un rollback sobre la conexión. 
+	 */
 	private boolean debug = false;
 	
 	/**
@@ -61,11 +68,16 @@ public class OrdenesDeCompraTANGO {
 		PreparedStatement pstTango = null;
 		ResultSet r = null;
 		
+		// Modelos
 		DetalleSCModel dsDetalleSc = new DetalleSCModel("inventario");
 		SolicitudCompraModel solicitudCompraModel = new SolicitudCompraModel("inventario");
 		WebsiteUserModel websiteUserModel = new WebsiteUserModel("infraestructura");
 		
+		// Vector de errores para excepción
 		Vector<String> errores = new Vector<String>();
+		
+		// Usado para resetear a cero hora, minuto y segundo de timestamps
+		Calendar calendario = Calendar.getInstance();
 
 		try {
 			// Se carga el driver JTDS
@@ -125,37 +137,61 @@ public class OrdenesDeCompraTANGO {
 			 */
 			int COND_COMPR = Integer.parseInt(oc.getOrdenesCompraCondicionNombre());
 			
-			int CONGELA = 0;
+			//int CONGELA = 0;
+			boolean CONGELA = false;
 			float COTIZ = 3.0f;
 			int ESTADO = ESTADO_EMITIDA;
-			int EXPORTADO = 0;
+			//int EXPORTADO = 0;
+			boolean EXPORTADO = false;
 
 			/*
 			 * Tango setea la fecha de autorizacion a 1800-01-01 00:00:00.00 las
-			 * ordenes de compra en estado "Generado".
+			 * ordenes de compra en estado "Generado". 
+			 * Seteamos 0 la hora, minuto y segundos.
 			 */
-			Timestamp FEC_AUTORI = oc.getOrdenesCompraFechaAprobacion();
+			calendario.setTimeInMillis(oc.getOrdenesCompraFechaAprobacion().getTime());
+			calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
+			calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
+			calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
+			calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
+			//Timestamp FEC_AUTORI = oc.getOrdenesCompraFechaAprobacion();
+			Timestamp FEC_AUTORI = new Timestamp(calendario.getTimeInMillis());
 
 			/*
 			 * El modelo de Ordenes de Compra no tiene en el momento de escribir estas
 			 * lineas una columna para indicar la fecha de emision. Se setea temporalmente
 			 * como fecha de emision la fecha en que se ejecuta este codigo
 			 */
-			Timestamp FEC_EMISIO = new Timestamp(System.currentTimeMillis());
+			calendario.setTimeInMillis(System.currentTimeMillis());
+			calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
+			calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
+			calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
+			calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
+			//Timestamp FEC_EMISIO = new Timestamp(System.currentTimeMillis());
+			Timestamp FEC_EMISIO = new Timestamp(calendario.getTimeInMillis());
 
 			/*
 			 * Fecha de generación
 			 */
-			Timestamp FEC_GENER = oc.getOrdenesCompraFecha();
+			calendario.setTimeInMillis(oc.getOrdenesCompraFecha().getTime());
+			calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
+			calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
+			calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
+			calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
+			//Timestamp FEC_GENER = oc.getOrdenesCompraFecha();
+			Timestamp FEC_GENER = new Timestamp(calendario.getTimeInMillis());
 
 			/*
 			 * La fecha de vigencia de la orden de compra se setea por defecto
 			 * en un mes a partir de la fecha de emisión de esta
 			 */
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(new Timestamp(System.currentTimeMillis()));
-			calendar.add(Calendar.MONTH, 1);
-			Timestamp FEC_VIGENC = new Timestamp(calendar.getTimeInMillis());
+			calendario.setTime(new Timestamp(System.currentTimeMillis()));
+			calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
+			calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
+			calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
+			calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
+			calendario.add(Calendar.MONTH, 1);
+			Timestamp FEC_VIGENC = new Timestamp(calendario.getTimeInMillis());
 
 			/*
 			 * Tango almacena la hora de autorizacion como un string con el formato HHmm
@@ -197,14 +233,16 @@ public class OrdenesDeCompraTANGO {
 			 * En TANGO se setea el campo con OT + nro. proyecto + descripcion del proyecto 
 			 */
 			solicitudCompraModel.gotoFirst();
-			String LEYENDA_1 = "OT " + solicitudCompraModel.getProyectosProyecto() + " " + solicitudCompraModel.getProyectosNombre();
+			//String LEYENDA_1 = "OT " + solicitudCompraModel.getProyectosProyecto() + " " + solicitudCompraModel.getProyectosNombre();
+			String LEYENDA_1 = "OT " + solicitudCompraModel.getProyectosProyecto();
 			
 			/*
 			 * La 2da leyende hace igual a null temporalmente 
 			 */
-			String LEYENDA_2 = "";
+			String LEYENDA_2 = solicitudCompraModel.getProyectosNombre();
 			
-			int MONTO_CTE = 1;
+			//int MONTO_CTE = 1;
+			boolean MONTO_CTE = true;
 			
 			/*
 			 * Consultar este metodo para ver como se genera la recuperacion
@@ -216,7 +254,9 @@ public class OrdenesDeCompraTANGO {
 			/*
 			 * El campo de observaciones 
 			 */
-			String OBSERVACIO = oc.getOrdenesCompraObservaciones() == null ? oc.getObservaciones() : "";
+			String OBSERVACIO = oc.getOrdenesCompraObservaciones() != null ? oc.getOrdenesCompraObservaciones() : "";
+			if (OBSERVACIO.length() > 30) 
+				OBSERVACIO = OBSERVACIO.substring(0, 30);
 
 			/*
 			 * Se recupera el bucket de la OC correspondiente a el porcentaje bonificado
@@ -244,18 +284,23 @@ public class OrdenesDeCompraTANGO {
 			float TOTAL_IVA = oc.getIvaOrdenCompra();
 
 			pstTango = connTango
-					.prepareStatement("INSERT INTO [FABRI_S.A.].[dbo].[CPA35]([AUTORIZO], [COD_COMPRA], [COD_LISTA], [COD_PROVEE], [COND_COMPR], [CONGELA], [COTIZ], [ESTADO], [EXPORTADO], [FEC_AUTORI], [FEC_EMISIO], [FEC_GENER], [FEC_VIGENC], [HORA_AUTOR], [INC_II], [INC_IVA], [LEYENDA_1], [LEYENDA_2], [MON_CTE], [N_ORDEN_CO], [NRO_SUCURS], [OBSERVACIO], [PORC_BONIF], [TALONARIO], [TOTAL_BONI], [TOTAL_II], [TOTAL_IVA]) "
-							+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+					.prepareStatement(
+							"INSERT INTO [FABRI_S.A.].[dbo].[CPA35](" +
+							"[AUTORIZO], [COD_COMPRA], [COD_LISTA], [COD_PROVEE], [COND_COMPR], [CONGELA], " +
+							"[COTIZ], [ESTADO], [EXPORTADO], [FEC_AUTORI], [FEC_EMISIO], [FEC_GENER], [FEC_VIGENC], " +
+							"[HORA_AUTOR], [INC_II], [INC_IVA], [LEYENDA_1], [LEYENDA_2], [MON_CTE], [N_ORDEN_CO], " +
+							"[NRO_SUCURS], [OBSERVACIO], [PORC_BONIF], [TALONARIO], [TOTAL_BONI], [TOTAL_II], [TOTAL_IVA]) " +
+							"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			pstTango.setString(1, AUTORIZO);
 			pstTango.setString(2, COD_COMPRA);
 			pstTango.setInt(3, COD_LISTA);
 			pstTango.setString(4, COD_PROVEE);
 			pstTango.setInt(5, COND_COMPR);
-			pstTango.setInt(6, CONGELA);
+			pstTango.setBoolean(6, CONGELA);
 			pstTango.setFloat(7, COTIZ);
 			pstTango.setInt(8, ESTADO);
-			pstTango.setInt(9, EXPORTADO);
+			pstTango.setBoolean(9, EXPORTADO);
 			pstTango.setTimestamp(10, FEC_AUTORI);
 			pstTango.setTimestamp(11, FEC_EMISIO);
 			pstTango.setTimestamp(12, FEC_GENER);
@@ -265,7 +310,7 @@ public class OrdenesDeCompraTANGO {
 			pstTango.setString(16, INC_IVA);
 			pstTango.setString(17, LEYENDA_1);
 			pstTango.setString(18, LEYENDA_2);
-			pstTango.setInt(19, MONTO_CTE);
+			pstTango.setBoolean(19, MONTO_CTE);
 			pstTango.setString(20, N_ORDEN_CO);
 			pstTango.setInt(21, NRO_SUCURS);
 			pstTango.setString(22, OBSERVACIO);
@@ -296,8 +341,8 @@ public class OrdenesDeCompraTANGO {
 				System.out.println("HORA_AUTOR\t-->\t" + HORA_AUTOR);
 				System.out.println("INC_II  \t-->\t" + INC_II);
 				System.out.println("INC_IVA \t-->\t" + INC_IVA);
-				System.out.println("LEYENDA 1\t-->\t" + LEYENDA_1);
-				System.out.println("LEYENDA 2\t-->\t" + LEYENDA_2);
+				System.out.println("LEYENDA 1\t-->\t" + LEYENDA_1 + "\tSize: "+LEYENDA_1.length());
+				System.out.println("LEYENDA 2\t-->\t" + LEYENDA_2 + "\tSize: "+LEYENDA_2.length());
 				System.out.println("MONTO_CTE\t-->\t" + MONTO_CTE);
 				System.out.println("N_ORDEN_CO\t-->\t" + N_ORDEN_CO);
 				System.out.println("NRO_SUCURS\t-->\t" + NRO_SUCURS);
@@ -330,9 +375,11 @@ public class OrdenesDeCompraTANGO {
 			
 			/*
 			 * Agrega el nro. de la orden de compra de tango en el atributo correspondiente de la oc. 
-			 */				
-			AtributosEntidadModel.setValorAtributoObjeto(N_ORDEN_CO, N_ORDEN_CO_PROP, 
-					oc.getOrdenesCompraOrdenCompraId(), "TABLA", "ordenes_compra");		
+			 */			
+			if (!debug) {
+				AtributosEntidadModel.setValorAtributoObjeto(N_ORDEN_CO, N_ORDEN_CO_PROP, 
+						oc.getOrdenesCompraOrdenCompraId(), "TABLA", "ordenes_compra");
+			}
 			
 			if (debug)
 				connTango.rollback();
@@ -475,7 +522,17 @@ public class OrdenesDeCompraTANGO {
 				 */				
 				String CPA37_FILLER = "";
 				Float CPA37_CANTIDAD = CAN_PEDIDA;				
-				// Se setea como fecha de recepecion la fecha estimada de entrega
+				/*
+				 * Se setea como fecha de recepecion la fecha estimada de entrega.
+				 * Seteamos hora, minuto y segundo a cero
+				 */				
+				Calendar calendario = Calendar.getInstance();
+				calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
+				calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
+				calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
+				calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));				
+				calendario.setTimeInMillis(calendario.getTimeInMillis());
+				
 				Timestamp CPA37_FEC_RECEPC = new Timestamp(oc.getOrdenesCompraFechaEstimadaEntrega().getTime());				
 				String CPA37_N_ORDEN_CO = N_ORDEN_CO;
 				int CPA37_N_RENGL_OC = N_RENGL_OC;
@@ -518,7 +575,8 @@ public class OrdenesDeCompraTANGO {
 				pstTango.setFloat(14, PRECIO);
 				pstTango.setFloat(15, PRECIO_PAN);
 				
-				pstTango.executeUpdate();
+				if (!debug)
+					pstTango.executeUpdate();
 				
 				/*
 				 * Inserta los registros en la tabla CPA37
@@ -535,7 +593,8 @@ public class OrdenesDeCompraTANGO {
 				pstTango.setString(4, N_ORDEN_CO);
 				pstTango.setInt(5, N_RENGL_OC);
 				
-				pstTango.executeUpdate();
+				if (!debug)
+					pstTango.executeUpdate();
 			}
 		} finally {
 			if (r != null)
@@ -564,7 +623,8 @@ public class OrdenesDeCompraTANGO {
 			 * Seleccionamos de la tabla CPA01 los datos básicos para la tabla
 			 * entidades_externas
 			 */
-			String proximaOCTangoSQL = "SELECT SUCURSAL, PROXIMO FROM [FABRI_S.A.].[dbo].[CPA56] WHERE TALONARIO = 11";
+			String proximaOCTangoSQL = 
+				"SELECT SUCURSAL, PROXIMO FROM [FABRI_S.A.].[dbo].[CPA56] WHERE TALONARIO = 11";
 
 			tangoSt = connTango
 					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,

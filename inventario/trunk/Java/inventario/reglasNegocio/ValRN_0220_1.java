@@ -7,8 +7,10 @@ import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.OrdenesCompraModel;
+import inventario.util.OrdenesDeCompraTANGO;
 
 import java.sql.SQLException;
+import java.text.ParseException;
 
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
@@ -40,20 +42,22 @@ public final class ValRN_0220_1 extends ValidadorReglasNegocio {
 			}
 			
 			// Ejecutamos la replicación en tango			
-			/*OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
-			ordenesDeCompraTANGO.insertaCabeceraOC(ds);*/
+			OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
+			ordenesDeCompraTANGO.insertaCabeceraOC(ds);
 			
 			return true;
 		} catch (DataStoreException ex) {
 			msg.append("Ocurrió un error en el DataStore mientras se procesaba la emisión: " + ex.getMessage());
+			ex.printStackTrace();
 			return false;
 		} catch (SQLException ex) {
 			msg.append("Ocurrió un error de SQL mientras se procesaba la emisión: " + ex.getMessage());
+			ex.printStackTrace();
 			return false;		
-		/*} catch (ParseException e) {
+		} catch (ParseException e) {
 			msg.append("Ocurrio un error mientras se procesaba la emisión: " + e.getMessage());
 			e.printStackTrace();
-			return false;*/
+			return false;
 		} catch (ValidationException ex) {
 			for (String er : ex.getStackErrores()) {						
 				msg.append(er + '\n');
