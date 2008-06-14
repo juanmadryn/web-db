@@ -1339,6 +1339,10 @@ group by detalle_cotizacion.detalle_SC_id</property>
     <body>
         <table id="1122">
             <property name="fontFamily">"Arial"</property>
+            <property name="masterPage">Simple MasterPage</property>
+            <property name="pageBreakAfter">avoid</property>
+            <property name="pageBreakBefore">avoid</property>
+            <property name="pageBreakInside">avoid</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set - cotizaciones_compra</property>
             <list-property name="boundDataColumns">
@@ -1587,7 +1591,7 @@ else{"Inmediato"}}</expression>
                 </structure>
             </list-property>
             <property name="repeatHeader">true</property>
-            <property name="pageBreakInterval">8</property>
+            <property name="pageBreakInterval">10</property>
             <column id="1156">
                 <property name="width">37%</property>
             </column>
