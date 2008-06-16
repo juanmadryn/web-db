@@ -192,6 +192,8 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	// custom componenets
 	public HtmlSubmitButton _grabarCotizacionCompraBUT1;
 	public HtmlSubmitButton _generarOCBUT1;
+	public HtmlSubmitButton _cotizacionOptimaBUT;
+	public HtmlSubmitButton _limpiaSeleccionBUT;
 	public JspLink _lnkordencompra1;
 	
 	private static final String CIRCUITO = "0006";
@@ -204,18 +206,26 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 
 		super.initialize();
 
-		_grabarCotizacionCompraBUT1 = new HtmlSubmitButton(
-				"grabarCotizacionCompraBUT1", "Grabar", this);
+		_grabarCotizacionCompraBUT1 = new HtmlSubmitButton("grabarCotizacionCompraBUT1", "Grabar", this);
 		_grabarCotizacionCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarCotizacionCompraBUT1);
 
-		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "generar OC",
-				this);
+		_cotizacionOptimaBUT = new HtmlSubmitButton("cotizacionOptimaBUT", "Cotización Óptima",this);
+		_cotizacionOptimaBUT.setAccessKey("C");
+		_detailformdisplaybox1.addButton(_cotizacionOptimaBUT);
+		
+		_limpiaSeleccionBUT = new HtmlSubmitButton("limpiaSeleccionBUT", "limpia Selección",this);
+		_limpiaSeleccionBUT.setAccessKey("X");
+		_detailformdisplaybox1.addButton(_limpiaSeleccionBUT);
+
+		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "generar OC",this);
 		_generarOCBUT1.setAccessKey("O");
 		_detailformdisplaybox1.addButton(_generarOCBUT1);
 
 		// agrega los listener a los botones
 		_grabarCotizacionCompraBUT1.addSubmitListener(this);
+		_cotizacionOptimaBUT.addSubmitListener(this);
+		_limpiaSeleccionBUT.addSubmitListener(this);
 		_generarOCBUT1.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
@@ -241,6 +251,61 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				_dsCotizacionesCompra.setTotalesProveedor();
 				_dsCotizacionesCompra.update();				
 			} catch (DataStoreException ex) {
+				displayErrorMessage(ex.getMessage());
+				return false;
+			}
+		}
+		
+		if (e.getComponent() == _cotizacionOptimaBUT) {
+			
+			try {
+				
+				// graba por si hay datos pendientes y verifica información
+				_dsDetalleCotizacion.update();
+				_dsCotizacionesCompra.setTotalesProveedor();
+				_dsCotizacionesCompra.update();
+				
+				// genera la cotización óptima
+				_dsCotizacionesCompra.generaCotizacionOptima();
+				_dsCotizacionesCompra.update();
+				
+				setRecargar(true);
+				sendPageRedirect();
+				
+			} catch (Exception ex) {
+				MessageLog.writeErrorMessage(ex, null);
+				displayErrorMessage(ex.getMessage());
+				return false;
+			}
+			
+			
+		}
+		
+		if (e.getComponent() == _limpiaSeleccionBUT) {
+			try {
+				// recorro el data store del detalle desmarcando TODO
+				if (_dsDetalleCotizacion.getRowCount() > 0) {
+					for (int row = 0 ; row < _dsDetalleCotizacion.getRowCount() ; row++) {
+						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor1(row, 0);
+						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor2(row, 0);
+						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor3(row, 0);
+						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor4(row, 0);
+						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor5(row, 0);
+					}
+				} else {
+					displayErrorMessage("No existen detalles en esta Cotización");
+					return false;
+				}
+				
+				_dsDetalleCotizacion.update();
+				_dsCotizacionesCompra.setTotalesProveedor();
+				_dsCotizacionesCompra.update();
+				
+				setRecargar(true);
+				sendPageRedirect();
+				
+			} catch (Exception ex) {
+				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
 				return false;
 			}

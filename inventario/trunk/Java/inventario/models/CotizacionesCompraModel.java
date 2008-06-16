@@ -63,6 +63,7 @@ public class CotizacionesCompraModel extends BaseModel {
 	public static final String COTIZACIONES_COMPRA_TOTAL_PROVEEDOR5 = "cotizaciones_compra.total_proveedor5";
 	public static final String COTIZACIONES_COMPRA_OBSERVACIONES_PROVEEDOR5 = "cotizaciones_compra.observaciones_proveedor5";
 	public static final String COTIZACIONES_COMPRA_OBSERVACIONES = "cotizaciones_compra.observaciones";
+	public static final String COTIZACIONES_COMPRA_TOTAL_COTIZACION_SELECCIONADA = "cotizaciones_compra.total_cotizacion_seleccionada";
 	public static final String NOMBRE_CONDICION_COMPRA_PROVEEDOR1 = "condiciones_compra_proveedor1.nombre";
 	public static final String NOMBRE_CONDICION_COMPRA_PROVEEDOR2 = "condiciones_compra_proveedor2.nombre";
 	public static final String NOMBRE_CONDICION_COMPRA_PROVEEDOR3 = "condiciones_compra_proveedor3.nombre";
@@ -280,6 +281,9 @@ public class CotizacionesCompraModel extends BaseModel {
 			addColumn(computeTableName("cotizaciones_compra"), "observaciones",
 					DataStore.DATATYPE_STRING, false, true,
 					COTIZACIONES_COMPRA_OBSERVACIONES);
+			addColumn(computeTableName("cotizaciones_compra"), "total_cotizacion_seleccionada",
+					DataStore.DATATYPE_DOUBLE, false, true,
+					COTIZACIONES_COMPRA_TOTAL_COTIZACION_SELECCIONADA);
 			addColumn(computeTableName("estados"),
 					"nombre", DataStore.DATATYPE_STRING, false, false,
 					ESTADO_NOMBRE);
@@ -2701,6 +2705,60 @@ public class CotizacionesCompraModel extends BaseModel {
 	}
 
 	/**
+	 * Retrieve the value of the cotizaciones_compra.total_CotizacionSeleccionada column for
+	 * the current row.
+	 * 
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getCotizacionesCompraTotalCotizacionSeleccionada()
+			throws DataStoreException {
+		return getDouble(COTIZACIONES_COMPRA_TOTAL_COTIZACION_SELECCIONADA);
+	}
+
+	/**
+	 * Retrieve the value of the cotizaciones_compra.total_CotizacionSeleccionada column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return double
+	 * @throws DataStoreException
+	 */
+	public double getCotizacionesCompraTotalCotizacionSeleccionada(int row)
+			throws DataStoreException {
+		return getDouble(row, COTIZACIONES_COMPRA_TOTAL_COTIZACION_SELECCIONADA);
+	}
+
+	/**
+	 * Set the value of the cotizaciones_compra.total_CotizacionSeleccionada column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCotizacionesCompraTotalCotizacionSeleccionada(double newValue)
+			throws DataStoreException {
+		setDouble(COTIZACIONES_COMPRA_TOTAL_COTIZACION_SELECCIONADA, newValue);
+	}
+
+	/**
+	 * Set the value of the cotizaciones_compra.total_CotizacionSeleccionada column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setCotizacionesCompraTotalCotizacionSeleccionada(int row, double newValue)
+			throws DataStoreException {
+		setDouble(row, COTIZACIONES_COMPRA_TOTAL_COTIZACION_SELECCIONADA, newValue);
+	}
+
+	/**
 	 * Retrieve the value of the nombre_condicion_compra_proveedor1 column for
 	 * the current row.
 	 * 
@@ -3334,8 +3392,21 @@ public class CotizacionesCompraModel extends BaseModel {
 	public void setTotalesProveedor() throws DataStoreException, SQLException {
 		
 		double total_proveedor1 = 0,total_proveedor2 = 0,total_proveedor3 = 0,total_proveedor4 = 0, total_proveedor5 = 0;
+		double totalCotizacionSeleccionada = 0;
 
 		DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario", "inventario");
+
+		// tabla con los descuentos ofrecidos por proveedor
+		double descuentos[] = {1 - (getCotizacionesCompraBonificacionProveedor1() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor2() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor3() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor4() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor5() / 100),
+				};
+		// rocorro los descuentos para setear en 1 si el descuento es cero
+		for (int i = 0 ; i < 5 ; i++)
+			if (descuentos[i] == 0)
+				descuentos[i] = 1;
 		
 		// recupera los detalles de la cotización actual
 		dsDetalleCotizacion.retrieve("detalle_cotizacion.cotizacion_compra_id = " + getCotizacionesCompraCotizacionCompraId());
@@ -3345,11 +3416,22 @@ public class CotizacionesCompraModel extends BaseModel {
 		if (dsDetalleCotizacion.getRowCount() > 0) {
 			for (int i = 0 ; i < dsDetalleCotizacion.getRowCount(); i++) {
 				float cantidad = dsDetalleCotizacion.getDetalleCotizacionCantidad(i);
-				total_proveedor1 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i);
-				total_proveedor2 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i);
-				total_proveedor3 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i);
-				total_proveedor4 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i);
-				total_proveedor5 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i);
+				total_proveedor1 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i) * descuentos[0];
+				total_proveedor2 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i) * descuentos[1];
+				total_proveedor3 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i) * descuentos[2];
+				total_proveedor4 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i) * descuentos[3];
+				total_proveedor5 += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i) * descuentos[4];
+				// acumula el total de los artículos seleeccionados
+				if (dsDetalleCotizacion.getDetalleCotizacionCotizacionSeleccionadaProveedor1(i) > 0)
+					totalCotizacionSeleccionada += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(i) * descuentos[0];
+				if (dsDetalleCotizacion.getDetalleCotizacionCotizacionSeleccionadaProveedor2(i) > 0)
+					totalCotizacionSeleccionada += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(i) * descuentos[1];
+				if (dsDetalleCotizacion.getDetalleCotizacionCotizacionSeleccionadaProveedor3(i) > 0)
+					totalCotizacionSeleccionada += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(i) * descuentos[2];
+				if (dsDetalleCotizacion.getDetalleCotizacionCotizacionSeleccionadaProveedor4(i) > 0)
+					totalCotizacionSeleccionada += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(i) * descuentos[3];
+				if (dsDetalleCotizacion.getDetalleCotizacionCotizacionSeleccionadaProveedor5(i) > 0)
+					totalCotizacionSeleccionada += cantidad * dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(i) * descuentos[4];
 			}
 			
 			// setea los totales en el datastore
@@ -3358,8 +3440,114 @@ public class CotizacionesCompraModel extends BaseModel {
 			setCotizacionesCompraTotalProveedor3(total_proveedor3);
 			setCotizacionesCompraTotalProveedor4(total_proveedor4);
 			setCotizacionesCompraTotalProveedor5(total_proveedor5);
+			setCotizacionesCompraTotalCotizacionSeleccionada(totalCotizacionSeleccionada);
 		}
 	}
+	
+	/**
+	 * @author demian
+	 * genera recorriendo todos los artículos la selección optima en función de lso precios más bajos de cada artículo
+	 * Si el artículo ya tiene selección, No la cambia.
+	 * @param row
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void generaCotizacionOptima(int row) throws DataStoreException, SQLException {
+		gotoRow(row);
+		generaCotizacionOptima();
+	}
+	
+	/**
+	 * @author demian
+	 * genera recorriendo todos los artículos la selección optima en función de lso precios más bajos de cada artículo
+	 * Si el artículo ya tiene selección, No la cambia.
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public void generaCotizacionOptima() throws DataStoreException, SQLException {
+		DetalleCotizacionModel dsDetalleCotizacion = new DetalleCotizacionModel("inventario", "inventario");
+		
+		dsDetalleCotizacion.retrieve("detalle_cotizacion.cotizacion_compra_id = " + getCotizacionesCompraCotizacionCompraId());
+		dsDetalleCotizacion.waitForRetrieve();
+		
+		// tabla con los descuentos ofrecidos por proveedor
+		double descuentos[] = {1 - (getCotizacionesCompraBonificacionProveedor1() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor2() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor3() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor4() / 100),
+				1 - (getCotizacionesCompraBonificacionProveedor5() / 100),
+				};
+		// rocorro los descuentos para setear en 1 si el descuento es cero
+		for (int i = 0 ; i < 5 ; i++)
+			if (descuentos[i] == 0)
+				descuentos[i] = 1;
+		
+		// si recueró registros, itera controlando, validando y generando la cotización óptima
+		if (dsDetalleCotizacion.getRowCount() > 0) {
+			for (int row = 0 ; row < dsDetalleCotizacion.getRowCount(); row++) {
+				// verifica que el detalle esté oc
+				int proveedor = dsDetalleCotizacion.verificaIntegridadDetalle(row);
+				
+				// Si el proveedor es distinto de cero significa que ya hay 
+				// proveedor seleccionado y no hago nada, sino selecciono 
+				// el precio mas bajo
+				if (proveedor == 0) {
+					// selecciono precio optimo
+					double precios[] = {dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor1(row) * descuentos[0],
+							dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor2(row) * descuentos[1],
+							dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor3(row) * descuentos[2],
+							dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor4(row) * descuentos[3],
+							dsDetalleCotizacion.getDetalleCotizacionMontoUnitarioProveedor5(row) * descuentos[4],
+							};
+					int seleccion = 0;
+					
+					for (int i = 0; i < 4; i++) {
+						if (precios[i] > 0 && precios[i + 1] > 0){
+							if (precios[i] < precios[i + 1]){
+								if (precios[i] < precios[seleccion] || i == seleccion)
+									seleccion = i;
+								else if (precios[i + 1] < precios[seleccion])
+									seleccion = i + 1;
+							} 
+						} else if (precios[i] > 0 && (precios[i] < precios[seleccion] || i == seleccion))
+							seleccion = i;
+						else if (precios[i + 1] > 0 && precios[i + 1] < precios[seleccion])
+							seleccion = i + 1;
+					}
+					
+					// verifica si la selección es sobre precio cero. 
+					// Implica que NO hay precio para ningún proveedor, y por lo tanto no selecciona ninguno
+					if (! (precios[seleccion] > 0) )
+						seleccion = -1;
+					
+					// marca el proveedor óptimo
+					switch(seleccion) {
+					case 0:
+						dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor1(row, 1);
+						break;
+					case 1:
+						dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor2(row, 1);
+						break;
+					case 2:
+						dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor3(row, 1);
+						break;
+					case 3:
+						dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor4(row, 1);
+						break;
+					case 4:
+						dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor5(row, 1);
+						break;
+					}
+				}
+			}
+			
+			// grabo las seleciones y mando a calcular totales nuevamente
+			dsDetalleCotizacion.update();
+			setTotalesProveedor();
+		}
+		
+	}
+	
 	
 	/**
 	 * @author demian
