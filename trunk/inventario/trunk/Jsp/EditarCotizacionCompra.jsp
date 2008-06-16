@@ -90,6 +90,16 @@
                            maxlength="255"
                            datasource="dsCotizacionesCompra:cotizaciones_compra.observaciones"></salmon:input>
                         </td>
+                        <td>
+                           <salmon:text name="totalcotizacionseleccionadaPROMPT1" text="Total Cotización Seleccionada"
+                           font="EmphasisFont"/>
+                        </td>
+                        <td>
+                           <salmon:text name="totalcotizacionseleccionada1" 
+                           text="total_cotizacion_seleccionada goes here"
+                           datasource="dsCotizacionesCompra:cotizaciones_compra.total_cotizacion_seleccionada"
+                           font="EmphasisFont"/>
+                        </td>
                      </tr>
                   </table>
                   <salmon:table name="detalleCotizacion" border="1">
