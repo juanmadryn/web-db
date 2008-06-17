@@ -139,6 +139,10 @@
                     <property name="displayName">total</property>
                 </structure>
                 <structure>
+                    <property name="columnName">n_orden_co</property>
+                    <property name="displayName">n_orden_co</property>
+                </structure>
+                <structure>
                     <property name="columnName">condicion_compra_descripcion</property>
                     <property name="displayName">condicion_compra_descripcion</property>
                 </structure>
@@ -282,6 +286,11 @@
                     </structure>
                     <structure>
                         <property name="position">28</property>
+                        <property name="name">n_orden_co</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
                         <property name="name">condicion_compra_descripcion</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -490,6 +499,13 @@
                 </structure>
                 <structure>
                     <property name="position">28</property>
+                    <property name="name">n_orden_co</property>
+                    <property name="nativeName">n_orden_co</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">29</property>
                     <property name="name">condicion_compra_descripcion</property>
                     <property name="nativeName">condicion_compra_descripcion</property>
                     <property name="dataType">string</property>
@@ -524,6 +540,7 @@ atributos_entidad3.valor_real AS neto,
 atributos_entidad4.valor_real AS descuento,
 atributos_entidad5.valor_real AS iva,
 atributos_entidad6.valor_real AS total,
+atributos_entidad7.valor AS n_orden_co,
 condiciones_compra.descripcion AS condicion_compra_descripcion
 
 FROM  ordenes_compra ordenes_compra
@@ -558,6 +575,9 @@ left outer join infraestructura.atributos_entidad atributos_entidad5
 left outer join infraestructura.atributos_entidad atributos_entidad6 
 	ON atributos_entidad6.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad6.atributo_id =
 	(SELECT a.atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TOTAL_ORDEN_COMPRA')
+left outer join infraestructura.atributos_entidad atributos_entidad7 
+	ON atributos_entidad7.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad7.atributo_id =
+	(SELECT a.atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'N_ORDEN_CO')
 
 WHERE ordenes_compra.orden_compra_id = ?
 ORDER BY detalle_sc.detalle_SC_id ASC</property>
@@ -774,6 +794,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                     <property name="category">Custom</property>
                                     <property name="pattern">00000000</property>
                                 </structure>
+                                <structure name="stringFormat">
+                                    <property name="category">Custom</property>
+                                    <property name="pattern">@@@@-@@@@@@@@</property>
+                                </structure>
                                 <property name="textAlign">right</property>
                                 <property name="dataSet">Data Set</property>
                                 <list-property name="boundDataColumns">
@@ -892,8 +916,38 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                         <expression name="expression">dataSetRow["telefono"]</expression>
                                         <property name="dataType">string</property>
                                     </structure>
+                                    <structure>
+                                        <property name="name">neto</property>
+                                        <expression name="expression">dataSetRow["neto"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descuento</property>
+                                        <expression name="expression">dataSetRow["descuento"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">iva</property>
+                                        <expression name="expression">dataSetRow["iva"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">total</property>
+                                        <expression name="expression">dataSetRow["total"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">n_orden_co</property>
+                                        <expression name="expression">dataSetRow["n_orden_co"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">condicion_compra_descripcion</property>
+                                        <expression name="expression">dataSetRow["condicion_compra_descripcion"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
                                 </list-property>
-                                <property name="resultSetColumn">orden_compra_id</property>
+                                <property name="resultSetColumn">n_orden_co</property>
                             </data>
                         </cell>
                     </row>
@@ -2496,18 +2550,6 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
     </page-setup>
     <body>
         <table id="963">
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">medium</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">medium</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">medium</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">medium</property>
             <property name="marginTop">0cm</property>
             <property name="masterPage">Simple MasterPage</property>
             <property name="pageBreakAfter">auto</property>
@@ -2683,20 +2725,14 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             </column>
             <header>
                 <row id="964">
-                    <property name="borderBottomColor">#000000</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">medium</property>
-                    <property name="borderLeftColor">#000000</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">medium</property>
-                    <property name="borderRightColor">#000000</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">medium</property>
-                    <property name="borderTopColor">#000000</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">medium</property>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="showIfBlank">true</property>
+                    <list-property name="visibility">
+                        <structure>
+                            <property name="format">all</property>
+                            <expression name="valueExpr">true</expression>
+                        </structure>
+                    </list-property>
                     <cell id="965">
                         <property name="paddingTop">1pt</property>
                         <label id="1006">

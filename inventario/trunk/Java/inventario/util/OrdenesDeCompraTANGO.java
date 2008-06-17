@@ -524,13 +524,13 @@ public class OrdenesDeCompraTANGO {
 				 * Seteamos hora, minuto y segundo a cero
 				 */				
 				Calendar calendario = Calendar.getInstance();
+				calendario.setTimeInMillis(oc.getOrdenesCompraFechaEstimadaEntrega().getTime());
 				calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
 				calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
 				calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
 				calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));				
-				calendario.setTimeInMillis(calendario.getTimeInMillis());
-				
-				Timestamp CPA37_FEC_RECEPC = new Timestamp(oc.getOrdenesCompraFechaEstimadaEntrega().getTime());				
+								
+				Timestamp CPA37_FEC_RECEPC = new Timestamp(calendario.getTimeInMillis());				
 				String CPA37_N_ORDEN_CO = N_ORDEN_CO;
 				int CPA37_N_RENGL_OC = N_RENGL_OC;
 				

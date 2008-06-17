@@ -139,6 +139,10 @@
                     <property name="displayName">total</property>
                 </structure>
                 <structure>
+                    <property name="columnName">n_orden_co</property>
+                    <property name="displayName">n_orden_co</property>
+                </structure>
+                <structure>
                     <property name="columnName">condicion_compra_descripcion</property>
                     <property name="displayName">condicion_compra_descripcion</property>
                 </structure>
@@ -282,6 +286,11 @@
                     </structure>
                     <structure>
                         <property name="position">28</property>
+                        <property name="name">n_orden_co</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
                         <property name="name">condicion_compra_descripcion</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -490,6 +499,13 @@
                 </structure>
                 <structure>
                     <property name="position">28</property>
+                    <property name="name">n_orden_co</property>
+                    <property name="nativeName">n_orden_co</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">29</property>
                     <property name="name">condicion_compra_descripcion</property>
                     <property name="nativeName">condicion_compra_descripcion</property>
                     <property name="dataType">string</property>
@@ -524,6 +540,7 @@ atributos_entidad3.valor_real AS neto,
 atributos_entidad4.valor_real AS descuento,
 atributos_entidad5.valor_real AS iva,
 atributos_entidad6.valor_real AS total,
+atributos_entidad7.valor AS n_orden_co,
 condiciones_compra.descripcion AS condicion_compra_descripcion
 
 FROM  ordenes_compra ordenes_compra
@@ -558,6 +575,9 @@ left outer join infraestructura.atributos_entidad atributos_entidad5
 left outer join infraestructura.atributos_entidad atributos_entidad6 
 	ON atributos_entidad6.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad6.atributo_id =
 	(SELECT a.atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TOTAL_ORDEN_COMPRA')
+left outer join infraestructura.atributos_entidad atributos_entidad7 
+	ON atributos_entidad7.objeto_id = ordenes_compra.orden_compra_id AND atributos_entidad7.atributo_id =
+	(SELECT a.atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'N_ORDEN_CO')
 
 WHERE ordenes_compra.orden_compra_id = ?
 ORDER BY detalle_sc.detalle_SC_id ASC</property>
@@ -706,10 +726,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <property name="marginLeft">-1pt</property>
                                 <property name="width">100%</property>
                                 <column id="1073">
-                                    <property name="width">3cm</property>
+                                    <property name="width">2cm</property>
                                 </column>
                                 <column id="1074">
-                                    <property name="width">2.6cm</property>
+                                    <property name="width">3.6cm</property>
                                 </column>
                                 <row id="1075">
                                     <property name="height">1cm</property>
@@ -891,6 +911,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </row>
                                 <row id="1078">
                                     <property name="height">1cm</property>
+                                    <property name="backgroundColor">#C0C0C0</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
@@ -919,6 +940,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                             <structure name="numberFormat">
                                                 <property name="category">Custom</property>
                                                 <property name="pattern">00000000</property>
+                                            </structure>
+                                            <structure name="stringFormat">
+                                                <property name="category">Custom</property>
+                                                <property name="pattern">@@@@-@@@@@@@@</property>
                                             </structure>
                                             <property name="textAlign">right</property>
                                             <property name="dataSet">Data Set</property>
@@ -1059,12 +1084,17 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                                     <property name="dataType">float</property>
                                                 </structure>
                                                 <structure>
+                                                    <property name="name">n_orden_co</property>
+                                                    <expression name="expression">dataSetRow["n_orden_co"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                                <structure>
                                                     <property name="name">condicion_compra_descripcion</property>
                                                     <expression name="expression">dataSetRow["condicion_compra_descripcion"]</expression>
                                                     <property name="dataType">string</property>
                                                 </structure>
                                             </list-property>
-                                            <property name="resultSetColumn">orden_compra_id</property>
+                                            <property name="resultSetColumn">n_orden_co</property>
                                         </data>
                                     </cell>
                                 </row>
@@ -1713,6 +1743,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     </column>
                     <row id="1011">
                         <property name="height">1cm</property>
+                        <property name="backgroundColor">#C0C0C0</property>
                         <property name="verticalAlign">middle</property>
                         <cell id="1012">
                             <property name="colSpan">2</property>
@@ -2375,6 +2406,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                     </cell>
                                 </row>
                                 <row id="932">
+                                    <property name="backgroundColor">#C0C0C0</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
@@ -3154,6 +3186,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             <header>
                 <row id="964">
                     <property name="height">1cm</property>
+                    <property name="backgroundColor">#C0C0C0</property>
                     <property name="fontSize">medium</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
