@@ -912,7 +912,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			 * _dsSolicitudCompra.recuperaObservaciones(); }
 			 */
 
-			if ("0006.0002".equalsIgnoreCase(estado)
+			if ("0006.0001".equalsIgnoreCase(estado)
+					|| "0006.0002".equalsIgnoreCase(estado)
 					|| "0006.0003".equalsIgnoreCase(estado)
 					|| "0006.0005".equalsIgnoreCase(estado)
 					|| "0006.0008".equalsIgnoreCase(estado)) {

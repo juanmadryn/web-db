@@ -127,6 +127,8 @@ public interface Constants {
 	static final String ARTICULO_UNIDAD_MEDIDA = "ARTICULO_UNIDAD_MEDIDA";
 	
 	static final String USER_ENCARGADO_ALMACEN = "ALMACENERO";
+	static final String USER_COMPRADOR = "COMPRADOR";
+	static final String USER_SOLICITANTE = "SOLICITANTE";
 	
 	static final String ACCION_CONFIRMA_MOVIMIENTO = "AccionConfirmaMovimiento";
 	

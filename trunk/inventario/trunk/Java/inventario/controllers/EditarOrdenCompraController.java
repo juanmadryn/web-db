@@ -5,6 +5,7 @@ package inventario.controllers;
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
+import infraestructura.models.AuditaEstadosCircuitosModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
@@ -14,6 +15,8 @@ import inventario.util.SolicitudCompraTransiciones;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
@@ -97,6 +100,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	//DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.OrdenesCompraModel _dsOrdenesCompra;
+	public infraestructura.models.AuditaEstadosCircuitosModel _dsAuditoria;
 
 	//DataSource Column Constants
 	public static final String DSORDENESCOMPRA_ORDENES_COMPRA_ORDEN_COMPRA_ID = "ordenes_compra.orden_compra_id";
@@ -153,9 +157,11 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.jsp.JspTableCell _proyectoTableTd;
 	public com.salmonllc.jsp.JspTableCell _tareaHeaderTd;
 	public com.salmonllc.jsp.JspTableCell _proyectoHeaderTd;
+	public com.salmonllc.jsp.JspTableCell _observacionesTd;
 	public com.salmonllc.jsp.JspLink _verSolicitantes;
 	public com.salmonllc.jsp.JspTableRow _descAdicionalTr;	
 	public HtmlSubmitButton _muestraDescAdicionalBUT;
+	public com.salmonllc.jsp.JspDataTable _datatable1;
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	//public com.salmonllc.jsp.JspTableRow _nuevoDetalleSinSc;
 	public com.salmonllc.html.HtmlTextEdit _descuento2;
@@ -172,6 +178,9 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	
 	// Indica si se debe seleccionar o deseleccionar elementos de la lista de detalles
 	private Boolean seleccionarTodo = true;
+	
+	// Vector con botones dinamicos
+	Set<HtmlSubmitButton> botonesCustom = new HashSet<HtmlSubmitButton>(); 
 	
 	/** 
 	 * Initialize the page. Set up listeners and perform other initialization activities.
@@ -230,12 +239,20 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		
 		_fecha_estimada_entrega2.addValueChangedListener(this);
 		
-		_customBUT150.addSubmitListener(this);
+		_customBUT150.addSubmitListener(this);		
 		_customBUT140.addSubmitListener(this);
 		_customBUT130.addSubmitListener(this);
 		_customBUT120.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
+		
+		// agregamos los botones custom en el vector
+		botonesCustom.add(_customBUT100);
+		botonesCustom.add(_customBUT110);
+		botonesCustom.add(_customBUT120);
+		botonesCustom.add(_customBUT130);
+		botonesCustom.add(_customBUT140);
+		botonesCustom.add(_customBUT150);		
 		
 		// data selection checkbox column
 		_dsDetalleSC.addBucket(SELECCION_DETALLE_SC_FLAG, DataStore.DATATYPE_INT);
@@ -268,6 +285,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		// an empty OC as default view
 		_dsOrdenesCompra.reset();
 		_dsDetalleSC.reset();
+		_dsAuditoria.reset();
+		
 		_dsOrdenesCompra.insertRow();
 		
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
@@ -299,71 +318,19 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		conn.beginTransaction();
 		
 		try {
-			if (component == _customBUT100) {
+			if (botonesCustom.contains(component)) {
 				if (CIRCUITO != null) {
 					_dsOrdenesCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT100.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
+							.parseInt(((HtmlSubmitButton) component)
+									.getDisplayNameLocaleKey()), CIRCUITO,
+							remoteAddr, userId, nombre_tabla, conn,
+							batchInserts, _observacionX2.getValue());
 					armaBotonera();
 
 				}
+				_observacionX2.setValue(null);
 			}
-
-			if (component == _customBUT110) {
-				if (CIRCUITO != null) {
-					_dsOrdenesCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT110.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT120) {
-				if (CIRCUITO != null) {
-					_dsOrdenesCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT120.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT130) {
-				if (CIRCUITO != null) {
-					_dsOrdenesCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT130.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT140) {
-				if (CIRCUITO != null) {
-					_dsOrdenesCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT140.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
-
-			if (component == _customBUT150) {
-				if (CIRCUITO != null) {
-					_dsOrdenesCompra.ejecutaAccion(Integer
-							.parseInt(_customBUT150.getDisplayNameLocaleKey()),
-							CIRCUITO, remoteAddr, userId, nombre_tabla, conn,
-							batchInserts);
-					armaBotonera();
-
-				}
-			}
+			
 			conn.commit();
 		} catch (DataStoreException ex) {
 			displayErrorMessage(ex.getMessage());			
@@ -606,6 +573,21 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 		setRow_id(_dsOrdenesCompra.getOrdenesCompraOrdenCompraId());
 		
+		// obtengo las intancias de aprobación correspondientes agrupadas
+		// por usuario para mostrar las observaciones de todos los firmantes
+		_dsAuditoria.setOrderBy(AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_FECHA
+				+ " DESC");
+		_dsAuditoria.retrieve(
+				AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_OBSERVACIONES + 
+				" IS NOT NULL AND "	+ 
+				AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_NOMBRE_TABLA + 
+				" = 'inventario.ordenes_compra' AND " +
+				AuditaEstadosCircuitosModel.AUDITA_ESTADOS_CIRCUITOS_REGISTRO_ID + " = " + getRow_id());
+		if (_dsAuditoria.getRowCount() == 0)
+			_datatable1.setVisible(false);
+		else
+			_datatable1.setVisible(true);
+		
 		// Nùmero de OC y estado en el tìtulo
 		String titulo = "Orden de compra Nº" + getRow_id();
 		if (_dsOrdenesCompra.getEstadoNombre() != null)
@@ -619,14 +601,6 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 				.parseInt(getPageProperties().getProperty(
 						"EsquemaConfiguracionIdOrdenesCompra")));
 		
-		// Deshabilita descuento en detalles si es seteado uno en la cabecera		
-		/*if (_dsOrdenesCompra.getOrdenesCompraDescuento() > 0) {
-			_descuento2.setEnabled(false);
-			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_NETO_PEDIDO);			
-		} else {
-			_descuento2.setEnabled(true);
-			_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_PEDIDO);
-		}*/
 		_monto_total2.setExpression(_dsDetalleSC, DetalleSCModel.DETALLE_SC_MONTO_TOTAL_PEDIDO);
 		_monto_total2.setDisplayFormatLocaleKey("CurrencyFormatConSigno");
 				
@@ -644,12 +618,12 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		if ("0008.0002".equalsIgnoreCase(estado)
 				|| "0008.0004".equalsIgnoreCase(estado)
 				|| "0008.0005".equalsIgnoreCase(estado)) {
-			_dsOrdenesCompra.recuperaObservaciones();			
-			_observacionX1.setVisible(true);
-			_observacionX2.setVisible(true);
+			//_dsOrdenesCompra.recuperaObservaciones();
+			_observacionesTd.setEnabled(true);
+			_observacionesTd.setVisible(true);			
 		} else {
-			_observacionX1.setVisible(false);
-			_observacionX2.setVisible(false);
+			_observacionesTd.setEnabled(false);
+			_observacionesTd.setVisible(false);
 		}
 
 		// setea comprador 
