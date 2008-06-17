@@ -184,7 +184,7 @@ function CheckAll(checked) {
                         <td/>
                         <td><salmon:text name="nroOcTango1"
                         	text="Nro. OC Tango" font="TableHeadingFont"/></td>
-                        <td><salmon:text name="nroOcTango2" text="00000001"/>
+                        <td><salmon:text name="nroOcTango2" text=" 000100000001" displayformatlocalekey="OcTangoFormat"/>
                         </td>
                      </tr>
                      <tr>

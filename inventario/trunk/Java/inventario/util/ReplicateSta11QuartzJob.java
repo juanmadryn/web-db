@@ -299,7 +299,9 @@ public class ReplicateSta11QuartzJob implements Job {
 			 * Seleccionamos de la tabla CPA01 los datos para los atributos de
 			 * entidades externas con roles de proveedor
 			 */
-			String articulosUnidadMedidaAtributosTangoSQL = "SELECT COD_ARTICU, UNIDAD_MED  FROM STA11";
+			//String articulosUnidadMedidaAtributosTangoSQL = "SELECT COD_ARTICU, UNIDAD_MED  FROM STA11";
+			String articulosUnidadMedidaAtributosTangoSQL =
+				"SELECT [COD_ARTICU], [UNIDAD_M_C] FROM [FABRI_S.A.].[dbo].[STA36]";
 
 			String getArticuloByCodigo = "SELECT a.articulo_id FROM inventario.articulos a WHERE a.clave_externa1 = ?";
 			pstMySql2 = connInv.prepareStatement(getArticuloByCodigo);
