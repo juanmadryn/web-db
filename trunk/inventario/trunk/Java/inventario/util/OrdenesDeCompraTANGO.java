@@ -154,7 +154,6 @@ public class OrdenesDeCompraTANGO {
 			calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
 			calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
 			calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
-			//Timestamp FEC_AUTORI = oc.getOrdenesCompraFechaAprobacion();
 			Timestamp FEC_AUTORI = new Timestamp(calendario.getTimeInMillis());
 
 			/*
@@ -167,7 +166,6 @@ public class OrdenesDeCompraTANGO {
 			calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
 			calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
 			calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
-			//Timestamp FEC_EMISIO = new Timestamp(System.currentTimeMillis());
 			Timestamp FEC_EMISIO = new Timestamp(calendario.getTimeInMillis());
 
 			/*
@@ -178,7 +176,6 @@ public class OrdenesDeCompraTANGO {
 			calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
 			calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
 			calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
-			//Timestamp FEC_GENER = oc.getOrdenesCompraFecha();
 			Timestamp FEC_GENER = new Timestamp(calendario.getTimeInMillis());
 
 			/*
@@ -672,5 +669,21 @@ public class OrdenesDeCompraTANGO {
 		 * TODO: Chequear que el nro. de orden de compra de tango 
 		 * no este asociado ya a una orden de compra ya existente
 		 */
+	}
+	
+	/**
+	 * Retorna un calendario a partir de un timestamp, seteando la hora,
+	 * minuto, segundo y milisegundos en sus valores mínimos (cero). 
+	 * @param ts timestamp a convertir en un objeto calendar
+	 * @return un objeto calendar
+	 */
+	private Calendar getCalendario(Timestamp ts) {
+		Calendar calendario = Calendar.getInstance();
+		calendario.setTimeInMillis(ts.getTime());
+		calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
+		calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
+		calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
+		calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
+		return calendario;
 	}
 }
