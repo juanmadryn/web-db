@@ -1,5 +1,6 @@
 package inventario.models;
 
+import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
 
@@ -9,9 +10,12 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import proyectos.models.ProyectoModel;
 
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
@@ -58,6 +62,7 @@ public class SolicitudCompraModel extends BaseModel {
 	public static final String TOTAL_SOLICITUD = "total_solicitud_compra";
 	public static final String OBSERVACIONES = "observaciones";
 
+	private Set<String> estadosDeModificacion;
 	// $ENDCUSTOMVARS$
 
 	/**
@@ -215,6 +220,9 @@ public class SolicitudCompraModel extends BaseModel {
 					"'proyectos.proyectos.proyecto_id = ' + solicitudes_compra.proyecto_id",
 					"proyecto", PROYECTOS_PROYECTO, "Proyecto inexistente");
 
+			// Obtiene los posibles estados de modificacion para este modelo
+			estadosDeModificacion = getEstadosDeModificacion();
+			
 			// seteo columna de Id como autoincrement
 			setAutoIncrement(SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID, true);
 			setUpdateable(SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID, false);
@@ -1268,6 +1276,35 @@ public class SolicitudCompraModel extends BaseModel {
 			setObservaciones(instancia.getInstanciasAprobacionMensaje());
 
 	}
+	
+	/**
+	 * Obtiene los posibles estados en los cuales una SM/SC es modificable
+	 * @return set con los estados susceptibles de modificacion
+	 */
+	private Set<String> getEstadosDeModificacion() {
+		Props p = Props.getProps(getAppName(), null);
+		estadosDeModificacion = new HashSet<String>();
+		String[] estados = null;
+		
+		if (p.getProperty(Constants.ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA) != null) {
+			estados = p.getProperty(Constants.ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA).split(",");
+			for (String e : estados) {
+				estadosDeModificacion.add(e);
+			}
+		}
+
+		return estadosDeModificacion;
+	}
+	
+	/**
+	 * Chequea si la SM/SC se encuentra en un estado apto para modificacion
+	 * @return true si la SM/SC es modificable, false en caso contrario
+	 * @throws DataStoreException
+	 */
+	public boolean isModificable() throws DataStoreException {
+		String estadoActual = getSolicitudesCompraEstado();
+		return estadoActual == null ? true : estadosDeModificacion.contains(estadoActual);
+	}
 
 	// $ENDCUSTOMMETHODS$
 
@@ -1329,7 +1366,7 @@ public class SolicitudCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * Recupera observaciones hechas a la OC actual en el bucket observaciones  
+	 * Recupera observaciones hechas a la SM/SC actual en el bucket observaciones  
 	 * 
 	 * @throws DataStoreException
 	 * @throws SQLException

@@ -11,6 +11,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Set;
 
 import proyectos.models.TareasProyectoModel;
 
@@ -59,6 +61,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	public static final String UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA = "unidades_medida_pedida.nombre";
 	public static final String DETALLE_SC_IVA = "detalle_sc.iva";
 	public static final String DETALLE_SC_DESCUENTO = "detalle_sc.descuento";
+	public static final String DETALLE_SC_ARTICULO_ID_SOLICITADO = "detalle_sc.articulo_id_solicitado";
 
 	// $CUSTOMVARS$
 	public static final String TAREA_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
@@ -199,6 +202,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 			addColumn(computeTableName("unidades_medida_pedida"), "nombre",
 					DataStore.DATATYPE_STRING, false, true,
 					UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
+			addColumn(computeTableName("detalle_sc"), "articulo_id_solicitado",
+					DataStore.DATATYPE_INT, false, true,
+					DETALLE_SC_ARTICULO_ID_SOLICITADO);
 
 			// add bucket
 			addBucket(DETALLE_SC_MONTO_TOTAL, DataStore.DATATYPE_FLOAT);
@@ -1783,7 +1789,14 @@ public class DetalleSCModel extends DataStore implements Constants {
 				throw new DataStoreException(
 						"Error parseando cantidad y monto unitario para calcular el total.");
 			}
-
+			
+			/*
+			 * Si la SC/SM a la cual esta asignado el detalle es modificable, copiar
+			 * el id del articulo seleccionado en el campo articulo_id_solicitado
+			 */
+			if (solicitud.isModificable()) {
+				setDetalleScArticuloIdSolicitado(row, getDetalleScArticuloId(row));
+			}
 		}
 
 		super.update(connection, handleTrans);
@@ -2805,5 +2818,55 @@ public class DetalleSCModel extends DataStore implements Constants {
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_MONTO_UNITARIO_PAM, newValue);
 	}
+	
+	/**
+	 * Retrieve the value of the detalle_sc.articulo_id_solicitado column for the current
+	 * row.
+	 * 
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getDetalleScArticuloIdSolicitado() throws DataStoreException {
+		return getInt(DETALLE_SC_ARTICULO_ID_SOLICITADO);
+	}
+
+	/**
+	 * Retrieve the value of the detalle_sc.articulo_id_solicitado column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return int
+	 * @throws DataStoreException
+	 */
+	public int getDetalleScArticuloIdSolicitado(int row) throws DataStoreException {
+		return getInt(row, DETALLE_SC_ARTICULO_ID_SOLICITADO);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.articulo_id_solicitado column for the current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScArticuloIdSolicitado(int newValue) throws DataStoreException {
+		setInt(DETALLE_SC_ARTICULO_ID_SOLICITADO, newValue);
+	}
+
+	/**
+	 * Set the value of the detalle_sc.articulo_id_solicitado column for the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setDetalleScArticuloIdSolicitado(int row, int newValue)
+			throws DataStoreException {
+		setInt(row, DETALLE_SC_ARTICULO_ID_SOLICITADO, newValue);
+	}
+	
 	// $ENDCUSTOMMETHODS$
 }
