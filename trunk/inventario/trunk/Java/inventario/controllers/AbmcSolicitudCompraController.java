@@ -395,13 +395,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			_proyecto2.setFocus();
 		}
 
-		System.out.println("---> Salio1");
 		if (component == _grabarSolicitudCompraBUT1) {
 			conn = DBConnection.getConnection("inventario");
 			conn.beginTransaction();
 
 			// si la solicitud esta en estado generado o esta siendo generada
-			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
+			if(_dsSolicitudCompra.isModificable()) {
 				try {
 					// grabo todos los datasource
 					if (_dsSolicitudCompra.getRow() == -1)
@@ -463,8 +462,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			try {
 				setRow_id(_dsSolicitudCompra
 						.getSolicitudesCompraSolicitudCompraId());
-				if (isModificable(_dsSolicitudCompra
-						.getSolicitudesCompraEstado())) {
+				
+				if (_dsSolicitudCompra.isModificable()) {
 					if (getRow_id() == 0)
 						_dsSolicitudCompra.update();
 					setRow_id(_dsSolicitudCompra
@@ -515,7 +514,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		}
 
 		if (component == _articulosEliminarBUT1) {
-			if (isModificable(_dsSolicitudCompra.getSolicitudesCompraEstado())) {
+			if (_dsSolicitudCompra.isModificable()) {
 				// elimina todas las actividades seleccionadas
 				for (int row = _dsDetalleSC.getRowCount() - 1; row >= 0; row--) {
 					if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_FLAG) == 1) {
@@ -1144,13 +1143,4 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		this.recargar = recargar;
 	}
 
-	private boolean isModificable(String estadoActual) {
-		Set<String> estadosSet = new HashSet<String>();
-		String[] estados = getPageProperties().getThemeProperty(null,
-				ESTADOS_DE_MODIFICACION_SOLICITUDES_COMPRA).split(",");
-		for (int i = 0; i < estados.length; i++)
-			estadosSet.add(estados[i]);
-		return estadoActual == null ? true : estadosSet.contains(estadoActual);
-
-	}
 }
