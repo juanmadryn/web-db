@@ -6,6 +6,7 @@ import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.BusquedaPorAtributo;
 import infraestructura.utils.Utilities;
+import inventario.models.OrdenesCompraModel;
 
 import java.sql.SQLException;
 
@@ -206,7 +207,8 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	 */
 	private void recuperarOrdenesDeCompra() throws SQLException, DataStoreException {
 		_dsOrdenes.reset();
-		_dsOrdenes.retrieve(armarCriterio());
+		_dsOrdenes.setOrderBy(OrdenesCompraModel.ORDENES_COMPRA_FECHA + " desc");
+		_dsOrdenes.retrieve(armarCriterio());		
 		_dsOrdenes.gotoFirst();
 	}
 	

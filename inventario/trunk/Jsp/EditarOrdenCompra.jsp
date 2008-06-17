@@ -20,6 +20,7 @@ function CheckAll(checked) {
    <%@include file="message.jsp"%>
    <!-- ********************************************************************************************* -->
    <!-- Add DataSource definitions here -->
+   <!-- ********************************************************************************************* -->
    <salmon:datasource name="dsOrdenesCompra" type="MODEL"
       dbprofile="inventario"
       model="inventario.models.OrdenesCompraModel" autoretrieve="Never">
@@ -28,10 +29,20 @@ function CheckAll(checked) {
       dbprofile="inventario" model="inventario.models.DetalleSCModel"
       autoretrieve="Never">
    </salmon:datasource>
+   <salmon:datasource name="dsInstanciasAprobacion" type="MODEL"
+		dbprofile="inventario"
+		model="inventario.models.InstanciasAprobacionModel"
+		autoretrieve="Never">
+	</salmon:datasource>
+	<salmon:datasource name="dsAuditoria" type="MODEL"
+		dbprofile="inventario"
+		model="infraestructura.models.AuditaEstadosCircuitosModel"
+		autoretrieve="Never">		
+	</salmon:datasource>
+	
    <!-- ********************************************************************************************* -->
    <!-- Add page code here -->
    <!-- ********************************************************************************************* -->
-
    <salmon:property name="prop1" propertyname="visible"
       component="descAdicionalTr"
       expression="DESCRIPCION_ADICIONAL EQUALS 1 || detalle_sc.observaciones_oc.length() > 0"
@@ -40,7 +51,7 @@ function CheckAll(checked) {
    <salmon:box name="box1" width="100%">
       <salmon:table name="table1" width="100%" border="0">
          <salmon:tr>
-            <salmon:td valign="Top">
+            <salmon:td valign="Top" colspan="2">
                <salmon:detailformdisplaybox name="detailformdisplaybox1"
                   caption="Orden de Compra" width="100%"
                   datasource="dsOrdenesCompra" addbuttonvisible="false"
@@ -73,7 +84,8 @@ function CheckAll(checked) {
 									<salmon:text name="espacio" text=" " font="TableHeadingFont" /> -->
                         <salmon:a href="" target="_blank"
                            name="imprimirOrdenCompraBUT2"
-                           onclick="document.forms['bannerForm'].submit();">
+                           onclick="document.forms['bannerForm'].submit();"
+                           title="Imprime OC en un formulario preimpreso">
                            <salmon:text name="imprimirTXT2"
                               text="preimpresa" />
                            <salmon:img name="imprimirIMG2"
@@ -83,7 +95,8 @@ function CheckAll(checked) {
                            font="TableHeadingFont" /> <salmon:a href=""
                            target="_blank"
                            name="imprimirOrdenCompraBUT3"
-                           onclick="document.forms['bannerForm'].submit();">
+                           onclick="document.forms['bannerForm'].submit();"
+                           title="Imprime la OC de forma completa">
                            <salmon:text name="imprimirTXT3"
                               text="completa" />
                            <salmon:img name="imprimirIMG3"
@@ -222,12 +235,13 @@ function CheckAll(checked) {
                         <td />
                         <td colspan="2" align="left"><salmon:a
                            href="ListaFirmantes.jsp" target="_blank"
-                           name="verFirmantes"
+                           name="verFirmantes" title="Lista de Firmantes de la OC"
                            onclick="document.forms['bannerForm'].submit();">
                            <salmon:text name="verFirmantesTXT2"
                               text="Firmantes" />
                         </salmon:a> &nbsp; <salmon:a href="ListaSolicitantes.jsp"
                            target="_blank" name="verSolicitantes"
+                           title="Solicitantes de las SM asociadas a la OC"
                            onclick="document.forms['bannerForm'].submit();">
                            <salmon:text name="verSolicitantesTXT2"
                               text="Solicitantes" />
@@ -246,7 +260,7 @@ function CheckAll(checked) {
             </salmon:td>
          </salmon:tr>
          <salmon:tr>
-            <salmon:td>
+            <salmon:td name="observacionesTd">
                <table width="100%">
                   <tr>
                      <td><salmon:text name="observacionX1"
@@ -262,6 +276,55 @@ function CheckAll(checked) {
                   </tr>
                </table>
             </salmon:td>
+            <salmon:td valign="center">
+					<salmon:datatable name="datatable1" width="100%"
+						datasource="dsAuditoria" rowsperpage="3" rowsperpageselector="false">
+						<salmon:datatableheader>
+							<salmon:tr>
+								<salmon:td>
+									<salmon:text name="fecha2" text="Fecha" font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="usuario" text="Usuario"
+										font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="accion1" text="Accion"
+										font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="observaciones5" text="Observaciones"
+										font="TableHeadingFont" />
+								</salmon:td>
+							</salmon:tr>
+						</salmon:datatableheader>
+						<salmon:datatablerows>
+							<salmon:tr>
+								<salmon:td>
+									<salmon:text name="fecha3"
+										text="audita_estados_circuitos.fecha Goes Here"
+										font="DefaultFont" displayformat="dd/MM/yyyy HH:mm"
+										datasource="dsAuditoria:audita_estados_circuitos.fecha" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="usuario2"
+										text="website_user.nombre_completo Goes Here"
+										font="DefaultFont"
+										datasource="dsAuditoria:website_user.nombre_completo" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="accion2"
+										text="acciones_apps.nombre Goes Here" font="DefaultFont"
+										datasource="dsAuditoria:acciones_apps.nombre" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="observaciones6" text="" font="DefaultFont"
+										datasource="dsAuditoria:audita_estados_circuitos.observaciones" />
+								</salmon:td>
+							</salmon:tr>
+						</salmon:datatablerows>
+					</salmon:datatable>
+				</salmon:td>
          </salmon:tr>
       </salmon:table>
    </salmon:box>
