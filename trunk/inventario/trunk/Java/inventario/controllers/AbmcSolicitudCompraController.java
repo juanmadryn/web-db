@@ -400,7 +400,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			conn.beginTransaction();
 
 			// si la solicitud esta en estado generado o esta siendo generada
-			if(_dsSolicitudCompra.isModificable()) {
+			if (_dsSolicitudCompra.isModificable()) {
 				try {
 					// grabo todos los datasource
 					if (_dsSolicitudCompra.getRow() == -1)
@@ -462,7 +462,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			try {
 				setRow_id(_dsSolicitudCompra
 						.getSolicitudesCompraSolicitudCompraId());
-				
+
 				if (_dsSolicitudCompra.isModificable()) {
 					if (getRow_id() == 0)
 						_dsSolicitudCompra.update();
@@ -926,13 +926,15 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 			// Si la solicitud se está confeccionando o el usuario actual es el
 			// comprador asociado permito modificar el solicitante, sino no
-			if ("0006.0001".equalsIgnoreCase(_dsSolicitudCompra
-					.getSolicitudesCompraEstado())
+			if (_dsSolicitudCompra.getSolicitudesCompraEstado() == null
+					|| "0006.0001".equalsIgnoreCase(_dsSolicitudCompra
+							.getSolicitudesCompraEstado())
 					|| _dsSolicitudCompra.getSolicitudesCompraUserIdComprador() == currentUser) {
-				if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR"))
+				if (UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 					_dsSolicitudCompra
 							.setSolicitudesCompraUserIdComprador(currentUser);
-				_nombre_completo_solicitante2.setEnabled(true);
+					_nombre_completo_solicitante2.setEnabled(true);
+				}
 			} else {
 				_nombre_completo_solicitante2.setEnabled(false);
 			}
