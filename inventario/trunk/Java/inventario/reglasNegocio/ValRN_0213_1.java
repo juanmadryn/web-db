@@ -4,9 +4,11 @@
 package inventario.reglasNegocio;
 
 import infraestructura.controllers.Constants;
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.ComprobanteMovimientoArticuloModel;
+import inventario.models.ConversionesModel;
 import inventario.models.DetalleRCModel;
 import inventario.models.DetalleSCModel;
 import inventario.models.MovimientoArticuloModel;
@@ -68,9 +70,8 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			Hashtable<Integer, Integer> almacen_comprobantes = new Hashtable<Integer, Integer>();
 
 			float cantidad_recibida = 0;
-			
-			
-			for (int row = 0; row < detalles.getRowCount(); row++){
+
+			for (int row = 0; row < detalles.getRowCount(); row++) {
 				detalles.gotoRow(row);
 				if (almacen_id != detalles.getDetallesRcAlmacenId()) {
 					almacen_id = detalles.getDetallesRcAlmacenId();
@@ -165,7 +166,12 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 						.setMovimientoArticuloUnidadMedidaId(unidad_medida_id);
 
 				movimiento.setMovimientoArticuloTareaId(rs.getInt("tarea_id"));
-				movimiento.setMovimientoArticuloMontoUnitario(rs.getInt("monto_unitario"));
+				AtributosEntidadModel.setValorAtributoObjeto(String
+						.valueOf(ConversionesModel.getUnidadConvertida(
+								articulo_id, unidad_medida_id, rs
+										.getInt("monto_unitario"), conn)),
+						Constants.ARTICULO_PRECIO_REPOSICION, articulo_id,
+						"TABLA", "artículos");
 			}
 			movimiento.update(conn);
 			movimiento.resetStatus();
@@ -191,7 +197,7 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			return false;
 		} catch (SQLException ex) {
 			msg
-					.append("Ocurrió un error de SQL mientras se procesaba su aprobación: "
+					.append("Ocurrió un error de SQL mientras se procesaba la acción: "
 							+ ex.getMessage());
 			return false;
 		} finally {

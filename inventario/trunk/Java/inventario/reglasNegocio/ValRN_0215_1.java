@@ -4,6 +4,7 @@
 package inventario.reglasNegocio;
 
 import infraestructura.controllers.Constants;
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.ComprobanteMovimientoArticuloModel;
@@ -26,8 +27,7 @@ import com.salmonllc.sql.DataStoreException;
  * Regla de negocio asociada al rechazo de una OC
  * 
  */
-public final class ValRN_0215_1 extends ValidadorReglasNegocio implements
-		Constants {
+public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 
 	/*
 	 * (non-Javadoc)
@@ -40,7 +40,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements
 		try {
 			ComprobanteMovimientoArticuloModel ds = (ComprobanteMovimientoArticuloModel) obj;
 			if (!UsuarioRolesModel.isRolUsuario(ds.getCurrentWebsiteUserId(),
-					USER_ENCARGADO_ALMACEN))
+					Constants.USER_ENCARGADO_ALMACEN))
 				throw new DataStoreException(
 						"Ud. no está autorizado para confirmar movimientos de almacén.");
 			if (ds.getComprobanteMovimientoArticuloUserIdRetira() == 0
@@ -106,7 +106,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements
 							+ " GROUP BY articulo_id, proyecto_id, tarea_id ORDER BY articulo_id");
 
 			Calendar calendar = Calendar.getInstance();
-			calendar.set(Calendar.DAY_OF_MONTH, 1);	
+			calendar.set(Calendar.DAY_OF_MONTH, 1);
 
 			int articulo_id = 0;
 			int unidad_medida_id = 0;
@@ -142,8 +142,8 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements
 				// si no hay resumen de saldo del artículo para el período
 				// actual, lo creo
 				if (resumen.getRowCount() == 0
-						|| !resumen.getResumenSaldoArticulosPeriodo().toString().equals(
-								periodo.toString())) {				
+						|| !resumen.getResumenSaldoArticulosPeriodo()
+								.toString().equals(periodo.toString())) {
 					resumen.gotoRow(resumen.insertRow());
 					resumen.setResumenSaldoArticulosAlmacenId(almacen_id);
 					resumen.setResumenSaldoArticulosArticuloId(articulo_id);
@@ -211,6 +211,16 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio implements
 					movimientos
 							.setMovimientoArticuloResumenSaldoArticuloId(resumen
 									.getResumenSaldoArticulosResumenSaldoArticuloId());
+					movimientos
+							.setMovimientoArticuloMontoUnitario(
+									row,
+									Double
+											.parseDouble(AtributosEntidadModel
+													.getValorAtributoObjeto(
+															Constants.ARTICULO_PRECIO_REPOSICION,
+															articulo_id,
+															"TABLA",
+															"artículos")));
 				}
 				movimientos.update(conn);
 				movimientos.resetStatus();
