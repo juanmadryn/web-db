@@ -969,11 +969,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			// setea la URL del reporte a generar al presionar el botón de
 			// impresión
 			String URL = armarUrlReporte("XLS", "solicitud_compra",
-					"&Parameter_solicitud_compra_id=" + getRow_id());
+					"&param_solicitud_compra_id=" + getRow_id());
 			_imprimirSolicitudCompraBUT1.setHref(URL);
 
 			URL = armarUrlReporte("PDF", "solicitud_compra",
-					"&Parameter_solicitud_compra_id=" + getRow_id());
+					"&param_solicitud_compra_id=" + getRow_id());
 			_imprimirSolicitudCompraBUT2.setHref(URL);
 
 			_verFirmantes.setHref("ListaFirmantes.jsp?solicitud_id="
