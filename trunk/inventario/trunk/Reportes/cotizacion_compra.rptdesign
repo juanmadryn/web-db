@@ -216,6 +216,10 @@ where detalle_cotizacion.cotizacion_compra_id= ?</property>
                     <property name="displayName">observaciones_cotizacion</property>
                 </structure>
                 <structure>
+                    <property name="columnName">observaciones_solicitud</property>
+                    <property name="displayName">observaciones_solicitud</property>
+                </structure>
+                <structure>
                     <property name="columnName">condicion_compra_proveedor1</property>
                     <property name="displayName">condicion_compra_proveedor1</property>
                 </structure>
@@ -410,241 +414,246 @@ where detalle_cotizacion.cotizacion_compra_id= ?</property>
                     </structure>
                     <structure>
                         <property name="position">3</property>
-                        <property name="name">condicion_compra_proveedor1</property>
+                        <property name="name">observaciones_solicitud</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">4</property>
-                        <property name="name">condicion_compra_proveedor2</property>
+                        <property name="name">condicion_compra_proveedor1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">5</property>
-                        <property name="name">condicion_compra_proveedor3</property>
+                        <property name="name">condicion_compra_proveedor2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">forma_pago_proveedor1</property>
+                        <property name="name">condicion_compra_proveedor3</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">7</property>
-                        <property name="name">forma_pago_proveedor2</property>
+                        <property name="name">forma_pago_proveedor1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
-                        <property name="name">forma_pago_proveedor3</property>
+                        <property name="name">forma_pago_proveedor2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">9</property>
-                        <property name="name">proveedor1</property>
+                        <property name="name">forma_pago_proveedor3</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">10</property>
-                        <property name="name">proveedor2</property>
+                        <property name="name">proveedor1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">11</property>
-                        <property name="name">proveedor3</property>
+                        <property name="name">proveedor2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">12</property>
+                        <property name="name">proveedor3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
                         <property name="name">bonificacion_proveedor1</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">13</property>
+                        <property name="position">14</property>
                         <property name="name">bonificacion_proveedor2</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">14</property>
+                        <property name="position">15</property>
                         <property name="name">bonificacion_proveedor3</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">15</property>
+                        <property name="position">16</property>
                         <property name="name">plazo_entrega_proveedor1</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">16</property>
+                        <property name="position">17</property>
                         <property name="name">plazo_entrega_proveedor2</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">17</property>
+                        <property name="position">18</property>
                         <property name="name">plazo_entrega_proveedor3</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">18</property>
+                        <property name="position">19</property>
                         <property name="name">direccion_proveedor1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">19</property>
+                        <property name="position">20</property>
                         <property name="name">direccion_proveedor2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">21</property>
                         <property name="name">direccion_proveedor3</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">21</property>
+                        <property name="position">22</property>
                         <property name="name">telefono_proveedor1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">22</property>
+                        <property name="position">23</property>
                         <property name="name">telefono_proveedor2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">23</property>
+                        <property name="position">24</property>
                         <property name="name">telefono_proveedor3</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">24</property>
+                        <property name="position">25</property>
                         <property name="name">email_proveedor1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">25</property>
+                        <property name="position">26</property>
                         <property name="name">email_proveedor2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">26</property>
+                        <property name="position">27</property>
                         <property name="name">email_proveedor3</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">27</property>
+                        <property name="position">28</property>
                         <property name="name">detalle_SC_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">28</property>
+                        <property name="position">29</property>
                         <property name="name">cantidad_solicitada</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">29</property>
+                        <property name="position">30</property>
                         <property name="name">descripcion_detalle</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">30</property>
+                        <property name="position">31</property>
                         <property name="name">observaciones_detalle</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">31</property>
+                        <property name="position">32</property>
                         <property name="name">codigo_articulo</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">32</property>
+                        <property name="position">33</property>
                         <property name="name">descripcion_articulo</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">33</property>
+                        <property name="position">34</property>
                         <property name="name">descripcion_completa</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">34</property>
+                        <property name="position">35</property>
                         <property name="name">tarea_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">35</property>
+                        <property name="position">36</property>
                         <property name="name">monto_unitario</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">36</property>
+                        <property name="position">37</property>
                         <property name="name">nombre_tarea</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">37</property>
+                        <property name="position">38</property>
                         <property name="name">unidad_medida</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">38</property>
+                        <property name="position">39</property>
                         <property name="name">solicitud_compra_id</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">39</property>
+                        <property name="position">40</property>
                         <property name="name">monto_unitario_proveedor1</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">40</property>
+                        <property name="position">41</property>
                         <property name="name">marca_proveedor1</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">41</property>
+                        <property name="position">42</property>
                         <property name="name">monto_unitario_proveedor2</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">42</property>
+                        <property name="position">43</property>
                         <property name="name">marca_proveedor2</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">43</property>
+                        <property name="position">44</property>
                         <property name="name">monto_unitario_proveedor3</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">44</property>
+                        <property name="position">45</property>
                         <property name="name">marca_proveedor3</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">45</property>
+                        <property name="position">46</property>
                         <property name="name">cotizacion_seleccionada_proveedor1</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">46</property>
+                        <property name="position">47</property>
                         <property name="name">cotizacion_seleccionada_proveedor2</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">47</property>
+                        <property name="position">48</property>
                         <property name="name">cotizacion_seleccionada_proveedor3</property>
                         <property name="dataType">integer</property>
                     </structure>
                     <structure>
-                        <property name="position">48</property>
+                        <property name="position">49</property>
                         <property name="name">total_proveedor1</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">49</property>
+                        <property name="position">50</property>
                         <property name="name">total_proveedor2</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">50</property>
+                        <property name="position">51</property>
                         <property name="name">total_proveedor3</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -678,321 +687,328 @@ where detalle_cotizacion.cotizacion_compra_id= ?</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
+                    <property name="name">observaciones_solicitud</property>
+                    <property name="nativeName">observaciones_solicitud</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
                     <property name="name">condicion_compra_proveedor1</property>
                     <property name="nativeName">condicion_compra_proveedor1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">4</property>
+                    <property name="position">5</property>
                     <property name="name">condicion_compra_proveedor2</property>
                     <property name="nativeName">condicion_compra_proveedor2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">5</property>
+                    <property name="position">6</property>
                     <property name="name">condicion_compra_proveedor3</property>
                     <property name="nativeName">condicion_compra_proveedor3</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">6</property>
+                    <property name="position">7</property>
                     <property name="name">forma_pago_proveedor1</property>
                     <property name="nativeName">forma_pago_proveedor1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">7</property>
+                    <property name="position">8</property>
                     <property name="name">forma_pago_proveedor2</property>
                     <property name="nativeName">forma_pago_proveedor2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">8</property>
+                    <property name="position">9</property>
                     <property name="name">forma_pago_proveedor3</property>
                     <property name="nativeName">forma_pago_proveedor3</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">9</property>
+                    <property name="position">10</property>
                     <property name="name">proveedor1</property>
                     <property name="nativeName">proveedor1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">11</property>
                     <property name="name">proveedor2</property>
                     <property name="nativeName">proveedor2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">11</property>
+                    <property name="position">12</property>
                     <property name="name">proveedor3</property>
                     <property name="nativeName">proveedor3</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">12</property>
+                    <property name="position">13</property>
                     <property name="name">bonificacion_proveedor1</property>
                     <property name="nativeName">bonificacion_proveedor1</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">13</property>
+                    <property name="position">14</property>
                     <property name="name">bonificacion_proveedor2</property>
                     <property name="nativeName">bonificacion_proveedor2</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">14</property>
+                    <property name="position">15</property>
                     <property name="name">bonificacion_proveedor3</property>
                     <property name="nativeName">bonificacion_proveedor3</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">15</property>
+                    <property name="position">16</property>
                     <property name="name">plazo_entrega_proveedor1</property>
                     <property name="nativeName">plazo_entrega_proveedor1</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">16</property>
+                    <property name="position">17</property>
                     <property name="name">plazo_entrega_proveedor2</property>
                     <property name="nativeName">plazo_entrega_proveedor2</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">17</property>
+                    <property name="position">18</property>
                     <property name="name">plazo_entrega_proveedor3</property>
                     <property name="nativeName">plazo_entrega_proveedor3</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">18</property>
+                    <property name="position">19</property>
                     <property name="name">direccion_proveedor1</property>
                     <property name="nativeName">direccion_proveedor1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">19</property>
+                    <property name="position">20</property>
                     <property name="name">direccion_proveedor2</property>
                     <property name="nativeName">direccion_proveedor2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">20</property>
+                    <property name="position">21</property>
                     <property name="name">direccion_proveedor3</property>
                     <property name="nativeName">direccion_proveedor3</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">21</property>
+                    <property name="position">22</property>
                     <property name="name">telefono_proveedor1</property>
                     <property name="nativeName">telefono_proveedor1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">22</property>
+                    <property name="position">23</property>
                     <property name="name">telefono_proveedor2</property>
                     <property name="nativeName">telefono_proveedor2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">23</property>
+                    <property name="position">24</property>
                     <property name="name">telefono_proveedor3</property>
                     <property name="nativeName">telefono_proveedor3</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">24</property>
+                    <property name="position">25</property>
                     <property name="name">email_proveedor1</property>
                     <property name="nativeName">email_proveedor1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">25</property>
+                    <property name="position">26</property>
                     <property name="name">email_proveedor2</property>
                     <property name="nativeName">email_proveedor2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">26</property>
+                    <property name="position">27</property>
                     <property name="name">email_proveedor3</property>
                     <property name="nativeName">email_proveedor3</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">27</property>
+                    <property name="position">28</property>
                     <property name="name">detalle_SC_id</property>
                     <property name="nativeName">detalle_SC_id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">28</property>
+                    <property name="position">29</property>
                     <property name="name">cantidad_solicitada</property>
                     <property name="nativeName">cantidad_solicitada</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">7</property>
                 </structure>
                 <structure>
-                    <property name="position">29</property>
+                    <property name="position">30</property>
                     <property name="name">descripcion_detalle</property>
                     <property name="nativeName">descripcion_detalle</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">30</property>
+                    <property name="position">31</property>
                     <property name="name">observaciones_detalle</property>
                     <property name="nativeName">observaciones_detalle</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">31</property>
+                    <property name="position">32</property>
                     <property name="name">codigo_articulo</property>
                     <property name="nativeName">codigo_articulo</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">32</property>
+                    <property name="position">33</property>
                     <property name="name">descripcion_articulo</property>
                     <property name="nativeName">descripcion_articulo</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">33</property>
+                    <property name="position">34</property>
                     <property name="name">descripcion_completa</property>
                     <property name="nativeName">descripcion_completa</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">34</property>
+                    <property name="position">35</property>
                     <property name="name">tarea_id</property>
                     <property name="nativeName">tarea_id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">35</property>
+                    <property name="position">36</property>
                     <property name="name">monto_unitario</property>
                     <property name="nativeName">monto_unitario</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">36</property>
+                    <property name="position">37</property>
                     <property name="name">nombre_tarea</property>
                     <property name="nativeName">nombre_tarea</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">37</property>
+                    <property name="position">38</property>
                     <property name="name">unidad_medida</property>
                     <property name="nativeName">unidad_medida</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">38</property>
+                    <property name="position">39</property>
                     <property name="name">solicitud_compra_id</property>
                     <property name="nativeName">solicitud_compra_id</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">39</property>
+                    <property name="position">40</property>
                     <property name="name">monto_unitario_proveedor1</property>
                     <property name="nativeName">monto_unitario_proveedor1</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">40</property>
+                    <property name="position">41</property>
                     <property name="name">marca_proveedor1</property>
                     <property name="nativeName">marca_proveedor1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">41</property>
+                    <property name="position">42</property>
                     <property name="name">monto_unitario_proveedor2</property>
                     <property name="nativeName">monto_unitario_proveedor2</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">42</property>
+                    <property name="position">43</property>
                     <property name="name">marca_proveedor2</property>
                     <property name="nativeName">marca_proveedor2</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">43</property>
+                    <property name="position">44</property>
                     <property name="name">monto_unitario_proveedor3</property>
                     <property name="nativeName">monto_unitario_proveedor3</property>
                     <property name="dataType">float</property>
                     <property name="nativeDataType">8</property>
                 </structure>
                 <structure>
-                    <property name="position">44</property>
+                    <property name="position">45</property>
                     <property name="name">marca_proveedor3</property>
                     <property name="nativeName">marca_proveedor3</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">45</property>
+                    <property name="position">46</property>
                     <property name="name">cotizacion_seleccionada_proveedor1</property>
                     <property name="nativeName">cotizacion_seleccionada_proveedor1</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">46</property>
+                    <property name="position">47</property>
                     <property name="name">cotizacion_seleccionada_proveedor2</property>
                     <property name="nativeName">cotizacion_seleccionada_proveedor2</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
-                    <property name="position">47</property>
+                    <property name="position">48</property>
                     <property name="name">cotizacion_seleccionada_proveedor3</property>
                     <property name="nativeName">cotizacion_seleccionada_proveedor3</property>
                     <property name="dataType">integer</property>
                     <property name="nativeDataType">4</property>
                 </structure>
             </list-property>
-            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, cotizaciones_compra.observaciones observaciones_cotizacion, condiciones_compra_proveedor1.descripcion condicion_compra_proveedor1, condiciones_compra_proveedor2.descripcion condicion_compra_proveedor2, condiciones_compra_proveedor3.descripcion condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3, atributos_entidad_direccion_proveedor1.valor direccion_proveedor1, atributos_entidad_direccion_proveedor2.valor direccion_proveedor2, atributos_entidad_direccion_proveedor3.valor direccion_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3, atributos_entidad_email_proveedor1.valor email_proveedor1, atributos_entidad_email_proveedor2.valor email_proveedor2, atributos_entidad_email_proveedor3.valor email_proveedor3, detalle_sc.detalle_SC_id, detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle, articulos.nombre codigo_articulo, articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario, tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_SC.solicitud_compra_id, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3, detalle_cotizacion.cotizacion_seleccionada_proveedor1, detalle_cotizacion.cotizacion_seleccionada_proveedor2, detalle_cotizacion.cotizacion_seleccionada_proveedor3
+            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, cotizaciones_compra.observaciones observaciones_cotizacion, solicitudes_compra.observaciones observaciones_solicitud, condiciones_compra_proveedor1.descripcion condicion_compra_proveedor1, condiciones_compra_proveedor2.descripcion condicion_compra_proveedor2, condiciones_compra_proveedor3.descripcion condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3, atributos_entidad_direccion_proveedor1.valor direccion_proveedor1, atributos_entidad_direccion_proveedor2.valor direccion_proveedor2, atributos_entidad_direccion_proveedor3.valor direccion_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3, atributos_entidad_email_proveedor1.valor email_proveedor1, atributos_entidad_email_proveedor2.valor email_proveedor2, atributos_entidad_email_proveedor3.valor email_proveedor3, detalle_sc.detalle_SC_id, detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle, articulos.nombre codigo_articulo, articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario, tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_SC.solicitud_compra_id, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3, detalle_cotizacion.cotizacion_seleccionada_proveedor1, detalle_cotizacion.cotizacion_seleccionada_proveedor2, detalle_cotizacion.cotizacion_seleccionada_proveedor3
 FROM  inventario.cotizaciones_compra cotizaciones_compra
 inner join inventario.detalle_cotizacion detalle_cotizacion ON detalle_cotizacion.cotizacion_compra_id = cotizaciones_compra.cotizacion_compra_id
 inner join inventario.detalle_sc detalle_sc ON detalle_sc.detalle_SC_id = detalle_cotizacion.detalle_SC_id
@@ -1651,6 +1667,11 @@ else{"Inmediato"}}</expression>
                     <property name="name">cotizacion_seleccionada_proveedor3</property>
                     <expression name="expression">dataSetRow["cotizacion_seleccionada_proveedor3"]</expression>
                     <property name="dataType">boolean</property>
+                </structure>
+                <structure>
+                    <property name="name">observaciones_solicitud</property>
+                    <expression name="expression">dataSetRow["observaciones_solicitud"]</expression>
+                    <property name="dataType">string</property>
                 </structure>
             </list-property>
             <property name="repeatHeader">true</property>
@@ -2830,36 +2851,84 @@ else{"Inmediato"}}</expression>
                         <grid id="1349">
                             <property name="width">100%</property>
                             <column id="1350">
-                                <property name="width">20%</property>
+                                <property name="width">12.5%</property>
+                            </column>
+                            <column id="1395">
+                                <property name="width">30%</property>
+                            </column>
+                            <column id="1402">
+                                <property name="width">5%</property>
                             </column>
                             <column id="1351">
-                                <property name="width">80%</property>
+                                <property name="width">12.5%</property>
+                            </column>
+                            <column id="1398">
+                                <property name="width">30%</property>
                             </column>
                             <row id="1357">
                                 <property name="height">0.5cm</property>
                                 <cell id="1358"/>
+                                <cell id="1393"/>
+                                <cell id="1400"/>
                                 <cell id="1359"/>
+                                <cell id="1396"/>
                             </row>
                             <row id="1352">
-                                <property name="borderBottomColor">#000000</property>
-                                <property name="borderBottomStyle">solid</property>
-                                <property name="borderBottomWidth">thin</property>
-                                <property name="borderLeftColor">#000000</property>
-                                <property name="borderLeftStyle">solid</property>
-                                <property name="borderLeftWidth">thin</property>
-                                <property name="borderRightColor">#000000</property>
-                                <property name="borderRightStyle">solid</property>
-                                <property name="borderRightWidth">thin</property>
-                                <property name="borderTopColor">#000000</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">thin</property>
                                 <cell id="1353">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
                                     <label id="1355">
                                         <property name="fontWeight">bold</property>
-                                        <text-property name="text">Observaciones</text-property>
+                                        <text-property name="text">Observaciones solicitud:</text-property>
                                     </label>
                                 </cell>
+                                <cell id="1394">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <data id="1392">
+                                        <property name="resultSetColumn">observaciones_solicitud</property>
+                                    </data>
+                                </cell>
+                                <cell id="1401"/>
                                 <cell id="1354">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderLeftColor">#000000</property>
+                                    <property name="borderLeftStyle">solid</property>
+                                    <property name="borderLeftWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
+                                    <label id="1399">
+                                        <property name="fontWeight">bold</property>
+                                        <text-property name="text">Observaciones cotización:</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="1397">
+                                    <property name="borderBottomColor">#000000</property>
+                                    <property name="borderBottomStyle">solid</property>
+                                    <property name="borderBottomWidth">1px</property>
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">1px</property>
                                     <data id="1356">
                                         <property name="resultSetColumn">observaciones_cotizacion</property>
                                     </data>
