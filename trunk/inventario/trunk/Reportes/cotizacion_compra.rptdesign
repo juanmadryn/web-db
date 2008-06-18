@@ -383,6 +383,18 @@ where detalle_cotizacion.cotizacion_compra_id= ?</property>
                     <property name="columnName">marca_proveedor3</property>
                     <property name="displayName">marca_proveedor3</property>
                 </structure>
+                <structure>
+                    <property name="columnName">cotizacion_seleccionada_proveedor1</property>
+                    <property name="displayName">cotizacion_seleccionada_proveedor1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">cotizacion_seleccionada_proveedor2</property>
+                    <property name="displayName">cotizacion_seleccionada_proveedor2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">cotizacion_seleccionada_proveedor3</property>
+                    <property name="displayName">cotizacion_seleccionada_proveedor3</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -608,16 +620,31 @@ where detalle_cotizacion.cotizacion_compra_id= ?</property>
                     </structure>
                     <structure>
                         <property name="position">45</property>
+                        <property name="name">cotizacion_seleccionada_proveedor1</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">46</property>
+                        <property name="name">cotizacion_seleccionada_proveedor2</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">47</property>
+                        <property name="name">cotizacion_seleccionada_proveedor3</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">48</property>
                         <property name="name">total_proveedor1</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">46</property>
+                        <property name="position">49</property>
                         <property name="name">total_proveedor2</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">47</property>
+                        <property name="position">50</property>
                         <property name="name">total_proveedor3</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -943,8 +970,29 @@ where detalle_cotizacion.cotizacion_compra_id= ?</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">45</property>
+                    <property name="name">cotizacion_seleccionada_proveedor1</property>
+                    <property name="nativeName">cotizacion_seleccionada_proveedor1</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">46</property>
+                    <property name="name">cotizacion_seleccionada_proveedor2</property>
+                    <property name="nativeName">cotizacion_seleccionada_proveedor2</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">47</property>
+                    <property name="name">cotizacion_seleccionada_proveedor3</property>
+                    <property name="nativeName">cotizacion_seleccionada_proveedor3</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
             </list-property>
-            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, cotizaciones_compra.observaciones observaciones_cotizacion, condiciones_compra_proveedor1.descripcion condicion_compra_proveedor1, condiciones_compra_proveedor2.descripcion condicion_compra_proveedor2, condiciones_compra_proveedor3.descripcion condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3, atributos_entidad_direccion_proveedor1.valor direccion_proveedor1, atributos_entidad_direccion_proveedor2.valor direccion_proveedor2, atributos_entidad_direccion_proveedor3.valor direccion_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3, atributos_entidad_email_proveedor1.valor email_proveedor1, atributos_entidad_email_proveedor2.valor email_proveedor2, atributos_entidad_email_proveedor3.valor email_proveedor3, detalle_sc.detalle_SC_id, detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle, articulos.nombre codigo_articulo, articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario, tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_SC.solicitud_compra_id, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3
+            <property name="queryText">SELECT cotizaciones_compra.cotizacion_compra_id, cotizaciones_compra.observaciones observaciones_cotizacion, condiciones_compra_proveedor1.descripcion condicion_compra_proveedor1, condiciones_compra_proveedor2.descripcion condicion_compra_proveedor2, condiciones_compra_proveedor3.descripcion condicion_compra_proveedor3, formas_pago_proveedor1.nombre forma_pago_proveedor1, formas_pago_proveedor2.nombre forma_pago_proveedor2, formas_pago_proveedor3.nombre forma_pago_proveedor3, entidad_externa_proveedor1.nombre proveedor1, entidad_externa_proveedor2.nombre proveedor2, entidad_externa_proveedor3.nombre proveedor3, cotizaciones_compra.bonificacion_proveedor1,  cotizaciones_compra.bonificacion_proveedor2, cotizaciones_compra.bonificacion_proveedor3, cotizaciones_compra.plazo_entrega_proveedor1, cotizaciones_compra.plazo_entrega_proveedor2, cotizaciones_compra.plazo_entrega_proveedor3, atributos_entidad_direccion_proveedor1.valor direccion_proveedor1, atributos_entidad_direccion_proveedor2.valor direccion_proveedor2, atributos_entidad_direccion_proveedor3.valor direccion_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3, atributos_entidad_email_proveedor1.valor email_proveedor1, atributos_entidad_email_proveedor2.valor email_proveedor2, atributos_entidad_email_proveedor3.valor email_proveedor3, detalle_sc.detalle_SC_id, detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle, articulos.nombre codigo_articulo, articulos.descripcion descripcion_articulo,articulos.descripcion_completa,detalle_sc.tarea_id,detalle_sc.monto_unitario, tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre unidad_medida, detalle_SC.solicitud_compra_id, detalle_cotizacion.monto_unitario_proveedor1, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.monto_unitario_proveedor2, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.monto_unitario_proveedor3, detalle_cotizacion.marca_proveedor3, detalle_cotizacion.cotizacion_seleccionada_proveedor1, detalle_cotizacion.cotizacion_seleccionada_proveedor2, detalle_cotizacion.cotizacion_seleccionada_proveedor3
 FROM  inventario.cotizaciones_compra cotizaciones_compra
 inner join inventario.detalle_cotizacion detalle_cotizacion ON detalle_cotizacion.cotizacion_compra_id = cotizaciones_compra.cotizacion_compra_id
 inner join inventario.detalle_sc detalle_sc ON detalle_sc.detalle_SC_id = detalle_cotizacion.detalle_SC_id
@@ -1589,11 +1637,26 @@ else{"Inmediato"}}</expression>
                     <expression name="expression">row["codigo_articulo"]+" - "+row["descripcion_articulo"]+" - "+row["descripcion_detalle"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">cotizacion_seleccionada_proveedor1</property>
+                    <expression name="expression">dataSetRow["cotizacion_seleccionada_proveedor1"]</expression>
+                    <property name="dataType">boolean</property>
+                </structure>
+                <structure>
+                    <property name="name">cotizacion_seleccionada_proveedor2</property>
+                    <expression name="expression">dataSetRow["cotizacion_seleccionada_proveedor2"]</expression>
+                    <property name="dataType">boolean</property>
+                </structure>
+                <structure>
+                    <property name="name">cotizacion_seleccionada_proveedor3</property>
+                    <expression name="expression">dataSetRow["cotizacion_seleccionada_proveedor3"]</expression>
+                    <property name="dataType">boolean</property>
+                </structure>
             </list-property>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">10</property>
             <column id="1156">
-                <property name="width">37%</property>
+                <property name="width">40%</property>
             </column>
             <column id="1157">
                 <property name="width">7%</property>
@@ -1625,9 +1688,47 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">2px</property>
-                        <label id="1166">
-                            <text-property name="text">Articulo</text-property>
-                        </label>
+                        <property name="paddingTop">1pt</property>
+                        <property name="paddingLeft">1pt</property>
+                        <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
+                        <grid id="1378">
+                            <property name="marginTop">0pt</property>
+                            <column id="1379">
+                                <property name="width">5%</property>
+                            </column>
+                            <column id="1380">
+                                <property name="width">90%</property>
+                            </column>
+                            <row id="1381">
+                                <cell id="1382">
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <label id="1384">
+                                        <property name="paddingTop">0pt</property>
+                                        <property name="paddingLeft">0pt</property>
+                                        <property name="paddingBottom">0pt</property>
+                                        <property name="paddingRight">0pt</property>
+                                        <text-property name="text">Nº</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="1383">
+                                    <property name="paddingTop">0pt</property>
+                                    <property name="paddingLeft">0pt</property>
+                                    <property name="paddingBottom">0pt</property>
+                                    <property name="paddingRight">0pt</property>
+                                    <label id="1166">
+                                        <property name="paddingTop">0pt</property>
+                                        <property name="paddingLeft">0pt</property>
+                                        <property name="paddingBottom">0pt</property>
+                                        <property name="paddingRight">0pt</property>
+                                        <text-property name="text">Articulo</text-property>
+                                    </label>
+                                </cell>
+                            </row>
+                        </grid>
                     </cell>
                     <cell id="1125">
                         <property name="borderBottomColor">#000000</property>
@@ -1799,10 +1900,42 @@ else{"Inmediato"}}</expression>
                         <property name="borderTopColor">#000000</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
-                        <text-data id="1200">
-                            <expression name="valueExpr">row["articulo_completo"]</expression>
-                            <property name="contentType">html</property>
-                        </text-data>
+                        <property name="paddingTop">0pt</property>
+                        <property name="paddingLeft">0pt</property>
+                        <property name="paddingBottom">0pt</property>
+                        <property name="paddingRight">0pt</property>
+                        <grid id="1385">
+                            <column id="1386">
+                                <property name="width">5%</property>
+                            </column>
+                            <column id="1387">
+                                <property name="width">90%</property>
+                            </column>
+                            <row id="1388">
+                                <cell id="1389">
+                                    <property name="borderRightColor">#000000</property>
+                                    <property name="borderRightStyle">solid</property>
+                                    <property name="borderRightWidth">1px</property>
+                                    <property name="paddingTop">1pt</property>
+                                    <property name="paddingLeft">1pt</property>
+                                    <property name="paddingBottom">1pt</property>
+                                    <property name="paddingRight">5pt</property>
+                                    <property name="textAlign">right</property>
+                                    <property name="verticalAlign">middle</property>
+                                    <text-data id="1391">
+                                        <expression name="valueExpr">Total.runningCount( )</expression>
+                                        <property name="contentType">html</property>
+                                    </text-data>
+                                </cell>
+                                <cell id="1390">
+                                    <property name="paddingTop">1pt</property>
+                                    <text-data id="1200">
+                                        <expression name="valueExpr">row["articulo_completo"]</expression>
+                                        <property name="contentType">html</property>
+                                    </text-data>
+                                </cell>
+                            </row>
+                        </grid>
                     </cell>
                     <cell id="1136">
                         <property name="borderBottomColor">#000000</property>
@@ -1882,10 +2015,19 @@ else{"Inmediato"}}</expression>
                         <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
                         <data id="1362">
+                            <property name="fontWeight">normal</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">$#,##0.00</property>
                             </structure>
+                            <list-property name="highlightRules">
+                                <structure>
+                                    <property name="operator">is-true</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="color">#0000FF</property>
+                                    <expression name="testExpr">row["cotizacion_seleccionada_proveedor1"]</expression>
+                                </structure>
+                            </list-property>
                             <property name="resultSetColumn">monto_unitario_proveedor1</property>
                         </data>
                     </cell>
@@ -1925,10 +2067,19 @@ else{"Inmediato"}}</expression>
                         <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
                         <data id="1361">
+                            <property name="fontWeight">normal</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">$#,##0.00</property>
                             </structure>
+                            <list-property name="highlightRules">
+                                <structure>
+                                    <property name="operator">is-true</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="color">#0000FF</property>
+                                    <expression name="testExpr">row["cotizacion_seleccionada_proveedor2"]</expression>
+                                </structure>
+                            </list-property>
                             <property name="resultSetColumn">monto_unitario_proveedor2</property>
                         </data>
                     </cell>
@@ -1968,10 +2119,19 @@ else{"Inmediato"}}</expression>
                         <property name="paddingRight">5pt</property>
                         <property name="textAlign">right</property>
                         <data id="1360">
+                            <property name="fontWeight">normal</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">$#,##0.00</property>
                             </structure>
+                            <list-property name="highlightRules">
+                                <structure>
+                                    <property name="operator">is-true</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="color">#0000FF</property>
+                                    <expression name="testExpr">row["cotizacion_seleccionada_proveedor3"]</expression>
+                                </structure>
+                            </list-property>
                             <property name="resultSetColumn">monto_unitario_proveedor3</property>
                         </data>
                     </cell>
