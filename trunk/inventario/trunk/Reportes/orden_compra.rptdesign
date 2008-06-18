@@ -650,6 +650,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="1196">
+                                <property name="fontFamily">"Courier"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="textAlign">center</property>
@@ -666,7 +667,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="876">
                             <property name="verticalAlign">middle</property>
                             <data id="897">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <structure name="dateTimeFormat">
                                     <property name="category">Medium Date</property>
@@ -800,7 +801,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="880">
                             <property name="verticalAlign">middle</property>
                             <data id="898">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <structure name="numberFormat">
@@ -969,7 +970,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="884">
                             <property name="verticalAlign">middle</property>
                             <data id="899">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <structure name="dateTimeFormat">
                                     <property name="category">Medium Date</property>
@@ -1105,7 +1106,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <data id="900">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="paddingLeft">2.5cm</property>
@@ -1236,7 +1237,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <property name="verticalAlign">middle</property>
                         <cell id="890">
                             <data id="904">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="paddingLeft">2.5cm</property>
@@ -1365,7 +1366,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
                             <data id="905">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="dataSet">Data Set</property>
@@ -1508,10 +1509,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="rowSpan">1</property>
                             <property name="paddingTop">1pt</property>
                             <data id="922">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
-                                <property name="paddingTop">3mm</property>
-                                <property name="paddingLeft">0.5cm</property>
+                                <property name="paddingTop">7mm</property>
+                                <property name="paddingLeft">0.1cm</property>
                                 <property name="dataSet">Data Set</property>
                                 <list-property name="boundDataColumns">
                                     <structure>
@@ -1643,7 +1644,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="926">
                                     <cell id="927">
                                         <data id="934">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -1801,7 +1802,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="928">
                                     <cell id="929">
                                         <data id="935">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -1955,10 +1956,12 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="930">
                                     <cell id="931">
                                         <data id="936">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="paddingBottom">1pt</property>
                                             <structure name="numberFormat">
                                                 <property name="category">Currency</property>
                                                 <property name="pattern">$#,##0.00</property>
@@ -2109,7 +2112,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="932">
                                     <cell id="933">
                                         <data id="937">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -2264,13 +2267,13 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         </cell>
                     </row>
                     <row id="914">
-                        <property name="height">7mm</property>
+                        <property name="height">9mm</property>
                         <cell id="915">
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
-                            <property name="verticalAlign">middle</property>
+                            <property name="verticalAlign">bottom</property>
                             <data id="1004">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="paddingTop">1pt</property>
@@ -2423,14 +2426,14 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         </cell>
                     </row>
                     <row id="918">
-                        <property name="height">11mm</property>
+                        <property name="height">9mm</property>
                         <cell id="919">
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="verticalAlign">middle</property>
+                            <property name="verticalAlign">bottom</property>
                             <data id="923">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="paddingTop">1pt</property>
@@ -2583,6 +2586,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="1192">
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="textAlign">center</property>
@@ -2599,7 +2603,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1094">
                             <property name="verticalAlign">middle</property>
                             <data id="1095">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <structure name="dateTimeFormat">
                                     <property name="category">Medium Date</property>
@@ -2733,7 +2737,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1097">
                             <property name="verticalAlign">middle</property>
                             <data id="1098">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <structure name="numberFormat">
@@ -2902,7 +2906,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1100">
                             <property name="verticalAlign">middle</property>
                             <data id="1101">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <structure name="dateTimeFormat">
                                     <property name="category">Medium Date</property>
@@ -3038,7 +3042,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <data id="1104">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="paddingLeft">2.5cm</property>
@@ -3169,7 +3173,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <property name="verticalAlign">middle</property>
                         <cell id="1106">
                             <data id="1107">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="paddingLeft">2.5cm</property>
@@ -3298,7 +3302,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
                             <data id="1109">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="dataSet">Data Set</property>
@@ -3441,10 +3445,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="rowSpan">1</property>
                             <property name="paddingTop">1pt</property>
                             <data id="1136">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
-                                <property name="paddingTop">3mm</property>
-                                <property name="paddingLeft">0.5cm</property>
+                                <property name="paddingTop">7mm</property>
+                                <property name="paddingLeft">0.1cm</property>
                                 <property name="dataSet">Data Set</property>
                                 <list-property name="boundDataColumns">
                                     <structure>
@@ -3576,7 +3580,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1140">
                                     <cell id="1141">
                                         <data id="1142">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -3734,7 +3738,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1143">
                                     <cell id="1144">
                                         <data id="1145">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -3888,7 +3892,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1146">
                                     <cell id="1147">
                                         <data id="1148">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -4042,7 +4046,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1149">
                                     <cell id="1150">
                                         <data id="1151">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -4197,13 +4201,13 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         </cell>
                     </row>
                     <row id="1152">
-                        <property name="height">7mm</property>
+                        <property name="height">9mm</property>
                         <cell id="1153">
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
-                            <property name="verticalAlign">middle</property>
+                            <property name="verticalAlign">bottom</property>
                             <data id="1154">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="paddingTop">1pt</property>
@@ -4356,14 +4360,14 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         </cell>
                     </row>
                     <row id="1155">
-                        <property name="height">11mm</property>
+                        <property name="height">9mm</property>
                         <cell id="1156">
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="verticalAlign">middle</property>
+                            <property name="verticalAlign">bottom</property>
                             <data id="1157">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="paddingTop">1pt</property>
@@ -4516,6 +4520,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <label id="1188">
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="textAlign">center</property>
                                 <text-property name="text">TRIPLICADO</text-property>
@@ -4531,7 +4536,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1115">
                             <property name="verticalAlign">middle</property>
                             <data id="1116">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <structure name="dateTimeFormat">
                                     <property name="category">Medium Date</property>
@@ -4665,7 +4670,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1118">
                             <property name="verticalAlign">middle</property>
                             <data id="1119">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <structure name="numberFormat">
@@ -4834,7 +4839,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1121">
                             <property name="verticalAlign">middle</property>
                             <data id="1122">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <structure name="dateTimeFormat">
                                     <property name="category">Medium Date</property>
@@ -4970,7 +4975,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
                             <data id="1125">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="paddingLeft">2.5cm</property>
@@ -5101,7 +5106,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <property name="verticalAlign">middle</property>
                         <cell id="1127">
                             <data id="1128">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="paddingLeft">2.5cm</property>
@@ -5230,7 +5235,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
                             <data id="1130">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="paddingTop">1pt</property>
                                 <property name="dataSet">Data Set</property>
@@ -5373,10 +5378,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="rowSpan">1</property>
                             <property name="paddingTop">1pt</property>
                             <data id="1163">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
-                                <property name="paddingTop">3mm</property>
-                                <property name="paddingLeft">0.5cm</property>
+                                <property name="paddingTop">7mm</property>
+                                <property name="paddingLeft">0.1cm</property>
                                 <property name="dataSet">Data Set</property>
                                 <list-property name="boundDataColumns">
                                     <structure>
@@ -5508,7 +5513,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1167">
                                     <cell id="1168">
                                         <data id="1169">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -5666,7 +5671,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1170">
                                     <cell id="1171">
                                         <data id="1172">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -5820,7 +5825,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1173">
                                     <cell id="1174">
                                         <data id="1175">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -5974,7 +5979,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1176">
                                     <cell id="1177">
                                         <data id="1178">
-                                            <property name="fontFamily">"Liberation Mono"</property>
+                                            <property name="fontFamily">"Courier New"</property>
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
                                             <property name="marginTop">0pt</property>
@@ -6129,13 +6134,13 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         </cell>
                     </row>
                     <row id="1179">
-                        <property name="height">7mm</property>
+                        <property name="height">9mm</property>
                         <cell id="1180">
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
-                            <property name="verticalAlign">middle</property>
+                            <property name="verticalAlign">bottom</property>
                             <data id="1181">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="paddingTop">1pt</property>
@@ -6288,14 +6293,14 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         </cell>
                     </row>
                     <row id="1182">
-                        <property name="height">11mm</property>
+                        <property name="height">9mm</property>
                         <cell id="1183">
                             <property name="colSpan">1</property>
                             <property name="rowSpan">1</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="verticalAlign">middle</property>
+                            <property name="verticalAlign">bottom</property>
                             <data id="1184">
-                                <property name="fontFamily">"Liberation Mono"</property>
+                                <property name="fontFamily">"Courier New"</property>
                                 <property name="fontSize">large</property>
                                 <property name="marginTop">0pt</property>
                                 <property name="paddingTop">1pt</property>
@@ -6651,14 +6656,14 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="969">
                         <property name="paddingTop">1pt</property>
                         <data id="985">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
                             <property name="paddingLeft">5mm</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1000">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
                             <property name="paddingLeft">5mm</property>
@@ -6671,7 +6676,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
                         </data>
                         <data id="1001">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">5mm</property>
@@ -6689,7 +6694,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="970">
                         <property name="paddingTop">1pt</property>
                         <data id="986">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <structure name="numberFormat">
                                 <property name="category">Fixed</property>
@@ -6702,7 +6707,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="971">
                         <property name="paddingTop">1pt</property>
                         <data id="987">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">unidad_medida_nombre</property>
@@ -6711,7 +6716,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="989">
                         <property name="paddingTop">1pt</property>
                         <data id="998">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
@@ -6724,7 +6729,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="994">
                         <property name="paddingTop">1pt</property>
                         <data id="999">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
@@ -6749,7 +6754,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="977">
                         <property name="paddingTop">1pt</property>
                         <data id="1003">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">5mm</property>
                             <property name="marginLeft">5mm</property>
@@ -6999,14 +7004,14 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1024">
                         <property name="paddingTop">1pt</property>
                         <data id="1025">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
                             <property name="paddingLeft">5mm</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1026">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
                             <property name="paddingLeft">5mm</property>
@@ -7019,7 +7024,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
                         </data>
                         <data id="1027">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">5mm</property>
@@ -7037,7 +7042,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1029">
                         <property name="paddingTop">1pt</property>
                         <data id="1030">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <structure name="numberFormat">
                                 <property name="category">Fixed</property>
@@ -7050,7 +7055,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1031">
                         <property name="paddingTop">1pt</property>
                         <data id="1032">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">unidad_medida_nombre</property>
@@ -7059,7 +7064,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1033">
                         <property name="paddingTop">1pt</property>
                         <data id="1034">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
@@ -7072,7 +7077,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1035">
                         <property name="paddingTop">1pt</property>
                         <data id="1036">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
@@ -7097,7 +7102,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1038">
                         <property name="paddingTop">1pt</property>
                         <data id="1039">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">5mm</property>
                             <property name="marginLeft">5mm</property>
@@ -7347,14 +7352,14 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1062">
                         <property name="paddingTop">1pt</property>
                         <data id="1063">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
                             <property name="paddingLeft">5mm</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1064">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
                             <property name="paddingLeft">5mm</property>
@@ -7367,7 +7372,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
                         </data>
                         <data id="1065">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
                             <property name="marginLeft">5mm</property>
@@ -7385,7 +7390,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1067">
                         <property name="paddingTop">1pt</property>
                         <data id="1068">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <structure name="numberFormat">
                                 <property name="category">Fixed</property>
@@ -7398,7 +7403,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1069">
                         <property name="paddingTop">1pt</property>
                         <data id="1070">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="textAlign">right</property>
                             <property name="resultSetColumn">unidad_medida_nombre</property>
@@ -7407,7 +7412,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1071">
                         <property name="paddingTop">1pt</property>
                         <data id="1072">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
@@ -7420,7 +7425,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1073">
                         <property name="paddingTop">1pt</property>
                         <data id="1074">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
                             <structure name="numberFormat">
@@ -7445,7 +7450,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <cell id="1076">
                         <property name="paddingTop">1pt</property>
                         <data id="1077">
-                            <property name="fontFamily">"Liberation Mono"</property>
+                            <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">5mm</property>
                             <property name="marginLeft">5mm</property>

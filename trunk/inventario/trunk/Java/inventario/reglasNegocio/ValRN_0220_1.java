@@ -3,9 +3,11 @@
  */
 package inventario.reglasNegocio;
 
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.reglasNegocio.ValidationException;
+import inventario.models.DetalleSCModel;
 import inventario.models.OrdenesCompraModel;
 import inventario.util.OrdenesDeCompraTANGO;
 
@@ -44,6 +46,20 @@ public final class ValRN_0220_1 extends ValidadorReglasNegocio {
 			// Ejecutamos la replicación en tango			
 			OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
 			ordenesDeCompraTANGO.insertaCabeceraOC(ds);
+			
+			// Actualizamos el atributo monto ultima compra
+			DetalleSCModel detalleSCModel = new DetalleSCModel("inventario");
+			
+			detalleSCModel.retrieve(conn, 
+					DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " = " + ds.getOrdenesCompraOrdenCompraId());
+			detalleSCModel.waitForRetrieve();
+			detalleSCModel.gotoFirst();
+			
+			for(int row = 0; row < detalleSCModel.getRowCount(); row++) {
+				AtributosEntidadModel.setValorAtributoObjeto(
+						String.valueOf(detalleSCModel.getDetalleScMontoUnitario(row)),
+						"MONTO_ULTIMA_COMPRA", ds.getOrdenesCompraOrdenCompraId(), "TABLA", "ordenes_compra");
+			}
 			
 			return true;
 		} catch (DataStoreException ex) {
