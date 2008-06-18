@@ -1650,7 +1650,10 @@ else{"Inmediato"}}</expression>
                 </structure>
                 <structure>
                     <property name="name">articulo_completo</property>
-                    <expression name="expression">row["codigo_articulo"]+" - "+row["descripcion_articulo"]+" - "+row["descripcion_detalle"]</expression>
+                    <expression name="expression">if(row["descripcion_completa"]!=null) {
+	row["codigo_articulo"]+" - "+row["descripcion_articulo"]+" - "+row["descripcion_completa"]}
+else {
+ row["codigo_articulo"]+" - "+row["descripcion_articulo"]}</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
