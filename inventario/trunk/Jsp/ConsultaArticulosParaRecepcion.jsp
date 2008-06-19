@@ -117,7 +117,8 @@
 			datasource="dsArticulosComprados"
 			lookupreturnexp="articulos_comprados.detalle_sc_id"
 			lookupdescreturnexp="articulos_comprados.descripcion"
-			searchformdisplaybox="searchformdisplaybox1">
+			searchformdisplaybox="searchformdisplaybox1"
+			autocreatelink="false">
 			<salmon:datatable name="datatable1" width="100%"
 				datasource="dsArticulosComprados">
 				<salmon:datatableheader>
