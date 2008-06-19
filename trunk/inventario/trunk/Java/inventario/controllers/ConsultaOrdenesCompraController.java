@@ -4,17 +4,20 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
+import infraestructura.reglasNegocio.ValidationException;
 import infraestructura.utils.BusquedaPorAtributo;
 import infraestructura.utils.Utilities;
 import inventario.models.OrdenesCompraModel;
 
 import java.sql.SQLException;
+import java.util.Hashtable;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.SubmitListener;
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -51,6 +54,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlText _fechahasta1;
 	public com.salmonllc.html.HtmlText _fechaTXT4;
 	public com.salmonllc.html.HtmlText _n1;
+	public com.salmonllc.html.HtmlText _nroOrdenTango1;
 	public com.salmonllc.html.HtmlText _nombre_completo_comprador1;
 	public com.salmonllc.html.HtmlText _nombre_completo_comprador2;
 	public com.salmonllc.html.HtmlText _numero1;
@@ -63,6 +67,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlTextEdit _fechadesde2;
 	public com.salmonllc.html.HtmlTextEdit _fechahasta2;
 	public com.salmonllc.html.HtmlTextEdit _n2;
+	public com.salmonllc.html.HtmlTextEdit _nroOrdenTango2;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
@@ -113,6 +118,8 @@ public class ConsultaOrdenesCompraController extends BaseController implements
     public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
     public static final int MODO_TITULO_NORMAL = 2;
     
+    private static Integer N_ORDEN_CO_PROP = null;
+    
     private int _modoBandeja;
 	
 	/**
@@ -144,6 +151,12 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		_modoBandeja = MODO_TITULO_NORMAL;
 		
 		_n2.setFocus();
+		
+		Props props = getPageProperties();
+		N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
+		if (N_ORDEN_CO_PROP == -1) {
+			displayErrorMessage("No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración");			
+		}
 		
 		super.initialize();		
 	}
@@ -230,6 +243,24 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 							" JOIN solicitudes_compra s ON s.solicitud_compra_id = d.solicitud_compra_id " +
 							" WHERE s.user_id_solicita = "
 					).append(userId).append("))");
+		}
+		
+		// Atributo Nro. de OC Tango
+		if (_nroOrdenTango2.getValue() != null) {
+			Hashtable<Integer, String> atributos = new Hashtable<Integer, String>();
+			String nroOcTango = " 00010000".concat(_nroOrdenTango2.getValue());
+			atributos.put(N_ORDEN_CO_PROP, nroOcTango);
+
+			String criterioAtributos = BusquedaPorAtributo
+					.armarBusquedaPorAtributos(atributos,
+							BusquedaPorAtributo.OPERATOR_OR, "ordenes_compra",
+							"orden_compra_id");
+			
+			if (criterioAtributos.length() > 0) {
+				if (sb.length() > 0) sb.append(" and ");
+				sb.append(OrdenesCompraModel.ORDENES_COMPRA_ORDEN_COMPRA_ID +" IN ( ").append(
+						criterioAtributos).append(" )");			
+			}
 		}
 		
 		// resto de los criterios especificados por el usuario
@@ -350,5 +381,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		_dsOrdenes.waitForRetrieve();
 		_dsOrdenes.gotoFirst();
 	}
+	
+	
 
 }

@@ -41,9 +41,16 @@
 							<tr>
 								<td><salmon:text name="n1" text="N° Orden"
 									font="TableHeadingFont" /></td>
-								<td colspan="3"><salmon:input name="n2" type="text"
+								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:nroOc">
 								</salmon:input></td>
+								<td><salmon:text name="nroOrdenTango1" text="N° Orden Tango"
+									font="TableHeadingFont" /></td>
+								<td>
+									<salmon:input name="nroOrdenTango2" type="text"></salmon:input>
+								</td>
+							</tr>
+							<tr>
 								<td><salmon:text name="estado1" text="Estado"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="estado2" type="select"
@@ -52,8 +59,17 @@
 										table="infraestructura.estados" criteria="circuito='0008'"
 										keycolumn="estado" displaycolumn="nombre" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
-								</salmon:input></td>
-
+									</salmon:input></td>
+								<td><salmon:text name="proveedor1" text="Proveedor"
+									font="TableHeadingFont" /></td>
+								<td>
+									<salmon:lookup
+										browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpProveedores" name="proveedor2" size="6"
+										maxlength="10" datasource="dsQBE:proveedor"
+										popupheight="450" popupwidth="500" 
+										usepopup="true" showdescription="true"></salmon:lookup>								
+								</td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"
@@ -64,22 +80,12 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="fechahasta2" size="10"
 									datasource="dsQBE:hasta"
-									maxlength="10"></salmon:input></td>
-								<td><salmon:text name="proveedor1" text="Proveedor"
-									font="TableHeadingFont" /></td>
-								<td>
-									<salmon:lookup
-										browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpProveedores" name="proveedor2" size="6"
-										maxlength="10" datasource="dsQBE:proveedor"
-										popupheight="450" popupwidth="500" 
-										usepopup="true" showdescription="true"></salmon:lookup>								
-								</td>								
+									maxlength="10"></salmon:input></td>																
 							</tr>
 							<tr>
 								<td><salmon:text name="comprador1" text="Comprador"
 									font="TableHeadingFont" /></td>
-								<td colspan="3"><salmon:input type="select"
+								<td><salmon:input type="select"
 									name="comprador2" size="30" datasource="dsQBE:comprador"
 									maxlength="50">
 									<salmon:option display="abc" key="123"
