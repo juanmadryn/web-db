@@ -238,9 +238,19 @@ public class OrdenesDeCompraTANGO {
 			String LEYENDA_1 = "OT " + solicitudCompraModel.getProyectosProyecto();
 			
 			/*
-			 * La 2da leyende hace igual a null temporalmente 
+			 * El limite de los campos en tango es de 30 caracteres 
 			 */
-			String LEYENDA_2 = solicitudCompraModel.getProyectosNombre();
+			String LEYENDA_2 = "";
+			String LEYENDA_3 = "";
+			String LEYENDA_4 = "";
+			
+			String proyectoNombre = solicitudCompraModel.getProyectosNombre();			
+			if (proyectoNombre.length() > 25) {
+				LEYENDA_2 = solicitudCompraModel.getProyectosNombre().substring(0, 25);				 
+				LEYENDA_3 = solicitudCompraModel.getProyectosNombre().substring(25);
+			} else {
+				LEYENDA_2 = solicitudCompraModel.getProyectosNombre();
+			}
 			
 			//int MONTO_CTE = 1;
 			boolean MONTO_CTE = true;
@@ -289,9 +299,9 @@ public class OrdenesDeCompraTANGO {
 							"INSERT INTO [FABRI_S.A.].[dbo].[CPA35](" +
 							"[AUTORIZO], [COD_COMPRA], [COD_LISTA], [COD_PROVEE], [COND_COMPR], [CONGELA], " +
 							"[COTIZ], [ESTADO], [EXPORTADO], [FEC_AUTORI], [FEC_EMISIO], [FEC_GENER], [FEC_VIGENC], " +
-							"[HORA_AUTOR], [INC_II], [INC_IVA], [LEYENDA_1], [LEYENDA_2], [MON_CTE], [N_ORDEN_CO], " +
+							"[HORA_AUTOR], [INC_II], [INC_IVA], [LEYENDA_1], [LEYENDA_2], [LEYENDA_3], [LEYENDA_4], [MON_CTE], [N_ORDEN_CO], " +
 							"[NRO_SUCURS], [OBSERVACIO], [PORC_BONIF], [TALONARIO], [TOTAL_BONI], [TOTAL_II], [TOTAL_IVA]) " +
-							"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+							"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			pstTango.setString(1, AUTORIZO);
 			pstTango.setString(2, COD_COMPRA);
@@ -311,15 +321,17 @@ public class OrdenesDeCompraTANGO {
 			pstTango.setString(16, INC_IVA);
 			pstTango.setString(17, LEYENDA_1);
 			pstTango.setString(18, LEYENDA_2);
-			pstTango.setBoolean(19, MONTO_CTE);
-			pstTango.setString(20, N_ORDEN_CO);
-			pstTango.setInt(21, NRO_SUCURS);
-			pstTango.setString(22, OBSERVACIO);
-			pstTango.setFloat(23, PORC_BONIF);
-			pstTango.setInt(24, TALONARIO);
-			pstTango.setFloat(25, TOTAL_BONI);
-			pstTango.setFloat(26, TOTAL_II);
-			pstTango.setFloat(27, TOTAL_IVA);
+			pstTango.setString(19, LEYENDA_3);
+			pstTango.setString(20, LEYENDA_4);
+			pstTango.setBoolean(21, MONTO_CTE);
+			pstTango.setString(22, N_ORDEN_CO);
+			pstTango.setInt(23, NRO_SUCURS);
+			pstTango.setString(24, OBSERVACIO);
+			pstTango.setFloat(25, PORC_BONIF);
+			pstTango.setInt(26, TALONARIO);
+			pstTango.setFloat(27, TOTAL_BONI);
+			pstTango.setFloat(28, TOTAL_II);
+			pstTango.setFloat(29, TOTAL_IVA);
 
 			/*
 			 * Imprime a la salida estandar para debug
@@ -344,6 +356,8 @@ public class OrdenesDeCompraTANGO {
 				System.out.println("INC_IVA \t-->\t" + INC_IVA);
 				System.out.println("LEYENDA 1\t-->\t" + LEYENDA_1 + "\tSize: "+LEYENDA_1.length());
 				System.out.println("LEYENDA 2\t-->\t" + LEYENDA_2 + "\tSize: "+LEYENDA_2.length());
+				System.out.println("LEYENDA 1\t-->\t" + LEYENDA_3 + "\tSize: "+LEYENDA_3.length());
+				System.out.println("LEYENDA 2\t-->\t" + LEYENDA_4 + "\tSize: "+LEYENDA_4.length());
 				System.out.println("MONTO_CTE\t-->\t" + MONTO_CTE);
 				System.out.println("N_ORDEN_CO\t-->\t" + N_ORDEN_CO);
 				System.out.println("NRO_SUCURS\t-->\t" + NRO_SUCURS);
