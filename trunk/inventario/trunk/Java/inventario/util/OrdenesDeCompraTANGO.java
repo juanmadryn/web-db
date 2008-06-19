@@ -85,7 +85,11 @@ public class OrdenesDeCompraTANGO {
 			// Conexion con Tango (SQL Server 2000)
 			connTango = DriverManager.getConnection(urlTango, userTango,
 					passWordTango);
-			connTango.setAutoCommit(false);
+			
+			if (connTango.getMetaData().supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)) { 
+				connTango.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+			}
+			connTango.setAutoCommit(false);		
 
 			int COD_LISTA = 0;
 			
