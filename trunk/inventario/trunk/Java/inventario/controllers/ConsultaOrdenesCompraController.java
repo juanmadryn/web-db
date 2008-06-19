@@ -78,6 +78,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspTable _table2;
 	public com.salmonllc.jsp.JspTable _tableFooter;
 	public com.salmonllc.html.HtmlDropDownList _solicitante2;
+	public com.salmonllc.html.HtmlLookUpComponent _proveedor2;
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -113,6 +114,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlSubmitButton _recuperaOrdenesPendientes;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaOrdenesObservadas;
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT;
+	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
 	
 	public static final int MODO_TITULO_ESPECIAL_PENDIENTES = 0;
     public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
@@ -146,7 +148,12 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		_buscarBUT.setAccessKey("B");		
 		_searchformdisplaybox1.addButton(_buscarBUT);
 		
+		_limpiarBUT = new HtmlSubmitButton("limpiarBUT", "Limpiar", this);
+		_limpiarBUT.setAccessKey("L");
+		_searchformdisplaybox1.addButton(_limpiarBUT);
+		
 		_buscarBUT.addSubmitListener(this);
+		_limpiarBUT.addSubmitListener(this);
 		
 		_modoBandeja = MODO_TITULO_NORMAL;
 		
@@ -206,6 +213,18 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			} catch (Exception ex) {
 				displayErrorMessage("Error: " + ex.getMessage());
 			}			
+		}
+		
+		// limpia los criterios
+		if (e.getComponent() == _limpiarBUT) {
+			_n2.setValue(null);
+			_nroOrdenTango2.setValue(null);
+			_estado2.setSelectedIndex(0);
+			_proveedor2.setValue(null);			
+			_fechadesde2.setValue(null);
+			_fechahasta2.setValue(null);
+			_comprador2.setSelectedIndex(0);
+			_solicitante2.setSelectedIndex(0);			
 		}
 
 		return super.submitPerformed(e);
