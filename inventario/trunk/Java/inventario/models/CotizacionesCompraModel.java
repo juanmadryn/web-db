@@ -3607,7 +3607,8 @@ public class CotizacionesCompraModel extends BaseModel {
 									+ dsDetalleCotizacion.getArticulosNombre(row)
 									+ " - "
 									+ dsDetalleCotizacion.getArticulosDescripcion(row));
-				if (!dsSolicitudCompra.getEstadoActual().equalsIgnoreCase("0006.0008"))
+				if (!dsSolicitudCompra.getEstadoActual().equalsIgnoreCase("0006.0008")
+						&& !dsSolicitudCompra.getEstadoActual().equalsIgnoreCase("0006.0006"))
 					throw new DataStoreException(
 							"La Solicitud asociada al artículo: "
 									+ dsDetalleCotizacion.getArticulosNombre(row)
