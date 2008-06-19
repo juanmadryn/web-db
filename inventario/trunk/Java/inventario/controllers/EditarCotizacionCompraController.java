@@ -527,13 +527,13 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		_imprimirCotizacionCompraBUT2.setHref(URL);
 		
 		// si no existe solicitud desactivo el enlace en cada detalle
-		for (int row=0; row < _dsDetalleCotizacion.getRowCount(); row++) {
+		/*for (int row=0; row < _dsDetalleCotizacion.getRowCount(); row++) {
 			if (_dsDetalleCotizacion.getDetalleScOrdenCompraId(row) == 0) {
 				_lnkordencompra1.setVisible(false);
 			} else {
 				_lnkordencompra1.setVisible(true);
 			}
-		}
+		}*/
 		
 	}
 

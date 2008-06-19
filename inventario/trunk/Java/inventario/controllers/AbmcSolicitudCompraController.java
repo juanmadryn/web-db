@@ -826,21 +826,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							else
 								_lnkCc1.setVisible(false);
 							// activo el link a la OC si corresponde
-							if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0)
+							/*if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0)
 								_lnkOc1.setVisible(true);
 							else
-								_lnkOc1.setVisible(false);
+								_lnkOc1.setVisible(false);*/
 
-							// test
-							System.out.println(" --> "
-									+ _dsDetalleSC
-											.getOrdenesCompraEstadoNombre(i));
-							System.out
-									.println(" --> "
-											+ _dsDetalleSC
-													.getWebsiteUserNombreSolicitante(i));
-							System.out.println(" --> "
-									+ _dsDetalleSC.getOrdenesCompraEstado(i));
+							// test							
 						}
 
 					setDatosBasicosSolicitud();
