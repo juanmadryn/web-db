@@ -4,6 +4,7 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 import infraestructura.models.UsuarioRolesModel;
+import inventario.models.ArticulosCompradosModel;
 import inventario.models.DetalleRCModel;
 import inventario.models.RecepcionesComprasModel;
 
@@ -131,7 +132,8 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 	private Timestamp desde;
 	private Timestamp hasta;
 
-	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG";
+	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG"; 
+	private String ORDEN_COMPRA_ID_PARAM = "orden_compra_id";
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -281,8 +283,20 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
-		// si la página es requerida por si misma no hago nada
-
+		
+		if (!isReferredByCurrentPage()) {
+			int ocId = getIntParameter(ORDEN_COMPRA_ID_PARAM);
+			
+			// Recuperamos articulos a recepcionar según OC
+			if (ocId > 0) {				
+				_dsArticulosComprados.reset();
+				_dsArticulosComprados.retrieve(
+						ArticulosCompradosModel.ARTICULOS_COMPRADOS_ORDEN_COMPRA_ID + " = " + ocId
+						);
+				_dsArticulosComprados.gotoFirst();				
+			}
+		}
+		
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
