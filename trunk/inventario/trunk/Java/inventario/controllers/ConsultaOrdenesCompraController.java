@@ -3,8 +3,8 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
+import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
-import infraestructura.reglasNegocio.ValidationException;
 import infraestructura.utils.BusquedaPorAtributo;
 import infraestructura.utils.Utilities;
 import inventario.models.OrdenesCompraModel;
@@ -79,6 +79,9 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspTable _tableFooter;
 	public com.salmonllc.html.HtmlDropDownList _solicitante2;
 	public com.salmonllc.html.HtmlLookUpComponent _proveedor2;
+	public com.salmonllc.jsp.JspTableRow _nroOcTangoTr;
+	public com.salmonllc.html.HtmlText _numeroTango1;
+	public com.salmonllc.html.HtmlText _numeroTango2;
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -158,13 +161,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		_modoBandeja = MODO_TITULO_NORMAL;
 		
 		_n2.setFocus();
-		
-		Props props = getPageProperties();
-		N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
-		if (N_ORDEN_CO_PROP == -1) {
-			displayErrorMessage("No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración");			
-		}
-		
+					
 		super.initialize();		
 	}
 	
@@ -346,6 +343,19 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			_comprador2.setEnabled(false);
 			_dsQBE.setString("comprador", String.valueOf(currentUser));
 		}	
+		
+		// Muestra el Nro. de OC asignado por Tango solo si la orden esta emitida		
+		if ((_dsOrdenes.getRow() > -1) && "0008.0006".equalsIgnoreCase(_dsOrdenes.getOrdenesCompraEstado())) {
+			_numeroTango2.setText(
+					AtributosEntidadModel.getValorAtributoObjeto(
+					N_ORDEN_CO,
+					_dsOrdenes.getOrdenesCompraOrdenCompraId(), "TABLA",
+					"ordenes_compra")
+					);
+			_nroOcTangoTr.setVisible(true);
+		} else {
+			_nroOcTangoTr.setVisible(false);
+		}
 		
 		super.pageRequested(event);
 	}
