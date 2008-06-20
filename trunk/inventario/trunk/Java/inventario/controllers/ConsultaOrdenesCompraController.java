@@ -82,6 +82,8 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspTableRow _nroOcTangoTr;
 	public com.salmonllc.html.HtmlText _numeroTango1;
 	public com.salmonllc.html.HtmlText _numeroTango2;
+	public com.salmonllc.jsp.JspLink _lnkRecepciones1;
+	public com.salmonllc.jsp.JspLink _lnkRecepciones2;
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -344,8 +346,9 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			_dsQBE.setString("comprador", String.valueOf(currentUser));
 		}	
 		
-		// Muestra el Nro. de OC asignado por Tango solo si la orden esta emitida		
+		// Si la OC esta emitida mostrar número de OC en tango y links para recepciones		
 		if ((_dsOrdenes.getRow() > -1) && "0008.0006".equalsIgnoreCase(_dsOrdenes.getOrdenesCompraEstado())) {
+			// Nro. OC Tango
 			_numeroTango2.setText(
 					AtributosEntidadModel.getValorAtributoObjeto(
 					N_ORDEN_CO,
@@ -353,9 +356,14 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 					"ordenes_compra")
 					);
 			_nroOcTangoTr.setVisible(true);
+			// Links recepciones
+			_lnkRecepciones1.setVisible(true);
+			_lnkRecepciones2.setVisible(true);
 		} else {
 			_nroOcTangoTr.setVisible(false);
-		}
+			_lnkRecepciones1.setVisible(false);
+			_lnkRecepciones2.setVisible(false);
+		}		
 		
 		super.pageRequested(event);
 	}
