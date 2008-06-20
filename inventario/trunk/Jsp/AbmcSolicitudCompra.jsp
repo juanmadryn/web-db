@@ -41,6 +41,15 @@ function CheckAll(checked) {
 	<!-- ********************************************************************************************* -->
 	<!-- Add page code here -->
 	<!-- ********************************************************************************************* -->
+	<salmon:property name="prop1" propertyname="visible"
+    	component="lnkOc1"
+      	expression="detalle_sc.orden_compra_id > 0"
+      	datasource="dsDetalleSC" />
+    <salmon:property name="prop2" propertyname="visible"
+    	component="lnkCc1"
+      	expression="detalle_sc.cotizacion_compra_id > 0"
+      	datasource="dsDetalleSC" />
+	
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
 			<salmon:tr>
