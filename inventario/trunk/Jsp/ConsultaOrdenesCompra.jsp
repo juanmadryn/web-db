@@ -112,13 +112,18 @@
 						caption="Detalle de Orden de Compra" datasource="dsOrdenes" width="100%"
 						listformdisplaybox="listformdisplaybox1"
 						headerbgcolor="#fffd99" bgcolor="fffdce">
-						<table width="100%">
+						<salmon:table width="100%" name="table1">
 							<tr>
-								<td><salmon:text name="numero1" text="Nº"
+								<td><salmon:text name="numero1" text="Nro. OC"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="numero2" text=""
 									datasource="dsOrdenes:ordenes_compra.orden_compra_id"></salmon:text></td>
 							</tr>							
+							<salmon:tr name="nroOcTangoTr">
+								<td><salmon:text name="numeroTango1" text="Nro. OC [Tango]"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="numeroTango2" text=""></salmon:text></td>
+							</salmon:tr>
 							<tr>
 								<td><salmon:text name="observacion1" text="Observaciones"
 									font="TableHeadingFont" /></td>
@@ -154,8 +159,26 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="fecha_entrega_completa2" text="" displayformatlocalekey="DateFormat" 
 									datasource="dsOrdenes:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
+							</tr>
+							<tr>
+								<td colspan="2" align="center">
+									<salmon:a href="none" name="lnkRecepciones1"
+										onclick="document.forms['bannerForm'].submit();"
+										datasource="dsOrdenes:'%ConsultaArticulosParaRecepcion?orden_compra_id='+ordenes_compra.orden_compra_id">
+										<salmon:text name="recepcionesPendientes" text="Recepciones pendientes" />
+									</salmon:a>
+								</td>								
 							</tr>							
-						</table>
+							<tr>
+								<td colspan="2" align="center">
+									<salmon:a href="none" name="lnkRecepciones2"
+										onclick="document.forms['bannerForm'].submit();"
+										datasource="dsOrdenes:'%ConsultaArticulosParaRecepcion?orden_compra_id='+ordenes_compra.orden_compra_id">
+										<salmon:text name="articulosRecepcionados" text="Artículos recepcionados" />
+									</salmon:a>
+								</td>								
+							</tr>
+						</salmon:table>
 					</salmon:detailformdisplaybox>
 				</salmon:td>
 			</salmon:tr>

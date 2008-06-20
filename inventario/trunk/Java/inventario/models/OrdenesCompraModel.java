@@ -209,7 +209,7 @@ public class OrdenesCompraModel extends BaseModel {
 			
 			// Formato de los campos de fecha
 			setFormat(ORDENES_COMPRA_FECHA_ESTIMADA_ENTREGA, "dd/MM/yyyy");
-			
+
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e,this);
 		}
