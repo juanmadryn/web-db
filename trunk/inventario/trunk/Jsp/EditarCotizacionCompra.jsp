@@ -21,6 +21,11 @@
    <!-- ********************************************************************************************* -->
    <!-- Agregar código de la página aquí -->
    <!-- ********************************************************************************************* -->
+   <salmon:property name="prop1" propertyname="visible"
+    	component="lnkordencompra1"
+      	expression="detalle_sc.orden_compra_id > 0"
+      	datasource="dsDetalleCotizacion" />
+   
    <salmon:box name="box1" width="100%">
       <salmon:table name="table1" border="0" width="100%">
          <salmon:tr>
