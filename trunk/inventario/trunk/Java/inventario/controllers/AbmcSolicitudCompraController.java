@@ -17,8 +17,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.util.HashSet;
-import java.util.Set;
 
 import com.salmonllc.html.HtmlComponent;
 import com.salmonllc.html.HtmlSubmitButton;
@@ -35,7 +33,7 @@ import com.salmonllc.util.MessageLog;
 public class AbmcSolicitudCompraController extends BaseEntityController {
 
 	/**
-	 * Modificado por Demian Barry el 21/05/2008 Agrega funcionalidadpara el
+	 * Modificado por Demian Barry el 21/05/2008 Agrega funcionalidad para el
 	 * tratamiento de las Cotizaciones de Compra cc
 	 */
 
