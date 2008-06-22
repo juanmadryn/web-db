@@ -9,13 +9,28 @@
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">fixed layout</property>
     <parameters>
-        <scalar-parameter name="param_solicitud_compra_id" id="136">
+        <scalar-parameter name="param_cotizacion_compra_id" id="136">
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
             <property name="paramType">simple</property>
             <text-property name="promptText">Ingrese el número de solicitud de compra</text-property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
-            <property name="defaultValue">13</property>
+            <property name="defaultValue">7</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="param_proveedor_id" id="1195">
+            <property name="hidden">false</property>
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese el destinatario para la solicitud</text-property>
+            <property name="concealValue">false</property>
+            <property name="isRequired">true</property>
+            <property name="controlType">text-box</property>
             <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -118,6 +133,30 @@
                     <property name="columnName">nombre_unidad_medida</property>
                     <property name="displayName">nombre_unidad_medida</property>
                 </structure>
+                <structure>
+                    <property name="columnName">marca_proveedor1</property>
+                    <property name="displayName">marca_proveedor1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">marca_proveedor2</property>
+                    <property name="displayName">marca_proveedor2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">marca_proveedor3</property>
+                    <property name="displayName">marca_proveedor3</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_proveedor1</property>
+                    <property name="displayName">nombre_proveedor1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_proveedor2</property>
+                    <property name="displayName">nombre_proveedor2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_proveedor3</property>
+                    <property name="displayName">nombre_proveedor3</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -213,11 +252,41 @@
                     </structure>
                     <structure>
                         <property name="position">19</property>
+                        <property name="name">marca_proveedor1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">marca_proveedor2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">marca_proveedor3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">nombre_proveedor1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">nombre_proveedor2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">nombre_proveedor3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
                         <property name="name">Total</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">20</property>
+                        <property name="position">26</property>
                         <property name="name">TotalSolicitud</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -226,8 +295,8 @@
             <property name="dataSource">MySQL - Inventario</property>
             <list-property name="parameters">
                 <structure>
-                    <property name="name">solicitud_compra_id_param</property>
-                    <property name="paramName">param_solicitud_compra_id</property>
+                    <property name="name">cotizacion_compra_id_param</property>
+                    <property name="paramName">param_cotizacion_compra_id</property>
                     <property name="dataType">integer</property>
                     <property name="position">1</property>
                     <expression name="defaultValue">0</expression>
@@ -362,17 +431,64 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">marca_proveedor1</property>
+                    <property name="nativeName">marca_proveedor1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">marca_proveedor2</property>
+                    <property name="nativeName">marca_proveedor2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">marca_proveedor3</property>
+                    <property name="nativeName">marca_proveedor3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">nombre_proveedor1</property>
+                    <property name="nativeName">nombre_proveedor1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">nombre_proveedor2</property>
+                    <property name="nativeName">nombre_proveedor2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">nombre_proveedor3</property>
+                    <property name="nativeName">nombre_proveedor3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
-            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion descripcion_solicitud,solicitudes_compra.observaciones observaciones_solicitud,website_user_solicitante.nombre_completo solicitante,website_user_comprador.nombre_completo comprador,proyectos.nombre nombre_proyecto,proyectos.proyecto proyecto,detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle,articulos.nombre codigo_articulo,articulos.descripcion descripcion_articulos,articulos.descripcion_completa descripcion_completa_articulos,detalle_sc.monto_unitario,tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre nombre_unidad_medida
+            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion descripcion_solicitud,solicitudes_compra.observaciones observaciones_solicitud,website_user_solicitante.nombre_completo solicitante,website_user_comprador.nombre_completo comprador,proyectos.nombre nombre_proyecto,proyectos.proyecto proyecto,detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle,articulos.nombre codigo_articulo,articulos.descripcion descripcion_articulos,articulos.descripcion_completa descripcion_completa_articulos,detalle_sc.monto_unitario,tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre nombre_unidad_medida, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.marca_proveedor3, entidad_externa_proveedor1.nombre nombre_proveedor1, entidad_externa_proveedor2.nombre nombre_proveedor2, entidad_externa_proveedor3.nombre nombre_proveedor3
 FROM  inventario.solicitudes_compra solicitudes_compra
 left outer join infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id
 left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id
 left outer join inventario.detalle_sc detalle_SC ON detalle_SC.solicitud_compra_id = solicitudes_compra.solicitud_compra_id
+left outer join inventario.detalle_cotizacion detalle_cotizacion ON detalle_cotizacion.detalle_SC_id = detalle_SC.detalle_SC_id
+left outer join inventario.cotizaciones_compra cotizaciones_compra ON cotizaciones_compra.cotizacion_compra_id = detalle_cotizacion.cotizacion_compra_id
+left outer join infraestructura.entidad_externa entidad_externa_proveedor1 ON cotizaciones_compra.entidad_id_proveedor1 = entidad_externa_proveedor1.entidad_id
+left outer join infraestructura.entidad_externa entidad_externa_proveedor2 ON cotizaciones_compra.entidad_id_proveedor2 = entidad_externa_proveedor2.entidad_id
+left outer join infraestructura.entidad_externa entidad_externa_proveedor3 ON cotizaciones_compra.entidad_id_proveedor3 = entidad_externa_proveedor3.entidad_id
 left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tarea_id = detalle_SC.tarea_id
 left outer join inventario.articulos articulos ON articulos.articulo_id = detalle_SC.articulo_id
 left outer join inventario.unidades_medida unidades_medida ON unidades_medida.unidad_medida_id = detalle_SC.unidad_medida_id
-where solicitudes_compra.solicitud_compra_id = ?</property>
+where cotizaciones_compra.cotizacion_compra_id = ?</property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -404,6 +520,12 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">1pt</property>
         </style>
+        <style name="FormattedDate" id="1156">
+            <structure name="dateTimeFormat">
+                <property name="category">Long Date</property>
+                <property name="pattern">Long Date</property>
+            </structure>
+        </style>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
@@ -418,9 +540,14 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
             <page-header>
                 <grid id="141">
                     <property name="fontFamily">"Arial"</property>
-                    <property name="fontSize">larger</property>
+                    <property name="fontSize">12pt</property>
+                    <property name="borderTopColor">#000000</property>
+                    <property name="borderTopStyle">solid</property>
+                    <property name="borderTopWidth">2px</property>
+                    <property name="marginTop">0pt</property>
                     <property name="height">3.3854166667in</property>
                     <property name="width">100%</property>
+                    <property name="dataSet">Data Set - solicitudes_compra</property>
                     <column id="142">
                         <property name="width">20%</property>
                     </column>
@@ -432,6 +559,9 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
                         <cell id="923">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
+                            <property name="borderBottomColor">#000000</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">2px</property>
                             <property name="borderLeftColor">#000000</property>
                             <property name="borderLeftStyle">solid</property>
                             <property name="borderLeftWidth">2px</property>
@@ -450,186 +580,311 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
                             </image>
                         </cell>
                     </row>
-                    <row id="144">
-                        <property name="height">10mm</property>
-                        <cell id="145">
+                    <row id="1191">
+                        <property name="height">6mm</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">2px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">2px</property>
+                        <cell id="1192">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <property name="fontSize">18pt</property>
                             <property name="fontWeight">bold</property>
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">2px</property>
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">2px</property>
-                            <property name="borderTopColor">#000000</property>
-                            <property name="borderTopStyle">solid</property>
-                            <property name="borderTopWidth">2px</property>
-                            <property name="paddingTop">0pt</property>
-                            <property name="paddingLeft">0pt</property>
-                            <property name="paddingBottom">0pt</property>
-                            <property name="paddingRight">0pt</property>
                             <property name="textAlign">center</property>
                             <property name="verticalAlign">middle</property>
-                            <data id="140">
+                            <label id="1194">
                                 <property name="fontSize">18pt</property>
+                                <text-property name="text">SOLICITUD DE PRESUPUESTO</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="1196">
+                        <property name="height">6mm</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">2px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">2px</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">2px</property>
+                        <list-property name="visibility">
+                            <structure>
+                                <property name="format">all</property>
+                                <expression name="valueExpr">if(params["param_destinatario"]==null || params["param_destinatario"]==""){true}else{false}</expression>
+                            </structure>
+                        </list-property>
+                        <cell id="1197">
+                            <label id="1199">
+                                <property name="fontSize">large</property>
                                 <property name="fontWeight">bold</property>
-                                <property name="canShrink">false</property>
+                                <text-property name="text">Sr./es.</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1198">
+                            <data id="1203">
                                 <property name="dataSet">Data Set - solicitudes_compra</property>
                                 <list-property name="boundDataColumns">
                                     <structure>
                                         <property name="name">solicitud_compra_id</property>
-                                        <expression name="expression">"SOLICITUD DE MATERIALES Nº "+dataSetRow["solicitud_compra_id"]</expression>
-                                        <property name="dataType">any</property>
+                                        <expression name="expression">dataSetRow["solicitud_compra_id"]</expression>
+                                        <property name="dataType">integer</property>
                                     </structure>
-                                </list-property>
-                                <property name="resultSetColumn">solicitud_compra_id</property>
-                            </data>
-                        </cell>
-                    </row>
-                    <row id="147">
-                        <property name="height">6mm</property>
-                        <cell id="148">
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">2px</property>
-                            <property name="borderTopColor">#000000</property>
-                            <property name="borderTopStyle">solid</property>
-                            <property name="borderTopWidth">2px</property>
-                            <label id="361">
-                                <property name="fontSize">large</property>
-                                <property name="fontWeight">bold</property>
-                                <text-property name="text">Solicitante</text-property>
-                            </label>
-                        </cell>
-                        <cell id="149">
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">2px</property>
-                            <property name="borderTopColor">#000000</property>
-                            <property name="borderTopStyle">solid</property>
-                            <property name="borderTopWidth">2px</property>
-                            <data id="1133">
-                                <property name="dataSet">Data Set - solicitudes_compra</property>
-                                <list-property name="boundDataColumns">
-                                    <structure>
-                                        <property name="name">solicitante</property>
-                                        <expression name="expression">dataSetRow["solicitante"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                </list-property>
-                                <property name="resultSetColumn">solicitante</property>
-                            </data>
-                        </cell>
-                    </row>
-                    <row id="150">
-                        <property name="height">6mm</property>
-                        <cell id="151">
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">2px</property>
-                            <label id="368">
-                                <property name="fontSize">large</property>
-                                <property name="fontWeight">bold</property>
-                                <text-property name="text">Fecha de la solicitud</text-property>
-                            </label>
-                        </cell>
-                        <cell id="152">
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">2px</property>
-                            <data id="1134">
-                                <property name="dataSet">Data Set - solicitudes_compra</property>
-                                <list-property name="boundDataColumns">
                                     <structure>
                                         <property name="name">fecha_solicitud</property>
                                         <expression name="expression">dataSetRow["fecha_solicitud"]</expression>
                                         <property name="dataType">date-time</property>
                                     </structure>
-                                </list-property>
-                                <property name="resultSetColumn">fecha_solicitud</property>
-                            </data>
-                        </cell>
-                    </row>
-                    <row id="364">
-                        <property name="height">6mm</property>
-                        <cell id="365">
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">2px</property>
-                            <label id="369">
-                                <property name="fontSize">large</property>
-                                <property name="fontWeight">bold</property>
-                                <text-property name="text">Fecha de aprobación</text-property>
-                            </label>
-                        </cell>
-                        <cell id="366">
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">2px</property>
-                            <data id="1135">
-                                <property name="dataSet">Data Set - solicitudes_compra</property>
-                                <list-property name="boundDataColumns">
                                     <structure>
                                         <property name="name">fecha_aprobacion</property>
                                         <expression name="expression">dataSetRow["fecha_aprobacion"]</expression>
                                         <property name="dataType">date-time</property>
                                     </structure>
-                                </list-property>
-                                <property name="resultSetColumn">fecha_aprobacion</property>
-                            </data>
-                        </cell>
-                    </row>
-                    <row id="371">
-                        <property name="height">6mm</property>
-                        <cell id="372">
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">2px</property>
-                            <label id="382">
-                                <property name="fontSize">large</property>
-                                <property name="fontWeight">bold</property>
-                                <text-property name="text">Proyecto</text-property>
-                            </label>
-                        </cell>
-                        <cell id="373">
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">2px</property>
-                            <data id="1137">
-                                <property name="dataSet">Data Set - solicitudes_compra</property>
-                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">descripcion_solicitud</property>
+                                        <expression name="expression">dataSetRow["descripcion_solicitud"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_solicitud</property>
+                                        <expression name="expression">dataSetRow["observaciones_solicitud"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">solicitante</property>
+                                        <expression name="expression">dataSetRow["solicitante"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">comprador</property>
+                                        <expression name="expression">dataSetRow["comprador"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nombre_proyecto</property>
+                                        <expression name="expression">dataSetRow["nombre_proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
                                     <structure>
                                         <property name="name">proyecto</property>
-                                        <expression name="expression">dataSetRow["proyecto"]+" - "+dataSetRow["nombre_proyecto"]</expression>
+                                        <expression name="expression">dataSetRow["proyecto"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">cantidad_solicitada</property>
+                                        <expression name="expression">dataSetRow["cantidad_solicitada"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion_detalle</property>
+                                        <expression name="expression">dataSetRow["descripcion_detalle"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">observaciones_detalle</property>
+                                        <expression name="expression">dataSetRow["observaciones_detalle"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">codigo_articulo</property>
+                                        <expression name="expression">dataSetRow["codigo_articulo"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion_articulos</property>
+                                        <expression name="expression">dataSetRow["descripcion_articulos"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">descripcion_completa_articulos</property>
+                                        <expression name="expression">dataSetRow["descripcion_completa_articulos"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">monto_unitario</property>
+                                        <expression name="expression">dataSetRow["monto_unitario"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nombre_tarea</property>
+                                        <expression name="expression">dataSetRow["nombre_tarea"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nombre_unidad_medida</property>
+                                        <expression name="expression">dataSetRow["nombre_unidad_medida"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">marca_proveedor1</property>
+                                        <expression name="expression">dataSetRow["marca_proveedor1"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">marca_proveedor2</property>
+                                        <expression name="expression">dataSetRow["marca_proveedor2"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">marca_proveedor3</property>
+                                        <expression name="expression">dataSetRow["marca_proveedor3"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nombre_proveedor1</property>
+                                        <expression name="expression">dataSetRow["nombre_proveedor1"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nombre_proveedor2</property>
+                                        <expression name="expression">dataSetRow["nombre_proveedor2"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nombre_proveedor3</property>
+                                        <expression name="expression">dataSetRow["nombre_proveedor3"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">Total</property>
+                                        <expression name="expression">dataSetRow["Total"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">TotalSolicitud</property>
+                                        <expression name="expression">dataSetRow["TotalSolicitud"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">nombre_proveedor</property>
+                                        <expression name="expression">if(params["param_proveedor_id"]==1) {dataSetRow["nombre_proveedor1"]}
+else {if(params["param_proveedor_id"]==2) {dataSetRow["nombre_proveedor2"]}
+else {if(params["param_proveedor_id"]==3) {dataSetRow["nombre_proveedor3"]}}}</expression>
                                         <property name="dataType">string</property>
                                     </structure>
                                 </list-property>
-                                <property name="resultSetColumn">proyecto</property>
+                                <property name="resultSetColumn">nombre_proveedor</property>
                             </data>
                         </cell>
                     </row>
-                    <row id="377">
+                    <row id="147">
                         <property name="height">6mm</property>
-                        <cell id="378">
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">2px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">2px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">2px</property>
+                        <cell id="148">
+                            <label id="361">
+                                <property name="fontSize">large</property>
+                                <property name="fontWeight">bold</property>
+                                <text-property name="text">Fecha</text-property>
+                            </label>
                         </cell>
-                        <cell id="379">
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">2px</property>
+                        <cell id="149">
+                            <text id="1157">
+                                <property name="style">FormattedDate</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of format="dd-MM-yyyy">new Date()</value-of>]]></text-property>
+                            </text>
                         </cell>
+                    </row>
+                    <row id="150">
+                        <property name="height">6mm</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">2px</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">2px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">2px</property>
+                        <cell id="151">
+                            <label id="368">
+                                <property name="fontSize">large</property>
+                                <property name="fontWeight">bold</property>
+                                <text-property name="text">Referencia</text-property>
+                            </label>
+                        </cell>
+                        <cell id="152">
+                            <label id="1151">
+                                <text-property name="text">Presupuesto - REMITIR VIA FAX AL 452678 INT 11</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="377">
+                        <property name="height">2cm</property>
+                        <cell id="378"/>
+                        <cell id="379"/>
+                    </row>
+                    <row id="1158">
+                        <property name="height">6mm</property>
+                        <cell id="1159">
+                            <property name="colSpan">2</property>
+                            <property name="rowSpan">1</property>
+                            <label id="1161">
+                                <text-property name="text">Por medio de la presente les solicito tengan a bien presupuestar indicando MARCAS, PRECIOS y PLAZOS DE ENTREGA lo siguiente:</text-property>
+                            </label>
+                        </cell>
+                    </row>
+                    <row id="1162">
+                        <property name="height">1cm</property>
+                        <cell id="1163"/>
+                        <cell id="1164"/>
                     </row>
                 </grid>
             </page-header>
             <page-footer>
-                <text id="3">
-                    <property name="contentType">html</property>
-                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
-                </text>
+                <grid id="1165">
+                    <property name="width">100%</property>
+                    <column id="1166"/>
+                    <column id="1167"/>
+                    <column id="1168"/>
+                    <column id="1169"/>
+                    <column id="1170"/>
+                    <row id="1171">
+                        <cell id="1172">
+                            <text id="3">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="1173"/>
+                        <cell id="1174">
+                            <grid id="1177">
+                                <property name="width">100%</property>
+                                <column id="1178"/>
+                                <column id="1179"/>
+                                <column id="1180"/>
+                                <row id="1181">
+                                    <cell id="1182">
+                                        <auto-text id="1183">
+                                            <property name="type">page-number</property>
+                                        </auto-text>
+                                    </cell>
+                                    <cell id="1184">
+                                        <text id="1185">
+                                            <property name="contentType">plain</property>
+                                            <text-property name="content"><![CDATA[/]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="1186">
+                                        <auto-text id="1187">
+                                            <property name="type">total-page</property>
+                                        </auto-text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                        <cell id="1175"/>
+                        <cell id="1176"/>
+                    </row>
+                </grid>
             </page-footer>
         </simple-master-page>
     </page-setup>
@@ -639,16 +894,13 @@ where solicitudes_compra.solicitud_compra_id = ?</property>
             <property name="fontSize">10pt</property>
             <property name="marginTop">0pt</property>
             <property name="masterPage">Simple MasterPage</property>
+            <property name="width">100%</property>
             <property name="dataSet">Data Set - solicitudes_compra</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">articulo</property>
-                    <expression name="expression">if(dataSetRow["descripcion_completa_articulos"]!=null){
-	"["+dataSetRow["codigo_articulo"]+"]"+" - "+dataSetRow["descripcion_articulos"]+"-"+dataSetRow["descripcion_completa_articulos"]
-} 
-else {
-	"["+dataSetRow["codigo_articulo"]+"]"+" - "+dataSetRow["descripcion_articulos"]
-}</expression>
+                    <expression name="expression">if(dataSetRow["descripcion_completa_articulos"]!=null &amp;&amp; dataSetRow["descripcion_completa_articulos"]!="") {"["+dataSetRow["codigo_articulo"]+"]"+" - "+dataSetRow["descripcion_articulos"]+"-"+dataSetRow["descripcion_completa_articulos"]}
+else {"["+dataSetRow["codigo_articulo"]+"]"+" - "+dataSetRow["descripcion_articulos"]}</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -667,8 +919,8 @@ else {
                     <property name="dataType">float</property>
                 </structure>
                 <structure>
-                    <property name="name">descripcion_detalle</property>
-                    <expression name="expression">dataSetRow["descripcion_detalle"]</expression>
+                    <property name="name">comprador</property>
+                    <expression name="expression">dataSetRow["comprador"]</expression>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
@@ -681,9 +933,6 @@ else {
                 <property name="width">10%</property>
             </column>
             <column id="980">
-                <property name="width">10%</property>
-            </column>
-            <column id="981">
                 <property name="width">10%</property>
             </column>
             <header>
@@ -758,25 +1007,6 @@ else {
                             <text-property name="text">UM</text-property>
                         </label>
                     </cell>
-                    <cell id="946">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <property name="textAlign">center</property>
-                        <label id="992">
-                            <property name="fontWeight">bold</property>
-                            <text-property name="text">Precio referencia</text-property>
-                        </label>
-                    </cell>
                 </row>
             </header>
             <detail>
@@ -792,6 +1022,9 @@ else {
                     <property name="verticalAlign">middle</property>
                     <cell id="954">
                         <property name="fontSize">10pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
@@ -807,6 +1040,9 @@ else {
                         </data>
                     </cell>
                     <cell id="956">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
@@ -828,6 +1064,9 @@ else {
                         </data>
                     </cell>
                     <cell id="957">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
@@ -845,106 +1084,6 @@ else {
                             <property name="resultSetColumn">nombre_unidad_medida</property>
                         </data>
                     </cell>
-                    <cell id="958">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
-                        <property name="paddingTop">1pt</property>
-                        <property name="paddingRight">5pt</property>
-                        <property name="textAlign">right</property>
-                        <property name="verticalAlign">middle</property>
-                        <data id="1125">
-                            <property name="marginTop">0pt</property>
-                            <structure name="numberFormat">
-                                <property name="category">Currency</property>
-                                <property name="pattern">$#,##0.00</property>
-                            </structure>
-                            <property name="resultSetColumn">monto_unitario</property>
-                        </data>
-                    </cell>
-                </row>
-                <row id="1127">
-                    <property name="fontSize">10pt</property>
-                    <property name="borderLeftColor">#000000</property>
-                    <property name="borderLeftStyle">solid</property>
-                    <property name="borderLeftWidth">2px</property>
-                    <property name="borderRightColor">#000000</property>
-                    <property name="borderRightStyle">solid</property>
-                    <property name="borderRightWidth">2px</property>
-                    <property name="textIndent">0em</property>
-                    <property name="verticalAlign">middle</property>
-                    <list-property name="visibility">
-                        <structure>
-                            <property name="format">all</property>
-                            <expression name="valueExpr">if(row["descripcion_detalle"]==null || row["descripcion_detalle"]==""){true} else {false}</expression>
-                        </structure>
-                    </list-property>
-                    <cell id="1128">
-                        <property name="fontSize">10pt</property>
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="verticalAlign">middle</property>
-                        <data id="1132">
-                            <property name="resultSetColumn">descripcion_detalle</property>
-                        </data>
-                    </cell>
-                    <cell id="1129">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="paddingRight">5pt</property>
-                        <property name="textAlign">right</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
-                    <cell id="1130">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="paddingTop">1pt</property>
-                        <property name="paddingRight">1pt</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
-                    <cell id="1131">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="paddingTop">1pt</property>
-                        <property name="paddingRight">5pt</property>
-                        <property name="textAlign">right</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
                 </row>
             </detail>
             <footer>
@@ -953,105 +1092,42 @@ else {
                     <property name="borderTopStyle">solid</property>
                     <property name="borderTopWidth">2px</property>
                     <cell id="1121">
-                        <property name="colSpan">4</property>
+                        <property name="colSpan">3</property>
                         <property name="rowSpan">1</property>
                         <property name="fontSize">10pt</property>
-                        <table id="667">
-                            <property name="fontFamily">"Arial"</property>
-                            <property name="fontSize">10pt</property>
-                            <property name="marginTop">0pt</property>
-                            <property name="height">100%</property>
+                        <grid id="1127">
                             <property name="width">100%</property>
-                            <property name="dataSet">Data Set - solicitudes_compra</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">observaciones_solicitud</property>
-                                    <expression name="expression">dataSetRow["observaciones_solicitud"]</expression>
-                                    <property name="dataType">string</property>
-                                </structure>
-                            </list-property>
-                            <column id="681">
-                                <property name="width">20%</property>
-                            </column>
-                            <column id="674">
-                                <property name="width">60%</property>
-                            </column>
-                            <column id="684">
-                                <property name="width">20%</property>
-                            </column>
-                            <header>
-                                <row id="932">
-                                    <property name="height">2cm</property>
-                                    <cell id="933"/>
-                                    <cell id="934"/>
-                                    <cell id="935"/>
-                                </row>
-                                <row id="689">
-                                    <cell id="690">
-                                        <property name="borderBottomColor">#000000</property>
-                                        <property name="borderBottomStyle">solid</property>
-                                        <property name="borderBottomWidth">thin</property>
-                                        <property name="borderLeftColor">#000000</property>
-                                        <property name="borderLeftStyle">solid</property>
-                                        <property name="borderLeftWidth">thin</property>
-                                        <property name="borderTopColor">#000000</property>
-                                        <property name="borderTopStyle">solid</property>
-                                        <property name="borderTopWidth">thin</property>
-                                        <property name="paddingTop">1pt</property>
-                                        <label id="664">
-                                            <property name="fontSize">large</property>
-                                            <property name="fontWeight">bold</property>
-                                            <text-property name="text">Observaciones</text-property>
-                                        </label>
-                                    </cell>
-                                    <cell id="691">
-                                        <property name="borderBottomColor">#000000</property>
-                                        <property name="borderBottomStyle">solid</property>
-                                        <property name="borderBottomWidth">thin</property>
-                                        <property name="borderRightColor">#000000</property>
-                                        <property name="borderRightStyle">solid</property>
-                                        <property name="borderRightWidth">thin</property>
-                                        <property name="borderTopColor">#000000</property>
-                                        <property name="borderTopStyle">solid</property>
-                                        <property name="borderTopWidth">thin</property>
-                                        <property name="paddingTop">1pt</property>
-                                        <property name="verticalAlign">top</property>
-                                        <data id="1126">
-                                            <property name="paddingTop">1pt</property>
-                                            <property name="resultSetColumn">observaciones_solicitud</property>
-                                        </data>
-                                    </cell>
-                                    <cell id="692"/>
-                                </row>
-                            </header>
-                            <footer>
-                                <row id="936">
-                                    <property name="height">2cm</property>
-                                    <cell id="937"/>
-                                    <cell id="938"/>
-                                    <cell id="939"/>
-                                </row>
-                                <row id="685">
-                                    <cell id="686"/>
-                                    <cell id="687"/>
-                                    <cell id="688">
-                                        <label id="675">
-                                            <property name="fontSize">x-large</property>
-                                            <property name="fontWeight">bold</property>
-                                            <property name="textOverline">none</property>
-                                            <property name="borderTopColor">#000000</property>
-                                            <property name="borderTopStyle">solid</property>
-                                            <property name="borderTopWidth">thin</property>
-                                            <property name="marginTop">0pt</property>
-                                            <property name="paddingTop">1pt</property>
-                                            <property name="paddingBottom">1pt</property>
-                                            <property name="textAlign">center</property>
-                                            <text-property name="text">Firma</text-property>
-                                        </label>
-                                    </cell>
-                                </row>
-                            </footer>
-                        </table>
+                            <column id="1128"/>
+                            <column id="1129"/>
+                            <column id="1130"/>
+                            <row id="1131">
+                                <property name="height">1cm</property>
+                                <cell id="1132"/>
+                                <cell id="1133"/>
+                                <cell id="1134"/>
+                            </row>
+                            <row id="1135">
+                                <cell id="1136"/>
+                                <cell id="1137">
+                                    <label id="1143">
+                                        <text-property name="text">Atte.-</text-property>
+                                    </label>
+                                </cell>
+                                <cell id="1138"/>
+                            </row>
+                            <row id="1139">
+                                <property name="height">2cm</property>
+                                <cell id="1140"/>
+                                <cell id="1141"/>
+                                <cell id="1142">
+                                    <property name="textAlign">center</property>
+                                    <property name="verticalAlign">bottom</property>
+                                    <data id="1145">
+                                        <property name="resultSetColumn">comprador</property>
+                                    </data>
+                                </cell>
+                            </row>
+                        </grid>
                     </cell>
                 </row>
             </footer>

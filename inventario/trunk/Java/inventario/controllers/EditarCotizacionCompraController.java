@@ -89,9 +89,13 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspLink _imprimirCotizacionCompraBUT1;
-	public com.salmonllc.jsp.JspLink _imprimirCotizacionCompraBUT2;
+	public com.salmonllc.jsp.JspLink _imprimirCotizacionCompraBUT2;	
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
 	public com.salmonllc.jsp.JspTable _table1;
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion;
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion1;
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion2;
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion3;
 
 	// DataSources
 	public inventario.models.CotizacionesCompraModel _dsCotizacionesCompra;
@@ -525,6 +529,22 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		URL = armarUrlReporte("PDF", "cotizacion_compra",
 				"&param_cotizacion_compra_id=" + getRow_id());
 		_imprimirCotizacionCompraBUT2.setHref(URL);
+		
+		URL = armarUrlReporte("PDF", "solicitud_cotizacion_generica",
+				"&param_cotizacion_compra_id=" + getRow_id());
+		_imprimirSolicitudCotizacion.setHref(URL);
+		
+		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
+				"&param_cotizacion_compra_id=" + getRow_id()+"&param_proveedor_id=1");
+		_imprimirSolicitudCotizacion1.setHref(URL);
+		
+		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
+				"&param_cotizacion_compra_id=" + getRow_id()+"&param_proveedor_id=2");
+		_imprimirSolicitudCotizacion2.setHref(URL);
+		
+		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
+				"&param_cotizacion_compra_id=" + getRow_id()+"&param_proveedor_id=3");
+		_imprimirSolicitudCotizacion3.setHref(URL);
 		
 		// si no existe solicitud desactivo el enlace en cada detalle
 		/*for (int row=0; row < _dsDetalleCotizacion.getRowCount(); row++) {
