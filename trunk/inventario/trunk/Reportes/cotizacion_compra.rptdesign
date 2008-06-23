@@ -2962,63 +2962,45 @@ else {
                             </row>
                             <row id="1352">
                                 <cell id="1353">
+                                    <property name="colSpan">2</property>
+                                    <property name="rowSpan">1</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftColor">#000000</property>
                                     <property name="borderLeftStyle">solid</property>
                                     <property name="borderLeftWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
-                                    <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <label id="1355">
-                                        <property name="fontWeight">bold</property>
-                                        <text-property name="text">Observaciones solicitud:</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="1394">
-                                    <property name="borderBottomColor">#000000</property>
-                                    <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
                                     <property name="borderRightColor">#000000</property>
                                     <property name="borderRightStyle">solid</property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopColor">#000000</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
-                                    <data id="1392">
-                                        <property name="resultSetColumn">observaciones_solicitud</property>
-                                    </data>
+                                    <text id="1423">
+                                        <property name="contentType">html</property>
+                                        <text-property name="content"><![CDATA[<B>Observaciones de la solicitud: </B><VALUE-OF>row["observaciones_solicitud"]</VALUE-OF>]]></text-property>
+                                    </text>
                                 </cell>
                                 <cell id="1401"/>
                                 <cell id="1354">
+                                    <property name="colSpan">2</property>
+                                    <property name="rowSpan">1</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">1px</property>
                                     <property name="borderLeftColor">#000000</property>
                                     <property name="borderLeftStyle">solid</property>
                                     <property name="borderLeftWidth">1px</property>
-                                    <property name="borderTopColor">#000000</property>
-                                    <property name="borderTopStyle">solid</property>
-                                    <property name="borderTopWidth">1px</property>
-                                    <label id="1399">
-                                        <property name="fontWeight">bold</property>
-                                        <text-property name="text">Observaciones cotización:</text-property>
-                                    </label>
-                                </cell>
-                                <cell id="1397">
-                                    <property name="borderBottomColor">#000000</property>
-                                    <property name="borderBottomStyle">solid</property>
-                                    <property name="borderBottomWidth">1px</property>
                                     <property name="borderRightColor">#000000</property>
                                     <property name="borderRightStyle">solid</property>
                                     <property name="borderRightWidth">1px</property>
                                     <property name="borderTopColor">#000000</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">1px</property>
-                                    <data id="1356">
-                                        <property name="resultSetColumn">observaciones_cotizacion</property>
-                                    </data>
+                                    <text id="1422">
+                                        <property name="contentType">html</property>
+                                        <text-property name="content"><![CDATA[<B>Observaciones de la cotizacion: </B><VALUE-OF>row["observaciones_cotizacion"]</VALUE-OF>]]></text-property>
+                                    </text>
                                 </cell>
                             </row>
                         </grid>
