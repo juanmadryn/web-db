@@ -3,6 +3,7 @@ package inventario.models;
 import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.BaseModel;
+import infraestructura.reglasNegocio.ValidationException;
 import infraestructura.utils.Utilities;
 
 import java.sql.SQLException;
@@ -11,6 +12,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
 import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
@@ -1486,6 +1488,47 @@ public class OrdenesCompraModel extends BaseModel {
 	public boolean isModificable() throws DataStoreException {
 		String estadoActual = getOrdenesCompraEstado();
 		return estadoActual == null ? true : estadosDeModificacion.contains(estadoActual);
+	}
+	
+	/**
+	 * Verifica si la orden de compra actual se encuentra replicada en Tango
+	 * @return true si la orden de compra se encuentra replicada en Tango
+	 * @throws SQLException 
+	 * @throws DataStoreException 
+	 */
+	public boolean isReplicadoEnTango() throws DataStoreException, SQLException {
+		return isReplicadoEnTango(getRow());
+	}
+	
+	/**
+	 * Verifica si la orden de compra se encuentra replicada en Tango
+	 * @param row el registro a verificar
+	 * @return true si la orden de compra se encuentra replicada en Tango
+	 * @throws SQLException 
+	 * @throws DataStoreException 
+	 */
+	public boolean isReplicadoEnTango(int row) throws DataStoreException, SQLException {
+		// Vector de errores para excepción
+		Vector<String> errores = new Vector<String>();
+		/*
+		 * Buscamos en el archivo System.properties el  id de la propiedad
+		 * N_ORDEN_CO para almacenar el nro. de orden de compra generado por Tango
+		 */
+		Props props = Props.getProps("inventario", null);							
+		int N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
+		if (N_ORDEN_CO_PROP == -1) {
+			errores.add("OrdenesCompraModel.isReplicadoEnTango(): No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración.");
+			throw new ValidationException(errores);
+		}
+		// Chequeamos el valor del atributo
+		String nroOcTango = AtributosEntidadModel.getValorAtributoObjeto(N_ORDEN_CO_PROP,
+				getOrdenesCompraOrdenCompraId(row), "TABLA", "ordenes_compra");
+		
+		if (nroOcTango == null || "0".equalsIgnoreCase(nroOcTango)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 	// $ENDCUSTOMMETHODS$
 
