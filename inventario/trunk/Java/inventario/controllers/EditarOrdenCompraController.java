@@ -617,7 +617,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		String estado = _dsOrdenesCompra.getOrdenesCompraEstado();
 		if ("0008.0002".equalsIgnoreCase(estado)
 				|| "0008.0004".equalsIgnoreCase(estado)
-				|| "0008.0005".equalsIgnoreCase(estado)) {
+				|| "0008.0005".equalsIgnoreCase(estado)
+				|| "0008.0006".equalsIgnoreCase(estado)) {
 			//_dsOrdenesCompra.recuperaObservaciones();
 			_observacionesTd.setEnabled(true);
 			_observacionesTd.setVisible(true);			
