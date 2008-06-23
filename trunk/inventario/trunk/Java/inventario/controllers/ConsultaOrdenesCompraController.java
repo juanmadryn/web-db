@@ -125,7 +125,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
     public static final int MODO_TITULO_ESPECIAL_OBSERVADAS = 1;
     public static final int MODO_TITULO_NORMAL = 2;
     
-    private static Integer N_ORDEN_CO_PROP = null;
+    private static Integer N_ORDEN_CO_PROP = 19;
     
     private int _modoBandeja;
 	
@@ -264,11 +264,11 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		}
 		
 		// Atributo Nro. de OC Tango
-		if (_nroOrdenTango2.getValue() != null) {
-			Hashtable<Integer, String> atributos = new Hashtable<Integer, String>();
+		if (_nroOrdenTango2.getValue() != null) {			
+			Hashtable<Integer, String> atributos = new Hashtable<Integer, String>();			
 			String nroOcTango = " 00010000".concat(_nroOrdenTango2.getValue());
 			atributos.put(N_ORDEN_CO_PROP, nroOcTango);
-
+			
 			String criterioAtributos = BusquedaPorAtributo
 					.armarBusquedaPorAtributos(atributos,
 							BusquedaPorAtributo.OPERATOR_OR, "ordenes_compra",
@@ -358,7 +358,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			_nroOcTangoTr.setVisible(true);
 			// Links recepciones
 			_lnkRecepciones1.setVisible(true);
-			_lnkRecepciones2.setVisible(true);
+			_lnkRecepciones2.setVisible(false);
 		} else {
 			_nroOcTangoTr.setVisible(false);
 			_lnkRecepciones1.setVisible(false);
