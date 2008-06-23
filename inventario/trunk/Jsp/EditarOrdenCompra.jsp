@@ -531,7 +531,7 @@ function CheckAll(checked) {
                   <salmon:td></salmon:td>
                   <salmon:td colspan="8">
                      <salmon:input type="text" name="descAdicionalOcTXT"
-                        size="100" maxlength="250"
+                        size="100" 
                         datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>
                   </salmon:td>
                </salmon:tr>
