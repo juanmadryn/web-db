@@ -1673,129 +1673,132 @@ public class DetalleSCModel extends DataStore implements Constants {
 				"inventario");
 
 		for (int row = 0; row < getRowCount(); row++) {
-			solicitud.retrieve(connection, "solicitud_compra_id = "
-					+ getDetalleScSolicitudCompraId(row));
-			solicitud.gotoFirst();
+			if (!isEnProcesoDeRecepcion(connection, row)) {
 
-			int proyecto_id = solicitud.getSolicitudesCompraProyectoId();
+				solicitud.retrieve(connection, "solicitud_compra_id = "
+						+ getDetalleScSolicitudCompraId(row));
+				solicitud.gotoFirst();
 
-			TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
-					"proyectos");
+				int proyecto_id = solicitud.getSolicitudesCompraProyectoId();
 
-			if (proyecto_id != 0) {
-				dsTareas.retrieve("tareas_proyecto.proyecto_id = "
-						+ proyecto_id);
-				dsTareas.gotoFirst();
-				setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
-			}
+				TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
+				"proyectos");
 
-			// checks if tarea exist for specified project
-			if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = "
-					+ proyecto_id + " AND tareas_proyecto.tarea_id = "
-					+ getDetalleScTareaId(row)) == 0)
-				throw new DataStoreException(
-						"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
-
-			ArticulosModel articulos;
-			// fills detalle_sc.articulo_id field through ArticulosNombre
-			if (getArticulosNombre(row) != null) {
-				articulos = new ArticulosModel("inventario", "inventario");
-				articulos.retrieve(connection, "articulos.nombre LIKE '"
-						+ getArticulosNombre(row) + "'");
-				if (!articulos.gotoFirst()) {
-					DataStoreException ex = new DataStoreException(
-							"El código de articulo ingresado no corresponde a ninguno registrado");
-					ex.setRowNo(row);
-					throw ex;
+				if (proyecto_id != 0) {
+					dsTareas.retrieve("tareas_proyecto.proyecto_id = "
+							+ proyecto_id);
+					dsTareas.gotoFirst();
+					setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
 				}
-				;
-				setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
-			}
 
-			// fills detalle_sc.descripcion with articulos.descripcion_completa
-			// if is
-			// null
-			/*
-			 * if (getDetalleScDescripcion(row) == null)
-			 * setDetalleScDescripcion(row,
-			 * getArticulosDescripcionCompleta(row));
-			 */
-
-			// si tiene un oc asignado
-			if (getDetalleScOrdenCompraId(row) > 0) {
-				if (getDetalleScCantidadPedida(row) <= 0)
+				// checks if tarea exist for specified project
+				if (dsTareas.estimateRowsRetrieved("tareas_proyecto.proyecto_id = "
+						+ proyecto_id + " AND tareas_proyecto.tarea_id = "
+						+ getDetalleScTareaId(row)) == 0)
 					throw new DataStoreException(
-							"La cantidad pedida debe ser un número positivo mayor que cero");
-				if (getDetalleScDescuento(row) < 0)
-					throw new DataStoreException(
-							"El descuento debe ser un número positivo mayor o igual que cero");
-			}
+					"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
 
-			// sets monto and fecha ultima compra with value stored in
-			// attributes table
-			if (getDetalleScMontoUltimaCompra(row) == 0) {
-				try {
-					String monto_ultima_compra = AtributosEntidadModel
-							.getValorAtributoObjeto("MONTO_ULTIMA_COMPRA",
-									getDetalleScArticuloId(row), "TABLA",
-									"articulos");
-					String fecha_ultima_compra = AtributosEntidadModel
-							.getValorAtributoObjeto("FECHA_ULTIMA_COMPRA",
-									getDetalleScArticuloId(row), "TABLA",
-									"articulos");
+				ArticulosModel articulos;
+				// fills detalle_sc.articulo_id field through ArticulosNombre
+				if (getArticulosNombre(row) != null) {
+					articulos = new ArticulosModel("inventario", "inventario");
+					articulos.retrieve(connection, "articulos.nombre LIKE '"
+							+ getArticulosNombre(row) + "'");
+					if (!articulos.gotoFirst()) {
+						DataStoreException ex = new DataStoreException(
+						"El código de articulo ingresado no corresponde a ninguno registrado");
+						ex.setRowNo(row);
+						throw ex;
+					}
+					;
+					setDetalleScArticuloId(row, articulos.getArticulosArticuloId());
+				}
 
-					setDetalleScMontoUltimaCompra(row, Float
-							.parseFloat(monto_ultima_compra));
+				// fills detalle_sc.descripcion with articulos.descripcion_completa
+				// if is
+				// null
+				/*
+				 * if (getDetalleScDescripcion(row) == null)
+				 * setDetalleScDescripcion(row,
+				 * getArticulosDescripcionCompleta(row));
+				 */
 
-					if (fecha_ultima_compra != null) {
-						SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-						setDetalleScFechaUltimaCompra(row, new java.sql.Date(df
-								.parse(fecha_ultima_compra).getTime()));
+				// si tiene un oc asignado
+				if (getDetalleScOrdenCompraId(row) > 0) {
+					if (getDetalleScCantidadPedida(row) <= 0)
+						throw new DataStoreException(
+						"La cantidad pedida debe ser un número positivo mayor que cero");
+					if (getDetalleScDescuento(row) < 0)
+						throw new DataStoreException(
+						"El descuento debe ser un número positivo mayor o igual que cero");
+				}
+
+				// sets monto and fecha ultima compra with value stored in
+				// attributes table
+				if (getDetalleScMontoUltimaCompra(row) == 0) {
+					try {
+						String monto_ultima_compra = AtributosEntidadModel
+						.getValorAtributoObjeto("MONTO_ULTIMA_COMPRA",
+								getDetalleScArticuloId(row), "TABLA",
+						"articulos");
+						String fecha_ultima_compra = AtributosEntidadModel
+						.getValorAtributoObjeto("FECHA_ULTIMA_COMPRA",
+								getDetalleScArticuloId(row), "TABLA",
+						"articulos");
+
+						setDetalleScMontoUltimaCompra(row, Float
+								.parseFloat(monto_ultima_compra));
+
+						if (fecha_ultima_compra != null) {
+							SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+							setDetalleScFechaUltimaCompra(row, new java.sql.Date(df
+									.parse(fecha_ultima_compra).getTime()));
+						}
+
+					} catch (ParseException e) {
+						throw new DataStoreException(
+								"Error de parseo en el seteo del monto y fecha de última compra: "
+								+ e.getMessage());
 					}
 
-				} catch (ParseException e) {
-					throw new DataStoreException(
-							"Error de parseo en el seteo del monto y fecha de última compra: "
-									+ e.getMessage());
 				}
 
-			}
+				if (getDetalleScMontoUnitario(row) == 0)
+					setDetalleScMontoUnitario(row,
+							getDetalleScMontoUltimaCompra(row));
 
-			if (getDetalleScMontoUnitario(row) == 0)
-				setDetalleScMontoUnitario(row,
-						getDetalleScMontoUltimaCompra(row));
+				int unidad_patron = Integer.parseInt(AtributosEntidadModel
+						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
+								getDetalleScArticuloId(row), "TABLA", "articulos"));
 
-			int unidad_patron = Integer.parseInt(AtributosEntidadModel
-					.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
-							getDetalleScArticuloId(row), "TABLA", "articulos"));
+				if (getDetalleScUnidadMedida(row) == 0 && unidad_patron != 0) {
+					setDetalleScUnidadMedida(row, unidad_patron);
+				}
 
-			if (getDetalleScUnidadMedida(row) == 0 && unidad_patron != 0) {
-				setDetalleScUnidadMedida(row, unidad_patron);
-			}
+				if (getDetalleScIva(row) == 0) {
+					setDetalleScIva(row, Float.parseFloat(AtributosEntidadModel
+							.getValorAtributoObjeto(
+									Constants.ARTICULO_IVA_PORCENTAJE,
+									getDetalleScArticuloId(row), "TABLA",
+							"articulos")));
+				}
 
-			if (getDetalleScIva(row) == 0) {
-				setDetalleScIva(row, Float.parseFloat(AtributosEntidadModel
-						.getValorAtributoObjeto(
-								Constants.ARTICULO_IVA_PORCENTAJE,
-								getDetalleScArticuloId(row), "TABLA",
-								"articulos")));
-			}
+				try {
+					setMontoTotal(row);
+					calculaMontoTotalPedido(row);
+					calculaMontoTotalNetoPedido(row);
+				} catch (ParseException ex) {
+					throw new DataStoreException(
+					"Error parseando cantidad y monto unitario para calcular el total.");
+				}
 
-			try {
-				setMontoTotal(row);
-				calculaMontoTotalPedido(row);
-				calculaMontoTotalNetoPedido(row);
-			} catch (ParseException ex) {
-				throw new DataStoreException(
-						"Error parseando cantidad y monto unitario para calcular el total.");
-			}
-			
-			/*
-			 * Si la SC/SM a la cual esta asignado el detalle es modificable, copiar
-			 * el id del articulo seleccionado en el campo articulo_id_solicitado
-			 */
-			if (solicitud.isModificable()) {
-				setDetalleScArticuloIdSolicitado(row, getDetalleScArticuloId(row));
+				/*
+				 * Si la SC/SM a la cual esta asignado el detalle es modificable, copiar
+				 * el id del articulo seleccionado en el campo articulo_id_solicitado
+				 */
+				if (solicitud.isModificable()) {
+					setDetalleScArticuloIdSolicitado(row, getDetalleScArticuloId(row));
+				}
 			}
 		}
 
@@ -2868,5 +2871,49 @@ public class DetalleSCModel extends DataStore implements Constants {
 		setInt(row, DETALLE_SC_ARTICULO_ID_SOLICITADO, newValue);
 	}
 	
+	/**
+	 * Chequea si la fila actual se encuentra en proceso de recepcion
+	 * @return true si la fila actual se encuentra en proceso de recepcion
+	 * @throws DataStoreException 
+	 * @throws SQLException 
+	 */
+	public boolean isEnProcesoDeRecepecion() throws SQLException, DataStoreException {
+		return isEnProcesoDeRecepcion(getRow());
+	}
+	
+	/**
+	 * Chequea si la fila especificida se encuentra en proceso de recepcion
+	 * @param row la fila a chequear
+	 * @return true si la fila acutal se encuentra en proceso de recepcion
+	 * @throws DataStoreException 
+	 * @throws SQLException 
+	 * @throws DataStoreException 
+	 * @throws SQLException 
+	 */
+	public boolean isEnProcesoDeRecepcion(int row) throws SQLException, DataStoreException {
+		return isEnProcesoDeRecepcion(null, row);
+	}
+	
+	/**
+	 * Chequea si la fila especificida se encuentra en proceso de recepcion
+	 * @param conn la conexión dentro de la cual se enmarca la transaccion
+	 * @param row la fila a chequear
+	 * @return true si la fila acutal se encuentra en proceso de recepcion
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 */
+	public boolean isEnProcesoDeRecepcion(DBConnection conn, int row) throws SQLException, DataStoreException {
+		DetalleRCModel detalleRCModel = new DetalleRCModel(getAppName());
+				
+		if (conn == null) 
+			conn = DBConnection.getConnection(_appName);
+		
+		// recuperamos todos los detalles de recepcion que esten asociadas al detalle indicado
+		if (detalleRCModel.estimateRowsRetrieved(conn, DetalleRCModel.DETALLES_RC_DETALLE_SC_ID + " = " + getDetalleScDetalleScId(row)) == 0) {
+			return false;
+		} else {			
+			return true;
+		}		
+	}
 	// $ENDCUSTOMMETHODS$
 }
