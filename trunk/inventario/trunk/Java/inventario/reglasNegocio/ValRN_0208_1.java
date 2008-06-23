@@ -3,6 +3,7 @@
  */
 package inventario.reglasNegocio;
 
+import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosConfiguracionModel;
 import infraestructura.models.AtributosEntidadModel;
 import infraestructura.models.UsuarioRolesModel;
@@ -67,10 +68,10 @@ public final class ValRN_0208_1 extends ValidadorReglasNegocio {
 			
 			// chequea el rol o identidad del usuario que va a completa el OC
 			int currentUser = ds.getCurrentWebsiteUserId();
-			if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+			if (!UsuarioRolesModel.isRolUsuario(currentUser, Constants.USER_COMPRADOR)) {
 				msg.append("Debe ser COMPRADOR o el comprador original para completar una Orden de compra.");
 				return false;
-			}
+			}		
 			
 			// Guarda cambios realizados a la orden
 			if (ds.getRow() == -1)

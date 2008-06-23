@@ -3,8 +3,10 @@
  */
 package inventario.reglasNegocio;
 
+import infraestructura.controllers.Constants;
 import infraestructura.models.AtributosConfiguracionModel;
 import infraestructura.models.AtributosEntidadModel;
+import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import infraestructura.utils.DeterminaConfiguracionServicio;
 import inventario.models.CadenasAprobacionModel;
@@ -23,7 +25,7 @@ import com.salmonllc.sql.DataStoreException;
  * 
  * Objeto asociado: ordenes_compra
  * 
- * Transición: "Completa" -> "Observada"
+ * Transición: 	"Completa" -> "Observada" 
  * 
  * Acción: "Observar"
  * 
@@ -46,6 +48,12 @@ public final class ValRN_0210_1 extends ValidadorReglasNegocio {
 		try {
 
 			OrdenesCompraModel ds = (OrdenesCompraModel) obj;
+			
+			// el usuario debe tener rol comprador
+			if (!UsuarioRolesModel.isRolUsuario(ds.getCurrentWebsiteUserId(),Constants.USER_COMPRADOR)) {
+				msg.append("Debe ser " + Constants.USER_COMPRADOR + " para observar una Orden de Compra.");
+				return false;				
+			}
 
 			// checkeo si la solicitud tiene seteadas las obervaciones
 			if (ds.getObservaciones() == null
