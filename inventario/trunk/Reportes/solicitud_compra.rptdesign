@@ -871,6 +871,9 @@ else {
                 </row>
                 <row id="1127">
                     <property name="fontSize">10pt</property>
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">1px</property>
                     <property name="borderLeftColor">#000000</property>
                     <property name="borderLeftStyle">solid</property>
                     <property name="borderLeftWidth">2px</property>
