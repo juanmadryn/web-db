@@ -39,6 +39,24 @@ public class BusquedaPorAtributo {
 				return null;
 		}
 	}
+	/**
+	 * Construye dinamicamente una query retornando los identificadores de objetos
+	 * que satisfacen las condiciones de igualdad sobre algunos o todos de los valores
+	 * contenidos en el Hashtable atributos.
+	 * 
+	 * @param atributos Hashtable con pares código de atributo / valor esperado
+	 * @param operator OPERATOR_AND (satisfacer todos los atributos) o OPERATOR_OR (satisfacer uno o más) 
+	 * @param tablaColumna tabla y columna sobre la que aplicar la busqueda, formateado como tabla.columna
+	 * @return un SELECT apto para utilizar en un clausula IN
+	 * @throws SQLException
+	 */
+	public static String armarBusquedaPorAtributos(
+			Hashtable<Integer, String> atributos, int operator, String tablaColumna 
+			) throws SQLException {
+		int punto = tablaColumna.indexOf(".");
+		return armarBusquedaPorAtributos(
+				atributos, operator, tablaColumna.substring(0,punto - 1), tablaColumna.substring(punto + 1)); 
+	}
 	
 	/**
 	 * Construye dinamicamente una query retornando los identificadores de objetos
