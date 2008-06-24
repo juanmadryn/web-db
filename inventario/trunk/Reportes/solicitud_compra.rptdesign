@@ -672,7 +672,7 @@ else {
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">15</property>
+            <property name="pageBreakInterval">25</property>
             <column id="977">
                 <property name="width">70%</property>
                 <property name="fontSize">large</property>
