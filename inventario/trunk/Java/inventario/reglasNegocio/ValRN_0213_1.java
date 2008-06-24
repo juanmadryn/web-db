@@ -64,6 +64,12 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 
 			int tipoMovimiento = Props.getProps("inventario", null)
 					.getIntProperty("TipoMovimientoRecepciones");
+			if (tipoMovimiento == -1) {
+				msg.append("No se encontro propiedad TipoMovimientoRecepciones en archivo de configuración");
+				return false;
+			}
+				
+			
 			int almacen_id = 0;
 
 			detallesSC.retrieve();
