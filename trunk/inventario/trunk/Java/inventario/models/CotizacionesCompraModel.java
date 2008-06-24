@@ -6,6 +6,7 @@ import inventario.util.SolicitudCompraTransiciones;
 import java.sql.SQLException;
 
 import com.salmonllc.sql.DBConnection;
+import com.salmonllc.sql.DSColumnDescriptor;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
@@ -3331,6 +3332,12 @@ public class CotizacionesCompraModel extends BaseModel {
 	public void update(DBConnection conn, boolean handleTrans)
 			throws DataStoreException, SQLException {
 		CondicionesCompraModel condicionesCompraModel = new CondicionesCompraModel(getAppName());		
+		
+		// seteamos el usuario generador de la cotizacion si corresponde
+		if ((getCotizacionesCompraUserIdComprador() == 0)
+				&& (getCurrentWebsiteUserId() != 0)) {
+			setCotizacionesCompraUserIdComprador(getCurrentWebsiteUserId());
+		}
 		
 		if (getNombreCondicionCompraProveedor1() != null) {
 			condicionesCompraModel.retrieve(CondicionesCompraModel.CONDICIONES_COMPRA_NOMBRE + " = '" + getNombreCondicionCompraProveedor1()+"'");
