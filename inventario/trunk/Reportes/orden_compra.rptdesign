@@ -559,7 +559,7 @@ left outer join centro_costo centro_costo ON solicitudes_compra.centro_costo_id 
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id 
 left outer join infraestructura.atributos_entidad atributos_entidad1 
 	ON atributos_entidad1.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad1.atributo_id = 
-	(SELECT a.atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'DIRECCION' and a.rol = 'PROV')
+	(SELECT a.atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'DOMICILIO' and a.rol = 'PROV')
 left outer join infraestructura.atributos_entidad atributos_entidad2
 	ON atributos_entidad2.entidad_id = ordenes_compra.entidad_id_proveedor AND atributos_entidad2.atributo_id =
 	(SELECT a.atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TELEFONO' and a.rol = 'PROV')
