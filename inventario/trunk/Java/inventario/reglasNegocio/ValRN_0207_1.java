@@ -63,8 +63,8 @@ public final class ValRN_0207_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
-			// actualizo la cadena de firmas solo si es necesario
-			if (!"0006.0001".equalsIgnoreCase(ds.getSolicitudesCompraEstado())) {
+			// Actualizo la cadena de firmas solo si se encuentra pendiente de aprobación
+			if ("0006.0002".equalsIgnoreCase(ds.getSolicitudesCompraEstado())) {
 				int solicitudCompraId = ds.getSolicitudesCompraSolicitudCompraId();
 
 				// a continuación, obtengo la cadena de firmas asociada a la solicitud o la calculo si no está seteada
