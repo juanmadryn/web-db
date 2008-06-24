@@ -1,23 +1,37 @@
 package inventario.util;
 
+import infraestructura.reglasNegocio.ValidationException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.salmonllc.properties.Props;
+import com.salmonllc.sql.DBConnection;
+
 /**
- * Extrae información de condiciones de compra de la tabla CPA01 de Tango
+ * Extrae información de condiciones de compra de la tabla CPA49 de Tango
  * y la agrega o actualiza en la tabla correspondiente en MySQL
  * 
  * @author Francisco Paez
  */
 public class ReplicateCpa49QuartzJob implements Job {
+	
+	/**
+	 * Parametros de conexion a Tango
+	 */
+	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
+	private String urlTango = null;
+	private String userTango = null;
+	private String passWordTango = null;
 
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		// TODO Auto-generated method stub		
@@ -28,26 +42,22 @@ public class ReplicateCpa49QuartzJob implements Job {
 	 */
 	public void importaCondicionesCompra() throws JobExecutionException {
 		Connection connTango = null;
-		Connection connInv = null;
+		DBConnection connInv = null;
 		Statement tangoSt = null, stMySql = null;
 		PreparedStatement pstMySql = null, pstMySql2 = null;
 		ResultSet r = null;
 		
-		String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-		String urlTango="jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
-		String userTango="Axoft";
-		String passWordTango="Axoft";
+		// Obtenemos parámetros de conexión
+		getConnectionInfo();
 
 		try {
 			// Se carga el driver JTDS
 			Class.forName(driverTango);			
 			// Conexion con Tango (SQL Server 2000)
-			connTango = DriverManager.getConnection(urlTango, userTango,
-					passWordTango);				
+			connTango = DriverManager.getConnection(urlTango, userTango, passWordTango);				
 			// Conexion con MySQL
-			Class.forName("com.mysql.jdbc.Driver");
-			connInv = DriverManager.getConnection ("jdbc:mysql://localhost:3306/inventario","inventario", "inventario");			
-			connInv.setAutoCommit(false);
+			connInv = DBConnection.getConnection("inventario");
+			connInv.beginTransaction();			
 			
 			/**
 			 * Seleccionamos de la tabla CPA01 los datos básicos para la tabla
@@ -104,11 +114,41 @@ public class ReplicateCpa49QuartzJob implements Job {
 					connTango.close();
 				if (connInv != null) {
 					connInv.rollback();
-					connInv.close();
+					//connInv.close();
+					connInv.freeConnection();
 				}
 			} catch (SQLException e) {
 				throw new JobExecutionException(e);				
 			}
 		}
+	}
+	
+	/**
+	 * Obtiene los parametros de conexión necesarios desde el archivo de configuración
+	 */
+	private void getConnectionInfo() { 
+		Props props = Props.getProps("inventario", null);
+		Vector<String> errores = new Vector<String>();		
+		
+		String driverTango = props.getProperty("driverTango");
+		if (driverTango == null) 
+			errores.add("No se ha indicado la propiedad 'driverTango' en archivo de configuración");		
+		String urlTango = props.getProperty("urlTango");
+		if (urlTango == null) 
+			errores.add("No se ha indicado la propiedad 'urlTango' en archivo de configuración");
+		String userTango = props.getProperty("userTango");
+		if (userTango == null) 
+			errores.add("No se ha indicado la propiedad 'userTango' en archivo de configuración");
+		String passWordTango = props.getProperty("passWordTango");
+		if (passWordTango == null) 
+			errores.add("No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
+		
+		if (errores.size() > 0) 
+			throw new ValidationException(errores);
+		
+		this.driverTango = driverTango;
+		this.urlTango = urlTango;
+		this.userTango = userTango;
+		this.passWordTango = passWordTango;
 	}
 }
