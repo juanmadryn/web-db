@@ -1682,29 +1682,31 @@ else {
                 <property name="width">37%</property>
             </column>
             <column id="1157">
-                <property name="width">7%</property>
+                <property name="width">6%</property>
             </column>
             <column id="1158">
-                <property name="width">7%</property>
+                <property name="width">6%</property>
             </column>
             <column id="1159">
+                <property name="width">6%</property>
+            </column>
+            <column id="1160">
                 <property name="width">7%</property>
             </column>
-            <column id="1160"/>
             <column id="1161">
-                <property name="width">7%</property>
+                <property name="width">8%</property>
             </column>
             <column id="1162">
                 <property name="width">7%</property>
             </column>
             <column id="1163">
-                <property name="width">7%</property>
+                <property name="width">8%</property>
             </column>
             <column id="1164">
                 <property name="width">7%</property>
             </column>
             <column id="1165">
-                <property name="width">7%</property>
+                <property name="width">8%</property>
             </column>
             <header>
                 <row id="1123">
@@ -2106,6 +2108,9 @@ else {
                     </cell>
                 </row>
                 <row id="1403">
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">1px</property>
                     <property name="masterPage">Simple MasterPage</property>
                     <list-property name="visibility">
                         <structure>
@@ -2978,7 +2983,7 @@ else {
                                     <property name="borderTopWidth">1px</property>
                                     <text id="1423">
                                         <property name="contentType">html</property>
-                                        <text-property name="content"><![CDATA[<B>Observaciones de la solicitud: </B><VALUE-OF>row["observaciones_solicitud"]</VALUE-OF>]]></text-property>
+                                        <text-property name="content"><![CDATA[<B>Observaciones de la solicitud: </B><PRE><VALUE-OF>row["observaciones_solicitud"]</VALUE-OF></PRE>]]></text-property>
                                     </text>
                                 </cell>
                                 <cell id="1401"/>
@@ -2999,7 +3004,7 @@ else {
                                     <property name="borderTopWidth">1px</property>
                                     <text id="1422">
                                         <property name="contentType">html</property>
-                                        <text-property name="content"><![CDATA[<B>Observaciones de la cotizacion: </B><VALUE-OF>row["observaciones_cotizacion"]</VALUE-OF>]]></text-property>
+                                        <text-property name="content"><![CDATA[<B>Observaciones de la cotizacion: </B><PRE><VALUE-OF>row["observaciones_cotizacion"]</VALUE-OF></PRE>]]></text-property>
                                     </text>
                                 </cell>
                             </row>
