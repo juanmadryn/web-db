@@ -987,6 +987,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 			_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo
 					+ ");");
+			
+			_unidad_medida2.setEnabled(false);
 
 		} catch (ParseException ex) {
 			displayErrorMessage("Ocurrió un error de parseo en la aplicación: "
