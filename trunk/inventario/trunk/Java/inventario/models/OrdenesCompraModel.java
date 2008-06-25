@@ -755,6 +755,9 @@ public class OrdenesCompraModel extends BaseModel {
 			setOrdenesCompraCondicionCompraId(condicionesCompraModel.getCondicionesCompraCondicionCompraId());
 		}
 		
+		/*
+		 * Normalizamos a cero horas, minutos y segundos para la comparacion
+		 */
 		if (getOrdenesCompraFechaEstimadaEntrega() != null) {			
 			Calendar fechaActual = Calendar.getInstance();			
 			fechaActual.set(Calendar.HOUR_OF_DAY, fechaActual.getMinimum(Calendar.HOUR_OF_DAY));
@@ -1144,7 +1147,7 @@ public class OrdenesCompraModel extends BaseModel {
 	}
 	
 	/**
-	 * Calcula el valor neto de la orden de compra.	 * 
+	 * Calcula el valor neto de la orden de compra. 
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 * @throws ParseException
@@ -1508,27 +1511,48 @@ public class OrdenesCompraModel extends BaseModel {
 	 * @throws DataStoreException 
 	 */
 	public boolean isReplicadoEnTango(int row) throws DataStoreException, SQLException {
-		// Vector de errores para excepción
-		Vector<String> errores = new Vector<String>();
-		/*
-		 * Buscamos en el archivo System.properties el  id de la propiedad
-		 * N_ORDEN_CO para almacenar el nro. de orden de compra generado por Tango
-		 */
-		Props props = Props.getProps("inventario", null);							
-		int N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
-		if (N_ORDEN_CO_PROP == -1) {
-			errores.add("OrdenesCompraModel.isReplicadoEnTango(): No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración.");
-			throw new ValidationException(errores);
-		}
-		// Chequeamos el valor del atributo
-		String nroOcTango = AtributosEntidadModel.getValorAtributoObjeto(N_ORDEN_CO_PROP,
-				getOrdenesCompraOrdenCompraId(row), "TABLA", "ordenes_compra");
-		
+		String nroOcTango = getNroOrdenCompraTango(row);		
 		if (nroOcTango == null || "0".equalsIgnoreCase(nroOcTango)) {
 			return false;
 		} else {
 			return true;
 		}
+	}
+	
+	/**
+	 * Retorna el Nro. de Orden de Compra generado por Tango para la OC si lo hubiera
+	 * @return el nro. de orden generado por tango o null si no existe
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public String getNroOrdenCompraTango() throws DataStoreException, SQLException {
+		return getNroOrdenCompraTango(getRow());
+	}
+	
+	/**
+	 * Retorna el Nro. de Orden de Compra generado por Tango para la OC si lo hubiera
+	 * @param row el registro para el cual se quiere obtener el nro. de orden de compra
+	 * @return el nro. de orden generado por tango o null si no existe
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 */
+	public String getNroOrdenCompraTango(int row) throws DataStoreException, SQLException {
+		// Vector de errores para excepción
+		Vector<String> errores = new Vector<String>();
+		/*
+		 * Buscamos en el archivo System.properties el id de la propiedad
+		 * N_ORDEN_CO para recuperar el nro. de orden de compra generado por Tango
+		 */
+		Props props = Props.getProps("inventario", null);							
+		int N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
+		if (N_ORDEN_CO_PROP == -1) {
+			errores.add("OrdenesCompraModel.getNroOrdenCompraTango(): No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración.");
+			throw new ValidationException(errores);
+		}
+		// Obtenemos el atributo correspondiente
+		return AtributosEntidadModel.getValorAtributoObjeto(N_ORDEN_CO_PROP,
+				getOrdenesCompraOrdenCompraId(row), "TABLA", "ordenes_compra");
+
 	}
 	// $ENDCUSTOMMETHODS$
 

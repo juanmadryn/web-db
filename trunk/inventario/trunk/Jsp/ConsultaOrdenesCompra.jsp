@@ -5,8 +5,9 @@
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
-	<!-- ********************************************************************************************* -->
-	<!-- Agregar definición de DataSource aquí -->
+	<!-- ********************************************************************************************** -->
+	<!-- Agregar definición de DataSource aquí 															-->
+	<!-- ********************************************************************************************** -->
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="nroOc" type="IN"
 			columns="ordenes_compra.orden_compra_id" />
@@ -25,9 +26,9 @@
 		dbprofile="inventario" model="inventario.models.OrdenesCompraModel"
 		autoretrieve="Never">
 	</salmon:datasource>
-	<!-- ********************************************************************************************* -->
-	<!-- Agregar código de la página aquí -->
-	<!-- ********************************************************************************************* -->
+	<!-- ********************************************************************************************** -->
+	<!-- Agregar código de la página aquí 																-->
+	<!-- ********************************************************************************************** -->
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table2" width="100%" border="0">
 			<salmon:tr>
@@ -120,7 +121,7 @@
 									datasource="dsOrdenes:ordenes_compra.orden_compra_id"></salmon:text></td>
 							</tr>							
 							<salmon:tr name="nroOcTangoTr">
-								<td><salmon:text name="numeroTango1" text="Nro. OC [Tango]"
+								<td><salmon:text name="numeroTango1" text="Nro. OC Tango"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="numeroTango2" text=""></salmon:text></td>
 							</salmon:tr>

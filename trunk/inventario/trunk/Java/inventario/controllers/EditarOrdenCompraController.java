@@ -9,7 +9,6 @@ import infraestructura.models.AuditaEstadosCircuitosModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.reglasNegocio.ValidationException;
 import inventario.models.DetalleSCModel;
-import inventario.util.OrdenesDeCompraTANGO;
 import inventario.util.SolicitudCompraTransiciones;
 
 import java.sql.ResultSet;
