@@ -40,7 +40,7 @@ public class OrdenesDeCompraTANGO {
 	private String userTango = null;
 	private String passWordTango = null;
 	
-	private int ESTADO_EMITIDA = 3;
+	private int ESTADO_EMITIDA = 3;	
 	private int ESTADO_ANULADA = 7;
 	
 	private static Integer N_ORDEN_CO_PROP = null;
@@ -771,22 +771,6 @@ public class OrdenesDeCompraTANGO {
 				connTango.close();
 			}
 		}		
-	}
-	
-	/**
-	 * Retorna un calendario a partir de un timestamp, seteando la hora,
-	 * minuto, segundo y milisegundos en sus valores mínimos (cero). 
-	 * @param ts timestamp a convertir en un objeto calendar
-	 * @return un objeto calendar
-	 */
-	private Calendar getCalendario(Timestamp ts) {
-		Calendar calendario = Calendar.getInstance();
-		calendario.setTimeInMillis(ts.getTime());
-		calendario.set(Calendar.HOUR_OF_DAY, calendario.getMinimum(Calendar.HOUR_OF_DAY));
-		calendario.set(Calendar.MINUTE, calendario.getMinimum(Calendar.MINUTE));
-		calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
-		calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
-		return calendario;
 	}
 	
 	/**
