@@ -12,6 +12,7 @@ import infraestructura.utils.DeterminaConfiguracionServicio;
 import inventario.models.CadenasAprobacionModel;
 import inventario.models.InstanciasAprobacionModel;
 import inventario.models.OrdenesCompraModel;
+import inventario.util.OrdenesDeCompraTANGO;
 
 import java.sql.SQLException;
 
@@ -57,6 +58,12 @@ public final class ValRN_0211_1 extends ValidadorReglasNegocio {
 			if (ds.getObservaciones() == null || ds.getObservaciones().trim().length() < 5) {
 				msg	.append("Debe completar el cuadro de observaciones con el motivo del rechazo");
 				return false;
+			}
+			
+			// si la OC esta replicada en Tango, anulado la OC en Tango tambien
+			if (ds.isReplicadoEnTango()) {
+				OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
+				ordenesDeCompraTANGO.anulaOcEnTango(ds);
 			}
 
 			// Actualizo la cadena de firmas solo si se encuentra pendiente de aprobación
