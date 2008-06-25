@@ -28,7 +28,6 @@ import com.salmonllc.sql.DataStoreException;
  * actualiza en la tabla entidad_externa y en los atributos corresponientes.
  * 
  * @author Francisco Paez
- * 
  */
 public class OrdenesDeCompraTANGO {
 	
@@ -37,10 +36,12 @@ public class OrdenesDeCompraTANGO {
 	 * TODO: Almacenarlos en el archivo properties correspondiente
 	 */
 	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-	private String urlTango = "jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT;prepareSQL=3";
-	private String userTango = "Axoft";
-	private String passWordTango = "Axoft";
+	private String urlTango = null;
+	private String userTango = null;
+	private String passWordTango = null;
+	
 	private int ESTADO_EMITIDA = 3;
+	private int ESTADO_ANULADA = 7;
 	
 	private static Integer N_ORDEN_CO_PROP = null;
 	
@@ -52,6 +53,10 @@ public class OrdenesDeCompraTANGO {
 	 */
 	private boolean debug = false;
 	
+	public OrdenesDeCompraTANGO() {
+		getConnectionInfo();
+	}
+
 	/**
 	 * Inserta la cabecera de la Orden de Compra en Tango. 
 	 * 
@@ -98,8 +103,12 @@ public class OrdenesDeCompraTANGO {
 			 */
 			dsDetalleSc.setGroupBy(
 					DetalleSCModel.SOLICITUDES_COMPRA_USER_ID_SOLICITA + ", " +
-					DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID);
-			dsDetalleSc.retrieve(DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " = " + oc.getOrdenesCompraOrdenCompraId());
+					DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID
+					);
+			dsDetalleSc.retrieve(
+					DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + 
+					" = " + oc.getOrdenesCompraOrdenCompraId()
+					);
 			dsDetalleSc.waitForRetrieve();
 			
 			// Pueden existir multiples solicitantes. Se selecciona el primero.
@@ -108,7 +117,10 @@ public class OrdenesDeCompraTANGO {
 			/*
 			 * Obtenemos el nro. de legajo del usuario solicitante
 			 */			
-			websiteUserModel.retrieve(WebsiteUserModel.WEBSITE_USER_USER_ID + " = " + dsDetalleSc.getSolicitudesCompraUserIdSolicita());
+			websiteUserModel.retrieve(
+					WebsiteUserModel.WEBSITE_USER_USER_ID + 
+					" = " + dsDetalleSc.getSolicitudesCompraUserIdSolicita()
+					);
 			websiteUserModel.waitForRetrieve();
 			websiteUserModel.gotoFirst();
 						
@@ -123,7 +135,10 @@ public class OrdenesDeCompraTANGO {
 			 * Se guarda el apellido del usuario que haya generado la orden de compra
 			 * El apellido se obtiene de la tabla de legajos de Tango
 			 */
-			websiteUserModel.retrieve(WebsiteUserModel.WEBSITE_USER_USER_ID + " = " + oc.getOrdenesCompraUserIdComprador() );
+			websiteUserModel.retrieve(
+					WebsiteUserModel.WEBSITE_USER_USER_ID + 
+					" = " + oc.getOrdenesCompraUserIdComprador()
+					);
 			websiteUserModel.waitForRetrieve();
 			websiteUserModel.gotoFirst();
 
@@ -141,11 +156,9 @@ public class OrdenesDeCompraTANGO {
 			 */
 			int COND_COMPR = Integer.parseInt(oc.getOrdenesCompraCondicionNombre());
 			
-			//int CONGELA = 0;
 			boolean CONGELA = false;
 			float COTIZ = 3.0f;
 			int ESTADO = ESTADO_EMITIDA;
-			//int EXPORTADO = 0;
 			boolean EXPORTADO = false;
 
 			/*
@@ -215,7 +228,10 @@ public class OrdenesDeCompraTANGO {
 			 * agrupados por solicitud de compra
 			 */
 			dsDetalleSc.setGroupBy(DetalleSCModel.DETALLE_SC_SOLICITUD_COMPRA_ID);
-			dsDetalleSc.retrieve(DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " = " + oc.getOrdenesCompraOrdenCompraId());			
+			dsDetalleSc.retrieve(
+					DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + 
+					" = " + oc.getOrdenesCompraOrdenCompraId()
+					);			
 			dsDetalleSc.waitForRetrieve();
 			/*
 			 * CODIGO PROTECTIVO
@@ -228,21 +244,27 @@ public class OrdenesDeCompraTANGO {
 			 * Recuperamos la solicitud de compra del primer detalle.
 			 */			
 			dsDetalleSc.gotoFirst();
-			solicitudCompraModel.retrieve(SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID + " = " + dsDetalleSc.getDetalleScSolicitudCompraId());
+			solicitudCompraModel.retrieve(
+					SolicitudCompraModel.SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID + 
+					" = " + dsDetalleSc.getDetalleScSolicitudCompraId()
+					);
 			solicitudCompraModel.waitForRetrieve();			
 			/*
-			 * En TANGO se setea el campo con OT + nro. proyecto + descripcion del proyecto 
+			 * En TANGO se setea el campo con OT + nro. proyecto + descripcion del proyecto
+			 * Por la limitación de 30 caracteres que no existe en nuestro sistema, se limita
+			 * la LEYENDA_1  a OT + Nro. de Proyecto
 			 */
 			solicitudCompraModel.gotoFirst();
-			//String LEYENDA_1 = "OT " + solicitudCompraModel.getProyectosProyecto() + " " + solicitudCompraModel.getProyectosNombre();
 			String LEYENDA_1 = "OT " + solicitudCompraModel.getProyectosProyecto();
 			
 			/*
-			 * El limite de los campos en tango es de 30 caracteres 
+			 * El limite de los campos en tango es de 30 caracteres. Se divide el nombre del 
+			 * proyecto entre los campos LEYENDA restantes.
 			 */
 			String LEYENDA_2 = "";
 			String LEYENDA_3 = "";
 			String LEYENDA_4 = "";
+			String LEYENDA_5 = "";
 			
 			String proyectoNombre = solicitudCompraModel.getProyectosNombre();			
 			if (proyectoNombre.length() > 25) {
@@ -674,19 +696,81 @@ public class OrdenesDeCompraTANGO {
 	}
 	
 	/**
-	 * Importa la Orden de Compra desde Tango
-	 * 
-	 * @param oc
+	 * Anula la orden de compra indicada en Tango.
+	 * @param oc orden de compra a anular en tango
+	 * @throws SQLException 
+	 * @throws DataStoreException 
 	 */
-	public void importarDeTango(OrdenesCompraModel oc) {
-		/*
-		 * Chequea la existencia del nro. de orden de compra de tango
-		 */		
+	public void anulaOcEnTango(OrdenesCompraModel oc) throws SQLException, DataStoreException {
+		Connection connTango = null;
+		PreparedStatement pstTango = null;
+		ResultSet r = null;
 		
-		/*
-		 * TODO: Chequear que el nro. de orden de compra de tango 
-		 * no este asociado ya a una orden de compra ya existente
-		 */
+		// Vector de errores para excepción
+		Vector<String> errores = new Vector<String>();
+
+		try {
+			if (oc.getNroOrdenCompraTango() == null) {
+				errores.add("OrdenesDeCompraTANGO.anulaOcEnTango(): OC no replicada en Tango");
+				throw new ValidationException(errores);
+			} 			
+			String NRO_OC_TANGO = oc.getNroOrdenCompraTango();
+			
+			// Se carga el driver JTDS
+			Class.forName(driverTango);
+			// Conexion con Tango (SQL Server 2000)
+			connTango = DriverManager.getConnection(urlTango, userTango, passWordTango);
+			
+			if (connTango.getMetaData().supportsTransactionIsolationLevel(Connection.TRANSACTION_SERIALIZABLE)) { 
+				connTango.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+			}
+			connTango.setAutoCommit(false);
+			
+			/*
+			 * CPA35: Se setea la columna ESTADO con el valor ESTADO_ANULADA 
+			 */
+			int ESTADO = ESTADO_ANULADA;
+			
+			String updateCpa35 = 
+				"UPDATE INTO [FABRI_S.A.].[dbo].[CPA35] SET [ESTADO] = ? WHERE [N_ORDEN_CO] = ?";
+			pstTango = connTango.prepareStatement(updateCpa35);
+			
+			pstTango.setInt(1, ESTADO);
+			pstTango.setString(2, NRO_OC_TANGO);
+			
+			pstTango.executeUpdate();
+			
+			/*
+			 * CPA36: Se setea la columna CIERRE con el valor 1
+			 */
+			int CIERRE = 1;
+			
+			String updateCpa36 = 
+				"UPDATE INTO [FABRI_S.A.].[dbo].[CPA36] SET [CIERRE] = ? WHERE [N_ORDEN_CO] = ?";
+			pstTango = connTango.prepareStatement(updateCpa36);
+			
+			pstTango.setInt(1, CIERRE);
+			pstTango.setString(2, NRO_OC_TANGO);
+			
+			pstTango.executeUpdate();
+			
+			if (debug)
+				connTango.rollback();
+			else
+				connTango.commit();
+			
+		} catch (ClassNotFoundException e) {
+			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
+		} finally {
+			if (r != null)
+				r.close();
+			if (pstTango != null)
+				pstTango.close();
+			if (connTango != null) {
+				connTango.rollback();
+				connTango.close();
+			}
+		}		
 	}
 	
 	/**
@@ -703,5 +787,37 @@ public class OrdenesDeCompraTANGO {
 		calendario.set(Calendar.SECOND, calendario.getMinimum(Calendar.SECOND));
 		calendario.set(Calendar.MILLISECOND, calendario.getMinimum(Calendar.MILLISECOND));
 		return calendario;
+	}
+	
+	/**
+	 * Obtiene parametros para la conexión desde el archivo de propiedades
+	 */
+	private void getConnectionInfo() {
+		Props props = Props.getProps("inventario", null);
+		Vector<String> errores = new Vector<String>();
+		
+		String driverTango = props.getProperty("driverTango");
+		if (driverTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'driverTango' en archivo de configuración");
+
+		String urlTango = props.getProperty("urlTango");
+		if (urlTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'urlTango' en archivo de configuración");
+
+		String usrTango = props.getProperty("usrTango");
+		if (usrTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'usrTango' en archivo de configuración");
+
+		String passWordTango = props.getProperty("passWordTango");
+		if (passWordTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
+		
+		if (errores.size() > 0) 
+			throw new ValidationException(errores);
+		
+		this.driverTango = driverTango;
+		this.urlTango = urlTango;
+		this.userTango = usrTango;
+		this.passWordTango = passWordTango;
 	}
 }
