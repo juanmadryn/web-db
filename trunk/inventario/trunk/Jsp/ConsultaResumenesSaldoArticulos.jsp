@@ -159,7 +159,7 @@
 	<salmon:box name="box2" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox1"
 			mode="Display_single_page" caption="Resumen de stock de artículos"
-			width="100%" datasource="dsResumenes"
+			width="100%" datasource="dsResumenes" autocreatelink="false"
 			searchformdisplaybox="searchformdisplaybox1">
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsResumenes">

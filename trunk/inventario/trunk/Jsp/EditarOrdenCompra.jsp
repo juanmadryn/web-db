@@ -199,7 +199,7 @@ function CheckAll(checked) {
                            font="TableHeadingFont" /></td>
                         <td colspan="4" rowspan="3"><salmon:input
                            type="textarea" name="observaciones2"
-                           cols="60" rows="3" wrap="HARD"
+                           cols="60" rows="3" wrap="soft"
                            maxlength="255"
                            datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input>
                         </td>
@@ -270,7 +270,7 @@ function CheckAll(checked) {
                   <tr>
                      <td><salmon:input type="textarea"
                         name="observacionX2" cols="60" rows="4"
-                        wrap="HARD" size="40" maxlength="255"
+                        wrap="soft" size="40" maxlength="255"
                         datasource="dsOrdenesCompra:observaciones"
                         visible="false"></salmon:input></td>
                   </tr>
@@ -530,9 +530,8 @@ function CheckAll(checked) {
                <salmon:tr name="descAdicionalTr" visible="false">
                   <salmon:td></salmon:td>
                   <salmon:td colspan="8">
-                     <salmon:input type="text" name="descAdicionalOcTXT"
-                        size="100" 
-                        datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>
+                     <salmon:input type="textarea" name="descAdicionalOcTXT" wrap="soft"
+                        cols="100" rows="2" datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>
                   </salmon:td>
                </salmon:tr>
                <!-- <salmon:tr name="nuevoDetalleSinSc" visible="false">

@@ -129,7 +129,7 @@ function CheckAll(checked) {
 								<td><salmon:text name="observaciones1" text="Observaciones"
 									font="TableHeadingFont" /></td>
 								<td colspan="3"><salmon:input type="textarea"
-									name="observaciones2" cols="80" rows="3" wrap="HARD"
+									name="observaciones2" cols="80" rows="3" wrap="soft"
 									maxlength="255"
 									datasource="dsSolicitudCompra:solicitudes_compra.observaciones"></salmon:input></td>
 								<td width="10"></td>
@@ -173,7 +173,7 @@ function CheckAll(checked) {
 						</tr>
 						<tr>
 							<td><salmon:input type="textarea" name="observacionX2"
-								cols="60" rows="4" wrap="HARD" size="40" maxlength="255"
+								cols="60" rows="4" wrap="soft" size="40" maxlength="255"
 								datasource="dsSolicitudCompra:observaciones" visible="false"></salmon:input></td>
 						</tr>
 					</table>
