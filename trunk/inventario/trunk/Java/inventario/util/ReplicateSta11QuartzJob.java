@@ -15,6 +15,7 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import com.salmonllc.properties.Props;
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
@@ -29,9 +30,9 @@ public class ReplicateSta11QuartzJob implements Job {
 	 * Parámetros de conexión a Tango
 	 */
 	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-	private String urlTango = "jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
-	private String userTango = "Axoft";
-	private String passWordTango = "Axoft";
+	private String urlTango = null;
+	private String userTango = null;
+	private String passWordTango = null;
 
 	/**
 	 * Replicate SQL Server STA11 table contents into MySQL.
@@ -41,16 +42,13 @@ public class ReplicateSta11QuartzJob implements Job {
 	 */
 	public void replicate() throws SQLException, ClassNotFoundException {
 		Connection connTango = null;
-		Connection connInv = null;
+		DBConnection connInv = null;
 		Statement tangoSt = null;
 		PreparedStatement psTango = null, pstMySql = null, pstMySql2 = null;
 		ResultSet r = null, rMySql = null;
 
-		String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-		String urlTango = "jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
-		String userTango = "Axoft";
-		String passWordTango = "Axoft";
-
+		getConnectionInfo();
+		
 		try {
 			// Se carga el driver JTDS
 			Class.forName(driverTango);
@@ -58,10 +56,12 @@ public class ReplicateSta11QuartzJob implements Job {
 			connTango = DriverManager.getConnection(urlTango, userTango,
 					passWordTango);
 			// Now attempt to create a database connection with MySQL
-			Class.forName("com.mysql.jdbc.Driver");
+			/*Class.forName("com.mysql.jdbc.Driver");
 			connInv = DriverManager.getConnection(
 					"jdbc:mysql://localhost:3306/inventario", "root", "root");
-			connInv.setAutoCommit(false);
+			connInv.setAutoCommit(false);*/
+			connInv = DBConnection.getConnection("root");
+			connInv.beginTransaction("articulos");
 
 			// Get the item classes
 			String SQLclaseArticuloTango = "SELECT t.clase FROM (SELECT substring(COD_ARTICU,1,5) as clase FROM STA11) t group by t.clase";
@@ -151,7 +151,9 @@ public class ReplicateSta11QuartzJob implements Job {
 			pstMySql = connInv.prepareStatement(SQLremoveLegacyRec);
 			pstMySql.executeUpdate();
 
-			connInv.commit();
+			//connInv.commit();
+			connInv.commit("articulos");
+			connInv.beginTransaction("precioFechaUltCompra");
 
 			/*******************************************************************
 			 * importa precio/fecha ultima compra
@@ -398,7 +400,8 @@ public class ReplicateSta11QuartzJob implements Job {
 				}
 			}
 
-			connInv.commit();
+			//connInv.commit();
+			connInv.commit("precioFechaUltCompra");
 		} finally {
 			if (tangoSt != null)
 				tangoSt.close();
@@ -416,7 +419,8 @@ public class ReplicateSta11QuartzJob implements Job {
 				connTango.close();
 			if (connInv != null) {
 				connInv.rollback();
-				connInv.close();
+				//connInv.close();
+				connInv.freeConnection();
 			}
 		}
 
