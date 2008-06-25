@@ -8,10 +8,10 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="buscar" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="articulos.nombre,articulos.descripcion,articulos.descripcion_completa" />
+		<salmon:qbecriteria name="buscar" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="articulos_extendidos.nombre,articulos_extendidos.descripcion,articulos_extendidos.descripcion_completa" />
 	</salmon:datasource>
 	<salmon:datasource name="dsArticulos" type="MODEL" dbprofile="inventario"
-		model="inventario.models.ArticulosModel" autoretrieve="Never">
+		model="inventario.models.ArticulosExtendidosModel" autoretrieve="Never">
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar código de la página aquí -->
@@ -37,8 +37,8 @@
 			mode="Display_single_page" caption="" width="100%"
 			addbuttonvisible="False" savebuttonvisible="False"
 			datasource="dsArticulos" searchformdisplaybox="searchformdisplaybox1"
-			lookupreturnexp="articulos.nombre"
-			lookupdescreturnexp="articulos.descripcion">
+			lookupreturnexp="articulos_extendidos.nombre"
+			lookupdescreturnexp="articulos_extendidos.descripcion +'- X '+articulos_extendidos.nombre_unidad">
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsArticulos">
 				<salmon:datatableheader>
@@ -55,24 +55,33 @@
 							<salmon:text name="descripcionCompletaCAP12" text="Descripción Completa"
 								font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td>
+							<salmon:text name="nombre_unidad_medida1" text="UM"
+								font="TableHeadingFont" />
+						</salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
 					<salmon:tr>						
 						<salmon:td>
 							<salmon:text name="nombreTXT7"
-								text="tipo_equipo.nombre Goes Here" font="DefaultFont"
-								datasource="dsArticulos:articulos.nombre" />
+								text="" font="DefaultFont"
+								datasource="dsArticulos:articulos_extendidos.nombre" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="descripcionTXT8"
-								text="tipo_equipo.descripcion Goes Here" font="DefaultFont"
-								datasource="dsArticulos:articulos.descripcion" />
+								text="" font="DefaultFont"
+								datasource="dsArticulos:articulos_extendidos.descripcion" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="descripcionCompletaTXT9"
-								text="tipo_equipo.descripcion_completa Goes Here" font="DefaultFont"
-								datasource="dsArticulos:articulos.descripcion_completa" />
+								text="" font="DefaultFont"
+								datasource="dsArticulos:articulos_extendidos.descripcion_completa" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="nombre_unidad_medida2"
+								text="" font="DefaultFont"
+								datasource="dsArticulos:articulos_extendidos.nombre_unidad" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>

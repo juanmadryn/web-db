@@ -1771,7 +1771,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 						.getValorAtributoObjeto(ARTICULO_UNIDAD_MEDIDA,
 								getDetalleScArticuloId(row), "TABLA", "articulos"));
 
-				if (getDetalleScUnidadMedida(row) == 0 && unidad_patron != 0) {
+				if (unidad_patron != 0) {
 					setDetalleScUnidadMedida(row, unidad_patron);
 				}
 
