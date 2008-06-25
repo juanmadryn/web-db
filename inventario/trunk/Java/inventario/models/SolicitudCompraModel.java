@@ -181,9 +181,7 @@ public class SolicitudCompraModel extends BaseModel {
 
 			// add validations
 			addRequiredRule(SOLICITUDES_COMPRA_USER_ID_SOLICITA,
-					"Debe especificar un usuario solicitante.");
-			addRequiredRule(SOLICITUDES_COMPRA_FECHA_SOLICITUD,
-					"La fecha de la solicitud es obligatoria.");
+					"Debe especificar un usuario solicitante.");			
 
 			// add lookups
 			addLookupRule(
