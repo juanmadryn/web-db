@@ -145,7 +145,7 @@ function CheckAll(checked) {
 								<salmon:tr>
 									<salmon:td>
 										<salmon:text name="atributoTXT6" text="atributo Goes Here"
-											datasource="dsAtributos:atributos_rol.nombre"
+											datasource="dsAtributos:atributos_rol.descripcion"
 											font="DefaultFont" />
 									</salmon:td>
 									<salmon:td>
