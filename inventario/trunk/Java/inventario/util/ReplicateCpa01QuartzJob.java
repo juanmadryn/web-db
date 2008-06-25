@@ -1,15 +1,21 @@
 package inventario.util;
 
+import infraestructura.reglasNegocio.ValidationException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import com.salmonllc.properties.Props;
+import com.salmonllc.sql.DBConnection;
 
 
 /**
@@ -18,40 +24,45 @@ import org.quartz.JobExecutionException;
  * atributos corresponientes. 
  * 
  * @author Francisco Paez
- *
  */
 public class ReplicateCpa01QuartzJob implements Job {
 	
+	/**
+	 * Parametros para la conexión con SQL Server 2000
+	 */
+	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
+	private String urlTango = "jdbc:jtds:sqlserver://[HOST]/[DB];instance=[INSTANCE];prepareSQL=3";
+	private String userTango = null;
+	private String passWordTango = null;
+	
+	/* (non-Javadoc)
+	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
+	 */
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		this.importaProveedores();
-	}
+	}	
 
 	/**
 	 * @throws JobExecutionException
 	 */
 	public void importaProveedores() throws JobExecutionException {
 		Connection connTango = null;
-		Connection connInf = null;
+		DBConnection connInf = null;
 		Statement tangoSt = null, stMySql = null;
 		PreparedStatement pstMySql = null, pstMySql2 = null;
 		ResultSet r = null, rMySql = null;
 		
-		String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-		String urlTango="jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
-		String userTango="Axoft";
-		String passWordTango="Axoft";
+		// Parametros de conexión
+		getConnectionInfo();
 		
-
 		try {
 			// Se carga el driver JTDS
 			Class.forName(driverTango);			
 			// Conexion con Tango (SQL Server 2000)
-			connTango = DriverManager.getConnection(urlTango, userTango,
-					passWordTango);				
+			connTango = DriverManager.getConnection(urlTango, userTango, passWordTango);				
 			// Conexion con MySQL
-			Class.forName("com.mysql.jdbc.Driver");
-			connInf = DriverManager.getConnection ("jdbc:mysql://localhost:3306/infraestructura","root", "root");			
-			connInf.setAutoCommit(false);
+			connInf = DBConnection.getConnection("infraestructura");			
+			connInf.beginTransaction();
 			
 			/**
 			 * Seleccionamos de la tabla CPA01 los datos básicos para la tabla
@@ -178,11 +189,43 @@ public class ReplicateCpa01QuartzJob implements Job {
 					connTango.close();
 				if (connInf != null) {
 					connInf.rollback();
-					connInf.close();
+					connInf.freeConnection();
 				}
 			} catch (SQLException e) {
 				throw new JobExecutionException(e);				
 			}
 		}
+	}
+
+	/**
+	 * Obtiene parametros para la conexión desde el archivo de propiedades
+	 */
+	private void getConnectionInfo() {
+		Props props = Props.getProps("inventario", null);
+		Vector<String> errores = new Vector<String>();
+		
+		String driverTango = props.getProperty("driverTango");
+		if (driverTango == null) 
+			errores.add("ReplicateCpa01QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'driverTango' en archivo de configuración");
+
+		String urlTango = props.getProperty("urlTango");
+		if (urlTango == null) 
+			errores.add("ReplicateCpa01QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'urlTango' en archivo de configuración");
+
+		String usrTango = props.getProperty("usrTango");
+		if (usrTango == null) 
+			errores.add("ReplicateCpa01QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'usrTango' en archivo de configuración");
+
+		String passWordTango = props.getProperty("passWordTango");
+		if (passWordTango == null) 
+			errores.add("ReplicateCpa01QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
+		
+		if (errores.size() > 0) 
+			throw new ValidationException(errores);
+		
+		this.driverTango = driverTango;
+		this.urlTango = urlTango;
+		this.userTango = usrTango;
+		this.passWordTango = passWordTango;
 	}
 }

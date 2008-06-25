@@ -26,6 +26,9 @@ public class InventarioQuartzInit extends HttpServlet implements Servlet {
 	 */
 	private static final long serialVersionUID = -944367551302525151L;
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.GenericServlet#init()
+	 */
 	@Override
 	public void init() throws ServletException {	
 		super.init();

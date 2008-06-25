@@ -27,8 +27,7 @@ import com.salmonllc.util.MessageLog;
  *	REVERTIR_A_SC_COTIZADA = 35
  *  FIN_DE_COTIZACION = 54
  * 
- * @author fep
- *
+ * @author Francisco Paez
  */
 public class SolicitudCompraTransiciones {
 	
@@ -233,7 +232,7 @@ public class SolicitudCompraTransiciones {
 	 * Recupera los ids de las acciones a ejecutar desde el archivo de propiedades.
 	 * TODO: el codigo funciona, pero es un asco, refactorear.
 	 */
-	private static void recuperaEstadosAcciones() {
+	private static void recuperaEstadosAcciones() {		
 		Props props = Props.getProps("inventario", null);
 		Vector<String> errores = new Vector<String>();		
 		

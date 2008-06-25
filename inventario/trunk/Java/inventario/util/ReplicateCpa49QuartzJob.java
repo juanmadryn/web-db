@@ -33,11 +33,15 @@ public class ReplicateCpa49QuartzJob implements Job {
 	private String userTango = null;
 	private String passWordTango = null;
 
+	/* (non-Javadoc)
+	 * @see org.quartz.Job#execute(org.quartz.JobExecutionContext)
+	 */
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
-		// TODO Auto-generated method stub		
+		importaCondicionesCompra();
 	}
 	
 	/**
+	 * Importa las condiciones de compra especificadas en Tango
 	 * @throws JobExecutionException
 	 */
 	public void importaCondicionesCompra() throws JobExecutionException {
@@ -132,16 +136,16 @@ public class ReplicateCpa49QuartzJob implements Job {
 		
 		String driverTango = props.getProperty("driverTango");
 		if (driverTango == null) 
-			errores.add("No se ha indicado la propiedad 'driverTango' en archivo de configuración");		
+			errores.add("ReplicateCpa49QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'driverTango' en archivo de configuración");		
 		String urlTango = props.getProperty("urlTango");
 		if (urlTango == null) 
-			errores.add("No se ha indicado la propiedad 'urlTango' en archivo de configuración");
+			errores.add("ReplicateCpa49QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'urlTango' en archivo de configuración");
 		String userTango = props.getProperty("userTango");
 		if (userTango == null) 
-			errores.add("No se ha indicado la propiedad 'userTango' en archivo de configuración");
+			errores.add("ReplicateCpa49QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'userTango' en archivo de configuración");
 		String passWordTango = props.getProperty("passWordTango");
 		if (passWordTango == null) 
-			errores.add("No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
+			errores.add("ReplicateCpa49QuartzJob.getConnectionInfo(): No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
 		
 		if (errores.size() > 0) 
 			throw new ValidationException(errores);
