@@ -1,16 +1,20 @@
 package inventario.util;
 
+import infraestructura.reglasNegocio.ValidationException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
@@ -20,6 +24,14 @@ import com.salmonllc.util.MessageLog;
  * @author Francisco Ezequiel Paez
  */
 public class ReplicateSta11QuartzJob implements Job {
+	
+	/**
+	 * Parámetros de conexión a Tango
+	 */
+	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
+	private String urlTango = "jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
+	private String userTango = "Axoft";
+	private String passWordTango = "Axoft";
 
 	/**
 	 * Replicate SQL Server STA11 table contents into MySQL.
@@ -420,5 +432,31 @@ public class ReplicateSta11QuartzJob implements Job {
 			e.printStackTrace();
 			MessageLog.writeErrorMessage(e, null);
 		}
+	}
+	
+	private void getConnectionInfo() { 
+		Props props = Props.getProps("inventario", null);
+		Vector<String> errores = new Vector<String>();		
+		
+		String driverTango = props.getProperty("driverTango");
+		if (driverTango == null) 
+			errores.add("No se ha indicado la propiedad 'driverTango' en archivo de configuración");		
+		String urlTango = props.getProperty("urlTango");
+		if (urlTango == null) 
+			errores.add("No se ha indicado la propiedad 'urlTango' en archivo de configuración");
+		String userTango = props.getProperty("userTango");
+		if (userTango == null) 
+			errores.add("No se ha indicado la propiedad 'userTango' en archivo de configuración");
+		String passWordTango = props.getProperty("passWordTango");
+		if (passWordTango == null) 
+			errores.add("No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
+		
+		if (errores.size() > 0) 
+			throw new ValidationException(errores);
+		
+		this.driverTango = driverTango;
+		this.urlTango = urlTango;
+		this.userTango = userTango;
+		this.passWordTango = passWordTango;
 	}
 }
