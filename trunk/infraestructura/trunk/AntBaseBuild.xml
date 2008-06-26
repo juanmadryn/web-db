@@ -1,0 +1,128 @@
+<!--
+	Este script sirve de base para los build.xml del resto de las aplicaciones.
+	Las propiedades estan expresadas de manera genérica de forma tal que se acomoden
+	automaticamente segun el nombre del proyecto.
+	El resto de los build.xml solo deben importar este script, y opcionalmente, 
+	sobreescribir las tasks y propiedades que se deban personalizar.
+-->
+<project name="infraestructura" default="dist">
+	
+	<property file="AntBaseBuild.properties"/>
+	
+	<property name="webapp.name" value="${ant.project.name}"/>
+	<property name="webapp.src" value="${basedir}/Java"/> 
+	<property name="webapp.bld" value="${basedir}/bin"/>	
+	<property name="dist" value="${basedir}/dist"/>
+	<property name="dist.jar" value="${dist}/jar"/>
+	<property name="dist.war" value="${dist}/war"/>
+	<property name="jarfile" value="${ant.project.name}.jar"/>
+	<property name="warfile" value="${ant.project.name}.war"/>
+	<property name="jsp" value="${basedir}/Jsp"/>
+	<property name="workspace" value="C:\Documents and Settings\Administrador\workspace3"/>
+	<property name="sofiafwk.src" value="${workspace}/Salmon Open Framework/Java"/> 
+	<property name="sofiafwk.bld" value="${workspace}/Salmon Open Framework/bin"/>
+	<!-- directorio en donde se copia el JAR -->	
+	<property name="deploy.jar.dir" value="${tomcat.commonlibs}"/>
+	<!-- directorio webapp -->
+	<property name="deploy.war.dir" value="${tomcat.path}/webapps"/>
+	<!-- directorio para backups jsp -->
+	<property name="backup.war.dir" value="${tomcat.path}/bkp"/>
+	<!-- directorio para backups jar -->
+	<property name="backup.jar.dir" value="${tomcat.path}/bkp"/>		
+	
+	<!-- Configura Ant tasks de la aplicación Manager -->
+	<!-- <taskdef resource="org/apache/catalina/ant/catalina.tasks" 
+		classpathref="compile.classpath"/> -->
+	
+	<target name="init"> 
+		<!-- Create the time stamp -->
+		<tstamp prefix="hoy">
+			<format property="today" pattern="yyyy-MM-dd" locale="ar"/>
+		</tstamp>		 
+	</target>
+	
+	<!-- backup jar -->
+	<target name="backup.jar" description="Copia de respaldo del jar en producción">
+		<!-- nombre del directorio de backups -->
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy-MM-dd" />
+		</tstamp>
+		<property name="bkp.dir" value="Bkp${DSTAMP}"/>		
+		<mkdir dir="${backup.jar.dir}/${bkp.dir}"/>		
+		<copy file="${deploy.jar.dir}/${jarfile}" todir="${backup.jar.dir}/${bkp.dir}" failonerror="false" 
+			preservelastmodified="true" overwrite="false"/>
+	</target>
+	
+	<!-- backup war -->
+	<target name="backup.war" description="Copia de respaldo del war en producción">
+		<!-- nombre del directorio de backups -->
+		<tstamp>
+			<format property="DSTAMP" pattern="yyyy-MM-dd" />
+		</tstamp>
+		<property name="bkp.dir" value="Bkp${DSTAMP}"/>
+		<mkdir dir="${backup.war.dir}/${bkp.dir}"/>
+		<copy file="${deploy.war.dir}/${warfile}" todir="${backup.war.dir}/${bkp.dir}" failonerror="false"
+			preservelastmodified="true" overwrite="false"/>
+	</target>
+			
+	<target name="dist.jar" description="Crea el jar del proyecto">
+		<mkdir dir="${dist.jar}"/>
+		<tstamp>
+		     <format property="TODAY" pattern="yyyy-MM-dd HH:mm:ss" />
+		</tstamp>
+		<jar destfile="${dist.jar}/${jarfile}"
+			basedir="${webapp.bld}"
+			includes="**/*.class">
+		</jar>
+	</target>
+	
+	<target name="setProperties" description="Setea los valores de System.properties para Producción">
+		<replace file="WEB-INF/properties/System.properties" token="SecurePort=9080" value="SecurePort=8080"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=9080" value="UnSecurePort=8080"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogAssertions=true" value="LogAssertions=false"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogInfoMessages=true" value="LogInfoMessages=false"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogDebugMessages=true" value="LogDebugMessages=false"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogSQLStatements=true" value="LogSQLStatements=false"/>
+	</target>
+	
+	<target name="restoreProperties" description="Restaura los valores de System.properties para Development">
+		<replace file="WEB-INF/properties/System.properties" token="SecurePort=8080" value="SecurePort=9080"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=8080" value="UnSecurePort=9080"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogAssertions=false" value="LogAssertions=true"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogInfoMessages=false" value="LogInfoMessages=true"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogDebugMessages=false" value="LogDebugMessages=true"/>
+		<replace file="WEB-INF/properties/System.properties" token="LogSQLStatements=false" value="LogSQLStatements=true"/>
+	</target>
+	
+	<target name="dist" depends="dist.jar" description="Crea el war del proyecto">				
+		<mkdir dir="${dist.war}"/>
+		<!--<replace file="WEB-INF/properties/System.properties" token="SecurePort=9080" value="SecurePort=8080"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=9080" value="UnSecurePort=8080"/>-->
+		<antcall target="setProperties"/>
+		<war destfile="${dist.war}/${warfile}" webxml="WEB-INF/web.xml">	
+			<webinf dir="WEB-INF"></webinf>			
+			<zipfileset dir="${jsp}" prefix="Jsp"/>
+		</war>
+		<antcall target="restoreProperties"/>
+		<!--<replace file="WEB-INF/properties/System.properties" token="SecurePort=8080" value="SecurePort=9080"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=8080" value="UnSecurePort=9080"/>-->
+	</target>
+	
+	<target name="deploy.jar" depends="backup.jar,dist.jar" description="Copia el jar en el directorio de deploy">		
+		<!-- Copia el JAR en el directorio de deploy -->
+		<copy file="${dist.jar}/${jarfile}" todir="${deploy.jar.dir}" overwrite="yes"/>		
+	</target>	
+		
+	<target name="deploy" depends="backup.war,dist,deploy.jar" description="Copia el war en el directorio de deploy">		
+	  <!-- <deploy 
+	  	url="${deploy.url}" 
+	  	username="${deploy.user}" password="${deploy.pass}" 
+	  	path="/${webapp.name}" 
+	  	war="${dist.war}/${warfile}"
+	  	update="true"/> -->                   
+		<!-- Copia el WAR en el directorio de deploy -->
+		<delete dir="${deploy.war.dir}/${ant.project.name}"></delete>
+		<copy file="${dist.war}/${warfile}" todir="${deploy.war.dir}" overwrite="yes"/>
+	</target>
+	
+</project>
