@@ -231,7 +231,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		// completo y asigno botones custom
 
 		_grabarSolicitudCompraBUT1 = new HtmlSubmitButton(
-				"grabarSolicitudCompraBUT1", "Grabar", this);
+				"grabarSolicitudCompraBUT1", "Grabar solicitud", this);
 		_grabarSolicitudCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarSolicitudCompraBUT1);
 
