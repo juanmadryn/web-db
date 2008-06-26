@@ -143,6 +143,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public inventario.models.DetalleSCModel _dsDetalleSC;
 	public inventario.models.SolicitudCompraModel _dsSolicitudCompra;
 	public infraestructura.models.AuditaEstadosCircuitosModel _dsAuditoria;
+	public inventario.models.DetalleCotizacionModel _dsDetalleCotizacionModel;
 
 	// DataSource Column Constants
 	public static final String DSSOLICITUDCOMPRA_SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID = "solicitudes_compra.solicitud_compra_id";
@@ -414,10 +415,17 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 					// actualizo los detalles
 					if (_dsDetalleSC.getRow() != -1) {
+						// actualizo los detalles de las cotizaciones asociadas
+						// si se elimino un detalle con cotizacion asociada se efectivizara
+						// la eliminacion de este ultimo acá
+						if (_dsDetalleCotizacionModel != null) {
+							_dsDetalleCotizacionModel.update(conn);
+						}
 						_dsDetalleSC.update(conn);
 					}
 					
 					_dsSolicitudCompra.resetStatus();
+					_dsDetalleCotizacionModel.resetStatus();
 					_dsDetalleSC.resetStatus();
 					
 					conn.commit();
@@ -570,17 +578,29 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		if (component == _articulosEliminarBUT1) {
 			if (_dsSolicitudCompra.isModificable()) {
+				_dsDetalleCotizacionModel = new DetalleCotizacionModel("inventario");
 				// elimina todas las actividades seleccionadas
 				for (int row = _dsDetalleSC.getRowCount() - 1; row >= 0; row--) {
 					if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_FLAG) == 1) {
 						// Rol marcado para selección
 						try {
+							// Eliminamos la cotizacion asociada si la hubiere
+							if (_dsDetalleSC.getDetalleScCotizacionCompraId(row) > 0) {
+								_dsDetalleCotizacionModel.retrieve(
+										DetalleCotizacionModel.DETALLE_COTIZACION_DETALLE_SC_ID
+												+" = "+ _dsDetalleSC.getDetalleScDetalleScId(row) 
+										);
+								_dsDetalleCotizacionModel.waitForRetrieve();
+								_dsDetalleCotizacionModel.gotoFirst();								
+								_dsDetalleCotizacionModel.deleteRow();
+							}
 							_dsDetalleSC.deleteRow(row);
 							// _dsDetalleSC.update();
 						} catch (Exception e) {
 							displayErrorMessage("No se ha podido eliminar la actividad seleccionada. Error: "
 									+ e.getMessage());
 							_dsDetalleSC.unDeleteRow(row);
+							_dsDetalleCotizacionModel.unDeleteRow(0);
 							_dsDetalleSC.setInt(row, SELECCION_DETALLE_FLAG, 0);
 							return false;
 						}
@@ -598,6 +618,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		if (component == _articulosCancelarBUT1) {
 			// crea un nuevo registro de tarea
 			try {
+				if (_dsDetalleCotizacionModel != null) {
+					_dsDetalleCotizacionModel.reset();
+					_dsDetalleCotizacionModel.resetStatus();
+					_dsDetalleCotizacionModel.update();
+				}
 				_dsDetalleSC.reset();
 				_dsDetalleSC.resetStatus();
 				_dsDetalleSC.retrieve("detalle_sc.solicitud_compra_id ="
