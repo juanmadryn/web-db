@@ -228,7 +228,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 		// completo y asigno botones custom
 
 		_grabarComprobanteBUT1 = new HtmlSubmitButton("grabarComprobanteBUT1",
-				"Grabar", this);
+				"Grabar comprobante", this);
 		_grabarComprobanteBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarComprobanteBUT1);
 
