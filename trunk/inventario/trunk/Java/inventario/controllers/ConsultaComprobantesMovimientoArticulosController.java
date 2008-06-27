@@ -138,8 +138,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	 */
 	public void initialize() throws Exception {
 		_recuperaRecepcionesAnuladas = new HtmlSubmitButton(
-				"recuperaSolicitudesPendientes", "Recupera recepción anulada",
-				this);
+				"recuperaSolicitudesPendientes", "Recupera recepción anulada", this);
 		_recuperaRecepcionesAnuladas.setAccessKey("R");
 		_listformdisplaybox1.addButton(_recuperaRecepcionesAnuladas);
 		_recuperaRecepcionesAnuladas.addSubmitListener(this);
@@ -152,7 +151,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 		seteaPeriodo(null, null); // valores por defecto para el periodo de
 		// fechas
 		_dsPeriodo.gotoFirst();
-			
+
 		super.initialize();
 	}
 
@@ -162,8 +161,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 
 		if (e.getComponent() == _searchformdisplaybox1.getSearchButton()) {
 			String whereFecha = null;
-			if (_fechadesde2.getValue() != null
-					&& _fechahasta2.getValue() != null) {
+			if (_fechadesde2.getValue() != null && _fechahasta2.getValue() != null) {
 				desde = _dsPeriodo.getDateTime("desde");
 				hasta = _dsPeriodo.getDateTime("hasta");
 				seteaPeriodo(desde, hasta);
@@ -175,8 +173,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 						return false;
 					}
 					whereFecha = "recepciones_compras.fecha BETWEEN '"
-							+ desde.toString() + "' AND '" + hasta.toString()
-							+ "'";
+							+ desde.toString() + "' AND '" + hasta.toString() + "'";
 				}
 			}
 			_dsComprobantes.reset();
@@ -192,8 +189,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 			else
 				where = "";
 			where += "comprobante_movimiento_articulo.tipo_movimiento_articulo_id <> "
-					+ getPageProperties().getProperty(
-							TIPO_MOVIMIENTO_RECEPCIONES);
+					+ getPageProperties().getProperty(TIPO_MOVIMIENTO_RECEPCIONES);
 			_dsComprobantes.retrieve(where);
 			_dsComprobantes.gotoFirst();
 		}
@@ -210,17 +206,16 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	 * Process the page requested event
 	 * 
 	 * @param event
-	 *            the page event to be processed
+	 *           the page event to be processed
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
 		// si la página es requerida por si misma no hago nada
 
-		int currentUser = getSessionManager().getWebSiteUser().getUserID();			
-		// Si el usuario no es comprador, solo puede consultar las solicitudes
-		// realizadas por él
-		if (!UsuarioRolesModel
-				.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
+		int currentUser = getSessionManager().getWebSiteUser().getUserID();
+		// Si el usuario no es encargado de almacén, solo puede consultar los
+		// comprobantes cargados por él
+		if (!UsuarioRolesModel.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
 			_dsQBE.setString("usuario_completo", String.valueOf(currentUser));
 			_solicitante2.setEnabled(false);
 		} else {
@@ -231,6 +226,19 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 				_recuperaRecepcionesAnuladas.setVisible(true);
 			else
 				_recuperaRecepcionesAnuladas.setVisible(false);
+		}
+		
+		if (!isReferredByCurrentPage()) {
+			int mode = getIntParameter("mode", -1);
+			if (mode != -1) {
+				_estado2.setValue("0010.0002");
+				_tipo2.setValue(null);
+				String where = _dsQBE.generateSQLFilter(_dsComprobantes);
+				where += " AND comprobante_movimiento_articulo.tipo_movimiento_articulo_id <> "
+					+ getPageProperties().getProperty(TIPO_MOVIMIENTO_RECEPCIONES);
+				_dsComprobantes.retrieve(where);
+				_dsComprobantes.gotoFirst();
+			}
 		}
 		super.pageRequested(event);
 	}
