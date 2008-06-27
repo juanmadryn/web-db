@@ -1431,9 +1431,9 @@ public class MovimientoArticuloModel extends DataStore {
 				setMovimientoArticuloArticuloId(row, articulos
 						.getArticulosArticuloId());
 			}
-			if (getMovimientoArticuloDescripcion(row) == null)
+/*			if (getMovimientoArticuloDescripcion(row) == null)
 				setMovimientoArticuloDescripcion(row,
-						getArticulosDescripcionCompleta(row));
+						getArticulosDescripcionCompleta(row));*/
 			if (getMovimientoArticuloUnidadMedidaId(row) == 0)
 				setMovimientoArticuloUnidadMedidaId(row, Integer
 						.parseInt(AtributosEntidadModel.getValorAtributoObjeto(
