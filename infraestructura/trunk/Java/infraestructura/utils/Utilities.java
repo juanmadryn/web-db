@@ -1,6 +1,6 @@
 package infraestructura.utils;
 
-import infraestructura.models.UsuarioRolesModel;
+import infraestructura.controllers.Constants;
 
 import java.math.RoundingMode;
 import java.sql.ResultSet;
@@ -9,8 +9,8 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
-import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
 /*  
@@ -281,5 +281,52 @@ public class Utilities {
 	public static String getDecimalFormatNumber(float numero) {
 		DecimalFormat format = getDecimalFormat();
 		return format.format(numero).replace(",", "");
+	}
+	
+	/**
+	 * Calcula el número de comprobantes de movimientos de artículos 
+	 * que se encuentran pendientes de confirmación
+	 * @param user_id
+	 * @return
+	 */
+	public static int getComprobantesMovimientosArticulosPendientes() {
+		DBConnection conn = null;
+		Statement st = null;
+		ResultSet r = null;
+		int compPendientes = 0;
+		try {
+			conn = DBConnection.getConnection("inventario", "inventario");
+				
+			String SQL = "SELECT count(*) " +
+					"FROM  comprobante_movimiento_articulo c " +					
+					"WHERE c.estado LIKE '%.0002' AND c.tipo_movimiento_articulo_id <>1";
+			
+			st = conn.createStatement();
+			r = st.executeQuery(SQL);
+
+			if (r.first()) {
+				// guarda la cantidad actual
+				compPendientes = r.getInt(1);				
+			}
+		} catch (SQLException e) {
+			MessageLog.writeErrorMessage(e, null);		
+		} finally {
+			if (r != null) {
+				try {
+					r.close();
+				} catch (Exception ex) {
+				}
+			}
+			if (st != null)
+				try {
+					st.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+
+			if (conn != null)
+				conn.freeConnection();
+		}
+		return compPendientes;
 	}
 }
