@@ -113,6 +113,9 @@
 							<salmon:text name="numeroCAP2" text="Nº" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
+							<salmon:text name="tipo3" text="Tipo" font="TableHeadingFont" />
+						</salmon:td>
+						<salmon:td>
 							<salmon:text name="descripcionCAP4" text="Completó"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -142,6 +145,11 @@
 							<salmon:text name="proyectoTXT1" text="proyecto Goes Here"
 								font="DefaultFont"
 								datasource="dsComprobantes:comprobante_movimiento_articulo.comprobante_movimiento_id" />
+						</salmon:td>
+						<salmon:td>
+							<salmon:text name="tipo4" text="proyecto Goes Here"
+								font="DefaultFont"
+								datasource="dsComprobantes:tipo_movimiento_articulo.nombre" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="solicitante_nombreTXT3" text=""
