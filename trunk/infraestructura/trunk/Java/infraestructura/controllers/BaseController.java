@@ -148,6 +148,10 @@ public class BaseController extends JspController implements SubmitListener,
 
 	public com.salmonllc.html.HtmlText _txtBannerOrdenesObservadas;
 
+	public com.salmonllc.jsp.JspLink _lnkBannerComprobantesPendientes;
+
+	public com.salmonllc.html.HtmlText _txtBannerComprobantesPendientes;
+
 	// public com.salmonllc.jsp.JspForm _searchForm;
 	public com.salmonllc.html.HtmlText _welcomeUser;
 
@@ -197,17 +201,17 @@ public class BaseController extends JspController implements SubmitListener,
 	private static Hashtable<String, Hashtable<String, HttpSession>> aplications = new Hashtable<String, Hashtable<String, HttpSession>>();
 
 	private static Hashtable<String, Long> timeStart = new Hashtable<String, Long>();
-	
+
 	// msj al usuario para mantenimiento
 	public com.salmonllc.html.HtmlText _avisoMantenimiento;
 
 	/**
 	 * This method tries to get the string parameter passed into this function
-	 * from the URL. It then checks to see if that "name" parameter is of
-	 * boolean type. The default is FALSE.
+	 * from the URL. It then checks to see if that "name" parameter is of boolean
+	 * type. The default is FALSE.
 	 * 
 	 * @param name -
-	 *            name of the parameter that is being looked up
+	 *           name of the parameter that is being looked up
 	 * 
 	 */
 	public boolean getBooleanParameter(String name) {
@@ -220,7 +224,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * Return the text of the request referer, if available, else null.
 	 * 
 	 * @param key -
-	 *            name of the cookie
+	 *           name of the cookie
 	 * @return java.lang.String
 	 */
 	public Cookie getCookie(String key) {
@@ -244,7 +248,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * integer, a -1 value will be returned.
 	 * 
 	 * @param name -
-	 *            name of the parameter that is being looked up
+	 *           name of the parameter that is being looked up
 	 * @return int - returns the value of the parameter as an int, if the value
 	 *         can NOT be cast to an int -1 is returned
 	 */
@@ -262,7 +266,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * listener to the other objects
 	 * 
 	 * @throws Exception
-	 *             if anything goes wrong
+	 *            if anything goes wrong
 	 */
 	public void initialize() throws Exception {
 		setCheckSessionExpired(true);
@@ -339,6 +343,8 @@ public class BaseController extends JspController implements SubmitListener,
 			_txtBannerSolicitudesCotizadas.setVisible(false);
 			_lnkBannerOrdenesObservadas.setVisible(false);
 			_txtBannerOrdenesObservadas.setVisible(false);
+			_lnkBannerComprobantesPendientes.setVisible(false);
+			_txtBannerComprobantesPendientes.setVisible(false);
 			_txtBannerAccount.setVisible(false);
 			_txtBannerOptions.setVisible(false);
 		}
@@ -352,9 +358,9 @@ public class BaseController extends JspController implements SubmitListener,
 	 * browser before Html is generated and sent back.
 	 * 
 	 * @param p
-	 *            PageEvent
+	 *           PageEvent
 	 * @throws Exception
-	 *             if anything goes wrong
+	 *            if anything goes wrong
 	 */
 	public void pageRequested(PageEvent p) throws Exception {
 
@@ -402,15 +408,15 @@ public class BaseController extends JspController implements SubmitListener,
 			int solicitudes_observadas = 0;
 			int ordenes_observadas = 0;
 			int solicitudes_cotizadas = 0;
+			int comprobantes_pendientes = 0;
 
 			if ((solicitudes_pendientes = Utilities
 					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {
 				_lnkBannerSolicitudesPendientes
 						.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
 								+ user.getUserID() + "&mode=0");
-				_txtBannerSolicitudesPendientes
-						.setText("Solicitudes pendientes: "
-								+ solicitudes_pendientes);
+				_txtBannerSolicitudesPendientes.setText("Solicitudes pendientes: "
+						+ solicitudes_pendientes);
 				_lnkBannerSolicitudesPendientes.setVisible(true);
 				_txtBannerSolicitudesPendientes.setVisible(true);
 
@@ -438,9 +444,8 @@ public class BaseController extends JspController implements SubmitListener,
 				_lnkBannerSolicitudesObservadas
 						.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
 								+ user.getUserID() + "&mode=1");
-				_txtBannerSolicitudesObservadas
-						.setText("Solicitudes observadas: "
-								+ solicitudes_observadas);
+				_txtBannerSolicitudesObservadas.setText("Solicitudes observadas: "
+						+ solicitudes_observadas);
 				_lnkBannerSolicitudesObservadas.setVisible(true);
 				_txtBannerSolicitudesObservadas.setVisible(true);
 
@@ -462,11 +467,15 @@ public class BaseController extends JspController implements SubmitListener,
 				_lnkBannerOrdenesObservadas.setVisible(false);
 				_txtBannerOrdenesObservadas.setVisible(false);
 			}
-			
-			if (UsuarioRolesModel.isRolUsuario(user_id, "COMPRADOR")) {
-				if ((solicitudes_cotizadas = Utilities.getSolicitudesCompraCotizadas(user_id)) > 0) {
-					_lnkBannerSolicitudesCotizadas.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="+user.getUserID()+"&mode=2");
-					_txtBannerSolicitudesCotizadas.setText("Solicitudes cotizadas: " + solicitudes_cotizadas);
+
+			if (UsuarioRolesModel.isRolUsuario(user_id, USER_COMPRADOR)) {
+				if ((solicitudes_cotizadas = Utilities
+						.getSolicitudesCompraCotizadas(user_id)) > 0) {
+					_lnkBannerSolicitudesCotizadas
+							.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
+									+ user.getUserID() + "&mode=2");
+					_txtBannerSolicitudesCotizadas.setText("Solicitudes cotizadas: "
+							+ solicitudes_cotizadas);
 					_lnkBannerSolicitudesCotizadas.setVisible(true);
 					_txtBannerSolicitudesCotizadas.setVisible(true);
 				} else {
@@ -478,8 +487,29 @@ public class BaseController extends JspController implements SubmitListener,
 				_txtBannerSolicitudesCotizadas.setVisible(false);
 			}
 
+			// Si el usuario actual tiene el rol de encargado del almacén le
+			// permito ver el link a los comprobantes pendientes
+			if (UsuarioRolesModel.isRolUsuario(user_id, USER_ENCARGADO_ALMACEN)) {
+				if ((comprobantes_pendientes = Utilities
+						.getComprobantesMovimientosArticulosPendientes()) > 0) {
+					_lnkBannerComprobantesPendientes
+							.setHref("/inventario/Jsp/ConsultaComprobantesMovimientoArticulos.jsp?mode=1");
+					_txtBannerComprobantesPendientes
+							.setText("Comprobantes pendientes: "
+									+ comprobantes_pendientes);
+					_lnkBannerComprobantesPendientes.setVisible(true);
+					_txtBannerComprobantesPendientes.setVisible(true);
+				} else {
+					_lnkBannerComprobantesPendientes.setVisible(false);
+					_txtBannerComprobantesPendientes.setVisible(false);
+				}
+			} else {
+				_lnkBannerComprobantesPendientes.setVisible(false);
+				_txtBannerComprobantesPendientes.setVisible(false);
+			}
+
 		}
-		
+
 		// chequea si el sistema va a ser dado de baja y avisa al usuario
 		// modificado por Demian Barry el 18/05/2008
 		// Codigo protectivo por si la propiedad de MantenimientoSistema
@@ -488,14 +518,15 @@ public class BaseController extends JspController implements SubmitListener,
 		Props props = Props.getProps("infraestructura", "infraestructura");
 		String hayMantenimiento = props.getProperty("MantenimientoSistema");
 		if (hayMantenimiento != null && !hayMantenimiento.isEmpty()) {
-			_avisoMantenimiento.setText("El sistema será detenido a las " 
-					+ hayMantenimiento
-					+ " horas para tareas de mantenimiento. Guarde los trabajos realizados y salga de su cuenta.");
-			_avisoMantenimiento.setVisible(true);			
-		} else {			
+			_avisoMantenimiento
+					.setText("El sistema será detenido a las "
+							+ hayMantenimiento
+							+ " horas para tareas de mantenimiento. Guarde los trabajos realizados y salga de su cuenta.");
+			_avisoMantenimiento.setVisible(true);
+		} else {
 			_avisoMantenimiento.setVisible(false);
 		}
-		
+
 		populateNavBar();
 	}
 
@@ -528,10 +559,10 @@ public class BaseController extends JspController implements SubmitListener,
 	 * Determina si el menu es accesible para el usario o algún rol que tenga
 	 * 
 	 * @param user_id
-	 *            --> id único que identifica a un usuario de la aplicación
-	 *            websitestoredUser
+	 *           --> id único que identifica a un usuario de la aplicación
+	 *           websitestoredUser
 	 * @param menu_id
-	 *            --> id único que identifiva al menu (tabla menu)
+	 *           --> id único que identifiva al menu (tabla menu)
 	 */
 	public boolean menuPermitido(String sAppName, WebSiteUser user, int menu_id) {
 		DBConnection conn = null;
@@ -542,9 +573,8 @@ public class BaseController extends JspController implements SubmitListener,
 		try {
 			conn = DBConnection.getConnection(sAppName, "infraestructura");
 			String SQL = "select user_id,rol_id,menu_id" + " from acceso_menu"
-					+ " where (rol_id in " + user.getSetRoles()
-					+ " 		or user_id = " + user.getUserID() + ")"
-					+ " and menu_id = " + menu_id;
+					+ " where (rol_id in " + user.getSetRoles() + " 		or user_id = "
+					+ user.getUserID() + ")" + " and menu_id = " + menu_id;
 			st = conn.createStatement();
 			r = st.executeQuery(SQL);
 
@@ -711,8 +741,8 @@ public class BaseController extends JspController implements SubmitListener,
 			if (descMenuAnterior != null
 					&& (urlMenuAnterior != menuActual || (!urlAux
 							.equalsIgnoreCase("HomePage"))))
-				_navbar1.createGroup(PREFIX_NAVBAR_GROUP + urlMenuAnterior,
-						null, "%" + urlMenuAnterior, "Página anterior", 1);
+				_navbar1.createGroup(PREFIX_NAVBAR_GROUP + urlMenuAnterior, null,
+						"%" + urlMenuAnterior, "Página anterior", 1);
 
 			// Populate the navbar with new values.
 			while (ds.gotoNext()) {
@@ -727,8 +757,8 @@ public class BaseController extends JspController implements SubmitListener,
 
 				// Get the correct translation from the LanguageResourceFinder
 				// object
-				sName = LanguageResourceFinder.getResource(
-						getApplicationName(), PREFIX_NAVBAR + sDesc, p);
+				sName = LanguageResourceFinder.getResource(getApplicationName(),
+						PREFIX_NAVBAR + sDesc, p);
 				if (sName != null && sName.length() > 0)
 					sDesc = sName;
 
@@ -742,11 +772,10 @@ public class BaseController extends JspController implements SubmitListener,
 				/* recupera al usuario de la sessión */
 				WebSiteUser user = checkUser();
 				if (user != null) {
-					menuPermitido = menuPermitido(getApplicationName(), user,
-							iID);
+					menuPermitido = menuPermitido(getApplicationName(), user, iID);
 					if (menuPermitido) {
-						_navbar1.createGroup(PREFIX_NAVBAR_GROUP + sDesc, null,
-								"%" + sUrl, sDesc, 1);
+						_navbar1.createGroup(PREFIX_NAVBAR_GROUP + sDesc, null, "%"
+								+ sUrl, sDesc, 1);
 					}
 				}
 			}
@@ -761,9 +790,9 @@ public class BaseController extends JspController implements SubmitListener,
 	 * browser after Html is generated and sent back.
 	 * 
 	 * @param p
-	 *            PageEvent
+	 *           PageEvent
 	 * @throws Exception
-	 *             if anything goes wrong
+	 *            if anything goes wrong
 	 */
 	public void pageRequestEnd(PageEvent p) throws Exception {
 		return;
@@ -774,7 +803,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * copied to components.
 	 * 
 	 * @param p
-	 *            PageEvent
+	 *           PageEvent
 	 */
 	public void pageSubmitted(PageEvent p) {
 		checkPageRedirect();
@@ -787,7 +816,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * copied to components.
 	 * 
 	 * @param p
-	 *            PageEvent
+	 *           PageEvent
 	 */
 	public void pageSubmitEnd(PageEvent p) {
 		return;
@@ -797,7 +826,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * Replace characters in URL string.
 	 * 
 	 * @param s
-	 *            java.lang.String
+	 *           java.lang.String
 	 */
 	protected static String encodeURL(String s) {
 		if (s == null)
@@ -823,9 +852,9 @@ public class BaseController extends JspController implements SubmitListener,
 	 * that the user has intended to submit the descendant class/page.
 	 * 
 	 * @param e
-	 *            SubmitEvent
+	 *           SubmitEvent
 	 * @throws Exception
-	 *             if anything goes wrong
+	 *            if anything goes wrong
 	 * @return true to continue processing events on the page or false to abort
 	 */
 
@@ -865,7 +894,7 @@ public class BaseController extends JspController implements SubmitListener,
 			}
 		}
 
-		checkPageRedirect();		
+		checkPageRedirect();
 		return true;
 	}
 
@@ -914,7 +943,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * Set the boolean value to check DB connection
 	 * 
 	 * @param _checkDB
-	 *            boolean
+	 *           boolean
 	 */
 	public void setCheckDB(boolean _checkDB) {
 		this._checkDB = _checkDB;
@@ -924,7 +953,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * Set the boolean value to check if user is logged in.
 	 * 
 	 * @param _checkUserLogin
-	 *            boolean
+	 *           boolean
 	 */
 	public void setCheckUserLogin(boolean _checkUserLogin) {
 		this._checkUserLogin = _checkUserLogin;
@@ -1000,8 +1029,8 @@ public class BaseController extends JspController implements SubmitListener,
 	}
 
 	/**
-	 * Returns true if either the page or the session is expired and the page
-	 * has been redirected to another page indicating that
+	 * Returns true if either the page or the session is expired and the page has
+	 * been redirected to another page indicating that
 	 */
 	public boolean hasPageRedirected() {
 		return _redirected;
@@ -1047,9 +1076,9 @@ public class BaseController extends JspController implements SubmitListener,
 	 * the message.jsp. Most of the pages include it.
 	 * 
 	 * @param sMessage
-	 *            String
+	 *           String
 	 * @param comp
-	 *            HtmlFormComponent Focus component
+	 *           HtmlFormComponent Focus component
 	 */
 	public void displayErrorMessage(String sMessage, HtmlFormComponent comp) {
 		displayErrorMessage(sMessage, null, -1);
@@ -1060,11 +1089,11 @@ public class BaseController extends JspController implements SubmitListener,
 	 * the message.jsp. Most of the pages include it.
 	 * 
 	 * @param sMessage
-	 *            String
+	 *           String
 	 * @param comp
-	 *            HtmlFormComponent Focus component
+	 *           HtmlFormComponent Focus component
 	 * @param rowNo
-	 *            The row in the datatable with the error
+	 *           The row in the datatable with the error
 	 */
 	public void displayErrorMessage(String sMessage, HtmlFormComponent comp,
 			int rowNo) {
@@ -1099,8 +1128,8 @@ public class BaseController extends JspController implements SubmitListener,
 	}
 
 	/**
-	 * Handle the send request in here. This might be handy if you want to
-	 * append parameres to the query string.
+	 * Handle the send request in here. This might be handy if you want to append
+	 * parameres to the query string.
 	 * 
 	 * @param sUrl
 	 */
