@@ -52,6 +52,11 @@
 						<salmon:text name="txtBannerOrdenesObservadas" text="" />
 					</salmon:a></td>
 				</tr>
+				<tr>
+					<td><salmon:a href="" name="lnkBannerComprobantesPendientes">
+						<salmon:text name="txtBannerComprobantesPendientes" text="" />
+					</salmon:a></td>
+				</tr>
 				<tr><jsp:include page="welcomeMessage.jsp" flush="true"></jsp:include></tr>
 			</salmon:form>
 		</table>
