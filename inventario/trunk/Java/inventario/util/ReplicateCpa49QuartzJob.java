@@ -60,7 +60,7 @@ public class ReplicateCpa49QuartzJob implements Job {
 			// Conexion con Tango (SQL Server 2000)
 			connTango = DriverManager.getConnection(urlTango, userTango, passWordTango);				
 			// Conexion con MySQL
-			connInv = DBConnection.getConnection("inventario");
+			connInv = DBConnection.getConnection("inventario","inventario");
 			connInv.beginTransaction();			
 			
 			/**

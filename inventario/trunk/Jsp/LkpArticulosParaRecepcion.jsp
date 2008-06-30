@@ -10,7 +10,7 @@
 	<!--Page Content Begin-->
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="buscar" type="complex"
-			columns="articulos_comprados.orden_compra_id,articulos_comprados.descripcion" />
+			columns="articulos_comprados.nro_oc_tango,articulos_comprados.descripcion" />
 	</salmon:datasource>
 	<salmon:datasource name="dsArticulosComprados" type="MODEL"
 		dbprofile="inventario"
@@ -85,7 +85,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.orden_compra_id"
+								datasource="dsArticulosComprados:articulos_comprados.nro_oc_tango"
 								displayformat="####" />
 						</salmon:td>
 						<salmon:td>

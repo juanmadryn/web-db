@@ -54,7 +54,9 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="n4" type="text"
 									datasource="dsQBE:nSC"></salmon:input></td>
-
+								<td><salmon:text name="nroOrdenTango1" text="N° Orden Tango"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input name="nroOrdenTango2" type="text"></salmon:input></td>								
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"

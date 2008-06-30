@@ -3,15 +3,19 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
+import infraestructura.controllers.Constants;
 import infraestructura.models.UsuarioRolesModel;
+import infraestructura.utils.BusquedaPorAtributo;
 import inventario.models.ArticulosCompradosModel;
 import inventario.models.DetalleRCModel;
+import inventario.models.OrdenesCompraModel;
 import inventario.models.RecepcionesComprasModel;
 
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Hashtable;
 
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
@@ -96,6 +100,8 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 	public com.salmonllc.jsp.JspTableRow _navbarTableTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
+	public com.salmonllc.html.HtmlText _nroOrdenTango1;
+	public com.salmonllc.html.HtmlTextEdit _nroOrdenTango2;
 
 	// DataSources
 	public com.salmonllc.sql.DataStore _dsPeriodo;
@@ -134,6 +140,7 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 
 	private String SELECCION_DETALLE_FLAG = "SELECCION_DETALLE_FLAG"; 
 	private String ORDEN_COMPRA_ID_PARAM = "orden_compra_id";
+	private static Integer N_ORDEN_CO_PROP = 19;
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -169,7 +176,7 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 		// TODO Auto-generated method stub
 
 		if (e.getComponent() == _searchformdisplaybox1.getSearchButton()) {
-			String whereFecha = null;
+			StringBuilder whereFecha = new StringBuilder("");
 			if (_fechadesde2.getValue() != null
 					&& _fechahasta2.getValue() != null) {
 				desde = _dsPeriodo.getDateTime("desde");
@@ -182,22 +189,41 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 						displayErrorMessage("La fecha desde debe ser anterior a la fecha hasta");
 						return false;
 					}
-					whereFecha = "articulos_comprados.fecha BETWEEN '"
-							+ desde.toString() + "' AND '" + hasta.toString()
-							+ "'";
+					whereFecha.append("articulos_comprados.fecha BETWEEN '")
+							.append(desde.toString() + "' AND '" + hasta.toString())
+							.append("'");
 				}
 			}
 			_dsArticulosComprados.reset();
-			String where = _dsQBE.generateSQLFilter(_dsArticulosComprados);
-			if (whereFecha != null) {
-				if (where != null)
-					where += " AND ";
+			StringBuilder where = new StringBuilder("");
+			where.append(_dsQBE.generateSQLFilter(_dsArticulosComprados) == null ? "" : _dsQBE.generateSQLFilter(_dsArticulosComprados));			
+			if (whereFecha.length() > 0) {				
+				if (where.length() > 0)
+					where.append(" AND ");
 				else
-					where = "";
-				where += whereFecha;
-			} else if (where != null)
-				where += "";
-			_dsArticulosComprados.retrieve(where);
+					where.append("");
+				where.append(whereFecha);
+			} 
+			
+			// Atributo Nro. de OC Tango
+			if (_nroOrdenTango2.getValue() != null) {			
+				Hashtable<Integer, String> atributos = new Hashtable<Integer, String>();			
+				String nroOcTango = " 00010000".concat(_nroOrdenTango2.getValue());
+				atributos.put(N_ORDEN_CO_PROP, nroOcTango);
+				
+				String criterioAtributos = BusquedaPorAtributo
+						.armarBusquedaPorAtributos(atributos,
+								BusquedaPorAtributo.OPERATOR_OR, "ordenes_compra",
+								"orden_compra_id");
+				
+				if (criterioAtributos.length() > 0) {
+					if (where.length() > 0) where.append(" and ");
+					where.append(ArticulosCompradosModel.ARTICULOS_COMPRADOS_ORDEN_COMPRA_ID +" IN ( ").append(
+							criterioAtributos).append(" )");			
+				}
+			}			
+			
+			_dsArticulosComprados.retrieve(where.toString());
 			_dsArticulosComprados.gotoFirst();
 		}
 
