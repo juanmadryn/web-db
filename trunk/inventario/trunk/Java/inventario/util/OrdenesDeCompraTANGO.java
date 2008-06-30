@@ -788,7 +788,7 @@ public class OrdenesDeCompraTANGO {
 		if (urlTango == null) 
 			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'urlTango' en archivo de configuración");
 
-		String usrTango = props.getProperty("usrTango");
+		String usrTango = props.getProperty("userTango");
 		if (usrTango == null) 
 			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'usrTango' en archivo de configuración");
 
