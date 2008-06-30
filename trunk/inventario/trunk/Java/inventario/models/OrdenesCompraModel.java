@@ -64,6 +64,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String DESCUENTO_ORDENCOMPRA = "descuento_orden_compra";
 	public static final String CONDICION_COMPRA_DESCRIPCION = "condiciones_compra.descripcion";
 	public static final String CONDICION_COMPRA_NOMBRE = "condiciones_compra.nombre";
+	public static final String ORDENES_COMPRA_NRO_OC_TANGO = "nro_oc_tango";
 	
 	private Set<String> estadosDeModificacion;
 	//$ENDCUSTOMVARS$
@@ -156,6 +157,7 @@ public class OrdenesCompraModel extends BaseModel {
 			addBucket(NETO_ORDENCOMPRA, DATATYPE_FLOAT);
 			addBucket(IVA_ORDENCOMPRA, DATATYPE_FLOAT);
 			addBucket(DESCUENTO_ORDENCOMPRA, DATATYPE_FLOAT);
+			addBucket(ORDENES_COMPRA_NRO_OC_TANGO, DATATYPE_STRING);
 
 			setAutoIncrement(ORDENES_COMPRA_ORDEN_COMPRA_ID, true);
 			setUpdateable(ORDENES_COMPRA_ORDEN_COMPRA_ID, false);

@@ -33,13 +33,17 @@ public class BackupInventarioDBQuartzJob implements Job {
 	 * @throws JobExecutionException
 	 */
 	public void backupInventarioDB() throws JobExecutionException {
-		String user = Props.getProps("inventario", null).getProperty("inventario.DBUser");
-		String password = Props.getProps("inventario", null).getProperty("inventario.DBPassword");
+		String user = Props.getProps("inventario", "inventario").getProperty("inventario.DBUser");
+		String password = Props.getProps("inventario", "inventario").getProperty("inventario.DBPassword");
+		user = "inventario";
+		password = "inventario";
+		System.out.println(user + " " + password);
 		try {
 			Runtime rt = Runtime.getRuntime();
-			Process proc = rt.exec("mysqldump --opt --password="+user+" --user="+password+" inventario > C:\\archivo.sql");
-			int exitVal = proc.exitValue();			
-			System.out.println("Process exitValue: " + exitVal);
+			Process proc = rt.exec("\"C:\\Archivos de programa\\MySQL\\MySQL Server 5.0\\bin\\mysqldump\" --opt --password="+user+" --user="+password+" inventario > C:\\archivo.sql");
+			//proc.waitFor();
+			//int exitVal = proc.exitValue();			
+			//System.out.println("Process exitValue: " + exitVal);
 		} catch (Throwable t) {
 			t.printStackTrace();
 		}

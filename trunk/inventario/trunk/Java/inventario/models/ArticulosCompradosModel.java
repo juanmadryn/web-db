@@ -34,6 +34,7 @@ public class ArticulosCompradosModel extends DataStore {
 	public static final String ARTICULOS_COMPRADOS_COMPRADOR = "articulos_comprados.comprador";
 	public static final String ARTICULOS_COMPRADOS_USER_ID_SOLICITANTE = "articulos_comprados.user_id_solicitante";
 	public static final String ARTICULOS_COMPRADOS_SOLICITANTE = "articulos_comprados.solicitante";
+	public static final String ARTICULOS_COMPRADOS_NRO_OC_TANGO = "articulos_comprados.nro_oc_tango";
 
 	// $CUSTOMVARS$
 
@@ -113,6 +114,10 @@ public class ArticulosCompradosModel extends DataStore {
 		addColumn(computeTableName("articulos_comprados"), "solicitante",
 				DataStore.DATATYPE_STRING, false, false,
 				ARTICULOS_COMPRADOS_SOLICITANTE);
+		addColumn(computeTableName("articulos_comprados"), "nro_oc_tango",
+				DataStore.DATATYPE_STRING, false, false,
+				ARTICULOS_COMPRADOS_NRO_OC_TANGO);
+
 
 		// $CUSTOMCONSTRUCTOR$
 
@@ -981,7 +986,59 @@ public class ArticulosCompradosModel extends DataStore {
 	}
 	
 	// $CUSTOMMETHODS$
+	/**
+	 * Retrieve the value of the articulos_comprados.nro_oc_tango column for
+	 * the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosCompradosNroOcTango()
+			throws DataStoreException {
+		return getString(ARTICULOS_COMPRADOS_NRO_OC_TANGO);
+	}
 
+	/**
+	 * Retrieve the value of the articulos_comprados.nro_oc_tango column for
+	 * the specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getArticulosCompradosNroOcTango(int row)
+			throws DataStoreException {
+		return getString(row, ARTICULOS_COMPRADOS_NRO_OC_TANGO);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.nro_oc_tango column for the
+	 * current row.
+	 * 
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosNroOcTango(String newValue)
+			throws DataStoreException {
+		setString(ARTICULOS_COMPRADOS_NRO_OC_TANGO, newValue);
+	}
+
+	/**
+	 * Set the value of the articulos_comprados.nro_oc_tango column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *            which row in the table
+	 * @param newValue
+	 *            the new item value
+	 * @throws DataStoreException
+	 */
+	public void setArticulosCompradosNroOcTango(int row, String newValue)
+			throws DataStoreException {
+		setString(row, ARTICULOS_COMPRADOS_NRO_OC_TANGO, newValue);
+	}
 	// $ENDCUSTOMMETHODS$
 
 }

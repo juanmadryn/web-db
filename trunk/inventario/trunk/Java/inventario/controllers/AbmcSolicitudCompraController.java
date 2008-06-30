@@ -762,40 +762,46 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				}
 
 				// verifico que la solicitud de compra esté en estado cotizada
-				if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase(
+				/*if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase(
 						"0006.0008")) {
 					displayErrorMessage("La Solicitud debe estar en estado COTIZADA para poder generar la Orden de Compra.");
 					return false;
-				}
-
-				conn = DBConnection.getConnection(getApplicationName());
-				conn.beginTransaction();
+				}*/
 
 				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null "
 						+ "&& detalle_sc.orden_compra_id == null");
 				_dsDetalleSC.gotoFirst();
 
+				// se debe seleccionar al menos 1 detalle
 				if (_dsDetalleSC.getRowCount() <= 0) {
 					displayErrorMessage("Debe seleccionar al menos un artículo sin OC");
 					_dsDetalleSC.filter(null);
 					return false;
 				}
+				
+				// chequea que los detalles no tengan cotizacion
+				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+					if (_dsDetalleSC.getDetalleScCotizacionCompraId(row) > 0) {
+						displayErrorMessage("Debe seleccionar solo detalles sin Cotización asociada");
+						_dsDetalleSC.filter(null);
+						return false;
+					}
+				}				
+				
+				conn = DBConnection.getConnection(getApplicationName());
+				conn.beginTransaction();
 
+				// se crea la Orden de Compra
 				OrdenesCompraModel dsOrdenCompra = new OrdenesCompraModel(
 						"inventario");
 
 				int ocId = dsOrdenCompra.insertRow();
 				dsOrdenCompra.setCurrentWebsiteUserId(getUserFromSession(
 						getCurrentRequest().getRemoteAddr()).getUserID());
-
-				/*
-				 * dsOrdenCompra.setOrdenesCompraUserIdComprador(ocId,
-				 * getUserFromSession(getCurrentRequest().getRemoteAddr())
-				 * .getUserID());
-				 */
-
+				
 				dsOrdenCompra.update(conn);
 
+				// se setean los detalles asociados a la OC
 				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 					_dsDetalleSC.setDetalleScOrdenCompraId(row, dsOrdenCompra
 							.getOrdenesCompraOrdenCompraId(ocId));
@@ -807,7 +813,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 				_dsDetalleSC.update(conn);
 
-				// update the SC states
+				// actualizamos el estado de la SM
 				SolicitudCompraTransiciones.agregarEnOc(conn, _dsDetalleSC,
 						getCurrentRequest().getRemoteHost(), getSessionManager()
 								.getWebSiteUser().getUserID());
