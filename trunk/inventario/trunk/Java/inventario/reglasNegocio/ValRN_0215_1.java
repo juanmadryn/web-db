@@ -220,7 +220,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 															Constants.ARTICULO_PRECIO_REPOSICION,
 															articulo_id,
 															"TABLA",
-															"artículos")));
+															"articulos")));
 				}
 				movimientos.update(conn);
 				movimientos.resetStatus();

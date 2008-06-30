@@ -208,7 +208,7 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 				RecepcionesComprasModel recepcion = new RecepcionesComprasModel(
 						"inventario");
 				DetalleRCModel detalleRCModel = new DetalleRCModel("inventario");
-				for (int row = _dsArticulosComprados.getRowCount() - 1; row >= 0; row--) {
+				for (int row = 0; row < _dsArticulosComprados.getRowCount(); row++) {
 					if (_dsArticulosComprados.getInt(row,
 							SELECCION_DETALLE_FLAG) == 1) {
 						// Rol marcado para selección
@@ -222,7 +222,7 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 													.getTimeInMillis()));
 							recepcion
 									.setRecepcionesComprasProvedorId(_dsArticulosComprados
-											.getArticulosCompradosEntidadIdProveedor(0));
+											.getArticulosCompradosEntidadIdProveedor(row));
 							recepcion
 									.setRecepcionesComprasUserIdCompleta(getSessionManager()
 											.getWebSiteUser().getUserID());
