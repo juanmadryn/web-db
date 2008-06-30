@@ -413,19 +413,21 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 					_dsSolicitudCompra.update(conn);
 
-					// actualizo los detalles de las cotizaciones asociadas
-					// si se elimino un detalle con cotizacion asociada se efectivizara
-					// la eliminacion de este ultimo acá
-					if (_dsDetalleCotizacionModel != null) {
-						_dsDetalleCotizacionModel.update(conn);
-					}
 					// actualizo los detalles
-					if (_dsDetalleSC.getRow() != -1) {						
+					if (_dsDetalleSC.getRow() != -1) {
+						// actualizo los detalles de las cotizaciones asociadas
+						// si se elimino un detalle con cotizacion asociada se efectivizara
+						// la eliminacion de este ultimo acá
+						if (_dsDetalleCotizacionModel != null) {
+							_dsDetalleCotizacionModel.update(conn);
+						}
 						_dsDetalleSC.update(conn);
 					}
 					
 					_dsSolicitudCompra.resetStatus();
-					_dsDetalleCotizacionModel.resetStatus();
+					if (_dsDetalleCotizacionModel != null) {
+						_dsDetalleCotizacionModel.resetStatus();
+					}
 					_dsDetalleSC.resetStatus();
 					
 					conn.commit();
