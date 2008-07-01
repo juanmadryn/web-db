@@ -198,10 +198,6 @@
 							<salmon:text name="numeroCAP2" text="Nº" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="clienteCAP5" text="Descripción"
-								font="TableHeadingFont" />
-						</salmon:td>
-						<salmon:td>
 							<salmon:text name="descripcionCAP4" text="Comprador"
 								font="TableHeadingFont" />
 						</salmon:td>						
@@ -213,6 +209,10 @@
 							<salmon:text name="fechaCAP6" text="Fecha Aprobación"
 								font="TableHeadingFont" />
 						</salmon:td>
+						<salmon:td>
+							<salmon:text name="clienteCAP5" text="Observaciones"
+								font="TableHeadingFont" />
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
 								font="TableHeadingFont" />
@@ -229,11 +229,6 @@
 								datasource="dsOrdenes:ordenes_compra.orden_compra_id" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="descripcionTXT2" text="descripcion Goes Here"
-								font="DefaultFont"
-								datasource="dsOrdenes:ordenes_compra.descripcion" />
-						</salmon:td>
-						<salmon:td>
 							<salmon:text name="solicitante_nombreTXT3"
 								text="solicitante Goes Here" font="DefaultFont"
 								datasource="dsOrdenes:nombre_completo_comprador" />
@@ -248,6 +243,11 @@
 								font="DefaultFont" displayformatlocalekey="DateTimeFormat"
 								datasource="dsOrdenes:ordenes_compra.fecha_aprobacion" />
 						</salmon:td>
+						<salmon:td>
+							<salmon:text name="descripcionTXT2" text="descripcion Goes Here"
+								font="DefaultFont"
+								datasource="dsOrdenes:ordenes_compra.observaciones" />
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="estadoTXT3" text="estado Goes Here"
 								font="DefaultFont" datasource="dsOrdenes:estados.nombre" />
