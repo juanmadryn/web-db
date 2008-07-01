@@ -270,8 +270,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_tareaHeaderTd.setVisible(false);
 			_tareaTableTd.setEnabled(false);
 			_tareaTableTd.setVisible(false);
-			_proyectoHeaderTd.setColSpan(3);
-			_proyectoTableTd.setColSpan(3);
+			_proyectoHeaderTd.setColSpan(2);
+			_proyectoTableTd.setColSpan(2);
 		}
 		
 		// run datasources validations at the update event
