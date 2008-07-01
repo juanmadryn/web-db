@@ -1564,7 +1564,7 @@ else{"Inmediato"}}</expression>
                 </structure>
                 <structure>
                     <property name="name">descripcion_detalle</property>
-                    <expression name="expression">dataSetRow["descripcion_detalle"]</expression>
+                    <expression name="expression">dataSetRow["descripcion_detalle"]+" - "+dataSetRow["observaciones_detalle"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
