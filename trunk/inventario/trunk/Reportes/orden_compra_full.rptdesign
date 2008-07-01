@@ -552,7 +552,7 @@ inner join articulos articulos ON detalle_sc.articulo_id = articulos.articulo_id
 inner join clase_articulo ON articulos.clase_articulo_id = clase_articulo.clase_articulo_id  
 left outer join proyectos.tareas_proyecto tareas_proyecto ON detalle_sc.tarea_id = tareas_proyecto.tarea_id  
 inner join solicitudes_compra solicitudes_compra ON detalle_sc.solicitud_compra_id = solicitudes_compra.solicitud_compra_id  
-inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id = unidades_medida.unidad_medida_id  
+inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id_pedida = unidades_medida.unidad_medida_id  
 left outer join condiciones_compra condiciones_compra ON ordenes_compra.condicion_compra_id = condiciones_compra.condicion_compra_id
 left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id  
 left outer join centro_costo centro_costo ON solicitudes_compra.centro_costo_id = centro_costo.centro_costo_id  
@@ -654,12 +654,59 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1220">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="1222">
-                                <property name="fontSize">large</property>
-                                <property name="paddingTop">1pt</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">ORIGINAL</text-property>
-                            </label>
+                            <grid id="1560">
+                                <property name="width">100%</property>
+                                <column id="1561">
+                                    <property name="width">4.0666666667in</property>
+                                </column>
+                                <column id="1562"/>
+                                <row id="1563">
+                                    <cell id="1564">
+                                        <label id="1565">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="textAlign">right</property>
+                                            <text-property name="text">ORIGINAL</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1566">
+                                        <property name="textAlign">right</property>
+                                        <grid id="1567">
+                                            <property name="width">10%</property>
+                                            <column id="1568"/>
+                                            <column id="1569"/>
+                                            <column id="1570"/>
+                                            <row id="1571">
+                                                <cell id="1572">
+                                                    <auto-text id="1573">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="marginTop">0pt</property>
+                                                        <property name="paddingTop">1pt</property>
+                                                        <property name="type">page-number</property>
+                                                    </auto-text>
+                                                </cell>
+                                                <cell id="1574">
+                                                    <text id="1575">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="contentType">plain</property>
+                                                        <text-property name="content"><![CDATA[/]]></text-property>
+                                                    </text>
+                                                </cell>
+                                                <cell id="1576">
+                                                    <auto-text id="1577">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="type">total-page</property>
+                                                    </auto-text>
+                                                </cell>
+                                            </row>
+                                        </grid>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                     </row>
                     <row id="873">
@@ -3029,12 +3076,59 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1228">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="1229">
-                                <property name="fontSize">large</property>
-                                <property name="paddingTop">1pt</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">DUPLICADO</text-property>
-                            </label>
+                            <grid id="1578">
+                                <property name="width">100%</property>
+                                <column id="1579">
+                                    <property name="width">4.0666666667in</property>
+                                </column>
+                                <column id="1580"/>
+                                <row id="1581">
+                                    <cell id="1582">
+                                        <label id="1583">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="textAlign">right</property>
+                                            <text-property name="text">DUPLICADO</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1584">
+                                        <property name="textAlign">right</property>
+                                        <grid id="1585">
+                                            <property name="width">10%</property>
+                                            <column id="1586"/>
+                                            <column id="1587"/>
+                                            <column id="1588"/>
+                                            <row id="1589">
+                                                <cell id="1590">
+                                                    <auto-text id="1591">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="marginTop">0pt</property>
+                                                        <property name="paddingTop">1pt</property>
+                                                        <property name="type">page-number</property>
+                                                    </auto-text>
+                                                </cell>
+                                                <cell id="1592">
+                                                    <text id="1593">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="contentType">plain</property>
+                                                        <text-property name="content"><![CDATA[/]]></text-property>
+                                                    </text>
+                                                </cell>
+                                                <cell id="1594">
+                                                    <auto-text id="1595">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="type">total-page</property>
+                                                    </auto-text>
+                                                </cell>
+                                            </row>
+                                        </grid>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                     </row>
                     <row id="1230">
@@ -5404,12 +5498,65 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1503">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="1504">
-                                <property name="fontSize">large</property>
-                                <property name="paddingTop">1pt</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">TRIPLICADO</text-property>
-                            </label>
+                            <grid id="1596">
+                                <property name="width">100%</property>
+                                <column id="1597">
+                                    <property name="width">4.0666666667in</property>
+                                </column>
+                                <column id="1598"/>
+                                <row id="1599">
+                                    <cell id="1600">
+                                        <label id="1601">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="textAlign">right</property>
+                                            <text-property name="text">TRIPLICADO</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1602">
+                                        <property name="textAlign">right</property>
+                                        <grid id="1603">
+                                            <property name="width">10%</property>
+                                            <column id="1604"/>
+                                            <column id="1605"/>
+                                            <column id="1606"/>
+                                            <row id="1607">
+                                                <cell id="1608">
+                                                    <auto-text id="1609">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="borderBottomStyle">none</property>
+                                                        <property name="marginTop">0pt</property>
+                                                        <property name="paddingTop">1pt</property>
+                                                        <property name="display">block</property>
+                                                        <property name="masterPage">Triplicado</property>
+                                                        <property name="type">page-number</property>
+                                                    </auto-text>
+                                                </cell>
+                                                <cell id="1610">
+                                                    <text id="1611">
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="contentType">plain</property>
+                                                        <text-property name="content"><![CDATA[/]]></text-property>
+                                                    </text>
+                                                </cell>
+                                                <cell id="1612">
+                                                    <auto-text id="1613">
+                                                        <property name="backgroundAttachment">scroll</property>
+                                                        <property name="fontFamily">"Courier"</property>
+                                                        <property name="fontSize">large</property>
+                                                        <property name="display">block</property>
+                                                        <property name="masterPage">Triplicado</property>
+                                                        <property name="type">total-page</property>
+                                                    </auto-text>
+                                                </cell>
+                                            </row>
+                                        </grid>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                     </row>
                     <row id="1505">
@@ -7770,7 +7917,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">thin</property>
             <property name="marginTop">0pt</property>
-            <property name="masterPage">Simple MasterPage</property>
+            <property name="masterPage">Original</property>
             <property name="pageBreakAfter">auto</property>
             <property name="pageBreakBefore">auto</property>
             <property name="pageBreakInside">auto</property>
@@ -7835,7 +7982,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">articulo_nombre</property>
-                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                    <expression name="expression">Total.runningSum(1) +") "+ dataSetRow["articulo_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -8064,7 +8211,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="fontFamily">"Liberation Mono"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="paddingLeft">5mm</property>
+                            <property name="paddingLeft">1pt</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1000">
@@ -8079,6 +8226,19 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
+                        </data>
+                        <data id="1628">
+                            <property name="fontFamily">"Courier New"</property>
+                            <property name="fontSize">larger</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null)</expression>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">detalle_sc_descripcion</property>
                         </data>
                         <data id="1001">
                             <property name="fontFamily">"Liberation Mono"</property>
@@ -8295,7 +8455,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">articulo_nombre</property>
-                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                    <expression name="expression">Total.runningSum(1) +") "+ dataSetRow["articulo_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -8525,7 +8685,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="fontFamily">"Liberation Mono"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="paddingLeft">5mm</property>
+                            <property name="paddingLeft">1pt</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1158">
@@ -8540,6 +8700,19 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
+                        </data>
+                        <data id="1629">
+                            <property name="fontFamily">monospace</property>
+                            <property name="fontSize">large</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null)</expression>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">detalle_sc_descripcion</property>
                         </data>
                         <data id="1159">
                             <property name="fontFamily">"Liberation Mono"</property>
@@ -8756,7 +8929,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">articulo_nombre</property>
-                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                    <expression name="expression">Total.runningSum(1) +") "+ dataSetRow["articulo_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -8986,7 +9159,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="fontFamily">"Liberation Mono"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="paddingLeft">5mm</property>
+                            <property name="paddingLeft">1pt</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1196">
@@ -9001,6 +9174,19 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
+                        </data>
+                        <data id="1630">
+                            <property name="fontFamily">monospace</property>
+                            <property name="fontSize">large</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null)</expression>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">detalle_sc_descripcion</property>
                         </data>
                         <data id="1197">
                             <property name="fontFamily">"Liberation Mono"</property>

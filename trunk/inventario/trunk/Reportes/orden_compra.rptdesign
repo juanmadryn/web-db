@@ -552,7 +552,7 @@ inner join articulos articulos ON detalle_sc.articulo_id = articulos.articulo_id
 inner join clase_articulo ON articulos.clase_articulo_id = clase_articulo.clase_articulo_id  
 left outer join proyectos.tareas_proyecto tareas_proyecto ON detalle_sc.tarea_id = tareas_proyecto.tarea_id  
 inner join solicitudes_compra solicitudes_compra ON detalle_sc.solicitud_compra_id = solicitudes_compra.solicitud_compra_id  
-inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id = unidades_medida.unidad_medida_id  
+inner join unidades_medida unidades_medida ON detalle_sc.unidad_medida_id_pedida = unidades_medida.unidad_medida_id  
 left outer join condiciones_compra condiciones_compra ON ordenes_compra.condicion_compra_id = condiciones_compra.condicion_compra_id
 left outer join proyectos.proyectos proyectos ON solicitudes_compra.proyecto_id = proyectos.proyecto_id  
 left outer join centro_costo centro_costo ON solicitudes_compra.centro_costo_id = centro_costo.centro_costo_id  
@@ -6458,7 +6458,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">descripcion</property>
-                    <expression name="expression">dataSetRow["descripcion"]</expression>
+                    <expression name="expression">dataSetRow["detalle_sc_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -6498,7 +6498,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">articulo_nombre</property>
-                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                    <expression name="expression">Total.runningSum(1) +") "+dataSetRow["articulo_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -6659,7 +6659,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="paddingLeft">5mm</property>
+                            <property name="paddingLeft">1pt</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1000">
@@ -6674,6 +6674,19 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
+                        </data>
+                        <data id="1630">
+                            <property name="fontFamily">"Courier New"</property>
+                            <property name="fontSize">large</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null)</expression>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">descripcion</property>
                         </data>
                         <data id="1001">
                             <property name="fontFamily">"Courier New"</property>
@@ -6846,7 +6859,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">articulo_nombre</property>
-                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                    <expression name="expression">Total.runningSum(1) +") "+dataSetRow["articulo_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -7007,7 +7020,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="paddingLeft">5mm</property>
+                            <property name="paddingLeft">1pt</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1026">
@@ -7022,6 +7035,19 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
+                        </data>
+                        <data id="1638">
+                            <property name="fontFamily">"Courier New"</property>
+                            <property name="fontSize">larger</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr">(row["detalle_sc_observaciones"] == null)</expression>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">detalle_sc_descripcion</property>
                         </data>
                         <data id="1027">
                             <property name="fontFamily">"Courier New"</property>
@@ -7194,7 +7220,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                 </structure>
                 <structure>
                     <property name="name">articulo_nombre</property>
-                    <expression name="expression">dataSetRow["articulo_descripcion"]</expression>
+                    <expression name="expression">Total.runningSum(1) +") "+dataSetRow["articulo_descripcion"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -7355,7 +7381,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                             <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="paddingTop">1pt</property>
-                            <property name="paddingLeft">5mm</property>
+                            <property name="paddingLeft">1pt</property>
                             <property name="resultSetColumn">articulo_nombre</property>
                         </data>
                         <data id="1064">
@@ -7370,6 +7396,19 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
+                        </data>
+                        <data id="1637">
+                            <property name="fontFamily">"Courier New"</property>
+                            <property name="fontSize">larger</property>
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5mm</property>
+                            <list-property name="visibility">
+                                <structure>
+                                    <property name="format">all</property>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null)</expression>
+                                </structure>
+                            </list-property>
+                            <property name="resultSetColumn">detalle_sc_descripcion</property>
                         </data>
                         <data id="1065">
                             <property name="fontFamily">"Courier New"</property>
