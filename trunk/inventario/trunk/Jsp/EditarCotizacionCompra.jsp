@@ -554,14 +554,12 @@
 											</salmon:tr>
 											<salmon:tr>
 												<salmon:td colspan="3">													
-													<salmon:text name="descripcionTXT"
-															text="detalle_sc.descripcion goes here" font="DefaultFont"
-															datasource="dsDetalleCotizacion:detalle_sc.descripcion" />
+													<salmon:input type="text" name="descripcionTXT" size="20"
+															font="DefaultFont" datasource="dsDetalleCotizacion:detalle_sc.descripcion" />
 												</salmon:td>
 												<salmon:td colspan="3">													
-													<salmon:text name="observacionesTXT"
-															text="detalle_sc.observaciones goes here" font="DefaultFont"
-															datasource="dsDetalleCotizacion:detalle_sc.observaciones" />
+													<salmon:input type="text" name="observacionesTXT" size="20"
+															font="DefaultFont" datasource="dsDetalleCotizacion:detalle_sc.observaciones" />
 												</salmon:td>
 											</salmon:tr>
 										</salmon:datatablerows>

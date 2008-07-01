@@ -350,7 +350,7 @@ function CheckAll(checked) {
                      <salmon:text name="seleccion_detalle1" text="-X-"
                         font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td colspan="2">
+                  <salmon:td colspan="4">
                      <salmon:text name="articuloId1" text="Articulo"
                         font="TableHeadingFont" />
                   </salmon:td>
@@ -361,11 +361,7 @@ function CheckAll(checked) {
                   <salmon:td>
                      <salmon:text name="descComplArticulo3"
                         text="Desc. Completa" font="TableHeadingFont" />
-                  </salmon:td> -->
-                  <salmon:td>
-                     <salmon:text name="detalleScDescripcion1"
-                        text="Descripción" font="TableHeadingFont" />
-                  </salmon:td>
+                  </salmon:td> -->                  
                   <salmon:td>
                      <salmon:text name="solicitudCompra3"
                         text="Nro. S.M." font="TableHeadingFont" />
@@ -385,7 +381,7 @@ function CheckAll(checked) {
                </salmon:tr>
                <salmon:tr>
                   <salmon:td />
-                  <salmon:td colspan="2" name="proyectoHeaderTd">
+                  <salmon:td colspan="2" name="proyectoHeaderTd" width="30%">
                      <salmon:text name="proyecto1" text="Proyecto"
                         font="TableHeadingFont" />
                   </salmon:td>
@@ -393,27 +389,31 @@ function CheckAll(checked) {
                      <salmon:text name="tarea1" text="Tarea"
                         font="TableHeadingFont" />
                   </salmon:td> 
-                  <salmon:td>
+                  <!--<salmon:td width="20%">
                      <salmon:text name="dsDetalleObservaciones1"
                         text="Observaciones" font="TableHeadingFont" />
+                  </salmon:td>-->
+                  <salmon:td width="20%">
+                     <salmon:text name="detalleScDescripcion1"
+                        text="Descripción" font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td>
+                  <salmon:td width="10%">
                      <salmon:text name="centroCosto1"
                         text="Centro Costo" font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td>
+                  <salmon:td width="10%">
                      <salmon:text name="cantidadPedida1"
                         text="Cant. pedida" font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td>
+                  <salmon:td width="10%">
                      <salmon:text name="descuento1" text="Descuento"
                         font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td>
+                  <salmon:td width="10%">
                      <salmon:text name="iva1" text="I.V.A."
                         font="TableHeadingFont" />
                   </salmon:td>
-                  <salmon:td nowrap="TRUE" align="RIGHT">
+                  <salmon:td nowrap="TRUE" align="RIGHT" width="10%">
                      <salmon:text name="cantidadRecibida1"
                         text="Cant. recibida" font="TableHeadingFont" />
                   </salmon:td>
@@ -425,7 +425,7 @@ function CheckAll(checked) {
                      <salmon:input type="checkbox"
                         name="seleccion_detalle2" checkedtruevalue="1"></salmon:input>
                   </salmon:td>
-                  <salmon:td colspan="2">
+                  <salmon:td colspan="4">
                      <salmon:a href="none" name="lnkpartes1"
                         onclick="document.forms['bannerForm'].submit();"
                         datasource="dsDetalleSC:'%AbmcArticulo?p_articulo_id='+detalle_sc.articulo_id">
@@ -446,13 +446,7 @@ function CheckAll(checked) {
                         text="articulos.descripcion_completa clase Goes Here"
                         font="DefaultFont"
                         datasource="dsDetalleSC:articulos.descripcion_completa" />
-                  </salmon:td> -->
-                  <salmon:td>
-                     <salmon:text name="detalleScDescripcion2"
-                        text="detalle_sc.descripcion clase Goes Here"
-                        font="DefaultFont"
-                        datasource="dsDetalleSC:detalle_sc.descripcion" />
-                  </salmon:td>
+                  </salmon:td> -->                  
                   <salmon:td>
                      <salmon:a href="none" name="lnksolicitud1"
                         onclick="document.forms['bannerForm'].submit();"
@@ -514,10 +508,16 @@ function CheckAll(checked) {
                      <salmon:text name="tarea4" text=""
                         datasource="dsDetalleSC:tareas_proyecto.nombre"></salmon:text>
                   </salmon:td>
-                  <salmon:td>
+                  <!--<salmon:td>
                   	<salmon:text name="detalleScObservaciones2"
                   		text="detalle_sc.observaciones goes here"
                   		datasource="dsDetalleSC:detalle_sc.observaciones" />
+                  </salmon:td>-->
+                  <salmon:td>
+                     <salmon:text name="detalleScDescripcion2"
+                        text="detalle_sc.descripcion clase Goes Here"
+                        font="DefaultFont"
+                        datasource="dsDetalleSC:detalle_sc.descripcion" />
                   </salmon:td>
                   <salmon:td>
                      <salmon:text name="centroCosto2"

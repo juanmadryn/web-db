@@ -44,19 +44,19 @@
 						qbebuilder="dsQBE">
 						<table width="100%">
 							<tr>
-								<td><salmon:text name="n1" text="Nº de OC"
+								<!-- <td><salmon:text name="n1" text="Nº de OC"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:nOC">
-								</salmon:input></td>
+								</salmon:input></td> -->
+								<td><salmon:text name="nroOrdenTango1" text="N° Orden Tango"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input name="nroOrdenTango2" type="text"></salmon:input></td>
 								<td width="55"></td>
 								<td><salmon:text name="n3" text="Nº de SC"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="n4" type="text"
-									datasource="dsQBE:nSC"></salmon:input></td>
-								<td><salmon:text name="nroOrdenTango1" text="N° Orden Tango"
-									font="TableHeadingFont" /></td>
-								<td><salmon:input name="nroOrdenTango2" type="text"></salmon:input></td>								
+									datasource="dsQBE:nSC"></salmon:input></td>																
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"
@@ -181,14 +181,20 @@
 								datasource="dsArticulosComprados:articulos_comprados.descripcion_completa" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:a href="none" name="lnkorden1"
+							<!-- <salmon:a href="none" name="lnkorden1"
 								onclick="document.forms['bannerForm'].submit();"
 								datasource="dsArticulosComprados:'%EditarOrdenCompra?orden_compra_id='+articulos_comprados.orden_compra_id">
 								<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
 									datasource="dsArticulosComprados:articulos_comprados.orden_compra_id" />
+							</salmon:a> -->
+							<salmon:a href="none" name="lnkorden1"
+								onclick="document.forms['bannerForm'].submit();"
+								datasource="dsArticulosComprados:'%EditarOrdenCompra?orden_compra_id='+articulos_comprados.orden_compra_id">
+								<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
+									datasource="dsArticulosComprados:articulos_comprados.nro_oc_tango" />
 							</salmon:a>
 						</salmon:td>
-						<salmon:td>
+						<salmon:td align="center">
 							<salmon:a href="none" name="lnksolicitudes1"
 								onclick="document.forms['bannerForm'].submit();"
 								datasource="dsArticulosComprados:'%AbmcSolicitudCompra?solicitud_compra_id='+articulos_comprados.solicitud_compra_id">
