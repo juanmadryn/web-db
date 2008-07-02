@@ -416,35 +416,36 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					// actualizo los detalles
 					if (_dsDetalleSC.getRow() != -1) {
 						// actualizo los detalles de las cotizaciones asociadas
-						// si se elimino un detalle con cotizacion asociada se efectivizara
+						// si se elimino un detalle con cotizacion asociada se
+						// efectivizara
 						// la eliminacion de este ultimo acá
 						if (_dsDetalleCotizacionModel != null) {
 							_dsDetalleCotizacionModel.update(conn);
 						}
 						_dsDetalleSC.update(conn);
 					}
-					
+
 					_dsSolicitudCompra.resetStatus();
 					if (_dsDetalleCotizacionModel != null) {
 						_dsDetalleCotizacionModel.resetStatus();
 					}
 					_dsDetalleSC.resetStatus();
-					
+
 					conn.commit();
-					
+
 					setTareaLookupURL();
 
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";
-					
+
 					if (ex.getRow() != -1) {
 						mensaje = " -> Detalle Nº: " + (ex.getRow() + 1);
 						_articulo2.setFocus(ex.getRow());
 					}
-					
+
 					displayErrorMessage(ex.getMessage() + mensaje);
-					
+
 					return false;
 				} catch (SQLException ex) {
 					MessageLog.writeErrorMessage(ex, null);
@@ -481,9 +482,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				_dsSolicitudCompra
 						.setSolicitudesCompraObservaciones(_dsSolicitudCompra
 								.getSolicitudesCompraObservaciones(solicitud_original_id));
-				_dsSolicitudCompra
-						.setProyectosProyecto(_dsSolicitudCompra
-								.getProyectosProyecto(solicitud_original_id));
+				_dsSolicitudCompra.setProyectosProyecto(_dsSolicitudCompra
+						.getProyectosProyecto(solicitud_original_id));
 				_dsSolicitudCompra
 						.setSolicitudesCompraUserIdComprador(_dsSolicitudCompra
 								.getSolicitudesCompraUserIdComprador(solicitud_original_id));
@@ -493,8 +493,11 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				_dsSolicitudCompra.update(conn);
 				setRow_id(_dsSolicitudCompra
 						.getSolicitudesCompraSolicitudCompraId());
-				
-				_dsSolicitudCompra.filter("solicitudes_compra.solicitud_compra_id =="+_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
+
+				_dsSolicitudCompra
+						.filter("solicitudes_compra.solicitud_compra_id =="
+								+ _dsSolicitudCompra
+										.getSolicitudesCompraSolicitudCompraId());
 				_dsSolicitudCompra.gotoFirst();
 
 				int detalle_id = 0;
@@ -502,18 +505,24 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_FLAG) == 1) {
 						// Detalle marcado para selección
 						detalle_id = _dsDetalleSC.insertRow();
-						_dsDetalleSC.setDetalleScSolicitudCompraId(detalle_id, getRow_id());
-						_dsDetalleSC.setArticulosNombre(detalle_id, _dsDetalleSC.getArticulosNombre(row));
-						_dsDetalleSC.setDetalleScCantidadSolicitada(detalle_id, _dsDetalleSC.getDetalleScCantidadSolicitada(row));
-						_dsDetalleSC.setDetalleScDescripcion(detalle_id, _dsDetalleSC.getDetalleScDescripcion(row));
-						_dsDetalleSC.setDetalleScObservaciones(detalle_id,	_dsDetalleSC.getDetalleScObservaciones(row));						
-					}				
+						_dsDetalleSC.setDetalleScSolicitudCompraId(detalle_id,
+								getRow_id());
+						_dsDetalleSC.setArticulosNombre(detalle_id, _dsDetalleSC
+								.getArticulosNombre(row));
+						_dsDetalleSC.setDetalleScCantidadSolicitada(detalle_id,
+								_dsDetalleSC.getDetalleScCantidadSolicitada(row));
+						_dsDetalleSC.setDetalleScDescripcion(detalle_id, _dsDetalleSC
+								.getDetalleScDescripcion(row));
+						_dsDetalleSC.setDetalleScObservaciones(detalle_id,
+								_dsDetalleSC.getDetalleScObservaciones(row));
+					}
 				_dsDetalleSC.update(conn);
-				_dsDetalleSC.filter("detalle_sc.solicitud_compra_id =="+_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
+				_dsDetalleSC.filter("detalle_sc.solicitud_compra_id =="
+						+ _dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
 				_dsDetalleSC.gotoFirst();
 				setRecargar(true);
 				conn.commit();
-				
+
 			} finally {
 				if (conn != null) {
 					conn.rollback();
@@ -588,12 +597,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 						try {
 							// Eliminamos la cotizacion asociada si la hubiere
 							if (_dsDetalleSC.getDetalleScCotizacionCompraId(row) > 0) {
-								_dsDetalleCotizacionModel.retrieve(
-										DetalleCotizacionModel.DETALLE_COTIZACION_DETALLE_SC_ID
-												+" = "+ _dsDetalleSC.getDetalleScDetalleScId(row) 
-										);
+								_dsDetalleCotizacionModel
+										.retrieve(DetalleCotizacionModel.DETALLE_COTIZACION_DETALLE_SC_ID
+												+ " = "
+												+ _dsDetalleSC.getDetalleScDetalleScId(row));
 								_dsDetalleCotizacionModel.waitForRetrieve();
-								_dsDetalleCotizacionModel.gotoFirst();								
+								_dsDetalleCotizacionModel.gotoFirst();
 								_dsDetalleCotizacionModel.deleteRow();
 							}
 							_dsDetalleSC.deleteRow(row);
@@ -762,11 +771,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				}
 
 				// verifico que la solicitud de compra esté en estado cotizada
-				/*if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase(
-						"0006.0008")) {
-					displayErrorMessage("La Solicitud debe estar en estado COTIZADA para poder generar la Orden de Compra.");
-					return false;
-				}*/
+				/*
+				 * if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase(
+				 * "0006.0008")) { displayErrorMessage("La Solicitud debe estar en
+				 * estado COTIZADA para poder generar la Orden de Compra."); return
+				 * false; }
+				 */
 
 				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null "
 						+ "&& detalle_sc.orden_compra_id == null");
@@ -778,7 +788,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					_dsDetalleSC.filter(null);
 					return false;
 				}
-				
+
 				// chequea que los detalles no tengan cotizacion
 				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
 					if (_dsDetalleSC.getDetalleScCotizacionCompraId(row) > 0) {
@@ -786,8 +796,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 						_dsDetalleSC.filter(null);
 						return false;
 					}
-				}				
-				
+				}
+
 				conn = DBConnection.getConnection(getApplicationName());
 				conn.beginTransaction();
 
@@ -798,7 +808,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				int ocId = dsOrdenCompra.insertRow();
 				dsOrdenCompra.setCurrentWebsiteUserId(getUserFromSession(
 						getCurrentRequest().getRemoteAddr()).getUserID());
-				
+
 				dsOrdenCompra.update(conn);
 
 				// se setean los detalles asociados a la OC
@@ -985,16 +995,30 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			 * _dsSolicitudCompra.recuperaObservaciones(); }
 			 */
 
-			if ("0006.0001".equalsIgnoreCase(estado)
-					|| "0006.0002".equalsIgnoreCase(estado)
-					|| "0006.0003".equalsIgnoreCase(estado)
-					|| "0006.0005".equalsIgnoreCase(estado)
-					|| "0006.0008".equalsIgnoreCase(estado)) {
+			// Muestro u oculto el campo de observaciones de aprobación en función
+			// del estado de la solicitud
+			if ("0006.0001".equalsIgnoreCase(estado) // confeccionando
+					|| "0006.0002".equalsIgnoreCase(estado) // completa
+					|| "0006.0003".equalsIgnoreCase(estado) // aprobada
+					|| "0006.0005".equalsIgnoreCase(estado) // observada
+					|| "0006.0008".equalsIgnoreCase(estado)) { // cotizada
 				_observacionX1.setVisible(true);
 				_observacionX2.setVisible(true);
 			} else {
 				_observacionX1.setVisible(false);
 				_observacionX2.setVisible(false);
+			}
+
+			// si la Solicitud está en un estado modificable, muestro los botones
+			// "Agregar", "Eliminar", "Cancelar"
+			if (_dsSolicitudCompra.isModificable()) {
+				_articulosAgregarBUT1.setVisible(true);
+				_articulosEliminarBUT1.setVisible(true);
+				_articulosCancelarBUT1.setVisible(true);
+			} else {
+				_articulosAgregarBUT1.setVisible(false);
+				_articulosEliminarBUT1.setVisible(false);
+				_articulosCancelarBUT1.setVisible(false);
 			}
 
 			// Si la solicitud se está confeccionando o el usuario actual es el
@@ -1027,6 +1051,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				}
 				_nombre_completo_solicitante2.setEnabled(false);
 
+				// si el usuario no es firmante, deshabilito botones de acción
 				if ("0006.0002".equalsIgnoreCase(_dsSolicitudCompra
 						.getSolicitudesCompraEstado())
 						&& !InstanciasAprobacionModel.isUsuarioHabilitado(
