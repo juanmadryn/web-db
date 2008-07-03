@@ -324,6 +324,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				// calcula totales
 				_dsCotizacionesCompra.setTotalesProveedor();
 				_dsCotizacionesCompra.update();
+				
 
 				// luego genera las OC's
 				conn.beginTransaction();

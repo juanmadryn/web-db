@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
     <property name="units">cm</property>
     <text-property name="title">Solicitud de compra</text-property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
@@ -14,6 +14,7 @@
             <property name="dataType">integer</property>
             <property name="paramType">simple</property>
             <text-property name="promptText">Ingrese el número de solicitud de compra</text-property>
+            <property name="concealValue">false</property>
             <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="defaultValue">7</property>
@@ -157,6 +158,18 @@
                     <property name="columnName">nombre_proveedor3</property>
                     <property name="displayName">nombre_proveedor3</property>
                 </structure>
+                <structure>
+                    <property name="columnName">telefono_proveedor1</property>
+                    <property name="displayName">telefono_proveedor1</property>
+                </structure>
+                <structure>
+                    <property name="columnName">telefono_proveedor2</property>
+                    <property name="displayName">telefono_proveedor2</property>
+                </structure>
+                <structure>
+                    <property name="columnName">telefono_proveedor3</property>
+                    <property name="displayName">telefono_proveedor3</property>
+                </structure>
             </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
@@ -282,11 +295,26 @@
                     </structure>
                     <structure>
                         <property name="position">25</property>
+                        <property name="name">telefono_proveedor1</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">telefono_proveedor2</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">telefono_proveedor3</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
                         <property name="name">Total</property>
                         <property name="dataType">float</property>
                     </structure>
                     <structure>
-                        <property name="position">26</property>
+                        <property name="position">29</property>
                         <property name="name">TotalSolicitud</property>
                         <property name="dataType">float</property>
                     </structure>
@@ -473,8 +501,29 @@
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">telefono_proveedor1</property>
+                    <property name="nativeName">telefono_proveedor1</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">telefono_proveedor2</property>
+                    <property name="nativeName">telefono_proveedor2</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">telefono_proveedor3</property>
+                    <property name="nativeName">telefono_proveedor3</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
-            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion descripcion_solicitud,solicitudes_compra.observaciones observaciones_solicitud,website_user_solicitante.nombre_completo solicitante,website_user_comprador.nombre_completo comprador,proyectos.nombre nombre_proyecto,proyectos.proyecto proyecto,detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle,articulos.nombre codigo_articulo,articulos.descripcion descripcion_articulos,articulos.descripcion_completa descripcion_completa_articulos,detalle_sc.monto_unitario,tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre nombre_unidad_medida, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.marca_proveedor3, entidad_externa_proveedor1.nombre nombre_proveedor1, entidad_externa_proveedor2.nombre nombre_proveedor2, entidad_externa_proveedor3.nombre nombre_proveedor3
+            <property name="queryText">SELECT solicitudes_compra.solicitud_compra_id,solicitudes_compra.fecha_solicitud,solicitudes_compra.fecha_aprobacion,solicitudes_compra.descripcion descripcion_solicitud,solicitudes_compra.observaciones observaciones_solicitud,website_user_solicitante.nombre_completo solicitante,website_user_comprador.nombre_completo comprador,proyectos.nombre nombre_proyecto,proyectos.proyecto proyecto,detalle_sc.cantidad_solicitada,detalle_sc.descripcion descripcion_detalle,detalle_sc.observaciones observaciones_detalle,articulos.nombre codigo_articulo,articulos.descripcion descripcion_articulos,articulos.descripcion_completa descripcion_completa_articulos,detalle_sc.monto_unitario,tareas_proyecto.nombre nombre_tarea, unidades_medida.nombre nombre_unidad_medida, detalle_cotizacion.marca_proveedor1, detalle_cotizacion.marca_proveedor2, detalle_cotizacion.marca_proveedor3, entidad_externa_proveedor1.nombre nombre_proveedor1, entidad_externa_proveedor2.nombre nombre_proveedor2, entidad_externa_proveedor3.nombre nombre_proveedor3, atributos_entidad_telefono_proveedor1.valor telefono_proveedor1, atributos_entidad_telefono_proveedor2.valor telefono_proveedor2, atributos_entidad_telefono_proveedor3.valor telefono_proveedor3
 FROM  inventario.solicitudes_compra solicitudes_compra
 left outer join infraestructura.website_user website_user_comprador ON solicitudes_compra.user_id_comprador = website_user_comprador.user_id
 left outer join infraestructura.website_user website_user_solicitante ON solicitudes_compra.user_id_solicita = website_user_solicitante.user_id
@@ -485,6 +534,9 @@ left outer join inventario.cotizaciones_compra cotizaciones_compra ON cotizacion
 left outer join infraestructura.entidad_externa entidad_externa_proveedor1 ON cotizaciones_compra.entidad_id_proveedor1 = entidad_externa_proveedor1.entidad_id
 left outer join infraestructura.entidad_externa entidad_externa_proveedor2 ON cotizaciones_compra.entidad_id_proveedor2 = entidad_externa_proveedor2.entidad_id
 left outer join infraestructura.entidad_externa entidad_externa_proveedor3 ON cotizaciones_compra.entidad_id_proveedor3 = entidad_externa_proveedor3.entidad_id
+left outer join infraestructura.atributos_entidad atributos_entidad_telefono_proveedor1 ON (cotizaciones_compra.entidad_id_proveedor1 = atributos_entidad_telefono_proveedor1.entidad_id AND atributos_entidad_telefono_proveedor1.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TELEFONO' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_telefono_proveedor2 ON (cotizaciones_compra.entidad_id_proveedor2 = atributos_entidad_telefono_proveedor2.entidad_id AND atributos_entidad_telefono_proveedor2.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TELEFONO' ))
+left outer join infraestructura.atributos_entidad atributos_entidad_telefono_proveedor3 ON (cotizaciones_compra.entidad_id_proveedor3 = atributos_entidad_telefono_proveedor3.entidad_id AND atributos_entidad_telefono_proveedor3.atributo_id = ( SELECT atributo_id FROM infraestructura.atributos_rol a WHERE a.nombre = 'TELEFONO' ))
 left outer join proyectos.tareas_proyecto tareas_proyecto ON tareas_proyecto.tarea_id = detalle_SC.tarea_id
 left outer join inventario.articulos articulos ON articulos.articulo_id = detalle_SC.articulo_id
 left outer join inventario.unidades_medida unidades_medida ON unidades_medida.unidad_medida_id = detalle_SC.unidad_medida_id
@@ -548,6 +600,15 @@ where cotizaciones_compra.cotizacion_compra_id = ?</property>
                     <property name="height">3.3854166667in</property>
                     <property name="width">100%</property>
                     <property name="dataSet">Data Set - solicitudes_compra</property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">telefono_proveedor</property>
+                            <expression name="expression">if(params["param_proveedor_id"]==1) {dataSetRow["telefono_proveedor1"]}
+else {if(params["param_proveedor_id"]==2) {dataSetRow["telefono_proveedor2"]}
+else {if(params["param_proveedor_id"]==3) {dataSetRow["telefono_proveedor3"]}}}</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                    </list-property>
                     <column id="142">
                         <property name="width">20%</property>
                     </column>
@@ -767,6 +828,27 @@ else {if(params["param_proveedor_id"]==3) {dataSetRow["nombre_proveedor3"]}}}</e
                                     </structure>
                                 </list-property>
                                 <property name="resultSetColumn">nombre_proveedor</property>
+                            </data>
+                        </cell>
+                    </row>
+                    <row id="1204">
+                        <property name="height">6mm</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">2px</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">2px</property>
+                        <cell id="1205">
+                            <label id="1207">
+                                <property name="fontSize">large</property>
+                                <property name="fontWeight">bold</property>
+                                <text-property name="text">Teléfono</text-property>
+                            </label>
+                        </cell>
+                        <cell id="1206">
+                            <data id="1208">
+                                <property name="resultSetColumn">telefono_proveedor</property>
                             </data>
                         </cell>
                     </row>
