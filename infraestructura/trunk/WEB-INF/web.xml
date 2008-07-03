@@ -28,8 +28,8 @@
   	</servlet>
  	
   	<servlet>
-    	<servlet-name>InventarioQuartzInit</servlet-name>
-    	<servlet-class>infraestructura.util.InfraestructuraQuartzInit</servlet-class>
+    	<servlet-name>InfraestructuraQuartzInit</servlet-name>
+    	<servlet-class>infraestructura.utils.InfraestructuraQuartzInit</servlet-class>
     	<load-on-startup>2</load-on-startup>
   	</servlet>	
 	  

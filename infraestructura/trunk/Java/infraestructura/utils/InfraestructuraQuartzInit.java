@@ -35,7 +35,7 @@ public class InfraestructuraQuartzInit extends HttpServlet implements Servlet {
 	public void init() throws ServletException {	
 		super.init();
 		try {	
-			System.out.println("Inventario: Quartz initializing...");
+			System.out.println("Infraestructura: Quartz initializing...");
 
 			StdSchedulerFactory factory = (StdSchedulerFactory) 
 			getServletContext().getAttribute(QuartzInitializerServlet.QUARTZ_FACTORY_KEY);
@@ -43,20 +43,50 @@ public class InfraestructuraQuartzInit extends HttpServlet implements Servlet {
 			JobDetail backupInventarioDBDetail = new JobDetail(
 					"BackupInventarioDBQuartzJob", null,
 					BackupInventarioDBQuartzJob.class);
-			
+			JobDetail backupInfraestructuraDBDetail = new JobDetail(
+					"BackupInfraestructuraDBQuartzJob", null,
+					BackupInfraestructuraDBQuartzJob.class);
+			JobDetail backupPartesEQDBDetail = new JobDetail(
+					"BackupPartesEQDBQuartzJob", null,
+					BackupPartesEQDBQuartzJob.class);
+			JobDetail backupPartesMODBDetail = new JobDetail(
+					"BackupPartesMODBQuartzJob", null,
+					BackupPartesMODBQuartzJob.class);
+			JobDetail backupProyectosDBDetail = new JobDetail(
+					"BackupProyectosDBQuartzJob", null,
+					BackupProyectosDBQuartzJob.class);
+			JobDetail backupTangoDBDetail = new JobDetail(
+					"BackupTangoDBQuartzJob", null,
+					BackupTangoDBQuartzJob.class);
 			
 			// Configura los triggers - makeDailyTrigger(hora, minuto)			
-			Trigger backupInventarioDBTriger = TriggerUtils.makeDailyTrigger(1, 30);
+			Trigger backupInventarioDBTriger = TriggerUtils.makeDailyTrigger(15, 52);
 			backupInventarioDBTriger.setName("backupInventarioDBTrigger");
+			Trigger backupInfraestructuraDBTriger = TriggerUtils.makeDailyTrigger(1, 30);
+			backupInfraestructuraDBTriger.setName("backupInfraestructuraDBTrigger");
+			Trigger backupPartesEQDBTriger = TriggerUtils.makeDailyTrigger(1, 30);
+			backupPartesEQDBTriger.setName("backupPartesEQDBTrigger");
+			Trigger backupPartesMODBTriger = TriggerUtils.makeDailyTrigger(1, 30);
+			backupPartesMODBTriger.setName("backupPartesMODBTrigger");
+			Trigger backupProyectosDBTriger = TriggerUtils.makeDailyTrigger(1, 30);
+			backupProyectosDBTriger.setName("backupProyectosDBTrigger");
+			Trigger backupTangoDBTriger = TriggerUtils.makeDailyTrigger(1, 30);
+			backupTangoDBTriger.setName("backupTangoDBTrigger");
+			
 			
 			Scheduler scheduler = factory.getScheduler();			
 			scheduler.scheduleJob(backupInventarioDBDetail, backupInventarioDBTriger);
+			scheduler.scheduleJob(backupInfraestructuraDBDetail, backupInfraestructuraDBTriger);
+			scheduler.scheduleJob(backupPartesEQDBDetail, backupPartesEQDBTriger);
+			scheduler.scheduleJob(backupPartesMODBDetail, backupPartesMODBTriger);
+			scheduler.scheduleJob(backupProyectosDBDetail, backupProyectosDBTriger);
+			scheduler.scheduleJob(backupTangoDBDetail, backupTangoDBTriger);
 			
-			scheduler.start();
+			//scheduler.start();
 
-			System.out.println("Inventario: Quartz start successful!");
+			System.out.println("Infraestructura: Quartz start successful!");
 		} catch (SchedulerException e) {
-			System.out.println("Inventario: Quartz initialization error");
+			System.out.println("Infraestructura: Quartz initialization error");
 			throw new ServletException(e);			
 		}
 	}
