@@ -1,8 +1,8 @@
 package infraestructura.models;
 
-import java.sql.SQLException;
-
 import infraestructura.utils.ConvierteMayusculasValidation;
+
+import java.sql.SQLException;
 
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;

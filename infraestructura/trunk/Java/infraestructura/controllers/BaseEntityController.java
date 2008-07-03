@@ -4,7 +4,6 @@ import infraestructura.models.AtributosEntidadModel;
 import infraestructura.reglasNegocio.AttributeButton;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Vector;
 
