@@ -2,8 +2,11 @@
 package infraestructura.controllers;
 
 //Salmon import statements
-import com.salmonllc.jsp.*;
-import com.salmonllc.html.events.*;
+import com.salmonllc.html.events.PageEvent;
+import com.salmonllc.html.events.PageListener;
+import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.html.events.SubmitListener;
+import com.salmonllc.jsp.JspController;
 
 
 /**

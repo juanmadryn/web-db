@@ -13,7 +13,6 @@ import com.salmonllc.html.events.ValueChangedEvent;
 import com.salmonllc.html.events.ValueChangedListener;
 import com.salmonllc.jsp.JspController;
 import com.salmonllc.jsp.JspListFormDisplayBox;
-import com.salmonllc.sql.DataStoreBuffer;
 
 /**
  * An extended version of JspDetailFormDisplayBox which allow to specify

@@ -6,6 +6,33 @@
     	 Infraestructura
   	</description>
 	  
+	  <servlet>		  
+ 		<servlet-name>QuartzInitializer</servlet-name>
+ 		<display-name>Quartz Initializer Servlet</display-name>  
+ 		<servlet-class>
+     		org.quartz.ee.servlet.QuartzInitializerServlet  
+ 		</servlet-class>  
+		<init-param>  
+     		<param-name>shutdown-on-unload</param-name>  
+     		<param-value>true</param-value>  
+ 		</init-param>  
+ 		<init-param>  
+ 			<param-name>start-scheduler-on-load</param-name>  
+ 			<param-value>true</param-value>  
+ 		</init-param> 
+ 		<init-param>
+           <param-name>listings</param-name>
+           <param-value>false</param-value>
+       </init-param>
+ 		<load-on-startup>1</load-on-startup>  
+  	</servlet>
+ 	
+  	<servlet>
+    	<servlet-name>InventarioQuartzInit</servlet-name>
+    	<servlet-class>infraestructura.util.InfraestructuraQuartzInit</servlet-class>
+    	<load-on-startup>2</load-on-startup>
+  	</servlet>	
+	  
   <servlet>
     <servlet-name>AppServer</servlet-name>
     <servlet-class>com.salmonllc.servlets.AppServer</servlet-class>

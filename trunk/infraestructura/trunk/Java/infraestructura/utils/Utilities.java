@@ -1,7 +1,5 @@
 package infraestructura.utils;
 
-import infraestructura.controllers.Constants;
-
 import java.math.RoundingMode;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +7,6 @@ import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DBConnection;
 import com.salmonllc.util.MessageLog;
 
