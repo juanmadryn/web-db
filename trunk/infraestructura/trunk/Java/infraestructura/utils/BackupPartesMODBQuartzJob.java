@@ -9,7 +9,7 @@ import org.quartz.JobExecutionException;
  * 
  * @author Juan Manuel Cortez
  */
-public class BackupParteMODBQuartzJob implements Job {
+public class BackupPartesMODBQuartzJob implements Job {
 
 	/**
 	 * Ejecuta backup de la base de datos de INVENTARIO

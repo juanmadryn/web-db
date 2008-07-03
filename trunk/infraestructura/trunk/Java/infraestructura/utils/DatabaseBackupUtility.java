@@ -27,12 +27,12 @@ public class DatabaseBackupUtility {
 		try {
 			Runtime rt = Runtime.getRuntime();
 			System.out.println("Iniciando backup de base de datos: "+database);
-			Process child = rt.exec("mysqldump --opt --password=" + password
+			Process child = rt.exec("\"C:/Archivos de programa/MySQL/MySQL Server 5.0/bin/mysqldump\" --opt --password=" + password
 					+ " --user=" + user + " "+database);
 			
 			// arma el nombre del directorio de backups diario y lo crea si no existe
 			Calendar date = Calendar.getInstance();			
-			String dirName = "C:\\Backups\\Bkp"+date.get(Calendar.DAY_OF_MONTH)+"-"+date.get(Calendar.MONTH)+"-"+date.get(Calendar.YEAR);
+			String dirName = "C:\\Backups\\Bkp"+date.get(Calendar.YEAR)+"-"+date.get(Calendar.MONTH)+"-"+date.get(Calendar.DAY_OF_MONTH);
 			File directorio = new File(dirName);
 			directorio.mkdirs();			
 			
@@ -49,7 +49,7 @@ public class DatabaseBackupUtility {
 					"latin1");
 			char[] chars = new char[1024];
 			while (inputStreamReader.read(chars) > 0) {
-				fw.write(chars);
+				fw.write(chars);				
 			}
 			fw.close();
 			System.out.println("Finalizado backup de base de datos: "+database);
