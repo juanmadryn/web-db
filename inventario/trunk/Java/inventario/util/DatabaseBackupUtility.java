@@ -30,17 +30,20 @@ public class DatabaseBackupUtility {
 			Process child = rt.exec("mysqldump --opt --password=" + password
 					+ " --user=" + user + " "+database);
 			
+			// arma el nombre del directorio de backups diario y lo crea si no existe
 			Calendar date = Calendar.getInstance();			
 			String dirName = "C:\\Backups\\Bkp"+date.get(Calendar.DAY_OF_MONTH)+"-"+date.get(Calendar.MONTH)+"-"+date.get(Calendar.YEAR);
 			File directorio = new File(dirName);
 			directorio.mkdirs();			
 			
-			File bkpFile = new File(directorio.getAbsolutePath()+"\\"+database);
+			//crea el archivo de backup con el nombre de la base de datos
+			File bkpFile = new File(directorio.getAbsolutePath()+"\\"+database+".sql");
 						
 			FileWriter fw = null;
 
 			fw = new FileWriter(bkpFile);			
 
+			// lee el input stream del proceso de backup y llena el archivo
 			InputStream in = child.getInputStream();
 			InputStreamReader inputStreamReader = new InputStreamReader(in,
 					"latin1");
