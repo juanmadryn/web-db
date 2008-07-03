@@ -1,5 +1,7 @@
 package inventario.util;
 
+import infraestructura.utils.BackupInventarioDBQuartzJob;
+
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,10 +48,7 @@ public class InventarioQuartzInit extends HttpServlet implements Servlet {
 					ReplicateCpa01QuartzJob.class);
 			JobDetail replicateCpa49Detail = new JobDetail(
 					"ReplicateCpa49QuartzJob", null,
-					ReplicateCpa49QuartzJob.class);
-			JobDetail backupInventarioDBDetail = new JobDetail(
-					"BackupInventarioDBQuartzJob", null,
-					BackupInventarioDBQuartzJob.class);
+					ReplicateCpa49QuartzJob.class);			
 			
 			
 			// Configura los triggers - makeDailyTrigger(hora, minuto)			
@@ -58,16 +57,13 @@ public class InventarioQuartzInit extends HttpServlet implements Servlet {
 			Trigger replicateCpa01Trigger = TriggerUtils.makeDailyTrigger(1, 10);
 			replicateCpa01Trigger.setName("replicateCpa01Trigger");			
 			Trigger replicateCpa49Trigger = TriggerUtils.makeDailyTrigger(1, 15);
-			replicateCpa49Trigger.setName("replicateCpa49Trigger");
-			Trigger backupInventarioDBTriger = TriggerUtils.makeDailyTrigger(1, 30);
-			backupInventarioDBTriger.setName("backupInventarioDBTrigger");
+			replicateCpa49Trigger.setName("replicateCpa49Trigger");			
 			
 			Scheduler scheduler = factory.getScheduler();
 			scheduler.scheduleJob(replicateSta11Detail, replicateSta11Trigger);
 			scheduler.scheduleJob(replicateCpa01Detail, replicateCpa01Trigger);
 			scheduler.scheduleJob(replicateCpa49Detail, replicateCpa49Trigger);
-			scheduler.scheduleJob(backupInventarioDBDetail, backupInventarioDBTriger);
-			
+						
 			scheduler.start();
 
 			System.out.println("Inventario: Quartz start successful!");
