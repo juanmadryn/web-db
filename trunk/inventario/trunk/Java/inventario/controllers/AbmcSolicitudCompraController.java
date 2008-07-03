@@ -1242,5 +1242,4 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	public void setRecargar(boolean recargar) {
 		this.recargar = recargar;
 	}
-
 }
