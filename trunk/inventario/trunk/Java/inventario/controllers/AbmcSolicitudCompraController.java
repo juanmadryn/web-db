@@ -271,7 +271,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_generarCCBUT1.setAccessKey("C");
 		_listformdisplaybox2.addButton(_generarCCBUT1);
 
-		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC", this);
+		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "Generar OC",
+				this);
 		_generarOCBUT1.setAccessKey("O");
 		_listformdisplaybox2.addButton(_generarOCBUT1);
 
@@ -298,8 +299,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_seleccion_detalle2.setFalseValue(null);
 
 		/**
-		 * Modificado por Demian Barry el 21/05/2008, agregando funcionalidad para
-		 * cotizaciones
+		 * Modificado por Demian Barry el 21/05/2008, agregando funcionalidad
+		 * para cotizaciones
 		 */
 		// muestro link a CC y OC solo si el rol es COMPRADOR
 		int userId = getSessionManager().getWebSiteUser().getUserID();
@@ -345,7 +346,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	 * Process the given submit event
 	 * 
 	 * @param event
-	 *           the submit event to be processed
+	 *            the submit event to be processed
 	 * @return true to continue processing events, false to stop processing
 	 *         events
 	 */
@@ -368,9 +369,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				if (CIRCUITO != null) {
 					_dsSolicitudCompra.ejecutaAccion(Integer
 							.parseInt(((HtmlSubmitButton) component)
-									.getDisplayNameLocaleKey()), CIRCUITO, remoteAddr,
-							userId, nombre_tabla, conn, batchInserts, _observacionX2
-									.getValue());
+									.getDisplayNameLocaleKey()), CIRCUITO,
+							remoteAddr, userId, nombre_tabla, conn,
+							batchInserts, _observacionX2.getValue());
 					armaBotonera();
 
 				}
@@ -507,18 +508,20 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 						detalle_id = _dsDetalleSC.insertRow();
 						_dsDetalleSC.setDetalleScSolicitudCompraId(detalle_id,
 								getRow_id());
-						_dsDetalleSC.setArticulosNombre(detalle_id, _dsDetalleSC
-								.getArticulosNombre(row));
+						_dsDetalleSC.setArticulosNombre(detalle_id,
+								_dsDetalleSC.getArticulosNombre(row));
 						_dsDetalleSC.setDetalleScCantidadSolicitada(detalle_id,
-								_dsDetalleSC.getDetalleScCantidadSolicitada(row));
-						_dsDetalleSC.setDetalleScDescripcion(detalle_id, _dsDetalleSC
-								.getDetalleScDescripcion(row));
+								_dsDetalleSC
+										.getDetalleScCantidadSolicitada(row));
+						_dsDetalleSC.setDetalleScDescripcion(detalle_id,
+								_dsDetalleSC.getDetalleScDescripcion(row));
 						_dsDetalleSC.setDetalleScObservaciones(detalle_id,
 								_dsDetalleSC.getDetalleScObservaciones(row));
 					}
 				_dsDetalleSC.update(conn);
 				_dsDetalleSC.filter("detalle_sc.solicitud_compra_id =="
-						+ _dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
+						+ _dsSolicitudCompra
+								.getSolicitudesCompraSolicitudCompraId());
 				_dsDetalleSC.gotoFirst();
 				setRecargar(true);
 				conn.commit();
@@ -551,7 +554,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 					int row = _dsDetalleSC.insertRow(0);
 
-					_dsDetalleSC.setDetalleScSolicitudCompraId(row, getRow_id());
+					_dsDetalleSC
+							.setDetalleScSolicitudCompraId(row, getRow_id());
 
 					// si existe row anterior, sólo copia valores básicos
 					int tarea = _dsDetalleSC.getDetalleScTareaId(rowActual + 1);
@@ -562,7 +566,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 					// hace foco en el registro
 					int nroPagerow = _datatable2.getPage(row);
-					int nroPageActual = _datatable2.getPage(_dsDetalleSC.getRow());
+					int nroPageActual = _datatable2.getPage(_dsDetalleSC
+							.getRow());
 					if (nroPagerow != nroPageActual)
 						_datatable2.setPage(_datatable2.getPage(row));
 					_articulo2.setFocus(row, true);
@@ -589,18 +594,21 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		if (component == _articulosEliminarBUT1) {
 			if (_dsSolicitudCompra.isModificable()) {
-				_dsDetalleCotizacionModel = new DetalleCotizacionModel("inventario");
+				_dsDetalleCotizacionModel = new DetalleCotizacionModel(
+						"inventario");
 				// elimina todas las actividades seleccionadas
 				for (int row = _dsDetalleSC.getRowCount() - 1; row >= 0; row--) {
 					if (_dsDetalleSC.getInt(row, SELECCION_DETALLE_FLAG) == 1) {
 						// Rol marcado para selección
 						try {
 							// Eliminamos la cotizacion asociada si la hubiere
-							if (_dsDetalleSC.getDetalleScCotizacionCompraId(row) > 0) {
+							if (_dsDetalleSC
+									.getDetalleScCotizacionCompraId(row) > 0) {
 								_dsDetalleCotizacionModel
 										.retrieve(DetalleCotizacionModel.DETALLE_COTIZACION_DETALLE_SC_ID
 												+ " = "
-												+ _dsDetalleSC.getDetalleScDetalleScId(row));
+												+ _dsDetalleSC
+														.getDetalleScDetalleScId(row));
 								_dsDetalleCotizacionModel.waitForRetrieve();
 								_dsDetalleCotizacionModel.gotoFirst();
 								_dsDetalleCotizacionModel.deleteRow();
@@ -659,7 +667,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		if (component == _generarCCBUT1) {
 			try {
 				// chequeo que el usuario tenga el rol COMPRADOR
-				int currentUser = getSessionManager().getWebSiteUser().getUserID();
+				int currentUser = getSessionManager().getWebSiteUser()
+						.getUserID();
 				if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 					displayErrorMessage("Debe ser COMPRADOR para generar una cotización de compra");
 					return false;
@@ -686,7 +695,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				int ccId = dsCotizacionCompra.insertRow();
 				dsCotizacionCompra.setCurrentWebsiteUserId(getUserFromSession(
 						getCurrentRequest().getRemoteAddr()).getUserID());
-				dsCotizacionCompra.setCotizacionesCompraEstado(ccId, "0006.0003");
+				dsCotizacionCompra.setCotizacionesCompraEstado(ccId,
+						"0006.0003");
 
 				dsCotizacionCompra.update(conn);
 
@@ -699,11 +709,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					// para cada artículo seleccionado lo inserta en le detalle
 					// de la cotización
 					int dccId = dsDetalleCotizacion.insertRow();
-					dsDetalleCotizacion.setDetalleCotizacionDetalleScId(dccId, ScId);
+					dsDetalleCotizacion.setDetalleCotizacionDetalleScId(dccId,
+							ScId);
 					dsDetalleCotizacion.setDetalleCotizacionCotizacionCompraId(
 							dccId, CotizacionCompraId);
-					dsDetalleCotizacion.setDetalleCotizacionUnidadMedidaId(dccId,
-							_dsDetalleSC.getDetalleScUnidadMedida(row));
+					dsDetalleCotizacion.setDetalleCotizacionUnidadMedidaId(
+							dccId, _dsDetalleSC.getDetalleScUnidadMedida(row));
 					dsDetalleCotizacion.setDetalleCotizacionCantidad(dccId,
 							_dsDetalleSC.getDetalleScCantidadSolicitada(row));
 					dsDetalleCotizacion
@@ -733,10 +744,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 				_dsDetalleSC.filter(null);
 
-				this.gotoSiteMapPage("EditarCotizacionCompra",
-						"?cotizacion_compra_id="
-								+ dsCotizacionCompra
-										.getCotizacionesCompraCotizacionCompraId(ccId));
+				this
+						.gotoSiteMapPage(
+								"EditarCotizacionCompra",
+								"?cotizacion_compra_id="
+										+ dsCotizacionCompra
+												.getCotizacionesCompraCotizacionCompraId(ccId));
 
 			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, null);
@@ -764,7 +777,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		if (component == _generarOCBUT1) {
 			try {
 				// chequeo que el usuario tenga el rol COMPRADOR
-				int currentUser = getSessionManager().getWebSiteUser().getUserID();
+				int currentUser = getSessionManager().getWebSiteUser()
+						.getUserID();
 				if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
 					displayErrorMessage("Debe ser COMPRADOR para revisar una solicitud aprobada.");
 					return false;
@@ -773,9 +787,9 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				// verifico que la solicitud de compra esté en estado cotizada
 				/*
 				 * if (!_dsSolicitudCompra.getEstadoActual().equalsIgnoreCase(
-				 * "0006.0008")) { displayErrorMessage("La Solicitud debe estar en
-				 * estado COTIZADA para poder generar la Orden de Compra."); return
-				 * false; }
+				 * "0006.0008")) { displayErrorMessage("La Solicitud debe estar
+				 * en estado COTIZADA para poder generar la Orden de Compra.");
+				 * return false; }
 				 */
 
 				_dsDetalleSC.filter(SELECCION_DETALLE_FLAG + " != null "
@@ -817,16 +831,16 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							.getOrdenesCompraOrdenCompraId(ocId));
 					_dsDetalleSC.setDetalleScCantidadPedida(row, _dsDetalleSC
 							.getDetalleScCantidadSolicitada(row));
-					_dsDetalleSC.setDetalleScUnidadMedidaPedida(row, _dsDetalleSC
-							.getDetalleScUnidadMedida(row));
+					_dsDetalleSC.setDetalleScUnidadMedidaPedida(row,
+							_dsDetalleSC.getDetalleScUnidadMedida(row));
 				}
 
 				_dsDetalleSC.update(conn);
 
 				// actualizamos el estado de la SM
 				SolicitudCompraTransiciones.agregarEnOc(conn, _dsDetalleSC,
-						getCurrentRequest().getRemoteHost(), getSessionManager()
-								.getWebSiteUser().getUserID());
+						getCurrentRequest().getRemoteHost(),
+						getSessionManager().getWebSiteUser().getUserID());
 
 				dsOrdenCompra.resetStatus();
 				_dsDetalleSC.resetStatus();
@@ -875,7 +889,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	 * Process the page requested event
 	 * 
 	 * @param event
-	 *           the page event to be processed
+	 *            the page event to be processed
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
 
@@ -919,8 +933,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 								_lnkCc1.setVisible(false);
 							// activo el link a la OC si corresponde
 							/*
-							 * if (_dsDetalleSC.getDetalleScOrdenCompraId(i) > 0)
-							 * _lnkOc1.setVisible(true); else
+							 * if (_dsDetalleSC.getDetalleScOrdenCompraId(i) >
+							 * 0) _lnkOc1.setVisible(true); else
 							 * _lnkOc1.setVisible(false);
 							 */
 
@@ -954,7 +968,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		try {
 			int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
-			setRow_id(_dsSolicitudCompra.getSolicitudesCompraSolicitudCompraId());
+			setRow_id(_dsSolicitudCompra
+					.getSolicitudesCompraSolicitudCompraId());
 
 			// obtengo las intancias de aprobación correspondientes agrupadas
 			// por usuario para mostrar las observaciones de todos los firmantes
@@ -995,7 +1010,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			 * _dsSolicitudCompra.recuperaObservaciones(); }
 			 */
 
-			// Muestro u oculto el campo de observaciones de aprobación en función
+			// Muestro u oculto el campo de observaciones de aprobación en
+			// función
 			// del estado de la solicitud
 			if ("0006.0001".equalsIgnoreCase(estado) // confeccionando
 					|| "0006.0002".equalsIgnoreCase(estado) // completa
@@ -1009,17 +1025,21 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				_observacionX2.setVisible(false);
 			}
 
-			// si la Solicitud está en un estado modificable, muestro los botones
+			// si la Solicitud está en un estado modificable, muestro los
+			// botones
 			// "Agregar", "Eliminar", "Cancelar"
-			if (_dsSolicitudCompra.isModificable()) {
-				_articulosAgregarBUT1.setVisible(true);
-				_articulosEliminarBUT1.setVisible(true);
-				_articulosCancelarBUT1.setVisible(true);
-			} else {
-				_articulosAgregarBUT1.setVisible(false);
-				_articulosEliminarBUT1.setVisible(false);
-				_articulosCancelarBUT1.setVisible(false);
-			}
+			boolean isMod = _dsSolicitudCompra.isModificable();
+			_articulosAgregarBUT1.setVisible(isMod);
+			_articulosEliminarBUT1.setVisible(isMod);
+			_articulosCancelarBUT1.setVisible(isMod);
+			_proyecto2.setEnabled(isMod);
+			_observaciones2.setEnabled(isMod);
+			_articulo2.setEnabled(isMod);
+			_cantidad_solicitada2.setEnabled(isMod);
+			_monto_unitario1.setEnabled(isMod);
+			_descripcion4.setEnabled(isMod);
+			_observaciones4.setEnabled(isMod);
+			
 
 			// Si la solicitud se está confeccionando o el usuario actual es el
 			// comprador asociado permito modificar el solicitante, sino no
@@ -1076,8 +1096,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					"&param_solicitud_compra_id=" + getRow_id());
 			_imprimirSolicitudCompraBUT2.setHref(URL);
 
-			_verFirmantes
-					.setHref("ListaFirmantes.jsp?solicitud_id=" + getRow_id());
+			_verFirmantes.setHref("ListaFirmantes.jsp?solicitud_id="
+					+ getRow_id());
 			// hide tarea lookup if disabled in properties file
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
 					"ShowTareaLookup")))
@@ -1088,12 +1108,14 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 				seleccionarTodo = true;
 
 			if (seleccionarTodo)
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
+				_desSeleccionaTodoBUT1
+						.setDisplayNameLocaleKey("text.seleccion");
 			else
-				_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
+				_desSeleccionaTodoBUT1
+						.setDisplayNameLocaleKey("text.deseleccion");
 
-			_desSeleccionaTodoBUT1
-					.setOnClick("CheckAll(" + seleccionarTodo + ");");
+			_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo
+					+ ");");
 
 			_unidad_medida2.setEnabled(false);
 
@@ -1109,10 +1131,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 	 * botonera acorde
 	 * 
 	 * @throws DataStoreException
-	 *            TODO generalizar este método para un número indefinido de
-	 *            transiciones entre estados TODO considerar recuperar todo el
-	 *            circuito para la entidad actual y recuperar los estados de un
-	 *            mismo model. Se reducirían las interacciones con la BD.
+	 *             TODO generalizar este método para un número indefinido de
+	 *             transiciones entre estados TODO considerar recuperar todo el
+	 *             circuito para la entidad actual y recuperar los estados de un
+	 *             mismo model. Se reducirían las interacciones con la BD.
 	 * @throws SQLException
 	 */
 	private void armaBotonera() throws DataStoreException, SQLException {
@@ -1176,8 +1198,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			// Si no existe configuración no hace nada
 			/*
 			 * SQL = "select nombre_detalle from infraestructura.aplica_circuito
-			 * where circuito = '" + CIRCUITO + "'"; st = conn.createStatement(); r =
-			 * st.executeQuery(SQL);
+			 * where circuito = '" + CIRCUITO + "'"; st =
+			 * conn.createStatement(); r = st.executeQuery(SQL);
 			 */
 
 			// en función de la columna del circuito, determino el estado actual
@@ -1203,9 +1225,10 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 						if (boton != null) {
 							boton.setVisible(true);
 							boton.setDisplayName(r.getString(1));
-							boton.setDisplayNameLocaleKey(Integer
-									.toString(r.getInt(2)));
-							boton.setButtonFontStyle("font-weight:bold; COLOR: red");
+							boton.setDisplayNameLocaleKey(Integer.toString(r
+									.getInt(2)));
+							boton
+									.setButtonFontStyle("font-weight:bold; COLOR: red");
 						}
 						i = i + 10;
 					}

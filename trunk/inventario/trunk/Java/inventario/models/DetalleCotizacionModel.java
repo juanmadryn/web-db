@@ -106,8 +106,8 @@ public class DetalleCotizacionModel extends BaseModel {
           addColumn(computeTableName("detalle_sc"),"articulo_id",DataStore.DATATYPE_INT,false,false,DETALLE_SC_ARTICULO_ID);
           addColumn(computeTableName("detalle_sc"),"solicitud_compra_id",DataStore.DATATYPE_INT,false,false,DETALLE_SC_SOLICITUD_COMPRA_ID);
           addColumn(computeTableName("detalle_sc"),"cantidad_solicitada",DataStore.DATATYPE_DOUBLE,false,false,DETALLE_SC_CANTIDAD_SOLICITADA);
-          addColumn(computeTableName("detalle_sc"),"descripcion",DataStore.DATATYPE_STRING,false,false,DETALLE_SC_DESCRIPCION);
-          addColumn(computeTableName("detalle_sc"),"observaciones",DataStore.DATATYPE_STRING,false,false,DETALLE_SC_OBSERVACIONES);
+          addColumn(computeTableName("detalle_sc"),"descripcion",DataStore.DATATYPE_STRING,false,true,DETALLE_SC_DESCRIPCION);
+          addColumn(computeTableName("detalle_sc"),"observaciones",DataStore.DATATYPE_STRING,false,true,DETALLE_SC_OBSERVACIONES);
           addColumn(computeTableName("detalle_sc"),"tarea_id",DataStore.DATATYPE_INT,false,false,DETALLE_SC_TAREA_ID);
           addColumn(computeTableName("detalle_sc"),"monto_ultima_compra",DataStore.DATATYPE_STRING,false,false,DETALLE_SC_MONTO_ULTIMA_COMPRA);
           addColumn(computeTableName("detalle_sc"),"fecha_ultima_compra",DataStore.DATATYPE_DATE,false,false,DETALLE_SC_FECHA_ULTIMA_COMPRA);
@@ -1439,8 +1439,7 @@ public class DetalleCotizacionModel extends BaseModel {
 		
 		return 0;
 		
-	}
-     
+	}	
      //$ENDCUSTOMMETHODS$
      
 }
