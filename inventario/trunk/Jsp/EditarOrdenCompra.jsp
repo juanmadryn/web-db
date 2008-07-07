@@ -528,7 +528,7 @@ function CheckAll(checked) {
                      <salmon:input type="text" name="cantidad_pedida2"
                         size="8" maxlength="15"
                         datasource="dsDetalleSC:detalle_sc.cantidad_pedida"></salmon:input>
-                     <salmon:input type="select" name="unidad_medida22"
+                     <salmon:input type="select" name="unidad_medida2"
                         datasource="dsDetalleSC:detalle_sc.unidad_medida_id_pedida">
                         <salmon:option display="abc" key="123"
                            table="inventario.unidades_medida"
