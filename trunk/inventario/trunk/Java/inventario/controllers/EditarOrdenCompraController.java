@@ -96,6 +96,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
+	public com.salmonllc.html.HtmlLookUpComponent _proveedor2;
+	public com.salmonllc.html.HtmlLookUpComponent _lkpCondicionesCompra;
 
 	// DataSources
 	public inventario.models.DetalleSCModel _dsDetalleSC;
@@ -165,6 +167,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	// public com.salmonllc.jsp.JspTableRow _nuevoDetalleSinSc;
 	public com.salmonllc.html.HtmlTextEdit _descuento2;
+	public com.salmonllc.html.HtmlTextEdit _descuentoGlobal2;
 	// public HtmlSubmitButton _exportaTangoBUT1;
 	public com.salmonllc.html.HtmlText _nroOcTango2;
 
@@ -708,7 +711,18 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_articulosCancelarBUT1.setVisible(false);
 		}
 		
-
+		// deshabilita los campos de entrada de datos segun el estado de la OC
+		boolean isEnabled = _dsOrdenesCompra.isModificable();
+		_nombre_completo_comprador2.setEnabled(isEnabled);
+		_proveedor2.setEnabled(isEnabled);
+		_fecha_estimada_entrega2.setEnabled(isEnabled);
+		_lkpCondicionesCompra.setEnabled(isEnabled);
+		_descuentoGlobal2.setEnabled(isEnabled);		
+		_descuento2.setEnabled(isEnabled);
+		_observaciones2.setEnabled(isEnabled);
+		_cantidad_pedida2.setEnabled(isEnabled);
+		_unidad_medida2.setEnabled(isEnabled);
+		_monto_unitario1.setEnabled(isEnabled);		
 	}
 
 	/**
