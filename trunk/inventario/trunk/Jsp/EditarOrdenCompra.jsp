@@ -199,8 +199,7 @@ function CheckAll(checked) {
                            font="TableHeadingFont" /></td>
                         <td colspan="4" rowspan="3"><salmon:input
                            type="textarea" name="observaciones2"
-                           cols="60" rows="3" wrap="soft"
-                           maxlength="255"
+                           cols="60" rows="3" wrap="soft"                           
                            datasource="dsOrdenesCompra:ordenes_compra.observaciones"></salmon:input>
                         </td>
                         <td align="right"><salmon:text
