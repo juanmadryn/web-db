@@ -43,13 +43,10 @@ public final class ValRN_0220_1 extends ValidadorReglasNegocio {
 				return false;
 			}
 			
-			// Si no esta replicado en tango
-			if (!ds.isReplicadoEnTango()) {
-				// Ejecutamos la replicación en tango			
-				OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
-				ordenesDeCompraTANGO.insertaCabeceraOC(ds);
-			}
-			
+			// Ejecutamos la replicación en tango			
+			OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
+			ordenesDeCompraTANGO.insertaCabeceraOC(ds, ds.isReplicadoEnTango());
+						
 			// Actualizamos el atributo monto ultima compra
 			DetalleSCModel detalleSCModel = new DetalleSCModel("inventario");
 			

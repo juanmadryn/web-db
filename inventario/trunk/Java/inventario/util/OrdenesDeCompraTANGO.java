@@ -66,7 +66,7 @@ public class OrdenesDeCompraTANGO {
 	 * @throws DataStoreException
 	 * @throws ParseException 
 	 */
-	public void insertaCabeceraOC(OrdenesCompraModel oc)
+	public void insertaCabeceraOC(OrdenesCompraModel oc, boolean update)
 			throws SQLException, DataStoreException, ParseException {
 		Connection connTango = null;
 		Statement tangoSt = null;
@@ -280,7 +280,11 @@ public class OrdenesDeCompraTANGO {
 			/*
 			 * Consultar este metodo para ver como se genera la recuperacion
 			 */
-			String N_ORDEN_CO = this.recuperaProximo(connTango);
+			String N_ORDEN_CO = null;
+			if(!update)
+				N_ORDEN_CO = this.recuperaProximo(connTango);
+			else
+				N_ORDEN_CO = oc.getNroOrdenCompraTango();
 			
 			int NRO_SUCURS = 0;
 			
@@ -316,14 +320,25 @@ public class OrdenesDeCompraTANGO {
 			 */
 			float TOTAL_IVA = oc.getIvaOrdenCompra();
 
-			pstTango = connTango
-					.prepareStatement(
-							"INSERT INTO [FABRI_S.A.].[dbo].[CPA35](" +
-							"[AUTORIZO], [COD_COMPRA], [COD_LISTA], [COD_PROVEE], [COND_COMPR], [CONGELA], " +
-							"[COTIZ], [ESTADO], [EXPORTADO], [FEC_AUTORI], [FEC_EMISIO], [FEC_GENER], [FEC_VIGENC], " +
-							"[HORA_AUTOR], [INC_II], [INC_IVA], [LEYENDA_1], [LEYENDA_2], [LEYENDA_3], [LEYENDA_4], [MON_CTE], [N_ORDEN_CO], " +
-							"[NRO_SUCURS], [OBSERVACIO], [PORC_BONIF], [TALONARIO], [TOTAL_BONI], [TOTAL_II], [TOTAL_IVA]) " +
-							"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			if (!update) {
+				pstTango = connTango
+				.prepareStatement(
+						"INSERT INTO [FABRI_S.A.].[dbo].[CPA35](" +
+						"[AUTORIZO], [COD_COMPRA], [COD_LISTA], [COD_PROVEE], [COND_COMPR], [CONGELA], " +
+						"[COTIZ], [ESTADO], [EXPORTADO], [FEC_AUTORI], [FEC_EMISIO], [FEC_GENER], [FEC_VIGENC], " +
+						"[HORA_AUTOR], [INC_II], [INC_IVA], [LEYENDA_1], [LEYENDA_2], [LEYENDA_3], [LEYENDA_4], [MON_CTE], [N_ORDEN_CO], " +
+						"[NRO_SUCURS], [OBSERVACIO], [PORC_BONIF], [TALONARIO], [TOTAL_BONI], [TOTAL_II], [TOTAL_IVA]) " +
+						"VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			} else {
+				pstTango = connTango
+				.prepareStatement(
+						"UPDATE [FABRI_S.A.].[dbo].[CPA35] SET" +
+						"[AUTORIZO] = ?, [COD_COMPRA] = ?, [COD_LISTA] = ?, [COD_PROVEE] = ?, [COND_COMPR] = ?, [CONGELA] = ?, " +
+						"[COTIZ] = ?, [ESTADO] = ?, [EXPORTADO] = ?, [FEC_AUTORI] = ?, [FEC_EMISIO] = ?, [FEC_GENER] = ?, [FEC_VIGENC] = ?, " +
+						"[HORA_AUTOR] = ?, [INC_II] = ?, [INC_IVA] = ?, [LEYENDA_1] = ?, [LEYENDA_2] = ?, [LEYENDA_3] = ?, [LEYENDA_4] = ?, [MON_CTE] = ?, [N_ORDEN_CO] = ?, " +
+						"[NRO_SUCURS] = ?, [OBSERVACIO] = ?, [PORC_BONIF] = ?, [TALONARIO] = ?, [TOTAL_BONI] = ?, [TOTAL_II] = ?, [TOTAL_IVA] = ? " +
+						"WHERE [N_ORDEN_CO] = ?");
+			}
 
 			pstTango.setString(1, AUTORIZO);
 			pstTango.setString(2, COD_COMPRA);
@@ -354,6 +369,9 @@ public class OrdenesDeCompraTANGO {
 			pstTango.setFloat(27, TOTAL_BONI);
 			pstTango.setFloat(28, TOTAL_II);
 			pstTango.setFloat(29, TOTAL_IVA);
+			if (update) {
+				pstTango.setString(30, N_ORDEN_CO);
+			}
 
 			/*
 			 * Imprime a la salida estandar para debug
@@ -397,25 +415,27 @@ public class OrdenesDeCompraTANGO {
 			/*
 			 * Inserta los detalles de la OC en la tabla correspondiente
 			 */
-			insertaDetalleOC(oc, connTango, N_ORDEN_CO);			
+			insertaDetalleOC(oc, connTango, N_ORDEN_CO, update);			
 
-			/*
-			 * Buscamos en el archivo System.properties el  id de la propiedad
-			 * N_ORDEN_CO para almacenar el nro. de orden de compra generado por Tango
-			 */
-			Props props = Props.getProps("inventario", null);							
-			N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
-			if (N_ORDEN_CO_PROP == -1) {
-				errores.add("No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración");
-				throw new ValidationException(errores);
-			}
-			
-			/*
-			 * Agrega el nro. de la orden de compra de tango en el atributo correspondiente de la oc. 
-			 */			
-			if (!debug) {
-				AtributosEntidadModel.setValorAtributoObjeto(N_ORDEN_CO, N_ORDEN_CO_PROP, 
-						oc.getOrdenesCompraOrdenCompraId(), "TABLA", "ordenes_compra");
+			if (!update) {
+				/*
+				 * Buscamos en el archivo System.properties el  id de la propiedad
+				 * N_ORDEN_CO para almacenar el nro. de orden de compra generado por Tango
+				 */
+				Props props = Props.getProps("inventario", null);							
+				N_ORDEN_CO_PROP = props.getIntProperty("N_ORDEN_CO_PROP");
+				if (N_ORDEN_CO_PROP == -1) {
+					errores.add("No se ha indicado el atributo N_ORDEN_CO_PROP en archivo de configuración");
+					throw new ValidationException(errores);
+				}
+
+				/*
+				 * Agrega el nro. de la orden de compra de tango en el atributo correspondiente de la oc. 
+				 */			
+				if (!debug) {
+					AtributosEntidadModel.setValorAtributoObjeto(N_ORDEN_CO, N_ORDEN_CO_PROP, 
+							oc.getOrdenesCompraOrdenCompraId(), "TABLA", "ordenes_compra");
+				}
 			}
 			
 			if (debug)
@@ -449,7 +469,7 @@ public class OrdenesDeCompraTANGO {
 	 * @throws DataStoreException
 	 * @throws ParseException 
 	 */
-	private void insertaDetalleOC(OrdenesCompraModel oc, Connection conn, String nroOcTango)
+	private void insertaDetalleOC(OrdenesCompraModel oc, Connection conn, String nroOcTango, boolean update)
 			throws SQLException, DataStoreException, ParseException {
 		
 		Statement tangoSt = null;
@@ -459,6 +479,7 @@ public class OrdenesDeCompraTANGO {
 		DetalleSCModel dsDetalleSc = new DetalleSCModel("inventario");
 		
 		try {
+			dsDetalleSc.setOrderBy(DetalleSCModel.DETALLE_SC_DETALLE_SC_ID + " ASC");
 			dsDetalleSc.retrieve(
 					DetalleSCModel.DETALLE_SC_ORDEN_COMPRA_ID + " = " 
 					+ oc.getOrdenesCompraOrdenCompraId());			
@@ -588,12 +609,21 @@ public class OrdenesDeCompraTANGO {
 				
 				/*
 				 * Actualiza la tabla CPA36
-				 */				
-				String insertCpa36 = 
-					"INSERT INTO [FABRI_S.A.].[dbo].[CPA36] ([FILLER], [CAN_EQUIVA], [CAN_PEDIDA], [CAN_PENDIE], " +
-					"[CAN_RECIBI], [CIERRE], [COD_ARTICU], [COD_DEPOSI], [COD_PRE_CO], [IMPINT], [N_ORDEN_CO], " +
-					"[N_RENGL_OC], [PORC_DCTO], [PRECIO], [PRECIO_PAN]) " +
-					"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				 */
+				String insertCpa36 = null;
+				if (!update) {
+					insertCpa36 = 
+						"INSERT INTO [FABRI_S.A.].[dbo].[CPA36] ([FILLER], [CAN_EQUIVA], [CAN_PEDIDA], [CAN_PENDIE], " +
+						"[CAN_RECIBI], [CIERRE], [COD_ARTICU], [COD_DEPOSI], [COD_PRE_CO], [IMPINT], [N_ORDEN_CO], " +
+						"[N_RENGL_OC], [PORC_DCTO], [PRECIO], [PRECIO_PAN]) " +
+						"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				} else {
+					insertCpa36 = 
+						"UPDATE [FABRI_S.A.].[dbo].[CPA36] SET [FILLER] = ?, [CAN_EQUIVA] = ?, [CAN_PEDIDA] = ?, [CAN_PENDIE] = ?, " +
+						"[CAN_RECIBI] = ?, [CIERRE] = ?, [COD_ARTICU] = ?, [COD_DEPOSI] = ?, [COD_PRE_CO] = ?, [IMPINT] = ?, [N_ORDEN_CO] = ?, " +
+						"[N_RENGL_OC] = ?, [PORC_DCTO] = ?, [PRECIO] = ?, [PRECIO_PAN] = ? " +
+						"WHERE [N_ORDEN_CO] = ? AND [N_RENGL_OC] = ?";
+				}
 				pstTango = conn.prepareStatement(insertCpa36);
 				
 				pstTango.setString(1,FILLER);
@@ -611,6 +641,10 @@ public class OrdenesDeCompraTANGO {
 				pstTango.setFloat(13, PORC_DSCT);
 				pstTango.setFloat(14, PRECIO);
 				pstTango.setFloat(15, PRECIO_PAN);
+				if (update) {
+					pstTango.setString(16, N_ORDEN_CO);
+					pstTango.setInt(17, N_RENGL_OC);
+				}
 				
 				if (!debug)
 					pstTango.executeUpdate();
@@ -618,10 +652,20 @@ public class OrdenesDeCompraTANGO {
 				/*
 				 * Inserta los registros en la tabla CPA37
 				 */ 
-				String insertCpa37 = 
-					"INSERT INTO [FABRI_S.A.].[dbo].[CPA37]" +
-					"([FILLER], [CANTIDAD], [FEC_RECEPC], " +
-					"[N_ORDEN_CO], [N_RENGL_OC]) VALUES(?,?,?,?,?)";
+				String insertCpa37 = null;
+				if (!update) {
+					insertCpa37 = 
+						"INSERT INTO [FABRI_S.A.].[dbo].[CPA37]" +
+						"([FILLER], [CANTIDAD], [FEC_RECEPC], " +
+						"[N_ORDEN_CO], [N_RENGL_OC]) VALUES(?,?,?,?,?)";
+				} else {
+					insertCpa37 = 
+						"UPDATE [FABRI_S.A.].[dbo].[CPA37] SET" +
+						"[FILLER] = ?, [CANTIDAD] = ?, [FEC_RECEPC] = ?, " +
+						"[N_ORDEN_CO] = ?, [N_RENGL_OC] = ? " +
+						"WHERE [N_ORDEN_CO] = ? AND [N_RENGL_OC] = ?";
+				}
+				
 				pstTango = conn.prepareStatement(insertCpa37);
 				  
 				pstTango.setString(1, CPA37_FILLER);
@@ -629,6 +673,11 @@ public class OrdenesDeCompraTANGO {
 				pstTango.setTimestamp(3, CPA37_FEC_RECEPC);
 				pstTango.setString(4, N_ORDEN_CO);
 				pstTango.setInt(5, N_RENGL_OC);
+				if (update) {
+					pstTango.setString(6, N_ORDEN_CO);
+					pstTango.setInt(7, N_RENGL_OC);
+					
+				}
 				
 				if (!debug)
 					pstTango.executeUpdate();
@@ -695,6 +744,8 @@ public class OrdenesDeCompraTANGO {
 		}
 	}
 	
+	
+	
 	/**
 	 * Anula la orden de compra indicada en Tango.
 	 * @param oc orden de compra a anular en tango
@@ -732,7 +783,7 @@ public class OrdenesDeCompraTANGO {
 			int ESTADO = ESTADO_ANULADA;
 			
 			String updateCpa35 = 
-				"UPDATE INTO [FABRI_S.A.].[dbo].[CPA35] SET [ESTADO] = ? WHERE [N_ORDEN_CO] = ?";
+				"UPDATE [FABRI_S.A.].[dbo].[CPA35] SET [ESTADO] = ? WHERE [N_ORDEN_CO] = ?";
 			pstTango = connTango.prepareStatement(updateCpa35);
 			
 			pstTango.setInt(1, ESTADO);
@@ -746,7 +797,7 @@ public class OrdenesDeCompraTANGO {
 			int CIERRE = 1;
 			
 			String updateCpa36 = 
-				"UPDATE INTO [FABRI_S.A.].[dbo].[CPA36] SET [CIERRE] = ? WHERE [N_ORDEN_CO] = ?";
+				"UPDATE [FABRI_S.A.].[dbo].[CPA36] SET [CIERRE] = ? WHERE [N_ORDEN_CO] = ?";
 			pstTango = connTango.prepareStatement(updateCpa36);
 			
 			pstTango.setInt(1, CIERRE);
