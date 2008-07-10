@@ -111,9 +111,9 @@ public class SolicitudCompraTransiciones {
 								remoteHost,
 								webSiteUserId,
 								NOMBRE_TABLA_SC, conn, false);
-					}
+					}					
 					// si la solicitud no tiene cotizacion revertimos a el estado aprobada
-					else {
+					else if (!ESTADO_COTIZADA.equalsIgnoreCase(_dsDetalleSC.getSolicitudCompraEstado(i))) {
 						dsSolicitudCompra.ejecutaAccion(REVERTIR_A_SC_APROBADA,	CIRCUITO_SC,
 								remoteHost,
 								webSiteUserId,
@@ -230,7 +230,6 @@ public class SolicitudCompraTransiciones {
 	
 	/**
 	 * Recupera los ids de las acciones a ejecutar desde el archivo de propiedades.
-	 * TODO: el codigo funciona, pero es un asco, refactorear.
 	 */
 	private static void recuperaEstadosAcciones() {		
 		Props props = Props.getProps("inventario", null);
