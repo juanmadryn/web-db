@@ -4,12 +4,6 @@
     <property name="units">in</property>
     <property name="comments">Copyleft (c) 2008 Grupo de Desarrollo Open Source Patagonico</property>
     <html-property name="description">Ordenes de Compra</html-property>
-    <method name="beforeFactory"><![CDATA[importPackage(Packages.java.lang);
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(0));
-//reportContext.setPersistentGlobalVariable("pgstr", new Integer(1));
-orderlast="none";
-ordercurrent="none";
-//pgnumberlast = 0;]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
@@ -634,9 +628,9 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             <property name="type">a4</property>
             <property name="orientation">portrait</property>
             <property name="topMargin">1.5cm</property>
-            <property name="leftMargin">1cm</property>
+            <property name="leftMargin">0.9cm</property>
             <property name="bottomMargin">2.5cm</property>
-            <property name="rightMargin">1cm</property>
+            <property name="rightMargin">0.9cm</property>
             <property name="pageBreakAfter">auto</property>
             <property name="pageBreakBefore">auto</property>
             <property name="pageBreakInside">auto</property>
@@ -3042,9 +3036,9 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
             <property name="type">a4</property>
             <property name="orientation">portrait</property>
             <property name="topMargin">1.5cm</property>
-            <property name="leftMargin">1cm</property>
+            <property name="leftMargin">0.9cm</property>
             <property name="bottomMargin">2.5cm</property>
-            <property name="rightMargin">1cm</property>
+            <property name="rightMargin">0.9cm</property>
             <property name="headerHeight">5.5cm</property>
             <property name="footerHeight">7.5cm</property>
             <page-header>
@@ -5445,9 +5439,9 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
             <property name="type">a4</property>
             <property name="orientation">portrait</property>
             <property name="topMargin">1.5cm</property>
-            <property name="leftMargin">1cm</property>
+            <property name="leftMargin">0.9cm</property>
             <property name="bottomMargin">2.5cm</property>
-            <property name="rightMargin">1cm</property>
+            <property name="rightMargin">0.9cm</property>
             <property name="headerHeight">5.5cm</property>
             <property name="footerHeight">7.5cm</property>
             <page-header>
@@ -8021,44 +8015,6 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
-            <method name="onPageBreak"><![CDATA[importPackage( Packages.java.io );
-//out = new PrintWriter( new FileWriter( "/home/fep/birt.log.txt", true ) );
-
-ordercurrent = this.getRowData().getColumnValue("Row_Index").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ) {
-//	out.println( "Nueva pagina");
-	if( orderlast.equals("none")) {
-//		out.println( "Debug1");
-		pg = parseInt(1);
-	} else if( orderlast.equals(ordercurrent) ) {
-//		out.println( "Debug2");
-		pg = parseInt(pgcnt) + parseInt(1);
-	} else {
-//		out.println( "Debug3");
-//		pg = parseInt(1);
-		pg = parseInt(pgcnt) + parseInt(1);
-	}
-
-	out.println(" ordercurrent" + ordercurrent);	
-	orderlast = ordercurrent;
-	reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-	reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-	reportContext.setPersistentGlobalVariable("pgstr", new Integer(parseInt(pg)));
-
-//	out.println( "Row.onCreate() totalPage -> " + 
-//		reportContext.getPersistentGlobalVariable("pgstr"+pageNumber));
-//	out.println( "Row.onCreate() totalPage -> " + 
-//		reportContext.getPersistentGlobalVariable("pgstr"));
-}
-
-pgnumberlast = pageNumber;
-
-//out.close();]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
             <column id="1799">
@@ -8196,7 +8152,7 @@ pgnumberlast = pageNumber;
             <group id="1681">
                 <property name="groupName">NewTableGroup1</property>
                 <property name="interval">interval</property>
-                <property name="intervalRange">5.0</property>
+                <property name="intervalRange">10.0</property>
                 <property name="sortDirection">asc</property>
                 <expression name="keyExpr">row["Row_Index"]</expression>
                 <property name="repeatHeader">true</property>
@@ -8517,6 +8473,7 @@ pgnumberlast = pageNumber;
             </detail>
             <footer>
                 <row id="976">
+                    <property name="height">100%</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -8539,12 +8496,14 @@ pgnumberlast = pageNumber;
                         <data id="1003">
                             <property name="fontFamily">"Liberation Mono"</property>
                             <property name="fontSize">large</property>
-                            <property name="marginTop">5mm</property>
+                            <property name="marginTop">auto</property>
                             <property name="marginLeft">0pt</property>
+                            <property name="marginBottom">auto</property>
                             <property name="paddingTop">1pt</property>
                             <property name="masterPage">Simple MasterPage</property>
                             <property name="pageBreakAfter">auto</property>
                             <property name="pageBreakBefore">auto</property>
+                            <property name="pageBreakInside">auto</property>
                             <property name="resultSetColumn">observaciones</property>
                         </data>
                     </cell>
@@ -8747,7 +8706,6 @@ pgnumberlast = pageNumber;
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
-            <method name="onCreate"><![CDATA[pageNumber = 1;]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
             <column id="1875">
@@ -8897,27 +8855,6 @@ pgnumberlast = pageNumber;
             <detail>
                 <row id="1823">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9021,27 +8958,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1836">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9098,27 +9014,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1844">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9174,27 +9069,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1852">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9252,27 +9126,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1860">
                     <property name="height">0.5cm</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9690,27 +9543,6 @@ pgnumberlast = pageNumber;]]></method>
             <detail>
                 <row id="1894">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9814,27 +9646,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1907">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9891,27 +9702,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1915">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9967,27 +9757,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1923">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -10045,27 +9814,6 @@ pgnumberlast = pageNumber;]]></method>
                 </row>
                 <row id="1931">
                     <property name="height">0.5cm</property>
-                    <method name="onCreate"><![CDATA[ordercurrent = this.getRowData().getColumnValue("detalle_SC_id").toString();
-importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if( pageNumber != pgnumberlast ){
-
-
-if( orderlast.equals("none")){
-pg=parseInt(1);
-}else if( orderlast.equals(ordercurrent) ){
-pg = parseInt(pgcnt) + parseInt(1);
-}else{
-pg= parseInt(1);
-}
-orderlast = ordercurrent;
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-}
-pgnumberlast = pageNumber;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
