@@ -4,12 +4,6 @@
     <property name="units">in</property>
     <property name="comments">Copyleft (c) 2008 Grupo de Desarrollo Open Source Patagonico</property>
     <html-property name="description">Ordenes de Compra</html-property>
-    <method name="initialize"><![CDATA[importPackage(Packages.java.lang);
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(0));
-orderlast="none";
-ordercurrent="none";
-pgnumberlast=0;
-dobreak=false;]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <parameters>
@@ -18,6 +12,7 @@ dobreak=false;]]></method>
             <property name="dataType">integer</property>
             <property name="paramType">simple</property>
             <property name="controlType">text-box</property>
+            <property name="defaultValue">13</property>
             <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -677,10 +672,6 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                     </cell>
                                     <cell id="1566">
                                         <property name="textAlign">right</property>
-                                        <text id="2343">
-                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
-this.text = newpagestr + " / " + (totalPage/3);]]></method>
-                                        </text>
                                     </cell>
                                 </row>
                             </grid>
@@ -3084,10 +3075,6 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                                     </cell>
                                     <cell id="2212">
                                         <property name="textAlign">right</property>
-                                        <text id="2344">
-                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
-this.text = newpagestr + " / " + (totalPage/3);]]></method>
-                                        </text>
                                     </cell>
                                 </row>
                             </grid>
@@ -5491,10 +5478,6 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                                     </cell>
                                     <cell id="2283">
                                         <property name="textAlign">right</property>
-                                        <text id="2345">
-                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
-this.text = newpagestr + " / " + (totalPage/3);]]></method>
-                                        </text>
                                     </cell>
                                 </row>
                             </grid>
@@ -8032,20 +8015,6 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
-            <method name="onPageBreak"><![CDATA[pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if (dobreak == true) {
-	pg = parseInt(1);
-	dobreak = false;
-}
-else if (pgnumberlast < pageNumber) { 
-	pg = parseInt(pgcnt) + parseInt(1);
-}
-
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-
-pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
             <column id="1799">
@@ -8183,7 +8152,7 @@ pgnumberlast = pageNumber;]]></method>
             <group id="1681">
                 <property name="groupName">NewTableGroup1</property>
                 <property name="interval">interval</property>
-                <property name="intervalRange">5.0</property>
+                <property name="intervalRange">10.0</property>
                 <property name="sortDirection">asc</property>
                 <expression name="keyExpr">row["Row_Index"]</expression>
                 <property name="repeatHeader">true</property>
@@ -8195,10 +8164,6 @@ pgnumberlast = pageNumber;]]></method>
             <detail>
                 <row id="968">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[orderlast = ordercurrent;
-ordercurrent = this.getRowData().getColumnValue("Row_Index").toString();
-
-if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -8508,7 +8473,7 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
             </detail>
             <footer>
                 <row id="976">
-                    <property name="height">20cm</property>
+                    <property name="height">100%</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -8741,21 +8706,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
-            <method name="onCreate"><![CDATA[//orderlast = "1";]]></method>
-            <method name="onPageBreak"><![CDATA[pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-if (dobreak == true) {
-	pg = parseInt(1);
-	dobreak = false;
-}
-else if (pgnumberlast < pageNumber) { 
-	pg = parseInt(pgcnt) + parseInt(1);
-}
-
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-
-pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
             <column id="1875">
@@ -8905,10 +8855,6 @@ pgnumberlast = pageNumber;]]></method>
             <detail>
                 <row id="1823">
                     <property name="height">100%</property>
-                    <method name="onCreate"><![CDATA[orderlast = ordercurrent;
-ordercurrent = this.getRowData().getColumnValue("Row_Index").toString();
-
-if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -9218,7 +9164,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
             </detail>
             <footer>
                 <row id="1867">
-                    <property name="height">15cm</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -9449,30 +9394,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
-            <method name="onPageBreak"><![CDATA[importPackage( Packages.java.io );
-importPackage( Packages.java.lang );
-
-pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
-
-out = new PrintWriter( new FileWriter( "/home/fep/birt.log.txt", true ) );
-
-out.println( " ordercurrent -> " + ordercurrent);
-out.println( " orderlast -> " + orderlast);
-
-if (dobreak == true) {
-	pg = parseInt(1);
-	dobreak = false;
-}
-else if (pgnumberlast < pageNumber) { 
-	pg = parseInt(pgcnt) + parseInt(1);
-}
-
-reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
-reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
-
-pgnumberlast = pageNumber;
-
-out.close();]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
             <column id="1946">
@@ -9497,10 +9418,6 @@ out.close();]]></method>
             <header>
                 <row id="1882">
                     <property name="height">0.7cm</property>
-                    <method name="onCreate"><![CDATA[orderlast = ordercurrent;
-ordercurrent = this.getRowData().getColumnValue("Row_Index").toString();
-
-if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <property name="backgroundColor">#C0C0C0</property>
                     <property name="fontSize">medium</property>
                     <property name="borderBottomColor">#000000</property>
@@ -9935,7 +9852,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
             </detail>
             <footer>
                 <row id="1938">
-                    <property name="height">15cm</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>

@@ -4,6 +4,12 @@
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2008 Grupo de Desarrollo Open Source Patagonico</property>
     <html-property name="description">Ordenes de Compra</html-property>
+    <method name="initialize"><![CDATA[importPackage(Packages.java.lang);
+reportContext.setPersistentGlobalVariable("pgcnt", new Integer(0));
+orderlast="none";
+ordercurrent="none";
+pgnumberlast = 0;
+resetpage = false;]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="layoutPreference">auto layout</property>
@@ -30,6 +36,13 @@
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="895">
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">Row_Index</property>
+                    <expression name="expression">Total.runningCount()</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
             <list-property name="columnHints">
                 <structure>
                     <property name="columnName">orden_compra_id</property>
@@ -294,6 +307,11 @@
                         <property name="position">29</property>
                         <property name="name">condicion_compra_descripcion</property>
                         <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">Row_Index</property>
+                        <property name="dataType">integer</property>
                     </structure>
                 </list-property>
             </structure>
@@ -650,13 +668,31 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1194">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="1196">
-                                <property name="fontFamily">"Courier"</property>
-                                <property name="fontSize">large</property>
-                                <property name="marginTop">0pt</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">ORIGINAL</text-property>
-                            </label>
+                            <grid id="1639">
+                                <property name="width">100%</property>
+                                <column id="1640">
+                                    <property name="width">60%</property>
+                                </column>
+                                <column id="1641"/>
+                                <row id="1642">
+                                    <cell id="1643">
+                                        <label id="1196">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="textAlign">right</property>
+                                            <text-property name="text">ORIGINAL</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1644">
+                                        <text id="1645">
+                                            <property name="textAlign">right</property>
+                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
+this.text = newpagestr + " / " + (totalPage/3);]]></method>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                     </row>
                     <row id="873">
@@ -2586,13 +2622,31 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1190">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="1192">
-                                <property name="fontFamily">"Courier New"</property>
-                                <property name="fontSize">large</property>
-                                <property name="marginTop">0pt</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">DUPLICADO</text-property>
-                            </label>
+                            <grid id="1646">
+                                <property name="width">100%</property>
+                                <column id="1647">
+                                    <property name="width">60%</property>
+                                </column>
+                                <column id="1648"/>
+                                <row id="1649">
+                                    <cell id="1650">
+                                        <label id="1192">
+                                            <property name="fontFamily">"Courier New"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="marginTop">0pt</property>
+                                            <property name="textAlign">right</property>
+                                            <text-property name="text">DUPLICADO</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1651">
+                                        <text id="1652">
+                                            <property name="textAlign">right</property>
+                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
+this.text = newpagestr + " / " + (totalPage/3);]]></method>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                     </row>
                     <row id="1092">
@@ -4520,12 +4574,30 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                         <cell id="1186">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
-                            <label id="1188">
-                                <property name="fontFamily">"Courier New"</property>
-                                <property name="fontSize">large</property>
-                                <property name="textAlign">center</property>
-                                <text-property name="text">TRIPLICADO</text-property>
-                            </label>
+                            <grid id="1653">
+                                <property name="width">100%</property>
+                                <column id="1654">
+                                    <property name="width">60%</property>
+                                </column>
+                                <column id="1655"/>
+                                <row id="1656">
+                                    <cell id="1657">
+                                        <label id="1188">
+                                            <property name="fontFamily">"Courier New"</property>
+                                            <property name="fontSize">large</property>
+                                            <property name="textAlign">right</property>
+                                            <text-property name="text">TRIPLICADO</text-property>
+                                        </label>
+                                    </cell>
+                                    <cell id="1658">
+                                        <text id="1659">
+                                            <property name="textAlign">right</property>
+                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
+this.text = newpagestr + " / " + (totalPage/3);]]></method>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                     </row>
                     <row id="1113">
@@ -6588,7 +6660,41 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <expression name="expression">row["cantidad_pedida"]*row["detalle_sc_monto_unitario"]</expression>
                     <property name="dataType">float</property>
                 </structure>
+                <structure>
+                    <property name="name">descripcion_1</property>
+                    <expression name="expression">dataSetRow["descripcion"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">n_orden_co</property>
+                    <expression name="expression">dataSetRow["n_orden_co"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">condicion_compra_descripcion</property>
+                    <expression name="expression">dataSetRow["condicion_compra_descripcion"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Row_Index</property>
+                    <expression name="expression">dataSetRow["Row_Index"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
+            <method name="onPageBreak"><![CDATA[pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
+
+if (resetpage == true) {
+	pg = parseInt(1);
+	resetpage = false;
+}
+else if (pgnumberlast < pageNumber) { 
+	pg = parseInt(pgcnt) + parseInt(1);
+}
+
+reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
+reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
+
+pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">false</property>
             <property name="pageBreakInterval">6</property>
             <column id="980">
@@ -6651,6 +6757,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             </header>
             <detail>
                 <row id="968">
+                    <method name="onCreate"><![CDATA[orderlast = ordercurrent;
+ordercurrent = this.getRowData().getColumnValue("Row_Index").toString();
+
+if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                     <property name="masterPage">Original</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -6961,7 +7071,36 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <expression name="expression">row["cantidad_pedida"]*row["detalle_sc_monto_unitario"]</expression>
                     <property name="dataType">float</property>
                 </structure>
+                <structure>
+                    <property name="name">n_orden_co</property>
+                    <expression name="expression">dataSetRow["n_orden_co"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">condicion_compra_descripcion</property>
+                    <expression name="expression">dataSetRow["condicion_compra_descripcion"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Row_Index</property>
+                    <expression name="expression">dataSetRow["Row_Index"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
+            <method name="onPageBreak"><![CDATA[pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
+
+if (resetpage == true) {
+	pg = parseInt(1);
+	resetpage = false;
+}
+else if (pgnumberlast < pageNumber) { 
+	pg = parseInt(pgcnt) + parseInt(1);
+}
+
+reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
+reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
+
+pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">false</property>
             <property name="pageBreakInterval">6</property>
             <column id="1044">
@@ -7024,6 +7163,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             </header>
             <detail>
                 <row id="1023">
+                    <method name="onCreate"><![CDATA[orderlast = ordercurrent;
+ordercurrent = this.getRowData().getColumnValue("Row_Index").toString();
+
+if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
@@ -7322,7 +7465,36 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <expression name="expression">row["cantidad_pedida"]*row["detalle_sc_monto_unitario"]</expression>
                     <property name="dataType">float</property>
                 </structure>
+                <structure>
+                    <property name="name">n_orden_co</property>
+                    <expression name="expression">dataSetRow["n_orden_co"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">condicion_compra_descripcion</property>
+                    <expression name="expression">dataSetRow["condicion_compra_descripcion"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Row_Index</property>
+                    <expression name="expression">dataSetRow["Row_Index"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
+            <method name="onPageBreak"><![CDATA[pgcnt = reportContext.getPersistentGlobalVariable("pgcnt");
+
+if (resetpage == true) {
+	pg = parseInt(1);
+	resetpage = false;
+}
+else if (pgnumberlast < pageNumber) { 
+	pg = parseInt(pgcnt) + parseInt(1);
+}
+
+reportContext.setPersistentGlobalVariable("pgcnt", new Integer(pg));
+reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseInt(pg)));
+
+pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">false</property>
             <property name="pageBreakInterval">6</property>
             <column id="1082">
@@ -7385,6 +7557,10 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             </header>
             <detail>
                 <row id="1061">
+                    <method name="onCreate"><![CDATA[orderlast = ordercurrent;
+ordercurrent = this.getRowData().getColumnValue("Row_Index").toString();
+
+if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                     <property name="masterPage">Simple MasterPage</property>
                     <property name="pageBreakAfter">auto</property>
                     <property name="pageBreakBefore">auto</property>
