@@ -44,4 +44,16 @@ public class ValidationException extends RuntimeException {
 		this.stackErrores = mensajeError;
 	}
 
+	@Override
+	public String getMessage() {
+		// TODO Auto-generated method stub
+		String mensaje = "";
+		for(int i = 0; i < stackErrores.size(); i++) {
+			 mensaje += stackErrores.elementAt(i);
+			 mensaje += i < stackErrores.size() ? " - ":"";
+		}
+		
+		return mensaje;
+	}
+
 }
