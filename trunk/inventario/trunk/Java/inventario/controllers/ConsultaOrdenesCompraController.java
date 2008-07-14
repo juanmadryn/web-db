@@ -17,7 +17,6 @@ import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.SubmitListener;
-import com.salmonllc.properties.Props;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -83,7 +82,8 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlText _numeroTango1;
 	public com.salmonllc.html.HtmlText _numeroTango2;
 	public com.salmonllc.jsp.JspLink _lnkRecepciones1;
-	public com.salmonllc.jsp.JspLink _lnkRecepciones2;
+	public com.salmonllc.jsp.JspLink _lnkReporteRecepciones;
+	
 
 	//DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -358,12 +358,18 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			_nroOcTangoTr.setVisible(true);
 			// Links recepciones
 			_lnkRecepciones1.setVisible(true);
-			_lnkRecepciones2.setVisible(false);
+			_lnkReporteRecepciones.setVisible(true);
 		} else {
 			_nroOcTangoTr.setVisible(false);
 			_lnkRecepciones1.setVisible(false);
-			_lnkRecepciones2.setVisible(false);
+			_lnkReporteRecepciones.setVisible(false);
 		}		
+		
+		// setea la URL del reporte a generar al presionar el botón de
+		// impresión
+		String URL = armarUrlReporte("PDF", "resumen_recepciones_oc",
+				"&param_orden_compra_id=" + _dsOrdenes.getOrdenesCompraOrdenCompraId());
+		_lnkReporteRecepciones.setHref(URL);
 		
 		super.pageRequested(event);
 	}

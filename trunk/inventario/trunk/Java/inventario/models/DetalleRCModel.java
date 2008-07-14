@@ -33,7 +33,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 	public static final String DETALLES_RC_UNIDAD_MEDIDA_ID = "detalles_rc.unidad_medida_id";
 	public static final String RECEPCIONES_COMPRAS_FECHA = "recepciones_compras.fecha";
 	public static final String RECEPCIONES_COMPRAS_ESTADO = "recepciones_compras.estado";
-	public static final String RECEPCIONES_COMPRAS_PROVEDOR_ID = "recepciones_compras.proveedor_id";
+	public static final String RECEPCIONES_COMPRAS_PROVEEDOR_ID = "recepciones_compras.proveedor_id";
 	public static final String RECEPCIONES_COMPRAS_USER_ID_COMPLETA = "recepciones_compras.user_id_completa";
 	public static final String RECEPCIONES_COMPRAS_USER_ID_RECIBE = "recepciones_compras.user_id_recibe";
 	public static final String DETALLE_SC_ORDEN_COMPRA_ID = "detalle_sc.orden_compra_id";
@@ -119,7 +119,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 					RECEPCIONES_COMPRAS_ESTADO);
 			addColumn(computeTableName("recepciones_compras"), "proveedor_id",
 					DataStore.DATATYPE_INT, false, false,
-					RECEPCIONES_COMPRAS_PROVEDOR_ID);
+					RECEPCIONES_COMPRAS_PROVEEDOR_ID);
 			addColumn(computeTableName("recepciones_compras"),
 					"user_id_completa", DataStore.DATATYPE_INT, false, false,
 					RECEPCIONES_COMPRAS_USER_ID_COMPLETA);
@@ -719,8 +719,8 @@ public class DetalleRCModel extends DataStore implements Constants {
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getRecepcionesComprasProvedorId() throws DataStoreException {
-		return getInt(RECEPCIONES_COMPRAS_PROVEDOR_ID);
+	public int getRecepcionesComprasProveedorId() throws DataStoreException {
+		return getInt(RECEPCIONES_COMPRAS_PROVEEDOR_ID);
 	}
 
 	/**
@@ -732,9 +732,9 @@ public class DetalleRCModel extends DataStore implements Constants {
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getRecepcionesComprasProvedorId(int row)
+	public int getRecepcionesComprasProveedorId(int row)
 			throws DataStoreException {
-		return getInt(row, RECEPCIONES_COMPRAS_PROVEDOR_ID);
+		return getInt(row, RECEPCIONES_COMPRAS_PROVEEDOR_ID);
 	}
 
 	/**
@@ -745,9 +745,9 @@ public class DetalleRCModel extends DataStore implements Constants {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setRecepcionesComprasProvedorId(int newValue)
+	public void setRecepcionesComprasProveedorId(int newValue)
 			throws DataStoreException {
-		setInt(RECEPCIONES_COMPRAS_PROVEDOR_ID, newValue);
+		setInt(RECEPCIONES_COMPRAS_PROVEEDOR_ID, newValue);
 	}
 
 	/**
@@ -760,9 +760,9 @@ public class DetalleRCModel extends DataStore implements Constants {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setRecepcionesComprasProvedorId(int row, int newValue)
+	public void setRecepcionesComprasProveedorId(int row, int newValue)
 			throws DataStoreException {
-		setInt(row, RECEPCIONES_COMPRAS_PROVEDOR_ID, newValue);
+		setInt(row, RECEPCIONES_COMPRAS_PROVEEDOR_ID, newValue);
 	}
 
 	/**

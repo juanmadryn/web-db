@@ -119,7 +119,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 	public static final String DSDETALLE_DETALLES_RC_CANTIDAD = "detalles_rc.cantidad_recibida";
 	public static final String DSDETALLE_RECEPCIONES_COMPRAS_FECHA = "recepciones_compras.fecha";
 	public static final String DSDETALLE_RECEPCIONES_COMPRAS_ESTADO = "recepciones_compras.estado";
-	public static final String DSDETALLE_RECEPCIONES_COMPRAS_PROVEDOR_ID = "recepciones_compras.proveedor_id";
+	public static final String DSDETALLE_RECEPCIONES_COMPRAS_PROVEEDOR_ID = "recepciones_compras.proveedor_id";
 	public static final String DSDETALLE_RECEPCIONES_COMPRAS_USER_ID_COMPLETA = "recepciones_compras.user_id_completa";
 	public static final String DSDETALLE_RECEPCIONES_COMPRAS_USER_ID_RECIBE = "recepciones_compras.user_id_recibe";
 	public static final String DSDETALLE_DETALLE_SC_ORDEN_COMPRA_ID = "detalle_sc.orden_compra_id";
@@ -161,7 +161,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_RECEPCION_COMPRA_ID = "recepciones_compras.recepcion_compra_id";
 	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_FECHA = "recepciones_compras.fecha";
 	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_ESTADO = "recepciones_compras.estado";
-	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_PROVEDOR_ID = "recepciones_compras.proveedor_id";
+	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_PROVEEDOR_ID = "recepciones_compras.proveedor_id";
 	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_USER_ID_COMPLETA = "recepciones_compras.user_id_completa";
 	public static final String DSRECEPCIONES_RECEPCIONES_COMPRAS_USER_ID_RECIBE = "recepciones_compras.user_id_recibe";
 	public static final String DSRECEPCIONES_ESTADOS_NOMBRE = "estados.nombre";
@@ -926,6 +926,6 @@ public class AbmRecepcionesController extends BaseEntityController {
 
 	private void setLookupArticulosParaRecepcionURL() throws DataStoreException {
 		_articulo2.setLookUpPageURL("%LkpArticulosParaRecepcion?proveedor_id="
-				+ _dsRecepciones.getRecepcionesComprasProvedorId());
+				+ _dsRecepciones.getRecepcionesComprasProveedorId());
 	}
 }
