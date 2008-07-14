@@ -1588,7 +1588,7 @@ public class AtributosEntidadModel extends DataStore {
 				if (valor == null) {
 					if (obligatorio.equalsIgnoreCase("V"))
 						mensajeError
-								.add("Debe introducir algï¿½n valor para el atributo "
+								.add("Debe introducir algún valor para el atributo "
 										+ nombre_rol);
 				} else {
 					if (clave.equalsIgnoreCase("V"))
@@ -1597,11 +1597,11 @@ public class AtributosEntidadModel extends DataStore {
 								mensajeError
 										.add("El valor introducido para el atributo "
 												+ nombre_rol
-												+ " debe ser ï¿½nico");
+												+ " debe ser único");
 						} else if (!isClaveUnicaEntidad(i))
 							mensajeError
 									.add("El valor introducido para el atributo "
-											+ nombre_rol + " debe ser ï¿½nico");
+											+ nombre_rol + " debe ser único");
 
 					if (lov_atributo != 0) {
 
@@ -1609,7 +1609,7 @@ public class AtributosEntidadModel extends DataStore {
 							mensajeError
 									.add("El valor introducido para el atributo "
 											+ nombre_rol
-											+ " debe pertenecer a la lista de valores nï¿½ "
+											+ " debe pertenecer a la lista de valores nº "
 											+ lov_atributo);
 						;
 					}
