@@ -556,7 +556,7 @@ function CheckAll(checked) {
                </salmon:tr>
                <salmon:tr name="descAdicionalTr" visible="false">
                   <salmon:td></salmon:td>
-                  <salmon:td colspan="8">
+                  <salmon:td colspan="9">
                      <salmon:input type="textarea" name="descAdicionalOcTXT" wrap="soft"
                         cols="100" rows="2" datasource="dsDetalleSC:detalle_sc.observaciones_oc"></salmon:input>
                   </salmon:td>

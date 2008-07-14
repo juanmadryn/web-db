@@ -156,9 +156,9 @@ public class Utilities {
 	}
 	
 	/**
-	 * Calcula el nùmero de Ordenes de Compra que un usuario tiene pendientes para aprobar
+	 * Calcula el número de Ordenes de Compra que un usuario tiene pendientes para aprobar
 	 * @param user_id Id del usuario encargado de aprobar la OC
-	 * @return Nùmero de Ordenes de Compra que el usuario tiene pendientes para aprobar
+	 * @return Número de Ordenes de Compra que el usuario tiene pendientes para aprobar
 	 */
 	public static int getOrdenesCompraPendientesAprobacion(int user_id) {
 		DBConnection conn = null;
@@ -206,9 +206,9 @@ public class Utilities {
 	}
 	
 	/**
-	 * Calcula el nùmero de Ordenes de Compra de un usuario esperando su revision 
+	 * Calcula el número de Ordenes de Compra de un usuario esperando su revision 
 	 * @param user_id Id del usuario que genero las OC 
-	 * @return Nùmero de Ordenes de Compra que el usuario tiene pendientes para revision
+	 * @return Número de Ordenes de Compra que el usuario tiene pendientes para revision
 	 */
 	public static int getOrdenesCompraPendientesObservacion(int user_id) {
 		DBConnection conn = null;

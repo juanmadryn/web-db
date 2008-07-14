@@ -1146,14 +1146,19 @@ public class BaseController extends JspController implements SubmitListener,
 	public SessionManager getSessionManager() {
 		return new SessionManager(getSession());
 	}
-
+	
 	public String armarUrlReporte(String tipo, String reporte, String parametros) {
+		return armarUrlReporte(BIRT_RUN_PATH, tipo, reporte, parametros);
+	}
+
+	public String armarUrlReporte(String path, String tipo, String reporte, String parametros) {
 		String URL = getServerURL();
 
-		if (tipo == null)
+		/*if (path == null)
 			URL += getPageProperties().getProperty(BIRT_FRAMESET_PATH);
 		else
-			URL += getPageProperties().getProperty(BIRT_RUN_PATH);
+			URL += getPageProperties().getProperty(BIRT_RUN_PATH);*/
+		URL += getPageProperties().getProperty(path);
 
 		URL += getPageProperties().getProperty(REPORT_PATH) + reporte
 				+ ".rptdesign";
@@ -1172,7 +1177,7 @@ public class BaseController extends JspController implements SubmitListener,
 		URL = URL + parametros;
 
 		return URL;
-	}
+	}	
 
 	/**
 	 * Checks if there are an conected user.

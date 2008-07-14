@@ -379,8 +379,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 						// remueve detalles marcados para eliminar
 						boolean detalleEliminado = _dsDetalleSC
 								.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);
-						_dsDetalleSC
-								.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);
+						/*_dsDetalleSC
+								.eliminaDetallesSeleccionados(conn, REMOVER_DE_OC);*/
 
 						_dsDetalleSC.update(conn);
 
@@ -514,7 +514,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		 * (ValidationException ex) { MessageLog.writeErrorMessage(ex, null); for
 		 * (String er : ex.getStackErrores()) { displayErrorMessage(er); } return
 		 * false; } }
-		 */
+		 */		
 
 		armaBotonera();
 		return super.submitPerformed(e);
@@ -666,10 +666,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			_dsOrdenesCompra.setOrdenesCompraUserIdComprador(currentUser);
 
 		// setea la URL del reporte a generar al presionar el botón de impresión
-		_imprimirOrdenCompraBUT2.setHref(armarUrlReporte("PDF", "orden_compra",
+		_imprimirOrdenCompraBUT2.setHref(armarUrlReporte(BIRT_FRAMESET_PATH, "PDF", "orden_compra",
 				"&orden_compra_id_parameter=" + getRow_id()));
 
-		_imprimirOrdenCompraBUT3.setHref(armarUrlReporte("PDF",
+		_imprimirOrdenCompraBUT3.setHref(armarUrlReporte(BIRT_FRAMESET_PATH, "PDF",
 				"orden_compra_full", "&orden_compra_id_parameter=" + getRow_id()));
 
 		// setea la URL de lista de firmantes y transiciones de estado
@@ -682,11 +682,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		if (_dsDetalleSC.getRowCount() == 0)
 			seleccionarTodo = true;
 
-		if (seleccionarTodo)
-			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
-		else
-			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
-
+		String seleccion = (seleccionarTodo ? "text.seleccion" : "text.deseleccion");
+		_desSeleccionaTodoBUT1.setDisplayNameLocaleKey(seleccion);
 		_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
 
 		// setea el nro. de oc en tango si la propiedad correspondiente esta
@@ -701,28 +698,22 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 
 		// oculta o muestra botones "Agregar", "Eliminar" y "Cancelar" en función
 		// del estado de la OC
-		if (_dsOrdenesCompra.isModificable()) {
-			_articulosAgregarBUT1.setVisible(true);
-			_articulosEliminarBUT1.setVisible(true);
-			_articulosCancelarBUT1.setVisible(true);
-		} else {
-			_articulosAgregarBUT1.setVisible(false);
-			_articulosEliminarBUT1.setVisible(false);
-			_articulosCancelarBUT1.setVisible(false);
-		}
+		boolean ifModificable = _dsOrdenesCompra.isModificable();
+		_articulosAgregarBUT1.setVisible(ifModificable);
+		_articulosEliminarBUT1.setVisible(ifModificable);
+		_articulosCancelarBUT1.setVisible(ifModificable);		
 		
 		// deshabilita los campos de entrada de datos segun el estado de la OC
-		boolean isEnabled = _dsOrdenesCompra.isModificable();
-		_nombre_completo_comprador2.setEnabled(isEnabled);
-		_proveedor2.setEnabled(isEnabled);
-		_fecha_estimada_entrega2.setEnabled(isEnabled);
-		_lkpCondicionesCompra.setEnabled(isEnabled);
-		_descuentoGlobal2.setEnabled(isEnabled);		
-		_descuento2.setEnabled(isEnabled);
-		_observaciones2.setEnabled(isEnabled);
-		_cantidad_pedida2.setEnabled(isEnabled);
-		_unidad_medida2.setEnabled(isEnabled);
-		_monto_unitario1.setEnabled(isEnabled);		
+		_nombre_completo_comprador2.setEnabled(ifModificable);
+		_proveedor2.setEnabled(ifModificable);
+		_fecha_estimada_entrega2.setEnabled(ifModificable);
+		_lkpCondicionesCompra.setEnabled(ifModificable);
+		_descuentoGlobal2.setEnabled(ifModificable);		
+		_descuento2.setEnabled(ifModificable);
+		_observaciones2.setEnabled(ifModificable);
+		_cantidad_pedida2.setEnabled(ifModificable);
+		_unidad_medida2.setEnabled(ifModificable);
+		_monto_unitario1.setEnabled(ifModificable);		
 	}
 
 	/**

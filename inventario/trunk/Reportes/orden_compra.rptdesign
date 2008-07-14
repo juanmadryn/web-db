@@ -2,7 +2,8 @@
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
     <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
     <property name="units">in</property>
-    <property name="comments">Copyright (c) 2008 Grupo de Desarrollo Open Source Patagonico</property>
+    <text-property name="title">Orden de Compra</text-property>
+    <property name="comments">Copyleft (c) 2008 Grupo de Desarrollo Open Source Patagonico</property>
     <html-property name="description">Ordenes de Compra</html-property>
     <method name="initialize"><![CDATA[importPackage(Packages.java.lang);
 reportContext.setPersistentGlobalVariable("pgcnt", new Integer(0));
@@ -686,6 +687,8 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                     </cell>
                                     <cell id="1644">
                                         <text id="1645">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="fontSize">larger</property>
                                             <property name="textAlign">right</property>
                                             <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
 this.text = newpagestr + " / " + (totalPage/3);]]></method>
@@ -2640,6 +2643,8 @@ this.text = newpagestr + " / " + (totalPage/3);]]></method>
                                     </cell>
                                     <cell id="1651">
                                         <text id="1652">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="fontSize">larger</property>
                                             <property name="textAlign">right</property>
                                             <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
 this.text = newpagestr + " / " + (totalPage/3);]]></method>
@@ -4591,6 +4596,8 @@ this.text = newpagestr + " / " + (totalPage/3);]]></method>
                                     </cell>
                                     <cell id="1658">
                                         <text id="1659">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="fontSize">larger</property>
                                             <property name="textAlign">right</property>
                                             <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
 this.text = newpagestr + " / " + (totalPage/3);]]></method>
@@ -6508,8 +6515,8 @@ this.text = newpagestr + " / " + (totalPage/3);]]></method>
         <table id="963">
             <property name="marginTop">0cm</property>
             <property name="masterPage">Original</property>
-            <property name="pageBreakAfter">auto</property>
-            <property name="pageBreakBefore">auto</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">avoid</property>
             <property name="pageBreakInside">auto</property>
             <property name="canShrink">false</property>
             <property name="dataSet">Data Set</property>
@@ -6696,7 +6703,7 @@ reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseI
 
 pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">false</property>
-            <property name="pageBreakInterval">6</property>
+            <property name="pageBreakInterval">0</property>
             <column id="980">
                 <property name="width">9.1cm</property>
             </column>
@@ -6755,6 +6762,21 @@ pgnumberlast = pageNumber;]]></method>
                     </cell>
                 </row>
             </header>
+            <group id="1673">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">interval</property>
+                <property name="intervalRange">6.0</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["Row_Index"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["Row_Index"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">always-excluding-last</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+            </group>
             <detail>
                 <row id="968">
                     <method name="onCreate"><![CDATA[orderlast = ordercurrent;
@@ -6781,7 +6803,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["detalle_sc_descripcion"].length &lt; 5)</expression>
+                                    <expression name="valueExpr">(row["articulo_descripcion_completa"] == null) || (row["articulo_descripcion_completa"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
@@ -6794,7 +6816,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null)</expression>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null) || (row["detalle_sc_descripcion"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">descripcion</property>
@@ -6808,7 +6830,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["observaciones_oc"] == null)</expression>
+                                    <expression name="valueExpr">(row["observaciones_oc"] == null) || (row["observaciones_oc"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">observaciones_oc</property>
@@ -6856,6 +6878,8 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
+                            <property name="marginRight">2mm</property>
+                            <property name="paddingTop">1pt</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">$#,##0.00</property>
@@ -6919,8 +6943,8 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
         <table id="1011">
             <property name="marginTop">0cm</property>
             <property name="masterPage">Duplicado</property>
-            <property name="pageBreakAfter">auto</property>
-            <property name="pageBreakBefore">always</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">avoid</property>
             <property name="pageBreakInside">auto</property>
             <property name="canShrink">false</property>
             <property name="dataSet">Data Set</property>
@@ -7102,7 +7126,7 @@ reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseI
 
 pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">false</property>
-            <property name="pageBreakInterval">6</property>
+            <property name="pageBreakInterval">0</property>
             <column id="1044">
                 <property name="width">9.1cm</property>
             </column>
@@ -7161,6 +7185,21 @@ pgnumberlast = pageNumber;]]></method>
                     </cell>
                 </row>
             </header>
+            <group id="1687">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">interval</property>
+                <property name="intervalRange">6.0</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["Row_Index"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["Row_Index"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">always-excluding-last</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+            </group>
             <detail>
                 <row id="1023">
                     <method name="onCreate"><![CDATA[orderlast = ordercurrent;
@@ -7187,7 +7226,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["detalle_sc_descripcion"].length &lt; 5)</expression>
+                                    <expression name="valueExpr">(row["articulo_descripcion_completa"] == null) || (row["articulo_descripcion_completa"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
@@ -7200,7 +7239,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["detalle_sc_observaciones"] == null)</expression>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null) || (row["detalle_sc_descripcion"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">detalle_sc_descripcion</property>
@@ -7214,7 +7253,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["observaciones_oc"] == null)</expression>
+                                    <expression name="valueExpr">(row["observaciones_oc"] == null) || (row["observaciones_oc"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">observaciones_oc</property>
@@ -7262,6 +7301,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
+                            <property name="marginRight">2mm</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">$#,##0.00</property>
@@ -7313,8 +7353,8 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
         <table id="1049">
             <property name="marginTop">0cm</property>
             <property name="masterPage">Triplicado</property>
-            <property name="pageBreakAfter">auto</property>
-            <property name="pageBreakBefore">always</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="pageBreakBefore">avoid</property>
             <property name="pageBreakInside">auto</property>
             <property name="canShrink">false</property>
             <property name="dataSet">Data Set</property>
@@ -7496,7 +7536,7 @@ reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseI
 
 pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">false</property>
-            <property name="pageBreakInterval">6</property>
+            <property name="pageBreakInterval">0</property>
             <column id="1082">
                 <property name="width">9.1cm</property>
             </column>
@@ -7555,6 +7595,21 @@ pgnumberlast = pageNumber;]]></method>
                     </cell>
                 </row>
             </header>
+            <group id="1701">
+                <property name="groupName">NewTableGroup1</property>
+                <property name="interval">interval</property>
+                <property name="intervalRange">6.0</property>
+                <property name="sortDirection">asc</property>
+                <expression name="keyExpr">row["Row_Index"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue">row["Row_Index"]</expression>
+                </structure>
+                <property name="repeatHeader">true</property>
+                <property name="hideDetail">false</property>
+                <property name="pageBreakAfter">always-excluding-last</property>
+                <property name="pageBreakBefore">auto</property>
+                <property name="pageBreakInside">auto</property>
+            </group>
             <detail>
                 <row id="1061">
                     <method name="onCreate"><![CDATA[orderlast = ordercurrent;
@@ -7581,7 +7636,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["detalle_sc_descripcion"].length &lt; 5)</expression>
+                                    <expression name="valueExpr">(row["articulo_descripcion_completa"] == null) || (row["articulo_descripcion_completa"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">articulo_descripcion_completa</property>
@@ -7594,7 +7649,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null)</expression>
+                                    <expression name="valueExpr">(row["detalle_sc_descripcion"] == null) || (row["detalle_sc_descripcion"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">detalle_sc_descripcion</property>
@@ -7608,7 +7663,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <list-property name="visibility">
                                 <structure>
                                     <property name="format">all</property>
-                                    <expression name="valueExpr">(row["observaciones_oc"] == null)</expression>
+                                    <expression name="valueExpr">(row["observaciones_oc"] == null) || (row["observaciones_oc"].length == 0)</expression>
                                 </structure>
                             </list-property>
                             <property name="resultSetColumn">observaciones_oc</property>
@@ -7656,6 +7711,7 @@ if (parseInt(ordercurrent) == 1) resetpage = true;]]></method>
                             <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">large</property>
                             <property name="marginTop">0pt</property>
+                            <property name="marginRight">2mm</property>
                             <structure name="numberFormat">
                                 <property name="category">Currency</property>
                                 <property name="pattern">$#,##0.00</property>
