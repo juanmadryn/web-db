@@ -423,7 +423,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 						_dsAtributos.generaAtributosObjetoAplicacion(
 								getRow_id(), getTabla_principal());
 					} else {
-						_dsAtributos.update(conn);						
+						_dsAtributos.validaAtributosUpdate(conn);					
 					}				
 					conn.commit();	
 					_dsRecepciones.resetStatus();
@@ -431,6 +431,11 @@ public class AbmRecepcionesController extends BaseEntityController {
 					_dsAtributos.resetStatus();
 					
 					_dsDetalle.reloadRows(conn);
+					
+				} catch (ValidationException ex) {
+					for(String mensaje : ex.getStackErrores())
+						displayErrorMessage(mensaje);
+					return false;
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";
