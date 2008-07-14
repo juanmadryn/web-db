@@ -8048,6 +8048,12 @@ reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseI
 pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["detalle_SC_id"]</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
             <column id="1799">
                 <property name="width">0.5cm</property>
             </column>
@@ -8308,7 +8314,7 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <list-property name="visibility">
                         <structure>
                             <property name="format">all</property>
-                            <expression name="valueExpr">(row["detalle_sc_descripcion"] == null) || (row["detalle_sc_descripcion"].length == 0)</expression>
+                            <expression name="valueExpr">(row["articulo_descripcion_completa"] == null) || (row["articulo_descripcion_completa"].length == 0)</expression>
                         </structure>
                     </list-property>
                     <cell id="1794">
@@ -8758,6 +8764,12 @@ reportContext.setPersistentGlobalVariable("pgstr"+pageNumber, new Integer(parseI
 pgnumberlast = pageNumber;]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["detalle_SC_id"]</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
             <column id="1875">
                 <property name="width">0.5cm</property>
             </column>
@@ -9018,7 +9030,7 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <list-property name="visibility">
                         <structure>
                             <property name="format">all</property>
-                            <expression name="valueExpr">(row["detalle_sc_descripcion"] == null) || (row["detalle_sc_descripcion"].length == 0)</expression>
+                            <expression name="valueExpr">(row["articulo_descripcion_completa"] == null) || (row["articulo_descripcion_completa"].length == 0)</expression>
                         </structure>
                     </list-property>
                     <cell id="1837">
@@ -9475,6 +9487,12 @@ pgnumberlast = pageNumber;
 out.close();]]></method>
             <property name="repeatHeader">true</property>
             <property name="pageBreakInterval">0</property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">row["detalle_SC_id"]</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
             <column id="1946">
                 <property name="width">0.5cm</property>
             </column>
@@ -9735,7 +9753,7 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <list-property name="visibility">
                         <structure>
                             <property name="format">all</property>
-                            <expression name="valueExpr">(row["detalle_sc_descripcion"] == null) || (row["detalle_sc_descripcion"].length == 0)</expression>
+                            <expression name="valueExpr">(row["articulo_descripcion_completa"] == null) || (row["articulo_descripcion_completa"].length == 0)</expression>
                         </structure>
                     </list-property>
                     <cell id="1908">
