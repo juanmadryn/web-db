@@ -172,9 +172,8 @@
 							</tr>							
 							<tr>
 								<td colspan="2" align="center">
-									<salmon:a href="none" name="lnkRecepciones2"
-										onclick="document.forms['bannerForm'].submit();"
-										datasource="dsOrdenes:'%ConsultaArticulosParaRecepcion?orden_compra_id='+ordenes_compra.orden_compra_id">
+									<salmon:a href="none" name="lnkReporteRecepciones"
+										onclick="document.forms['bannerForm'].submit();">
 										<salmon:text name="articulosRecepcionados" text="Artículos recepcionados" />
 									</salmon:a>
 								</td>								

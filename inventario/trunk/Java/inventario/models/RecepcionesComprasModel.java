@@ -346,7 +346,7 @@ public class RecepcionesComprasModel extends BaseModel {
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getRecepcionesComprasProvedorId() throws DataStoreException {
+	public int getRecepcionesComprasProveedorId() throws DataStoreException {
 		return getInt(RECEPCIONES_COMPRAS_PROVEEDOR_ID);
 	}
 
@@ -359,7 +359,7 @@ public class RecepcionesComprasModel extends BaseModel {
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getRecepcionesComprasProvedorId(int row)
+	public int getRecepcionesComprasProveedorId(int row)
 			throws DataStoreException {
 		return getInt(row, RECEPCIONES_COMPRAS_PROVEEDOR_ID);
 	}
@@ -372,7 +372,7 @@ public class RecepcionesComprasModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setRecepcionesComprasProvedorId(int newValue)
+	public void setRecepcionesComprasProveedorId(int newValue)
 			throws DataStoreException {
 		setInt(RECEPCIONES_COMPRAS_PROVEEDOR_ID, newValue);
 	}
@@ -387,7 +387,7 @@ public class RecepcionesComprasModel extends BaseModel {
 	 *            the new item value
 	 * @throws DataStoreException
 	 */
-	public void setRecepcionesComprasProvedorId(int row, int newValue)
+	public void setRecepcionesComprasProveedorId(int row, int newValue)
 			throws DataStoreException {
 		setInt(row, RECEPCIONES_COMPRAS_PROVEEDOR_ID, newValue);
 	}

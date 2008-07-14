@@ -247,7 +247,7 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 											Calendar.getInstance()
 													.getTimeInMillis()));
 							recepcion
-									.setRecepcionesComprasProvedorId(_dsArticulosComprados
+									.setRecepcionesComprasProveedorId(_dsArticulosComprados
 											.getArticulosCompradosEntidadIdProveedor(row));
 							recepcion
 									.setRecepcionesComprasUserIdCompleta(getSessionManager()
@@ -256,11 +256,11 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 						}
 						System.out
 								.println(recepcion
-										.getRecepcionesComprasProvedorId()
+										.getRecepcionesComprasProveedorId()
 										+ " - "
 										+ _dsArticulosComprados
 												.getArticulosCompradosEntidadIdProveedor(row));
-						if (recepcion.getRecepcionesComprasProvedorId() != _dsArticulosComprados
+						if (recepcion.getRecepcionesComprasProveedorId() != _dsArticulosComprados
 								.getArticulosCompradosEntidadIdProveedor(row))
 							throw new DataStoreException(
 									"Para generar una recepción debe seleccionar artículos del mismo proveedor");
