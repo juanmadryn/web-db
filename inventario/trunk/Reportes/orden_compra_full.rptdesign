@@ -12,6 +12,13 @@ pgnumberlast=0;
 dobreak=false;]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">fixed layout</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">Reportes/new_library.rptlibrary</property>
+            <property name="namespace">new_library</property>
+        </structure>
+    </list-property>
     <parameters>
         <scalar-parameter name="orden_compra_id_parameter" id="896">
             <property name="valueType">static</property>
@@ -634,15 +641,15 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
             <property name="orientation">portrait</property>
             <property name="topMargin">1.5cm</property>
             <property name="leftMargin">0.9cm</property>
-            <property name="bottomMargin">2.5cm</property>
+            <property name="bottomMargin">1.5cm</property>
             <property name="rightMargin">0.9cm</property>
             <property name="pageBreakAfter">auto</property>
             <property name="pageBreakBefore">auto</property>
             <property name="pageBreakInside">auto</property>
             <property name="canShrink">false</property>
             <property name="showHeaderOnFirst">true</property>
-            <property name="headerHeight">5.5cm</property>
-            <property name="footerHeight">7.5cm</property>
+            <property name="headerHeight">4.5cm</property>
+            <property name="footerHeight">8.2cm</property>
             <page-header>
                 <grid id="869">
                     <property name="marginTop">0pt</property>
@@ -654,38 +661,6 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     <column id="872">
                         <property name="width">5.6cm</property>
                     </column>
-                    <row id="1219">
-                        <property name="height">1cm</property>
-                        <cell id="1220">
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
-                            <grid id="1560">
-                                <property name="width">100%</property>
-                                <column id="1561">
-                                    <property name="width">4.0666666667in</property>
-                                </column>
-                                <column id="1562"/>
-                                <row id="1563">
-                                    <cell id="1564">
-                                        <label id="1565">
-                                            <property name="fontFamily">"Courier"</property>
-                                            <property name="fontSize">large</property>
-                                            <property name="marginTop">0pt</property>
-                                            <property name="textAlign">right</property>
-                                            <text-property name="text">ORIGINAL</text-property>
-                                        </label>
-                                    </cell>
-                                    <cell id="1566">
-                                        <property name="textAlign">right</property>
-                                        <text id="2343">
-                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
-this.text = newpagestr + " / " + (totalPage/3);]]></method>
-                                        </text>
-                                    </cell>
-                                </row>
-                            </grid>
-                        </cell>
-                    </row>
                     <row id="873">
                         <property name="height">2.7cm</property>
                         <cell id="874">
@@ -3038,6 +3013,47 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                             </text>
                         </cell>
                     </row>
+                    <row id="2346">
+                        <property name="height">1cm</property>
+                        <cell id="2347">
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <text id="2349">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<H3>ORIGINAL</H3>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="2348">
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <grid id="2350">
+                                <property name="width">100%</property>
+                                <column id="2351"/>
+                                <column id="2352"/>
+                                <column id="2353"/>
+                                <row id="2354">
+                                    <cell id="2355">
+                                        <text id="2361">
+                                            <method name="onRender"><![CDATA[this.text = pageNumber]]></method>
+                                        </text>
+                                    </cell>
+                                    <cell id="2357">
+                                        <text id="2358">
+                                            <property name="contentType">plain</property>
+                                            <text-property name="content"><![CDATA[/]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="2359">
+                                        <text id="2362">
+                                            <method name="onRender"><![CDATA[this.text = totalPage / 3]]></method>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
                 </grid>
             </page-footer>
         </simple-master-page>
@@ -3046,10 +3062,10 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
             <property name="orientation">portrait</property>
             <property name="topMargin">1.5cm</property>
             <property name="leftMargin">0.9cm</property>
-            <property name="bottomMargin">2.5cm</property>
+            <property name="bottomMargin">1.5cm</property>
             <property name="rightMargin">0.9cm</property>
-            <property name="headerHeight">5.5cm</property>
-            <property name="footerHeight">7.5cm</property>
+            <property name="headerHeight">4.5cm</property>
+            <property name="footerHeight">8.2cm</property>
             <page-header>
                 <grid id="2201">
                     <property name="marginTop">0pt</property>
@@ -3061,38 +3077,6 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                     <column id="2203">
                         <property name="width">5.6cm</property>
                     </column>
-                    <row id="2204">
-                        <property name="height">1cm</property>
-                        <cell id="2205">
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
-                            <grid id="2206">
-                                <property name="width">100%</property>
-                                <column id="2207">
-                                    <property name="width">4.0666666667in</property>
-                                </column>
-                                <column id="2208"/>
-                                <row id="2209">
-                                    <cell id="2210">
-                                        <label id="2211">
-                                            <property name="fontFamily">"Courier"</property>
-                                            <property name="fontSize">large</property>
-                                            <property name="marginTop">0pt</property>
-                                            <property name="textAlign">right</property>
-                                            <text-property name="text">DUPLICADO</text-property>
-                                        </label>
-                                    </cell>
-                                    <cell id="2212">
-                                        <property name="textAlign">right</property>
-                                        <text id="2344">
-                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
-this.text = newpagestr + " / " + (totalPage/3);]]></method>
-                                        </text>
-                                    </cell>
-                                </row>
-                            </grid>
-                        </cell>
-                    </row>
                     <row id="2214">
                         <property name="height">2.7cm</property>
                         <cell id="2215">
@@ -5445,6 +5429,47 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                             </text>
                         </cell>
                     </row>
+                    <row id="2363">
+                        <property name="height">1cm</property>
+                        <cell id="2364">
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <text id="2366">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<H3>DUPLICADO</H3>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="2365">
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <grid id="2367">
+                                <property name="width">100%</property>
+                                <column id="2368"/>
+                                <column id="2369"/>
+                                <column id="2370"/>
+                                <row id="2371">
+                                    <cell id="2372">
+                                        <text id="2378">
+                                            <method name="onRender"><![CDATA[this.text = pageNumber - (totalPage / 3)]]></method>
+                                        </text>
+                                    </cell>
+                                    <cell id="2374">
+                                        <text id="2375">
+                                            <property name="contentType">plain</property>
+                                            <text-property name="content"><![CDATA[/]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="2376">
+                                        <text id="2379">
+                                            <method name="onRender"><![CDATA[this.text = totalPage / 3]]></method>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
                 </grid>
             </page-footer>
         </simple-master-page>
@@ -5453,10 +5478,10 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
             <property name="orientation">portrait</property>
             <property name="topMargin">1.5cm</property>
             <property name="leftMargin">0.9cm</property>
-            <property name="bottomMargin">2.5cm</property>
+            <property name="bottomMargin">1.5cm</property>
             <property name="rightMargin">0.9cm</property>
-            <property name="headerHeight">5.5cm</property>
-            <property name="footerHeight">7.5cm</property>
+            <property name="headerHeight">4.5cm</property>
+            <property name="footerHeight">8.2cm</property>
             <page-header>
                 <grid id="2272">
                     <property name="marginTop">0pt</property>
@@ -5468,38 +5493,6 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                     <column id="2274">
                         <property name="width">5.6cm</property>
                     </column>
-                    <row id="2275">
-                        <property name="height">1cm</property>
-                        <cell id="2276">
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
-                            <grid id="2277">
-                                <property name="width">100%</property>
-                                <column id="2278">
-                                    <property name="width">4.0666666667in</property>
-                                </column>
-                                <column id="2279"/>
-                                <row id="2280">
-                                    <cell id="2281">
-                                        <label id="2282">
-                                            <property name="fontFamily">"Courier"</property>
-                                            <property name="fontSize">large</property>
-                                            <property name="marginTop">0pt</property>
-                                            <property name="textAlign">right</property>
-                                            <text-property name="text">TRIPLICADO</text-property>
-                                        </label>
-                                    </cell>
-                                    <cell id="2283">
-                                        <property name="textAlign">right</property>
-                                        <text id="2345">
-                                            <method name="onRender"><![CDATA[newpagestr = reportContext.getPersistentGlobalVariable("pgstr"+pageNumber);
-this.text = newpagestr + " / " + (totalPage/3);]]></method>
-                                        </text>
-                                    </cell>
-                                </row>
-                            </grid>
-                        </cell>
-                    </row>
                     <row id="2285">
                         <property name="height">2.7cm</property>
                         <cell id="2286">
@@ -7852,6 +7845,47 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                             </text>
                         </cell>
                     </row>
+                    <row id="2380">
+                        <property name="height">1cm</property>
+                        <cell id="2381">
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <text id="2383">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<H3>TRIPLICADO</H3>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="2382">
+                            <property name="paddingTop">1pt</property>
+                            <property name="paddingLeft">5pt</property>
+                            <property name="verticalAlign">middle</property>
+                            <grid id="2384">
+                                <property name="width">100%</property>
+                                <column id="2385"/>
+                                <column id="2386"/>
+                                <column id="2387"/>
+                                <row id="2388">
+                                    <cell id="2389">
+                                        <text id="2395">
+                                            <method name="onRender"><![CDATA[this.text = pageNumber - ((totalPage / 3) * 2)]]></method>
+                                        </text>
+                                    </cell>
+                                    <cell id="2391">
+                                        <text id="2392">
+                                            <property name="contentType">plain</property>
+                                            <text-property name="content"><![CDATA[/]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="2393">
+                                        <text id="2396">
+                                            <method name="onRender"><![CDATA[this.text = totalPage / 3]]></method>
+                                        </text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
                 </grid>
             </page-footer>
         </simple-master-page>
@@ -8186,18 +8220,6 @@ pgnumberlast = pageNumber;]]></method>
                     </cell>
                 </row>
             </header>
-            <group id="1681">
-                <property name="groupName">NewTableGroup1</property>
-                <property name="interval">interval</property>
-                <property name="intervalRange">5.0</property>
-                <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["Row_Index"]</expression>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
-                <property name="pageBreakAfter">always-excluding-last</property>
-                <property name="pageBreakBefore">auto</property>
-                <property name="pageBreakInside">auto</property>
-            </group>
             <detail>
                 <row id="968">
                     <property name="height">100%</property>
@@ -8514,7 +8536,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
             </detail>
             <footer>
                 <row id="976">
-                    <property name="height">20cm</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -8902,18 +8923,6 @@ pgnumberlast = pageNumber;]]></method>
                     </cell>
                 </row>
             </header>
-            <group id="1822">
-                <property name="groupName">NewTableGroup1</property>
-                <property name="interval">interval</property>
-                <property name="intervalRange">5.0</property>
-                <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["Row_Index"]</expression>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
-                <property name="pageBreakAfter">always-excluding-last</property>
-                <property name="pageBreakBefore">auto</property>
-                <property name="pageBreakInside">auto</property>
-            </group>
             <detail>
                 <row id="1823">
                     <property name="height">100%</property>
@@ -9230,7 +9239,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
             </detail>
             <footer>
                 <row id="1867">
-                    <property name="height">15cm</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
@@ -9629,18 +9637,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     </cell>
                 </row>
             </header>
-            <group id="1893">
-                <property name="groupName">NewTableGroup1</property>
-                <property name="interval">interval</property>
-                <property name="intervalRange">5.0</property>
-                <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["Row_Index"]</expression>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
-                <property name="pageBreakAfter">always-excluding-last</property>
-                <property name="pageBreakBefore">auto</property>
-                <property name="pageBreakInside">auto</property>
-            </group>
             <detail>
                 <row id="1894">
                     <property name="height">100%</property>
@@ -9953,7 +9949,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
             </detail>
             <footer>
                 <row id="1938">
-                    <property name="height">15cm</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">thin</property>
