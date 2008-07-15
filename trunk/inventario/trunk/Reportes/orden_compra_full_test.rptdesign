@@ -3034,7 +3034,9 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                                         </text>
                                     </cell>
                                     <cell id="2359">
-                                        <text id="2409"/>
+                                        <text id="2409">
+                                            <method name="onRender"><![CDATA[this.text = totalPage/3]]></method>
+                                        </text>
                                     </cell>
                                 </row>
                             </grid>
@@ -5450,6 +5452,7 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                                     <cell id="2376">
                                         <text id="2379">
                                             <method name="onCreate"><![CDATA[this.text = totalPage]]></method>
+                                            <method name="onRender"><![CDATA[this.text = totalPage/3]]></method>
                                         </text>
                                     </cell>
                                 </row>
@@ -7866,6 +7869,7 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                                     <cell id="2393">
                                         <text id="2396">
                                             <method name="onCreate"><![CDATA[this.text = totalPage]]></method>
+                                            <method name="onRender"><![CDATA[this.text = totalPage/3]]></method>
                                         </text>
                                     </cell>
                                 </row>

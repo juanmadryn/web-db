@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -12,6 +12,8 @@
             <property name="dataType">integer</property>
             <property name="paramType">simple</property>
             <text-property name="promptText">Ingrese el número de OC para el que desea consultar las recepciones</text-property>
+            <property name="concealValue">false</property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="defaultValue">16</property>
             <property name="distinct">true</property>
@@ -52,18 +54,6 @@
                     <property name="displayName">proveedor</property>
                 </structure>
                 <structure>
-                    <property name="columnName">proyecto</property>
-                    <property name="displayName">proyecto</property>
-                </structure>
-                <structure>
-                    <property name="columnName">nombre_proyecto</property>
-                    <property name="displayName">nombre_proyecto</property>
-                </structure>
-                <structure>
-                    <property name="columnName">nombre_tarea</property>
-                    <property name="displayName">nombre_tarea</property>
-                </structure>
-                <structure>
                     <property name="columnName">comprador</property>
                     <property name="displayName">comprador</property>
                 </structure>
@@ -101,26 +91,11 @@
                     </structure>
                     <structure>
                         <property name="position">6</property>
-                        <property name="name">proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">nombre_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">nombre_tarea</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
                         <property name="name">comprador</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
-                        <property name="position">10</property>
+                        <property name="position">7</property>
                         <property name="name">nro_orden_co</property>
                         <property name="dataType">string</property>
                     </structure>
@@ -175,47 +150,24 @@
                 </structure>
                 <structure>
                     <property name="position">6</property>
-                    <property name="name">proyecto</property>
-                    <property name="nativeName">proyecto</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">nombre_proyecto</property>
-                    <property name="nativeName">nombre_proyecto</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">nombre_tarea</property>
-                    <property name="nativeName">nombre_tarea</property>
-                    <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
                     <property name="name">comprador</property>
                     <property name="nativeName">comprador</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">10</property>
+                    <property name="position">7</property>
                     <property name="name">nro_orden_co</property>
                     <property name="nativeName">nro_orden_co</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
             </list-property>
-            <property name="queryText">SELECT oc.orden_compra_id, oc.estado, oc.fecha, oc.fecha_estimada_entrega, entidad_externa.nombre proveedor, proyectos.proyecto, proyectos.nombre nombre_proyecto, tareas.nombre nombre_tarea, compradores.nombre_completo comprador, atributos_entidad.valor nro_orden_co
+            <property name="queryText">SELECT oc.orden_compra_id, oc.estado, oc.fecha, oc.fecha_estimada_entrega, entidad_externa.nombre proveedor, compradores.nombre_completo comprador, atributos_entidad.valor nro_orden_co
 FROM ordenes_compra oc
 INNER JOIN infraestructura.entidad_externa entidad_externa ON (entidad_externa.entidad_id = oc.entidad_id_proveedor)
-LEFT OUTER JOIN proyectos.proyectos proyectos ON (proyectos.proyecto_id = oc.proyecto_id)
-LEFT OUTER JOIN proyectos.tareas_proyecto tareas ON (tareas.tarea_id = oc.tarea_id)
 INNER JOIN inventario.compradores compradores ON (compradores.user_id = oc.user_id_comprador)
-LEFT OUTER JOIN infraestructura.atributos_entidad atributos_entidad ON (atributos_entidad.atributo_id=25 AND atributos_entidad.tipo_objeto='TABLA' AND atributos_entidad.nombre_objeto='ordenes_compra' AND atributos_entidad.objeto_id=oc.orden_compra_id)
+LEFT OUTER JOIN infraestructura.atributos_entidad atributos_entidad ON (atributos_entidad.atributo_id=19 AND atributos_entidad.tipo_objeto='TABLA' AND atributos_entidad.nombre_objeto='ordenes_compra' AND atributos_entidad.objeto_id=oc.orden_compra_id)
 WHERE oc.orden_compra_id = ?</property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set - Recepciones" id="9">
@@ -500,8 +452,8 @@ LEFT OUTER JOIN detalles_rc detalles_rc ON (detalles_rc.detalle_sc_id = detalle_
 INNER JOIN recepciones_compras recepciones_compras ON (recepciones_compras.recepcion_compra_id = detalles_rc.recepcion_compra_id)
 INNER JOIN articulos articulos ON (articulos.articulo_id = detalle_sc.articulo_id)
 LEFT OUTER JOIN receptores receptores ON (receptores.user_id = recepciones_compras.user_id_completa) 
-LEFT OUTER JOIN infraestructura.atributos_entidad atributos_entidad1 ON (atributos_entidad1.atributo_id = 13 AND atributos_entidad1.tipo_objeto = 'TABLA' AND atributos_entidad1.nombre_objeto = 'recepciones' AND atributos_entidad1.objeto_id = recepciones_compras.recepcion_compra_id)
-LEFT OUTER JOIN infraestructura.atributos_entidad atributos_entidad2 ON (atributos_entidad2.atributo_id = 14 AND atributos_entidad2.tipo_objeto = 'TABLA' AND atributos_entidad2.nombre_objeto = 'recepciones' AND atributos_entidad2.objeto_id = recepciones_compras.recepcion_compra_id)
+LEFT OUTER JOIN infraestructura.atributos_entidad atributos_entidad1 ON (atributos_entidad1.atributo_id = 21 AND atributos_entidad1.tipo_objeto = 'TABLA' AND atributos_entidad1.nombre_objeto = 'recepciones' AND atributos_entidad1.objeto_id = recepciones_compras.recepcion_compra_id)
+LEFT OUTER JOIN infraestructura.atributos_entidad atributos_entidad2 ON (atributos_entidad2.atributo_id = 22 AND atributos_entidad2.tipo_objeto = 'TABLA' AND atributos_entidad2.nombre_objeto = 'recepciones' AND atributos_entidad2.objeto_id = recepciones_compras.recepcion_compra_id)
 WHERE detalle_sc.orden_compra_id = ? AND recepciones_compras.estado = '0009.0003'</property>
         </oda-data-set>
     </data-sets>
@@ -568,20 +520,6 @@ WHERE detalle_sc.orden_compra_id = ? AND recepciones_compras.estado = '0009.0003
                             </image>
                         </cell>
                     </row>
-                    <row id="1201">
-                        <property name="height">1cm</property>
-                        <cell id="1202">
-                            <property name="fontSize">20pt</property>
-                            <property name="fontWeight">bold</property>
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">1px</property>
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">1px</property>
-                            <property name="textAlign">center</property>
-                        </cell>
-                    </row>
                     <row id="926">
                         <cell id="927">
                             <property name="fontSize">14pt</property>
@@ -592,8 +530,11 @@ WHERE detalle_sc.orden_compra_id = ? AND recepciones_compras.estado = '0009.0003
                             <property name="borderRightColor">#000000</property>
                             <property name="borderRightStyle">solid</property>
                             <property name="borderRightWidth">1px</property>
+                            <property name="paddingTop">20pt</property>
+                            <property name="paddingBottom">20pt</property>
                             <property name="textAlign">center</property>
                             <data id="1198">
+                                <property name="paddingTop">1pt</property>
                                 <property name="dataSet">Data Set - OCs</property>
                                 <list-property name="boundDataColumns">
                                     <structure>
@@ -605,23 +546,6 @@ else{"RECEPCIONES POR ÓRDEN DE COMPRA"}</expression>
                                 </list-property>
                                 <property name="resultSetColumn">nro_orden_co</property>
                             </data>
-                        </cell>
-                    </row>
-                    <row id="1199">
-                        <property name="height">2cm</property>
-                        <cell id="1200">
-                            <property name="fontSize">24pt</property>
-                            <property name="fontWeight">bold</property>
-                            <property name="borderBottomColor">#000000</property>
-                            <property name="borderBottomStyle">solid</property>
-                            <property name="borderBottomWidth">1px</property>
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">1px</property>
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">1px</property>
-                            <property name="textAlign">center</property>
                         </cell>
                     </row>
                 </grid>
