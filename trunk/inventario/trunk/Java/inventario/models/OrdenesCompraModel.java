@@ -774,7 +774,7 @@ public class OrdenesCompraModel extends BaseModel {
 			fechaEstEntrega.set(Calendar.SECOND, fechaActual.getMinimum(Calendar.SECOND));
 			fechaEstEntrega.set(Calendar.MILLISECOND, fechaActual.getMinimum(Calendar.MILLISECOND));
 			
-			if (fechaEstEntrega.before(fechaActual))
+			if (fechaEstEntrega.before(fechaActual) && isModificable())
 				throw new DataStoreException("La fecha estimada de entrega debe ser igual o posterior a la fecha actual");
 		}
 		
