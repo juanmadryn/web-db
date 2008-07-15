@@ -51,7 +51,7 @@ public class OrdenesDeCompraTANGO {
 	 * los valores de los atributos a insertar en tango y se 
 	 * realiza automaticamente un rollback sobre la conexión. 
 	 */
-	private boolean debug = false;
+	public static boolean DEBUG = false;
 	
 	public OrdenesDeCompraTANGO() {
 		getConnectionInfo();
@@ -376,7 +376,7 @@ public class OrdenesDeCompraTANGO {
 			/*
 			 * Imprime a la salida estandar para debug
 			 */
-			if (debug) {
+			if (DEBUG) {
 				System.out.println("== CABECERA OC ==");
 				System.out.println("AUTORIZO\t-->\t" + AUTORIZO);
 				System.out.println("COD_COMPRA\t-->\t" + COD_COMPRA);
@@ -409,7 +409,7 @@ public class OrdenesDeCompraTANGO {
 				System.out.println("TOTAL_IVA\t-->\t" + TOTAL_IVA);
 			}
 			
-			if (!debug)
+			if (!DEBUG)
 				pstTango.execute();
 			
 			/*
@@ -432,13 +432,13 @@ public class OrdenesDeCompraTANGO {
 				/*
 				 * Agrega el nro. de la orden de compra de tango en el atributo correspondiente de la oc. 
 				 */			
-				if (!debug) {
+				if (!DEBUG) {
 					AtributosEntidadModel.setValorAtributoObjeto(N_ORDEN_CO, N_ORDEN_CO_PROP, 
 							oc.getOrdenesCompraOrdenCompraId(), "TABLA", "ordenes_compra");
 				}
 			}
 			
-			if (debug)
+			if (DEBUG)
 				connTango.rollback();
 			else
 				connTango.commit();
@@ -552,7 +552,7 @@ public class OrdenesDeCompraTANGO {
 				/*
 				 * Se imprime en la salida estandar para debug
 				 */
-				if (debug) {
+				if (DEBUG) {
 					System.out.println("== DETALLE " + N_RENGL_OC + " OC " + N_ORDEN_CO + " ==");
 					System.out.println("FILLER  \t-->\t" + FILLER);
 					System.out.println("CAN_EQUIVA\t-->\t" + CAN_EQUIVA);
@@ -598,7 +598,7 @@ public class OrdenesDeCompraTANGO {
 				/*
 				 * Imprime a la salida estandar para debug
 				 */
-				if (debug) {
+				if (DEBUG) {
 					System.out.println("== CPA37 ==");
 					System.out.println("FILLER  \t-->\t" + CPA37_FILLER);
 					System.out.println("CANTIDAD\t-->\t" + CPA37_CANTIDAD);
@@ -646,7 +646,7 @@ public class OrdenesDeCompraTANGO {
 					pstTango.setInt(17, N_RENGL_OC);
 				}
 				
-				if (!debug)
+				if (!DEBUG)
 					pstTango.executeUpdate();
 				
 				/*
@@ -679,7 +679,7 @@ public class OrdenesDeCompraTANGO {
 					
 				}
 				
-				if (!debug)
+				if (!DEBUG)
 					pstTango.executeUpdate();
 			}
 		} finally {
@@ -728,8 +728,9 @@ public class OrdenesDeCompraTANGO {
 						"UPDATE [FABRI_S.A.].[dbo].[CPA56] " +
 						" SET PROXIMO = '" + format.format((Integer.parseInt(r.getString(2)) + 1)) + 
 						"' WHERE TALONARIO = 11");
-				 
-				System.out.println("Proximo nro. a insertar en cpa56 : " + format.format((Integer.parseInt(r.getString(2)) + 1)));
+				
+				if (DEBUG)
+					System.out.println("Proximo nro. a insertar en cpa56 : " + format.format((Integer.parseInt(r.getString(2)) + 1)));
 				return " " + r.getString(1) + r.getString(2);
 			}
 
@@ -805,7 +806,7 @@ public class OrdenesDeCompraTANGO {
 			
 			pstTango.executeUpdate();
 			
-			if (debug)
+			if (DEBUG)
 				connTango.rollback();
 			else
 				connTango.commit();
