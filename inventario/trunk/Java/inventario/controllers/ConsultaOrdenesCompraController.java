@@ -359,17 +359,18 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			// Links recepciones
 			_lnkRecepciones1.setVisible(true);
 			_lnkReporteRecepciones.setVisible(true);
+			
+			// setea la URL del reporte a generar al presionar el botón de
+			// impresión
+			String URL = armarUrlReporte("PDF", "resumen_recepciones_oc",
+					"&param_orden_compra_id=" + _dsOrdenes.getOrdenesCompraOrdenCompraId());
+			_lnkReporteRecepciones.setHref(URL);
+			
 		} else {
 			_nroOcTangoTr.setVisible(false);
 			_lnkRecepciones1.setVisible(false);
 			_lnkReporteRecepciones.setVisible(false);
-		}		
-		
-		// setea la URL del reporte a generar al presionar el botón de
-		// impresión
-		String URL = armarUrlReporte("PDF", "resumen_recepciones_oc",
-				"&param_orden_compra_id=" + _dsOrdenes.getOrdenesCompraOrdenCompraId());
-		_lnkReporteRecepciones.setHref(URL);
+		}
 		
 		super.pageRequested(event);
 	}
