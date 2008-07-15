@@ -153,6 +153,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT1;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT2;
 	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT3;
+	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT4;
+	public com.salmonllc.jsp.JspLink _imprimirOrdenCompraBUT5;
 	public com.salmonllc.jsp.JspLink _lnksolicitud1;
 	public com.salmonllc.jsp.JspLink _verFirmantes;
 	public com.salmonllc.jsp.JspTableCell _tareaTableTd;
@@ -668,9 +670,12 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		// setea la URL del reporte a generar al presionar el botón de impresión
 		_imprimirOrdenCompraBUT2.setHref(armarUrlReporte(BIRT_FRAMESET_PATH, "PDF", "orden_compra",
 				"&orden_compra_id_parameter=" + getRow_id()));
-
 		_imprimirOrdenCompraBUT3.setHref(armarUrlReporte(BIRT_FRAMESET_PATH, "PDF",
-				"orden_compra_full", "&orden_compra_id_parameter=" + getRow_id()));
+				"orden_compra_full_o", "&orden_compra_id_parameter=" + getRow_id()));
+		_imprimirOrdenCompraBUT4.setHref(armarUrlReporte(BIRT_FRAMESET_PATH, "PDF",
+				"orden_compra_full_d", "&orden_compra_id_parameter=" + getRow_id()));
+		_imprimirOrdenCompraBUT5.setHref(armarUrlReporte(BIRT_FRAMESET_PATH, "PDF",
+				"orden_compra_full_t", "&orden_compra_id_parameter=" + getRow_id()));
 
 		// setea la URL de lista de firmantes y transiciones de estado
 		_verFirmantes.setHref("ListaFirmantes.jsp?orden_id=" + getRow_id());
@@ -713,7 +718,11 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_observaciones2.setEnabled(ifModificable);
 		_cantidad_pedida2.setEnabled(ifModificable);
 		_unidad_medida2.setEnabled(ifModificable);
-		_monto_unitario1.setEnabled(ifModificable);		
+		_monto_unitario1.setEnabled(ifModificable);
+		
+		// links para impresion
+		_imprimirOrdenCompraBUT4.setVisible(!ifModificable);
+		_imprimirOrdenCompraBUT5.setVisible(!ifModificable);
 	}
 
 	/**

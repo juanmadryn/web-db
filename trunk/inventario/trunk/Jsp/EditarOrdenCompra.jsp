@@ -60,7 +60,7 @@ function CheckAll(checked) {
                   bgcolor="fffdce">
                   <table width="100%" border="0">
                      <tr>
-                        <td colspan="5"><salmon:input
+                        <td colspan="3"><salmon:input
                            name="customBUT100" type="submit"
                            value="boton 1" accesskey="1" visible="False"></salmon:input>
                         <salmon:input name="customBUT110" type="submit"
@@ -74,7 +74,7 @@ function CheckAll(checked) {
                         <salmon:input name="customBUT150" type="submit"
                            value="boton 6" accesskey="6" visible="False"></salmon:input>
                         </td>
-                        <td align="right" colspan="2"><!-- <salmon:a href="" target="_blank" 
+                        <td align="right" colspan="4"><!-- <salmon:a href="" target="_blank" 
 										name="imprimirOrdenCompraBUT1"
 										onclick="document.forms['bannerForm'].submit();">
 										<salmon:img name="imprimirTXT1"
@@ -90,19 +90,39 @@ function CheckAll(checked) {
                               text="preimpresa" />
                            <salmon:img name="imprimirIMG2"
                               src="%ImageDirectory/pdf.jpg" height="25"
-                              srclocalekey="bannerImageSource" />
-                        </salmon:a> <salmon:text name="espacio" text=" "
-                           font="TableHeadingFont" /> <salmon:a href=""
+                              srclocalekey="bannerImageSource" />                            
+                        </salmon:a>&nbsp;<salmon:a href=""
                            target="_blank"
                            name="imprimirOrdenCompraBUT3"
                            onclick="document.forms['bannerForm'].submit();"
                            title="Imprime la OC de forma completa">
                            <salmon:text name="imprimirTXT3"
-                              text="completa" />
+                              text="Original" />
                            <salmon:img name="imprimirIMG3"
                               src="%ImageDirectory/pdf.jpg" height="25"
+                              srclocalekey="bannerImageSource" />                        
+                        </salmon:a>&nbsp;<salmon:a href=""
+                           target="_blank"
+                           name="imprimirOrdenCompraBUT4"
+                           onclick="document.forms['bannerForm'].submit();"
+                           title="Imprime la OC de forma completa">
+                           <salmon:text name="imprimirTXT4"
+                              text="Duplicado" />
+                           <salmon:img name="imprimirIMG4"
+                              src="%ImageDirectory/pdf.jpg" height="25"
+                              srclocalekey="bannerImageSource" />                        
+                        </salmon:a>&nbsp;<salmon:a href=""
+                           target="_blank"
+                           name="imprimirOrdenCompraBUT5"
+                           onclick="document.forms['bannerForm'].submit();"
+                           title="Imprime la OC de forma completa">
+                           <salmon:text name="imprimirTXT5"
+                              text="Triplicado" />
+                           <salmon:img name="imprimirIMG5"
+                              src="%ImageDirectory/pdf.jpg" height="25"
                               srclocalekey="bannerImageSource" />
-                        </salmon:a></td>
+                        </salmon:a>
+                        </td>
                      </tr>
                      <tr>
                         <td><salmon:text
