@@ -875,8 +875,12 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {
-			seleccionarTodo = !seleccionarTodo;
+			for(int row = 0; row < _dsDetalleSC.getRowCount(); row++) {
+				_dsDetalleSC.setInt(row, SELECCION_DETALLE_FLAG, seleccionarTodo ? 1 : 0);
+			}
+			seleccionarTodo = !seleccionarTodo;			
 		}
+		
 
 		if (conn != null)
 			conn.freeConnection();
@@ -939,8 +943,8 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 							 */
 
 							// test
-						}
-
+						}				
+					seleccionarTodo = true;					
 					setDatosBasicosSolicitud();
 					setTareaLookupURL();
 				}

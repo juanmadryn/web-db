@@ -452,8 +452,9 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                             <property name="content">
                                 <data name="horas_equipo" id="61">
                                     <property name="style">crosstab-horas</property>
+                                    <property name="marginTop">0pt</property>
                                     <property name="paddingTop">1pt</property>
-                                    <property name="paddingRight">5pt</property>
+                                    <property name="paddingRight">1pt</property>
                                     <property name="resultSetColumn">horas_equipo</property>
                                 </data>
                             </property>
@@ -469,23 +470,12 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                                     <property name="style">crosstab-horas</property>
                                     <property name="fontWeight">bold</property>
                                     <property name="paddingTop">1pt</property>
-                                    <property name="paddingRight">5pt</property>
+                                    <property name="paddingRight">1pt</property>
                                     <property name="resultSetColumn">horas_equipo_1</property>
                                 </data>
                             </property>
                         </extended-item>
-                        <extended-item extensionName="AggregationCell" id="83">
-                            <property name="content">
-                                <data id="84">
-                                    <property name="style">crosstab-horas</property>
-                                    <property name="fontWeight">bold</property>
-                                    <property name="paddingTop">1pt</property>
-                                    <property name="paddingLeft">1pt</property>
-                                    <property name="paddingRight">5pt</property>
-                                    <property name="resultSetColumn">horas_equipo_Group/apeynom</property>
-                                </data>
-                            </property>
-                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="83"/>
                         <extended-item extensionName="AggregationCell" id="128">
                             <property name="aggregationOnRow">Group/chofer_apellido</property>
                             <property name="content">
@@ -595,7 +585,7 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                                     <property name="paddingTop">1pt</property>
                                     <property name="paddingRight">5pt</property>
                                     <property name="textAlign">right</property>
-                                    <text-property name="text">Totales</text-property>
+                                    <text-property name="text">Total</text-property>
                                 </label>
                             </property>
                         </extended-item>
@@ -617,6 +607,7 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                                             <property name="content">
                                                 <data name="proyecto" id="57">
                                                     <property name="fontWeight">bold</property>
+                                                    <property name="paddingTop">1pt</property>
                                                     <property name="textAlign">center</property>
                                                     <property name="resultSetColumn">proyecto</property>
                                                 </data>
@@ -814,7 +805,7 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                                 <label id="150">
                                     <property name="fontWeight">bold</property>
                                     <property name="textAlign">right</property>
-                                    <text-property name="text">Totales</text-property>
+                                    <text-property name="text">Total</text-property>
                                 </label>
                             </property>
                         </extended-item>
@@ -843,6 +834,8 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                 </extended-item>
             </property>
             <property name="fontSize">small</property>
+            <property name="marginTop">0pt</property>
+            <property name="marginBottom">20pt</property>
             <property name="cube">Cubo Horas Equipo OT</property>
             <list-property name="boundDataColumns">
                 <structure>

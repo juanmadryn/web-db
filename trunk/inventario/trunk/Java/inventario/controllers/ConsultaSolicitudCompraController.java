@@ -193,7 +193,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesObservadas.setVisible(false);
 		
 		_recuperaSolicitudesCotizadas = new HtmlSubmitButton(
-				"recuperaSolicitudesCotizadas", "SM's Cotizadas", this);
+				"recuperaSolicitudesCotizadas", "SM's para autorizar", this);
 		_recuperaSolicitudesCotizadas.setAccessKey("O");
 		_listformdisplaybox1.addButton(_recuperaSolicitudesCotizadas);
 		_recuperaSolicitudesCotizadas.addSubmitListener(this);
@@ -430,7 +430,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		case 2:
-			_listformdisplaybox1.setHeadingCaption("Solicitudes de materiales cotizadas");
+			_listformdisplaybox1.setHeadingCaption("Solicitudes de materiales cotizadas para autorizar");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		}		
