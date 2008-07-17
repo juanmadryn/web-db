@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <property name="author">Grupo Open Source Patagónico</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
+    <property name="units">in</property>
+    <text-property name="title">Horas Empleadas por Equipo y por OT</text-property>
+    <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">Cubo Horas Equipo OT.horas_equipo_ot.x</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Cubo Horas Equipo OT.horas_equipo_ot.y</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+    </list-property>
+    <property name="Cubo Horas Equipo OT.horas_equipo_ot.x">135</property>
+    <property name="Cubo Horas Equipo OT.horas_equipo_ot.y">80</property>
+    <text-property name="displayName">Horas Empleadas por Equipo y por OT</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <parameters>
+        <scalar-parameter name="fecha_desde" id="169">
+            <text-property name="helpText">Fecha de Inicio</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Fecha inicio</text-property>
+            <property name="controlType">text-box</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="fecha_hasta" id="170">
+            <text-property name="helpText">Fecha final</text-property>
+            <property name="valueType">static</property>
+            <property name="dataType">date</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Fecha final</text-property>
+            <property name="controlType">text-box</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="mysql" id="7">
+            <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/partesEQ</property>
+            <property name="odaUser">parteseq</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">cGFydGVzZXE=</encrypted-property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="horas_equipo_ot" id="8">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">codigo_inventario</property>
+                    <property name="displayName">codigo_inventario</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_equipo</property>
+                    <property name="displayName">nombre_equipo</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_tipo_equipo</property>
+                    <property name="displayName">nombre_tipo_equipo</property>
+                </structure>
+                <structure>
+                    <property name="columnName">chofer_apeynom</property>
+                    <property name="displayName">chofer_apeynom</property>
+                </structure>
+                <structure>
+                    <property name="columnName">chofer_legajo</property>
+                    <property name="displayName">chofer_legajo</property>
+                </structure>
+                <structure>
+                    <property name="columnName">chofer_apellido</property>
+                    <property name="displayName">chofer_apellido</property>
+                </structure>
+                <structure>
+                    <property name="columnName">chofer_nombre</property>
+                    <property name="displayName">chofer_nombre</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre_proyecto</property>
+                    <property name="displayName">nombre_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">proyecto</property>
+                    <property name="displayName">proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">horas_equipo</property>
+                    <property name="displayName">horas_equipo</property>
+                </structure>
+                <structure>
+                    <property name="columnName">fecha_parte_eq</property>
+                    <property name="displayName">fecha_parte_eq</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">codigo_inventario</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">nombre_equipo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">nombre_tipo_equipo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">chofer_apeynom</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">chofer_legajo</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">chofer_apellido</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">chofer_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">nombre_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">horas_equipo</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">fecha_parte_eq</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">mysql</property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">fecha_desde</property>
+                    <property name="paramName">fecha_desde</property>
+                    <property name="dataType">date</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">fecha_hasta</property>
+                    <property name="paramName">fecha_hasta</property>
+                    <property name="dataType">date</property>
+                    <property name="position">2</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">codigo_inventario</property>
+                    <property name="nativeName">codigo_inventario</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">nombre_equipo</property>
+                    <property name="nativeName">nombre_equipo</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">nombre_tipo_equipo</property>
+                    <property name="nativeName">nombre_tipo_equipo</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">chofer_apeynom</property>
+                    <property name="nativeName">chofer_apeynom</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">chofer_legajo</property>
+                    <property name="nativeName">chofer_legajo</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">chofer_apellido</property>
+                    <property name="nativeName">chofer_apellido</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">chofer_nombre</property>
+                    <property name="nativeName">chofer_nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">nombre_proyecto</property>
+                    <property name="nativeName">nombre_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">proyecto</property>
+                    <property name="nativeName">proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">horas_equipo</property>
+                    <property name="nativeName">horas_equipo</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">7</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">fecha_parte_eq</property>
+                    <property name="nativeName">fecha_parte_eq</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+            </list-property>
+            <property name="queryText">SELECT 
+equipos.codigo_inventario, equipos.nombre as nombre_equipo, tequipo.nombre AS nombre_tipo_equipo,
+choferes.apeynom as chofer_apeynom, choferes.nro_legajo as chofer_legajo, legajo.APELLIDO as chofer_apellido, legajo.NOMBRE as chofer_nombre,
+proyectos.nombre as nombre_proyecto, proyectos.proyecto, p.horas as horas_equipo, p.fecha AS fecha_parte_eq
+FROM partesEQ.partes_eq p
+INNER JOIN partesEQ.equipos equipos ON equipos.equipo_id = p.equipo_id
+INNER JOIN partesEQ.tipo_equipo tequipo ON tequipo.tipo_equipo = equipos.tipo_equipo
+LEFT OUTER JOIN partesEQ.choferes choferes ON choferes.chofer_id = p.chofer_id
+LEFT OUTER JOIN tango.LEGAJO legajo ON legajo.NRO_LEGAJO = choferes.nro_legajo
+INNER JOIN proyectos.proyectos proyectos ON proyectos.proyecto_id = p.proyecto_id
+WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Cubo Horas Equipo OT" id="39">
+            <property name="defaultMeasureGroup">Summary Field</property>
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="40">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="41">
+                            <property name="levels">
+                                <tabular-level name="codigo_inventario" id="42">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">codigo_inventario</property>
+                                    <expression name="displayColumnName">dataSetRow["codigo_inventario"]</expression>
+                                </tabular-level>
+                                <tabular-level name="nombre_tipo_equipo" id="86">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">nombre_tipo_equipo</property>
+                                    <expression name="displayColumnName">dataSetRow["nombre_equipo"]</expression>
+                                </tabular-level>
+                                <tabular-level name="chofer_apellido" id="125">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">chofer_apellido</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Group1" id="43">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="44">
+                            <property name="levels">
+                                <tabular-level name="proyecto" id="45">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">proyecto</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="46">
+                    <property name="measures">
+                        <tabular-measure name="horas_equipo" id="47">
+                            <property name="function">sum</property>
+                            <expression name="measureExpression">dataSetRow["horas_equipo"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">horas_equipo_ot</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="crosstab-cell" id="4">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="5">
+            <property name="borderBottomColor">#000000</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#000000</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#000000</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#000000</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab-horas" id="73">
+            <structure name="numberFormat">
+                <property name="category">General Number</property>
+                <property name="pattern">General Number</property>
+            </structure>
+            <property name="textAlign">right</property>
+            <property name="canShrink">true</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
+            <property name="topMargin">1in</property>
+            <property name="leftMargin">1cm</property>
+            <property name="bottomMargin">1in</property>
+            <property name="rightMargin">1cm</property>
+            <page-header>
+                <grid id="90">
+                    <property name="width">100%</property>
+                    <column id="91"/>
+                    <column id="92"/>
+                    <row id="93">
+                        <cell id="94">
+                            <text id="96">
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<H3>HORAS EMPLEADAS POR EQUIPO Y POR OT</H3>]]></text-property>
+                            </text>
+                        </cell>
+                        <cell id="95">
+                            <text id="114">
+                                <property name="paddingTop">1pt</property>
+                                <property name="textAlign">right</property>
+                                <property name="contentType">html</property>
+                                <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                            </text>
+                        </cell>
+                    </row>
+                </grid>
+            </page-header>
+            <page-footer>
+                <grid id="97">
+                    <property name="width">100%</property>
+                    <column id="98"/>
+                    <column id="99"/>
+                    <row id="100">
+                        <cell id="101"/>
+                        <cell id="102">
+                            <property name="textAlign">right</property>
+                            <grid id="103">
+                                <property name="width">100%</property>
+                                <column id="104"/>
+                                <column id="105"/>
+                                <column id="106"/>
+                                <row id="107">
+                                    <cell id="108">
+                                        <auto-text id="109">
+                                            <property name="type">page-number</property>
+                                        </auto-text>
+                                    </cell>
+                                    <cell id="110">
+                                        <text id="111">
+                                            <property name="contentType">plain</property>
+                                            <text-property name="content"><![CDATA[/]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="112">
+                                        <auto-text id="113">
+                                            <property name="type">total-page</property>
+                                        </auto-text>
+                                    </cell>
+                                </row>
+                            </grid>
+                        </cell>
+                    </row>
+                </grid>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <extended-item extensionName="Crosstab" id="38">
+            <property name="emptyCellValue">0</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="58">
+                    <property name="measure">horas_equipo</property>
+                    <property name="detail">
+                        <extended-item extensionName="CrosstabCell" id="59">
+                            <property name="content">
+                                <data name="horas_equipo" id="61">
+                                    <property name="style">crosstab-horas</property>
+                                    <property name="paddingTop">1pt</property>
+                                    <property name="paddingRight">5pt</property>
+                                    <property name="resultSetColumn">horas_equipo</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="aggregations">
+                        <extended-item extensionName="AggregationCell" id="75">
+                            <property name="aggregationOnColumn">Group1/proyecto</property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="77">
+                            <property name="content">
+                                <data id="78">
+                                    <property name="style">crosstab-horas</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="paddingTop">1pt</property>
+                                    <property name="paddingRight">5pt</property>
+                                    <property name="resultSetColumn">horas_equipo_1</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="83">
+                            <property name="content">
+                                <data id="84">
+                                    <property name="style">crosstab-horas</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="paddingTop">1pt</property>
+                                    <property name="paddingLeft">1pt</property>
+                                    <property name="paddingRight">5pt</property>
+                                    <property name="resultSetColumn">horas_equipo_Group/apeynom</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="128">
+                            <property name="aggregationOnRow">Group/chofer_apellido</property>
+                            <property name="content">
+                                <data id="129">
+                                    <property name="style">crosstab-horas</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="paddingTop">1pt</property>
+                                    <property name="resultSetColumn">horas_equipo_Group/chofer_apellido</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="60">
+                            <property name="showIfBlank">false</property>
+                            <property name="paddingTop">1pt</property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="48">
+                    <property name="grandTotal">
+                        <extended-item extensionName="CrosstabCell" id="74"/>
+                    </property>
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="49">
+                            <property name="dimension">Group</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="50">
+                                    <property name="level">Group/codigo_inventario</property>
+                                    <property name="sort">
+                                        <sort-element>
+                                            <expression name="key">data["codigo_inventario"]</expression>
+                                            <property name="direction">asc</property>
+                                        </sort-element>
+                                    </property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="51">
+                                            <property name="content">
+                                                <data name="codigo_inventario" id="52">
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="paddingTop">1pt</property>
+                                                    <property name="paddingRight">1pt</property>
+                                                    <property name="textAlign">right</property>
+                                                    <property name="resultSetColumn">codigo_inventario</property>
+                                                </data>
+                                            </property>
+                                            <property name="verticalAlign">middle</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="width">5%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="87">
+                                    <property name="level">Group/nombre_tipo_equipo</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="88">
+                                            <property name="content">
+                                                <data name="nombre_tipo_equipo" id="89">
+                                                    <property name="paddingTop">1pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <property name="resultSetColumn">nombre_tipo_equipo</property>
+                                                </data>
+                                            </property>
+                                            <property name="verticalAlign">middle</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="width">10%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View2" id="126">
+                                    <property name="level">Group/chofer_apellido</property>
+                                    <property name="sort">
+                                        <sort-element>
+                                            <expression name="key">data["horas_equipo_Group/chofer_apellido"]</expression>
+                                            <property name="direction">asc</property>
+                                        </sort-element>
+                                    </property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="127">
+                                            <property name="content">
+                                                <data name="chofer_apellido" id="130">
+                                                    <property name="paddingTop">1pt</property>
+                                                    <property name="paddingLeft">1pt</property>
+                                                    <property name="textAlign">left</property>
+                                                    <property name="resultSetColumn">chofer_apellido</property>
+                                                </data>
+                                            </property>
+                                            <property name="width">10%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="53">
+                    <property name="grandTotal">
+                        <extended-item extensionName="CrosstabCell" id="67">
+                            <property name="content">
+                                <label id="72">
+                                    <property name="fontWeight">bold</property>
+                                    <property name="paddingTop">1pt</property>
+                                    <property name="paddingRight">5pt</property>
+                                    <property name="textAlign">right</property>
+                                    <text-property name="text">Totales</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="54">
+                            <property name="dimension">Group1</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View1" id="55">
+                                    <property name="level">Group1/proyecto</property>
+                                    <property name="sort">
+                                        <sort-element>
+                                            <expression name="key">data["proyecto"]</expression>
+                                            <property name="direction">asc</property>
+                                        </sort-element>
+                                    </property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="56">
+                                            <property name="content">
+                                                <data name="proyecto" id="57">
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">proyecto</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="fontSize">small</property>
+            <property name="marginTop">0pt</property>
+            <property name="marginBottom">20pt</property>
+            <property name="cube">Cubo Horas Equipo OT</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">codigo_inventario</property>
+                    <expression name="expression">dimension["Group"]["codigo_inventario"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">proyecto</property>
+                    <expression name="expression">dimension["Group1"]["proyecto"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group1/proyecto</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/proyecto</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group/codigo_inventario</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group/codigo_inventario</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_1</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group/apeynom</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_tipo_equipo</property>
+                    <expression name="expression">dimension["Group"]["nombre_tipo_equipo"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group/nombre_tipo_equipo</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group/nombre_tipo_equipo</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">chofer_apellido</property>
+                    <expression name="expression">dimension["Group"]["chofer_apellido"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group/chofer_apellido</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group/chofer_apellido</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                </structure>
+            </list-property>
+        </extended-item>
+        <extended-item extensionName="Crosstab" id="131">
+            <property name="measureDirection">horizontal</property>
+            <property name="emptyCellValue">0</property>
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="142">
+                    <property name="measure">horas_equipo</property>
+                    <property name="detail">
+                        <extended-item extensionName="CrosstabCell" id="143">
+                            <property name="content">
+                                <data name="horas_equipo1" id="145">
+                                    <property name="paddingTop">1pt</property>
+                                    <property name="textAlign">right</property>
+                                    <property name="resultSetColumn">horas_equipo</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="aggregations">
+                        <extended-item extensionName="AggregationCell" id="152">
+                            <property name="aggregationOnColumn">Group1/proyecto</property>
+                            <property name="content">
+                                <data id="153">
+                                    <property name="style">crosstab-horas</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_equipo_Group1/proyecto</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="154">
+                            <property name="content">
+                                <data id="155">
+                                    <property name="style">crosstab-horas</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_equipo_1</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="167">
+                            <property name="aggregationOnRow">Group/nombre_tipo_equipo</property>
+                            <property name="content">
+                                <data id="168">
+                                    <property name="style">crosstab-horas</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_equipo_Group/nombre_tipo_equipo</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="144"/>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="132">
+                    <property name="grandTotal">
+                        <extended-item extensionName="CrosstabCell" id="151"/>
+                    </property>
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="133">
+                            <property name="dimension">Group</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View4" id="134">
+                                    <property name="level">Group/codigo_inventario</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="135">
+                                            <property name="content">
+                                                <data name="codigo_inventario1" id="136">
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="paddingTop">1pt</property>
+                                                    <property name="textAlign">right</property>
+                                                    <property name="resultSetColumn">codigo_inventario</property>
+                                                </data>
+                                            </property>
+                                            <property name="width">5%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View6" id="157">
+                                    <property name="level">Group/nombre_tipo_equipo</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="158">
+                                            <property name="content">
+                                                <data name="nombre_tipo_equipo1" id="161">
+                                                    <property name="textAlign">left</property>
+                                                    <property name="resultSetColumn">nombre_tipo_equipo</property>
+                                                </data>
+                                            </property>
+                                            <property name="width">20%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="137">
+                    <property name="grandTotal">
+                        <extended-item extensionName="CrosstabCell" id="147">
+                            <property name="content">
+                                <label id="150">
+                                    <property name="fontWeight">bold</property>
+                                    <property name="textAlign">right</property>
+                                    <text-property name="text">Totales</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="138">
+                            <property name="dimension">Group1</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View5" id="139">
+                                    <property name="level">Group1/proyecto</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="140">
+                                            <property name="content">
+                                                <data name="proyecto1" id="141">
+                                                    <property name="fontWeight">bold</property>
+                                                    <property name="textAlign">center</property>
+                                                    <property name="resultSetColumn">proyecto</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="fontSize">small</property>
+            <property name="cube">Cubo Horas Equipo OT</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">codigo_inventario</property>
+                    <expression name="expression">dimension["Group"]["codigo_inventario"]["DisplayName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">proyecto</property>
+                    <expression name="expression">dimension["Group1"]["proyecto"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group/codigo_inventario</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group/codigo_inventario</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group1/proyecto</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group1/proyecto</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_1</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_tipo_equipo</property>
+                    <expression name="expression">dimension["Group"]["nombre_tipo_equipo"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_equipo_Group/nombre_tipo_equipo</property>
+                    <expression name="expression">measure["horas_equipo"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>Group/nombre_tipo_equipo</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+            </list-property>
+        </extended-item>
+    </body>
+</report>
