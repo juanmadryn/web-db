@@ -474,7 +474,7 @@ public class BaseController extends JspController implements SubmitListener,
 					_lnkBannerSolicitudesCotizadas
 							.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
 									+ user.getUserID() + "&mode=2");
-					_txtBannerSolicitudesCotizadas.setText("Solicitudes cotizadas: "
+					_txtBannerSolicitudesCotizadas.setText("Solicitudes para autorizar: "
 							+ solicitudes_cotizadas);
 					_lnkBannerSolicitudesCotizadas.setVisible(true);
 					_txtBannerSolicitudesCotizadas.setVisible(true);
