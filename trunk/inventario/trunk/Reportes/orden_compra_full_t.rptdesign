@@ -926,7 +926,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </row>
                                 <row id="1078">
                                     <property name="height">1cm</property>
-                                    <property name="backgroundColor">#C0C0C0</property>
+                                    <property name="backgroundColor">#F1F1F1</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
@@ -1764,7 +1764,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     </column>
                     <row id="1011">
                         <property name="height">0.7cm</property>
-                        <property name="backgroundColor">#C0C0C0</property>
+                        <property name="backgroundColor">#F1F1F1</property>
                         <property name="verticalAlign">middle</property>
                         <cell id="1012">
                             <property name="colSpan">2</property>
@@ -2430,7 +2430,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                     </cell>
                                 </row>
                                 <row id="932">
-                                    <property name="backgroundColor">#C0C0C0</property>
+                                    <property name="backgroundColor">#F1F1F1</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
@@ -3284,7 +3284,7 @@ pgnumberlast = pageNumber;]]></method>
             <header>
                 <row id="964">
                     <property name="height">0.7cm</property>
-                    <property name="backgroundColor">#C0C0C0</property>
+                    <property name="backgroundColor">#F1F1F1</property>
                     <property name="fontSize">medium</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
@@ -3663,43 +3663,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="paddingRight">5pt</property>
                     </cell>
                     <cell id="1767">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                </row>
-                <row id="1786">
-                    <property name="height">0.5cm</property>
-                    <property name="masterPage">Simple MasterPage</property>
-                    <property name="pageBreakAfter">auto</property>
-                    <property name="pageBreakBefore">auto</property>
-                    <cell id="1797">
-                        <property name="paddingBottom">1pt</property>
-                    </cell>
-                    <cell id="1787">
-                        <property name="paddingBottom">1pt</property>
-                    </cell>
-                    <cell id="1788">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                    <cell id="1789">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                    <cell id="1790">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                    <cell id="1791">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>

@@ -209,7 +209,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fecha2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.fecha" />
+								datasource="dsArticulosComprados:articulos_comprados.fecha" displayformatlocalekey="DateFormat"/>
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="solicitante4" text="" font="DefaultFont"
