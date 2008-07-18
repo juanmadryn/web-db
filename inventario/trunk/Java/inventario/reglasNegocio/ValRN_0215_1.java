@@ -110,7 +110,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 
 			int articulo_id = 0;
 			int unidad_medida_id = 0;
-			double stock = 0;
+			double stock;
 			cantidad_entregada = 0;
 			double cantidad_entregada_convertida = 0;
 			double cantidad_anulada_convertida = 0;
@@ -118,6 +118,7 @@ public final class ValRN_0215_1 extends ValidadorReglasNegocio {
 			double cantidad_en_proceso = 0;
 
 			while (rs.next()) {
+				stock = 0;
 				articulo_id = rs.getInt("articulo_id");
 
 				// recupero el resumen de stock del articulo y voy al primero,

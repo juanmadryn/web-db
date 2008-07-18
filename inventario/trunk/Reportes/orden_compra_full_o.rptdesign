@@ -926,7 +926,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 </row>
                                 <row id="1078">
                                     <property name="height">1cm</property>
-                                    <property name="backgroundColor">#C0C0C0</property>
+                                    <property name="backgroundColor">#F1F1F1</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
@@ -1764,7 +1764,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                     </column>
                     <row id="1011">
                         <property name="height">0.7cm</property>
-                        <property name="backgroundColor">#C0C0C0</property>
+                        <property name="backgroundColor">#F1F1F1</property>
                         <property name="verticalAlign">middle</property>
                         <cell id="1012">
                             <property name="colSpan">2</property>
@@ -2430,7 +2430,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                     </cell>
                                 </row>
                                 <row id="932">
-                                    <property name="backgroundColor">#C0C0C0</property>
+                                    <property name="backgroundColor">#F1F1F1</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
@@ -3284,7 +3284,7 @@ pgnumberlast = pageNumber;]]></method>
             <header>
                 <row id="964">
                     <property name="height">0.7cm</property>
-                    <property name="backgroundColor">#C0C0C0</property>
+                    <property name="backgroundColor">#F1F1F1</property>
                     <property name="fontSize">medium</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
@@ -3456,6 +3456,7 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
                         <property name="paddingRight">5pt</property>
+                        <property name="textAlign">center</property>
                         <data id="987">
                             <property name="fontFamily">"Liberation Mono"</property>
                             <property name="fontSize">large</property>
@@ -3516,10 +3517,12 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <cell id="1794">
                         <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1775">
                         <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
                         <data id="1000">
                             <property name="fontFamily">"Liberation Mono"</property>
                             <property name="fontSize">large</property>
@@ -3534,28 +3537,28 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1777">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1778">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1779">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                 </row>
                 <row id="1768">
@@ -3572,10 +3575,12 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <cell id="1795">
                         <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1769">
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
                         <data id="1628">
                             <property name="fontFamily">"Courier New"</property>
                             <property name="fontSize">larger</property>
@@ -3589,28 +3594,28 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1771">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1772">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1773">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                 </row>
                 <row id="1762">
@@ -3627,10 +3632,12 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <cell id="1796">
                         <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1763">
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
+                        <property name="paddingRight">1pt</property>
                         <data id="1001">
                             <property name="fontFamily">"Liberation Mono"</property>
                             <property name="fontSize">large</property>
@@ -3646,65 +3653,28 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1765">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1766">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1767">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                </row>
-                <row id="1786">
-                    <property name="height">0.5cm</property>
-                    <property name="masterPage">Simple MasterPage</property>
-                    <property name="pageBreakAfter">auto</property>
-                    <property name="pageBreakBefore">auto</property>
-                    <cell id="1797">
-                        <property name="paddingBottom">1pt</property>
-                    </cell>
-                    <cell id="1787">
-                        <property name="paddingBottom">1pt</property>
-                    </cell>
-                    <cell id="1788">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                    <cell id="1789">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                    <cell id="1790">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingRight">5pt</property>
-                    </cell>
-                    <cell id="1791">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="paddingTop">5pt</property>
-                        <property name="paddingRight">5pt</property>
+                        <property name="paddingRight">1pt</property>
                     </cell>
                 </row>
             </detail>
@@ -3716,12 +3686,12 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                     <property name="pageBreakBefore">auto</property>
                     <property name="pageBreakInside">auto</property>
                     <cell id="1798">
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
                         <property name="canShrink">false</property>
                     </cell>
                     <cell id="977">
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
                         <property name="canShrink">false</property>
                         <data id="1003">
@@ -3742,25 +3712,25 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                     </cell>
                     <cell id="979">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                     </cell>
                     <cell id="991">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                     </cell>
                     <cell id="996">
                         <property name="borderLeftColor">#000000</property>
                         <property name="borderLeftStyle">solid</property>
                         <property name="borderLeftWidth">thin</property>
-                        <property name="paddingTop">1pt</property>
+                        <property name="paddingTop">5pt</property>
                     </cell>
                 </row>
             </footer>
