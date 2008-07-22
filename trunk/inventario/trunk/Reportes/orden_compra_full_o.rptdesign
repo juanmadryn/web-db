@@ -3372,18 +3372,6 @@ pgnumberlast = pageNumber;]]></method>
                         </label>
                     </cell>
                     <cell id="993">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">thin</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">thin</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">thin</property>
                         <property name="paddingTop">1pt</property>
                         <label id="1010">
                             <property name="fontWeight">bold</property>
@@ -3520,6 +3508,9 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1775">
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
                         <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
                         <property name="paddingRight">1pt</property>
@@ -3533,9 +3524,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         </data>
                     </cell>
                     <cell id="1776">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
                         <property name="paddingRight">1pt</property>
                     </cell>
@@ -3578,6 +3566,9 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1769">
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
                         <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
                         <property name="paddingRight">1pt</property>
@@ -3590,9 +3581,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         </data>
                     </cell>
                     <cell id="1770">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
                         <property name="paddingRight">1pt</property>
                     </cell>
@@ -3635,6 +3623,9 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         <property name="paddingRight">1pt</property>
                     </cell>
                     <cell id="1763">
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
                         <property name="paddingTop">5pt</property>
                         <property name="paddingBottom">1pt</property>
                         <property name="paddingRight">1pt</property>
@@ -3649,9 +3640,6 @@ if (parseInt(ordercurrent) == 1) dobreak = true;]]></method>
                         </data>
                     </cell>
                     <cell id="1764">
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">thin</property>
                         <property name="paddingTop">5pt</property>
                         <property name="paddingRight">1pt</property>
                     </cell>
