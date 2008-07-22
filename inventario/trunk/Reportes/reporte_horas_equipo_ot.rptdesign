@@ -402,6 +402,21 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                             </text>
                         </cell>
                     </row>
+                    <row id="246">
+                        <cell id="247">
+                            <data id="250">
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">fecha_desde</property>
+                                        <expression name="expression">params["fecha_desde"] + " a " + params["fecha_hasta"]</expression>
+                                        <property name="dataType">any</property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">fecha_desde</property>
+                            </data>
+                        </cell>
+                        <cell id="248"/>
+                    </row>
                 </grid>
             </page-header>
             <page-footer>
