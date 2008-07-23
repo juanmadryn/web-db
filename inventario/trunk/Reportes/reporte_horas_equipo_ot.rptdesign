@@ -380,7 +380,7 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
             <property name="bottomMargin">1cm</property>
             <property name="rightMargin">1cm</property>
             <property name="headerHeight">2cm</property>
-            <property name="footerHeight">1.5cm</property>
+            <property name="footerHeight">1cm</property>
             <page-header>
                 <grid id="90">
                     <property name="width">100%</property>
@@ -429,7 +429,7 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                         <cell id="102">
                             <property name="textAlign">right</property>
                             <grid id="103">
-                                <property name="width">100%</property>
+                                <property name="width">50%</property>
                                 <column id="104"/>
                                 <column id="105"/>
                                 <column id="106"/>
@@ -459,6 +459,10 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
         </simple-master-page>
     </page-setup>
     <body>
+        <text id="252">
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<H3>Resumen por Equipo y por OT</H3>]]></text-property>
+        </text>
         <extended-item extensionName="Crosstab" id="181">
             <property name="emptyCellValue">0</property>
             <property name="measures">
@@ -672,6 +676,10 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                 </structure>
             </list-property>
         </extended-item>
+        <text id="251">
+            <property name="contentType">html</property>
+            <text-property name="content"><![CDATA[<H3>Resumen por Equipo</H3>]]></text-property>
+        </text>
         <extended-item extensionName="Crosstab" id="217">
             <property name="emptyCellValue">0</property>
             <property name="measures">
@@ -739,6 +747,7 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                                             <property name="content">
                                                 <data name="codigo_inventario1" id="222">
                                                     <property name="fontWeight">bold</property>
+                                                    <property name="textAlign">right</property>
                                                     <property name="resultSetColumn">codigo_inventario</property>
                                                 </data>
                                             </property>
@@ -802,6 +811,7 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                     </property>
                 </extended-item>
             </property>
+            <property name="fontSize">small</property>
             <property name="cube">Cubo Horas Equipo OT</property>
             <list-property name="boundDataColumns">
                 <structure>
