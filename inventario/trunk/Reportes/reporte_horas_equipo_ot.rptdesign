@@ -404,16 +404,64 @@ WHERE p.fecha >= ? and p.fecha &lt;= ?</property>
                     </row>
                     <row id="246">
                         <cell id="247">
-                            <data id="250">
-                                <list-property name="boundDataColumns">
-                                    <structure>
-                                        <property name="name">fecha_desde</property>
-                                        <expression name="expression">params["fecha_desde"] + " a " + params["fecha_hasta"]</expression>
-                                        <property name="dataType">any</property>
-                                    </structure>
-                                </list-property>
-                                <property name="resultSetColumn">fecha_desde</property>
-                            </data>
+                            <grid id="253">
+                                <property name="marginTop">0pt</property>
+                                <property name="width">35pt</property>
+                                <column id="254">
+                                    <property name="width">45pt</property>
+                                </column>
+                                <column id="255">
+                                    <property name="width">10pt</property>
+                                </column>
+                                <column id="256">
+                                    <property name="width">45pt</property>
+                                </column>
+                                <row id="257">
+                                    <cell id="258">
+                                        <data id="263">
+                                            <structure name="dateTimeFormat">
+                                                <property name="category">Medium Date</property>
+                                                <property name="pattern">Medium Date</property>
+                                            </structure>
+                                            <property name="textAlign">left</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">fecha_desde</property>
+                                                    <property name="displayName">fecha desde</property>
+                                                    <expression name="expression">params["fecha_desde"]</expression>
+                                                    <property name="dataType">date</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">fecha_desde</property>
+                                        </data>
+                                    </cell>
+                                    <cell id="259">
+                                        <text id="261">
+                                            <property name="textAlign">center</property>
+                                            <property name="contentType">auto</property>
+                                            <text-property name="content"><![CDATA[a]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="260">
+                                        <data id="264">
+                                            <structure name="dateTimeFormat">
+                                                <property name="category">Medium Date</property>
+                                                <property name="pattern">Medium Date</property>
+                                            </structure>
+                                            <property name="textAlign">left</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">fecha_hasta</property>
+                                                    <property name="displayName">fecha hasta</property>
+                                                    <expression name="expression">params["fecha_hasta"]</expression>
+                                                    <property name="dataType">date</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">fecha_hasta</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                         <cell id="248"/>
                     </row>
