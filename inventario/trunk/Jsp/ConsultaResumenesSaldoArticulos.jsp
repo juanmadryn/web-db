@@ -86,7 +86,7 @@
 								<td><salmon:text name="articulo3" text="Artículo"
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="articulo4" text=""
-									datasource="dsResumenes:articulos.nombre +' - '+ articulos.descripcion + ' - ' + articulos.descripcion_completa"></salmon:text></td>
+									datasource="dsResumenes:articulos.nombre+' - '+articulos.descripcion+' - '+articulos.descripcion_completa"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="almacen3" text="Almacen"
@@ -199,7 +199,7 @@
 					<salmon:tr>
 						<salmon:td>
 							<salmon:text name="articulo6" text=""
-								datasource="dsResumenes:articulos.nombre +' - '+ articulos.descripcion + articulos.descripcion_completa"></salmon:text>
+								datasource="dsResumenes:articulos.nombre+' - '+articulos.descripcion+' - '+articulos.descripcion_completa"></salmon:text>
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="almacen6" text=""
