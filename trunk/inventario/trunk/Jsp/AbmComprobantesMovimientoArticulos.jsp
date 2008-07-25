@@ -132,13 +132,6 @@ function CheckAll(checked) {
 								<td width="10"></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="recepcion_compra_id1"
-									text="Recepción de compra" font="TableHeadingFont" /></td>
-								<td><salmon:text name="recepcion_compra_id2" text=""
-									datasource="dsComprobante:comprobante_movimiento_articulo.recepcion_compra_id"></salmon:text></td>
-								<td width="10"></td>
-							</tr>
-							<tr>
 								<td><salmon:a href="" target="_blank" name="imprimirComprobante2"
 									onclick="document.forms['bannerForm'].submit();">
 									<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
