@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <list-property name="configVars">
+        <structure>
+            <property name="name">__isdisplay__fecha_desde_169_0</property>
+            <property name="value">12/06/2008</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__fecha_hasta_170_1</property>
+            <property name="value">16/06/2008</property>
+        </structure>
+        <structure>
+            <property name="name">fecha_desde_169_2</property>
+            <property name="value">06/12/2008</property>
+        </structure>
+        <structure>
+            <property name="name">fecha_desde_169_type_</property>
+            <property name="value">date</property>
+        </structure>
+        <structure>
+            <property name="name">fecha_hasta_170_3</property>
+            <property name="value">06/16/2008</property>
+        </structure>
+        <structure>
+            <property name="name">fecha_hasta_170_type_</property>
+            <property name="value">date</property>
+        </structure>
+    </list-property>
+    <styles>
+        <style name="crosstab-cell" id="2">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="3">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+</report>
