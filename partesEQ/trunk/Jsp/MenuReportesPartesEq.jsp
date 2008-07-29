@@ -1,6 +1,6 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp" extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page controller="infraestructura.controllers.BaseController" />
+<salmon:page controller="partesEQ.controllers.MenuReportesPartesEqController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 
 <!-- ********************************************************************************************* -->
@@ -34,7 +34,7 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td>Nombre del reporte</td>
+						<td>Horas de Equipo por OT</td>
 						<td align="center">
 							<salmon:a href="" target="_blank"
                            		name="reporte1BUT2"
