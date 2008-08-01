@@ -1140,28 +1140,25 @@ group by detalle_cotizacion.detalle_SC_id</property>
                                 <column id="117"/>
                                 <row id="118">
                                     <property name="height">25%</property>
+                                    <property name="fontWeight">bold</property>
                                     <property name="borderBottomColor">#000000</property>
                                     <property name="borderBottomStyle">solid</property>
                                     <property name="borderBottomWidth">thin</property>
                                     <property name="borderLeftColor">#000000</property>
                                     <property name="borderLeftStyle">solid</property>
                                     <property name="borderLeftWidth">thin</property>
+                                    <property name="textAlign">left</property>
                                     <cell id="119">
+                                        <property name="colSpan">2</property>
+                                        <property name="rowSpan">1</property>
                                         <property name="paddingTop">1pt</property>
-                                        <label id="130">
-                                            <property name="fontWeight">bold</property>
-                                            <property name="paddingTop">1pt</property>
-                                            <text-property name="text">Nº de cotización:</text-property>
-                                        </label>
-                                    </cell>
-                                    <cell id="120">
                                         <data id="137">
                                             <property name="dataSet">Data Set - cotizaciones_compra</property>
                                             <list-property name="boundDataColumns">
                                                 <structure>
                                                     <property name="name">cotizacion_compra_id</property>
-                                                    <expression name="expression">dataSetRow["cotizacion_compra_id"]</expression>
-                                                    <property name="dataType">integer</property>
+                                                    <expression name="expression">"SOLICITUD DE COMPRA Nº "+dataSetRow["solicitud_compra_id"]</expression>
+                                                    <property name="dataType">string</property>
                                                 </structure>
                                             </list-property>
                                             <property name="resultSetColumn">cotizacion_compra_id</property>
@@ -1180,23 +1177,23 @@ group by detalle_cotizacion.detalle_SC_id</property>
                                     <property name="borderTopStyle">solid</property>
                                     <property name="borderTopWidth">thin</property>
                                     <cell id="122">
-                                        <label id="131">
+                                        <label id="130">
                                             <property name="fontWeight">bold</property>
                                             <property name="paddingTop">1pt</property>
-                                            <text-property name="text">Nº de solicitud:</text-property>
+                                            <text-property name="text">Nº de cotización:</text-property>
                                         </label>
                                     </cell>
                                     <cell id="123">
-                                        <data id="134">
-                                            <property name="dataSet">Data Set - solicitudes_compra</property>
+                                        <data id="1450">
+                                            <property name="dataSet">Data Set - cotizaciones_compra</property>
                                             <list-property name="boundDataColumns">
                                                 <structure>
-                                                    <property name="name">solicitud_compra_id</property>
-                                                    <expression name="expression">dataSetRow["solicitud_compra_id"]</expression>
+                                                    <property name="name">cotizacion_compra_id</property>
+                                                    <expression name="expression">dataSetRow["cotizacion_compra_id"]</expression>
                                                     <property name="dataType">integer</property>
                                                 </structure>
                                             </list-property>
-                                            <property name="resultSetColumn">solicitud_compra_id</property>
+                                            <property name="resultSetColumn">cotizacion_compra_id</property>
                                         </data>
                                     </cell>
                                 </row>
@@ -1907,7 +1904,7 @@ else {
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">thin</property>
                         <property name="paddingTop">0pt</property>
-                        <property name="paddingLeft">0pt</property>
+                        <property name="paddingLeft">3pt</property>
                         <property name="paddingBottom">0pt</property>
                         <property name="paddingRight">0pt</property>
                         <text-data id="1200">
@@ -2123,7 +2120,7 @@ else {
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <property name="paddingTop">0pt</property>
-                        <property name="paddingLeft">0pt</property>
+                        <property name="paddingLeft">3pt</property>
                         <property name="paddingBottom">0pt</property>
                         <property name="paddingRight">0pt</property>
                         <data id="1414">
@@ -2235,7 +2232,7 @@ else {
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <property name="paddingTop">0pt</property>
-                        <property name="paddingLeft">0pt</property>
+                        <property name="paddingLeft">3pt</property>
                         <property name="paddingBottom">0pt</property>
                         <property name="paddingRight">0pt</property>
                         <data id="1437">
@@ -2348,7 +2345,7 @@ else {
                         <property name="borderRightStyle">solid</property>
                         <property name="borderRightWidth">thin</property>
                         <property name="paddingTop">0pt</property>
-                        <property name="paddingLeft">0pt</property>
+                        <property name="paddingLeft">3pt</property>
                         <property name="paddingBottom">0pt</property>
                         <property name="paddingRight">0pt</property>
                     </cell>
