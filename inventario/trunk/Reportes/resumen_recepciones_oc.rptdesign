@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.2.1.r221_v20070924 Build &lt;2.2.0.v20070924-1550></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -500,18 +500,6 @@ WHERE detalle_sc.orden_compra_id = ? AND recepciones_compras.estado = '0009.0003
                     <column id="143"/>
                     <row id="144">
                         <cell id="145">
-                            <property name="borderBottomColor">#000000</property>
-                            <property name="borderBottomStyle">solid</property>
-                            <property name="borderBottomWidth">1px</property>
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">1px</property>
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">1px</property>
-                            <property name="borderTopColor">#000000</property>
-                            <property name="borderTopStyle">solid</property>
-                            <property name="borderTopWidth">1px</property>
                             <image id="925">
                                 <property name="height">60px</property>
                                 <property name="width">356px</property>
@@ -524,12 +512,6 @@ WHERE detalle_sc.orden_compra_id = ? AND recepciones_compras.estado = '0009.0003
                         <cell id="927">
                             <property name="fontSize">14pt</property>
                             <property name="fontWeight">bold</property>
-                            <property name="borderLeftColor">#000000</property>
-                            <property name="borderLeftStyle">solid</property>
-                            <property name="borderLeftWidth">1px</property>
-                            <property name="borderRightColor">#000000</property>
-                            <property name="borderRightStyle">solid</property>
-                            <property name="borderRightWidth">1px</property>
                             <property name="paddingTop">20pt</property>
                             <property name="paddingBottom">20pt</property>
                             <property name="textAlign">center</property>
@@ -561,18 +543,6 @@ else{"RECEPCIONES POR ÓRDEN DE COMPRA"}</expression>
     <body>
         <table id="10">
             <property name="fontFamily">"Arial"</property>
-            <property name="borderBottomColor">#000000</property>
-            <property name="borderBottomStyle">solid</property>
-            <property name="borderBottomWidth">1px</property>
-            <property name="borderLeftColor">#000000</property>
-            <property name="borderLeftStyle">solid</property>
-            <property name="borderLeftWidth">1px</property>
-            <property name="borderRightColor">#000000</property>
-            <property name="borderRightStyle">solid</property>
-            <property name="borderRightWidth">1px</property>
-            <property name="borderTopColor">#000000</property>
-            <property name="borderTopStyle">solid</property>
-            <property name="borderTopWidth">1px</property>
             <property name="width">100%</property>
             <property name="dataSet">Data Set - Recepciones</property>
             <list-property name="boundDataColumns">
@@ -693,7 +663,7 @@ else{"RECEPCIONES POR ÓRDEN DE COMPRA"}</expression>
                     <property name="textAlign">center</property>
                     <cell id="12">
                         <property name="colSpan">2</property>
-                        <property name="rowSpan">1</property>
+                        <property name="rowSpan">2</property>
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
@@ -727,16 +697,6 @@ else{"RECEPCIONES POR ÓRDEN DE COMPRA"}</expression>
                 <row id="104">
                     <property name="fontWeight">bold</property>
                     <property name="textAlign">center</property>
-                    <cell id="120">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
-                    <cell id="121">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
                     <cell id="107">
                         <label id="113">
                             <text-property name="text">Nº de recepción</text-property>
@@ -912,6 +872,7 @@ else{"RECEPCIONES POR ÓRDEN DE COMPRA"}</expression>
             </detail>
             <footer>
                 <row id="19">
+                    <property name="height">100%</property>
                     <cell id="20"/>
                     <cell id="64"/>
                     <cell id="84"/>
