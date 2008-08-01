@@ -251,7 +251,7 @@ function CheckAll(checked) {
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 								lookupurl="%LkpArticulos" name="articulo2" size="10"
 								maxlength="15" datasource="dsMovimientos:articulos.nombre"
-								descriptiondatasource="dsMovimientos:articulos.descripcion"
+								descriptiondatasource="dsMovimientos:articulos.descripcion+' - '+articulos.descripcion_completa"
 								popupheight="450" popupwidth="600" usepopup="true"
 								showdescription="true"></salmon:lookup>
 						</salmon:td>

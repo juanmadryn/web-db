@@ -62,8 +62,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _valorCAP16;
 	public com.salmonllc.html.HtmlTextEdit _cantidad_recibida2;
 	public com.salmonllc.html.HtmlTextEdit _almacen2;
-	public com.salmonllc.html.HtmlTextEdit _fecha2;
-	public com.salmonllc.html.HtmlText descripcion_completa_articulo1;
+	public com.salmonllc.html.HtmlTextEdit _fecha2;	
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
@@ -423,7 +422,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 						_dsAtributos.generaAtributosObjetoAplicacion(
 								getRow_id(), getTabla_principal());
 					} else {
-						_dsAtributos.validaAtributosUpdate(conn);					
+						_dsAtributos.update(conn);					
 					}				
 					conn.commit();	
 					_dsRecepciones.resetStatus();

@@ -47,8 +47,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
-							<salmon:text name="articulo1" text="OC"
-								font="TableHeadingFont" />
+							<salmon:text name="articulo1" text="OC" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="proveedor1" text="Proveedor"
@@ -72,16 +71,10 @@
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
-					<salmon:tr>					
+					<salmon:tr>
 						<salmon:td>
 							<salmon:text name="articulo2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.nombre" /> 
-								<salmon:text name="separador1" text="-" font="DefaultFont" />
-								<salmon:text name="articulo3" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.descripcion" />
-								<salmon:text name="separador2" text="-" font="DefaultFont" />
-								<salmon:text name="articulo4" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.descripcion_completa" />
+								datasource="dsArticulosComprados:articulos_comprados.nombre +' - '+ articulos_comprados.descripcion + ' - '+articulos_comprados.descripcion_completa" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="orden_compra_id2" text="" font="DefaultFont"
@@ -102,11 +95,13 @@
 						</salmon:td>
 						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_pedida2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.cantidad_pedida" displayformatlocalekey="CantidadPedidaFormat"/>
+								datasource="dsArticulosComprados:articulos_comprados.cantidad_pedida"
+								displayformatlocalekey="CantidadPedidaFormat" />
 						</salmon:td>
 						<salmon:td align="RIGHT">
 							<salmon:text name="cantidad_recibida2" text="" font="DefaultFont"
-								datasource="dsArticulosComprados:articulos_comprados.cantidad_recibida" displayformatlocalekey="CantidadPedidaFormat"/>
+								datasource="dsArticulosComprados:articulos_comprados.cantidad_recibida"
+								displayformatlocalekey="CantidadPedidaFormat" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>

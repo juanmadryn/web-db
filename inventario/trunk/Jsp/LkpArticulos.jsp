@@ -38,7 +38,7 @@
 			addbuttonvisible="False" savebuttonvisible="False"
 			datasource="dsArticulos" searchformdisplaybox="searchformdisplaybox1"
 			lookupreturnexp="articulos_extendidos.nombre"
-			lookupdescreturnexp="articulos_extendidos.descripcion +'- X '+articulos_extendidos.nombre_unidad">
+			lookupdescreturnexp="articulos_extendidos.descripcion+' - '+articulos_extendidos.descripcion_completa+' - X '+articulos_extendidos.nombre_unidad">
 			<salmon:datatable name="datatable1" width="100%" rowsperpage="5"
 				datasource="dsArticulos">
 				<salmon:datatableheader>

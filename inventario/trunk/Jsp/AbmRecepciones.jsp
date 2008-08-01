@@ -231,13 +231,9 @@ function CheckAll(checked) {
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 								lookupurl="%LkpArticulosParaRecepcion" name="articulo2" size="6"
 								maxlength="15" datasource="dsDetalle:detalles_rc.detalle_sc_id"
-								descriptiondatasource="dsDetalle:articulos.descripcion"
+								descriptiondatasource="dsDetalle:articulos.descripcion+' - '+articulos.descripcion_completa+' - ' +detalle_sc.descripcion"
 								popupheight="600" popupwidth="900" usepopup="true"
-								popupposition="0" showdescription="true"></salmon:lookup>							
-								-
-								<salmon:text name="descripcion_completa_articulo1" text=""
-								datasource="dsDetalle:detalle_sc.descripcion"
-								font="ColumnCaptionFont" />
+								popupposition="0" showdescription="true"></salmon:lookup>
 						</salmon:td>
 						<salmon:td nowrap="true">
 							<salmon:input type="select" name="unidad_medida2"
