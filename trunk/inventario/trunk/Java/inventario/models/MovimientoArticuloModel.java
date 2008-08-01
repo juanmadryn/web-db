@@ -189,7 +189,7 @@ public class MovimientoArticuloModel extends DataStore {
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("movimiento_articulo.movimiento_articulo_id")
-					+ " ASC");
+					+ " DESC");
 
 			// add validations
 			addRequiredRule(MOVIMIENTO_ARTICULO_ARTICULO_ID,
@@ -216,13 +216,19 @@ public class MovimientoArticuloModel extends DataStore {
 					"proyectos.tareas_proyecto",
 					"'proyectos.tareas_proyecto.tarea_id = ' + movimiento_articulo.tarea_id",
 					"nombre", TAREAS_PROYECTO_NOMBRE, "Tarea inexistente");
-
 			addLookupRule(
 					MOVIMIENTO_ARTICULO_LEGAJO_CARGO,
 					"inventario.legajos",
 					"'inventario.legajos.nro_legajo = ' + movimiento_articulo.legajo_cargo",
 					"APEYNOM", LEGAJOS_APEYNOM,
 					"Legajo inexistente");
+			addLookupRule(
+					MOVIMIENTO_ARTICULO_ARTICULO_ID,
+					"inventario.articulos",
+					"'inventario.articulos.articulo_id = ' + movimiento_articulo.articulo_id",
+					"descripcion_completa", ARTICULOS_DESCRIPCION_COMPLETA,
+					"Artículo inexistente");
+			
 			
 			setAutoIncrement(MOVIMIENTO_ARTICULO_MOVIMIENTO_ARTICULO_ID, true);
 		} catch (DataStoreException e) {

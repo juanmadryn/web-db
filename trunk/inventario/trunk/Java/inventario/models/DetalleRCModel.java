@@ -52,6 +52,7 @@ public class DetalleRCModel extends DataStore implements Constants {
 	public static final String ALMACENES_DESCRIPCION = "almacenes.descripcion";
 	public static final String ARTICULOS_NOMBRE = "articulos.nombre";
 	public static final String ARTICULOS_DESCRIPCION = "articulos.descripcion";
+	public static final String ARTICULOS_DESCRIPCION_COMPLETA = "articulos.descripcion_completa";
 	public static final String UNIDAD_MEDIDA_NOMBRE = "unidad_medida.nombre";
 
 	// $CUSTOMVARS$
@@ -171,6 +172,9 @@ public class DetalleRCModel extends DataStore implements Constants {
 			addColumn(computeTableName("articulos"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION);
+			addColumn(computeTableName("articulos"), "descripcion_completa",
+					DataStore.DATATYPE_STRING, false, false,
+					ARTICULOS_DESCRIPCION_COMPLETA);
 			addColumn(computeTableName("unidades_medida"), "nombre",
 					DataStore.DATATYPE_STRING, false, false,
 					UNIDAD_MEDIDA_NOMBRE);
