@@ -8,7 +8,8 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="buscar" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="articulos_extendidos.nombre,articulos_extendidos.descripcion,articulos_extendidos.descripcion_completa" />
+		<salmon:qbecriteria name="buscar_nombre" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="articulos_extendidos.nombre" />
+		<salmon:qbecriteria name="buscar_descripcion" type="STARTS_WITH_IGNORE_CASE_EXTENDED" columns="articulos_extendidos.descripcion,articulos_extendidos.descripcion_completa" />
 	</salmon:datasource>
 	<salmon:datasource name="dsArticulos" type="MODEL" dbprofile="inventario"
 		model="inventario.models.ArticulosExtendidosModel" autoretrieve="Never">
@@ -24,10 +25,16 @@
 			cancelbuttonvisible="False">
 			<table width="100%">
 				<tr>
-					<td><salmon:text name="buscarCAP5" text="Buscar"
+					<td><salmon:text name="nombre1" text="Código"
 						font="ColumnCaptionFont" /></td>
-					<td><salmon:input type="text" name="buscarTE3" size="30"
-						maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
+					<td><salmon:input type="text" name="nombre2" size="30"
+						maxlength="90" datasource="dsQBE:buscar_nombre"></salmon:input></td>
+				</tr>
+				<tr>
+					<td><salmon:text name="descripcion1" text="Descripción"
+						font="ColumnCaptionFont" /></td>
+					<td><salmon:input type="text" name="descripcion2" size="30"
+						maxlength="90" datasource="dsQBE:buscar_descripcion"></salmon:input></td>
 				</tr>
 			</table>
 		</salmon:searchformdisplaybox>
