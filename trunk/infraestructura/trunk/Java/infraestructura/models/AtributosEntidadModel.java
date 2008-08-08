@@ -1618,22 +1618,23 @@ public class AtributosEntidadModel extends DataStore {
 								.parseInt(valor));
 					else if ("real".equalsIgnoreCase(tipo))
 						setAtributosEntidadValorReal(i, Float.parseFloat(valor));
-					else if ("fecha".equalsIgnoreCase(tipo))
+					else if ("fecha".equalsIgnoreCase(tipo)) {
 						try {
 							setAtributosEntidadValorFecha(i, java.sql.Date
 									.valueOf(valor));
 						} catch (Exception e) {
 							SalmonDateFormat sdf = new SalmonDateFormat();
-							try {
+							try {								
 								setAtributosEntidadValorFecha(i,
 										new java.sql.Date(sdf.parse(
-												(String) valor).getTime()));
+												(String) valor).getTime()));								
 							} catch (ParseException e1) {
-								// TODO Auto-generated catch block
-								throw new NumberFormatException();
+								// TODO Auto-generated catch block								
+								throw new NumberFormatException(e1.getMessage());
+				
 							}
 						}
-					else if ("logico".equalsIgnoreCase(tipo))
+					} else if ("logico".equalsIgnoreCase(tipo))
 						if (valor.equalsIgnoreCase("V")
 								|| valor.equalsIgnoreCase("F"))
 							setAtributosEntidadValorLogico(i, valor);
@@ -1641,7 +1642,8 @@ public class AtributosEntidadModel extends DataStore {
 							mensajeError
 									.add("Debe introducir 'V' para verdadero o 'F' para falso para el atributo "
 											+ nombre_rol);
-				}
+				}			
+				update(conn);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				mensajeError
@@ -1653,7 +1655,6 @@ public class AtributosEntidadModel extends DataStore {
 						.add("Ha introducido valores indebidos para el atributo "
 								+ nombre_rol);
 			}
-			update(conn);
 		}
 
 		filter(popCriteria());
