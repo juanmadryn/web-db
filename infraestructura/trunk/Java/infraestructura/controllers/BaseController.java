@@ -18,6 +18,7 @@ package infraestructura.controllers;
 //
 //For more information please visit http://www.salmonllc.com
 
+import infraestructura.models.AccesoMenuModel;
 import infraestructura.models.MenuModel;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.Utilities;
@@ -47,10 +48,11 @@ import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
 
 /**
- * este controlador es base para todos los controladores de la aplicación
- * implementa un cinunto de activiaddes comunes a todos los controladores el
+ * Este controlador es base para todos los controladores de la aplicación
+ * implementa un conjunto de actividades comunes a todos los controladores. El
  * resto de los controladores deben extender a este.
  */
+
 public class BaseController extends JspController implements SubmitListener,
 		PageListener, Constants {
 
@@ -121,9 +123,10 @@ public class BaseController extends JspController implements SubmitListener,
 
 	public com.salmonllc.html.HtmlSubmitButton _menuBUT;
 
+	// links del menú de usuario
+
 	public com.salmonllc.jsp.JspLink _lnkBannerAccount;
 
-	// public com.salmonllc.jsp.JspLink _lnkBannerCart;
 	public com.salmonllc.jsp.JspLink _lnkBannerSignIn;
 
 	public com.salmonllc.jsp.JspLink _lnkBannerSignOut;
@@ -155,7 +158,7 @@ public class BaseController extends JspController implements SubmitListener,
 	// public com.salmonllc.jsp.JspForm _searchForm;
 	public com.salmonllc.html.HtmlText _welcomeUser;
 
-	/* Error message comtainer object */
+	/* Error message container object */
 	public com.salmonllc.html.HtmlValidatorText _valErrorMessage;
 
 	/* Navigation menu object */
@@ -172,7 +175,9 @@ public class BaseController extends JspController implements SubmitListener,
 	protected Props _props;
 
 	/* definición de TODOS los DataStore usados en la aplicación */
-	public infraestructura.models.AccesoMenuModel _dsAccesoMenu;
+	public static infraestructura.models.AccesoMenuModel dsAccesoMenu;
+
+	public static infraestructura.models.MenuModel dsMenu;
 
 	public infraestructura.models.AccionAplicacionModel _dsAccionesAplicacion;
 
@@ -271,8 +276,9 @@ public class BaseController extends JspController implements SubmitListener,
 	public void initialize() throws Exception {
 		setCheckSessionExpired(true);
 		setCheckPageExpired(true);
-		// lo primero es controlar que se está conectado a la aplicación.
-		// Salvo que sea la home page
+
+		// Lo primero es controlar que se está conectado a la aplicación.
+		// salvo que sea la home page
 		WebSiteUser user = checkUser();
 		if (!(getPageName().equalsIgnoreCase("HomePage.jsp") || getPageName()
 				.equalsIgnoreCase("LoginPage.jsp"))) {
@@ -301,7 +307,7 @@ public class BaseController extends JspController implements SubmitListener,
 
 		// Populate the navigation menu dynamically
 
-		populateNavBar();
+		// populateNavBar();
 
 		_lnkBannerSignOut.addSubmitListener(this);
 		_lnkBannerSignOut.setVisible(false);
@@ -312,9 +318,19 @@ public class BaseController extends JspController implements SubmitListener,
 		// Initilize the session manager.
 		if (_seq_gen == null)
 			_seq_gen = SequenceGenerator.getSequenceGenerator();
-		// Inicializa los datarsorre si los pudo matear
-		if (_dsAccesoMenu != null)
-			_dsAccesoMenu.setAutoValidate(true);
+
+		// Inicializa los datastore si los pudo mapear
+		if (dsAccesoMenu != null)
+			dsAccesoMenu.setAutoValidate(true);
+		else
+			dsAccesoMenu = new AccesoMenuModel("infraestructura",
+					"infraestructura");
+
+		if (dsMenu != null)
+			dsMenu.setAutoValidate(true);
+		else
+			dsMenu = new MenuModel("infraestructura", "infraestructura");
+
 		if (_dsAccionesAplicacion != null)
 			_dsAccionesAplicacion.setAutoValidate(true);
 		if (_dsAppCir != null)
@@ -349,6 +365,11 @@ public class BaseController extends JspController implements SubmitListener,
 			_txtBannerOptions.setVisible(false);
 		}
 
+		if (dsMenu.getRowCount() == 0)
+			dsMenu.retrieve();
+		if (dsAccesoMenu.getRowCount() == 0)
+			dsAccesoMenu.retrieve();
+		dsAccesoMenu.reloadRoles();
 		if (timeStart.get(ip) == null)
 			timeStart.put(ip, System.currentTimeMillis());
 	}
@@ -399,6 +420,8 @@ public class BaseController extends JspController implements SubmitListener,
 			// Check if we need to change the page appearence.
 			refreshGUIOptions();
 		}
+
+		// 
 		if (user != null) {
 
 			int user_id = user.getUserID();
@@ -410,6 +433,7 @@ public class BaseController extends JspController implements SubmitListener,
 			int solicitudes_cotizadas = 0;
 			int comprobantes_pendientes = 0;
 
+			// Muestra u oculta el link a las solicitudes pendientes
 			if ((solicitudes_pendientes = Utilities
 					.getSolicitudesCompraPendientesAprobacion(user_id)) > 0) {
 				_lnkBannerSolicitudesPendientes
@@ -425,6 +449,7 @@ public class BaseController extends JspController implements SubmitListener,
 				_txtBannerSolicitudesPendientes.setVisible(false);
 			}
 
+			// Muestra u oculta el link a las ordenes pendientes
 			if ((ordenes_pendientes = Utilities
 					.getOrdenesCompraPendientesAprobacion(user_id)) > 0) {
 				_lnkBannerOrdenesPendientes
@@ -439,6 +464,7 @@ public class BaseController extends JspController implements SubmitListener,
 				_txtBannerOrdenesPendientes.setVisible(false);
 			}
 
+			// Muestra u oculta el link a las solicitudes observadas
 			if ((solicitudes_observadas = Utilities
 					.getSolicitudesCompraPendientesObservacion(user_id)) > 0) {
 				_lnkBannerSolicitudesObservadas
@@ -454,6 +480,7 @@ public class BaseController extends JspController implements SubmitListener,
 				_txtBannerSolicitudesObservadas.setVisible(false);
 			}
 
+			// Muestra u oculta el link a las ordenes observadas
 			if ((ordenes_observadas = Utilities
 					.getOrdenesCompraPendientesObservacion(user_id)) > 0) {
 				_lnkBannerOrdenesObservadas
@@ -468,14 +495,16 @@ public class BaseController extends JspController implements SubmitListener,
 				_txtBannerOrdenesObservadas.setVisible(false);
 			}
 
+			// Muestra u oculta el link a las solicitudes cotizadas
 			if (UsuarioRolesModel.isRolUsuario(user_id, USER_COMPRADOR)) {
 				if ((solicitudes_cotizadas = Utilities
 						.getSolicitudesCompraCotizadas(user_id)) > 0) {
 					_lnkBannerSolicitudesCotizadas
 							.setHref("/inventario/Jsp/ConsultaSolicitudCompra.jsp?user_id="
 									+ user.getUserID() + "&mode=2");
-					_txtBannerSolicitudesCotizadas.setText("Solicitudes para autorizar: "
-							+ solicitudes_cotizadas);
+					_txtBannerSolicitudesCotizadas
+							.setText("Solicitudes para autorizar: "
+									+ solicitudes_cotizadas);
 					_lnkBannerSolicitudesCotizadas.setVisible(true);
 					_txtBannerSolicitudesCotizadas.setVisible(true);
 				} else {
@@ -526,10 +555,14 @@ public class BaseController extends JspController implements SubmitListener,
 		} else {
 			_avisoMantenimiento.setVisible(false);
 		}
-
 		populateNavBar();
 	}
 
+	/**
+	 * This method return the user stored in the corresponding cookie
+	 * 
+	 * @return the user stored cookie
+	 */
 	public WebSiteUser getUserFromCookie() {
 		Cookie cookieRemMe = getCookie(COOKIE_REMEMBER_ME);
 		if (cookieRemMe != null) {
@@ -553,16 +586,13 @@ public class BaseController extends JspController implements SubmitListener,
 	}
 
 	/**
-	 * Changes the page appearance.
-	 */
-	/**
-	 * Determina si el menu es accesible para el usario o algún rol que tenga
+	 * Determine if current user can access the menu
 	 * 
 	 * @param user_id
-	 *           --> id único que identifica a un usuario de la aplicación
-	 *           websitestoredUser
+	 *           unique id that identify an application user
+	 * 
 	 * @param menu_id
-	 *           --> id único que identifiva al menu (tabla menu)
+	 *           unique id that identify the menu
 	 */
 	public boolean menuPermitido(String sAppName, WebSiteUser user, int menu_id) {
 		DBConnection conn = null;
@@ -571,18 +601,26 @@ public class BaseController extends JspController implements SubmitListener,
 		Statement st = null;
 		ResultSet r = null;
 		try {
-			conn = DBConnection.getConnection(sAppName, "infraestructura");
-			String SQL = "select user_id,rol_id,menu_id" + " from acceso_menu"
-					+ " where (rol_id in " + user.getSetRoles() + " 		or user_id = "
-					+ user.getUserID() + ")" + " and menu_id = " + menu_id;
-			st = conn.createStatement();
-			r = st.executeQuery(SQL);
+			/*
+			 * conn = DBConnection.getConnection(sAppName, "infraestructura");
+			 * String SQL = "select user_id,rol_id,menu_id" + " from acceso_menu" + "
+			 * where (rol_id in " + user.getSetRoles() + " or user_id = " +
+			 * user.getUserID() + ")" + " and menu_id = " + menu_id; st =
+			 * conn.createStatement(); r = st.executeQuery(SQL);
+			 */
 
-			if (r.first()) {
+			System.out.println("Acceso-->"
+					+ dsAccesoMenu.allowedMenuByUser(user.getUserID(), menu_id));
+
+			if (r != null && r.first()) {
 				return true;
 			}
+			return dsAccesoMenu.allowedMenuByUser(user.getUserID(), menu_id);
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
+		} catch (DataStoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} finally {
 			if (r != null) {
 				try {
@@ -648,17 +686,9 @@ public class BaseController extends JspController implements SubmitListener,
 	protected void populateNavBar() throws DataStoreException, SQLException {
 
 		try {
-			boolean menuPermitido = false;
-
 			if (_navbar1 == null) {
 				return;
 			}
-			/*
-			 * Crea el DataStore mediante el MenuModel
-			 */
-			DataStore ds;
-
-			ds = new MenuModel(getApplicationName(), "infraestructura");
 
 			// Recupera menú según padre, si Existe y setéa como submenú
 			// si no existen sub menues para dicho grupo, re setea a HomePage
@@ -673,41 +703,34 @@ public class BaseController extends JspController implements SubmitListener,
 			// nivel
 			String descMenuAnterior = null;
 			String urlMenuAnterior = null;
-			// recupero la url del grupo del menu actual
-			ds.retrieve("url = " + String.valueOf('"') + menuActual
-					+ String.valueOf('"'));
-			ds.waitForRetrieve();
-			if (ds.gotoFirst())
-				urlMenuAnterior = ds.getString("menu." + GRUPO_FIELD);
+			// recupero la url del grupo del menu actual			
+			
+			dsMenu.filter("menu.url == \"" + menuActual + "\"");
+
+			if (dsMenu.gotoFirst())
+				urlMenuAnterior = dsMenu.getString("menu." + GRUPO_FIELD);
 
 			// si el menu anterior no es la página principal, recupero su
 			// descripción
-			if (urlMenuAnterior != "HomePage") {
-				ds.retrieve("url = " + String.valueOf('"') + urlMenuAnterior
-						+ String.valueOf('"'));
-				ds.waitForRetrieve();
-				if (ds.gotoFirst())
-					descMenuAnterior = ds.getString("menu." + NOMBRE_FIELD);
+			if (!"HomePage".equalsIgnoreCase(urlMenuAnterior)) {
+				dsMenu.filter("menu.url == \"" + urlMenuAnterior + "\"");
+
+				if (dsMenu.gotoFirst())
+					descMenuAnterior = dsMenu.getString("menu." + NOMBRE_FIELD);
 			}
 
 			// empieza recuperación del resto de los menues correspondientes
-			ds.retrieve("grupo = " + String.valueOf('"') + menuActual
-					+ String.valueOf('"'));
-			// Se espera hasta que se recuperen todos los datos
-			ds.waitForRetrieve();
+			dsMenu.filter("menu.grupo == \"" + menuActual + "\"");
 
 			// Se verifica si recuperó algo, si es así se setea nuevo nivel de
 			// menú
 			// sino se regresa a HomePage y se recupera nuevamente
-			if (ds.getRowCount() == 0) {
+			if (dsMenu.getRowCount() == 0) {
 				// no se recuperaron menues, setea el menú actual al anterior y
 				// recupera
 
 				menuActual = urlMenuAnterior;
-				ds.retrieve("grupo = " + String.valueOf('"') + menuActual
-						+ String.valueOf('"')); //
-				// Se espera hasta que se recuperen todos los datos
-				ds.waitForRetrieve();
+				dsMenu.filter("menu.grupo == \"" + menuActual + "\"");
 			}
 
 			String sDesc = "";
@@ -744,15 +767,14 @@ public class BaseController extends JspController implements SubmitListener,
 				_navbar1.createGroup(PREFIX_NAVBAR_GROUP + urlMenuAnterior, null,
 						"%" + urlMenuAnterior, "Página anterior", 1);
 
+			dsMenu.sort(0, DataStore.SORT_ASC);
 			// Populate the navbar with new values.
-			while (ds.gotoNext()) {
-				sDesc = ds.getString(MENU_NOMBRE_TFC);
-				sUrl = ds.getString(MENU_URL_TFC);
-				if (sDesc == null || sDesc.length() < 1) // You do not want
-					// to
-					// show empty fields in
-					// the navigation
-					// menu...
+			for (int row = 0; row < dsMenu.getRowCount(); row++) {
+				sDesc = dsMenu.getString(row, MENU_NOMBRE_TFC);
+				sUrl = dsMenu.getString(row, MENU_URL_TFC);
+				
+				if (sDesc == null || sDesc.length() < 1)
+					// You do not want to show empty fields in the navigation menu...
 					continue;
 
 				// Get the correct translation from the LanguageResourceFinder
@@ -762,18 +784,19 @@ public class BaseController extends JspController implements SubmitListener,
 				if (sName != null && sName.length() > 0)
 					sDesc = sName;
 
-				sUrl = ds.getString(MENU_URL_TFC);
+				sUrl = dsMenu.getString(row, MENU_URL_TFC);
 
-				iID = ds.getInt(MENU_MENU_ID_TFC);
+				iID = dsMenu.getInt(row, MENU_MENU_ID_TFC);
 
-				// verifica el acceso del usuarioal menó si es que estó
+				// verifica el acceso del usuario al menú si es que está
 				// conectado.
-				// si no estó conectado no muestra ningón menó
+				// si no está conectado no muestra ningún menú
+
 				/* recupera al usuario de la sessión */
 				WebSiteUser user = checkUser();
 				if (user != null) {
-					menuPermitido = menuPermitido(getApplicationName(), user, iID);
-					if (menuPermitido) {
+					;
+					if (menuPermitido(getApplicationName(), user, iID)) {
 						_navbar1.createGroup(PREFIX_NAVBAR_GROUP + sDesc, null, "%"
 								+ sUrl, sDesc, 1);
 					}
@@ -806,7 +829,6 @@ public class BaseController extends JspController implements SubmitListener,
 	 *           PageEvent
 	 */
 	public void pageSubmitted(PageEvent p) {
-		checkPageRedirect();
 		if (hasPageRedirected())
 			p.setContinueProcessing(false);
 	}
@@ -893,8 +915,6 @@ public class BaseController extends JspController implements SubmitListener,
 				_navbarTable.setVisible(true);
 			}
 		}
-
-		checkPageRedirect();
 		return true;
 	}
 
@@ -960,7 +980,9 @@ public class BaseController extends JspController implements SubmitListener,
 	}
 
 	/**
+	 * 
 	 * This method will do some safety checks in the page requested methods.
+	 * 
 	 */
 	private void checkPageRedirect() {
 		String ip = getCurrentRequest().getRemoteAddr();
@@ -1021,11 +1043,10 @@ public class BaseController extends JspController implements SubmitListener,
 					return;
 				}
 			}
+			timeStart.put(ip, System.currentTimeMillis());
 		} catch (Exception e) {
 			MessageLog.writeErrorMessage("checkPageRedirect()", e, this);
 		}
-
-		timeStart.put(ip, System.currentTimeMillis());
 	}
 
 	/**
@@ -1146,18 +1167,20 @@ public class BaseController extends JspController implements SubmitListener,
 	public SessionManager getSessionManager() {
 		return new SessionManager(getSession());
 	}
-	
+
 	public String armarUrlReporte(String tipo, String reporte, String parametros) {
 		return armarUrlReporte(BIRT_RUN_PATH, tipo, reporte, parametros);
 	}
 
-	public String armarUrlReporte(String path, String tipo, String reporte, String parametros) {
+	public String armarUrlReporte(String path, String tipo, String reporte,
+			String parametros) {
 		String URL = getServerURL();
 
-		/*if (path == null)
-			URL += getPageProperties().getProperty(BIRT_FRAMESET_PATH);
-		else
-			URL += getPageProperties().getProperty(BIRT_RUN_PATH);*/
+		/*
+		 * if (path == null) URL +=
+		 * getPageProperties().getProperty(BIRT_FRAMESET_PATH); else URL +=
+		 * getPageProperties().getProperty(BIRT_RUN_PATH);
+		 */
 		URL += getPageProperties().getProperty(path);
 
 		URL += getPageProperties().getProperty(REPORT_PATH) + reporte
@@ -1177,7 +1200,7 @@ public class BaseController extends JspController implements SubmitListener,
 		URL = URL + parametros;
 
 		return URL;
-	}	
+	}
 
 	/**
 	 * Checks if there are an conected user.
