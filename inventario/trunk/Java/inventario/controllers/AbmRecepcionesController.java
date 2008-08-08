@@ -62,7 +62,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _valorCAP16;
 	public com.salmonllc.html.HtmlTextEdit _cantidad_recibida2;
 	public com.salmonllc.html.HtmlTextEdit _almacen2;
-	public com.salmonllc.html.HtmlTextEdit _fecha2;	
+	public com.salmonllc.html.HtmlTextEdit _fecha2;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspDataTable _datatable1;
@@ -372,7 +372,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 		} catch (DataStoreException ex) {
 			displayErrorMessage(ex.getMessage());
 			return false;
-		} catch (ValidationException ex) {			
+		} catch (ValidationException ex) {
 			for (String er : ex.getStackErrores()) {
 				displayErrorMessage(er);
 			}
@@ -391,27 +391,24 @@ public class AbmRecepcionesController extends BaseEntityController {
 			_proveedor2.setFocus();
 		}
 
-		
-		
-	if (component == _grabarRecepcionCompraBUT1) {	
+		if (component == _grabarRecepcionCompraBUT1) {
 			conn = DBConnection.getConnection("inventario");
 			conn.beginTransaction();
-			
+
 			// si la recepcion esta en estado generado o esta siendo generada
 			if (isModificable(_dsRecepciones.getRecepcionesComprasEstado())) {
-				try {					
+				try {
 					// grabo todos los datasource
 					if (_dsRecepciones.getRow() == -1)
 						return false;
 
 					_dsRecepciones.update(conn);
 
-
 					// actualizo los detalles
 					if (_dsDetalle.getRow() != -1) {
 						_dsDetalle.update(conn);
 					}
-					
+
 					if (_dsAtributos.getRow() == -1) {
 						if (!(_dsRecepciones
 								.getRecepcionesComprasRecepcionCompraId() > 0)) {
@@ -421,18 +418,18 @@ public class AbmRecepcionesController extends BaseEntityController {
 						// manda a generar los atributos de la entidad
 						_dsAtributos.generaAtributosObjetoAplicacion(
 								getRow_id(), getTabla_principal());
-					} else {
-						_dsAtributos.update(conn);					
-					}				
-					conn.commit();	
+					}
+					_dsAtributos.update(conn);
+
+					conn.commit();
 					_dsRecepciones.resetStatus();
 					_dsDetalle.resetStatus();
 					_dsAtributos.resetStatus();
-					
+
 					_dsDetalle.reloadRows(conn);
-					
+
 				} catch (ValidationException ex) {
-					for(String mensaje : ex.getStackErrores())
+					for (String mensaje : ex.getStackErrores())
 						displayErrorMessage(mensaje);
 					return false;
 				} catch (DataStoreException ex) {
@@ -453,7 +450,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 					displayErrorMessage(ex.getMessage());
 					return false;
 				} finally {
-					if (conn != null) {						
+					if (conn != null) {
 						conn.rollback();
 						conn.freeConnection();
 					}
@@ -570,7 +567,6 @@ public class AbmRecepcionesController extends BaseEntityController {
 				return false;
 			}
 		}
-		
 
 		// marca - desmarca todos los partes del datasource como seleccionados
 		if (component == _desSeleccionaTodoBUT1) {
@@ -617,7 +613,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 			// seteaBotonesAtributos();
 			// recuperaAtributosBotonSeleccionado();
 		}
-		if(conn != null) 
+		if (conn != null)
 			conn.freeConnection();
 		setLookupArticulosParaRecepcionURL();
 		armaBotonera();
@@ -791,15 +787,16 @@ public class AbmRecepcionesController extends BaseEntityController {
 			_proveedor2.setEnabled(false);
 		else
 			_proveedor2.setEnabled(true);
-		
+
 		// setea el boton de seleccion/deseleccion segun corresponda
-		if (_dsDetalle.getRowCount() == 0) seleccionarTodo  = true;
-		
+		if (_dsDetalle.getRowCount() == 0)
+			seleccionarTodo = true;
+
 		if (seleccionarTodo)
 			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.seleccion");
 		else
-			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");		
-		
+			_desSeleccionaTodoBUT1.setDisplayNameLocaleKey("text.deseleccion");
+
 		_desSeleccionaTodoBUT1.setOnClick("CheckAll(" + seleccionarTodo + ");");
 	}
 
@@ -844,15 +841,15 @@ public class AbmRecepcionesController extends BaseEntityController {
 			// circuiro
 			// recupero la columna para el circuito
 			// Si no existe configuración no hace nada
-	/*		SQL = "select nombre_detalle from infraestructura.aplica_circuito where circuito = '"
-					+ CIRCUITO + "'";
-			st = conn.createStatement();
-			r = st.executeQuery(SQL);*/
+			/*
+			 * SQL = "select nombre_detalle from infraestructura.aplica_circuito
+			 * where circuito = '" + CIRCUITO + "'"; st =
+			 * conn.createStatement(); r = st.executeQuery(SQL);
+			 */
 
 			// en función de la columna del circuito, determino el estado actual
 			// estado =
 			// _dsRecepciones.getString("solicitudes_compra.estado");
-
 			// recorro los estados y seteo los botones
 			SQL = "SELECT prompt_accion,accion FROM infraestructura.transicion_estados t left join infraestructura.estados e on t.estado_origen = e.estado "
 					+ "where e.circuito = '"

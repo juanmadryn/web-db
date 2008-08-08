@@ -721,8 +721,10 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_monto_unitario1.setEnabled(ifModificable);
 		
 		// links para impresion
-		_imprimirOrdenCompraBUT4.setVisible(!ifModificable);
-		_imprimirOrdenCompraBUT5.setVisible(!ifModificable);
+		boolean isEmitida = "0008.0006".equalsIgnoreCase(_dsOrdenesCompra.getOrdenesCompraEstado());
+		_imprimirOrdenCompraBUT4.setVisible(isEmitida);
+		_imprimirOrdenCompraBUT5.setVisible(isEmitida);
+		
 	}
 
 	/**
