@@ -257,7 +257,6 @@ public class MenuModel extends DataStore {
      
      //$CUSTOMMETHODS$
      //Put custom methods between these comments, otherwise they will be overwritten if the model is regenerated
-     
      //$ENDCUSTOMMETHODS$
      
 }
