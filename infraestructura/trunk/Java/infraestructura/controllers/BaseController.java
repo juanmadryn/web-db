@@ -608,13 +608,9 @@ public class BaseController extends JspController implements SubmitListener,
 			 * user.getUserID() + ")" + " and menu_id = " + menu_id; st =
 			 * conn.createStatement(); r = st.executeQuery(SQL);
 			 */
-
-			System.out.println("Acceso-->"
-					+ dsAccesoMenu.allowedMenuByUser(user.getUserID(), menu_id));
-
-			if (r != null && r.first()) {
+			/*if (r != null && r.first()) {
 				return true;
-			}
+			}*/
 			return dsAccesoMenu.allowedMenuByUser(user.getUserID(), menu_id);
 		} catch (SQLException e) {
 			MessageLog.writeErrorMessage(e, null);
