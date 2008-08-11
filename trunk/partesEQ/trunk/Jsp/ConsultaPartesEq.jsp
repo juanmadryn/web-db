@@ -34,28 +34,7 @@
                      </tr>
                   </table>
                </salmon:searchformdisplaybox>               
-            </salmon:td>
-            <salmon:td>
-            	<salmon:searchformdisplaybox name="searchformdisplaybox2"
-            		addbuttonvisible="false" searchbuttonvisible="false"
-					caption="Reportes" width="100%">
-					<table width="100%">
-						<tr>
-							<td>
-								<salmon:a href="" target="_blank"
-                        			name="reporteHorasEquipoOtBUT2"
-                        			onclick="document.forms['bannerForm'].submit();"
-                        			title="Genera reporte de horas empleadas por equipo y por OT">
-                        			<salmon:text name="reporteHorasEquipoOtTXT2" text="Horas Empleadas por Equipo y por OT" />
-                        			<salmon:img name="reporteHorasEquipoOtIMG2"
-                          				src="%ImageDirectory/pdf.jpg" height="25"
-                          				srclocalekey="bannerImageSource" />                            
-                        		</salmon:a>
-							</td>
-						</tr>
-					</table>
-				</salmon:searchformdisplaybox>
-            </salmon:td>
+            </salmon:td>            
          </salmon:tr>
       </salmon:table>
    </salmon:box>
