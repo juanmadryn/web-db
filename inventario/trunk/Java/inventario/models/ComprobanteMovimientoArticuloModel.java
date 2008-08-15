@@ -177,8 +177,7 @@ public class ComprobanteMovimientoArticuloModel extends BaseModel {
 					true);
 
 			// set order by
-			setOrderBy(computeTableAndFieldName("comprobante_movimiento_articulo.comprobante_movimiento_id")
-					+ " ASC");
+			setOrderBy(COMPROBANTE_MOVIMIENTO_ARTICULO_COMPROBANTE_MOVIMIENTO_ID	+ " DESC");
 
 			// add validations
 			addRequiredRule(COMPROBANTE_MOVIMIENTO_ARTICULO_ALMACEN_ID,
