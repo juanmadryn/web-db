@@ -266,7 +266,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 				"atributoGenerarAtributosBUT11", "generar", this);
 		_listformdisplaybox4.addButton(_atributoGenerarAtributosBUT11);
 
-		// agrega los listener a lso botones
+		// agrega los listener a los botones
 		_nuevoComprobanteBUT1.addSubmitListener(this);
 		_grabarComprobanteBUT1.addSubmitListener(this);
 		_articulosAgregarBUT1.addSubmitListener(this);
@@ -294,7 +294,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 		_dsMovimientos.setAutoValidate(true);
 
 		// seteo inicial para la visualización de componentes
-		// genero un nuevo proyecto vacio.
+		// genero un nuevo comprobante vacio.
 		_dsComprobante.reset();
 		_dsMovimientos.reset();
 

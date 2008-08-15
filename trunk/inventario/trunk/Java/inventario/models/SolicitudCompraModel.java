@@ -224,6 +224,8 @@ public class SolicitudCompraModel extends BaseModel {
 			// seteo columna de Id como autoincrement
 			setAutoIncrement(SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID, true);
 			setUpdateable(SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID, false);
+			setOrderBy(SOLICITUDES_COMPRA_SOLICITUD_COMPRA_ID+" DESC");
+			
 			
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);

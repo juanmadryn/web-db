@@ -128,6 +128,7 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 	public static final String DSRECEPCIONES_WEBSITE_USER_USER_ID = "website_user.user_id";
 
 	public com.salmonllc.html.HtmlSubmitButton _recuperaRecepcionesAnuladas;
+	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
 
 	private Timestamp desde;
 	private Timestamp hasta;
@@ -144,6 +145,11 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 		_recuperaRecepcionesAnuladas.addSubmitListener(this);
 		_recuperaRecepcionesAnuladas.setVisible(false);
 
+		_limpiarBUT = new HtmlSubmitButton("limpiarBUT", "Limpiar", this);
+		_limpiarBUT.setAccessKey("L");
+		_searchformdisplaybox1.addButton(_limpiarBUT);
+		_limpiarBUT.addSubmitListener(this);
+		
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 
 		_dsPeriodo.reset();
@@ -197,6 +203,16 @@ public class ConsultaComprobantesMovimientoArticulosController extends
 		if (e.getComponent() == _recuperaRecepcionesAnuladas) {
 			_dsComprobantes.setComprobanteMovimientoArticuloEstado("0010.0001");
 			_dsComprobantes.update();
+		}
+		
+		// limpia los criterios
+		if (e.getComponent() == _limpiarBUT) {
+			_n2.setValue(null);
+			_estado2.setSelectedIndex(0);
+			_tipo2.setSelectedIndex(0);
+			_fechadesde2.setValue(null);
+			_fechahasta2.setValue(null);
+			_solicitante2.setSelectedIndex(0);
 		}
 
 		return super.submitPerformed(e);

@@ -23,7 +23,8 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 	 * 
 	 */
 	private static final long serialVersionUID = -5233176031862847585L;
-	//Visual Components
+	// Visual Components
+	public com.salmonllc.html.HtmlLookUpComponent _proveedor2;
 	public com.salmonllc.html.HtmlDropDownList _estado2;
 	public com.salmonllc.html.HtmlDropDownList _solicitante2;
 	public com.salmonllc.html.HtmlImage _bannerDividerImage;
@@ -98,12 +99,12 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
 
-	//DataSources
+	// DataSources
 	public com.salmonllc.sql.DataStore _dsPeriodo;
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public inventario.models.RecepcionesComprasModel _dsRecepciones;
 
-	//DataSource Column Constants
+	// DataSource Column Constants
 	public static final String DSQBE_N = "n";
 	public static final String DSQBE_ESTADO = "estado";
 	public static final String DSQBE_USUARIO_COMPLETO = "usuario_completo";
@@ -125,10 +126,11 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 	public static final String DSRECEPCIONES_WEBSITE_USER_USER_ID = "website_user.user_id";
 
 	public com.salmonllc.html.HtmlSubmitButton _recuperaRecepcionesAnuladas;
-	
+	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
+
 	private Timestamp desde;
 	private Timestamp hasta;
-	
+
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
 	 * activities.
@@ -141,12 +143,18 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 		_recuperaRecepcionesAnuladas.addSubmitListener(this);
 		_recuperaRecepcionesAnuladas.setVisible(false);
 
+		_limpiarBUT = new HtmlSubmitButton("limpiarBUT", "Limpiar", this);
+		_limpiarBUT.setAccessKey("L");
+		_searchformdisplaybox1.addButton(_limpiarBUT);
+		_limpiarBUT.addSubmitListener(this);
+
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
 
 		_dsPeriodo.reset();
 		_dsPeriodo.insertRow();
-		seteaPeriodo(null, null); // valores por defecto para el periodo de
-		// fechas
+
+		// valores por defecto para el periodo de fechas
+		seteaPeriodo(null, null);
 		_dsPeriodo.gotoFirst();
 
 		super.initialize();
@@ -170,9 +178,7 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 						return false;
 					}
 					whereFecha = "recepciones_compras.fecha BETWEEN '"
-							+ desde.toString()
-							+ "' AND '"
-							+ hasta.toString() + "'";
+							+ desde.toString() + "' AND '" + hasta.toString() + "'";
 				}
 			}
 			_dsRecepciones.reset();
@@ -194,6 +200,16 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 			_dsRecepciones.update();
 		}
 
+		// limpia los criterios
+		if (e.getComponent() == _limpiarBUT) {
+			_n2.setValue(null);
+			_estado2.setSelectedIndex(0);
+			_proveedor2.setValue(null);
+			_fechadesde2.setValue(null);
+			_fechahasta2.setValue(null);
+			_solicitante2.setSelectedIndex(0);
+		}
+
 		return super.submitPerformed(e);
 	}
 
@@ -201,7 +217,7 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 	 * Process the page requested event
 	 * 
 	 * @param event
-	 *            the page event to be processed
+	 *           the page event to be processed
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
@@ -217,16 +233,23 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 		} else {
 			_solicitante2.setEnabled(true);
 			if (_dsRecepciones.getRow() != -1
-					&& "0009.0004".equalsIgnoreCase(_dsRecepciones.getRecepcionesComprasEstado()))
+					&& "0009.0004".equalsIgnoreCase(_dsRecepciones
+							.getRecepcionesComprasEstado()))
 				_recuperaRecepcionesAnuladas.setVisible(true);
 			else
 				_recuperaRecepcionesAnuladas.setVisible(false);
 		}
+
 		super.pageRequested(event);
 	}
 
 	/**
 	 * Setea el periodo por defecto para el rango de fechas
+	 * 
+	 * @param desdeTime
+	 *           extremo inferior del rango de fechas a consultar
+	 * @param hastaTime
+	 *           extremo superior del rango de fechas a consultar
 	 * 
 	 * @throws DataStoreException
 	 */
@@ -237,7 +260,7 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 		if (desdeTime != null)
 			cal.setTime(desdeTime);
 		Timestamp day = new Timestamp(cal.getTimeInMillis());
-		//_dsPeriodo.setDateTime("desde", day);
+		// _dsPeriodo.setDateTime("desde", day);
 		desde = day;
 		if (hastaTime != null)
 			cal.setTime(hastaTime);
@@ -246,7 +269,7 @@ public class ConsultaRecepcionesComprasController extends BaseController {
 		cal.set(Calendar.SECOND, 59);
 		cal.set(Calendar.MILLISECOND, 9);
 		day = new Timestamp(cal.getTimeInMillis());
-		//_dsPeriodo.setDateTime("hasta", day);
+		// _dsPeriodo.setDateTime("hasta", day);
 		hasta = day;
 	}
 }

@@ -169,6 +169,7 @@ public class RecepcionesComprasModel extends BaseModel {
 				"Usuario inexistente");	
 
 		setAutoIncrement(RECEPCIONES_COMPRAS_RECEPCION_COMPRA_ID, true);		
+		setOrderBy(RECEPCIONES_COMPRAS_RECEPCION_COMPRA_ID+" DESC");
 		
 		// $CUSTOMCONSTRUCTOR$
 		// Put custom constructor code between these comments, otherwise it be
