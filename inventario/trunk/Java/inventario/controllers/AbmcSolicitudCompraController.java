@@ -331,9 +331,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 		_dsDetalleSC.reset();
 		_dsAuditoria.reset();
 
-		_dsSolicitudCompra.insertRow();
-
-		_proyecto2.setFocus();
+		_dsSolicitudCompra.insertRow();		
 
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
 
@@ -948,6 +946,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					setDatosBasicosSolicitud();
 					setTareaLookupURL();
 				}
+				_proyecto2.setFocus();
 			}
 			setRecargar(false);
 

@@ -161,7 +161,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesRechazadas;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesObservadas;
 	public com.salmonllc.html.HtmlSubmitButton _recuperaSolicitudesCotizadas;
-	
+	public com.salmonllc.html.HtmlSubmitButton _limpiarBUT;
+
 	private Timestamp desde;
 	private Timestamp hasta;
 
@@ -178,8 +179,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesPendientes.setVisible(false);
 
 		_recuperaSolicitudesRechazadas = new HtmlSubmitButton(
-				"recuperaSolicitudesRechazadas",
-				"recuperar Solicitud rechazada", this);
+				"recuperaSolicitudesRechazadas", "recuperar Solicitud rechazada",
+				this);
 		_recuperaSolicitudesRechazadas.setAccessKey("S");
 		_detailformdisplaybox1.addButton(_recuperaSolicitudesRechazadas);
 		_recuperaSolicitudesRechazadas.addSubmitListener(this);
@@ -191,7 +192,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_listformdisplaybox1.addButton(_recuperaSolicitudesObservadas);
 		_recuperaSolicitudesObservadas.addSubmitListener(this);
 		_recuperaSolicitudesObservadas.setVisible(false);
-		
+
 		_recuperaSolicitudesCotizadas = new HtmlSubmitButton(
 				"recuperaSolicitudesCotizadas", "SM's para autorizar", this);
 		_recuperaSolicitudesCotizadas.setAccessKey("O");
@@ -199,9 +200,12 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesCotizadas.addSubmitListener(this);
 		_recuperaSolicitudesCotizadas.setVisible(false);
 
+		_limpiarBUT = new HtmlSubmitButton("limpiarBUT", "Limpiar", this);
+		_limpiarBUT.setAccessKey("L");
+		_searchformdisplaybox1.addButton(_limpiarBUT);
+		_limpiarBUT.addSubmitListener(this);
+
 		_searchformdisplaybox1.getSearchButton().addSubmitListener(this);
-		
-		_n2.setFocus();
 
 		_dsPeriodo.reset();
 		_dsPeriodo.insertRow();
@@ -233,9 +237,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 						return false;
 					}
 					whereFecha = "solicitudes_compra.fecha_solicitud BETWEEN '"
-							+ desde.toString()
-							+ "' AND '"
-							+ hasta.toString() + "'";
+							+ desde.toString() + "' AND '" + hasta.toString() + "'";
 				}
 			}
 			_dsSolicitudes.reset();
@@ -256,7 +258,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 
 		if (e.getComponent() == _recuperaSolicitudesPendientes) {
 			try {
-				_dsSolicitudes.setOrderBy("solicitudes_compra.fecha_aprobacion DESC");
+				_dsSolicitudes
+						.setOrderBy("solicitudes_compra.fecha_aprobacion DESC");
 				_dsSolicitudes
 						.retrieve("solicitudes_compra.solicitud_compra_id IN "
 								+ "(SELECT objeto_id FROM inventario.instancias_aprobacion i WHERE i.estado LIKE '0007.0001' and i.user_firmante = "
@@ -290,11 +293,11 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				ex.printStackTrace();
 			}
 		}
-		
+
 		if (e.getComponent() == _recuperaSolicitudesCotizadas) {
 			try {
 				_dsSolicitudes
-					.retrieve("solicitudes_compra.estado LIKE '0006.0008'");
+						.retrieve("solicitudes_compra.estado LIKE '0006.0008'");
 				_dsSolicitudes.waitForRetrieve();
 				_dsSolicitudes.gotoFirst();
 				setSpecialTitle(MODO_TITULO_ESPECIAL_COTIZADAS);
@@ -312,8 +315,13 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			_dsSolicitudes.update();
 		}
 
-		if (e.getComponent() == _searchformdisplaybox1.getSearchButton()) {
-
+		// limpia los criterios
+		if (e.getComponent() == _limpiarBUT) {
+			_n2.setValue(null);
+			_estado2.setSelectedIndex(0);
+			_fechadesde2.setValue(null);
+			_fechahasta2.setValue(null);
+			_solicitante2.setSelectedIndex(0);
 		}
 
 		return super.submitPerformed(e);
@@ -323,7 +331,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	 * Process the page requested event
 	 * 
 	 * @param event
-	 *            the page event to be processed
+	 *           the page event to be processed
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
@@ -333,7 +341,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			int mode = getIntParameter("mode", -1);
 
 			if (user_id != -1) {
-				// verifica si cambió el contexto
+				// en función del modo de invocación de la página muestra las
+				// solicitudes pendientes, observadas o cotizadas.
 				try {
 					switch (mode) {
 					case 0:
@@ -353,13 +362,16 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 						setSpecialTitle(MODO_TITULO_ESPECIAL_OBSERVADAS);
 						break;
 					case 2:
-						_dsSolicitudes.setOrderBy(SolicitudCompraModel.SOLICITUDES_COMPRA_FECHA_SOLICITUD + " DESC");
-						_dsSolicitudes.retrieve("solicitudes_compra.estado LIKE '0006.0008'");						
+						_dsSolicitudes
+								.setOrderBy(SolicitudCompraModel.SOLICITUDES_COMPRA_FECHA_SOLICITUD
+										+ " DESC");
+						_dsSolicitudes
+								.retrieve("solicitudes_compra.estado LIKE '0006.0008'");
 						_dsSolicitudes.waitForRetrieve();
 						_dsSolicitudes.gotoFirst();
 						setSpecialTitle(MODO_TITULO_ESPECIAL_COTIZADAS);
 						break;
-					}					
+					}
 
 				} catch (SQLException e) {
 					displayErrorMessage(e.getMessage());
@@ -370,7 +382,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				}
 
 			}
-
+			_n2.setFocus();
 		}
 
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
@@ -389,8 +401,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			_recuperaSolicitudesObservadas.setVisible(true);
 		} else {
 			_recuperaSolicitudesObservadas.setVisible(false);
-		}		
-		
+		}
+
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
 		// realizadas por él
 		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
@@ -404,8 +416,9 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				_recuperaSolicitudesRechazadas.setVisible(true);
 			else
 				_recuperaSolicitudesRechazadas.setVisible(false);
-			
-			int solicitudes_cotizadas = Utilities.getSolicitudesCompraCotizadas(currentUser);
+
+			int solicitudes_cotizadas = Utilities
+					.getSolicitudesCompraCotizadas(currentUser);
 			if (solicitudes_cotizadas > 0) {
 				_recuperaSolicitudesCotizadas.setVisible(true);
 			} else {
@@ -422,7 +435,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		case 0:
 			_listformdisplaybox1
 					.setHeadingCaption("Solicitudes de materiales pendientes de aprobación");
-			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");			
+			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		case 1:
 			_listformdisplaybox1
@@ -430,14 +443,20 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
 		case 2:
-			_listformdisplaybox1.setHeadingCaption("Solicitudes de materiales cotizadas para autorizar");
+			_listformdisplaybox1
+					.setHeadingCaption("Solicitudes de materiales cotizadas para autorizar");
 			_listformdisplaybox1.setHeaderFont("DisplayBoxHeadingSpecialFont");
 			break;
-		}		
+		}
 	}
 
 	/**
 	 * Setea el periodo por defecto para el rango de fechas
+	 * 
+	 * @param desdeTime
+	 *           extremo inferior del rango de fechas a consultar
+	 * @param hastaTime
+	 *           extremo superior del rango de fechas a consultar
 	 * 
 	 * @throws DataStoreException
 	 */
@@ -448,7 +467,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		if (desdeTime != null)
 			cal.setTime(desdeTime);
 		Timestamp day = new Timestamp(cal.getTimeInMillis());
-		//_dsPeriodo.setDateTime("desde", day);
+		// _dsPeriodo.setDateTime("desde", day);
 		desde = day;
 		if (hastaTime != null)
 			cal.setTime(hastaTime);
@@ -457,7 +476,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		cal.set(Calendar.SECOND, 59);
 		cal.set(Calendar.MILLISECOND, 9);
 		day = new Timestamp(cal.getTimeInMillis());
-		//_dsPeriodo.setDateTime("hasta", day);
+		// _dsPeriodo.setDateTime("hasta", day);
 		hasta = day;
 	}
 }

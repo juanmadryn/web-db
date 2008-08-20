@@ -298,9 +298,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 		_dsComprobante.reset();
 		_dsMovimientos.reset();
 
-		_dsComprobante.insertRow();
-
-		_tipo_movimiento2.setFocus();
+		_dsComprobante.insertRow();	
 
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
 
@@ -727,6 +725,7 @@ public class AbmComprobanteMovimientoArticuloController extends
 
 					setDatosBasicosComprobante();
 				}
+				_tipo_movimiento2.setFocus();
 			}
 			setRecargar(false);
 
