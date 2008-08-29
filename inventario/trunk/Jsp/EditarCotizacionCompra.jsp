@@ -64,13 +64,13 @@
 									onclick="document.forms['bannerForm'].submit();">
 									<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
 										height="25" srclocalekey="bannerImageSource" />
-								</salmon:a>
-								<salmon:a href="" target="_blank"
-										name="imprimirSolicitudCotizacion"
-										onclick="document.forms['bannerForm'].submit();">
+								</salmon:a> <salmon:a href="" target="_blank"
+									name="imprimirSolicitudCotizacion"
+									onclick="document.forms['bannerForm'].submit();">
                           				Solicitud de cotización genérica
-                        			</salmon:a>
-								</td>
+                        			</salmon:a></td>
+							</tr>
+							<tr height="5">
 							</tr>
 							<tr>
 								<td><salmon:text name="nombre_completo_comprador1"
@@ -160,6 +160,30 @@
 									<salmon:text name="seleccion_proveedor23" text="+++"
 										font="TableHeadingFont" />
 								</salmon:td>
+								<salmon:td>
+									<salmon:text name="precio_unitario_proveedor24"
+										text="Proveedor 4" font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="marca_proveedor24" text="+++++++++++"
+										font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="seleccion_proveedor24" text="+++"
+										font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="precio_unitario_proveedor25"
+										text="Proveedor 5" font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="marca_proveedor25" text="+++++++++++"
+										font="TableHeadingFont" />
+								</salmon:td>
+								<salmon:td>
+									<salmon:text name="seleccion_proveedor25" text="+++"
+										font="TableHeadingFont" />
+								</salmon:td>
 							</salmon:tr>
 							<salmon:tr>
 								<salmon:td colspan="6">
@@ -223,6 +247,44 @@
 										popupheight="450" popupwidth="500" usepopup="true"
 										showdescription="true"></salmon:lookup>
 								</salmon:td>
+								<salmon:td colspan="3" align="CENTER" name="condiciones4">
+									<!--<salmon:input type="select" width="15"
+                              name="forma_Pago_proveedor3" size="40"
+                              datasource="dsCotizacionesCompra:cotizaciones_compra.condicion_compra_id_proveedor3">
+                              <salmon:option display="abc" key="123"
+                                 table="condiciones_compra"
+                                 keycolumn="condicion_compra_id"
+                                 displaycolumn="descripcion"
+                                 nulloption="true"></salmon:option>
+                           </salmon:input>
+                        -->
+									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpCondicionesCompra" name="lkpCondicionesCompra4"
+										size="2" maxlength="50"
+										descriptiondatasource="dsCotizacionesCompra:condiciones_compra_proveedor4.descripcion"
+										datasource="dsCotizacionesCompra:condiciones_compra_proveedor4.nombre"
+										popupheight="450" popupwidth="500" usepopup="true"
+										showdescription="true"></salmon:lookup>
+								</salmon:td>
+								<salmon:td colspan="3" align="CENTER" name="condiciones5">
+									<!--<salmon:input type="select" width="15"
+                              name="forma_Pago_proveedor3" size="40"
+                              datasource="dsCotizacionesCompra:cotizaciones_compra.condicion_compra_id_proveedor3">
+                              <salmon:option display="abc" key="123"
+                                 table="condiciones_compra"
+                                 keycolumn="condicion_compra_id"
+                                 displaycolumn="descripcion"
+                                 nulloption="true"></salmon:option>
+                           </salmon:input>
+                        -->
+									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpCondicionesCompra" name="lkpCondicionesCompra5"
+										size="2" maxlength="50"
+										descriptiondatasource="dsCotizacionesCompra:condiciones_compra_proveedor5.descripcion"
+										datasource="dsCotizacionesCompra:condiciones_compra_proveedor5.nombre"
+										popupheight="450" popupwidth="500" usepopup="true"
+										showdescription="true"></salmon:lookup>
+								</salmon:td>
 							</salmon:tr>
 							<salmon:tr>
 								<salmon:td colspan="6">
@@ -243,6 +305,18 @@
 								</salmon:td>
 								<salmon:td colspan="3" align="RIGHT">
 									<salmon:input type="text" name="plazo_entrega_proveedor3"
+										size="10"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.plazo_entrega_proveedor3">
+									</salmon:input>
+								</salmon:td>
+								<salmon:td colspan="3" align="RIGHT" name="plazo4">
+									<salmon:input type="text" name="plazo_entrega_proveedor4"
+										size="10"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.plazo_entrega_proveedor3">
+									</salmon:input>
+								</salmon:td>
+								<salmon:td colspan="3" align="RIGHT" name="plazo5">
+									<salmon:input type="text" name="plazo_entrega_proveedor5"
 										size="10"
 										datasource="dsCotizacionesCompra:cotizaciones_compra.plazo_entrega_proveedor3">
 									</salmon:input>
@@ -271,6 +345,18 @@
 										datasource="dsCotizacionesCompra:cotizaciones_compra.bonificacion_proveedor3">
 									</salmon:input>
 								</salmon:td>
+								<salmon:td colspan="3" align="RIGHT" name="bonificacion4">
+									<salmon:input type="text" name="bonificacion_proveedor4"
+										size="10" displayformat="##0"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.bonificacion_proveedor4">
+									</salmon:input>
+								</salmon:td>
+								<salmon:td colspan="3" align="RIGHT" name="bonificacion5">
+									<salmon:input type="text" name="bonificacion_proveedor5"
+										size="10" displayformat="##0"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.bonificacion_proveedor5">
+									</salmon:input>
+								</salmon:td>
 							</salmon:tr>
 							<salmon:tr>
 								<salmon:td colspan="6">
@@ -291,6 +377,16 @@
 									<salmon:text text="0" name="total_proveedor3"
 										displayformat="###,###,##0.00"
 										datasource="dsCotizacionesCompra:cotizaciones_compra.total_proveedor3" />
+								</salmon:td>
+								<salmon:td colspan="3" align="RIGHT" name="total4">
+									<salmon:text text="0" name="total_proveedor4"
+										displayformat="###,###,##0.00"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.total_proveedor4" />
+								</salmon:td>
+								<salmon:td colspan="3" align="RIGHT" name="total5">
+									<salmon:text text="0" name="total_proveedor5"
+										displayformat="###,###,##0.00"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.total_proveedor5" />
 								</salmon:td>
 							</salmon:tr>
 							<salmon:tr>
@@ -325,6 +421,24 @@
 										popupheight="450" popupwidth="500" usepopup="true"
 										showdescription="true"></salmon:lookup>
 								</salmon:td>
+								<salmon:td colspan="3" name="proveedor4">
+									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpProveedores" name="entidad_id_proveedor4"
+										size="6" maxlength="10" displayformat="#########0"
+										descriptiondatasource="dsCotizacionesCompra:entidad_externa_proveedor4.nombre"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.entidad_id_proveedor4"
+										popupheight="450" popupwidth="500" usepopup="true"
+										showdescription="true"></salmon:lookup>
+								</salmon:td>
+								<salmon:td colspan="3" name="proveedor5">
+									<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpProveedores" name="entidad_id_proveedor5"
+										size="6" maxlength="10" displayformat="#########0"
+										descriptiondatasource="dsCotizacionesCompra:entidad_externa_proveedor5.nombre"
+										datasource="dsCotizacionesCompra:cotizaciones_compra.entidad_id_proveedor5"
+										popupheight="450" popupwidth="500" usepopup="true"
+										showdescription="true"></salmon:lookup>
+								</salmon:td>
 							</salmon:tr>
 							<salmon:tr>
 								<salmon:td colspan="6">
@@ -337,15 +451,29 @@
                         			</salmon:a>
 								</salmon:td>
 								<salmon:td colspan="3">
-								<salmon:a href="" target="_blank"
+									<salmon:a href="" target="_blank"
 										name="imprimirSolicitudCotizacion2"
 										onclick="document.forms['bannerForm'].submit();">
                           				Solicitud de cotización
                         			</salmon:a>
 								</salmon:td>
 								<salmon:td colspan="3">
-								<salmon:a href="" target="_blank"
+									<salmon:a href="" target="_blank"
 										name="imprimirSolicitudCotizacion3"
+										onclick="document.forms['bannerForm'].submit();">
+                          				Solicitud de cotización
+                        			</salmon:a>
+								</salmon:td>
+								<salmon:td colspan="3" name="imprimir4">
+									<salmon:a href="" target="_blank"
+										name="imprimirSolicitudCotizacion4"
+										onclick="document.forms['bannerForm'].submit();">
+                          				Solicitud de cotización
+                        			</salmon:a>
+								</salmon:td>
+								<salmon:td colspan="3" name="imprimir5">
+									<salmon:a href="" target="_blank"
+										name="imprimirSolicitudCotizacion5"
 										onclick="document.forms['bannerForm'].submit();">
                           				Solicitud de cotización
                         			</salmon:a>
@@ -419,6 +547,30 @@
 												</salmon:td>
 												<salmon:td rowspan="2">
 													<salmon:text name="seleccion_proveedor3" text=" X "
+														font="TableHeadingFont" />
+												</salmon:td>
+												<salmon:td rowspan="2" name="precio_unitario4">
+													<salmon:text name="precio_unitario_proveedor4"
+														text="Precio proveedor 4" font="TableHeadingFont" />
+												</salmon:td>
+												<salmon:td rowspan="2" name="marca4">
+													<salmon:text name="marca_4"
+														text="Marca proveedor 4" font="TableHeadingFont" />
+												</salmon:td>
+												<salmon:td rowspan="2" name="seleccion4">
+													<salmon:text name="seleccion_proveedor4" text=" X "
+														font="TableHeadingFont" />
+												</salmon:td>
+												<salmon:td rowspan="2" name="precio_unitario5">
+													<salmon:text name="precio_unitario_proveedor5"
+														text="Precio proveedor 5" font="TableHeadingFont" />
+												</salmon:td>
+												<salmon:td rowspan="2" name="marca5">
+													<salmon:text name="marca_5"
+														text="Marca proveedor 5" font="TableHeadingFont" />
+												</salmon:td>
+												<salmon:td rowspan="2" name="seleccion5">
+													<salmon:text name="seleccion_proveedor5" text=" X "
 														font="TableHeadingFont" />
 												</salmon:td>
 											</salmon:tr>
@@ -506,7 +658,7 @@
 														datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor1">
 													</salmon:input>
 												</salmon:td>
-												<salmon:td rowspan="2"> 
+												<salmon:td rowspan="2">
 													<salmon:input type="checkbox"
 														name="cotizacion_seleccionada_proveedor1"
 														checkedtruevalue="1"
@@ -551,15 +703,55 @@
 														datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor3">
 													</salmon:input>
 												</salmon:td>
+												<salmon:td rowspan="2" name="precio4">
+													<salmon:input name="precio_proveedor4" type="text" size="6"
+														maxlength="10"
+														datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor4">
+													</salmon:input>
+												</salmon:td>
+												<salmon:td rowspan="2" name="marca_proveedor4">
+													<salmon:input name="input_marca_proveedor4" type="text"
+														size="10" maxlength="255"
+														datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor4">
+													</salmon:input>
+												</salmon:td>
+												<salmon:td rowspan="2" name="seleccionada4">
+													<salmon:input type="checkbox"
+														name="cotizacion_seleccionada_proveedor4"
+														checkedtruevalue="1"
+														datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor4">
+													</salmon:input>
+												</salmon:td>
+												<salmon:td rowspan="2" name="precio5">
+													<salmon:input name="precio_proveedor5" type="text" size="6"
+														maxlength="10"
+														datasource="dsDetalleCotizacion:detalle_cotizacion.monto_unitario_proveedor5">
+													</salmon:input>
+												</salmon:td>
+												<salmon:td rowspan="2" name="marca_proveedor5">
+													<salmon:input name="input_marca_proveedor5" type="text"
+														size="10" maxlength="255"
+														datasource="dsDetalleCotizacion:detalle_cotizacion.marca_proveedor5">
+													</salmon:input>
+												</salmon:td>
+												<salmon:td rowspan="2" name="seleccionada5">
+													<salmon:input type="checkbox"
+														name="cotizacion_seleccionada_proveedor5"
+														checkedtruevalue="1"
+														datasource="dsDetalleCotizacion:detalle_cotizacion.cotizacion_seleccionada_proveedor5">
+													</salmon:input>
+												</salmon:td>
 											</salmon:tr>
 											<salmon:tr>
-												<salmon:td colspan="3">													
-													<salmon:input type="text" name="descripcionTXT" size="20" enabled="false"
-															font="DefaultFont" datasource="dsDetalleCotizacion:detalle_sc.descripcion" />
+												<salmon:td colspan="3">
+													<salmon:input type="text" name="descripcionTXT" size="20"
+														enabled="false" font="DefaultFont"
+														datasource="dsDetalleCotizacion:detalle_sc.descripcion" />
 												</salmon:td>
-												<salmon:td colspan="3">													
-													<salmon:input type="text" name="observacionesTXT" size="20" enabled="false"
-															font="DefaultFont" datasource="dsDetalleCotizacion:detalle_sc.observaciones" />
+												<salmon:td colspan="3">
+													<salmon:input type="text" name="observacionesTXT" size="20"
+														enabled="false" font="DefaultFont"
+														datasource="dsDetalleCotizacion:detalle_sc.observaciones" />
 												</salmon:td>
 											</salmon:tr>
 										</salmon:datatablerows>
