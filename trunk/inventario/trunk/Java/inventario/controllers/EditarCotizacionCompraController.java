@@ -64,10 +64,14 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	public com.salmonllc.html.HtmlText _precio_unitario_proveedor1;
 	public com.salmonllc.html.HtmlText _precio_unitario_proveedor2;
 	public com.salmonllc.html.HtmlText _precio_unitario_proveedor3;
+	public com.salmonllc.html.HtmlText _precio_unitario_proveedor4;
+	public com.salmonllc.html.HtmlText _precio_unitario_proveedor5;
 	public com.salmonllc.html.HtmlText _proveedorHeading1;
 	public com.salmonllc.html.HtmlText _seleccion_proveedor1;
 	public com.salmonllc.html.HtmlText _seleccion_proveedor2;
 	public com.salmonllc.html.HtmlText _seleccion_proveedor3;
+	public com.salmonllc.html.HtmlText _seleccion_proveedor4;
+	public com.salmonllc.html.HtmlText _seleccion_proveedor5;
 	public com.salmonllc.html.HtmlText _signo_pesos1;
 	public com.salmonllc.html.HtmlText _solicitudCompra3;
 	public com.salmonllc.html.HtmlText _solicitudCompra4;
@@ -89,13 +93,46 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspDataTable _datatable2;
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 	public com.salmonllc.jsp.JspLink _imprimirCotizacionCompraBUT1;
-	public com.salmonllc.jsp.JspLink _imprimirCotizacionCompraBUT2;	
+	public com.salmonllc.jsp.JspLink _imprimirCotizacionCompraBUT2;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
 	public com.salmonllc.jsp.JspTable _table1;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion1;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion2;
 	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion3;
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion4;
+	public com.salmonllc.jsp.JspLink _imprimirSolicitudCotizacion5;
+
+	public com.salmonllc.html.HtmlText _precio_unitario_proveedor24;
+	public com.salmonllc.html.HtmlText _precio_unitario_proveedor25;
+	public com.salmonllc.html.HtmlText _seleccion_proveedor24;
+	public com.salmonllc.html.HtmlText _seleccion_proveedor25;
+	public com.salmonllc.html.HtmlText _marca_proveedor24;
+	public com.salmonllc.html.HtmlText _marca_proveedor25;
+	public com.salmonllc.jsp.JspTableCell _condiciones4;
+	public com.salmonllc.jsp.JspTableCell _condiciones5;
+	public com.salmonllc.jsp.JspTableCell _plazo4;
+	public com.salmonllc.jsp.JspTableCell _plazo5;
+	public com.salmonllc.jsp.JspTableCell _bonificacion4;
+	public com.salmonllc.jsp.JspTableCell _bonificacion5;
+	public com.salmonllc.jsp.JspTableCell _total4;
+	public com.salmonllc.jsp.JspTableCell _total5;
+	public com.salmonllc.jsp.JspTableCell _proveedor4;
+	public com.salmonllc.jsp.JspTableCell _proveedor5;
+	public com.salmonllc.jsp.JspTableCell _imprimir4;
+	public com.salmonllc.jsp.JspTableCell _imprimir5;
+	public com.salmonllc.jsp.JspTableCell _precio_unitario4;
+	public com.salmonllc.jsp.JspTableCell _precio_unitario5;
+	public com.salmonllc.jsp.JspTableCell _marca4;
+	public com.salmonllc.jsp.JspTableCell _marca5;
+	public com.salmonllc.jsp.JspTableCell _seleccion4;
+	public com.salmonllc.jsp.JspTableCell _seleccion5;
+	public com.salmonllc.jsp.JspTableCell _precio4;
+	public com.salmonllc.jsp.JspTableCell _precio5;
+	public com.salmonllc.jsp.JspTableCell _marca_proveedor4;
+	public com.salmonllc.jsp.JspTableCell _marca_proveedor5;
+	public com.salmonllc.jsp.JspTableCell _seleccionada4;
+	public com.salmonllc.jsp.JspTableCell _seleccionada5;
 
 	// DataSources
 	public inventario.models.CotizacionesCompraModel _dsCotizacionesCompra;
@@ -198,10 +235,11 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	public HtmlSubmitButton _generarOCBUT1;
 	public HtmlSubmitButton _cotizacionOptimaBUT;
 	public HtmlSubmitButton _limpiaSeleccionBUT;
+	public HtmlSubmitButton _mostrarProveedoresBUT1;
 	public JspLink _lnkordencompra1;
-	
+
 	private static final String CIRCUITO = "0006";
-	
+
 	// especifica si hay que recargar la pagina
 	private boolean recargar = false;
 
@@ -210,27 +248,36 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 
 		super.initialize();
 
-		_grabarCotizacionCompraBUT1 = new HtmlSubmitButton("grabarCotizacionCompraBUT1", "Grabar", this);
+		_grabarCotizacionCompraBUT1 = new HtmlSubmitButton(
+				"grabarCotizacionCompraBUT1", "Grabar", this);
 		_grabarCotizacionCompraBUT1.setAccessKey("G");
 		_detailformdisplaybox1.addButton(_grabarCotizacionCompraBUT1);
 
-		_cotizacionOptimaBUT = new HtmlSubmitButton("cotizacionOptimaBUT", "Cotización Óptima",this);
+		_cotizacionOptimaBUT = new HtmlSubmitButton("cotizacionOptimaBUT",
+				"Cotización Óptima", this);
 		_cotizacionOptimaBUT.setAccessKey("C");
 		_detailformdisplaybox1.addButton(_cotizacionOptimaBUT);
-		
-		_limpiaSeleccionBUT = new HtmlSubmitButton("limpiaSeleccionBUT", "limpia Selección",this);
+
+		_limpiaSeleccionBUT = new HtmlSubmitButton("limpiaSeleccionBUT",
+				"limpia Selección", this);
 		_limpiaSeleccionBUT.setAccessKey("X");
 		_detailformdisplaybox1.addButton(_limpiaSeleccionBUT);
 
-		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "generar OC",this);
+		_generarOCBUT1 = new HtmlSubmitButton("generarOCBUT1", "generar OC", this);
 		_generarOCBUT1.setAccessKey("O");
 		_detailformdisplaybox1.addButton(_generarOCBUT1);
+
+		_mostrarProveedoresBUT1 = new HtmlSubmitButton("mostrarProveedoresBUT1",
+				"Mostrar proveedores", this);
+		_mostrarProveedoresBUT1.setAccessKey("M");
+		_detailformdisplaybox1.addButton(_mostrarProveedoresBUT1);
 
 		// agrega los listener a los botones
 		_grabarCotizacionCompraBUT1.addSubmitListener(this);
 		_cotizacionOptimaBUT.addSubmitListener(this);
 		_limpiaSeleccionBUT.addSubmitListener(this);
 		_generarOCBUT1.addSubmitListener(this);
+		_mostrarProveedoresBUT1.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
 		_customBUT120.addSubmitListener(this);
@@ -253,70 +300,79 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				_dsDetalleCotizacion.update();
 				// calcula totales
 				_dsCotizacionesCompra.setTotalesProveedor();
-				_dsCotizacionesCompra.update();				
+				_dsCotizacionesCompra.update();
 			} catch (DataStoreException ex) {
 				displayErrorMessage(ex.getMessage());
 				return false;
 			}
 		}
-		
+
 		if (e.getComponent() == _cotizacionOptimaBUT) {
-			
+
 			try {
-				
+
 				// graba por si hay datos pendientes y verifica información
 				_dsDetalleCotizacion.update();
 				_dsCotizacionesCompra.setTotalesProveedor();
 				_dsCotizacionesCompra.update();
-				
+
 				// genera la cotización óptima
 				_dsCotizacionesCompra.generaCotizacionOptima();
 				_dsCotizacionesCompra.update();
-				
+
 				setRecargar(true);
 				sendPageRedirect();
-				
+
 			} catch (Exception ex) {
 				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
 				return false;
 			}
-			
-			
+
 		}
-		
+
 		if (e.getComponent() == _limpiaSeleccionBUT) {
 			try {
 				// recorro el data store del detalle desmarcando TODO
 				if (_dsDetalleCotizacion.getRowCount() > 0) {
-					for (int row = 0 ; row < _dsDetalleCotizacion.getRowCount() ; row++) {
-						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor1(row, 0);
-						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor2(row, 0);
-						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor3(row, 0);
-						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor4(row, 0);
-						_dsDetalleCotizacion.setDetalleCotizacionCotizacionSeleccionadaProveedor5(row, 0);
+					for (int row = 0; row < _dsDetalleCotizacion.getRowCount(); row++) {
+						_dsDetalleCotizacion
+								.setDetalleCotizacionCotizacionSeleccionadaProveedor1(
+										row, 0);
+						_dsDetalleCotizacion
+								.setDetalleCotizacionCotizacionSeleccionadaProveedor2(
+										row, 0);
+						_dsDetalleCotizacion
+								.setDetalleCotizacionCotizacionSeleccionadaProveedor3(
+										row, 0);
+						_dsDetalleCotizacion
+								.setDetalleCotizacionCotizacionSeleccionadaProveedor4(
+										row, 0);
+						_dsDetalleCotizacion
+								.setDetalleCotizacionCotizacionSeleccionadaProveedor5(
+										row, 0);
 					}
 				} else {
 					displayErrorMessage("No existen detalles en esta Cotización");
 					return false;
 				}
-				
+
 				_dsDetalleCotizacion.update();
 				_dsCotizacionesCompra.setTotalesProveedor();
 				_dsCotizacionesCompra.update();
-				
+
 				setRecargar(true);
 				sendPageRedirect();
-				
+
 			} catch (Exception ex) {
 				MessageLog.writeErrorMessage(ex, null);
 				displayErrorMessage(ex.getMessage());
 				return false;
 			}
 		}
-		
+
 		if (e.getComponent() == _generarOCBUT1) {
-			//verifica y genera OC's correspondientes
+			// verifica y genera OC's correspondientes
 			DBConnection conn = DBConnection.getConnection(getApplicationName());
 			try {
 				// primero graba por si existen commit pendiente
@@ -324,7 +380,6 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				// calcula totales
 				_dsCotizacionesCompra.setTotalesProveedor();
 				_dsCotizacionesCompra.update();
-				
 
 				// luego genera las OC's
 				conn.beginTransaction();
@@ -333,7 +388,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 						.getRemoteHost(), conn);
 
 				conn.commit();
-				
+
 				setRecargar(true);
 
 				sendPageRedirect();
@@ -350,6 +405,16 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 			}
 		}
 
+		if (e.getComponent() == _mostrarProveedoresBUT1) {
+			if (_dsCotizacionesCompra.getCotizacionesCompraEntidadIdProveedor4() == 0
+					&& _dsCotizacionesCompra
+							.getCotizacionesCompraEntidadIdProveedor5() == 0
+					&& _precio_unitario_proveedor24.getVisible()) {
+				setVisibleProveedoresAdicionales(false);
+			} else
+				setVisibleProveedoresAdicionales(true);
+		}
+		
 		return super.submitPerformed(e);
 	}
 
@@ -382,6 +447,14 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 					_dsDetalleCotizacion.gotoFirst();
 					_dsCotizacionesCompra.gotoFirst();
 
+					if (_dsCotizacionesCompra
+							.getCotizacionesCompraEntidadIdProveedor4() != 0
+							|| _dsCotizacionesCompra
+									.getCotizacionesCompraEntidadIdProveedor5() != 0) {
+						setVisibleProveedoresAdicionales(true);
+					} else
+						setVisibleProveedoresAdicionales(false);
+
 				} else {
 					displayErrorMessage("Debe Especificar una cotización de Compra");
 				}
@@ -391,7 +464,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 				_rawAddRow.setHtml("</tr><tr>");
 				_navbarTable.setVisible(false);
 			}
-			
+
 			setDatosBasicosSolicitud();
 			armaBotonera();
 			setRecargar(false);
@@ -453,8 +526,8 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 			// Si no existe configuración no hace nada
 			/*
 			 * SQL = "select nombre_detalle from infraestructura.aplica_circuito
-			 * where circuito = '" + CIRCUITO + "'"; st =
-			 * conn.createStatement(); r = st.executeQuery(SQL);
+			 * where circuito = '" + CIRCUITO + "'"; st = conn.createStatement(); r =
+			 * st.executeQuery(SQL);
 			 */
 
 			// en función de la columna del circuito, determino el estado actual
@@ -480,10 +553,9 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 						if (boton != null) {
 							boton.setVisible(true);
 							boton.setDisplayName(r.getString(1));
-							boton.setDisplayNameLocaleKey(Integer.toString(r
-									.getInt(2)));
-							boton
-									.setButtonFontStyle("font-weight:bold; COLOR: red");
+							boton.setDisplayNameLocaleKey(Integer
+									.toString(r.getInt(2)));
+							boton.setButtonFontStyle("font-weight:bold; COLOR: red");
 						}
 						i = i + 10;
 					}
@@ -523,58 +595,111 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		_dsCotizacionesCompra.setCurrentWebsiteUserId(currentUser);
 		// setea la URL del reporte a generar al presionar el botón de
 		// impresión
-		String URL = armarUrlReporte("XLS", "cotizacion_compra",
+		String reporte_cotizacion = _dsCotizacionesCompra
+				.getCotizacionesCompraEntidadIdProveedor4() != 0
+				|| _dsCotizacionesCompra.getCotizacionesCompraEntidadIdProveedor5() != 0 ? "cotizacion_compra_extendida"
+				: "cotizacion_compra";
+
+		String URL = armarUrlReporte("XLS", reporte_cotizacion,
 				"&param_cotizacion_compra_id=" + getRow_id());
 		_imprimirCotizacionCompraBUT1.setHref(URL);
 
-		URL = armarUrlReporte("PDF", "cotizacion_compra",
+		URL = armarUrlReporte("PDF", reporte_cotizacion,
 				"&param_cotizacion_compra_id=" + getRow_id());
 		_imprimirCotizacionCompraBUT2.setHref(URL);
-		
+
 		URL = armarUrlReporte("PDF", "solicitud_cotizacion_generica",
 				"&param_cotizacion_compra_id=" + getRow_id());
 		_imprimirSolicitudCotizacion.setHref(URL);
-		
+
 		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
-				"&param_cotizacion_compra_id=" + getRow_id()+"&param_proveedor_id=1");
+				"&param_cotizacion_compra_id=" + getRow_id()
+						+ "&param_proveedor_id=1");
 		_imprimirSolicitudCotizacion1.setHref(URL);
-		
+
 		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
-				"&param_cotizacion_compra_id=" + getRow_id()+"&param_proveedor_id=2");
+				"&param_cotizacion_compra_id=" + getRow_id()
+						+ "&param_proveedor_id=2");
 		_imprimirSolicitudCotizacion2.setHref(URL);
-		
+
 		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
-				"&param_cotizacion_compra_id=" + getRow_id()+"&param_proveedor_id=3");
+				"&param_cotizacion_compra_id=" + getRow_id()
+						+ "&param_proveedor_id=3");
 		_imprimirSolicitudCotizacion3.setHref(URL);
-		
+
+		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
+				"&param_cotizacion_compra_id=" + getRow_id()
+						+ "&param_proveedor_id=4");
+		_imprimirSolicitudCotizacion4.setHref(URL);
+
+		URL = armarUrlReporte("PDF", "solicitud_cotizacion",
+				"&param_cotizacion_compra_id=" + getRow_id()
+						+ "&param_proveedor_id=5");
+		_imprimirSolicitudCotizacion5.setHref(URL);
+
 		// si no existe solicitud desactivo el enlace en cada detalle
-		/*for (int row=0; row < _dsDetalleCotizacion.getRowCount(); row++) {
-			if (_dsDetalleCotizacion.getDetalleScOrdenCompraId(row) == 0) {
-				_lnkordencompra1.setVisible(false);
-			} else {
-				_lnkordencompra1.setVisible(true);
-			}
-		}*/
-		
+		/*
+		 * for (int row=0; row < _dsDetalleCotizacion.getRowCount(); row++) { if
+		 * (_dsDetalleCotizacion.getDetalleScOrdenCompraId(row) == 0) {
+		 * _lnkordencompra1.setVisible(false); } else {
+		 * _lnkordencompra1.setVisible(true); } }
+		 */
+
 	}
 
 	/**
 	 * Setea la variable recargar al valor boleano indicado
 	 * 
-	 * @param recargar el valor boleano a setear
+	 * @param recargar
+	 *           el valor boleano a setear
 	 */
 	public void setRecargar(boolean recargar) {
 		this.recargar = recargar;
 	}
 
 	/**
-	 * Indica si se debe o no recargar los datastores de controlador
-	 * en el request actual
+	 * Indica si se debe o no recargar los datastores de controlador en el
+	 * request actual
 	 * 
 	 * @return el valor boleano actual de recargar
 	 */
 	public boolean isRecargar() {
 		return recargar;
+	}
+
+	private void setVisibleProveedoresAdicionales(boolean visible) {
+		_precio_unitario_proveedor24.setVisible(visible);
+		_precio_unitario_proveedor25.setVisible(visible);
+		_seleccion_proveedor24.setVisible(visible);
+		_seleccion_proveedor25.setVisible(visible);
+		_marca_proveedor24.setVisible(visible);
+		_marca_proveedor25.setVisible(visible);
+		_condiciones4.setVisible(visible);
+		_condiciones5.setVisible(visible);
+		_plazo4.setVisible(visible);
+		_plazo5.setVisible(visible);
+		_bonificacion4.setVisible(visible);
+		_bonificacion5.setVisible(visible);
+		_total4.setVisible(visible);
+		_total5.setVisible(visible);
+		_proveedor4.setVisible(visible);
+		_proveedor5.setVisible(visible);
+		_imprimir4.setVisible(visible);
+		_imprimir5.setVisible(visible);
+		_precio_unitario4.setVisible(visible);
+		_precio_unitario5.setVisible(visible);
+		_marca4.setVisible(visible);
+		_marca5.setVisible(visible);
+		_seleccion4.setVisible(visible);
+		_seleccion5.setVisible(visible);
+		_precio4.setVisible(visible);
+		_precio5.setVisible(visible);
+		_marca_proveedor4.setVisible(visible);
+		_marca_proveedor5.setVisible(visible);
+		_seleccionada4.setVisible(visible);
+		_seleccionada5.setVisible(visible);
+		_mostrarProveedoresBUT1.setDisplayName(visible ? "Ocultar proveedores"
+				: "Mostrar proveedores");
 	}
 
 }
