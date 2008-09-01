@@ -53,7 +53,7 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="nroOrdenTango2" type="text"></salmon:input></td>
 								<td width="55"></td>
-								<td><salmon:text name="n3" text="Nº de SC"
+								<td><salmon:text name="n3" text="Nº de SM"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input name="n4" type="text"
 									datasource="dsQBE:nSC"></salmon:input></td>																

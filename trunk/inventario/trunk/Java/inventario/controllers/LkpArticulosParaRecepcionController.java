@@ -2,17 +2,27 @@
 package inventario.controllers;
 
 //Salmon import statements
-import infraestructura.controllers.BaseController;
+import java.sql.SQLException;
 
 import com.salmonllc.html.events.PageEvent;
+import com.salmonllc.html.events.PageListener;
+import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.html.events.SubmitListener;
+import com.salmonllc.jsp.JspController;
+import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.sql.QBEBuilder;
 
 /**
  * LkpArticulosParaRecepcionController: a SOFIA generated controller
  */
-public class LkpArticulosParaRecepcionController extends BaseController {
+public class LkpArticulosParaRecepcionController extends JspController
+		implements SubmitListener, PageListener {
 
-	//Visual Components
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8106685309422839552L;
+	// Visual Components
 	public com.salmonllc.html.HtmlText _buscar1;
 	public com.salmonllc.html.HtmlText _comprador1;
 	public com.salmonllc.html.HtmlText _comprador2;
@@ -44,11 +54,11 @@ public class LkpArticulosParaRecepcionController extends BaseController {
 	public com.salmonllc.jsp.JspTableRow _datatable1TRHeader0;
 	public com.salmonllc.jsp.JspTableRow _datatable1TRRow0;
 
-	//DataSources
+	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public inventario.models.ArticulosCompradosModel _dsArticulosComprados;
 
-	//DataSource Column Constants
+	// DataSource Column Constants
 	public static final String DSQBE_BUSCAR = "buscar";
 
 	public static final String DSARTICULOSCOMPRADOS_ARTICULOS_COMPRADOS_DETALLE_SC_ID = "articulos_comprados.detalle_SC_id";
@@ -65,12 +75,12 @@ public class LkpArticulosParaRecepcionController extends BaseController {
 	public static final String DSARTICULOSCOMPRADOS_ARTICULOS_COMPRADOS_COMPRADOR = "articulos_comprados.comprador";
 
 	/**
-	 * Initialize the page. Set up listeners and perform other initialization activities.
+	 * Initialize the page. Set up listeners and perform other initialization
+	 * activities.
 	 */
-	public void initialize()  {
+	public void initialize() {
 		addPageListener(this);
-		_dsQBE.addCriteria("proveedor",
-				QBEBuilder.CRITERIA_TYPE_EQUALS,
+		_dsQBE.addCriteria("proveedor", QBEBuilder.CRITERIA_TYPE_EQUALS,
 				"articulos_comprados.entidad_id_proveedor");
 	}
 
@@ -79,19 +89,50 @@ public class LkpArticulosParaRecepcionController extends BaseController {
 	 * 
 	 * @param event
 	 *            the page event to be processed
+	 * @throws DataStoreException
+	 * @throws SQLException
 	 */
-	public void pageRequested(PageEvent event) {
-		try {
-			if(!isReferredByCurrentPage())
+	public void pageRequested(PageEvent event) throws DataStoreException,
+			SQLException {
+
+		if (!isReferredByCurrentPage())
 			_dsArticulosComprados.reset();
-			int proveedor_id = getIntParameter("proveedor_id");
-			if (proveedor_id != -1) {
-			    // sólo recupera detalles q se hayan comprado al proveedor indicado		
-				_dsQBE.setString("proveedor", String.valueOf(proveedor_id));				
-			}			
-		} catch (Exception ex) {
-			displayErrorMessage("pageRequest: "+ex.getMessage());
+		int proveedor_id = getIntParameter("proveedor_id");
+		if (proveedor_id != -1) {
+			// sólo recupera detalles q se hayan comprado al proveedor indicado
+			_dsQBE.setString("proveedor", String.valueOf(proveedor_id));
 		}
+
+		if (_dsArticulosComprados.getRowCount() == 0) {
+			_dsArticulosComprados.retrieve(_dsQBE
+					.generateSQLFilter(_dsArticulosComprados));
+			_dsArticulosComprados.gotoFirst();
+		}
+
+		// super.pageRequested(event);
 	}
 
+	@Override
+	public boolean submitPerformed(SubmitEvent e) throws Exception {
+		// TODO Auto-generated method stub
+		return true;
+	}
+
+	@Override
+	public void pageRequestEnd(PageEvent p) throws Exception {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void pageSubmitEnd(PageEvent p) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void pageSubmitted(PageEvent p) {
+		// TODO Auto-generated method stub
+
+	}
 }
