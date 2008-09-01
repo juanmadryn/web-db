@@ -4,6 +4,8 @@ package inventario.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseEntityController;
 import infraestructura.models.UsuarioRolesModel;
+import inventario.models.DetalleSCModel;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -133,6 +135,8 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 	public com.salmonllc.jsp.JspTableCell _marca_proveedor5;
 	public com.salmonllc.jsp.JspTableCell _seleccionada4;
 	public com.salmonllc.jsp.JspTableCell _seleccionada5;
+	public com.salmonllc.html.HtmlTextEdit _descripcionTXT;
+	public com.salmonllc.html.HtmlTextEdit _observacionesTXT;
 
 	// DataSources
 	public inventario.models.CotizacionesCompraModel _dsCotizacionesCompra;
@@ -296,14 +300,34 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 
 		if (e.getComponent() == _grabarCotizacionCompraBUT1) {
 			// graba la información
-			try {
-				_dsDetalleCotizacion.update();
+			DBConnection conn = DBConnection.getConnection("inventario");
+			try {				
+				conn.beginTransaction();
+				
+				DetalleSCModel detalleSCModel = new DetalleSCModel("inventario");
+				detalleSCModel.retrieve(conn);				
+				for (int row = 0; row < _dsDetalleCotizacion.getRowCount(); row++) {
+					detalleSCModel.filter("detalle_sc.detalle_SC_id == " + _dsDetalleCotizacion.getDetalleCotizacionDetalleScId(row));
+					detalleSCModel.gotoFirst();
+					detalleSCModel.setDetalleScCantidadPedida(_dsDetalleCotizacion.getDetalleCotizacionCantidad(row));
+					detalleSCModel.setDetalleScDescripcion(_descripcionTXT.getValue(row));
+					detalleSCModel.setDetalleScObservaciones(_observacionesTXT.getValue(row));
+					detalleSCModel.update(conn);
+				}				
+				
+				_dsDetalleCotizacion.update(conn);
 				// calcula totales
 				_dsCotizacionesCompra.setTotalesProveedor();
-				_dsCotizacionesCompra.update();
+				_dsCotizacionesCompra.update(conn);
+				conn.commit();
 			} catch (DataStoreException ex) {
 				displayErrorMessage(ex.getMessage());
 				return false;
+			} finally {
+				if (conn != null) { 
+					conn.rollback();
+					conn.freeConnection();
+				}
 			}
 		}
 
@@ -637,6 +661,19 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 						+ "&param_proveedor_id=5");
 		_imprimirSolicitudCotizacion5.setHref(URL);
 
+		if(_dsCotizacionesCompra.getCotizacionesCompraEntidadIdProveedor4() == 0) {
+			_dsCotizacionesCompra.setCotizacionesCompraTotalProveedor4(0);
+			for(int row = 0; row < _dsDetalleCotizacion.getRowCount() ; row++) {
+				_dsDetalleCotizacion.setDetalleCotizacionMontoUnitarioProveedor4(row, 0);			
+			}
+		}
+		if(_dsCotizacionesCompra.getCotizacionesCompraEntidadIdProveedor5() == 0) {
+			for(int row = 0; row < _dsDetalleCotizacion.getRowCount() ; row++) {			
+				_dsDetalleCotizacion.setDetalleCotizacionMontoUnitarioProveedor5(row, 0);
+			}
+			_dsCotizacionesCompra.setCotizacionesCompraTotalProveedor5(0);
+		}
+		
 		// si no existe solicitud desactivo el enlace en cada detalle
 		/*
 		 * for (int row=0; row < _dsDetalleCotizacion.getRowCount(); row++) { if
@@ -644,7 +681,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		 * _lnkordencompra1.setVisible(false); } else {
 		 * _lnkordencompra1.setVisible(true); } }
 		 */
-
+		
 	}
 
 	/**
@@ -667,7 +704,7 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		return recargar;
 	}
 
-	private void setVisibleProveedoresAdicionales(boolean visible) {
+	private void setVisibleProveedoresAdicionales(boolean visible) throws DataStoreException, SQLException {
 		_precio_unitario_proveedor24.setVisible(visible);
 		_precio_unitario_proveedor25.setVisible(visible);
 		_seleccion_proveedor24.setVisible(visible);
@@ -700,6 +737,16 @@ public class EditarCotizacionCompraController extends BaseEntityController {
 		_seleccionada5.setVisible(visible);
 		_mostrarProveedoresBUT1.setDisplayName(visible ? "Ocultar proveedores"
 				: "Mostrar proveedores");
+		
+		if(!visible) {
+			for(int row = 0; row < _dsDetalleCotizacion.getRowCount() ; row++) {
+				_dsDetalleCotizacion.setDetalleCotizacionMontoUnitarioProveedor4(row, 0);
+				_dsDetalleCotizacion.setDetalleCotizacionMontoUnitarioProveedor5(row, 0);
+			}			
+			_dsCotizacionesCompra.setCotizacionesCompraTotalProveedor4(0);
+			_dsCotizacionesCompra.setCotizacionesCompraTotalProveedor5(0);
+			_dsCotizacionesCompra.update();			
+		}
 	}
 
 }

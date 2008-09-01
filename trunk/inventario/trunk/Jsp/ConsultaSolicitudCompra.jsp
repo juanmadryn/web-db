@@ -81,7 +81,13 @@
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 								<td width="55"></td>
-								<td></td>
+								<td><salmon:text name="proyecto1" text="Proyecto"
+									font="TableHeadingFont" /></td>
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+										lookupurl="%LkpProyectos" name="proyecto2" size="15"
+										maxlength="15"																				
+										popupheight="450" popupwidth="500" usepopup="TRUE"
+										showdescription="TRUE"></salmon:lookup></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>

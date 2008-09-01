@@ -12,6 +12,8 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import proyectos.models.ProyectoModel;
+
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
@@ -115,6 +117,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspTableRow _table2TRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow0;
 	public com.salmonllc.jsp.JspTableRow _tableFooterTRRow1;
+	public com.salmonllc.html.HtmlLookUpComponent _proyecto2;
 
 	public com.salmonllc.jsp.JspDetailFormDisplayBox _detailformdisplaybox1;
 
@@ -179,8 +182,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 		_recuperaSolicitudesPendientes.setVisible(false);
 
 		_recuperaSolicitudesRechazadas = new HtmlSubmitButton(
-				"recuperaSolicitudesRechazadas", "recuperar Solicitud rechazada",
-				this);
+				"recuperaSolicitudesRechazadas",
+				"recuperar Solicitud rechazada", this);
 		_recuperaSolicitudesRechazadas.setAccessKey("S");
 		_detailformdisplaybox1.addButton(_recuperaSolicitudesRechazadas);
 		_recuperaSolicitudesRechazadas.addSubmitListener(this);
@@ -225,7 +228,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 
 		if (e.getComponent() == _searchformdisplaybox1.getSearchButton()) {
 			String whereFecha = null;
-			if (_fechadesde2.getValue() != null && _fechahasta2.getValue() != null) {
+			if (_fechadesde2.getValue() != null
+					&& _fechahasta2.getValue() != null) {
 				desde = _dsPeriodo.getDateTime("desde");
 				hasta = _dsPeriodo.getDateTime("hasta");
 				seteaPeriodo(desde, hasta);
@@ -237,7 +241,8 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 						return false;
 					}
 					whereFecha = "solicitudes_compra.fecha_solicitud BETWEEN '"
-							+ desde.toString() + "' AND '" + hasta.toString() + "'";
+							+ desde.toString() + "' AND '" + hasta.toString()
+							+ "'";
 				}
 			}
 			_dsSolicitudes.reset();
@@ -250,6 +255,26 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 				where += whereFecha;
 			} else if (where != null)
 				where += "";
+
+			System.out.println(_proyecto2.getValue());
+			if (_proyecto2.getValue() != null
+					&& _proyecto2.getValue().trim().length() > 0) {
+				ProyectoModel dsProyecto = new ProyectoModel("proyectos",
+						"proyectos");
+				dsProyecto.retrieve("proyecto = '" + _proyecto2.getValue()
+						+ "'");
+				if (dsProyecto.gotoFirst()) {
+					if (where != null)
+						where += " AND ";
+					else
+						where = "";
+					where += "solicitudes_compra.proyecto_id ="
+							+ dsProyecto.getProyectosProyectoId();
+				} else
+					throw new DataStoreException(
+							"El proyecto indicado no existe");
+			}
+
 			_dsSolicitudes.retrieve(where);
 			_dsSolicitudes.gotoFirst();
 		}
@@ -322,6 +347,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			_fechadesde2.setValue(null);
 			_fechahasta2.setValue(null);
 			_solicitante2.setSelectedIndex(0);
+			_proyecto2.setValue(null);
 		}
 
 		return super.submitPerformed(e);
@@ -331,7 +357,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	 * Process the page requested event
 	 * 
 	 * @param event
-	 *           the page event to be processed
+	 *            the page event to be processed
 	 * @throws Exception
 	 */
 	public void pageRequested(PageEvent event) throws Exception {
@@ -454,9 +480,9 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 	 * Setea el periodo por defecto para el rango de fechas
 	 * 
 	 * @param desdeTime
-	 *           extremo inferior del rango de fechas a consultar
+	 *            extremo inferior del rango de fechas a consultar
 	 * @param hastaTime
-	 *           extremo superior del rango de fechas a consultar
+	 *            extremo superior del rango de fechas a consultar
 	 * 
 	 * @throws DataStoreException
 	 */
