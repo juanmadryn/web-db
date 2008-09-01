@@ -745,12 +745,12 @@
 											<salmon:tr>
 												<salmon:td colspan="3">
 													<salmon:input type="text" name="descripcionTXT" size="20"
-														enabled="false" font="DefaultFont"
+														enabled="true" font="DefaultFont"
 														datasource="dsDetalleCotizacion:detalle_sc.descripcion" />
 												</salmon:td>
 												<salmon:td colspan="3">
 													<salmon:input type="text" name="observacionesTXT" size="20"
-														enabled="false" font="DefaultFont"
+														enabled="true" font="DefaultFont"
 														datasource="dsDetalleCotizacion:detalle_sc.observaciones" />
 												</salmon:td>
 											</salmon:tr>
