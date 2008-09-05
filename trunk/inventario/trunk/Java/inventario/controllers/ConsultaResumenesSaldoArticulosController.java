@@ -188,9 +188,10 @@ public class ConsultaResumenesSaldoArticulosController extends BaseController {
 				} else
 					_dsComprobantes.reset();
 			}
-			super.pageRequested(event);
+			
+			super.pageRequested(event);			
 		} catch (Exception e) {
 			displayErrorMessage(e.getMessage());
 		}
-	}
+	}	
 }

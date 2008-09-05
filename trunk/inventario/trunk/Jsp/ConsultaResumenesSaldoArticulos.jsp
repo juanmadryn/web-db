@@ -10,7 +10,7 @@
 	<!-- Agregar definición de DataSource aquí -->
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="articulo" type="CONTAINS"
-			columns="resumen_saldo_articulos.articulo_id,articulos.nombre,articulos.descripcion" />
+			columns="resumen_saldo_articulos.articulo_id,articulos_extendidos.nombre,articulos_extendidos.descripcion" />
 		<salmon:qbecriteria name="almacen" type="IN"
 			columns="resumen_saldo_articulos.almacen_id" />
 		<salmon:qbecriteria name="periodo" type="IN"
