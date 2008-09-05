@@ -18,6 +18,8 @@ dobreak=false;]]></method>
             <property name="valueType">static</property>
             <property name="dataType">integer</property>
             <property name="paramType">simple</property>
+            <property name="concealValue">false</property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="distinct">true</property>
             <structure name="format">
@@ -151,6 +153,10 @@ dobreak=false;]]></method>
                 <structure>
                     <property name="columnName">condicion_compra_descripcion</property>
                     <property name="displayName">condicion_compra_descripcion</property>
+                </structure>
+                <structure>
+                    <property name="columnName">solicitud_compra_id</property>
+                    <property name="displayName">solicitud_compra_id</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -299,6 +305,11 @@ dobreak=false;]]></method>
                         <property name="position">29</property>
                         <property name="name">condicion_compra_descripcion</property>
                         <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">solicitud_compra_id</property>
+                        <property name="dataType">integer</property>
                     </structure>
                 </list-property>
             </structure>
@@ -517,6 +528,13 @@ dobreak=false;]]></method>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">30</property>
+                    <property name="name">solicitud_compra_id</property>
+                    <property name="nativeName">solicitud_compra_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
             </list-property>
             <property name="queryText">SELECT 
 ordenes_compra.orden_compra_id, 
@@ -547,7 +565,8 @@ atributos_entidad4.valor_real AS descuento,
 atributos_entidad5.valor_real AS iva,
 atributos_entidad6.valor_real AS total,
 atributos_entidad7.valor AS n_orden_co,
-condiciones_compra.descripcion AS condicion_compra_descripcion
+condiciones_compra.descripcion AS condicion_compra_descripcion,
+solicitudes_compra.solicitud_compra_id AS solicitud_compra_id
 
 FROM  ordenes_compra ordenes_compra
 left outer join infraestructura.estados estados ON ordenes_compra.estado = estados.estado  
@@ -3020,11 +3039,37 @@ Av. Belgrano 1370 - Piso 8 - Of. B - Tel. 4384-8210/8211 - Fax: 4384-8151 - (109
                             <property name="paddingTop">1pt</property>
                             <property name="paddingLeft">5pt</property>
                             <property name="verticalAlign">middle</property>
-                            <text id="2382">
-                                <property name="fontFamily">"Courier"</property>
-                                <property name="contentType">html</property>
-                                <text-property name="content"><![CDATA[<H3>ORIGINAL</H3>]]></text-property>
-                            </text>
+                            <grid id="2383">
+                                <property name="width">100%</property>
+                                <column id="2384"/>
+                                <column id="2385"/>
+                                <row id="2386">
+                                    <cell id="2387">
+                                        <text id="2388">
+                                            <property name="fontFamily">"Courier"</property>
+                                            <property name="paddingTop">1pt</property>
+                                            <property name="contentType">html</property>
+                                            <text-property name="content"><![CDATA[<H3>ORIGINAL</H3>]]></text-property>
+                                        </text>
+                                    </cell>
+                                    <cell id="2389">
+                                        <property name="verticalAlign">middle</property>
+                                        <data id="2392">
+                                            <property name="fontSize">large</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="dataSet">Data Set</property>
+                                            <list-property name="boundDataColumns">
+                                                <structure>
+                                                    <property name="name">solicitud_compra_id</property>
+                                                    <expression name="expression">"SM Nro. " + dataSetRow["solicitud_compra_id"]</expression>
+                                                    <property name="dataType">string</property>
+                                                </structure>
+                                            </list-property>
+                                            <property name="resultSetColumn">solicitud_compra_id</property>
+                                        </data>
+                                    </cell>
+                                </row>
+                            </grid>
                         </cell>
                         <cell id="2370">
                             <property name="paddingTop">1pt</property>
