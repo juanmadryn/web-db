@@ -75,7 +75,7 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 		try {
 
 			// add aliases
-			addTableAlias(computeTableName("articulos"), null);
+			addTableAlias(computeTableName("articulos_extendidos"), "articulos");
 			addTableAlias(computeTableName("almacenes"), null);
 			addTableAlias(computeTableName("resumen_saldo_articulos"), null);
 
@@ -121,16 +121,19 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 					RESUMEN_SALDO_ARTICULOS_PRECIO_REPOSICION);
 			addColumn(computeTableName("almacenes"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ALMACENES_NOMBRE);
-			addColumn(computeTableName("articulos"), "nombre",
+			addColumn(computeTableName("articulos_extendidos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ARTICULOS_NOMBRE);
-			addColumn(computeTableName("articulos"), "descripcion",
+			addColumn(computeTableName("articulos_extendidos"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION);
-			addColumn(computeTableName("articulos"), "descripcion_completa",
+			addColumn(computeTableName("articulos_extendidos"), "descripcion_completa",
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION_COMPLETA);
+			addColumn(computeTableName("articulos_extendidos"), "nombre_unidad",
+					DataStore.DATATYPE_STRING, false, false,
+					ARTICULOS_UNIDAD_PATRON);
 
-			addBucket(ARTICULOS_UNIDAD_PATRON, DataStore.DATATYPE_STRING);
+			
 
 			// add joins
 			addJoin(
@@ -138,7 +141,7 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 					computeTableAndFieldName("almacenes.almacen_id"), false);
 			addJoin(
 					computeTableAndFieldName("resumen_saldo_articulos.articulo_id"),
-					computeTableAndFieldName("articulos.articulo_id"), false);
+					computeTableAndFieldName("articulos_extendidos.articulo_id"), false);
 
 			// set order by
 			setOrderBy(computeTableAndFieldName("resumen_saldo_articulos.resumen_saldo_articulo_id")
@@ -1139,7 +1142,7 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 		setResumenSaldoArticulosCantTransaccionesEgresos(getResumenSaldoArticulosCantTransaccionesEgresos() - 1);
 	}
 
-	@Override
+/*	@Override
 	public synchronized void retrieve(String criteria) throws SQLException,
 			DataStoreException {
 		// TODO Auto-generated method stub
@@ -1155,7 +1158,7 @@ public class ResumenSaldoArticulosModel extends BaseModel implements Constants {
 													getResumenSaldoArticulosArticuloId(row),
 													"TABLA", "articulos"))));
 		}
-	}
+	}*/
 	// $ENDCUSTOMMETHODS$
 
 }

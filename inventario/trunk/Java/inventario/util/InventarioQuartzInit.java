@@ -48,7 +48,10 @@ public class InventarioQuartzInit extends HttpServlet implements Servlet {
 					ReplicateCpa01QuartzJob.class);
 			JobDetail replicateCpa49Detail = new JobDetail(
 					"ReplicateCpa49QuartzJob", null,
-					ReplicateCpa49QuartzJob.class);			
+					ReplicateCpa49QuartzJob.class);
+			JobDetail generadorResumenSaldoArticulosDetail = new JobDetail(
+					"GeneradorResumenSaldoArticulosQuartzJob", null,
+					GeneradorResumenSaldoArticulosQuartzJob.class);			
 			
 			
 			// Configura los triggers - makeDailyTrigger(hora, minuto)			
@@ -57,12 +60,15 @@ public class InventarioQuartzInit extends HttpServlet implements Servlet {
 			Trigger replicateCpa01Trigger = TriggerUtils.makeDailyTrigger(1, 10);
 			replicateCpa01Trigger.setName("replicateCpa01Trigger");			
 			Trigger replicateCpa49Trigger = TriggerUtils.makeDailyTrigger(1, 15);
-			replicateCpa49Trigger.setName("replicateCpa49Trigger");			
+			replicateCpa49Trigger.setName("replicateCpa49Trigger");
+			Trigger generadorResumenSaldoArticulosTrigger = TriggerUtils.makeDailyTrigger(1, 20);
+			generadorResumenSaldoArticulosTrigger.setName("generadorResumenSaldoArticulosTrigger");
 			
 			Scheduler scheduler = factory.getScheduler();
 			scheduler.scheduleJob(replicateSta11Detail, replicateSta11Trigger);
 			scheduler.scheduleJob(replicateCpa01Detail, replicateCpa01Trigger);
 			scheduler.scheduleJob(replicateCpa49Detail, replicateCpa49Trigger);
+			scheduler.scheduleJob(generadorResumenSaldoArticulosDetail, generadorResumenSaldoArticulosTrigger);
 						
 			scheduler.start();
 

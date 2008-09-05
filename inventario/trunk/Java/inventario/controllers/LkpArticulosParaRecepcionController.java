@@ -112,25 +112,21 @@ public class LkpArticulosParaRecepcionController extends JspController
 		// super.pageRequested(event);
 	}
 
-	@Override
 	public boolean submitPerformed(SubmitEvent e) throws Exception {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
-	@Override
 	public void pageRequestEnd(PageEvent p) throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void pageSubmitEnd(PageEvent p) {
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
 	public void pageSubmitted(PageEvent p) {
 		// TODO Auto-generated method stub
 
