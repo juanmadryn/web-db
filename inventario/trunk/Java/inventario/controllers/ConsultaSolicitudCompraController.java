@@ -3,14 +3,21 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
+import infraestructura.controllers.Constants;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.Utilities;
+import inventario.models.ResumenSaldoArticulosModel;
 import inventario.models.SolicitudCompraModel;
 
+import java.sql.Date;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
+import org.quartz.JobExecutionException;
 
 import proyectos.models.ProyectoModel;
 
@@ -19,6 +26,8 @@ import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.SubmitListener;
+import com.salmonllc.properties.Props;
+import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -276,7 +285,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			}
 
 			_dsSolicitudes.retrieve(where);
-			_dsSolicitudes.gotoFirst();
+			_dsSolicitudes.gotoFirst();			
 		}
 
 		int user_id = getSessionManager().getWebSiteUser().getUserID();
