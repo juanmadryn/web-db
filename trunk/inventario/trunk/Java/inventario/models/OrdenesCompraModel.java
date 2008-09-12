@@ -47,6 +47,7 @@ public class OrdenesCompraModel extends BaseModel {
 	public static final String ORDENES_COMPRA_USER_ID_GENERADOR="ordenes_compra.user_id_generador";	
 	public static final String ORDENES_COMPRA_CONDICION_COMPRA_ID="ordenes_compra.condicion_compra_id";
 	public static final String ORDENES_COMPRA_DESCUENTO="ordenes_compra.descuento";
+	public static final String SOLICITUDES_COMPRA_PROYECTO_ID = "solicitudes_compra.proyecto_id";
 	
 	//$CUSTOMVARS$
 	//Put custom instance variables between these comments, otherwise they will be overwritten if the model is regenerated
@@ -115,6 +116,8 @@ public class OrdenesCompraModel extends BaseModel {
 			addTableAlias(computeTableName("infraestructura.entidad_externa"),"entidad_externa");
 			addTableAlias(computeTableName("infraestructura.website_user"),"website_user_generador");
 			addTableAlias(computeTableName("inventario.condiciones_compra"),"condiciones_compra");
+			addTableAlias(computeTableName("inventario.detalle_sc"),"detalle_sc");
+			addTableAlias(computeTableName("inventario.solicitudes_compra"),"solicitudes_compra");
 
 			addColumn(computeTableName("estados"), "nombre",
 					DataStore.DATATYPE_STRING, false, true, ESTADO_NOMBRE);
@@ -148,6 +151,9 @@ public class OrdenesCompraModel extends BaseModel {
 			addColumn(computeTableName("ordenes_compra"), "descuento",
 					DataStore.DATATYPE_FLOAT, false, true,
 					ORDENES_COMPRA_DESCUENTO);
+			addColumn(computeTableName("solicitudes_compra"), "proyecto_id",
+					DataStore.DATATYPE_FLOAT, false, false,
+					SOLICITUDES_COMPRA_PROYECTO_ID);
 			
 			// add buckets
 			addBucket(CURRENT_WEBSITE_USER_ID, DATATYPE_INT);
@@ -177,6 +183,12 @@ public class OrdenesCompraModel extends BaseModel {
 			addJoin(computeTableAndFieldName("ordenes_compra.condicion_compra_id"),
 					computeTableAndFieldName("condiciones_compra.condicion_compra_id"),
 					true);
+			addJoin(computeTableAndFieldName("ordenes_compra.orden_compra_id"),
+					computeTableAndFieldName("detalle_sc.orden_compra_id"),
+					true);
+			addJoin(computeTableAndFieldName("detalle_sc.solicitud_compra_id"),
+					computeTableAndFieldName("solicitudes_compra.solicitud_compra_id"),
+					false);
 
 			addLookupRule(
 					ORDENES_COMPRA_ESTADO,

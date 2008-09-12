@@ -3,21 +3,14 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
-import infraestructura.controllers.Constants;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.Utilities;
-import inventario.models.ResumenSaldoArticulosModel;
 import inventario.models.SolicitudCompraModel;
 
-import java.sql.Date;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-
-import org.quartz.JobExecutionException;
 
 import proyectos.models.ProyectoModel;
 
@@ -26,8 +19,6 @@ import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.PageListener;
 import com.salmonllc.html.events.SubmitEvent;
 import com.salmonllc.html.events.SubmitListener;
-import com.salmonllc.properties.Props;
-import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -265,7 +256,6 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 			} else if (where != null)
 				where += "";
 
-			System.out.println(_proyecto2.getValue());
 			if (_proyecto2.getValue() != null
 					&& _proyecto2.getValue().trim().length() > 0) {
 				ProyectoModel dsProyecto = new ProyectoModel("proyectos",
@@ -440,7 +430,7 @@ public class ConsultaSolicitudCompraController extends BaseController implements
 
 		// Si el usuario no es comprador, solo puede consultar las solicitudes
 		// realizadas por él
-		if (!UsuarioRolesModel.isRolUsuario(currentUser, "COMPRADOR")) {
+		if (!UsuarioRolesModel.isRolUsuario(currentUser, USER_COMPRADOR) && !UsuarioRolesModel.isRolUsuario(currentUser, USER_ENCARGADO_ALMACEN)) {
 			_dsQBE.setString("solicitante", String.valueOf(currentUser));
 			_solicitante2.setEnabled(false);
 		} else {
