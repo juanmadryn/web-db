@@ -112,13 +112,14 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		super.initialize();
 	
 		// genera botones custom
+		_nuevoParteCopiarBUT1 = new HtmlSubmitButton("nuevoParteCopiarBUT1","Copiar Parte",this);
+		_nuevoParteCopiarBUT1.setAccessKey("C");
+		_listFormDisplayBox1.addButton(_nuevoParteCopiarBUT1);
+		
 		_grabarParteBUT3 = new HtmlSubmitButton("grabarParteBUT3","Grabar",this);
 		_grabarParteBUT3.setAccessKey("G");
 		_listFormDisplayBox1.addButton(_grabarParteBUT3);
-		
-		_nuevoParteCopiarBUT1 = new HtmlSubmitButton("nuevoParteCopiarBUT1","Copiar Parte",this);
-		_nuevoParteCopiarBUT1.setAccessKey("G");
-		_listFormDisplayBox1.addButton(_nuevoParteCopiarBUT1);
+				
 		_nuevoParteNuevoBUT2 = new HtmlSubmitButton("nuevoParteNuevoBUT2","Nuevo Parte",this);
 		_nuevoParteNuevoBUT2.setAccessKey("N");
 		_listFormDisplayBox1.addButton(_nuevoParteNuevoBUT2);
