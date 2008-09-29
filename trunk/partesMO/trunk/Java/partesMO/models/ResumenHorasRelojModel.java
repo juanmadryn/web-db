@@ -915,8 +915,7 @@ public class ResumenHorasRelojModel extends DataStore {
     				psMysql.setString(6, r.getString(6)); // nombre
     				psMysql.setString(7, r.getString(7)); // origen_fichada    					
 					psMysql.executeUpdate();
-				}
-				
+				}				
 			}
 		} finally {
 			if (r != null) {

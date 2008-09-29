@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -51,6 +52,7 @@ public class PartesMoModel extends BaseModel {
      public static final String PARTES_MO_NRO_LEGAJO="partes_mo.nro_legajo";
      public static final String PARTES_MO_APEYNOM="partes_mo.apeynom";
      public static final String PARTES_MO_ESTADO="partes_mo.estado";
+     public static final String PARTES_MO_ULTIMA_MOD="partes_mo.ultima_mod";
      public static final String SECTOR_TRABAJO_NOMBRE="sector_trabajo.nombre";
      public static final String SUPERVISORES_APEYNOM="supervisores.apeynom";
      public static final String ESTADOS_NOMBRE="estados.nombre";
@@ -134,6 +136,7 @@ public class PartesMoModel extends BaseModel {
                addColumn(computeTableName("partes_mo"),"nro_legajo",DataStore.DATATYPE_INT,false,true,PARTES_MO_NRO_LEGAJO);
                addColumn(computeTableName("partes_mo"),"apeynom",DataStore.DATATYPE_STRING,false,true,PARTES_MO_APEYNOM);
                addColumn(computeTableName("partes_mo"),"estado",DataStore.DATATYPE_STRING,false,true,PARTES_MO_ESTADO);
+               addColumn(computeTableName("partes_mo"),"ultima_mod",DataStore.DATATYPE_DATETIME,false,true,PARTES_MO_ULTIMA_MOD);
                addColumn(computeTableName("sector_trabajo"),"nombre",DataStore.DATATYPE_STRING,false,false,SECTOR_TRABAJO_NOMBRE);
                addColumn(computeTableName("supervisores"),"apeynom",DataStore.DATATYPE_STRING,true,false,SUPERVISORES_APEYNOM);
                addColumn(computeTableName("infraestructura.estados"),"nombre",DataStore.DATATYPE_STRING,false,false,ESTADOS_NOMBRE);
@@ -2372,6 +2375,7 @@ public class PartesMoModel extends BaseModel {
 					hubo_errores_dup = parteDuplicado(i);
 				}
 				
+				setPartesMoUltimaMod(i, new Timestamp(System.currentTimeMillis()));				
 			}
 		}
 
@@ -2839,5 +2843,42 @@ public class PartesMoModel extends BaseModel {
 		return getPartesMoParteId();
 	}
 	
+    /**
+     * Retrieve the value of the partes_mo.fecha column for the current row.
+     * @return java.sql.Timestamp
+     * @throws DataStoreException
+     */ 
+    public java.sql.Timestamp getPartesMoUltimaMod() throws DataStoreException {
+         return  getDateTime(PARTES_MO_ULTIMA_MOD);
+    }
+
+    /**
+     * Retrieve the value of the partes_mo.fecha column for the specified row.
+     * @param row which row in the table
+     * @return java.sql.Timestamp
+     * @throws DataStoreException
+     */ 
+    public java.sql.Timestamp getPartesMoUltimaMod(int row) throws DataStoreException {
+         return  getDateTime(row,PARTES_MO_ULTIMA_MOD);
+    }
+
+    /**
+     * Set the value of the partes_mo.fecha column for the current row.
+     * @param newValue the new item value
+     * @throws DataStoreException
+     */ 
+    public void setPartesMoUltimaMod(java.sql.Timestamp newValue) throws DataStoreException {
+         setDateTime(PARTES_MO_ULTIMA_MOD, newValue);
+    }
+
+    /**
+     * Set the value of the partes_mo.fecha column for the specified row.
+     * @param row which row in the table
+     * @param newValue the new item value
+     * @throws DataStoreException
+     */ 
+    public void setPartesMoUltimaMod(int row,java.sql.Timestamp newValue) throws DataStoreException {         
+         setDateTime(row,PARTES_MO_ULTIMA_MOD, newValue);
+    }
 	//$ENDCUSTOMMETHODS$
 }
