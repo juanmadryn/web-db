@@ -1478,6 +1478,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                 <row id="1046">
                                     <property name="verticalAlign">bottom</property>
                                     <cell id="1047">
+                                        <property name="verticalAlign">middle</property>
                                         <label id="1052">
                                             <property name="fontSize">large</property>
                                             <property name="fontWeight">bold</property>
@@ -1485,6 +1486,7 @@ ORDER BY detalle_sc.detalle_SC_id ASC</property>
                                         </label>
                                     </cell>
                                     <cell id="1048">
+                                        <property name="verticalAlign">middle</property>
                                         <data id="904">
                                             <property name="fontFamily">"Liberation Mono"</property>
                                             <property name="fontSize">large</property>
