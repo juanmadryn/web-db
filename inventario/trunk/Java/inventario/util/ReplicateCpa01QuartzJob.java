@@ -244,79 +244,79 @@ public class ReplicateCpa01QuartzJob implements Job {
 		if (codigo.trim().length() != 0)
 		switch (Integer.parseInt(codigo)) {
 		case 0:
-			local_prov += " - " + "Capital Federal";
+			local_prov += " - " + "Capital Federal".toUpperCase();
 			break;
 		case 1:
-			local_prov += " - " + "Buenos Aires";
+			local_prov += " - " + "Buenos Aires".toUpperCase();
 			break;
 		case 2:
-			local_prov += " - " + "Catamarca";
+			local_prov += " - " + "Catamarca".toUpperCase();
 			break;
 		case 3:
-			local_prov += " - " + "Córdoba";
+			local_prov += " - " + "Córdoba".toUpperCase();
 			break;
 		case 4:
-			local_prov += " - " + "Corrientes";
+			local_prov += " - " + "Corrientes".toUpperCase();
 			break;
 		case 5:
-			local_prov += " - " + "Entre Ríos";
+			local_prov += " - " + "Entre Ríos".toUpperCase();
 			break;
 		case 6:
-			local_prov += " - " + "Jujuy";
+			local_prov += " - " + "Jujuy".toUpperCase();
 			break;
 		case 7:
-			local_prov += " - " + "Mendoza";
+			local_prov += " - " + "Mendoza".toUpperCase();
 			break;
 		case 8:
-			local_prov += " - " + "La Rioja";
+			local_prov += " - " + "La Rioja".toUpperCase();
 			break;
 		case 9:
-			local_prov += " - " + "Salta";
+			local_prov += " - " + "Salta".toUpperCase();
 			break;
 		case 10:
-			local_prov += " - " + "San Juan";
+			local_prov += " - " + "San Juan".toUpperCase();
 			break;
 		case 11:
-			local_prov += " - " + "San Luis";
+			local_prov += " - " + "San Luis".toUpperCase();
 			break;
 		case 12:
-			local_prov += " - " + "Santa Fé";
+			local_prov += " - " + "Santa Fé".toUpperCase();
 			break;
 		case 13:
-			local_prov += " - " + "Santiago del Estero";
+			local_prov += " - " + "Santiago del Estero".toUpperCase();
 			break;
 		case 14:
-			local_prov += " - " + "Tucumán";
+			local_prov += " - " + "Tucumán".toUpperCase();
 			break;
 		case 15:
-			local_prov += " - " + "Chaco";
+			local_prov += " - " + "Chaco".toUpperCase();
 			break;
 		case 16:
-			local_prov += " - " + "Chaco";
+			local_prov += " - " + "Chaco".toUpperCase();
 			break;
 		case 17:
-			local_prov += " - " + "Chubut";
+			local_prov += " - " + "Chubut".toUpperCase();
 			break;
 		case 18:
-			local_prov += " - " + "Formosa";
+			local_prov += " - " + "Formosa".toUpperCase();
 			break;
 		case 19:
-			local_prov += " - " + "Misiones";
+			local_prov += " - " + "Misiones".toUpperCase();
 			break;
 		case 20:
-			local_prov += " - " + "Neuquén";
+			local_prov += " - " + "Neuquén".toUpperCase();
 			break;
 		case 21:
-			local_prov += " - " + "La Pampa";
+			local_prov += " - " + "La Pampa".toUpperCase();
 			break;
 		case 22:
-			local_prov += " - " + "Río Negro";
+			local_prov += " - " + "Río Negro".toUpperCase();
 			break;
 		case 23:
-			local_prov += " - " + "Santa Cruz";
+			local_prov += " - " + "Santa Cruz".toUpperCase();
 			break;
 		case 24:
-			local_prov += " - " + "Tierra del Fuego";
+			local_prov += " - " + "Tierra del Fuego".toUpperCase();
 			break;
 		case 99:
 			break;				
