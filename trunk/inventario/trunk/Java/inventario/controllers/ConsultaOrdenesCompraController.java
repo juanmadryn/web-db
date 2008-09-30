@@ -163,6 +163,8 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		_buscarBUT.addSubmitListener(this);
 		_limpiarBUT.addSubmitListener(this);
 
+		_dsOrdenes.setDistinct(true);
+		
 		_modoBandeja = MODO_TITULO_NORMAL;
 
 		_n2.setFocus();
