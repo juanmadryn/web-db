@@ -1726,7 +1726,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 				}
 
 				if (proyecto_id != 0 && getDetalleScTareaId(row) == 0) {
-					dsTareas.filter("tareas_proyecto.proyecto_id = " + proyecto_id);
+					dsTareas.filter("tareas_proyecto.proyecto_id == " + proyecto_id);
 					dsTareas.gotoFirst();
 					setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
 				}

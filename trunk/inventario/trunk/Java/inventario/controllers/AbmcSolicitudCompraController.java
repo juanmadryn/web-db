@@ -433,7 +433,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					conn.commit();
 
 					setTareaLookupURL();
-
+					System.out.println("Aca");
 				} catch (DataStoreException ex) {
 					MessageLog.writeErrorMessage(ex, null);
 					String mensaje = "";
@@ -444,7 +444,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 					}
 
 					displayErrorMessage(ex.getMessage() + mensaje);
-
+					
 					return false;
 				} catch (SQLException ex) {
 					MessageLog.writeErrorMessage(ex, null);
