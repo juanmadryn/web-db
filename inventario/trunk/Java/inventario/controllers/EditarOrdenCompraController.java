@@ -306,7 +306,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_dsOrdenesCompra.reset();
 		_dsDetalleSC.reset();
 		_dsAuditoria.reset();
-
+		
 		_dsOrdenesCompra.insertRow();
 
 		_detailformdisplaybox1.setReloadRowAfterSave(true);
@@ -724,7 +724,6 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		boolean isEmitida = "0008.0006".equalsIgnoreCase(_dsOrdenesCompra.getOrdenesCompraEstado());
 		_imprimirOrdenCompraBUT4.setVisible(isEmitida);
 		_imprimirOrdenCompraBUT5.setVisible(isEmitida);
-		
 	}
 
 	/**

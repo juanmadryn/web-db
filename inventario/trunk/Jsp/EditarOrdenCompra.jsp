@@ -522,10 +522,7 @@ function CheckAll(checked) {
                      <salmon:text name="tarea3"
                         text="detalle_sc.tarea_id Goes Here"
                         font="DefaultFont"
-                        datasource="dsDetalleSC:detalle_sc.tarea_id" />
-                     <salmon:text name="text3" text=" - "></salmon:text>
-                     <salmon:text name="tarea4" text=""
-                        datasource="dsDetalleSC:tareas_proyecto.nombre"></salmon:text>
+                        datasource="dsDetalleSC:tareas_proyecto.nombre + ' - ' + tareas_proyecto.descripcion" />                     
                   </salmon:td>
                   <!--<salmon:td>
                   	<salmon:text name="detalleScObservaciones2"
