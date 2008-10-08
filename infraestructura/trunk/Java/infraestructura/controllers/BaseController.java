@@ -1007,6 +1007,8 @@ public class BaseController extends JspController implements SubmitListener,
 					// remove sessions and users
 					removeSessionsForIp();
 					users.remove(ip);
+					setCheckPageExpired(false);
+					timeStart.put(ip, System.currentTimeMillis());
 					gotoSiteMapPage(SiteMapConstants.SESSION_EXPIRED);
 					return;
 				}
