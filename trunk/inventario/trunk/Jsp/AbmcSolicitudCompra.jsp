@@ -7,10 +7,62 @@ function CheckAll(checked) {
 	for ( var i=0; i<document.forms['PageForm'].elements.length; i++) { 
 		var e = document.forms['PageForm'].elements[i]; 
 			if (e.type=='checkbox') { 
-				e.checked = checked; 
-			} 
+				e.checked = checked;				
+			}		
 	} 
 } 
+
+function mostrarOcultar()
+{		
+	try {
+	for ( var i=0; i<document.forms['PageForm'].elements.length; i++) { 
+		var e = document.forms['PageForm'].elements[i];		
+			if (e.name == "htmlPageTopContainer_PageForm_box1_table1_table1TRRow0_table1TDRow0_detailformdisplaybox1_proyectoTableTD_proyecto2__edit") { 
+						alert("Ver "+e.name);		
+			}		
+	} 
+	
+   if(document.getElementById('t1').style.display == "none")
+      document.getElementById('t1').style.display = "";
+   else
+      document.getElementById('t1').style.display = "none";
+      
+   } catch (e) {
+   	alert("Java Exception: " + e);
+   }
+}
+
+/**
+* Changes a dynamically generated list
+* @param string The name of the list to change
+* @param array A javascript array of list options in the form [key,value,text]
+* @param string The key to display
+* @param string The original key that was selected
+* @param string The original item value that was selected
+*/
+function changeDynaList(key) {
+       //var list = eval( 'document.PageForm.' + listname );
+
+       // empty the list
+       /*for (i in list.options.length) {
+               list.options[i] = null;
+       
+       i = 0;
+       for (x in source) {
+               if (source[x][0] == key) {
+                       opt = new Option();
+                       opt.value = source[x][1];
+                       opt.text = source[x][2];
+
+                       if ((orig_key == key && orig_val == opt.value) || i == 0) {
+                               opt.selected = true;
+                       }
+                       list.options[i++] = opt;
+               }
+       }
+       list.length = i;*/
+       alert(key);
+}
 //-->
 </script>
 <salmon:page
@@ -36,20 +88,17 @@ function CheckAll(checked) {
 	<salmon:datasource name="dsAuditoria" type="MODEL"
 		dbprofile="inventario"
 		model="infraestructura.models.AuditaEstadosCircuitosModel"
-		autoretrieve="Never">		
+		autoretrieve="Never">
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
 	<!-- Add page code here -->
 	<!-- ********************************************************************************************* -->
-	<salmon:property name="prop1" propertyname="visible"
-    	component="lnkOc1"
-      	expression="detalle_sc.orden_compra_id > 0"
-      	datasource="dsDetalleSC" />
-    <salmon:property name="prop2" propertyname="visible"
-    	component="lnkCc1"
-      	expression="detalle_sc.cotizacion_compra_id > 0"
-      	datasource="dsDetalleSC" />
-	
+	<salmon:property name="prop1" propertyname="visible" component="lnkOc1"
+		expression="detalle_sc.orden_compra_id > 0" datasource="dsDetalleSC" />
+	<salmon:property name="prop2" propertyname="visible" component="lnkCc1"
+		expression="detalle_sc.cotizacion_compra_id > 0"
+		datasource="dsDetalleSC" />
+
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table1" width="100%" border="0">
 			<salmon:tr>
@@ -180,7 +229,8 @@ function CheckAll(checked) {
 				</salmon:td>
 				<salmon:td>
 					<salmon:datatable name="datatable1" width="100%"
-						datasource="dsAuditoria" rowsperpage="3" rowsperpageselector="false">
+						datasource="dsAuditoria" rowsperpage="3"
+						rowsperpageselector="false">
 						<salmon:datatableheader>
 							<salmon:tr>
 								<salmon:td>
@@ -311,8 +361,8 @@ function CheckAll(checked) {
 								showdescription="true"></salmon:lookup>
 						</salmon:td>
 						<salmon:td>
-							<salmon:input type="text" name="descripcion4" size="30"
-								maxlength="255" datasource="dsDetalleSC:detalle_sc.descripcion"></salmon:input>
+							<salmon:input type="text" name="descripcion4" size="30"								maxlength="255"
+								datasource="dsDetalleSC:detalle_sc.descripcion"></salmon:input>
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="select" name="unidad_medida2"
@@ -346,12 +396,13 @@ function CheckAll(checked) {
 					<salmon:tr>
 						<salmon:td></salmon:td>
 						<salmon:td name="tarea2">
-							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+							<div id="t1" title="Hola"><salmon:lookup
+								browseimage="%ImageDirectory/Browse.gif"
 								lookupurl="%LkpTareasProyecto" name="tarea3" size="10"
-								maxlength="90" datasource="dsDetalleSC:detalle_sc.tarea_id"
-								descriptiondatasource="dsDetalleSC:tareas_proyecto.nombre"
+								maxlength="90" datasource="dsDetalleSC:tareas_proyecto.nombre"
+								descriptiondatasource="dsDetalleSC:tareas_proyecto.descripcion"
 								popupheight="450" popupwidth="500" usepopup="true"
-								showdescription="FALSE"></salmon:lookup>
+								showdescription="FALSE"></salmon:lookup></div>
 						</salmon:td>
 						<salmon:td colspan="2">
 							<salmon:input type="text" name="observaciones4" size="40"

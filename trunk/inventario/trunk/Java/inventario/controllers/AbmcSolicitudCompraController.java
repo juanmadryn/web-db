@@ -26,7 +26,7 @@ import com.salmonllc.sql.DBConnection;
 import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 import com.salmonllc.util.MessageLog;
-
+import com.sun.script.javascript.JSAdapter;;
 /**
  * AbmcSolicitudCompraController: a SOFIA generated controller
  */

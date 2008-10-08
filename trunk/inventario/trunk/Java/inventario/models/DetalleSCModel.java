@@ -63,6 +63,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 
 	// $CUSTOMVARS$
 	public static final String TAREA_PROYECTO_NOMBRE = "tareas_proyecto.nombre";
+	public static final String TAREA_PROYECTO_DESCRIPCION = "tareas_proyecto.descripcion";
 	public static final String DETALLE_SC_MONTO_TOTAL = "monto_total";
 	public static final String CLASE_ARTICULO_NOMBRE = "clase_articulo.nombre";
 	public static final String CLASE_ARTICULO_DESCRIPCION = "clase_articulo.descripcion";
@@ -90,7 +91,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Create a new DetalleSCModel object.
 	 * 
 	 * @param appName
-	 *            The SOFIA application name
+	 *           The SOFIA application name
 	 */
 	public DetalleSCModel(String appName) {
 		this(appName, null);
@@ -100,9 +101,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Create a new DetalleSCModel object.
 	 * 
 	 * @param appName
-	 *            The SOFIA application name
+	 *           The SOFIA application name
 	 * @param profile
-	 *            The database profile to use
+	 *           The database profile to use
 	 */
 	public DetalleSCModel(String appName, String profile) {
 		super(appName, profile);
@@ -116,21 +117,18 @@ public class DetalleSCModel extends DataStore implements Constants {
 					"tareas_proyecto");
 			addTableAlias(computeTableName("solicitudes_compra"),
 					"solicitudes_compra");
-			addTableAlias(computeTableName("unidades_medida"),
-					"unidades_medida");
+			addTableAlias(computeTableName("unidades_medida"), "unidades_medida");
 			addTableAlias(computeTableName("unidades_medida"),
 					"unidades_medida_pedida");
 
 			// add columns
 			addColumn(computeTableName("detalle_sc"), "detalle_SC_id",
-					DataStore.DATATYPE_INT, true, true,
-					DETALLE_SC_DETALLE_SC_ID);
+					DataStore.DATATYPE_INT, true, true, DETALLE_SC_DETALLE_SC_ID);
 			addColumn(computeTableName("detalle_sc"), "recepcion_compra_id",
 					DataStore.DATATYPE_INT, false, true,
 					DETALLE_SC_RECEPCION_COMPRA_ID);
 			addColumn(computeTableName("detalle_sc"), "orden_compra_id",
-					DataStore.DATATYPE_INT, false, true,
-					DETALLE_SC_ORDEN_COMPRA_ID);
+					DataStore.DATATYPE_INT, false, true, DETALLE_SC_ORDEN_COMPRA_ID);
 			addColumn(computeTableName("detalle_sc"), "cotizacion_compra_id",
 					DataStore.DATATYPE_INT, false, true,
 					DETALLE_SC_COTIZACION_COMPRA_ID);
@@ -149,39 +147,35 @@ public class DetalleSCModel extends DataStore implements Constants {
 					DataStore.DATATYPE_FLOAT, false, true,
 					DETALLE_SC_CANTIDAD_RECIBIDA);
 			addColumn(computeTableName("detalle_sc"), "descripcion",
-					DataStore.DATATYPE_STRING, false, true,
-					DETALLE_SC_DESCRIPCION);
+					DataStore.DATATYPE_STRING, false, true, DETALLE_SC_DESCRIPCION);
 			addColumn(computeTableName("detalle_sc"), "observaciones",
-					DataStore.DATATYPE_STRING, false, true,
-					DETALLE_SC_OBSERVACIONES);
+					DataStore.DATATYPE_STRING, false, true, DETALLE_SC_OBSERVACIONES);
 			addColumn(computeTableName("articulos"), "clase_articulo_id",
-					DataStore.DATATYPE_INT, false, true,
-					ARTICULOS_CLASE_ARTICULO_ID);
+					DataStore.DATATYPE_INT, false, true, ARTICULOS_CLASE_ARTICULO_ID);
 			addColumn(computeTableName("articulos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ARTICULOS_NOMBRE);
 			addColumn(computeTableName("articulos"), "descripcion",
-					DataStore.DATATYPE_STRING, false, false,
-					ARTICULOS_DESCRIPCION);
+					DataStore.DATATYPE_STRING, false, false, ARTICULOS_DESCRIPCION);
 			addColumn(computeTableName("articulos"), "descripcion_completa",
 					DataStore.DATATYPE_STRING, false, false,
 					ARTICULOS_DESCRIPCION_COMPLETA);
 			addColumn(computeTableName("clase_articulo"), "nombre",
-					DataStore.DATATYPE_STRING, false, false,
-					CLASE_ARTICULO_NOMBRE);
+					DataStore.DATATYPE_STRING, false, false, CLASE_ARTICULO_NOMBRE);
 			addColumn(computeTableName("clase_articulo"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
 					CLASE_ARTICULO_DESCRIPCION);
 			addColumn(computeTableName("detalle_sc"), "tarea_id",
 					DataStore.DATATYPE_INT, false, true, DETALLE_SC_TAREA_ID);
 			addColumn(computeTableName("detalle_sc"), "monto_unitario",
-					DataStore.DATATYPE_FLOAT, false, true,
-					DETALLE_SC_MONTO_UNITARIO);
+					DataStore.DATATYPE_FLOAT, false, true, DETALLE_SC_MONTO_UNITARIO);
 			addColumn(computeTableName("detalle_sc"), "monto_ultima_compra",
 					DataStore.DATATYPE_FLOAT, false, true,
 					DETALLE_SC_MONTO_ULTIMA_COMPRA);
 			addColumn(computeTableName("tareas_proyecto"), "nombre",
+					DataStore.DATATYPE_STRING, false, false, TAREA_PROYECTO_NOMBRE);
+			addColumn(computeTableName("tareas_proyecto"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
-					TAREA_PROYECTO_NOMBRE);
+					TAREA_PROYECTO_DESCRIPCION);
 			addColumn(computeTableName("solicitudes_compra"), "estado",
 					DataStore.DATATYPE_STRING, false, false,
 					SOLICITUDES_COMPRA_ESTADO);
@@ -192,11 +186,10 @@ public class DetalleSCModel extends DataStore implements Constants {
 					DataStore.DATATYPE_INT, false, true,
 					DETALLE_SC_UNIDAD_DE_MEDIDA_ID);
 			addColumn(computeTableName("unidades_medida"), "nombre",
-					DataStore.DATATYPE_STRING, false, true,
-					UNIDAD_DE_MEDIDA_NOMBRE);
-			addColumn(computeTableName("detalle_sc"),
-					"unidad_medida_id_pedida", DataStore.DATATYPE_INT, false,
-					true, DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
+					DataStore.DATATYPE_STRING, false, true, UNIDAD_DE_MEDIDA_NOMBRE);
+			addColumn(computeTableName("detalle_sc"), "unidad_medida_id_pedida",
+					DataStore.DATATYPE_INT, false, true,
+					DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
 			addColumn(computeTableName("unidades_medida_pedida"), "nombre",
 					DataStore.DATATYPE_STRING, false, true,
 					UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
@@ -210,8 +203,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 			// add joins
 			addJoin(computeTableAndFieldName("detalle_sc.articulo_id"),
 					computeTableAndFieldName("articulos.articulo_id"), false);
-			addJoin(
-					computeTableAndFieldName("articulos.clase_articulo_id"),
+			addJoin(computeTableAndFieldName("articulos.clase_articulo_id"),
 					computeTableAndFieldName("clase_articulo.clase_articulo_id"),
 					true);
 			addJoin(computeTableAndFieldName("detalle_sc.tarea_id"),
@@ -220,8 +212,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 					computeTableAndFieldName("detalle_sc.solicitud_compra_id"),
 					computeTableAndFieldName("solicitudes_compra.solicitud_compra_id"),
 					false);
-			addJoin(
-					computeTableAndFieldName("detalle_sc.unidad_medida_id"),
+			addJoin(computeTableAndFieldName("detalle_sc.unidad_medida_id"),
 					computeTableAndFieldName("unidades_medida.unidad_medida_id"),
 					false);
 			addJoin(
@@ -246,13 +237,13 @@ public class DetalleSCModel extends DataStore implements Constants {
 					DETALLE_SC_ARTICULO_ID,
 					"inventario.articulos",
 					"'inventario.articulos.articulo_id = ' + detalle_sc.articulo_id",
-					"descripcion", ARTICULOS_DESCRIPCION,
-					"Articulo inexistente");
-			addLookupRule(
-					DETALLE_SC_TAREA_ID,
-					"proyectos.tareas_proyecto",
+					"descripcion", ARTICULOS_DESCRIPCION, "Articulo inexistente");
+			addLookupRule(DETALLE_SC_TAREA_ID, "proyectos.tareas_proyecto",
 					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
 					"nombre", TAREA_PROYECTO_NOMBRE, "Tarea inexistente");
+			addLookupRule(DETALLE_SC_TAREA_ID, "proyectos.tareas_proyecto",
+					"'proyectos.tareas_proyecto.tarea_id = ' + detalle_sc.tarea_id",
+					"descripcion", TAREA_PROYECTO_DESCRIPCION, "Tarea inexistente");
 			addLookupRule(
 					DETALLE_SC_SOLICITUD_COMPRA_ID,
 					"solicitudes_compra",
@@ -307,8 +298,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 				DataStore.DATATYPE_INT, false, false,
 				SOLICITUDES_COMPRA_USER_ID_SOLICITA);
 		addColumn(computeTableName("detalle_sc"), "observaciones_oc",
-				DataStore.DATATYPE_STRING, false, true,
-				DETALLE_SC_OBSERVACIONES_OC);
+				DataStore.DATATYPE_STRING, false, true, DETALLE_SC_OBSERVACIONES_OC);
 		addColumn(computeTableName("solicitudes_compra"), "fecha_solicitud",
 				DataStore.DATATYPE_DATE, false, false,
 				SOLICITUDES_COMPRA_FECHA_SOLICITUD);
@@ -332,12 +322,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 		addJoin(computeTableAndFieldName("solicitudes_compra.centro_costo_id"),
 				computeTableAndFieldName("centro_costo.centro_costo_id"), true);
 		addJoin(computeTableAndFieldName("detalle_sc.orden_compra_id"),
-				computeTableAndFieldName("ordenes_compra.orden_compra_id"),
-				true);
-		addJoin(
-				computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
-				computeTableAndFieldName("website_user_solicitante.user_id"),
-				true);
+				computeTableAndFieldName("ordenes_compra.orden_compra_id"), true);
+		addJoin(computeTableAndFieldName("solicitudes_compra.user_id_solicita"),
+				computeTableAndFieldName("website_user_solicitante.user_id"), true);
 		addJoin(computeTableAndFieldName("ordenes_compra.estado"),
 				computeTableAndFieldName("estados.estado"), true);
 
@@ -348,12 +335,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 					"'infraestructura.website_user.user_id = ' + solicitudes_compra.user_id_solicita",
 					"nombre_completo", WEBSITE_USER_NOMBRE_SOLICITANTE,
 					"Usuario inexistente");
-			addLookupRule(
-					ORDENES_COMPRA_ESTADO,
-					"infraestructura.estados",
+			addLookupRule(ORDENES_COMPRA_ESTADO, "infraestructura.estados",
 					"'infraestructura.estados.estado = ' + ordenes_compra.estado",
-					"nombre", ORDENES_COMPRA_ESTADO_NOMBRE,
-					"Estado inexistente");
+					"nombre", ORDENES_COMPRA_ESTADO_NOMBRE, "Estado inexistente");
 
 		} catch (DataStoreException e) {
 			com.salmonllc.util.MessageLog.writeErrorMessage(e, this);
@@ -378,7 +362,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -390,7 +374,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.detalle_SC_id column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScDetalleScId(int newValue) throws DataStoreException {
@@ -402,9 +386,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScDetalleScId(int row, int newValue)
@@ -428,7 +412,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -437,11 +421,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the detalle_sc.recepcion_compra_id column for the
-	 * current row.
+	 * Set the value of the detalle_sc.recepcion_compra_id column for the current
+	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScRecepcionCompraId(int newValue)
@@ -454,9 +438,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScRecepcionCompraId(int row, int newValue)
@@ -480,7 +464,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -493,7 +477,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScOrdenCompraId(int newValue)
@@ -506,9 +490,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScOrdenCompraId(int row, int newValue)
@@ -532,12 +516,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getDetalleScCotizacionCompraId(int row)
-			throws DataStoreException {
+	public int getDetalleScCotizacionCompraId(int row) throws DataStoreException {
 		return getInt(row, DETALLE_SC_COTIZACION_COMPRA_ID);
 	}
 
@@ -546,7 +529,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCotizacionCompraId(int newValue)
@@ -559,9 +542,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCotizacionCompraId(int row, int newValue)
@@ -585,7 +568,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -597,7 +580,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.articulo_id column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScArticuloId(int newValue) throws DataStoreException {
@@ -608,9 +591,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.articulo_id column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScArticuloId(int row, int newValue)
@@ -634,7 +617,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -643,11 +626,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the detalle_sc.solicitud_compra_id column for the
-	 * current row.
+	 * Set the value of the detalle_sc.solicitud_compra_id column for the current
+	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScSolicitudCompraId(int newValue)
@@ -660,9 +643,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScSolicitudCompraId(int row, int newValue)
@@ -686,7 +669,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return float
 	 * @throws DataStoreException
 	 */
@@ -696,11 +679,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the detalle_sc.cantidad_solicitada column for the
-	 * current row.
+	 * Set the value of the detalle_sc.cantidad_solicitada column for the current
+	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCantidadSolicitada(float newValue)
@@ -713,9 +696,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCantidadSolicitada(int row, float newValue)
@@ -739,7 +722,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return float
 	 * @throws DataStoreException
 	 */
@@ -752,7 +735,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCantidadPedida(float newValue)
@@ -765,9 +748,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCantidadPedida(int row, float newValue)
@@ -791,12 +774,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return float
 	 * @throws DataStoreException
 	 */
-	public float getDetalleScCantidadRecibida(int row)
-			throws DataStoreException {
+	public float getDetalleScCantidadRecibida(int row) throws DataStoreException {
 		return getFloat(row, DETALLE_SC_CANTIDAD_RECIBIDA);
 	}
 
@@ -805,7 +787,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCantidadRecibida(float newValue)
@@ -814,13 +796,13 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the detalle_sc.cantidad_recibida column for the
-	 * specified row.
+	 * Set the value of the detalle_sc.cantidad_recibida column for the specified
+	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScCantidadRecibida(int row, float newValue)
@@ -844,7 +826,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -856,7 +838,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.descripcion column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScDescripcion(String newValue)
@@ -868,9 +850,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.descripcion column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScDescripcion(int row, String newValue)
@@ -894,7 +876,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -906,7 +888,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.observaciones column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScObservaciones(String newValue)
@@ -919,9 +901,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScObservaciones(int row, String newValue)
@@ -945,7 +927,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -958,7 +940,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosClaseArticuloId(int newValue)
@@ -971,9 +953,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosClaseArticuloId(int row, int newValue)
@@ -995,7 +977,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of the articulos.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1007,7 +989,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the articulos.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosNombre(String newValue) throws DataStoreException {
@@ -1018,9 +1000,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the articulos.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosNombre(int row, String newValue)
@@ -1044,7 +1026,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1056,7 +1038,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the articulos.descripcion column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosDescripcion(String newValue)
@@ -1068,9 +1050,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the articulos.descripcion column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosDescripcion(int row, String newValue)
@@ -1094,7 +1076,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1129,7 +1111,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the articulos.descripcion column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosDescripcionCompleta(String newValue)
@@ -1141,9 +1123,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the articulos.descripcion column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setArticulosDescripcionCompleta(int row, String newValue)
@@ -1166,7 +1148,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -1178,7 +1160,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.tarea_id column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScTareaId(int newValue) throws DataStoreException {
@@ -1189,9 +1171,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.tarea_id column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScTareaId(int row, int newValue)
@@ -1200,8 +1182,8 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Retrieve the value of the detalle_sc.monto_unitario column for the
-	 * current row.
+	 * Retrieve the value of the detalle_sc.monto_unitario column for the current
+	 * row.
 	 * 
 	 * @return Float
 	 * @throws DataStoreException
@@ -1215,7 +1197,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return Float
 	 * @throws DataStoreException
 	 */
@@ -1224,11 +1206,10 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the detalle_sc.monto_unitario column for the current
-	 * row.
+	 * Set the value of the detalle_sc.monto_unitario column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScMontoUnitario(Float newValue)
@@ -1241,9 +1222,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScMontoUnitario(int row, Float newValue)
@@ -1267,7 +1248,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return Float
 	 * @throws DataStoreException
 	 */
@@ -1277,11 +1258,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the detalle_sc.monto_ultima_compra column for the
-	 * current row.
+	 * Set the value of the detalle_sc.monto_ultima_compra column for the current
+	 * row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScMontoUltimaCompra(Float newValue)
@@ -1294,9 +1275,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScMontoUltimaCompra(int row, Float newValue)
@@ -1320,7 +1301,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1332,11 +1313,10 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.unidad_medida column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
-	public void setDetalleScUnidadMedida(int newValue)
-			throws DataStoreException {
+	public void setDetalleScUnidadMedida(int newValue) throws DataStoreException {
 		setInt(DETALLE_SC_UNIDAD_DE_MEDIDA_ID, newValue);
 	}
 
@@ -1345,9 +1325,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScUnidadMedida(int row, int newValue)
@@ -1371,12 +1351,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public int getDetalleScUnidadMedidaPedida(int row)
-			throws DataStoreException {
+	public int getDetalleScUnidadMedidaPedida(int row) throws DataStoreException {
 		return getInt(row, DETALLE_SC_UNIDAD_DE_MEDIDA_ID_PEDIDA);
 	}
 
@@ -1385,7 +1364,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScUnidadMedidaPedida(int newValue)
@@ -1398,9 +1377,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScUnidadMedidaPedida(int row, int newValue)
@@ -1425,7 +1404,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1437,7 +1416,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the tareas_proyecto.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareaProyectoNombre(String newValue)
@@ -1449,14 +1428,66 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the tareas_proyecto.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareaProyectoNombre(int row, String newValue)
 			throws DataStoreException {
 		setString(row, TAREA_PROYECTO_NOMBRE, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the tareas_proyecto.descripcion column for the
+	 * current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTareaProyectoDescripcion() throws DataStoreException {
+		return getString(TAREA_PROYECTO_DESCRIPCION);
+	}
+
+	/**
+	 * Retrieve the value of the tareas_proyecto.descripcion column for the
+	 * specified row.
+	 * 
+	 * @param row
+	 *           which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getTareaProyectoDescripcion(int row) throws DataStoreException {
+		return getString(row, TAREA_PROYECTO_DESCRIPCION);
+	}
+
+	/**
+	 * Set the value of the tareas_proyecto.descripcion column for the current
+	 * row.
+	 * 
+	 * @param newValue
+	 *           the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTareaProyectoDescripcion(String newValue)
+			throws DataStoreException {
+		setString(TAREA_PROYECTO_DESCRIPCION, newValue);
+	}
+
+	/**
+	 * Set the value of the tareas_proyecto.descripcion column for the specified
+	 * row.
+	 * 
+	 * @param row
+	 *           which row in the table
+	 * @param newValue
+	 *           the new item value
+	 * @throws DataStoreException
+	 */
+	public void setTareaProyectoDescripcion(int row, String newValue)
+			throws DataStoreException {
+		setString(row, TAREA_PROYECTO_DESCRIPCION, newValue);
 	}
 
 	/**
@@ -1473,7 +1504,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of the monto_total column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1485,7 +1516,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the monto_total column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoTotal(Float newValue) throws DataStoreException {
@@ -1496,13 +1527,12 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the monto_total column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
-	public void setMontoTotal(int row, float newValue)
-			throws DataStoreException {
+	public void setMontoTotal(int row, float newValue) throws DataStoreException {
 		setFloat(row, DETALLE_SC_MONTO_TOTAL, newValue);
 	}
 
@@ -1520,7 +1550,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of the estado column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1532,7 +1562,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSolicitudCompraEstado(String newValue)
@@ -1544,9 +1574,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSolicitudCompraEstado(int row, String newValue)
@@ -1570,7 +1600,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1583,7 +1613,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado fecha_ultima_compra for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScFechaUltimaCompra(java.sql.Date newValue)
@@ -1595,9 +1625,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado fecha_ultima_compra for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScFechaUltimaCompra(int row, java.sql.Date newValue)
@@ -1609,9 +1639,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Calculate the value of the monto_total column.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
@@ -1634,9 +1664,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Calculate the value of the monto_total column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 * @throws SQLException
 	 */
@@ -1658,8 +1688,8 @@ public class DetalleSCModel extends DataStore implements Constants {
 			decimalSymbol.setGroupingSeparator(',');
 			format.setDecimalFormatSymbols(decimalSymbol);
 			Float total = monto_unitario * cantidad;
-			setMontoTotal(row, Float.parseFloat(format.format(total).replace(
-					",", "")));
+			setMontoTotal(row, Float.parseFloat(format.format(total).replace(",",
+					"")));
 		}
 	}
 
@@ -1669,6 +1699,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 
 		SolicitudCompraModel solicitud = new SolicitudCompraModel("inventario",
 				"inventario");
+		TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
+				"proyectos");
+		dsTareas.retrieve();
+		String tarea_nombre = null;
+		int proyecto_id = 0;
 
 		for (int row = 0; row < getRowCount(); row++) {
 			if (!isEnProcesoDeRecepcion(connection, row)) {
@@ -1677,14 +1712,21 @@ public class DetalleSCModel extends DataStore implements Constants {
 						+ getDetalleScSolicitudCompraId(row));
 				solicitud.gotoFirst();
 
-				int proyecto_id = solicitud.getSolicitudesCompraProyectoId();
+				proyecto_id = solicitud.getSolicitudesCompraProyectoId();
+				tarea_nombre = getTareaProyectoNombre(row);
 
-				TareasProyectoModel dsTareas = new TareasProyectoModel("proyectos",
-				"proyectos");
+				if (tarea_nombre != null && tarea_nombre.trim().length() != 0) {
+					dsTareas.filter("tareas_proyecto.nombre == '" + tarea_nombre
+							+ "'"+ " && tareas_proyecto.proyecto_id =="+proyecto_id);
+					if (dsTareas.gotoFirst())
+						setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
+					else
+						throw new DataStoreException(
+								"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+				}
 
-				if (proyecto_id != 0) {
-					dsTareas.retrieve("tareas_proyecto.proyecto_id = "
-							+ proyecto_id);
+				if (proyecto_id != 0 && getDetalleScTareaId(row) == 0) {
+					dsTareas.filter("tareas_proyecto.proyecto_id = " + proyecto_id);
 					dsTareas.gotoFirst();
 					setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
 				}
@@ -1694,7 +1736,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 						+ proyecto_id + " AND tareas_proyecto.tarea_id = "
 						+ getDetalleScTareaId(row)) == 0)
 					throw new DataStoreException(
-					"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+							"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
 
 				ArticulosModel articulos;
 				// fills detalle_sc.articulo_id field through ArticulosNombre
@@ -1704,7 +1746,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 							+ getArticulosNombre(row) + "'");
 					if (!articulos.gotoFirst()) {
 						DataStoreException ex = new DataStoreException(
-						"El código de articulo ingresado no corresponde a ninguno registrado");
+								"El código de articulo ingresado no corresponde a ninguno registrado");
 						ex.setRowNo(row);
 						throw ex;
 					}
@@ -1725,10 +1767,10 @@ public class DetalleSCModel extends DataStore implements Constants {
 				if (getDetalleScOrdenCompraId(row) > 0) {
 					if (getDetalleScCantidadPedida(row) <= 0)
 						throw new DataStoreException(
-						"La cantidad pedida debe ser un número positivo mayor que cero");
+								"La cantidad pedida debe ser un número positivo mayor que cero");
 					if (getDetalleScDescuento(row) < 0)
 						throw new DataStoreException(
-						"El descuento debe ser un número positivo mayor o igual que cero");
+								"El descuento debe ser un número positivo mayor o igual que cero");
 				}
 
 				// sets monto and fecha ultima compra with value stored in
@@ -1736,13 +1778,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 				if (getDetalleScMontoUltimaCompra(row) == 0) {
 					try {
 						String monto_ultima_compra = AtributosEntidadModel
-						.getValorAtributoObjeto("MONTO_ULTIMA_COMPRA",
-								getDetalleScArticuloId(row), "TABLA",
-						"articulos");
+								.getValorAtributoObjeto("MONTO_ULTIMA_COMPRA",
+										getDetalleScArticuloId(row), "TABLA", "articulos");
 						String fecha_ultima_compra = AtributosEntidadModel
-						.getValorAtributoObjeto("FECHA_ULTIMA_COMPRA",
-								getDetalleScArticuloId(row), "TABLA",
-						"articulos");
+								.getValorAtributoObjeto("FECHA_ULTIMA_COMPRA",
+										getDetalleScArticuloId(row), "TABLA", "articulos");
 
 						setDetalleScMontoUltimaCompra(row, Float
 								.parseFloat(monto_ultima_compra));
@@ -1756,7 +1796,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 					} catch (ParseException e) {
 						throw new DataStoreException(
 								"Error de parseo en el seteo del monto y fecha de última compra: "
-								+ e.getMessage());
+										+ e.getMessage());
 					}
 
 				}
@@ -1775,10 +1815,8 @@ public class DetalleSCModel extends DataStore implements Constants {
 
 				if (getDetalleScIva(row) == 0) {
 					setDetalleScIva(row, Float.parseFloat(AtributosEntidadModel
-							.getValorAtributoObjeto(
-									Constants.ARTICULO_IVA_PORCENTAJE,
-									getDetalleScArticuloId(row), "TABLA",
-							"articulos")));
+							.getValorAtributoObjeto(Constants.ARTICULO_IVA_PORCENTAJE,
+									getDetalleScArticuloId(row), "TABLA", "articulos")));
 				}
 
 				try {
@@ -1787,15 +1825,17 @@ public class DetalleSCModel extends DataStore implements Constants {
 					calculaMontoTotalNetoPedido(row);
 				} catch (ParseException ex) {
 					throw new DataStoreException(
-					"Error parseando cantidad y monto unitario para calcular el total.");
+							"Error parseando cantidad y monto unitario para calcular el total.");
 				}
 
 				/*
-				 * Si la SC/SM a la cual esta asignado el detalle es modificable, copiar
-				 * el id del articulo seleccionado en el campo articulo_id_solicitado
+				 * Si la SC/SM a la cual esta asignado el detalle es modificable,
+				 * copiar el id del articulo seleccionado en el campo
+				 * articulo_id_solicitado
 				 */
 				if (solicitud.isModificable()) {
-					setDetalleScArticuloIdSolicitado(row, getDetalleScArticuloId(row));
+					setDetalleScArticuloIdSolicitado(row,
+							getDetalleScArticuloId(row));
 				}
 			}
 		}
@@ -1835,7 +1875,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of the proyectos.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1847,7 +1887,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado proyectos.nombre for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setProyectosNombre(String newValue) throws DataStoreException {
@@ -1858,9 +1898,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado proyectos.nombre for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setProyectosNombre(int row, String newValue)
@@ -1883,7 +1923,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1895,7 +1935,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the centro_costo.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setCentroCostoNombre(String newValue) throws DataStoreException {
@@ -1906,9 +1946,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the centro_costo.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setCentroCostoNombre(int row, String newValue)
@@ -1933,7 +1973,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -1958,7 +1998,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1970,11 +2010,10 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the unidades_medida.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
-	public void setUnidadMedidaNombre(String newValue)
-			throws DataStoreException {
+	public void setUnidadMedidaNombre(String newValue) throws DataStoreException {
 		setString(UNIDAD_DE_MEDIDA_NOMBRE, newValue);
 	}
 
@@ -1982,9 +2021,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the unidades_medida.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setUnidadMedidaNombre(int row, String newValue)
@@ -2008,12 +2047,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getUnidadMedidaNombrePedida(int row)
-			throws DataStoreException {
+	public String getUnidadMedidaNombrePedida(int row) throws DataStoreException {
 		return getString(row, UNIDAD_DE_MEDIDA_NOMBRE_PEDIDA);
 	}
 
@@ -2021,7 +2059,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the unidades_medida.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setUnidadMedidaNombrePedida(String newValue)
@@ -2033,9 +2071,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the unidades_medida.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setUnidadMedidaNombrePedida(int row, String newValue)
@@ -2054,11 +2092,10 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Retrieve the value of the proyectos.proyecto column for the specified
-	 * row.
+	 * Retrieve the value of the proyectos.proyecto column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2070,7 +2107,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado proyectos.proyecto for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setProyectosProyecto(String newValue) throws DataStoreException {
@@ -2081,9 +2118,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the estado proyectos.proyecto for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setProyectosProyecto(int row, String newValue)
@@ -2106,7 +2143,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2119,7 +2156,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the website_user.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setWebsiteUserNombreSolicitante(String newValue)
@@ -2131,9 +2168,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the website_user.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setWebsiteUserNombreSolicitante(int row, String newValue)
@@ -2157,7 +2194,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -2171,7 +2208,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSolicitudesCompraUserIdSolicita(int newValue)
@@ -2184,9 +2221,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSolicitudesCompraUserIdSolicita(int row, int newValue)
@@ -2210,12 +2247,11 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
-	public String getDetalleScObservacionesOc(int row)
-			throws DataStoreException {
+	public String getDetalleScObservacionesOc(int row) throws DataStoreException {
 		return getString(row, DETALLE_SC_OBSERVACIONES);
 	}
 
@@ -2223,7 +2259,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.observaciones column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScObservacionesOc(String newValue)
@@ -2236,9 +2272,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScObservacionesOc(int row, String newValue)
@@ -2260,7 +2296,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of monto_total_pedido bucket for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2272,7 +2308,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the monto_total_pedido bucket for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoTotalPedido(Float newValue) throws DataStoreException {
@@ -2283,9 +2319,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the monto_total_pedido bucket for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoTotalPedido(int row, float newValue)
@@ -2388,7 +2424,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -2402,9 +2438,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * elimina el fk al OC y resetea el campo cantidad pedida.
 	 * 
 	 * @param conn
-	 *            La conexión en la que se enmarca la transacción
+	 *           La conexión en la que se enmarca la transacción
 	 * @param bucketName
-	 *            nombre del bucket que contiene el flag de seleccion
+	 *           nombre del bucket que contiene el flag de seleccion
 	 * @return true si han sido eliminado algun detalle
 	 * @throws DataStoreException
 	 */
@@ -2451,7 +2487,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of the detalle_sc.iva column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2463,7 +2499,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.iva column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScIva(float newValue) throws DataStoreException {
@@ -2474,9 +2510,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.iva column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScIva(int row, float newValue)
@@ -2485,8 +2521,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Retrieve the value of the detalle_sc.descuento column for the current
-	 * row.
+	 * Retrieve the value of the detalle_sc.descuento column for the current row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -2500,7 +2535,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2512,7 +2547,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.descuento column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScDescuento(float newValue) throws DataStoreException {
@@ -2523,9 +2558,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the detalle_sc.descuento column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScDescuento(int row, float newValue)
@@ -2579,7 +2614,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2591,7 +2626,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the monto_total_pedido_neto bucket for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoTotalPedidoNeto(Float newValue)
@@ -2600,13 +2635,12 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Set the value of the monto_total_pedido_neto bucket for the specified
-	 * row.
+	 * Set the value of the monto_total_pedido_neto bucket for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoTotalPedidoNeto(int row, float newValue)
@@ -2630,7 +2664,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2642,7 +2676,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the ordenes_compra.estado column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setOrdenesCompraEstado(String newValue)
@@ -2654,9 +2688,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the ordenes_compra.estado column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setOrdenesCompraEstado(int row, String newValue)
@@ -2678,7 +2712,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of the oc_estado_nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2691,7 +2725,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the oc_estado_nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setOrdenesCompraEstadoNombre(String newValue)
@@ -2703,9 +2737,9 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the oc_estado_nombre column for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setOrdenesCompraEstadoNombre(int row, String newValue)
@@ -2787,7 +2821,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Retrieve the value of monto_unitario_pam bucket for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -2799,7 +2833,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the monto_unitario_pam bucket for the current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoUnitarioPam(Float newValue) throws DataStoreException {
@@ -2810,19 +2844,19 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 * Set the value of the monto_unitario_pam bucket for the specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMontoUnitarioPam(int row, float newValue)
 			throws DataStoreException {
 		setFloat(row, DETALLE_SC_MONTO_UNITARIO_PAM, newValue);
 	}
-	
+
 	/**
-	 * Retrieve the value of the detalle_sc.articulo_id_solicitado column for the current
-	 * row.
+	 * Retrieve the value of the detalle_sc.articulo_id_solicitado column for the
+	 * current row.
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -2832,86 +2866,102 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Retrieve the value of the detalle_sc.articulo_id_solicitado column for the specified
-	 * row.
+	 * Retrieve the value of the detalle_sc.articulo_id_solicitado column for the
+	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getDetalleScArticuloIdSolicitado(int row) throws DataStoreException {
+	public int getDetalleScArticuloIdSolicitado(int row)
+			throws DataStoreException {
 		return getInt(row, DETALLE_SC_ARTICULO_ID_SOLICITADO);
 	}
 
 	/**
-	 * Set the value of the detalle_sc.articulo_id_solicitado column for the current row.
+	 * Set the value of the detalle_sc.articulo_id_solicitado column for the
+	 * current row.
 	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
-	public void setDetalleScArticuloIdSolicitado(int newValue) throws DataStoreException {
+	public void setDetalleScArticuloIdSolicitado(int newValue)
+			throws DataStoreException {
 		setInt(DETALLE_SC_ARTICULO_ID_SOLICITADO, newValue);
 	}
 
 	/**
-	 * Set the value of the detalle_sc.articulo_id_solicitado column for the specified row.
+	 * Set the value of the detalle_sc.articulo_id_solicitado column for the
+	 * specified row.
 	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setDetalleScArticuloIdSolicitado(int row, int newValue)
 			throws DataStoreException {
 		setInt(row, DETALLE_SC_ARTICULO_ID_SOLICITADO, newValue);
 	}
-	
+
 	/**
 	 * Chequea si la fila actual se encuentra en proceso de recepcion
+	 * 
 	 * @return true si la fila actual se encuentra en proceso de recepcion
-	 * @throws DataStoreException 
-	 * @throws SQLException 
+	 * @throws DataStoreException
+	 * @throws SQLException
 	 */
-	public boolean isEnProcesoDeRecepecion() throws SQLException, DataStoreException {
+	public boolean isEnProcesoDeRecepecion() throws SQLException,
+			DataStoreException {
 		return isEnProcesoDeRecepcion(getRow());
 	}
-	
+
 	/**
 	 * Chequea si la fila especificida se encuentra en proceso de recepcion
-	 * @param row la fila a chequear
+	 * 
+	 * @param row
+	 *           la fila a chequear
 	 * @return true si la fila acutal se encuentra en proceso de recepcion
-	 * @throws DataStoreException 
-	 * @throws SQLException 
-	 * @throws DataStoreException 
-	 * @throws SQLException 
+	 * @throws DataStoreException
+	 * @throws SQLException
+	 * @throws DataStoreException
+	 * @throws SQLException
 	 */
-	public boolean isEnProcesoDeRecepcion(int row) throws SQLException, DataStoreException {
+	public boolean isEnProcesoDeRecepcion(int row) throws SQLException,
+			DataStoreException {
 		return isEnProcesoDeRecepcion(null, row);
 	}
-	
+
 	/**
 	 * Chequea si la fila especificida se encuentra en proceso de recepcion
-	 * @param conn la conexión dentro de la cual se enmarca la transaccion
-	 * @param row la fila a chequear
+	 * 
+	 * @param conn
+	 *           la conexión dentro de la cual se enmarca la transaccion
+	 * @param row
+	 *           la fila a chequear
 	 * @return true si la fila acutal se encuentra en proceso de recepcion
 	 * @throws SQLException
 	 * @throws DataStoreException
 	 */
-	public boolean isEnProcesoDeRecepcion(DBConnection conn, int row) throws SQLException, DataStoreException {
+	public boolean isEnProcesoDeRecepcion(DBConnection conn, int row)
+			throws SQLException, DataStoreException {
 		DetalleRCModel detalleRCModel = new DetalleRCModel(getAppName());
-				
-		if (conn == null) 
+
+		if (conn == null)
 			conn = DBConnection.getConnection(_appName);
-		
-		// recuperamos todos los detalles de recepcion que esten asociadas al detalle indicado
-		if (detalleRCModel.estimateRowsRetrieved(conn, DetalleRCModel.DETALLES_RC_DETALLE_SC_ID + " = " + getDetalleScDetalleScId(row)) == 0) {
+
+		// recuperamos todos los detalles de recepcion que esten asociadas al
+		// detalle indicado
+		if (detalleRCModel.estimateRowsRetrieved(conn,
+				DetalleRCModel.DETALLES_RC_DETALLE_SC_ID + " = "
+						+ getDetalleScDetalleScId(row)) == 0) {
 			return false;
-		} else {			
+		} else {
 			return true;
-		}		
+		}
 	}
 	// $ENDCUSTOMMETHODS$
 }
