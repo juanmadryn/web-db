@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page extends="com.salmonllc.jsp.JspServlet"%>
 <html>
-<salmon:page />
+<salmon:page controller="partesMO.controllers.LkpTareasProyectoController" /> 
 <salmon:body />
 <salmon:form name="pageForm">
    <%@include file="message.jsp"%>
@@ -45,10 +45,6 @@
             <salmon:datatableheader>
                <salmon:tr>
                   <salmon:td>
-                     <salmon:text name="tareasProyectoIdCAP10" text="ID"
-                        font="TableHeadingFont" />
-                  </salmon:td>
-                  <salmon:td>
                      <salmon:text name="tareasProyectoCAP11" text="Nombre"
                         font="TableHeadingFont" />
                   </salmon:td>
@@ -60,11 +56,6 @@
             </salmon:datatableheader>
             <salmon:datatablerows>
                <salmon:tr>
-                  <salmon:td>
-                     <salmon:text name="tareasProyectoIdTXT6"
-                        text="tarea_id Goes Here" font="DefaultFont"
-                        datasource="dsTareasProyecto:tareas_proyecto.tarea_id" />
-                  </salmon:td>
                   <salmon:td>
                      <salmon:text name="tareasProyectoTXT7"
                         text="nombre Goes Here" font="DefaultFont"

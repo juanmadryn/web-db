@@ -424,6 +424,10 @@ public class CargarPartesPlanoController extends BaseController implements Value
 		super.pageRequested(p);
 	}
 	
-	
+	public void setTareaLookupURL() throws DataStoreException {
+		_tareasProyectoLU1.setLookUpPageURL("%LkpTareasProyecto?proyecto_id="
+				+ _dsPartes.getPartesMoProyectoId());
+		System.out.println("---> Hola");
+	}	
 
 }
