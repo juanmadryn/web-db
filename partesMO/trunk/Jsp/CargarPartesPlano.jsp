@@ -117,6 +117,7 @@
                   <salmon:td name="tareaProyectoTableTD">
                      <salmon:lookup
                         browseimage="%ImageDirectory/Browse.gif"
+                        usemodal="true"                        
                         lookupurl="%LkpTareasProyecto" name="tareasProyectoLU1"
                         size="10" maxlength="90"
                         datasource="dsPartes:tareas.nombre"
