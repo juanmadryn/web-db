@@ -224,10 +224,7 @@
 						<salmon:td>
 							<salmon:text name="selTareaCAP70" text="-X-"
 								font="TableHeadingFont" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:text name="idCAP30" text="ID" font="TableHeadingFont" />
-						</salmon:td>
+						</salmon:td>						
 						<salmon:td>
 							<salmon:text name="nombreCAP31" text="Nombre"
 								font="TableHeadingFont" />
@@ -253,8 +250,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td></salmon:td>
-						<salmon:td></salmon:td>
-						<salmon:td></salmon:td>
+						<salmon:td></salmon:td>						
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
@@ -262,14 +258,9 @@
 						<salmon:td>
 							<salmon:input type="checkbox" name="seleccionTarea"
 								checkedtruevalue="1"></salmon:input>
-						</salmon:td>
+						</salmon:td>						
 						<salmon:td>
-							<salmon:text name="idTXT30" text="id tarea Goes Here"
-								font="DefaultFont"
-								datasource="dsTareasProyecto:tareas_proyecto.tarea_id" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:input type="text" name="nombreTE31" size="30"
+							<salmon:input type="text" name="nombreTE31" size="15"
 								maxlength="90"
 								datasource="dsTareasProyecto:tareas_proyecto.nombre"></salmon:input>
 						</salmon:td>
@@ -306,8 +297,7 @@
 								showdescription="true"></salmon:lookup>
 						</salmon:td>
 						<salmon:td></salmon:td>
-						<salmon:td></salmon:td>
-						<salmon:td></salmon:td>
+						<salmon:td></salmon:td>						
 					</salmon:tr>
 				</salmon:datatablerows>
 			</salmon:datatable>
