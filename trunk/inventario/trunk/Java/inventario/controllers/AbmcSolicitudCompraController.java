@@ -1042,6 +1042,7 @@ public class AbmcSolicitudCompraController extends BaseEntityController {
 			_monto_unitario1.setEnabled(isMod);
 			_descripcion4.setEnabled(isMod);
 			_observaciones4.setEnabled(isMod);
+			_tarea3.setEnabled(isMod);
 			
 
 			// Si la solicitud se está confeccionando o el usuario actual es el
