@@ -1,6 +1,8 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
+<script src="javascripts/prototype.js" type="text/javascript"></script>
+<script src="javascripts/scriptaculous.js" type="text/javascript"></script>
 <script type="text/javascript">
 <!--
 function llenarLista(resetear) {	
@@ -9,51 +11,62 @@ function llenarLista(resetear) {
 	var nombre_tarea;
 	var descripcion_tarea;
 	var opciones;
-	var index = 0;	
+	var index;	
 	var proyecto;
 	var tarea_id;
 	var flag = true;
+	var select_tareas;
+	var datatable2 = document.getElementsByName('datatable2')[0];
 	
 	for (var j=0;document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_proyectoTableTD_proyectoTE3__edit_'+j)[0] != null;j++) {
+		select_tareas = document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tarea_proyecto1_'+j)[0]		
+		index = 0;
 		if(resetear) {
-			for(var l = 0; l < document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tarea_proyecto1_'+j)[0].length ; l++) {
-				document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tarea_proyecto1_'+j)[0].remove(l);
-			}						 
-		} 
+			for(var l = 0; l < select_tareas.length ; l++) {
+				select_tareas.remove(l);
+			}			
+		}
+		 
 		proyecto = document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_proyectoTableTD_proyectoTE3__edit_'+j)[0].value;
 		tarea_id = document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tareaId_'+j)[0].value;
-		for (var i=0;i<document.getElementsByName('datatable2')[0].rows.length;i++) {
 		
-			proyecto_tarea = document.getElementsByName('datatable2')[0].rows[i].cells[2].innerHTML;
+		for (var i=0;i<datatable2.rows.length;i++) {
+		
+			proyecto_tarea = datatable2.rows[i].cells[2].innerHTML;
 			proyecto_tarea = proyecto_tarea.substring(proyecto_tarea.indexOf('>')+1,proyecto_tarea.lastIndexOf('<'));
 			
 			if(proyecto_tarea == proyecto) {
 		
-				nombre_tarea = document.getElementsByName('datatable2')[0].rows[i].cells[0].innerHTML;
+				nombre_tarea = datatable2.rows[i].cells[0].innerHTML;
 				nombre_tarea = nombre_tarea.substring(nombre_tarea.indexOf('>')+1,nombre_tarea.lastIndexOf('<'));
 		
-				descripcion_tarea = document.getElementsByName('datatable2')[0].rows[i].cells[1].innerHTML;
+				descripcion_tarea = datatable2.rows[i].cells[1].innerHTML;
 				descripcion_tarea = descripcion_tarea.substring(descripcion_tarea.indexOf('>')+1,descripcion_tarea.lastIndexOf('<'));
 
-				tarea = document.getElementsByName('datatable2')[0].rows[i].cells[3].innerHTML;
+				tarea = datatable2.rows[i].cells[3].innerHTML;
 				tarea = tarea.substring(tarea.indexOf('>')+1,tarea.lastIndexOf('<'));
 			
-				document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tarea_proyecto1_'+j)[0].options[index] = new Option(descripcion_tarea, nombre_tarea); 
+				select_tareas.options[index] = new Option(descripcion_tarea, nombre_tarea); 
 				
 				if(tarea == tarea_id) {
-					document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tarea_proyecto1_'+j)[0].selectedIndex = index;
+					select_tareas.selectedIndex = index;
 					flag = false;											
-				}
+				} else
+					flag = true;
 							
 				index = index + 1;			
 			}					
 		}		
 					
 		if(flag) {
-			document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tarea_proyecto1_'+j)[0].selectedIndex = 0;			
+			select_tareas.selectedIndex = 0;			
 		}			
 		if (index == 1) {
-			document.getElementById('div2').style.display='none';			
+			$('tarea_proyecto1_'+j).hide();
+			//select_tareas.style.display='none';			
+		} else {
+			$('tarea_proyecto1_'+j).appear();
+			//select_tareas.style.display='';
 		}
 	}	
 }
@@ -61,7 +74,7 @@ function llenarLista(resetear) {
 //-->
 </script>
 <salmon:page
-	controller="partesMO.controllers.CargarPartesPlanoController"/>
+	controller="partesMO.controllers.CargarPartesPlanoController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
@@ -170,16 +183,15 @@ function llenarLista(resetear) {
 								popupheight="450" popupwidth="500" usepopup="true"
 								showdescription="True"></salmon:lookup>
 						</salmon:td>
-						<div id="div2">
 						<salmon:td name="tareaProyectoTableTD">
 							<salmon:input type="select" name="tarea_proyecto1"
-								datasource="dsPartes:tareas.nombre">	
-								<salmon:option display="" key="" nulloption="true" reloadDropDownInEveryPageRequest="false"></salmon:option>							
+								datasource="dsPartes:tareas.nombre">
+								<salmon:option display="" key="" nulloption="true"
+									reloadDropDownInEveryPageRequest="false"></salmon:option>
 							</salmon:input>
 							<salmon:input type="text" name="tareaId" style="display:none"
-								font="DefaultFont" datasource="dsPartes:partes_mo.tarea_id" />								
+								font="DefaultFont" datasource="dsPartes:partes_mo.tarea_id" />
 						</salmon:td>
-						</div>
 						<salmon:td>
 							<salmon:input type="text" name="horaDesdeTE4" size="5"
 								maxlength="5" datasource="dsPartes:partes_mo.hora_desde">
@@ -246,7 +258,7 @@ function llenarLista(resetear) {
 		name="datatable2" width="100%" rowsperpage="10000"
 		rowsperpageselector="false" datasource="dsTareas">
 		<salmon:datatablerows>
-			<salmon:tr>				
+			<salmon:tr>
 				<salmon:td>
 					<salmon:text name="tareaNombre" text="tarea_nombre Goes Here"
 						font="DefaultFont" datasource="dsTareas:tareas_proyecto.nombre" />
@@ -254,7 +266,7 @@ function llenarLista(resetear) {
 				<salmon:td>
 					<salmon:text name="tareaDescripcion"
 						text="tarea_descripcion Goes Here" font="DefaultFont"
-						datasource="dsTareas:tareas_proyecto.descripcion"/>
+						datasource="dsTareas:tareas_proyecto.descripcion" />
 				</salmon:td>
 				<salmon:td>
 					<salmon:text name="proyectoId" text="proyecto_id Goes Here"
