@@ -85,6 +85,8 @@ public class ConsultaResumenesSaldoArticulosController extends BaseController {
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox2;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _table2;
+	public com.salmonllc.jsp.JspLink _imprimirReporteBUT1;
+	public com.salmonllc.jsp.JspLink _imprimirReporteBUT2;	
 
 	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -137,6 +139,8 @@ public class ConsultaResumenesSaldoArticulosController extends BaseController {
 	 */
 	public void initialize() {
 		try {
+			//_searchformdisplaybox1.getSearchButton().setOnClick("mostrarOcultar();");
+			setOnLoad("mostrarOcultar();");
 			super.initialize();
 		} catch (Exception e) {
 			displayErrorMessage(e.getMessage());
@@ -188,10 +192,23 @@ public class ConsultaResumenesSaldoArticulosController extends BaseController {
 				} else
 					_dsComprobantes.reset();
 			}
-			
+			setURLReporte();
 			super.pageRequested(event);			
 		} catch (Exception e) {
 			displayErrorMessage(e.getMessage());
 		}
 	}	
+	
+	private void setURLReporte() {
+		// setea la URL del reporte a generar al presionar el botón de
+		// impresión
+		String articulo = _articulo2.getValue() != null ? _articulo2.getValue() : "";
+		String almacen = _almacen2.getValue() != null ? _almacen2.getValue() : "";
+		String periodo = _periodo2.getValue() != null ? _periodo2.getValue() : "";
+		String parametros = "&param_codigo_articulo=" + articulo +"&param_almacen_id=" + almacen +"&param_periodo=" + periodo; 
+		String URL = armarUrlReporte("XLS", "reporte_stock_por_consulta", parametros);
+		_imprimirReporteBUT1.setHref(URL);
+		URL = armarUrlReporte("PDF", "reporte_stock_por_consulta",parametros);
+		_imprimirReporteBUT2.setHref(URL);
+	}
 }
