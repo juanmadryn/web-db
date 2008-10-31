@@ -660,7 +660,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
             name += ("_" + rowNo);
         }
 
-        StringBuffer tag = new StringBuffer("<SELECT NAME=\"" + name + "\"");
+        StringBuffer tag = new StringBuffer("<SELECT NAME=\"" + name + "\" ID=\"" + getName()+"_"+rowNo + "\"");
 
         if (!_enabled)
         {
@@ -999,7 +999,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
 
                         for (int i = 2; i <= cols; i++)
                         {
-                            display = display + r.getObject(i).toString().trim() + " ";
+                        	display = display + r.getObject(i).toString().trim() + " ";
                         }
 
                         addOption(key, display);
