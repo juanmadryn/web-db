@@ -1,10 +1,9 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
-<%@ page errorPage="ErrorPage.jsp"
-	extends="com.salmonllc.jsp.JspServlet"%>
+<%@page errorPage="ErrorPage.jsp" extends="com.salmonllc.jsp.JspServlet"%>
 <salmon:page
 	controller="inventario.controllers.ConsultaSolicitudCompraController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
-<salmon:form name="PageForm">
+<salmon:form name="PageForm" onsubmit="">
 	<%@include file="message.jsp"%>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definición de DataSource aquí -->
@@ -25,7 +24,7 @@
 	<salmon:datasource name="dsSolicitudes" type="MODEL"
 		dbprofile="inventario" model="inventario.models.SolicitudCompraModel"
 		autoretrieve="Never">
-	</salmon:datasource>
+	</salmon:datasource>	
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar código de la página aquí -->
 	<!-- ********************************************************************************************* -->
@@ -55,7 +54,6 @@
 										keycolumn="estado" displaycolumn="nombre" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
-
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"
@@ -84,10 +82,9 @@
 								<td><salmon:text name="proyecto1" text="Proyecto"
 									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpProyectos" name="proyecto2" size="15"
-										maxlength="15"																				
-										popupheight="450" popupwidth="500" usepopup="TRUE"
-										showdescription="TRUE"></salmon:lookup></td>
+									lookupurl="%LkpProyectos" name="proyecto2" size="15"
+									maxlength="15" popupheight="450" popupwidth="500"
+									usepopup="TRUE" showdescription="TRUE"></salmon:lookup></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
@@ -143,7 +140,7 @@
 								<td><salmon:text name="fecha_aprobacion2" text=""
 									displayformat="dd/MM/yyyy HH:mm"
 									datasource="dsSolicitudes:solicitudes_compra.fecha_aprobacion"></salmon:text></td>
-							</tr>							
+							</tr>
 							<tr>
 								<td><salmon:text name="proyectos_proyecto1" text="Proyecto"
 									font="TableHeadingFont" /></td>
@@ -167,7 +164,7 @@
 					<salmon:tr>
 						<salmon:td>
 							<salmon:text name="numeroCAP2" text="Nº" font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="descripcionCAP4" text="Solicitante"
 								font="TableHeadingFont" />
@@ -202,7 +199,7 @@
 							<salmon:text name="proyectoTXT1" text="proyecto Goes Here"
 								font="DefaultFont"
 								datasource="dsSolicitudes:solicitudes_compra.solicitud_compra_id" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="solicitante_nombreTXT3"
 								text="descripcion Goes Here" font="DefaultFont"
