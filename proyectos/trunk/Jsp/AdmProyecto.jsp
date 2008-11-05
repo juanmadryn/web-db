@@ -1,6 +1,16 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+<!--
+  $(document).ready(function(){
+    $("#pepe").accordion();
+  });
+
+//-->
+</script>
+
 <salmon:page controller="proyectos.controllers.AdmProyectoController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
@@ -30,11 +40,12 @@
 		<salmon:table name="table1" width="100%" border="0">
 			<salmon:tr>
 				<salmon:td valign="Top">
-					<salmon:detailformdisplaybox name="detailformdisplaybox1"
-						caption="Proyecto" width="100%" datasource="dsProyecto"
-						buttondisplaylocation="BELOW_TABLE" addbuttonvisible="false"
-						cancelbuttonvisible="false" savebuttonvisible="false"
-						deletebuttonvisible="false">
+					<div title="Hola" id="pepe">Hola
+					<salmon:detailformdisplaybox
+						name="detailformdisplaybox1" caption="Proyecto" width="100%"
+						datasource="dsProyecto" buttondisplaylocation="BELOW_TABLE"
+						addbuttonvisible="false" cancelbuttonvisible="false"
+						savebuttonvisible="false" deletebuttonvisible="false">
 						<salmon:input name="customBUT100" type="submit" value="boton 1"
 							accesskey="1" visible="False"></salmon:input>
 						<salmon:input name="customBUT110" type="submit" value="boton 2"
@@ -107,7 +118,7 @@
 									datasource="dsProyecto:proyectos.proyecto_id" /></td>
 							</tr>
 						</table>
-					</salmon:detailformdisplaybox>
+					</salmon:detailformdisplaybox></div>
 				</salmon:td>
 
 				<salmon:td align="LEFT" valign="Top">
@@ -224,7 +235,7 @@
 						<salmon:td>
 							<salmon:text name="selTareaCAP70" text="-X-"
 								font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="nombreCAP31" text="Nombre"
 								font="TableHeadingFont" />
@@ -250,7 +261,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td></salmon:td>
-						<salmon:td></salmon:td>						
+						<salmon:td></salmon:td>
 					</salmon:tr>
 				</salmon:datatableheader>
 				<salmon:datatablerows>
@@ -258,7 +269,7 @@
 						<salmon:td>
 							<salmon:input type="checkbox" name="seleccionTarea"
 								checkedtruevalue="1"></salmon:input>
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="nombreTE31" size="15"
 								maxlength="90"
@@ -297,7 +308,7 @@
 								showdescription="true"></salmon:lookup>
 						</salmon:td>
 						<salmon:td></salmon:td>
-						<salmon:td></salmon:td>						
+						<salmon:td></salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>
 			</salmon:datatable>
