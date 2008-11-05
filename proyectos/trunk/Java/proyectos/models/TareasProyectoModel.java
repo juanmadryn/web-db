@@ -17,7 +17,7 @@ import com.salmonllc.sql.DataStoreException;
 public class TareasProyectoModel extends DataStore {
 
 	/**
-	 *
+	 * 
 	 */
 	private static final long serialVersionUID = -4321325017793350813L;
 
@@ -39,6 +39,8 @@ public class TareasProyectoModel extends DataStore {
 	public static final String TAREAS_PROYECTO_ACTIVIDAD_PROYECTO_ID = "tareas_proyecto.actividad_proyecto_id";
 
 	public static final String PROYECTOS_NOMBRE = "proyectos.nombre";
+
+	public static final String PROYECTOS_PROYECTO = "proyectos.proyecto";
 
 	public static final String ACTIVIDADES_PROYECTO_ACTIVIDAD_ID = "actividades_proyecto.actividad_id";
 
@@ -65,9 +67,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Create a new TareasProyectoModel object.
-	 *
+	 * 
 	 * @param appName
-	 *            The SOFIA application name
+	 *           The SOFIA application name
 	 */
 	public TareasProyectoModel(String appName) {
 		this(appName, null);
@@ -75,11 +77,11 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Create a new TareasProyectoModel object.
-	 *
+	 * 
 	 * @param appName
-	 *            The SOFIA application name
+	 *           The SOFIA application name
 	 * @param profile
-	 *            The database profile to use
+	 *           The database profile to use
 	 */
 	public TareasProyectoModel(String appName, String profile) {
 		super(appName, profile);
@@ -87,24 +89,20 @@ public class TareasProyectoModel extends DataStore {
 		try {
 
 			// add aliases
-			addTableAlias(computeTableName("tareas_proyecto"),
-					"tareas_proyecto");
+			addTableAlias(computeTableName("tareas_proyecto"), "tareas_proyecto");
 			addTableAlias(computeTableName("proyectos"), "proyectos");
 			addTableAlias(computeTableName("actividades_proyecto"),
 					"actividades_proyecto");
 			addTableAlias(computeTableName("actividades"), "actividades");
 
 			addTableAlias(computeTableName("clases_tareas"), "clases_tareas");
-			addTableAlias(computeTableName("infraestructura.estados"),
-					"estados");
+			addTableAlias(computeTableName("infraestructura.estados"), "estados");
 
 			// add columns
 			addColumn(computeTableName("tareas_proyecto"), "tarea_id",
-					DataStore.DATATYPE_INT, true, true,
-					TAREAS_PROYECTO_TAREA_ID);
+					DataStore.DATATYPE_INT, true, true, TAREAS_PROYECTO_TAREA_ID);
 			addColumn(computeTableName("tareas_proyecto"), "nombre",
-					DataStore.DATATYPE_STRING, false, true,
-					TAREAS_PROYECTO_NOMBRE);
+					DataStore.DATATYPE_STRING, false, true, TAREAS_PROYECTO_NOMBRE);
 			addColumn(computeTableName("tareas_proyecto"), "descripcion",
 					DataStore.DATATYPE_STRING, false, true,
 					TAREAS_PROYECTO_DESCRIPCION);
@@ -112,24 +110,23 @@ public class TareasProyectoModel extends DataStore {
 					DataStore.DATATYPE_STRING, false, true,
 					TAREAS_PROYECTO_OBSERVACIONES);
 			addColumn(computeTableName("tareas_proyecto"), "estado",
-					DataStore.DATATYPE_STRING, false, true,
-					TAREAS_PROYECTO_ESTADO);
+					DataStore.DATATYPE_STRING, false, true, TAREAS_PROYECTO_ESTADO);
 			addColumn(computeTableName("tareas_proyecto"), "proyecto_id",
-					DataStore.DATATYPE_INT, false, true,
-					TAREAS_PROYECTO_PROYECTO_ID);
+					DataStore.DATATYPE_INT, false, true, TAREAS_PROYECTO_PROYECTO_ID);
 			addColumn(computeTableName("tareas_proyecto"), "clase_tarea_id",
 					DataStore.DATATYPE_INT, false, true,
 					TAREAS_PROYECTO_CLASE_TAREA_ID);
 			addColumn(computeTableName("tareas_proyecto"),
-					"actividad_proyecto_id", DataStore.DATATYPE_INT, false,
-					true, TAREAS_PROYECTO_ACTIVIDAD_PROYECTO_ID);
+					"actividad_proyecto_id", DataStore.DATATYPE_INT, false, true,
+					TAREAS_PROYECTO_ACTIVIDAD_PROYECTO_ID);
 			addColumn(computeTableName("proyectos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
+			addColumn(computeTableName("proyectos"), "proyecto",
+					DataStore.DATATYPE_STRING, false, false, PROYECTOS_PROYECTO);
 			addColumn(computeTableName("actividades"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ACTIVIDADES_NOMBRE);
 			addColumn(computeTableName("clases_tareas"), "nombre",
-					DataStore.DATATYPE_STRING, false, false,
-					CLASES_TAREA_NOMBRE);
+					DataStore.DATATYPE_STRING, false, false, CLASES_TAREA_NOMBRE);
 			addColumn(computeTableName("estados"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ESTADOS_NOMBRE);
 
@@ -151,14 +148,12 @@ public class TareasProyectoModel extends DataStore {
 					computeTableAndFieldName("actividades.actividad_id"), true);
 
 			addJoin(computeTableAndFieldName("tareas_proyecto.clase_tarea_id"),
-					computeTableAndFieldName("clases_tareas.clase_tarea_id"),
-					false);
+					computeTableAndFieldName("clases_tareas.clase_tarea_id"), false);
 			addJoin(computeTableAndFieldName("tareas_proyecto.estado"),
 					computeTableAndFieldName("estados.estado"), true);
 
 			// set order by
-			setOrderBy(computeTableAndFieldName("tareas_proyecto.nombre")
-					+ " ASC");
+			setOrderBy(computeTableAndFieldName("tareas_proyecto.nombre") + " ASC");
 
 			// add validations
 
@@ -170,9 +165,9 @@ public class TareasProyectoModel extends DataStore {
 			 * "", "", "Actividad inexistente");
 			 */
 			/*
-			 * addLookupRule( TAREAS_PROYECTO_PROYECTO_ID,
-			 * "actividades_proyecto", "'actividades_proyecto.proyecto_id = '+
-			 * tareas_proyecto.proyecto_id ", "", "", "Actividad inexistente");
+			 * addLookupRule( TAREAS_PROYECTO_PROYECTO_ID, "actividades_proyecto",
+			 * "'actividades_proyecto.proyecto_id = '+ tareas_proyecto.proyecto_id ",
+			 * "", "", "Actividad inexistente");
 			 */
 
 			addLookupRule(
@@ -214,7 +209,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.tarea_id column for the current
 	 * row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -225,9 +220,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.tarea_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -237,24 +232,23 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the tareas_proyecto.tarea_id column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
-	public void setTareasProyectoTareaId(int newValue)
-			throws DataStoreException {
+	public void setTareasProyectoTareaId(int newValue) throws DataStoreException {
 		setInt(TAREAS_PROYECTO_TAREA_ID, newValue);
 	}
 
 	/**
 	 * Set the value of the tareas_proyecto.tarea_id column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoTareaId(int row, int newValue)
@@ -265,7 +259,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -276,9 +270,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -288,9 +282,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the tareas_proyecto.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoNombre(String newValue)
@@ -300,11 +294,11 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the tareas_proyecto.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoNombre(int row, String newValue)
@@ -315,7 +309,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.descripcion column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -326,9 +320,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.descripcion column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -340,9 +334,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.descripcion column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoDescripcion(String newValue)
@@ -353,11 +347,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.descripcion column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoDescripcion(int row, String newValue)
@@ -368,7 +362,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.observaciones column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -379,9 +373,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.observaciones column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -393,9 +387,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.observaciones column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoObservaciones(String newValue)
@@ -406,11 +400,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.observaciones column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoObservaciones(int row, String newValue)
@@ -421,7 +415,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.estado column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -432,9 +426,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.estado column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -444,9 +438,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the tareas_proyecto.estado column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoEstado(String newValue)
@@ -456,11 +450,11 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the tareas_proyecto.estado column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoEstado(int row, String newValue)
@@ -471,7 +465,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.proyecto_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -482,9 +476,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.proyecto_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -495,9 +489,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.proyecto_id column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoProyectoId(int newValue)
@@ -508,11 +502,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.proyecto_id column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoProyectoId(int row, int newValue)
@@ -523,7 +517,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.clase_tarea_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -534,9 +528,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the tareas_proyecto.clase_tarea_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -545,11 +539,11 @@ public class TareasProyectoModel extends DataStore {
 	}
 
 	/**
-	 * Set the value of the tareas_proyecto.clase_tarea_id column for the
-	 * current row.
-	 *
+	 * Set the value of the tareas_proyecto.clase_tarea_id column for the current
+	 * row.
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoClaseTareaId(int newValue)
@@ -560,11 +554,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.clase_tarea_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoClaseTareaId(int row, int newValue)
@@ -573,9 +567,9 @@ public class TareasProyectoModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the tareas_proyecto.actividad_proyecto_id column
-	 * for the current row.
-	 *
+	 * Retrieve the value of the tareas_proyecto.actividad_proyecto_id column for
+	 * the current row.
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -584,11 +578,11 @@ public class TareasProyectoModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the tareas_proyecto.actividad_proyecto_id column
-	 * for the specified row.
-	 *
+	 * Retrieve the value of the tareas_proyecto.actividad_proyecto_id column for
+	 * the specified row.
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -600,9 +594,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.actividad_proyecto_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoActividadProyectoId(int newValue)
@@ -613,11 +607,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the tareas_proyecto.actividad_proyecto_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoActividadProyectoId(int row, int newValue)
@@ -627,7 +621,7 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the proyectos.nombre column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -637,9 +631,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the proyectos.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -649,9 +643,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the proyectos.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setProyectosNombre(String newValue) throws DataStoreException {
@@ -660,22 +654,69 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the proyectos.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setProyectosNombre(int row, String newValue)
 			throws DataStoreException {
 		setString(row, PROYECTOS_NOMBRE, newValue);
 	}
+	
+	/**
+	 * Retrieve the value of the proyectos.proyecto column for the current row.
+	 * 
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosProyecto() throws DataStoreException {
+		return getString(PROYECTOS_PROYECTO);
+	}
 
 	/**
-	 * Retrieve the value of the actividades_proyecto.actividad_id column for
-	 * the current row.
-	 *
+	 * Retrieve the value of the proyectos.proyecto column for the specified row.
+	 * 
+	 * @param row
+	 *           which row in the table
+	 * @return String
+	 * @throws DataStoreException
+	 */
+	public String getProyectosProyecto(int row) throws DataStoreException {
+		return getString(row, PROYECTOS_PROYECTO);
+	}
+
+	/**
+	 * Set the value of the proyectos.proyecto column for the current row.
+	 * 
+	 * @param newValue
+	 *           the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosProyecto(String newValue) throws DataStoreException {
+		setString(PROYECTOS_PROYECTO, newValue);
+	}
+
+	/**
+	 * Set the value of the proyectos.proyecto column for the specified row.
+	 * 
+	 * @param row
+	 *           which row in the table
+	 * @param newValue
+	 *           the new item value
+	 * @throws DataStoreException
+	 */
+	public void setProyectosProyecto(int row, String newValue)
+			throws DataStoreException {
+		setString(row, PROYECTOS_PROYECTO, newValue);
+	}
+
+	/**
+	 * Retrieve the value of the actividades_proyecto.actividad_id column for the
+	 * current row.
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -684,11 +725,11 @@ public class TareasProyectoModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the actividades_proyecto.actividad_id column for
-	 * the specified row.
-	 *
+	 * Retrieve the value of the actividades_proyecto.actividad_id column for the
+	 * specified row.
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -700,9 +741,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the actividades_proyecto.actividad_id column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadesProyectoActividadId(int newValue)
@@ -713,11 +754,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the actividades_proyecto.actividad_id column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadesProyectoActividadId(int row, int newValue)
@@ -727,7 +768,7 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the actividades.nombre column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -736,11 +777,10 @@ public class TareasProyectoModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the actividades.nombre column for the specified
-	 * row.
-	 *
+	 * Retrieve the value of the actividades.nombre column for the specified row.
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -750,9 +790,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the actividades.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadesNombre(String newValue) throws DataStoreException {
@@ -761,11 +801,11 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the actividades.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadesNombre(int row, String newValue)
@@ -776,7 +816,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividades.actividad_id_padre column for the
 	 * current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -787,23 +827,22 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividades.actividad_id_padre column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
-	public int getActividadesActividadIdPadre(int row)
-			throws DataStoreException {
+	public int getActividadesActividadIdPadre(int row) throws DataStoreException {
 		return getInt(row, ACTIVIDADES_ACTIVIDAD_ID_PADRE);
 	}
 
 	/**
-	 * Set the value of the actividades.actividad_id_padre column for the
-	 * current row.
-	 *
+	 * Set the value of the actividades.actividad_id_padre column for the current
+	 * row.
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadesActividadIdPadre(int newValue)
@@ -814,11 +853,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the actividades.actividad_id_padre column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadesActividadIdPadre(int row, int newValue)
@@ -829,7 +868,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividad_padre.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -840,9 +879,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividad_padre.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -852,9 +891,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the actividad_padre.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadPadreNombre(String newValue)
@@ -864,11 +903,11 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the actividad_padre.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadPadreNombre(int row, String newValue)
@@ -879,7 +918,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividad_padre.actividad_id_padre column for
 	 * the current row.
-	 *
+	 * 
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -890,9 +929,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividad_padre.actividad_id_padre column for
 	 * the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -904,9 +943,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the actividad_padre.actividad_id_padre column for the
 	 * current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadPadreActividadIdPadre(int newValue)
@@ -917,11 +956,11 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the actividad_padre.actividad_id_padre column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadPadreActividadIdPadre(int row, int newValue)
@@ -932,7 +971,7 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividad_padre_padre.nombre column for the
 	 * current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -943,9 +982,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the actividad_padre_padre.nombre column for the
 	 * specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -957,9 +996,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Set the value of the actividad_padre_padre.nombre column for the current
 	 * row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadPadrePadreNombre(String newValue)
@@ -968,13 +1007,13 @@ public class TareasProyectoModel extends DataStore {
 	}
 
 	/**
-	 * Set the value of the actividad_padre_padre.nombre column for the
-	 * specified row.
-	 *
+	 * Set the value of the actividad_padre_padre.nombre column for the specified
+	 * row.
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setActividadPadrePadreNombre(int row, String newValue)
@@ -983,9 +1022,8 @@ public class TareasProyectoModel extends DataStore {
 	}
 
 	/**
-	 * Retrieve the value of the clases_tareas.nombre column for the current
-	 * row.
-	 *
+	 * Retrieve the value of the clases_tareas.nombre column for the current row.
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -996,9 +1034,9 @@ public class TareasProyectoModel extends DataStore {
 	/**
 	 * Retrieve the value of the clases_tareas.nombre column for the specified
 	 * row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1008,9 +1046,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the clases_tareas.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setClasesTareaNombre(String newValue) throws DataStoreException {
@@ -1019,11 +1057,11 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the clases_tareas.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setClasesTareaNombre(int row, String newValue)
@@ -1033,7 +1071,7 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the estados.nombre column for the current row.
-	 *
+	 * 
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1043,9 +1081,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Retrieve the value of the estados.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1055,9 +1093,9 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the estados.nombre column for the current row.
-	 *
+	 * 
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEstadosNombre(String newValue) throws DataStoreException {
@@ -1066,11 +1104,11 @@ public class TareasProyectoModel extends DataStore {
 
 	/**
 	 * Set the value of the estados.nombre column for the specified row.
-	 *
+	 * 
 	 * @param row
-	 *            which row in the table
+	 *           which row in the table
 	 * @param newValue
-	 *            the new item value
+	 *           the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEstadosNombre(int row, String newValue)
