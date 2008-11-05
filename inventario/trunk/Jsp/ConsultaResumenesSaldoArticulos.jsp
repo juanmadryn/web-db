@@ -1,6 +1,36 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
+<script src="javascripts/prototype.js" type="text/javascript"></script>
+<script src="javascripts/scriptaculous.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+function mostrarOcultar()
+{		
+	try {
+	var almacen = document.getElementsByName('htmlPageTopContainer_PageForm_box1_table2_table2TRRow0_table2TDRow0_searchformdisplaybox1_table2TDRow1_almacen2')[0];
+	var periodo = document.getElementsByName('htmlPageTopContainer_PageForm_box1_table2_table2TRRow0_table2TDRow0_searchformdisplaybox1_periodo2')[0];
+	
+
+	
+   if(periodo.value != '' && almacen.value != '') {
+      //document.getElementById('div1').style.display = 'block';
+      //$('div1').appear();
+      Effect.BlindDown('div1') 
+      return false;     
+   } else {   	
+      //document.getElementById('div1').style.display = 'none';
+      //$('div1').hide();
+      Effect.BlindUp('div1')
+      return false;       
+   }
+      
+   } catch (e) {
+   	alert("Java Exception: " + e);
+   }
+}
+//-->
+</script>
 <salmon:page
 	controller="inventario.controllers.ConsultaResumenesSaldoArticulosController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
@@ -29,6 +59,19 @@
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar código de la página aquí -->
 	<!-- ********************************************************************************************* -->
+	<div id="div1" style="display: none"><salmon:table name="table3">
+		<td><salmon:a href="" target="_blank" name="imprimirReporteBUT1"
+			onclick="document.forms['bannerForm'].submit();">
+			<salmon:img name="imprimirTXT1" src="%ImageDirectory/logo_excel.gif"
+				height="25" srclocalekey="bannerImageSource" />
+		</salmon:a> <salmon:text name="espacio" text=" " font="TableHeadingFont" /> <salmon:a
+			href="" target="_blank" name="imprimirReporteBUT2"
+			onclick="document.forms['bannerForm'].submit();">
+			<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
+				height="25" srclocalekey="bannerImageSource" />
+		</salmon:a></td>
+		<td></td>
+	</salmon:table></div>
 	<salmon:box name="box1" width="100%">
 		<salmon:table name="table2" width="100%" border="0">
 			<salmon:tr>
@@ -41,7 +84,7 @@
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="articulo1" text="Artículo"
-									font="TableHeadingFont" />
+									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpArticulos" name="articulo2" size="40"
 									maxlength="15" datasource="dsQBE:articulo" popupheight="450"
@@ -233,8 +276,9 @@
 	</salmon:box>
 	<salmon:box name="box3" width="100%">
 		<salmon:listformdisplaybox name="listformdisplaybox2"
-			mode="Display_single_page" caption="Comprobantes asociados al resumen"
-			width="100%" datasource="dsComprobantes"
+			mode="Display_single_page"
+			caption="Comprobantes asociados al resumen" width="100%"
+			datasource="dsComprobantes"
 			searchformdisplaybox="searchformdisplaybox1">
 			<salmon:datatable name="datatable2" width="100%" rowsperpage="5"
 				datasource="dsComprobantes">
