@@ -1206,6 +1206,7 @@ public class BaseController extends JspController implements SubmitListener,
 	 * @return the user conected or null if there isn't
 	 */
 	public WebSiteUser checkUser() {
+		
 		WebSiteUser user = getSessionManager().getWebSiteUser();
 		String ip = this.getCurrentRequest().getRemoteAddr();
 		WebSiteUser storedUser = users.get(ip);
