@@ -39,6 +39,7 @@ public class OrdenesDeCompraTANGO {
 	private String urlTango = null;
 	private String userTango = null;
 	private String passWordTango = null;
+	private String dbTango = null;
 	
 	private int ESTADO_EMITIDA = 3;	
 	private int ESTADO_ANULADA = 7;
@@ -323,7 +324,7 @@ public class OrdenesDeCompraTANGO {
 			if (!update) {
 				pstTango = connTango
 				.prepareStatement(
-						"INSERT INTO [FABRI_SA].[dbo].[CPA35](" +
+						"INSERT INTO ["+dbTango+"].[dbo].[CPA35](" +
 						"[AUTORIZO], [COD_COMPRA], [COD_LISTA], [COD_PROVEE], [COND_COMPR], [CONGELA], " +
 						"[COTIZ], [ESTADO], [EXPORTADO], [FEC_AUTORI], [FEC_EMISIO], [FEC_GENER], [FEC_VIGENC], " +
 						"[HORA_AUTOR], [INC_II], [INC_IVA], [LEYENDA_1], [LEYENDA_2], [LEYENDA_3], [LEYENDA_4], [MON_CTE], [N_ORDEN_CO], " +
@@ -332,7 +333,7 @@ public class OrdenesDeCompraTANGO {
 			} else {
 				pstTango = connTango
 				.prepareStatement(
-						"UPDATE [FABRI_SA].[dbo].[CPA35] SET" +
+						"UPDATE ["+dbTango+"].[dbo].[CPA35] SET" +
 						"[AUTORIZO] = ?, [COD_COMPRA] = ?, [COD_LISTA] = ?, [COD_PROVEE] = ?, [COND_COMPR] = ?, [CONGELA] = ?, " +
 						"[COTIZ] = ?, [ESTADO] = ?, [EXPORTADO] = ?, [FEC_AUTORI] = ?, [FEC_EMISIO] = ?, [FEC_GENER] = ?, [FEC_VIGENC] = ?, " +
 						"[HORA_AUTOR] = ?, [INC_II] = ?, [INC_IVA] = ?, [LEYENDA_1] = ?, [LEYENDA_2] = ?, [LEYENDA_3] = ?, [LEYENDA_4] = ?, [MON_CTE] = ?, [N_ORDEN_CO] = ?, " +
@@ -613,13 +614,13 @@ public class OrdenesDeCompraTANGO {
 				String insertCpa36 = null;
 				if (!update) {
 					insertCpa36 = 
-						"INSERT INTO [FABRI_SA].[dbo].[CPA36] ([FILLER], [CAN_EQUIVA], [CAN_PEDIDA], [CAN_PENDIE], " +
+						"INSERT INTO ["+dbTango+"].[dbo].[CPA36] ([FILLER], [CAN_EQUIVA], [CAN_PEDIDA], [CAN_PENDIE], " +
 						"[CAN_RECIBI], [CIERRE], [COD_ARTICU], [COD_DEPOSI], [COD_PRE_CO], [IMPINT], [N_ORDEN_CO], " +
 						"[N_RENGL_OC], [PORC_DCTO], [PRECIO], [PRECIO_PAN]) " +
 						"VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				} else {
 					insertCpa36 = 
-						"UPDATE [FABRI_SA].[dbo].[CPA36] SET [FILLER] = ?, [CAN_EQUIVA] = ?, [CAN_PEDIDA] = ?, [CAN_PENDIE] = ?, " +
+						"UPDATE ["+dbTango+"].[dbo].[CPA36] SET [FILLER] = ?, [CAN_EQUIVA] = ?, [CAN_PEDIDA] = ?, [CAN_PENDIE] = ?, " +
 						"[CAN_RECIBI] = ?, [CIERRE] = ?, [COD_ARTICU] = ?, [COD_DEPOSI] = ?, [COD_PRE_CO] = ?, [IMPINT] = ?, [N_ORDEN_CO] = ?, " +
 						"[N_RENGL_OC] = ?, [PORC_DCTO] = ?, [PRECIO] = ?, [PRECIO_PAN] = ? " +
 						"WHERE [N_ORDEN_CO] = ? AND [N_RENGL_OC] = ?";
@@ -655,12 +656,12 @@ public class OrdenesDeCompraTANGO {
 				String insertCpa37 = null;
 				if (!update) {
 					insertCpa37 = 
-						"INSERT INTO [FABRI_SA].[dbo].[CPA37]" +
+						"INSERT INTO ["+dbTango+"].[dbo].[CPA37]" +
 						"([FILLER], [CANTIDAD], [FEC_RECEPC], " +
 						"[N_ORDEN_CO], [N_RENGL_OC]) VALUES(?,?,?,?,?)";
 				} else {
 					insertCpa37 = 
-						"UPDATE [FABRI_SA].[dbo].[CPA37] SET" +
+						"UPDATE ["+dbTango+"].[dbo].[CPA37] SET" +
 						"[FILLER] = ?, [CANTIDAD] = ?, [FEC_RECEPC] = ?, " +
 						"[N_ORDEN_CO] = ?, [N_RENGL_OC] = ? " +
 						"WHERE [N_ORDEN_CO] = ? AND [N_RENGL_OC] = ?";
@@ -710,7 +711,7 @@ public class OrdenesDeCompraTANGO {
 			 * entidades_externas
 			 */
 			String proximaOCTangoSQL = 
-				"SELECT SUCURSAL, PROXIMO FROM [FABRI_SA].[dbo].[CPA56] WHERE TALONARIO = 11";
+				"SELECT SUCURSAL, PROXIMO FROM ["+dbTango+"].[dbo].[CPA56] WHERE TALONARIO = 11";
 
 			tangoSt = connTango
 					.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
@@ -725,7 +726,7 @@ public class OrdenesDeCompraTANGO {
 				DecimalFormat format = new DecimalFormat("00000000");
 				
 				tangoSt2 .executeUpdate(
-						"UPDATE [FABRI_SA].[dbo].[CPA56] " +
+						"UPDATE ["+dbTango+"].[dbo].[CPA56] " +
 						" SET PROXIMO = '" + format.format((Integer.parseInt(r.getString(2)) + 1)) + 
 						"' WHERE TALONARIO = 11");
 				
@@ -784,7 +785,7 @@ public class OrdenesDeCompraTANGO {
 			int ESTADO = ESTADO_ANULADA;
 			
 			String updateCpa35 = 
-				"UPDATE [FABRI_SA].[dbo].[CPA35] SET [ESTADO] = ? WHERE [N_ORDEN_CO] = ?";
+				"UPDATE ["+dbTango+"].[dbo].[CPA35] SET [ESTADO] = ? WHERE [N_ORDEN_CO] = ?";
 			pstTango = connTango.prepareStatement(updateCpa35);
 			
 			pstTango.setInt(1, ESTADO);
@@ -798,7 +799,7 @@ public class OrdenesDeCompraTANGO {
 			int CIERRE = 1;
 			
 			String updateCpa36 = 
-				"UPDATE [FABRI_SA].[dbo].[CPA36] SET [CIERRE] = ? WHERE [N_ORDEN_CO] = ?";
+				"UPDATE ["+dbTango+"].[dbo].[CPA36] SET [CIERRE] = ? WHERE [N_ORDEN_CO] = ?";
 			pstTango = connTango.prepareStatement(updateCpa36);
 			
 			pstTango.setInt(1, CIERRE);
@@ -848,6 +849,10 @@ public class OrdenesDeCompraTANGO {
 		if (passWordTango == null) 
 			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
 		
+		String dbTango = props.getProperty("dbTango");
+		if (dbTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'dbTango' en archivo de configuración");
+		
 		if (errores.size() > 0) 
 			throw new ValidationException(errores);
 		
@@ -855,5 +860,6 @@ public class OrdenesDeCompraTANGO {
 		this.urlTango = urlTango;
 		this.userTango = usrTango;
 		this.passWordTango = passWordTango;
+		this.dbTango = dbTango;
 	}
 }
