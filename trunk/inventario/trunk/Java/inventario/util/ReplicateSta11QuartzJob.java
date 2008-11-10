@@ -33,6 +33,7 @@ public class ReplicateSta11QuartzJob implements Job {
 	private String urlTango = null;
 	private String userTango = null;
 	private String passWordTango = null;
+	private String dbTango = null;
 
 	/**
 	 * Replicate SQL Server STA11 table contents into MySQL.
@@ -310,7 +311,7 @@ public class ReplicateSta11QuartzJob implements Job {
 			 */
 			//String articulosUnidadMedidaAtributosTangoSQL = "SELECT COD_ARTICU, UNIDAD_MED  FROM STA11";
 			String articulosUnidadMedidaAtributosTangoSQL =
-				"SELECT [COD_ARTICU], [UNIDAD_M_C] FROM [FABRI_SA].[dbo].[STA36]";
+				"SELECT [COD_ARTICU], [UNIDAD_M_C] FROM ["+dbTango+"].[dbo].[STA36]";
 
 			String getArticuloByCodigo = "SELECT a.articulo_id FROM inventario.articulos a WHERE a.clave_externa1 = ?";
 			pstMySql2 = connInv.prepareStatement(getArticuloByCodigo);
@@ -450,6 +451,10 @@ public class ReplicateSta11QuartzJob implements Job {
 		if (passWordTango == null) 
 			errores.add("No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
 		
+		String dbTango = props.getProperty("dbTango");
+		if (dbTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'dbTango' en archivo de configuración");
+		
 		if (errores.size() > 0) 
 			throw new ValidationException(errores);
 		
@@ -457,5 +462,6 @@ public class ReplicateSta11QuartzJob implements Job {
 		this.urlTango = urlTango;
 		this.userTango = userTango;
 		this.passWordTango = passWordTango;
+		this.dbTango = dbTango;
 	}
 }
