@@ -28,6 +28,33 @@
             <property name="defaultValue">2008-10-31</property>
             <property name="distinct">true</property>
             <structure name="format">
+                <property name="category">Medium Date</property>
+                <property name="pattern">Medium Date</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="param_proyecto" id="1333">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese el proyecto</text-property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">%%</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="param_tarea" id="1334">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese la tarea</text-property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">%%</property>
+            <property name="distinct">true</property>
+            <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
@@ -237,6 +264,22 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
+                <structure>
+                    <property name="name">param_proyecto</property>
+                    <property name="paramName">param_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="position">3</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_tarea</property>
+                    <property name="paramName">param_tarea</property>
+                    <property name="dataType">string</property>
+                    <property name="position">4</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
             </list-property>
             <list-property name="resultSet">
                 <structure>
@@ -377,7 +420,9 @@
 from partes_mo
 inner join proyectos.proyectos proyectos ON proyectos.proyecto_id = partes_mo.proyecto_id
 inner join proyectos.tareas_proyecto tareas ON tareas.tarea_id = partes_mo.tarea_id
-where fecha between ? and ?</property>
+where fecha between ? and ?
+AND proyectos.proyecto LIKE ?
+AND tareas.nombre LIKE ?</property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -524,14 +569,14 @@ where fecha between ? and ?</property>
                         <cell id="1332">
                             <property name="verticalAlign">bottom</property>
                             <grid id="1309">
-                                <property name="borderTopColor">#000000</property>
-                                <property name="borderTopStyle">solid</property>
-                                <property name="borderTopWidth">medium</property>
                                 <property name="width">100%</property>
                                 <column id="1310"/>
                                 <column id="1311"/>
                                 <column id="1312"/>
                                 <row id="1313">
+                                    <property name="borderTopColor">#000000</property>
+                                    <property name="borderTopStyle">solid</property>
+                                    <property name="borderTopWidth">medium</property>
                                     <cell id="1314">
                                         <property name="paddingTop">5pt</property>
                                         <property name="verticalAlign">bottom</property>
@@ -619,6 +664,16 @@ where fecha between ? and ?</property>
                     <expression name="expression">dataSetRow["nombre_tarea"]+" - "+dataSetRow["descripcion_tarea"]</expression>
                     <property name="dataType">string</property>
                 </structure>
+                <structure>
+                    <property name="name">fecha</property>
+                    <expression name="expression">dataSetRow["fecha"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">horas</property>
+                    <expression name="expression">dataSetRow["horas"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
             </list-property>
             <property name="pageBreakInterval">10000000</property>
             <column id="23">
@@ -632,16 +687,16 @@ where fecha between ? and ?</property>
                 <property name="width">5%</property>
             </column>
             <column id="1288">
-                <property name="width">12%</property>
+                <property name="width">7%</property>
             </column>
             <column id="103">
-                <property name="width">12%</property>
+                <property name="width">7%</property>
             </column>
             <column id="131">
-                <property name="width">20%</property>
+                <property name="width">25%</property>
             </column>
             <column id="1302">
-                <property name="width">20%</property>
+                <property name="width">25%</property>
             </column>
             <header>
                 <row id="11">
@@ -719,7 +774,7 @@ where fecha between ? and ?</property>
                             <list-property name="boundDataColumns">
                                 <structure>
                                     <property name="name">fecha</property>
-                                    <expression name="expression">dataSetRow["fecha"]</expression>
+                                    <expression name="expression">row._outer["fecha"]</expression>
                                     <property name="dataType">date</property>
                                 </structure>
                             </list-property>
@@ -741,7 +796,7 @@ where fecha between ? and ?</property>
                             <list-property name="boundDataColumns">
                                 <structure>
                                     <property name="name">horas</property>
-                                    <expression name="expression">dataSetRow["horas"]</expression>
+                                    <expression name="expression">row._outer["horas"]</expression>
                                     <property name="dataType">float</property>
                                 </structure>
                             </list-property>

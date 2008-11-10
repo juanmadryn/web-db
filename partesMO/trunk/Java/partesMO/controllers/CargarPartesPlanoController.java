@@ -166,10 +166,10 @@ public class CargarPartesPlanoController extends BaseController implements
 			_proyectoTableTD.setColSpan(2);
 		}
 
-		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");		
-		_tarea_proyecto1.setOnFocus("llenarLista(true);");		
-		setOnFocus("llenarLista(false);");
-
+		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista('true');");		
+		_tarea_proyecto1.setOnFocus("llenarLista('true');");		
+		setOnFocus("llenarLista('false');");		
+		
 		// refresca la pantalla de partes
 		refrescaPartes();
 
@@ -454,7 +454,8 @@ public class CargarPartesPlanoController extends BaseController implements
 				refrescaPartes();
 			}
 		}		
-		_legajoTE1.setFocus();
+		_proyectoTE3.get_browsePopupImageLink().setTabIndex(99);
+		_legajoTE1.get_browsePopupImageLink().setTabIndex(99);
 		super.pageRequested(p);		
 	}
 
