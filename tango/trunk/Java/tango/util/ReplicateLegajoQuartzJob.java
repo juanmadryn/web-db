@@ -1,15 +1,20 @@
 package tango.util;
 
+import infraestructura.reglasNegocio.ValidationException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import com.salmonllc.properties.Props;
 
 
 /**
@@ -20,6 +25,12 @@ import org.quartz.JobExecutionException;
  *
  */
 public class ReplicateLegajoQuartzJob implements Job {
+
+	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
+	private String urlTango = null;
+	private String userTango = null;
+	private String passWordTango = null;
+	private String dbTango = null;
 	
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		this.importaLegajos();
@@ -34,13 +45,7 @@ public class ReplicateLegajoQuartzJob implements Job {
 		Statement tangoSt = null, stMySql = null;
 		PreparedStatement pstMySql = null, pstMySql2 = null;
 		ResultSet r = null;
-		
-		String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-		String urlTango="jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
-		String userTango="Axoft";
-		String passWordTango="Axoft";
-		
-
+		getConnectionInfo();
 		try {
 			// Se carga el driver JTDS
 			Class.forName(driverTango);			
@@ -48,8 +53,8 @@ public class ReplicateLegajoQuartzJob implements Job {
 			connTango = DriverManager.getConnection(urlTango, userTango,
 					passWordTango);				
 			// Conexion con MySQL
-			Class.forName("com.mysql.jdbc.Driver");
-			connTangoMySQL = DriverManager.getConnection ("jdbc:mysql://localhost:3306/tango","tango", "tango");			
+			Class.forName("com.mysql.jdbc.Driver");			
+			connTangoMySQL = DriverManager.getConnection (Props.getProps("tango", null).getProperty("tango.DBURL"),"tango", "tango");			
 			connTangoMySQL.setAutoCommit(false);
 			
 			/**
@@ -115,5 +120,41 @@ public class ReplicateLegajoQuartzJob implements Job {
 				throw new JobExecutionException(e);				
 			}
 		}
+	}
+	/**
+	 * Obtiene parametros para la conexión desde el archivo de propiedades
+	 */
+	private void getConnectionInfo() {
+		Props props = Props.getProps("tango", null);
+		Vector<String> errores = new Vector<String>();
+		
+		String driverTango = props.getProperty("driverTango");
+		if (driverTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'driverTango' en archivo de configuración");
+
+		String urlTango = props.getProperty("urlTango");
+		if (urlTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'urlTango' en archivo de configuración");
+
+		String usrTango = props.getProperty("userTango");
+		if (usrTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'usrTango' en archivo de configuración");
+
+		String passWordTango = props.getProperty("passWordTango");
+		if (passWordTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
+		
+		String dbTango = props.getProperty("dbTango");
+		if (dbTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'dbTango' en archivo de configuración");
+		
+		if (errores.size() > 0) 
+			throw new ValidationException(errores);
+		
+		this.driverTango = driverTango;
+		this.urlTango = urlTango;
+		this.userTango = usrTango;
+		this.passWordTango = passWordTango;
+		this.dbTango = dbTango;
 	}
 }

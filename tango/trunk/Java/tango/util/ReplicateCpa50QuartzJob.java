@@ -1,15 +1,20 @@
 package tango.util;
 
+import infraestructura.reglasNegocio.ValidationException;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import com.salmonllc.properties.Props;
 
 
 /**
@@ -20,6 +25,15 @@ import org.quartz.JobExecutionException;
  *
  */
 public class ReplicateCpa50QuartzJob implements Job {
+	/**
+	 * Parametros para la conexión con SQL Server 2000
+	 * TODO: Almacenarlos en el archivo properties correspondiente
+	 */
+	private String driverTango = "net.sourceforge.jtds.jdbc.Driver";
+	private String urlTango = null;
+	private String userTango = null;
+	private String passWordTango = null;
+	private String dbTango = null;
 	
 	public void execute(JobExecutionContext arg0) throws JobExecutionException {
 		this.importaCompradores();
@@ -35,12 +49,6 @@ public class ReplicateCpa50QuartzJob implements Job {
 		PreparedStatement pstMySql = null, pstMySql2 = null;
 		ResultSet r = null;
 		
-		String driverTango = "net.sourceforge.jtds.jdbc.Driver";
-		String urlTango="jdbc:jtds:sqlserver://SERV-FABRI/FABRI_S.A.;instance=MSDE_AXOFT";
-		String userTango="Axoft";
-		String passWordTango="Axoft";
-		
-
 		try {
 			// Se carga el driver JTDS
 			Class.forName(driverTango);			
@@ -49,14 +57,14 @@ public class ReplicateCpa50QuartzJob implements Job {
 					passWordTango);				
 			// Conexion con MySQL
 			Class.forName("com.mysql.jdbc.Driver");
-			connTangoMySQL = DriverManager.getConnection ("jdbc:mysql://localhost:3306/tango","tango", "tango");			
+			connTangoMySQL = DriverManager.getConnection (Props.getProps("tango", null).getProperty("tango.DBURL"),"tango", "tango");			
 			connTangoMySQL.setAutoCommit(false);
 			
 			/**
 			 * Seleccionamos de la tabla legajo los datos básicos para la tabla legajos
 			 */
 			String cpa50TangoSQL = 
-				"SELECT [ID_CPA50], [FILLER], [COD_COMPRA], [NOM_COMPRA] FROM [FABRI_S.A.].[dbo].[CPA50]";			
+				"SELECT [ID_CPA50], [FILLER], [COD_COMPRA], [NOM_COMPRA] FROM ["+dbTango+"].[dbo].[CPA50]";			
 			tangoSt = connTango.createStatement(
 					ResultSet.TYPE_SCROLL_SENSITIVE,
 					ResultSet.CONCUR_READ_ONLY);
@@ -113,5 +121,41 @@ public class ReplicateCpa50QuartzJob implements Job {
 				throw new JobExecutionException(e);				
 			}
 		}
+	}
+	/**
+	 * Obtiene parametros para la conexión desde el archivo de propiedades
+	 */
+	private void getConnectionInfo() {
+		Props props = Props.getProps("tango", null);
+		Vector<String> errores = new Vector<String>();
+		
+		String driverTango = props.getProperty("driverTango");
+		if (driverTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'driverTango' en archivo de configuración");
+
+		String urlTango = props.getProperty("urlTango");
+		if (urlTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'urlTango' en archivo de configuración");
+
+		String usrTango = props.getProperty("userTango");
+		if (usrTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'usrTango' en archivo de configuración");
+
+		String passWordTango = props.getProperty("passWordTango");
+		if (passWordTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'passWordTango' en archivo de configuración");
+		
+		String dbTango = props.getProperty("dbTango");
+		if (dbTango == null) 
+			errores.add("OrdenesDeCompraTANGO.getConnectionInfo(): No se ha indicado la propiedad 'dbTango' en archivo de configuración");
+		
+		if (errores.size() > 0) 
+			throw new ValidationException(errores);
+		
+		this.driverTango = driverTango;
+		this.urlTango = urlTango;
+		this.userTango = usrTango;
+		this.passWordTango = passWordTango;
+		this.dbTango = dbTango;
 	}
 }

@@ -2,6 +2,13 @@
 <!DOCTYPE sitemap PUBLIC "SOFIA Site Map" "http://www.salmonllc.com/sofiaExamples/sitemap.dtd">
 <siteMap>
   <entry>
+     <name>ConsultaCompradores</name>
+     <uri>/Jsp/ConsultaCompradores.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+
+  <entry>
      <name>ConsultaLegajos</name>
      <uri>/Jsp/ConsultaLegajos.jsp</uri>
      <useForward>false</useForward>
