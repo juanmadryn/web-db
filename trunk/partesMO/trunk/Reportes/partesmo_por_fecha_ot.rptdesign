@@ -31,6 +31,32 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="param_proyecto" id="1384">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese el proyecto</text-property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">%%</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="param_tarea" id="1385">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese la tarea</text-property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="defaultValue">%%</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source - partesmo" id="1215">
@@ -237,6 +263,22 @@
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
+                <structure>
+                    <property name="name">param_proyecto</property>
+                    <property name="paramName">param_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="position">3</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_tarea</property>
+                    <property name="paramName">param_tarea</property>
+                    <property name="dataType">string</property>
+                    <property name="position">4</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
             </list-property>
             <list-property name="resultSet">
                 <structure>
@@ -377,7 +419,9 @@
 from partes_mo
 inner join proyectos.proyectos proyectos ON proyectos.proyecto_id = partes_mo.proyecto_id
 inner join proyectos.tareas_proyecto tareas ON tareas.tarea_id = partes_mo.tarea_id
-where fecha between ? and ?</property>
+where fecha between ? and ?
+AND proyectos.proyecto LIKE ?
+AND tareas.nombre LIKE ?</property>
         </oda-data-set>
     </data-sets>
     <styles>
@@ -651,6 +695,16 @@ where fecha between ? and ?</property>
                     </simple-property-list>
                     <property name="aggregateFunction">SUM</property>
                 </structure>
+                <structure>
+                    <property name="name">horas</property>
+                    <expression name="expression">dataSetRow["horas"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">fecha</property>
+                    <expression name="expression">dataSetRow["fecha"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
             </list-property>
             <property name="pageBreakInterval">10000000</property>
             <column id="23">
@@ -672,7 +726,7 @@ where fecha between ? and ?</property>
             <header>
                 <row id="1375">
                     <property name="fontFamily">"Arial"</property>
-                    <property name="fontWeight">bold</property>
+                    <property name="fontWeight">normal</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">1px</property>
@@ -708,6 +762,7 @@ where fecha between ? and ?</property>
                 <row id="1368">
                     <property name="fontFamily">"Arial"</property>
                     <property name="fontWeight">bold</property>
+                    <property name="fontStyle">italic</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">1px</property>
@@ -717,6 +772,8 @@ where fecha between ? and ?</property>
                         <property name="textAlign">left</property>
                         <property name="verticalAlign">middle</property>
                         <label id="1383">
+                            <property name="fontWeight">bold</property>
+                            <property name="paddingTop">1pt</property>
                             <text-property name="text">TAREA</text-property>
                         </label>
                     </cell>
@@ -748,7 +805,7 @@ where fecha between ? and ?</property>
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                         <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
+                        <property name="textAlign">left</property>
                         <property name="verticalAlign">middle</property>
                         <label id="1247">
                             <text-property name="text">Fecha</text-property>
@@ -797,7 +854,8 @@ where fecha between ? and ?</property>
                 <property name="pageBreakInside">auto</property>
                 <header>
                     <row id="1334">
-                        <property name="backgroundColor">#8292FF</property>
+                        <property name="backgroundColor">#A8B3FF</property>
+                        <property name="fontStyle">normal</property>
                         <cell id="1335">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
@@ -842,7 +900,8 @@ where fecha between ? and ?</property>
                 <property name="pageBreakInside">auto</property>
                 <header>
                     <row id="1352">
-                        <property name="backgroundColor">#CAD9FF</property>
+                        <property name="backgroundColor">#D7E1FF</property>
+                        <property name="fontStyle">italic</property>
                         <cell id="1353">
                             <property name="colSpan">2</property>
                             <property name="rowSpan">1</property>
@@ -881,7 +940,7 @@ where fecha between ? and ?</property>
                             <list-property name="boundDataColumns">
                                 <structure>
                                     <property name="name">fecha</property>
-                                    <expression name="expression">dataSetRow["fecha"]</expression>
+                                    <expression name="expression">row._outer["fecha"]</expression>
                                     <property name="dataType">date</property>
                                 </structure>
                             </list-property>
@@ -903,7 +962,7 @@ where fecha between ? and ?</property>
                             <list-property name="boundDataColumns">
                                 <structure>
                                     <property name="name">horas</property>
-                                    <expression name="expression">dataSetRow["horas"]</expression>
+                                    <expression name="expression">row._outer["horas"]</expression>
                                     <property name="dataType">float</property>
                                 </structure>
                             </list-property>

@@ -5,30 +5,44 @@
 <script src="javascripts/scriptaculous.js" type="text/javascript"></script>
 <script type="text/javascript">
 <!--
-function llenarLista(resetear) {	
-	var proyecto_tarea;
-	var tarea;
-	var nombre_tarea;
-	var descripcion_tarea;
-	var opciones;
-	var index;	
-	var proyecto;
-	var tarea_id;
-	var flag = true;
+function llenarLista(resetear) {
+	//dropdownlist de tareas 
 	var select_tareas;
-	var datatable2 = document.getElementsByName('datatable2')[0];
+	//entero que cuenta la cantidad de tareas disponibles según el proyecto seleccionado	
+	var index;
+	//proyecto seleccionado con el lookup de proyectos	
+	var proyecto;
+	//tarea anteriormente persistida para el parte
+	var tarea_id;
+	//flag para determinar si una tarea es la que estaba seleccionada
+	var flag = true;
+	//flag para determinar si debo mostrar o no el título de la columna tarea en el header de la tabla 
+	var flag2 = true;	
+	//datatable auxiliar que contiene todas las tareas
+	var datatable2 = document.getElementById('datatable2');
+	// id de la tarea en la tabla auxiliar	
+	var tarea;
+	// nombre de la tarea en la tabla auxiliar
+	var nombre_tarea;
+	// descripcion de la tarea en la tabla auxiliar
+	var descripcion_tarea;
+	//proyecto de cada tarea en la tabla auxiliar	
+	var proyecto_tarea;
 	
-	for (var j=0;document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_proyectoTableTD_proyectoTE3__edit_'+j)[0] != null;j++) {
-		select_tareas = document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tarea_proyecto1_'+j)[0]		
+	
+	
+	for (var j=0;document.getElementById('proyectoTE3_edit_'+j) != null;j++) {
+		select_tareas = document.getElementById('tarea_proyecto1_'+j)		
 		index = 0;
+		//si modifiqué el proyecto, reseteo las opciones
 		if(resetear) {
 			for(var l = 0; l < select_tareas.length ; l++) {
 				select_tareas.remove(l);
 			}			
 		}
 		 
-		proyecto = document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_proyectoTableTD_proyectoTE3__edit_'+j)[0].value;
-		tarea_id = document.getElementsByName('htmlPageTopContainer_PageForm_box1_listFormDisplayBox1_datatable1_datatable1TRRow0_tareaProyectoTableTD_tareaId_'+j)[0].value;
+		proyecto = document.getElementById('proyectoTE3_edit_'+j).value;
+		tarea_id = document.getElementById('tareaProyectoTableTDtareaId_'+j).value;
 		
 		for (var i=0;i<datatable2.rows.length;i++) {
 		
@@ -62,15 +76,24 @@ function llenarLista(resetear) {
 			select_tareas.selectedIndex = 0;			
 		}			
 		if (index == 1) {
-			$('tarea_proyecto1_'+j).hide();
+			$('tarea_proyecto1_'+j).hide();						
 			//select_tareas.style.display='none';			
 		} else {
 			$('tarea_proyecto1_'+j).appear();
+			flag2 = false						
 			//select_tareas.style.display='';
-		}
-	}	
+		}		
+	}
+	
+	// Oculta el título de la columna "Tarea" en el Header de la tabla  
+	html = $('tareaProyectoHeaderTD').innerHTML.toLowerCase();
+	if(flag2) {
+		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+html.substring(html.indexOf('</b>'),html.length);
+	}
+	else
+		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+'Tarea'+html.substring(html.indexOf('</b>'),html.length);
+			
 }
-
 //-->
 </script>
 <salmon:page
@@ -95,7 +118,7 @@ function llenarLista(resetear) {
 		<salmon:listformdisplaybox mode="Display_single_page"
 			caption="Carga de Partes Diarios" name="listFormDisplayBox1"
 			width="100%" addbuttonvisible="false" savebuttonvisible="false"
-			datasource="dsPartes">
+			datasource="dsPartes" autocreatelink="FALSE">
 			<salmon:datatable name="datatable1" width="100%"
 				datasource="dsPartes" rowsperpage="5">
 				<salmon:datatableheader>
