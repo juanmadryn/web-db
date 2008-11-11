@@ -2,7 +2,14 @@
 <!DOCTYPE sitemap PUBLIC "SOFIA Site Map" "http://www.salmonllc.com/sofiaExamples/sitemap.dtd">
 <siteMap>
 
-<entry>
+  <entry>
+     <name>MenuReportesPartesMO</name>
+     <uri>/Jsp/MenuReportesPartesMO.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+  
+  <entry>
      <name>AccountInfoPage</name>
      <uri>../infraestructura/Jsp/AccountInfoPage.jsp</uri>
      <useForward>false</useForward>

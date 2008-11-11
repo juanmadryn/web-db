@@ -166,9 +166,9 @@ public class CargarPartesPlanoController extends BaseController implements
 			_proyectoTableTD.setColSpan(2);
 		}
 
-		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista('true');");		
-		_tarea_proyecto1.setOnFocus("llenarLista('true');");		
-		setOnFocus("llenarLista('false');");		
+		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");		
+		_tarea_proyecto1.setOnFocus("llenarLista(false);");		
+		setOnFocus("llenarLista(true);");		
 		
 		// refresca la pantalla de partes
 		refrescaPartes();
@@ -448,7 +448,7 @@ public class CargarPartesPlanoController extends BaseController implements
 					_dsPartes.retrieve("partes_mo.parte_id IN (" + v_grp_parte_id
 							+ ")");
 					_dsPartes.gotoFirst();
-					_fechaTE3.setFocus(true);
+					_fechaTE3.setFocus(true);					
 				}
 			} else {
 				refrescaPartes();

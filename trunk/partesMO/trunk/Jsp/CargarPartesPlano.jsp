@@ -28,16 +28,17 @@ function llenarLista(resetear) {
 	var descripcion_tarea;
 	//proyecto de cada tarea en la tabla auxiliar	
 	var proyecto_tarea;
-	
-	
+		//cantidad de opciones de la dropdownlist de tareas 
+	var select_tareas_length;	
 	
 	for (var j=0;document.getElementById('proyectoTE3_edit_'+j) != null;j++) {
 		select_tareas = document.getElementById('tarea_proyecto1_'+j)		
 		index = 0;
 		//si modifiqué el proyecto, reseteo las opciones
 		if(resetear) {
-			for(var l = 0; l < select_tareas.length ; l++) {
-				select_tareas.remove(l);
+			select_tareas_length = document.getElementById('tarea_proyecto1_'+j).length;
+			for(var l = select_tareas_length-1; l != 0; l--) {
+				select_tareas.remove(l);				
 			}			
 		}
 		 
@@ -60,7 +61,7 @@ function llenarLista(resetear) {
 				tarea = datatable2.rows[i].cells[3].innerHTML;
 				tarea = tarea.substring(tarea.indexOf('>')+1,tarea.lastIndexOf('<'));
 			
-				select_tareas.options[index] = new Option(descripcion_tarea, nombre_tarea); 
+				select_tareas.options[index] = new Option(nombre_tarea+'-'+descripcion_tarea, nombre_tarea); 
 				
 				if(tarea == tarea_id) {
 					select_tareas.selectedIndex = index;

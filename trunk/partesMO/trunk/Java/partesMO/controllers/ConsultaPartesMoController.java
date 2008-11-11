@@ -25,9 +25,7 @@ public class ConsultaPartesMoController extends BaseController {
 	public com.salmonllc.html.HtmlText _fechaCAP22;
 	public com.salmonllc.html.HtmlText _fechaTE22;
 	public com.salmonllc.html.HtmlText _horaaTE26;
-	public com.salmonllc.html.HtmlText _horaDesdeTE26;
 	public com.salmonllc.html.HtmlText _horaGuionTE26;
-	public com.salmonllc.html.HtmlText _horaHastaTE26;
 	public com.salmonllc.html.HtmlText _horarioCAP27;
 	public com.salmonllc.html.HtmlText _horasTE26;
 	public com.salmonllc.html.HtmlText _legajoCAP23;
@@ -42,11 +40,15 @@ public class ConsultaPartesMoController extends BaseController {
 	public com.salmonllc.html.HtmlText _supervisorCAP26;
 	public com.salmonllc.html.HtmlText _supervisorTE26;
 	public com.salmonllc.html.HtmlTextEdit _buscarTE3;
+	public com.salmonllc.html.HtmlTextEdit _horaDesdeTE26;
+	public com.salmonllc.html.HtmlTextEdit _horaHastaTE26;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspLink _lnkpartes1;
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
+	public com.salmonllc.html.HtmlLookUpComponent _proyectoTE3;
+	public com.salmonllc.html.HtmlDropDownList _tarea_proyecto1;
 
 	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -103,6 +105,10 @@ public class ConsultaPartesMoController extends BaseController {
 		addPageListener(this);
 		_buscarBUT16.addSubmitListener(this);
 		_guardarButton.addSubmitListener(this);
+		
+		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");		
+		_tarea_proyecto1.setOnFocus("llenarLista(false);");		
+		setOnFocus("llenarLista(false);");		
 	}
 
 	/**
@@ -158,6 +164,15 @@ public class ConsultaPartesMoController extends BaseController {
 				_dsPartes.reset();
 				_dsPartes.retrieve(whereClause.toString());
 				_dsPartes.gotoFirst();
+				_tarea_proyecto1.setEnabled(true);
+				_proyectoTE3.setEnabled(true);
+				_horaDesdeTE26.setEnabled(true);
+				_horaHastaTE26.setEnabled(true);
+			} else {
+				_tarea_proyecto1.setEnabled(false);
+				_proyectoTE3.setEnabled(false);
+				_horaDesdeTE26.setEnabled(false);
+				_horaHastaTE26.setEnabled(false);
 			}
 		}
 		super.pageRequested(p);
