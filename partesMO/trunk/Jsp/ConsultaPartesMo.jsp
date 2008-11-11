@@ -28,16 +28,17 @@ function llenarLista(resetear) {
 	var descripcion_tarea;
 	//proyecto de cada tarea en la tabla auxiliar	
 	var proyecto_tarea;
-	
-	
+	//cantidad de opciones de la dropdownlist de tareas 
+	var select_tareas_length;
 	
 	for (var j=0;document.getElementById('proyectoTE3_edit_'+j) != null;j++) {
 		select_tareas = document.getElementById('tarea_proyecto1_'+j)		
 		index = 0;
 		//si modifiqué el proyecto, reseteo las opciones
 		if(resetear) {
-			for(var l = 0; l < select_tareas.length ; l++) {
-				select_tareas.remove(l);
+			select_tareas_length = document.getElementById('tarea_proyecto1_'+j).length;
+			for(var l = select_tareas_length-1; l != 0; l--) {
+				select_tareas.remove(l);				
 			}			
 		}
 		 
@@ -60,7 +61,7 @@ function llenarLista(resetear) {
 				tarea = datatable2.rows[i].cells[3].innerHTML;
 				tarea = tarea.substring(tarea.indexOf('>')+1,tarea.lastIndexOf('<'));
 			
-				select_tareas.options[index] = new Option(descripcion_tarea, nombre_tarea); 
+				select_tareas.options[index] = new Option(nombre_tarea+'-'+descripcion_tarea, nombre_tarea); 
 				
 				if(tarea == tarea_id) {
 					select_tareas.selectedIndex = index;
@@ -75,7 +76,7 @@ function llenarLista(resetear) {
 		if(flag) {
 			select_tareas.selectedIndex = 0;			
 		}			
-		if (index == 1) {
+		if (index < 2) {
 			$('tarea_proyecto1_'+j).hide();						
 			//select_tareas.style.display='none';			
 		} else {
@@ -159,7 +160,7 @@ function llenarLista(resetear) {
 							<salmon:text name="proyectoCAP24" text="Proyecto (OT)"
 								font="TableHeadingFont" />
 						</salmon:td>
-						<salmon:td>
+						<salmon:td name="tareaProyectoHeaderTD">
 							<salmon:text name="tarea1" text="Tarea"
 								font="TableHeadingFont" />
 						</salmon:td>
@@ -207,18 +208,7 @@ function llenarLista(resetear) {
 							</salmon:input>
 							<salmon:input type="text" name="tareaId" style="display:none"
 								font="DefaultFont" datasource="dsPartes:partes_mo.tarea_id" />
-						</salmon:td>
-						<salmon:td>
-							<salmon:text name="proyectosProyectoTE24"
-								text="Proyectos.proyecto" font="DefaultFont"
-								datasource="dsPartes:proyectos.proyecto" />
-							<salmon:text name="proyectosNombreTE24" text="Proyectos.nombre"
-								font="DefaultFont" datasource="dsPartes:proyectos.nombre" />
-						</salmon:td>
-						<salmon:td>							
-							<salmon:text name="tarea2" text="Proyectos.nombre"
-								font="DefaultFont" datasource="dsPartes:tareas.nombre +'-'+tareas.descripcion" />
-						</salmon:td>						
+						</salmon:td>									
 						<salmon:td>
 							<salmon:input name="horaDesdeTE26" type="text" value=""
 								font="DefaultFont" size="5"
