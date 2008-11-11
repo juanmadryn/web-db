@@ -56,8 +56,7 @@ public class JspTableCell extends JspContainer {
 	}
 	public void generateHTML(TagWriter writer, String content, String defaultBackgroundColor, String clickSortTable, String defaultStyle, int rowNo) throws java.io.IOException {
 		if (!getVisible())
-			return;
-	
+			return;		
 		JspDataTable tab = getParentDataTable();
 		
 		StringBuffer sb = new StringBuffer();
@@ -85,7 +84,7 @@ public class JspTableCell extends JspContainer {
 		
 		if (tab != null && tab.getRowHighlighter() != null)
 			sb.append(" BGCOLOR=\"" + tab.getRowHighlighter().getBgColorForRow(rowNo,bgColor,this) + "\"");
-		else	
+		else
 			sb.append(" BGCOLOR=\"" + bgColor + "\"");
 		
 		if (getColSpan() != 1)
@@ -116,7 +115,10 @@ public class JspTableCell extends JspContainer {
 			sb.append(" CLASS=\"" + getStyle() + "\"");
 		else if (defaultStyle != null)
 			sb.append(" CLASS=\"" + defaultStyle + "\"");
-
+		
+		
+		sb.append(" ID=\"" + getName() + "\"");
+		
 		sb.append(">");
 
 	
