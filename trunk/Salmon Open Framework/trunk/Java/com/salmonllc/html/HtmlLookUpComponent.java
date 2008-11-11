@@ -317,17 +317,18 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener,
 	 * @return HtmlTextEdit
 	 */
 	public HtmlSubmitImage getBrowseImage() {
-		try {
+		//try {
 
 			/** get the index of the browse image so we can replace it */
-			int browseIndex = _componentsVec.indexOf(_browseImageHandle);
+			/*int browseIndex = _componentsVec.indexOf(_browseImageHandle);
 			if (browseIndex != -1) {
-				return (HtmlSubmitImage) _componentsVec.elementAt(browseIndex);
-			}
-		} catch (Exception e) {
+				return (HtmlSubmitImage) _componentsVec.elementAt(browseIndex);*/
+			return _browseImage;
+			//}
+		/*} catch (Exception e) {
 			MessageLog.writeErrorMessage("getBrowseImage", e, this);
 		}
-		return null;
+		return null;*/
 	}
 
 	/**
@@ -601,7 +602,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener,
 	// add and remove SubmitListener methods was added by Juan Manuel Cortez on April/2008
 	public void addImageLinkSubmitListener(SubmitListener listener) {
 		if (listener != null)
-			_browsePopupImageLink.addSubmitListener(listener);		
+			_browsePopupImageLink.insertSubmitListener(listener);		
 	}
 
 	public void removeImageLinkSubmitListener(SubmitListener listener) {

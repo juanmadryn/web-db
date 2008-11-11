@@ -19,8 +19,13 @@ import java.util.Vector;
  * This class is a holder for other components. Placing components in a container allows them all to be acted upon once.
  */
 public class HtmlContainer extends HtmlComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5042114106192995457L;
+
 	/** Vector to store all the componets added to the container */
-	protected Vector _componentsVec = new Vector();
+	protected Vector<HtmlComponent> _componentsVec = new Vector<HtmlComponent>();
 
 	/** component that does the submit if there is one */
 	protected HtmlComponent _submit;
@@ -39,7 +44,7 @@ public class HtmlContainer extends HtmlComponent {
 	 */
 	public void add(HtmlComponent comp) {
 		if (_componentsVec == null)
-			_componentsVec = new Vector();
+			_componentsVec = new Vector<HtmlComponent>();
 
 		_componentsVec.addElement(comp);
 		comp.setParent(this);
@@ -51,7 +56,7 @@ public class HtmlContainer extends HtmlComponent {
 	 */
 	public void clearSubmit() {
 		_submit = null;
-		Enumeration e = getComponents();
+		Enumeration<HtmlComponent> e = getComponents();
 
 		while (e.hasMoreElements()) {
 			Object o = e.nextElement();
@@ -150,7 +155,7 @@ public class HtmlContainer extends HtmlComponent {
 	public HtmlComponent getComponent(String name) {
 		HtmlComponent ret = null;
 		HtmlComponent comp = null;
-		Enumeration enumera = getComponents();
+		Enumeration<HtmlComponent> enumera = getComponents();
 		String compName = null;
 		// we will search all items in this enumeraeration
 		// recursivly calling the containers getComponent method
@@ -188,9 +193,9 @@ public class HtmlContainer extends HtmlComponent {
 	/**
 	 * This method will return a list of all components in the container.
 	 */
-	public Enumeration getComponents() {
+	public Enumeration<HtmlComponent> getComponents() {
 		if (_componentsVec == null) {
-			Vector v = new Vector();
+			Vector<HtmlComponent> v = new Vector<HtmlComponent>();
 			return v.elements();
 		} else
 			return _componentsVec.elements();
@@ -223,7 +228,7 @@ public class HtmlContainer extends HtmlComponent {
 	 */
 	public void insertComponentAt(HtmlComponent comp, int index) {
 		if (_componentsVec == null)
-			_componentsVec = new Vector();
+			_componentsVec = new Vector<HtmlComponent>();
 
 		if (_componentsVec.isEmpty()) {
 
@@ -237,7 +242,7 @@ public class HtmlContainer extends HtmlComponent {
 		}
 		comp.setParent(this);
 	}
-	public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+	public boolean processParms(Hashtable<String, Object> parms, int rowNo) throws Exception {
 		String compName = null;
 		try {
 			if (!getVisible())
@@ -330,7 +335,7 @@ public class HtmlContainer extends HtmlComponent {
 	 * This method will clear all pending events from the event queue for this component and components it contains.
 	 */
 	public void reset() {
-		Enumeration comps = getComponents();
+		Enumeration<HtmlComponent> comps = getComponents();
 		while (comps.hasMoreElements()) {
 			HtmlComponent c = (HtmlComponent) comps.nextElement();
 			c.reset();
@@ -348,7 +353,7 @@ public class HtmlContainer extends HtmlComponent {
 	 */
 	public void setEnabled(boolean enabled) {
 		_enabled = enabled;
-		Enumeration e = getComponents();
+		Enumeration<HtmlComponent> e = getComponents();
 		HtmlComponent c = null;
 		while (e.hasMoreElements()) {
 			c = (HtmlComponent) e.nextElement();

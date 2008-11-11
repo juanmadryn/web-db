@@ -37,6 +37,10 @@ import com.salmonllc.sql.DataStoreExpression;
  * This type can be used to add text to your page.
  */
 public class HtmlText extends HtmlComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5295930326448605220L;
 	public static final String FONT_NONE = "None";
 	public static final String FONT_DEFAULT = Props.FONT_DEFAULT;
 	public static final String FONT_TEXT_EDIT = Props.FONT_TEXT_EDIT;
@@ -248,8 +252,8 @@ public class HtmlText extends HtmlComponent {
 		if (style == null) {
             if (_fontStartTag != null) {
               sbOut.insert(0,_fontStartTag);
-              sbOut.append(_fontEndTag);
-            }
+              sbOut.append(_fontEndTag);             
+            }            
             p.print(sbOut.toString());
 /*			if (_fontStartTag != null)
 				p.print(_fontStartTag + out + _fontEndTag);
@@ -328,6 +332,7 @@ public class HtmlText extends HtmlComponent {
         StringBuffer sbOut=new StringBuffer();
         sbOut.append(out);
 
+       
 		if (_center) {
             sbOut.insert(0,"<CENTER>");
             sbOut.append("</CENTER>");
@@ -341,12 +346,15 @@ public class HtmlText extends HtmlComponent {
 			style = getClassName();
 
 		if (style == null) {
+			
 			if (_fontStartTag != null) {
               sbOut.insert(0,_fontStartTag);
-              sbOut.append(_fontEndTag);
+              sbOut.append(_fontEndTag);                
             }
+			
 		    p.print(sbOut.toString());
 		} else {
+				
             StringBuffer sbSpan=new StringBuffer();
             sbSpan.append("<SPAN CLASS=\"");
             sbSpan.append(style);
@@ -445,7 +453,7 @@ public class HtmlText extends HtmlComponent {
 		return _theme;
 	}
 
-	public boolean processParms(java.util.Hashtable h, int row) {
+	public boolean processParms(java.util.Hashtable<String, Object> h, int row) {
 		return false;
 	}
 

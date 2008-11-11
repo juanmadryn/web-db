@@ -39,6 +39,10 @@ import java.util.Vector;
  */
 
 public class HtmlTable extends HtmlContainer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7718050559566347113L;
 	public static final int SIZE_PERCENT = 0;
 	public static final int SIZE_PIXELS = 1;
 
@@ -58,11 +62,11 @@ public class HtmlTable extends HtmlContainer {
 	private int _containerHeight = -1;
 
 	private Vector2D _componentsVec2D = new Vector2D();
-	private Vector _columnWidth = new Vector();
+	private Vector<Object> _columnWidth = new Vector<Object>();
 
-	private Vector _columnHeight = new Vector();
+	private Vector<Object> _columnHeight = new Vector<Object>();
 
-	private Vector _rowProps;
+	private Vector<HtmlTableRowProperties> _rowProps;
 	private boolean _allowNullCells = true;
 	private String _align;
 	private int _border = -1;
@@ -74,7 +78,7 @@ public class HtmlTable extends HtmlContainer {
 	private String _defaultRowStyleClassName;
 
 	// for addDisplay
-	private Hashtable _compLookUpHash = new Hashtable();
+	private Hashtable<String, HtmlComponent> _compLookUpHash = new Hashtable<String, HtmlComponent>();
 	private int _currColVal = 0;
 	private int _currRowVal = -1;
 	private final static String CAPTION_COMP_HASH_KEY = "Caption_comp_";
@@ -142,7 +146,7 @@ public class HtmlTable extends HtmlContainer {
 		return true;
 	}
 
-	public void generateHTML(java.io.PrintWriter p, int rowNo) throws Exception {
+	public void generateHTML(java.io.PrintWriter p, int rowNo) throws Exception {		
 		if (!getVisible())
 			return;
 		if (_center)
@@ -184,7 +188,7 @@ public class HtmlTable extends HtmlContainer {
 		HtmlComponent comp = null;
 		HtmlTableCellProperties props = null;
 		TwoObjectContainer cont = null;
-		//
+		//		
 		for (int i = 0; i < rowCount; i++) {
 			tr.setLength(0);
 			rowProps = getRowProperty(i);
@@ -301,8 +305,7 @@ public class HtmlTable extends HtmlContainer {
 					}
 					if (!props.getWrap())
 						td.append(" NOWRAP");
-				}
-
+				}				
 				// column width
 				int width = getColumnWidth(j);
 				if (width > 0) {
@@ -340,7 +343,7 @@ public class HtmlTable extends HtmlContainer {
 	public void generateInitialHTML(java.io.PrintWriter p) throws Exception {
 		if (!getVisible())
 			return;
-
+		
 		// sr 10-15-2000
 		int rowCount = _componentsVec2D.getRowCount();
 		int colCount = _componentsVec2D.getColumnCount();
@@ -442,8 +445,8 @@ public class HtmlTable extends HtmlContainer {
 	/**
 	 * This method will return a list of all components in the container.
 	 */
-	public Enumeration getComponents() {
-		Vector comps = new Vector();
+	public Enumeration<HtmlComponent> getComponents() {
+		Vector<HtmlComponent> comps = new Vector<HtmlComponent>();
 		//
 
 		int rowCount = _componentsVec2D.getRowCount();
@@ -476,7 +479,7 @@ public class HtmlTable extends HtmlContainer {
 	public HtmlComponent getComponent(String name) {
 		HtmlComponent ret = null;
 		HtmlComponent comp = null;
-		Enumeration enumera = getComponents();
+		Enumeration<HtmlComponent> enumera = getComponents();
 		String compName = null;
 		// we will search all items in this enumeraeration
 		// recursivly calling the containers getComponent method
@@ -567,7 +570,7 @@ public class HtmlTable extends HtmlContainer {
 		_componentsVec2D.insertRow(row);
 	}
 
-	public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+	public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
 		if (!getVisible())
 			return false;
 		boolean retVal = false;
@@ -824,7 +827,7 @@ public class HtmlTable extends HtmlContainer {
 	 */
 	public void setRowProperty(int row, HtmlTableRowProperties rowProp) {
 		if (_rowProps == null)
-			_rowProps = new Vector();
+			_rowProps = new Vector<HtmlTableRowProperties>();
 		int size = _rowProps.size();
 		for (int i = size; i <= row; i++)
 			_rowProps.addElement(null);

@@ -39,7 +39,11 @@ import java.util.Hashtable;
  */
 public class HtmlTextEdit extends HtmlFormComponent
 {
-    private Boolean _readOnly;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1428892875398469720L;
+	private Boolean _readOnly;
     private Integer _tabIndex;
     private String  _accessKey;
     private String  _fontTagEnd;
@@ -361,7 +365,7 @@ public class HtmlTextEdit extends HtmlFormComponent
             name += ("_" + rowNo);
         }
 
-        String tag = "<INPUT TYPE=\"TEXT\" NAME=\"" + name + "\"";
+        String tag = "<INPUT TYPE=\"TEXT\" NAME=\"" + name + "\" ID=\"" + getParent().getName()+getName()+"_" + rowNo + "\"";        
 
         if (_onKeyUp != null)
         {
@@ -498,7 +502,7 @@ public class HtmlTextEdit extends HtmlFormComponent
         writeFocusScript(p, rowNo);
     }
 
-    public boolean processParms(Hashtable parms, int rowNo)
+    public boolean processParms(Hashtable<String, Object>parms, int rowNo)
                          throws Exception
     {
         // fc: 07/17/02 Commented out the below lines as they are no longer required,
