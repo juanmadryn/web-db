@@ -374,8 +374,10 @@ public class JspDataTable extends JspContainer implements ImageGenerator {
         if (_vSpace != -1)
             sb.append(" VSPACE=\"" + _vSpace + "\"");
 
-        if (getName() != null)
+        if (getName() != null) {
            sb.append(" NAME=\"" + getName() + "\"");
+           sb.append(" ID=\"" + getName() + "\"");
+        }   
         
         sb.append(">");
 
@@ -1754,3 +1756,4 @@ public class JspDataTable extends JspContainer implements ImageGenerator {
 		super.add(comp, type);
 	}
 }
+

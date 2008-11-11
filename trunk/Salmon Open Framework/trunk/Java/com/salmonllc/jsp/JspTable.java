@@ -94,8 +94,7 @@ public class JspTable extends JspContainer {
     /**
      * This method will generate the HTML to render the table
      */
-    public void generateHTML(TagWriter writer, String content) throws java.io.IOException {
-
+    public void generateHTML(TagWriter writer, String content) throws java.io.IOException {   	 
         StringBuffer sb = new StringBuffer();
 
         sb.append("<TABLE");
