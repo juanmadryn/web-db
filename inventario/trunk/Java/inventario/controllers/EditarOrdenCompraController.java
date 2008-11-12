@@ -143,6 +143,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 	public static final String DSDETALLESC_CENTRO_COSTO_NOMBRE = "centro_costo.nombre";
 
 	// custom
+	public HtmlSubmitButton _buttonCopiaDescuento;
 	public HtmlSubmitButton _nuevaOrdenCompraBUT1;
 	public HtmlSubmitButton _grabarOrdenCompraBUT1;
 	public HtmlSubmitButton _articulosAgregarBUT1;
@@ -264,7 +265,8 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_customBUT120.addSubmitListener(this);
 		_customBUT110.addSubmitListener(this);
 		_customBUT100.addSubmitListener(this);
-
+		_buttonCopiaDescuento.addSubmitListener(this);
+		
 		// agregamos los botones custom en el vector
 		botonesCustom.add(_customBUT100);
 		botonesCustom.add(_customBUT110);
@@ -324,7 +326,7 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		String nombre_tabla = getTabla_principal();
 		int userId = getSessionManager().getWebSiteUser().getUserID();
 		DBConnection conn = DBConnection.getConnection(getApplicationName());
-
+		
 		boolean batchInserts = false;
 		HtmlComponent component = e.getComponent();
 
@@ -365,7 +367,23 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 			setDatosBasicosOrdenCompra();
 			conn.rollback();
 		}
-
+		
+		if (e.getComponent() == _buttonCopiaDescuento) {
+			if (_dsOrdenesCompra.isModificable()) {
+				String value = _descuentoGlobal2.getValue();
+				for (int row = 0; row < _dsDetalleSC.getRowCount(); row++) {					
+					_dsDetalleSC.setDetalleScDescuento(row, Float.parseFloat(value!=null?value:"0.0"));
+					_descuentoGlobal2.setValue(null);
+				}				
+			} else {
+				// si la solicitud no está generada, bloqueo toda modificación
+				displayErrorMessage("No puede modificar la orden de compra en el estado actual.");
+				setRecargar(true);
+				pageRequested(new PageEvent(this));
+				return false;
+			}			
+		}
+		
 		if (e.getComponent() == _grabarOrdenCompraBUT1) {
 			// si la orden de compra esta en estado generado o esta siendo revisada
 			if (_dsOrdenesCompra.isModificable()) {
