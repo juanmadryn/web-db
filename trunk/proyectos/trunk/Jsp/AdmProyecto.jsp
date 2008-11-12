@@ -40,7 +40,7 @@
 		<salmon:table name="table1" width="100%" border="0">
 			<salmon:tr>
 				<salmon:td valign="Top">
-					<div title="Hola" id="pepe">Hola
+					<div title="Hola" id="pepe">
 					<salmon:detailformdisplaybox
 						name="detailformdisplaybox1" caption="Proyecto" width="100%"
 						datasource="dsProyecto" buttondisplaylocation="BELOW_TABLE"
