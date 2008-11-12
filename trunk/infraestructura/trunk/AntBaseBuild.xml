@@ -1,13 +1,14 @@
 <!--
-	Este script sirve de base para los build.xml del resto de las aplicaciones.
-	Las propiedades estan expresadas de manera genérica de forma tal que se acomoden
-	automaticamente segun el nombre del proyecto.
-	El resto de los build.xml solo deben importar este script, y opcionalmente, 
-	sobreescribir las tasks y propiedades que se deban personalizar.
+Este es el script base para los build.xml del resto de las aplicaciones. 
+Las propiedades estan expresadas de manera genérica de forma tal que se acomoden 
+automaticamente segun el nombre del proyecto.
+El resto de los build.xml solo deben importar este script sobreescribir las tasks 
+y propiedades que se deban personalizar. Tambien se debe setear el archivo
+AntBaseBuild.properties junto a los build.xml de cada proyecto.
 -->
-<project name="infraestructura" default="dist">
+<project name="basebuild">
 	
-	<property file="AntBaseBuild.properties"/>
+	<property file="${wpath}/AntBaseBuild.properties"/>
 	
 	<property name="webapp.name" value="${ant.project.name}"/>
 	<property name="webapp.src" value="${basedir}/Java"/> 
@@ -17,18 +18,17 @@
 	<property name="dist.war" value="${dist}/war"/>
 	<property name="jarfile" value="${ant.project.name}.jar"/>
 	<property name="warfile" value="${ant.project.name}.war"/>
-	<property name="jsp" value="${basedir}/Jsp"/>
-	<property name="workspace" value="C:\Documents and Settings\Administrador\workspace3"/>
+	<property name="jsp" value="${basedir}/Jsp"/>	
 	<property name="sofiafwk.src" value="${workspace}/Salmon Open Framework/Java"/> 
 	<property name="sofiafwk.bld" value="${workspace}/Salmon Open Framework/bin"/>
 	<!-- directorio en donde se copia el JAR -->	
 	<property name="deploy.jar.dir" value="${tomcat.commonlibs}"/>
 	<!-- directorio webapp -->
-	<property name="deploy.war.dir" value="${tomcat.path}/webapps"/>
+	<property name="deploy.war.dir" value="${tomcat.base}/webapps"/>
 	<!-- directorio para backups jsp -->
-	<property name="backup.war.dir" value="${tomcat.path}/bkp"/>
+	<property name="backup.war.dir" value="${tomcat.base}/bkp"/>
 	<!-- directorio para backups jar -->
-	<property name="backup.jar.dir" value="${tomcat.path}/bkp"/>		
+	<property name="backup.jar.dir" value="${tomcat.base}/bkp"/>		
 	
 	<!-- Configura Ant tasks de la aplicación Manager -->
 	<!-- <taskdef resource="org/apache/catalina/ant/catalina.tasks" 
@@ -49,8 +49,8 @@
 		</tstamp>
 		<property name="bkp.dir" value="Bkp${DSTAMP}"/>		
 		<mkdir dir="${backup.jar.dir}/${bkp.dir}"/>		
-		<copy file="${deploy.jar.dir}/${jarfile}" todir="${backup.jar.dir}/${bkp.dir}" failonerror="false" 
-			preservelastmodified="true" overwrite="false"/>
+		<copy file="${deploy.jar.dir}/${jarfile}" todir="${backup.jar.dir}/${bkp.dir}" failonerror="yes" 
+			preservelastmodified="true" overwrite="false" verbose="true"/>
 	</target>
 	
 	<!-- backup war -->
@@ -61,8 +61,8 @@
 		</tstamp>
 		<property name="bkp.dir" value="Bkp${DSTAMP}"/>
 		<mkdir dir="${backup.war.dir}/${bkp.dir}"/>
-		<copy file="${deploy.war.dir}/${warfile}" todir="${backup.war.dir}/${bkp.dir}" failonerror="false"
-			preservelastmodified="true" overwrite="false"/>
+		<copy file="${deploy.war.dir}/${warfile}" todir="${backup.war.dir}/${bkp.dir}" failonerror="yes"
+			preservelastmodified="true" overwrite="false" verbose="true"/>
 	</target>
 			
 	<target name="dist.jar" description="Crea el jar del proyecto">
@@ -77,39 +77,40 @@
 	</target>
 	
 	<target name="setProperties" description="Setea los valores de System.properties para Producción">
-		<replace file="WEB-INF/properties/System.properties" token="SecurePort=9080" value="SecurePort=8080"/>
-		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=9080" value="UnSecurePort=8080"/>
+		<replace file="WEB-INF/properties/System.properties" token="SecurePort=12080" value="SecurePort=${port}"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=12080" value="UnSecurePort=${port}"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogAssertions=true" value="LogAssertions=false"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogInfoMessages=true" value="LogInfoMessages=false"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogDebugMessages=true" value="LogDebugMessages=false"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogSQLStatements=true" value="LogSQLStatements=false"/>
+		<replace file="WEB-INF/properties/System.properties" token="jdbc:mysql://localhost:3306" value="jdbc:mysql://localhost:${dbport}"/>
+		<replace file="WEB-INF/properties/System.properties" token="FABRI_SA" value="${dbTango}"/>
+		<!-- <replace file="WEB-INF/properties/System.properties" token="CacheJSPControllers=false" value="CacheJSPControllers=true"/> -->
 	</target>
 	
 	<target name="restoreProperties" description="Restaura los valores de System.properties para Development">
-		<replace file="WEB-INF/properties/System.properties" token="SecurePort=8080" value="SecurePort=9080"/>
-		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=8080" value="UnSecurePort=9080"/>
+		<replace file="WEB-INF/properties/System.properties" token="SecurePort=${port}" value="SecurePort=12080"/>
+		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=${port}" value="UnSecurePort=12080"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogAssertions=false" value="LogAssertions=true"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogInfoMessages=false" value="LogInfoMessages=true"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogDebugMessages=false" value="LogDebugMessages=true"/>
 		<replace file="WEB-INF/properties/System.properties" token="LogSQLStatements=false" value="LogSQLStatements=true"/>
+		<replace file="WEB-INF/properties/System.properties" token="jdbc:mysql://localhost:${dbport}" value="jdbc:mysql://localhost:3306"/>
+		<replace file="WEB-INF/properties/System.properties" token="${dbTango}" value="FABRI_SA"/>
+		<!-- <replace file="WEB-INF/properties/System.properties" token="CacheJSPControllers=true" value="CacheJSPControllers=false"/> -->
 	</target>
 	
 	<target name="dist" depends="dist.jar" description="Crea el war del proyecto">				
 		<mkdir dir="${dist.war}"/>
-		<!--<replace file="WEB-INF/properties/System.properties" token="SecurePort=9080" value="SecurePort=8080"/>
-		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=9080" value="UnSecurePort=8080"/>-->
 		<antcall target="setProperties"/>
 		<war destfile="${dist.war}/${warfile}" webxml="WEB-INF/web.xml">	
 			<webinf dir="WEB-INF"></webinf>			
 			<zipfileset dir="${jsp}" prefix="Jsp"/>
 		</war>
 		<antcall target="restoreProperties"/>
-		<!--<replace file="WEB-INF/properties/System.properties" token="SecurePort=8080" value="SecurePort=9080"/>
-		<replace file="WEB-INF/properties/System.properties" token="UnSecurePort=8080" value="UnSecurePort=9080"/>-->
 	</target>
 	
 	<target name="deploy.jar" depends="backup.jar,dist.jar" description="Copia el jar en el directorio de deploy">		
-		<!-- Copia el JAR en el directorio de deploy -->
 		<copy file="${dist.jar}/${jarfile}" todir="${deploy.jar.dir}" overwrite="yes"/>		
 	</target>	
 		
@@ -123,6 +124,13 @@
 		<!-- Copia el WAR en el directorio de deploy -->
 		<delete dir="${deploy.war.dir}/${ant.project.name}"></delete>
 		<copy file="${dist.war}/${warfile}" todir="${deploy.war.dir}" overwrite="yes"/>
+	</target>
+	
+	<target name="avisoMantenimiento" description="Setea el aviso de mantenimiento">		
+		<replace dir="${deploy.war.dir}" value="MantenimientoSistema=${horaMantenimiento}">
+		  <include name="**/System.properties"/>
+		  <replacetoken>MantenimientoSistema=</replacetoken>
+		</replace>		
 	</target>
 	
 </project>
