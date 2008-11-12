@@ -65,13 +65,11 @@ public final class ValRN_0212_1 extends ValidadorReglasNegocio {
 			}
 
 			for (int row = 0; row < detalles.getRowCount(); row++) {
-				System.out.println("Hola");
 				if (detalles.getDetallesRcUnidadMedidaId(row) == 0)
 					throw new DataStoreException(
 							"Indique la unidad patrón del artículo haciendo click en su código");
 				if (detalles_rc_ids.containsKey(detalles
 						.getDetallesRcDetalleScId(row))) {
-					System.out.println("Hola2");
 					msg
 							.append("La cantidad recibida es mayor a la cantidad comprada en el detalle nº"
 									+ (row + 1)
