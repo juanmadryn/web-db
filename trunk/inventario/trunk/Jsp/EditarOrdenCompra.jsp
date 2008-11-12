@@ -200,6 +200,8 @@ function CheckAll(checked) {
                            text="%" /> <salmon:input type="text"
                            name="descuentoGlobal2"
                            datasource="dsOrdenesCompra:ordenes_compra.descuento"></salmon:input>
+                           <salmon:input name="buttonCopiaDescuento" type="submit"
+                           value="Copia Desc" accesskey="X" visible="true"></salmon:input>
                         </td>
                         <td/>
                         <td><salmon:text name="nroOcTango1"
