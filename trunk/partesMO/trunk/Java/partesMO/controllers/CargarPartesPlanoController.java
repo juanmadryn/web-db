@@ -166,9 +166,9 @@ public class CargarPartesPlanoController extends BaseController implements
 			_proyectoTableTD.setColSpan(2);
 		}
 
-		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");		
+		_proyectoTE3.getEditField().setOnChange("llenarLista(true);");		
 		_tarea_proyecto1.setOnFocus("llenarLista(false);");		
-		setOnFocus("llenarLista(true);");		
+		setOnFocus("llenarLista(false);");		
 		
 		// refresca la pantalla de partes
 		refrescaPartes();
