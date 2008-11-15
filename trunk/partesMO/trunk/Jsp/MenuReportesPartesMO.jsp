@@ -29,18 +29,17 @@ function cambiarURL() {
 	if (tarea.length > 0)
 		parametros = parametros + '&param_tarea='+tarea;		
 	
-	a_reporte1_pdf.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace\\partesmo\\Reportes\\partesmo_por_fecha.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=pdf&__toolbar=true'+parametros;
-	a_reporte1_xls.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace\\partesmo\\Reportes\\partesmo_por_fecha.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=xls&__toolbar=true'+parametros;
-	a_reporte2_pdf.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace\\partesmo\\Reportes\\partesmo_por_fecha_ot.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=pdf&__toolbar=true'+parametros;
-	a_reporte2_xls.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace\\partesmo\\Reportes\\partesmo_por_fecha_ot.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=xls&__toolbar=true'+parametros;		
+	a_reporte1_pdf.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace3\\partesmo\\Reportes\\partesmo_por_fecha.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=pdf&__toolbar=true'+parametros;
+	a_reporte1_xls.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace3\\partesmo\\Reportes\\partesmo_por_fecha.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=xls&__toolbar=true'+parametros;
+	a_reporte2_pdf.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace3\\partesmo\\Reportes\\partesmo_por_fecha_ot.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=pdf&__toolbar=true'+parametros;
+	a_reporte2_xls.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace3\\partesmo\\Reportes\\partesmo_por_fecha_ot.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=xls&__toolbar=true'+parametros;		
 		
 }	
 
 
 //-->
 </script>
-<salmon:page
-	controller="infraestructura.controllers.BaseController" />
+<salmon:page controller="infraestructura.controllers.BaseController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 
 <!-- ********************************************************************************************* -->
@@ -96,20 +95,21 @@ function cambiarURL() {
 			<thead>
 				<tr>
 					<th />
-					<th colspan="2" align="center">Formato
-					</td>
+					<th colspan="2" align="center">Formato</th>
+					<td></td>
 				</tr>
 				<tr align="center">
-					<th width="60%" align="left">Reporte
-					</td>
-					<th width="20%">PDF
-					</td>
-					<th width="20%">Excel
-					</td>
+					<th width="60%" align="left">Reporte</th>
+					<td></td>
+					<th width="20%">PDF</th>
+					<td></td>
+					<th width="20%">Excel</th>
+					<td></td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
+				</tr>
 				<tr>
 					<td>Horas de Mano de Obra por fecha</td>
 					<td align="center"><salmon:a href="" target="_blank"
@@ -140,7 +140,7 @@ function cambiarURL() {
 						src="%ImageDirectory/logo_excel.gif" height="25"
 						srclocalekey="bannerImageSource" />
 				</salmon:a></td>
-				</tr>
+				<tr></tr>
 			</tbody>
 		</table>
 		</td>
