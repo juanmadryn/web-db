@@ -454,7 +454,7 @@ public class CargarPartesPlanoController extends BaseController implements
 				refrescaPartes();
 			}
 		}		
-		_proyectoTE3.get_browsePopupImageLink().setTabIndex(99);
+		//		_proyectoTE3.get_browsePopupImageLink().setTabIndex(99);
 		_legajoTE1.get_browsePopupImageLink().setTabIndex(99);
 		super.pageRequested(p);		
 	}

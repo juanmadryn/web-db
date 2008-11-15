@@ -73,17 +73,16 @@ function llenarLista(resetear) {
 			}					
 		}		
 					
-		if(flag) {
+		if(flag)
 			select_tareas.selectedIndex = 0;			
-		}			
-		if (index == 1) {
-			$('tarea_proyecto1_'+j).hide();						
-			//select_tareas.style.display='none';			
+
+		if (index < 2) {
+			$('tarea_proyecto1_'+j).hide();
 		} else {
 			$('tarea_proyecto1_'+j).appear();
-			flag2 = false						
-			//select_tareas.style.display='';
-		}		
+			flag2 = false					
+		}
+				
 	}
 	
 	// Oculta el título de la columna "Tarea" en el Header de la tabla  
@@ -91,9 +90,9 @@ function llenarLista(resetear) {
 	if(flag2) {
 		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+html.substring(html.indexOf('</b>'),html.length);
 	}
-	else
+	else {		
 		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+'Tarea'+html.substring(html.indexOf('</b>'),html.length);
-			
+	}			
 }
 //-->
 </script>
