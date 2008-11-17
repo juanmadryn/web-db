@@ -39,7 +39,8 @@ function cambiarURL() {
 
 //-->
 </script>
-<salmon:page controller="infraestructura.controllers.BaseController" />
+<salmon:page
+	controller="infraestructura.controllers.BaseController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 
 <!-- ********************************************************************************************* -->
@@ -95,21 +96,20 @@ function cambiarURL() {
 			<thead>
 				<tr>
 					<th />
-					<th colspan="2" align="center">Formato</th>
-					<td></td>
+					<th colspan="2" align="center">Formato
+					</td>
 				</tr>
 				<tr align="center">
-					<th width="60%" align="left">Reporte</th>
-					<td></td>
-					<th width="20%">PDF</th>
-					<td></td>
-					<th width="20%">Excel</th>
-					<td></td>
+					<th width="60%" align="left">Reporte
+					</td>
+					<th width="20%">PDF
+					</td>
+					<th width="20%">Excel
+					</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-				</tr>
 				<tr>
 					<td>Horas de Mano de Obra por fecha</td>
 					<td align="center"><salmon:a href="" target="_blank"
@@ -140,7 +140,7 @@ function cambiarURL() {
 						src="%ImageDirectory/logo_excel.gif" height="25"
 						srclocalekey="bannerImageSource" />
 				</salmon:a></td>
-				<tr></tr>
+				</tr>
 			</tbody>
 		</table>
 		</td>
