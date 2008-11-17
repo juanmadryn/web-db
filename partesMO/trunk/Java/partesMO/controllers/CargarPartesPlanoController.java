@@ -166,7 +166,8 @@ public class CargarPartesPlanoController extends BaseController implements
 			_proyectoTableTD.setColSpan(2);
 		}
 
-		_proyectoTE3.getEditField().setOnChange("llenarLista(true);");		
+		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");
+		_proyectoTE3.getEditField().setOnChange("llenarLista(true);");
 		_tarea_proyecto1.setOnFocus("llenarLista(false);");		
 		setOnFocus("llenarLista(false);");		
 		
@@ -205,7 +206,7 @@ public class CargarPartesPlanoController extends BaseController implements
 			try {
 				_dsPartes.update();
 			} catch (DataStoreException ex) {
-				displayErrorMessage(ex.getMessage());
+				displayErrorMessage("Error guardando parte: "+ex.getMessage());
 				return false;
 			}
 		}
@@ -221,7 +222,7 @@ public class CargarPartesPlanoController extends BaseController implements
 					_dsPartes.completaUnParte(rowActual);
 				} catch (DataStoreException ex) {
 					// muestro mensaje pero sigo sin problemas
-					displayErrorMessage(ex.getMessage());
+					displayErrorMessage("Error copiando parte: "+ex.getMessage());
 					_fechaTE3.setFocus(rowActual, true);
 					return false;
 				}
@@ -454,8 +455,8 @@ public class CargarPartesPlanoController extends BaseController implements
 				refrescaPartes();
 			}
 		}		
-		//		_proyectoTE3.get_browsePopupImageLink().setTabIndex(99);
-		_legajoTE1.get_browsePopupImageLink().setTabIndex(99);
+		_proyectoTE3.get_browsePopupImageLink().setTabIndex(-1);
+		_legajoTE1.get_browsePopupImageLink().setTabIndex(-1);
 		super.pageRequested(p);		
 	}
 
