@@ -168,11 +168,13 @@ public class ConsultaPartesMoController extends BaseController {
 				_proyectoTE3.setEnabled(true);
 				_horaDesdeTE26.setEnabled(true);
 				_horaHastaTE26.setEnabled(true);
+				_guardarButton.setEnabled(true);
 			} else {
 				_tarea_proyecto1.setEnabled(false);
 				_proyectoTE3.setEnabled(false);
 				_horaDesdeTE26.setEnabled(false);
 				_horaHastaTE26.setEnabled(false);
+				_guardarButton.setEnabled(false);
 			}
 		}
 		super.pageRequested(p);
