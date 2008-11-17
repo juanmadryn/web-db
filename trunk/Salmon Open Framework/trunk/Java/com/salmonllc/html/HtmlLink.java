@@ -41,7 +41,11 @@ import java.util.Vector;
  * This container will construct an anchor tag with a html link (HREF) reference.
  */
 public class HtmlLink extends HtmlContainer {
-    private String _href;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4345409243987602470L;
+	private String _href;
     private String _onClick;
     private String _onMouseOut;
     private String _onMouseOver;
@@ -49,7 +53,7 @@ public class HtmlLink extends HtmlContainer {
     private DataStoreEvaluator _dsEval;
     private boolean _doSubmit = false;
     private String _zoomTo = null;
-    private Vector _listeners;
+    private Vector<SubmitListener> _listeners;
     private int _rowNo = -1;
     private HtmlStyle _style;
     private boolean _generateLink = true;
@@ -96,7 +100,7 @@ public class HtmlLink extends HtmlContainer {
      */
     public void addSubmitListener(SubmitListener l) {
         if (_listeners == null)
-            _listeners = new Vector();
+            _listeners = new Vector<SubmitListener>();
         int listenersSize = _listeners.size();
         for (int i = 0; i < listenersSize; i++) {
             if (((SubmitListener) _listeners.elementAt(i)) == l)
@@ -112,7 +116,7 @@ public class HtmlLink extends HtmlContainer {
      */
     public void insertSubmitListener(SubmitListener l) {
         if (_listeners == null)
-            _listeners = new Vector();
+            _listeners = new Vector<SubmitListener>();
         int listenersSize = _listeners.size();
         for (int i = 0; i < listenersSize; i++) {
             if (((SubmitListener) _listeners.elementAt(i)) == l)
@@ -430,7 +434,7 @@ public class HtmlLink extends HtmlContainer {
     /**
      * This method will process the parms from a post for every component in the container.
      */
-    public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+    public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
         if (super.processParms(parms, rowNo))
             return true;
 
@@ -618,9 +622,6 @@ public class HtmlLink extends HtmlContainer {
 	 * @param sets the tab index html attribute. You can also pass TAB_INDEX_DEFAULT to use the default tab index for the component or TAB_INDEX_NONE to keep this component from being tabbed to
 	 */
 	public void setTabIndex(int val) {
-		if (val == -1)
-			_tabIndex = null;
-		else	
 			_tabIndex = new Integer(val);
 	}
 
