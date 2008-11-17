@@ -31,19 +31,19 @@ function llenarLista(resetear) {
 		//cantidad de opciones de la dropdownlist de tareas 
 	var select_tareas_length;	
 	
-	for (var j=0;document.getElementById('proyectoTE3_edit_'+j) != null;j++) {
-		select_tareas = document.getElementById('tarea_proyecto1_'+j)		
+	for (var j=0;$('proyectoTE3_edit_'+j) != null;j++) {
+		select_tareas = $('tarea_proyecto1_'+j);		
 		index = 0;
 		//si modifiqué el proyecto, reseteo las opciones
 		if(resetear) {
-			select_tareas_length = document.getElementById('tarea_proyecto1_'+j).length;
+			select_tareas_length = $('tarea_proyecto1_'+j).length;
 			for(var l = select_tareas_length-1; l != 0; l--) {
 				select_tareas.remove(l);				
 			}			
 		}
 		 
-		proyecto = document.getElementById('proyectoTE3_edit_'+j).value;
-		tarea_id = document.getElementById('tareaProyectoTableTDtareaId_'+j).value;
+		proyecto = $('proyectoTE3_edit_'+j).value;
+		tarea_id = $('tareaProyectoTableTDtareaId_'+j).value;
 		
 		for (var i=0;i<datatable2.rows.length;i++) {
 		
@@ -63,9 +63,9 @@ function llenarLista(resetear) {
 			
 				select_tareas.options[index] = new Option(nombre_tarea+'-'+descripcion_tarea, nombre_tarea); 
 				
-				if(tarea == tarea_id) {
+				if(tarea == tarea_id && !resetear) {
 					select_tareas.selectedIndex = index;
-					flag = false;											
+					flag = false;																
 				} else
 					flag = true;
 							
@@ -73,26 +73,31 @@ function llenarLista(resetear) {
 			}					
 		}		
 					
-		if(flag)
-			select_tareas.selectedIndex = 0;			
-
-		if (index < 2) {
-			$('tarea_proyecto1_'+j).hide();
+		//if(flag) {
+		//	select_tareas.selectedIndex = 0;			
+		//}			
+		if (index == 0) {
+			//$('tarea_proyecto1_'+j).hide();						
+			//select_tareas.style.display='none';
+			select_tareas.options[0] = new Option("El proyecto no posee tareas", 0); 			
 		} else {
-			$('tarea_proyecto1_'+j).appear();
-			flag2 = false					
+			//$('tarea_proyecto1_'+j).appear();
+			flag2 = false						
+			//select_tareas.style.display='';
 		}
-				
+		if(resetear){
+			
+		}		
 	}
 	
 	// Oculta el título de la columna "Tarea" en el Header de la tabla  
-	html = $('tareaProyectoHeaderTD').innerHTML.toLowerCase();
+	/*html = $('tareaProyectoHeaderTD').innerHTML.toLowerCase();
 	if(flag2) {
 		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+html.substring(html.indexOf('</b>'),html.length);
 	}
-	else {		
-		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+'Tarea'+html.substring(html.indexOf('</b>'),html.length);
-	}			
+	else
+		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+'Tarea'+html.substring(html.indexOf('</b>'),html.length);*/
+			
 }
 //-->
 </script>
