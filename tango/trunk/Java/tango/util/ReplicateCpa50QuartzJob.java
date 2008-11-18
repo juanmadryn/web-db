@@ -48,7 +48,7 @@ public class ReplicateCpa50QuartzJob implements Job {
 		Statement tangoSt = null, stMySql = null;
 		PreparedStatement pstMySql = null, pstMySql2 = null;
 		ResultSet r = null;
-		
+		getConnectionInfo();
 		try {
 			// Se carga el driver JTDS
 			Class.forName(driverTango);			
