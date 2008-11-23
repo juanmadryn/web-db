@@ -3,108 +3,11 @@
 	extends="com.salmonllc.jsp.JspServlet"%>
 <script src="javascripts/prototype.js" type="text/javascript"></script>
 <script src="javascripts/scriptaculous.js" type="text/javascript"></script>
-<script type="text/javascript">
-<!--
-function llenarLista(resetear) {
-	//dropdownlist de tareas 
-	var select_tareas;
-	//entero que cuenta la cantidad de tareas disponibles según el proyecto seleccionado	
-	var index;
-	//proyecto seleccionado con el lookup de proyectos	
-	var proyecto;
-	//tarea anteriormente persistida para el parte
-	var tarea_id;
-	//flag para determinar si una tarea es la que estaba seleccionada
-	var flag = true;
-	//flag para determinar si debo mostrar o no el título de la columna tarea en el header de la tabla 
-	var flag2 = true;	
-	//datatable auxiliar que contiene todas las tareas
-	var datatable2 = document.getElementById('datatable2');
-	// id de la tarea en la tabla auxiliar	
-	var tarea;
-	// nombre de la tarea en la tabla auxiliar
-	var nombre_tarea;
-	// descripcion de la tarea en la tabla auxiliar
-	var descripcion_tarea;
-	//proyecto de cada tarea en la tabla auxiliar	
-	var proyecto_tarea;
-		//cantidad de opciones de la dropdownlist de tareas 
-	var select_tareas_length;	
-	
-	for (var j=0;$('proyectoTE3_edit_'+j) != null;j++) {
-		select_tareas = $('tarea_proyecto1_'+j);		
-		index = 0;
-		//si modifiqué el proyecto, reseteo las opciones
-		if(resetear) {
-			select_tareas_length = $('tarea_proyecto1_'+j).length;
-			for(var l = select_tareas_length-1; l != 0; l--) {
-				select_tareas.remove(l);				
-			}			
-		}
-		 
-		proyecto = $('proyectoTE3_edit_'+j).value;
-		tarea_id = $('tareaProyectoTableTDtareaId_'+j).value;
-		
-		for (var i=0;i<datatable2.rows.length;i++) {
-		
-			proyecto_tarea = datatable2.rows[i].cells[2].innerHTML;
-			proyecto_tarea = proyecto_tarea.substring(proyecto_tarea.indexOf('>')+1,proyecto_tarea.lastIndexOf('<'));
-			
-			if(proyecto_tarea == proyecto) {
-		
-				nombre_tarea = datatable2.rows[i].cells[0].innerHTML;
-				nombre_tarea = nombre_tarea.substring(nombre_tarea.indexOf('>')+1,nombre_tarea.lastIndexOf('<'));
-		
-				descripcion_tarea = datatable2.rows[i].cells[1].innerHTML;
-				descripcion_tarea = descripcion_tarea.substring(descripcion_tarea.indexOf('>')+1,descripcion_tarea.lastIndexOf('<'));
-
-				tarea = datatable2.rows[i].cells[3].innerHTML;
-				tarea = tarea.substring(tarea.indexOf('>')+1,tarea.lastIndexOf('<'));
-			
-				select_tareas.options[index] = new Option(nombre_tarea+'-'+descripcion_tarea, nombre_tarea); 
-				
-				if(tarea == tarea_id && !resetear) {
-					select_tareas.selectedIndex = index;
-					flag = false;																
-				} else
-					flag = true;
-							
-				index = index + 1;			
-			}					
-		}		
-					
-		//if(flag) {
-		//	select_tareas.selectedIndex = 0;			
-		//}			
-		if (index == 0) {
-			//$('tarea_proyecto1_'+j).hide();						
-			//select_tareas.style.display='none';
-			select_tareas.options[0] = new Option("El proyecto no posee tareas", 0); 			
-		} else {
-			//$('tarea_proyecto1_'+j).appear();
-			flag2 = false						
-			//select_tareas.style.display='';
-		}
-		if(resetear){
-			
-		}		
-	}
-	
-	// Oculta el título de la columna "Tarea" en el Header de la tabla  
-	/*html = $('tareaProyectoHeaderTD').innerHTML.toLowerCase();
-	if(flag2) {
-		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+html.substring(html.indexOf('</b>'),html.length);
-	}
-	else
-		$('tareaProyectoHeaderTD').innerHTML = html.substring(0,html.indexOf('<b>')+3)+'Tarea'+html.substring(html.indexOf('</b>'),html.length);*/
-			
-}
-//-->
-</script>
+<script src="javascripts/utils.js" type="text/javascript"></script>
 <salmon:page
 	controller="partesMO.controllers.CargarPartesPlanoController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
-<salmon:form name="PageForm">
+<salmon:form name="PageForm" onsubmit="llenarVector();">
 	<%@include file="message.jsp"%>
 	</td>
 	<!-- ********************************************************************************************* -->
@@ -114,7 +17,7 @@ function llenarLista(resetear) {
 		model="partesMO.models.PartesMoModel" autoretrieve="Never">
 	</salmon:datasource>
 	<salmon:datasource name="dsTareas" type="MODEL" dbprofile="proyectos"
-		model="proyectos.models.TareasProyectoModel" autoretrieve="Always">
+		model="proyectos.models.TareasProyectoModel" autoretrieve="Always">		
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar código de la página aquí -->
@@ -232,7 +135,7 @@ function llenarLista(resetear) {
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="horasTE6" size="5" maxlength="5"
-								displayformat="##0.00" datasource="dsPartes:partes_mo.horas">
+								displayformat="##0.00" datasource="dsPartes:partes_mo.horas" onfocus="ver();">
 							</salmon:input>
 						</salmon:td>
 						<salmon:td>
