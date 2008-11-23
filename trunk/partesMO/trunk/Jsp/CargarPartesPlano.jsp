@@ -7,7 +7,7 @@
 <salmon:page
 	controller="partesMO.controllers.CargarPartesPlanoController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
-<salmon:form name="PageForm" onsubmit="llenarVector();">
+<salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
 	</td>
 	<!-- ********************************************************************************************* -->
