@@ -57,6 +57,16 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="param_mostrar_detalles" id="1386">
+            <property name="valueType">static</property>
+            <property name="dataType">boolean</property>
+            <property name="paramType">simple</property>
+            <property name="isRequired">false</property>
+            <property name="controlType">check-box</property>
+            <property name="defaultValue">true</property>
+            <property name="distinct">true</property>
+            <structure name="format"/>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source - partesmo" id="1215">
@@ -715,13 +725,16 @@ AND tareas.nombre LIKE ?</property>
                 <property name="repeat">1</property>
             </column>
             <column id="1293">
-                <property name="width">5%</property>
+                <property name="width">7%</property>
+                <property name="backgroundAttachment">scroll</property>
+                <property name="marginLeft">0pt</property>
+                <property name="canShrink">false</property>
             </column>
             <column id="1288">
-                <property name="width">12%</property>
+                <property name="width">11%</property>
             </column>
             <column id="103">
-                <property name="width">12%</property>
+                <property name="width">11%</property>
             </column>
             <header>
                 <row id="1375">
@@ -745,8 +758,15 @@ AND tareas.nombre LIKE ?</property>
                     <cell id="1377"/>
                     <cell id="1378">
                         <property name="fontWeight">bold</property>
+                        <property name="paddingTop">1pt</property>
                         <property name="textAlign">center</property>
+                        <property name="orphans">2</property>
                         <property name="verticalAlign">middle</property>
+                        <label id="1387">
+                            <property name="marginTop">0pt</property>
+                            <property name="paddingTop">1pt</property>
+                            <text-property name="text">Horas proyecto</text-property>
+                        </label>
                     </cell>
                     <cell id="1379">
                         <property name="fontWeight">bold</property>
@@ -782,6 +802,9 @@ AND tareas.nombre LIKE ?</property>
                         <property name="fontWeight">bold</property>
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
+                        <label id="1388">
+                            <text-property name="text">Horas tarea</text-property>
+                        </label>
                     </cell>
                     <cell id="1372">
                         <property name="fontWeight">bold</property>
@@ -801,6 +824,12 @@ AND tareas.nombre LIKE ?</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">medium</property>
                     <property name="textAlign">center</property>
+                    <list-property name="visibility">
+                        <structure>
+                            <property name="format">all</property>
+                            <expression name="valueExpr">params["param_mostrar_detalles"]==true?false:true</expression>
+                        </structure>
+                    </list-property>
                     <cell id="12">
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
@@ -821,7 +850,7 @@ AND tareas.nombre LIKE ?</property>
                         <property name="textAlign">center</property>
                         <property name="verticalAlign">middle</property>
                         <label id="1252">
-                            <text-property name="text">Horas</text-property>
+                            <text-property name="text">Horas parte</text-property>
                         </label>
                     </cell>
                     <cell id="1285">
@@ -932,6 +961,12 @@ AND tareas.nombre LIKE ?</property>
             <detail>
                 <row id="15">
                     <property name="verticalAlign">middle</property>
+                    <list-property name="visibility">
+                        <structure>
+                            <property name="format">all</property>
+                            <expression name="valueExpr">params["param_mostrar_detalles"]==true?false:true</expression>
+                        </structure>
+                    </list-property>
                     <cell id="16">
                         <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
