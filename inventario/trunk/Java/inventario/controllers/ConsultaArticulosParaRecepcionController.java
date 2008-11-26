@@ -3,12 +3,10 @@ package inventario.controllers;
 
 //Salmon import statements
 import infraestructura.controllers.BaseController;
-import infraestructura.controllers.Constants;
 import infraestructura.models.UsuarioRolesModel;
 import infraestructura.utils.BusquedaPorAtributo;
 import inventario.models.ArticulosCompradosModel;
 import inventario.models.DetalleRCModel;
-import inventario.models.OrdenesCompraModel;
 import inventario.models.RecepcionesComprasModel;
 
 import java.sql.SQLException;
