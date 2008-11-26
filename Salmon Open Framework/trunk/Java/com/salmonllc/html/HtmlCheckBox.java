@@ -35,6 +35,10 @@ import java.util.*;
  * This class is used to place a check box component on a page.
  */
 public class HtmlCheckBox extends HtmlFormComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9180409437542839213L;
 	private String _fontTagStart;
 	private String _fontTagEnd;
 	private String _onClick;
@@ -87,7 +91,7 @@ public HtmlCheckBox(String name, String theme, com.salmonllc.html.HtmlPage p, St
 	if (rowNo > -1)
 		name += "_" + rowNo;
 
-	String tag = "<INPUT TYPE=\"CHECKBOX\" NAME=\"" + name + "\"";
+	String tag = "<INPUT TYPE=\"CHECKBOX\" NAME=\"" + name + "\" ID=\"" + name + "\"";
 
      if ((! _enabled) && useDisabledAttribute())
          tag += " disabled=\"" + true + "\"";
@@ -158,7 +162,7 @@ public String getOnClick() {
 public String getTrueValue() {
 	return _trueValue;
 }
-public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+public boolean processParms(Hashtable<String, Object> parms, int rowNo) throws Exception {
 // fc: 10/18/02 Commented out the below lines as they are no longer required,
 //        since a better approach is to check to see if the field is contained in
 //        the form when submitted. see other change below

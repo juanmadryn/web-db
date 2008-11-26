@@ -443,6 +443,8 @@ public class JspLink extends JspContainer {
 
 		sb.append("<A NAME=\"" + getFullName() + row + "\" HREF=\"" + encodeURL(href) + "\"");
 
+		sb.append(" ID=\""+getFullName()+row+"\"");
+		
 		if (_target != null) {
 			sb.append(" TARGET=\"" + _target + "\"");
 		}
@@ -524,7 +526,7 @@ public class JspLink extends JspContainer {
 	 *
 	 * @throws Exception DOCUMENT ME!
 	 */
-	public boolean processParms(Hashtable parms, int rowNo)
+	public boolean processParms(Hashtable<String, Object>parms, int rowNo)
 			throws Exception {
 		if (super.processParms(parms, rowNo)) {
 			return true;
