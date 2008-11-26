@@ -2,7 +2,7 @@
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
 <script type="text/javascript">
-<!--
+
 function CheckAll(checked) {  
 	for ( var i=0; i<document.forms['PageForm'].elements.length; i++) { 
 		var e = document.forms['PageForm'].elements[i]; 
@@ -12,58 +12,6 @@ function CheckAll(checked) {
 	} 
 } 
 
-function mostrarOcultar()
-{		
-	try {
-	for ( var i=0; i<document.forms['PageForm'].elements.length; i++) { 
-		var e = document.forms['PageForm'].elements[i];		
-			if (e.name == "htmlPageTopContainer_PageForm_box1_table1_table1TRRow0_table1TDRow0_detailformdisplaybox1_proyectoTableTD_proyecto2__edit") { 
-						alert("Ver "+e.name);		
-			}		
-	} 
-	
-   if(document.getElementById('t1').style.display == "none")
-      document.getElementById('t1').style.display = "";
-   else
-      document.getElementById('t1').style.display = "none";
-      
-   } catch (e) {
-   	alert("Java Exception: " + e);
-   }
-}
-
-/**
-* Changes a dynamically generated list
-* @param string The name of the list to change
-* @param array A javascript array of list options in the form [key,value,text]
-* @param string The key to display
-* @param string The original key that was selected
-* @param string The original item value that was selected
-*/
-function changeDynaList(key) {
-       //var list = eval( 'document.PageForm.' + listname );
-
-       // empty the list
-       /*for (i in list.options.length) {
-               list.options[i] = null;
-       
-       i = 0;
-       for (x in source) {
-               if (source[x][0] == key) {
-                       opt = new Option();
-                       opt.value = source[x][1];
-                       opt.text = source[x][2];
-
-                       if ((orig_key == key && orig_val == opt.value) || i == 0) {
-                               opt.selected = true;
-                       }
-                       list.options[i++] = opt;
-               }
-       }
-       list.length = i;*/
-       alert(key);
-}
-//-->
 </script>
 <salmon:page
 	controller="inventario.controllers.AbmcSolicitudCompraController" />
