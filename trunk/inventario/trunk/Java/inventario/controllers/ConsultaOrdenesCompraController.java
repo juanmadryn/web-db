@@ -86,6 +86,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 	public com.salmonllc.jsp.JspLink _lnkRecepciones1;
 	public com.salmonllc.jsp.JspLink _lnkReporteRecepciones;
 	public com.salmonllc.html.HtmlLookUpComponent _proyecto2;
+	public com.salmonllc.jsp.JspLink _imprimirReporteBUT2;
 
 	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
@@ -391,6 +392,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			// Links recepciones
 			_lnkRecepciones1.setVisible(true);
 			_lnkReporteRecepciones.setVisible(true);
+			_imprimirReporteBUT2.setVisible(true);
 
 			// setea la URL del reporte a generar al presionar el botón de
 			// impresión
@@ -398,11 +400,14 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 					"&param_orden_compra_id="
 							+ _dsOrdenes.getOrdenesCompraOrdenCompraId());
 			_lnkReporteRecepciones.setHref(URL);
-
+			
+			URL = armarUrlReporte("PDF", "resumen_pendientes_oc", "&param_orden_compra_id="+_dsOrdenes.getOrdenesCompraOrdenCompraId());
+			_imprimirReporteBUT2.setHref(URL);
 		} else {
 			_nroOcTangoTr.setVisible(false);
 			_lnkRecepciones1.setVisible(false);
 			_lnkReporteRecepciones.setVisible(false);
+			_imprimirReporteBUT2.setVisible(false);
 		}
 
 		super.pageRequested(event);

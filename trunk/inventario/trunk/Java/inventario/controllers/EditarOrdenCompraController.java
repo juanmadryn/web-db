@@ -731,12 +731,14 @@ public class EditarOrdenCompraController extends BaseEntityController implements
 		_proveedor2.setEnabled(ifModificable);
 		_fecha_estimada_entrega2.setEnabled(ifModificable);
 		_lkpCondicionesCompra.setEnabled(ifModificable);
-		_descuentoGlobal2.setEnabled(ifModificable);		
+		_descuentoGlobal2.setEnabled(ifModificable);
+		_buttonCopiaDescuento.setEnabled(ifModificable);
 		_descuento2.setEnabled(ifModificable);
 		_observaciones2.setEnabled(ifModificable);
 		_cantidad_pedida2.setEnabled(ifModificable);
 		_unidad_medida2.setEnabled(ifModificable);
 		_monto_unitario1.setEnabled(ifModificable);
+		
 		
 		// links para impresion
 		boolean isEmitida = "0008.0006".equalsIgnoreCase(_dsOrdenesCompra.getOrdenesCompraEstado());
