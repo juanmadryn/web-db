@@ -71,8 +71,7 @@ public class JspTableCell extends JspContainer {
 
 		if (getVertAlign() != null)
 			if (!getVertAlign().equals(HtmlTable.VALIGN_NONE))
-				sb.append(" VALIGN=\"" + getVertAlign() + "\"");
-
+				sb.append(" VALIGN=\"" + getVertAlign() + "\"");		
 		String bgColor = "";
 		if (getBackgroundColor() != null) {
 			if (!getBackgroundColor().equals("")) 

@@ -502,7 +502,7 @@ public class HtmlTextEdit extends HtmlFormComponent
         writeFocusScript(p, rowNo);
     }
 
-    public boolean processParms(Hashtable<String, Object>parms, int rowNo)
+    public boolean processParms(Hashtable parms, int rowNo)
                          throws Exception
     {
         // fc: 07/17/02 Commented out the below lines as they are no longer required,
