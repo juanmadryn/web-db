@@ -6,28 +6,29 @@
 <script type="text/javascript">
 <!--
 function cambiarURL() {	
-	var a_reporte1_pdf = document.getElementsByName('htmlPageTopContainer_reporte1BUT1')[0];
-	var a_reporte1_xls = document.getElementsByName('htmlPageTopContainer_reporte1BUT2')[0];
-	var a_reporte2_pdf = document.getElementsByName('htmlPageTopContainer_reporte2BUT1')[0];
-	var a_reporte2_xls = document.getElementsByName('htmlPageTopContainer_reporte2BUT2')[0];
-	
-	var fecha_desde = document.getElementsByName('htmlPageTopContainer_calendar_fechadesde2')[0];
-	var fecha_hasta = document.getElementsByName('htmlPageTopContainer_calendar_fechahasta2')[0];
+	var a_reporte1_pdf = $('htmlPageTopContainer_reporte1BUT1');
+	var a_reporte1_xls = $('htmlPageTopContainer_reporte1BUT2');
+	var a_reporte2_pdf = $('htmlPageTopContainer_reporte2BUT1');
+	var a_reporte2_xls = $('htmlPageTopContainer_reporte2BUT2');
+	var fecha_desde = $('calendarfechadesde2');
+	var fecha_hasta = $('calendarfechahasta2');
 	fecha_desde = fecha_desde.value.substring(6,10)+'-'+fecha_desde.value.substring(3,5)+'-'+fecha_desde.value.substring(0,2);
 	fecha_hasta = fecha_hasta.value.substring(6,10)+'-'+fecha_hasta.value.substring(3,5)+'-'+fecha_hasta.value.substring(0,2);
 	
 	
-	var parametros = '&param_fecha_desde='+fecha_desde+'&param_fecha_hasta='+fecha_hasta
+	var parametros = '&param_fecha_desde='+fecha_desde+'&param_fecha_hasta='+fecha_hasta;
 	if(fecha_desde.length < 10 || fecha_hasta.length < 10)
 		parametros = '';
 	
-	var proyecto = document.getElementsByName('htmlPageTopContainer_calendar_proyecto2')[0].value;
+	var proyecto = $('calendarproyecto2').value;
 	if (proyecto.length > 0)
 		parametros = parametros + '&param_proyecto='+proyecto;
 
-	var tarea = document.getElementsByName('htmlPageTopContainer_calendar_tarea2')[0].value;
+	var tarea = $('calendartarea2').value;
 	if (tarea.length > 0)
-		parametros = parametros + '&param_tarea='+tarea;		
+		parametros = parametros + '&param_tarea='+tarea;
+		
+	parametros = parametros +'&param_mostrar_detalles='+$('htmlPageTopContainer_calendar_muestraDetalle2').checked;
 	
 	a_reporte1_pdf.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace3\\partesmo\\Reportes\\partesmo_por_fecha.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=pdf&__toolbar=true'+parametros;
 	a_reporte1_xls.href = 'http://localhost:8080/birt/run?__report=C:\\Documents+and+Settings\\Administrador\\workspace3\\partesmo\\Reportes\\partesmo_por_fecha.rptdesign&__navigation=auto&__frame=true&__locale=null&__format=xls&__toolbar=true'+parametros;
@@ -84,6 +85,14 @@ function cambiarURL() {
 							<td><salmon:input type="text" name="tarea2" size="10"
 								maxlength="10"></salmon:input></td>
 						</tr>
+						<tr>
+							<td><salmon:text name="muestraDetalle1" text="Mostrar detalles"
+								font="TableHeadingFont" /></td>
+							<td><salmon:input type="checkbox" name="muestraDetalle2"
+								checkedtruevalue="1"></salmon:input></td>
+							<td></td>
+							<td></td>
+						</tr>
 					</table>
 				</salmon:container></td>
 			</tr>
@@ -126,7 +135,7 @@ function cambiarURL() {
 							srclocalekey="bannerImageSource" />
 					</salmon:a></td>
 				</tr>
-				<td>Horas de Mano de Obra por Proyecto/Tarea</td>
+				<td>Horas de Mano de Obra por Proyecto/Tarea </td> 
 				<td align="center"><salmon:a href="" target="_blank"
 					name="reporte2BUT1" onclick="cambiarURL();" title="PDF">
 					<salmon:text name="reporte1TXT2" text="PDF" />
