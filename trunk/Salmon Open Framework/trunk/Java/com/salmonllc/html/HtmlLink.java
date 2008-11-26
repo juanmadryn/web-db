@@ -202,6 +202,9 @@ public class HtmlLink extends HtmlContainer {
         sbOut.append("<A NAME=\"");
         sbOut.append(getFullName());
         sbOut.append(row);
+        sbOut.append("\" ID=\"");
+        sbOut.append(getFullName());
+        sbOut.append(row);
         sbOut.append("\" HREF=\"");
         sbOut.append(encodeURL(href));
         sbOut.append('"');
