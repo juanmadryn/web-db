@@ -364,8 +364,13 @@ public class HtmlTextEdit extends HtmlFormComponent
         {
             name += ("_" + rowNo);
         }
+        
+        String row = "";
+        if (rowNo != -1) {
+			row = "_" + row + new Integer(rowNo).toString();
+		}
 
-        String tag = "<INPUT TYPE=\"TEXT\" NAME=\"" + name + "\" ID=\"" + getParent().getName()+getName()+"_" + rowNo + "\"";        
+        String tag = "<INPUT TYPE=\"TEXT\" NAME=\"" + name + "\" ID=\"" + getParent().getName()+getName()+ row + "\"";        
 
         if (_onKeyUp != null)
         {
