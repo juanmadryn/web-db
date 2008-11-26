@@ -453,7 +453,7 @@ public class HtmlText extends HtmlComponent {
 		return _theme;
 	}
 
-	public boolean processParms(java.util.Hashtable<String, Object> h, int row) {
+	public boolean processParms(java.util.Hashtable h, int row) {
 		return false;
 	}
 

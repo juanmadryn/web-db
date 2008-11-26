@@ -437,7 +437,7 @@ public class HtmlLink extends HtmlContainer {
     /**
      * This method will process the parms from a post for every component in the container.
      */
-    public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
+    public boolean processParms(Hashtable parms, int rowNo) throws Exception {
         if (super.processParms(parms, rowNo))
             return true;
 

@@ -883,7 +883,7 @@ public class JspDataTable extends JspContainer implements ImageGenerator {
         return pageNo == currentPage;
     }
 
-    public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
+    public boolean processParms(Hashtable parms, int rowNo) throws Exception {
         if (!getVisible())
             return false;
 

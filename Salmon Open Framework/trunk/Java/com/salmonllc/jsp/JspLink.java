@@ -526,7 +526,7 @@ public class JspLink extends JspContainer {
 	 *
 	 * @throws Exception DOCUMENT ME!
 	 */
-	public boolean processParms(Hashtable<String, Object>parms, int rowNo)
+	public boolean processParms(Hashtable parms, int rowNo)
 			throws Exception {
 		if (super.processParms(parms, rowNo)) {
 			return true;

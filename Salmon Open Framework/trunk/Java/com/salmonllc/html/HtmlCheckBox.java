@@ -162,7 +162,7 @@ public String getOnClick() {
 public String getTrueValue() {
 	return _trueValue;
 }
-public boolean processParms(Hashtable<String, Object> parms, int rowNo) throws Exception {
+public boolean processParms(Hashtable parms, int rowNo) throws Exception {
 // fc: 10/18/02 Commented out the below lines as they are no longer required,
 //        since a better approach is to check to see if the field is contained in
 //        the form when submitted. see other change below

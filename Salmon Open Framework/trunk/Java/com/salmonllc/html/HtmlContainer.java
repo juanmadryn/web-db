@@ -242,7 +242,7 @@ public class HtmlContainer extends HtmlComponent {
 		}
 		comp.setParent(this);
 	}
-	public boolean processParms(Hashtable<String, Object> parms, int rowNo) throws Exception {
+	public boolean processParms(Hashtable parms, int rowNo) throws Exception {
 		String compName = null;
 		try {
 			if (!getVisible())

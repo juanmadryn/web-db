@@ -570,7 +570,7 @@ public class HtmlTable extends HtmlContainer {
 		_componentsVec2D.insertRow(row);
 	}
 
-	public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
+	public boolean processParms(Hashtable parms, int rowNo) throws Exception {
 		if (!getVisible())
 			return false;
 		boolean retVal = false;
