@@ -1,7 +1,8 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
-<salmon:page controller="inventario.controllers.ConsultaOrdenesCompraController" />
+<salmon:page
+	controller="inventario.controllers.ConsultaOrdenesCompraController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
 <salmon:form name="PageForm">
 	<%@include file="message.jsp"%>
@@ -22,9 +23,8 @@
 		<salmon:qbecriteria name="proveedor" type="IN"
 			columns="ordenes_compra.entidad_id_proveedor" />
 	</salmon:datasource>
-	<salmon:datasource name="dsOrdenes" type="MODEL"
-		dbprofile="inventario" model="inventario.models.OrdenesCompraModel"
-		autoretrieve="Never">
+	<salmon:datasource name="dsOrdenes" type="MODEL" dbprofile="inventario"
+		model="inventario.models.OrdenesCompraModel" autoretrieve="Never">
 	</salmon:datasource>
 	<!-- ********************************************************************************************** -->
 	<!-- Agregar código de la página aquí 																-->
@@ -45,10 +45,9 @@
 								<td><salmon:input name="n2" type="text"
 									datasource="dsQBE:nroOc">
 								</salmon:input></td>
-								<td><salmon:text name="nroOrdenTango1" text="N° Orden Tango"
-									font="TableHeadingFont" /></td>
-								<td>
-									<salmon:input name="nroOrdenTango2" type="text"></salmon:input>
+								<td><salmon:text name="nroOrdenTango1"
+									text="N° Orden Tango" font="TableHeadingFont" /></td>
+								<td><salmon:input name="nroOrdenTango2" type="text"></salmon:input>
 								</td>
 							</tr>
 							<tr>
@@ -60,67 +59,62 @@
 										table="infraestructura.estados" criteria="circuito='0008'"
 										keycolumn="estado" displaycolumn="nombre" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
-									</salmon:input></td>
+								</salmon:input></td>
 								<td><salmon:text name="proveedor1" text="Proveedor"
 									font="TableHeadingFont" /></td>
-								<td>
-									<salmon:lookup
-										browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpProveedores" name="proveedor2" size="6"
-										maxlength="10" datasource="dsQBE:proveedor"
-										popupheight="450" popupwidth="500" 
-										usepopup="true" showdescription="true"></salmon:lookup>								
+								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpProveedores" name="proveedor2" size="6"
+									maxlength="10" datasource="dsQBE:proveedor" popupheight="450"
+									popupwidth="500" usepopup="true" showdescription="true"></salmon:lookup>
 								</td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesde1" text="Fecha desde"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="fechadesde2" size="10"
-									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>									
+									datasource="dsQBE:desde" maxlength="10"></salmon:input></td>
 								<td><salmon:text name="fechahasta1" text="Fecha hasta"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="fechahasta2" size="10"
-									datasource="dsQBE:hasta"
-									maxlength="10"></salmon:input></td>																
+									datasource="dsQBE:hasta" maxlength="10"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="comprador1" text="Comprador"
 									font="TableHeadingFont" /></td>
-								<td><salmon:input type="select"
-									name="comprador2" size="30" datasource="dsQBE:comprador"
-									maxlength="50">
+								<td><salmon:input type="select" name="comprador2" size="30"
+									datasource="dsQBE:comprador" maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.compradores" keycolumn="user_id"
-										displaycolumn="nombre_completo" nulloption="true" 
+										displaycolumn="nombre_completo" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 								<td><salmon:text name="solicitante1" text="Solicitante"
 									font="TableHeadingFont" /></td>
-								<td><salmon:input type="select"
-									name="solicitante2" size="30" maxlength="50">
+								<td><salmon:input type="select" name="solicitante2"
+									size="30" maxlength="50">
 									<salmon:option display="abc" key="123"
 										table="inventario.solicitantes" keycolumn="user_id"
-										displaycolumn="nombre_completo" nulloption="true" 
+										displaycolumn="nombre_completo" nulloption="true"
 										nulloptiontext="Todos"></salmon:option>
 								</salmon:input></td>
 							</tr>
 							<tr>
-							<td><salmon:text name="proyecto1" text="Proyecto"
+								<td><salmon:text name="proyecto1" text="Proyecto"
 									font="TableHeadingFont" /></td>
 								<td><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
-										lookupurl="%LkpProyectos" name="proyecto2" size="15"
-										maxlength="15"																				
-										popupheight="450" popupwidth="500" usepopup="TRUE"
-										showdescription="TRUE"></salmon:lookup></td>
+									lookupurl="%LkpProyectos" name="proyecto2" size="15"
+									maxlength="15" popupheight="450" popupwidth="500"
+									usepopup="TRUE" showdescription="TRUE"></salmon:lookup></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
 				</salmon:td>
 				<salmon:td valign="Top">
-					<salmon:detailformdisplaybox name="detailformdisplaybox1" 
-						addbuttonvisible="false" cancelbuttonvisible="false" savebuttonvisible="false" deletebuttonvisible="false"
-						caption="Detalle de Orden de Compra" datasource="dsOrdenes" width="100%"
-						listformdisplaybox="listformdisplaybox1"
+					<salmon:detailformdisplaybox name="detailformdisplaybox1"
+						addbuttonvisible="false" cancelbuttonvisible="false"
+						savebuttonvisible="false" deletebuttonvisible="false"
+						caption="Detalle de Orden de Compra" datasource="dsOrdenes"
+						width="100%" listformdisplaybox="listformdisplaybox1"
 						headerbgcolor="#fffd99" bgcolor="fffdce">
 						<salmon:table width="100%" name="table1">
 							<tr>
@@ -128,7 +122,7 @@
 									font="TableHeadingFont" /></td>
 								<td><salmon:text name="numero2" text=""
 									datasource="dsOrdenes:ordenes_compra.orden_compra_id"></salmon:text></td>
-							</tr>							
+							</tr>
 							<salmon:tr name="nroOcTangoTr">
 								<td><salmon:text name="numeroTango1" text="Nro. OC Tango"
 									font="TableHeadingFont" /></td>
@@ -137,55 +131,62 @@
 							<tr>
 								<td><salmon:text name="observacion1" text="Observaciones"
 									font="TableHeadingFont" /></td>
-								<td><salmon:text name="observacion2" text="" 
+								<td><salmon:text name="observacion2" text=""
 									datasource="dsOrdenes:ordenes_compra.observaciones"></salmon:text></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="proveedorNombre1"
-									text="Proveedor" font="TableHeadingFont" /></td>
-								<td><salmon:text name="proveedorNombre2"
-									text="" datasource="dsOrdenes:entidad_externa.codigo + ' - ' + entidad_externa.nombre"></salmon:text></td>
+								<td><salmon:text name="proveedorNombre1" text="Proveedor"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="proveedorNombre2" text=""
+									datasource="dsOrdenes:entidad_externa.codigo + ' - ' + entidad_externa.nombre"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="nombre_completo_comprador1"
 									text="Comprador" font="TableHeadingFont" /></td>
-								<td><salmon:text name="nombre_completo_comprador2"
-									text="" datasource="dsOrdenes:nombre_completo_comprador"></salmon:text></td>
-							</tr>							
+								<td><salmon:text name="nombre_completo_comprador2" text=""
+									datasource="dsOrdenes:nombre_completo_comprador"></salmon:text></td>
+							</tr>
 							<tr>
-								<td><salmon:text name="fecha1"
-									text="Fecha de solicitud" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha2" text="" displayformatlocalekey="DateTimeFormat"
+								<td><salmon:text name="fecha1" text="Fecha de solicitud"
+									font="TableHeadingFont" /></td>
+								<td><salmon:text name="fecha2" text=""
+									displayformatlocalekey="DateTimeFormat"
 									datasource="dsOrdenes:ordenes_compra.fecha"></salmon:text></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fecha_estimada_entrega1"
 									text="Fecha estimada de entrega" font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_estimada_entrega2" text="" displayformatlocalekey="DateFormat"
+								<td><salmon:text name="fecha_estimada_entrega2" text=""
+									displayformatlocalekey="DateFormat"
 									datasource="dsOrdenes:ordenes_compra.fecha_estimada_entrega"></salmon:text></td>
 							</tr>
 							<tr>
-								<td><salmon:text name="fecha_entrega_completa1" text="Fecha de entrega completa"
-									font="TableHeadingFont" /></td>
-								<td><salmon:text name="fecha_entrega_completa2" text="" displayformatlocalekey="DateFormat" 
+								<td><salmon:text name="fecha_entrega_completa1"
+									text="Fecha de entrega completa" font="TableHeadingFont" /></td>
+								<td><salmon:text name="fecha_entrega_completa2" text=""
+									displayformatlocalekey="DateFormat"
 									datasource="dsOrdenes:ordenes_compra.fecha_entrega_completa"></salmon:text></td>
 							</tr>
 							<tr>
-								<td colspan="2" align="center">
-									<salmon:a href="none" name="lnkRecepciones1"
-										onclick="document.forms['bannerForm'].submit();"
-										datasource="dsOrdenes:'%ConsultaArticulosParaRecepcion?orden_compra_id='+ordenes_compra.orden_compra_id">
-										<salmon:text name="recepcionesPendientes" text="Recepciones pendientes" />
-									</salmon:a>
-								</td>								
-							</tr>							
+								<td colspan="2" align="center"><salmon:a href="none"
+									name="lnkRecepciones1"
+									onclick="document.forms['bannerForm'].submit();"
+									datasource="dsOrdenes:'%ConsultaArticulosParaRecepcion?orden_compra_id='+ordenes_compra.orden_compra_id">
+									<salmon:text name="recepcionesPendientes"
+										text="Recepciones pendientes" />
+								</salmon:a> <salmon:a href="" target="_blank" name="imprimirReporteBUT2"
+									onclick="document.forms['bannerForm'].submit();">
+									<salmon:img name="imprimirTXT2" src="%ImageDirectory/pdf.jpg"
+										height="25" srclocalekey="bannerImageSource" />
+								</salmon:a></td>
+							</tr>
 							<tr>
-								<td colspan="2" align="center">
-									<salmon:a href="none" name="lnkReporteRecepciones"
-										onclick="document.forms['bannerForm'].submit();">
-										<salmon:text name="articulosRecepcionados" text="Artículos recepcionados" />
-									</salmon:a>
-								</td>								
+								<td colspan="2" align="center"><salmon:a href="none"
+									name="lnkReporteRecepciones"
+									onclick="document.forms['bannerForm'].submit();">
+									<salmon:text name="articulosRecepcionados"
+										text="Artículos recepcionados" />
+								</salmon:a></td>
 							</tr>
 						</salmon:table>
 					</salmon:detailformdisplaybox>
@@ -208,11 +209,11 @@
 						<salmon:td>
 							<salmon:text name="descripcionCAP4" text="Comprador"
 								font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fechaCAP5" text="Fecha"
 								font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fechaCAP6" text="Fecha Aprobación"
 								font="TableHeadingFont" />
@@ -220,7 +221,7 @@
 						<salmon:td>
 							<salmon:text name="clienteCAP5" text="Observaciones"
 								font="TableHeadingFont" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="estadoCAP5" text="Estado"
 								font="TableHeadingFont" />
@@ -240,7 +241,7 @@
 							<salmon:text name="solicitante_nombreTXT3"
 								text="solicitante Goes Here" font="DefaultFont"
 								datasource="dsOrdenes:nombre_completo_comprador" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fechaTXT4" text="fecha Goes Here"
 								font="DefaultFont" displayformatlocalekey="DateTimeFormat"
@@ -255,7 +256,7 @@
 							<salmon:text name="descripcionTXT2" text="descripcion Goes Here"
 								font="DefaultFont"
 								datasource="dsOrdenes:ordenes_compra.observaciones" />
-						</salmon:td>						
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="estadoTXT3" text="estado Goes Here"
 								font="DefaultFont" datasource="dsOrdenes:estados.nombre" />
