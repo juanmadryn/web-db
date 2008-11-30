@@ -27,22 +27,25 @@ import com.salmonllc.util.MessageLog;
 /**
  * ControlRelojesPartesController: a SOFIA generated controller
  */
-public class ControlRelojesPartesController extends BaseController implements ValueChangedListener {
+public class ControlRelojesPartesController extends BaseController implements
+		ValueChangedListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5466704678964409448L;
 	// Visual Components
-	/*public com.salmonllc.html.HtmlImage _bannerDividerImage;
-	public com.salmonllc.html.HtmlImage _bannerDivImage2;
-	public com.salmonllc.html.HtmlImage _imgMainLogo;*/	
+	/*
+	 * public com.salmonllc.html.HtmlImage _bannerDividerImage; public
+	 * com.salmonllc.html.HtmlImage _bannerDivImage2; public
+	 * com.salmonllc.html.HtmlImage _imgMainLogo;
+	 */
 	public com.salmonllc.html.HtmlText _fechahastaCAP2;
 	public com.salmonllc.html.HtmlText _apeynomTE12;
 	public com.salmonllc.html.HtmlText _guionTE12;
 	public com.salmonllc.html.HtmlText _horasCAP13;
 	public com.salmonllc.html.HtmlText _horasrelojCAP14;
-	public com.salmonllc.html.HtmlText _horasrelojTE14;	
+	public com.salmonllc.html.HtmlText _horasrelojTE14;
 	public com.salmonllc.html.HtmlText _estadoCAP19;
 	public com.salmonllc.html.HtmlDropDownList _estadoTE19;
 	public com.salmonllc.html.HtmlText _obsvTE15;
@@ -59,24 +62,26 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	public com.salmonllc.html.HtmlText _text1Footer;
 	public com.salmonllc.html.HtmlText _text2Footer;
 	public com.salmonllc.html.HtmlText _text3Footer;
-	/*public com.salmonllc.html.HtmlText _txtBannerOptions;
-	public com.salmonllc.html.HtmlText _welcomeText;*/
+	/*
+	 * public com.salmonllc.html.HtmlText _txtBannerOptions; public
+	 * com.salmonllc.html.HtmlText _welcomeText;
+	 */
 	public com.salmonllc.html.HtmlTextEdit _fechahastaTE2;
 	public com.salmonllc.html.HtmlTextEdit _fechadesdeTE1;
 	public com.salmonllc.jsp.JspBox _box1;
 	public com.salmonllc.jsp.JspBox _box2;
 	public com.salmonllc.jsp.JspContainer _welcomeContainer;
 	public com.salmonllc.jsp.JspDataTable _datatable2;
-	//public com.salmonllc.jsp.JspDisplayBox _displaybox1;
+	// public com.salmonllc.jsp.JspDisplayBox _displaybox1;
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
-	/*public com.salmonllc.jsp.JspForm _bannerForm;*/
+	/* public com.salmonllc.jsp.JspForm _bannerForm; */
 	public com.salmonllc.jsp.JspForm _pageForm;
 	public com.salmonllc.jsp.JspLink _baseLinkAdminSalmon;
 	public com.salmonllc.jsp.JspLink _footerInfDevAbout;
 	public com.salmonllc.jsp.JspLink _footerproyectosHelp;
 	public com.salmonllc.jsp.JspLink _footerSalmonLink;
 	public com.salmonllc.jsp.JspLink _footerSofiaLink;
-	/*public com.salmonllc.jsp.JspLink _lnkBannerOptions;*/
+	/* public com.salmonllc.jsp.JspLink _lnkBannerOptions; */
 	public com.salmonllc.jsp.JspListFormDisplayBox _listformdisplaybox1;
 	public com.salmonllc.jsp.JspTable _tableFooter;
 	public com.salmonllc.jsp.JspTableCell _datatable2TDHeader0;
@@ -124,80 +129,101 @@ public class ControlRelojesPartesController extends BaseController implements Va
 	public static final String DSPERIODO_HASTA = "hasta";
 
 	// Componentes visuales custom
-	public com.salmonllc.html.HtmlSubmitButton _buscarBUT16;	
+	public com.salmonllc.html.HtmlSubmitButton _buscarBUT16;
 	public com.salmonllc.html.HtmlCheckBox _seleccionParte;
 	public com.salmonllc.html.HtmlText _selParteCAP18;
 	public com.salmonllc.html.HtmlSubmitButton _generaResumenBUT;
-	
+
+	public com.salmonllc.html.HtmlSubmitButton _corregirPartesBUT;
 	public com.salmonllc.html.HtmlSubmitButton _validarParteBUT10;
 	public com.salmonllc.html.HtmlSubmitButton _seleccionaTodoBUT13;
 	public com.salmonllc.html.HtmlSubmitButton _desSeleccionaTodoBUT14;
-	
+
 	// Custom
 	private DBConnection conexion = null;
 	private static int HIDEBUTTONS = -1;
 	private static int SHOWBUTTONS = 1;
-	
+
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
 	 * activities.
 	 */
 	public void initialize() throws Exception {
 		super.initialize();
-		
-		_buscarBUT16 = new HtmlSubmitButton("buscarBUT16","Buscar",this);
+
+		_buscarBUT16 = new HtmlSubmitButton("buscarBUT16", "Buscar", this);
 		_buscarBUT16.setAccessKey("b");
 		_searchformdisplaybox1.addButton(_buscarBUT16);
-		
-		_validarParteBUT10 = new HtmlSubmitButton("validarParteBUT10","Validar",this);
-		_listformdisplaybox1.addButton(_validarParteBUT10);
 
-		_seleccionaTodoBUT13 = new HtmlSubmitButton("seleccionaTodoBUT13","Seleccionar",this);
-		_listformdisplaybox1.addButton(_seleccionaTodoBUT13);
-		
-		_desSeleccionaTodoBUT14 = new HtmlSubmitButton("desSeleccionaTodoBUT14","Deseleccionar",this);
-		_listformdisplaybox1.addButton(_desSeleccionaTodoBUT14);
-		
-		_generaResumenBUT = new HtmlSubmitButton("generaResumenBUT","Generar Resumen",this);		
+		_generaResumenBUT = new HtmlSubmitButton("generaResumenBUT",
+				"Generar Resumen", this);
 		_generaResumenBUT.setAccessKey("v");
 		_searchformdisplaybox1.addButton(_generaResumenBUT);
-		
+
+		_corregirPartesBUT = new HtmlSubmitButton("corregirPartesBUT",
+				"Corregir partes", this);
+		_listformdisplaybox1.addButton(_corregirPartesBUT);
+
+		_validarParteBUT10 = new HtmlSubmitButton("validarParteBUT10", "Validar",
+				this);
+		_listformdisplaybox1.addButton(_validarParteBUT10);
+
+		_seleccionaTodoBUT13 = new HtmlSubmitButton("seleccionaTodoBUT13",
+				"Seleccionar", this);
+		_listformdisplaybox1.addButton(_seleccionaTodoBUT13);
+
+		_desSeleccionaTodoBUT14 = new HtmlSubmitButton("desSeleccionaTodoBUT14",
+				"Deseleccionar", this);
+		_listformdisplaybox1.addButton(_desSeleccionaTodoBUT14);
+
 		_estadoTE19.resetOptions();
-		_estadoTE19.addOption(_dsResHor.conErroresInClause(),"Partes con errores");
-		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_ERROR),ResumenHorasRelojModel.PARTES_ERROR_MSG);
-		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_SIN_FICHADA),ResumenHorasRelojModel.PARTES_SIN_FICHADA_MSG);
-		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.FICHADA_SIN_PARTES),ResumenHorasRelojModel.FICHADA_SIN_PARTES_MSG);
-		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_OK),ResumenHorasRelojModel.PARTES_OK_MSG);		
-		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_VAL),ResumenHorasRelojModel.PARTES_VAL_MSG);
-		_estadoTE19.addOption(_dsResHor.todosInClause(),"Todos los resultados");
-		
+		_estadoTE19.addOption(_dsResHor.conErroresInClause(),
+				"Partes con errores");
+		_estadoTE19.addOption(
+				String.valueOf(ResumenHorasRelojModel.PARTES_ERROR),
+				ResumenHorasRelojModel.PARTES_ERROR_MSG);
+		_estadoTE19.addOption(String
+				.valueOf(ResumenHorasRelojModel.PARTES_SIN_FICHADA),
+				ResumenHorasRelojModel.PARTES_SIN_FICHADA_MSG);
+		_estadoTE19.addOption(String
+				.valueOf(ResumenHorasRelojModel.FICHADA_SIN_PARTES),
+				ResumenHorasRelojModel.FICHADA_SIN_PARTES_MSG);
+		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_OK),
+				ResumenHorasRelojModel.PARTES_OK_MSG);
+		_estadoTE19.addOption(String.valueOf(ResumenHorasRelojModel.PARTES_VAL),
+				ResumenHorasRelojModel.PARTES_VAL_MSG);
+		_estadoTE19.addOption(_dsResHor.todosInClause(), "Todos los resultados");
+
 		addPageListener(this);
 		_generaResumenBUT.addSubmitListener(this);
-		_buscarBUT16.addSubmitListener(this);		
+		_buscarBUT16.addSubmitListener(this);
+		_corregirPartesBUT.addSubmitListener(this);
 		_validarParteBUT10.addSubmitListener(this);
 		_seleccionaTodoBUT13.addSubmitListener(this);
 		_desSeleccionaTodoBUT14.addSubmitListener(this);
 		// validar fecha antes de ser enviada al DataStore
-		_fechadesdeTE1.addValueChangedListener(this);		
-		_fechahastaTE2.addValueChangedListener(this);	
-				
+		_fechadesdeTE1.addValueChangedListener(this);
+		_fechahastaTE2.addValueChangedListener(this);
+
 		_dsPeriodo.reset();
-		_dsPeriodo.insertRow();				
-		seteaPeriodo(); // valores por defecto para el periodo de fechas		
+		_dsPeriodo.insertRow();
+		seteaPeriodo(); // valores por defecto para el periodo de fechas
 		_dsPeriodo.gotoFirst();
-		
-		_dsPartes = new partesMO.models.PartesMoModel(getApplicationName(),"partesmo");		
+
+		_dsPartes = new partesMO.models.PartesMoModel(getApplicationName(),
+				"partesmo");
 		// Agrega columna de seleccion al datasource de resumen de horas
 		_dsResHor.addBucket(SELECCION_RESUMEN_FLAG, DataStore.DATATYPE_INT);
 		_seleccionParte.setColumn(_dsResHor, SELECCION_RESUMEN_FLAG);
 		_seleccionParte.setFalseValue(null);
-		
+
 		seteaBotones(HIDEBUTTONS);
-	} 
-	
+	}
+
 	/**
 	 * Setea el periodo por defecto para el rango de fechas
-	 * @throws DataStoreException 
+	 * 
+	 * @throws DataStoreException
 	 */
 	public void seteaPeriodo() throws DataStoreException {
 		GregorianCalendar cal = new GregorianCalendar();
@@ -205,16 +231,17 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		cal.set(Calendar.MINUTE, 0);
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
-				
+
 		java.sql.Date today = new java.sql.Date(cal.getTimeInMillis());
 		_dsPeriodo.setDate("hasta", today);
-		_dsPeriodo.setDate("desde", today);		
+		_dsPeriodo.setDate("desde", today);
 	}
 
 	/**
 	 * Process the given submit event
 	 * 
-	 * @param event the submit event to be processed
+	 * @param event
+	 *           the submit event to be processed
 	 * @return true to continue processing events, false to stop processing
 	 *         events
 	 * @throws Exception
@@ -223,40 +250,54 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		String whereFecha = " fecha between '"
 				+ _dsPeriodo.getDate("desde").toString() + "' and '"
 				+ _dsPeriodo.getDate("hasta").toString() + "'";
-		
+
 		// chequeo las fechas
-		if (_dsPeriodo.getDate("hasta").compareTo(_dsPeriodo.getDate("desde")) < 0 )  {
+		if (_dsPeriodo.getDate("hasta").compareTo(_dsPeriodo.getDate("desde")) < 0) {
 			displayErrorMessage("Error Controlando Relojes: combinación de fechas inválida");
 			return false;
 		}
-		
+
 		// marca todos los partes del datasource como seleccionados
 		if (e.getComponent() == _seleccionaTodoBUT13) {
 			for (int i = 0; i < _dsResHor.getRowCount(); i++) {
-				_dsResHor.setInt(i, SELECCION_RESUMEN_FLAG,1);
+				_dsResHor.setInt(i, SELECCION_RESUMEN_FLAG, 1);
 			}
 		}
-		
+
 		// marca todos los partes del datasource como seleccionados
 		if (e.getComponent() == _desSeleccionaTodoBUT14) {
 			for (int i = 0; i < _dsResHor.getRowCount(); i++) {
-				_dsResHor.setInt(i, SELECCION_RESUMEN_FLAG,0);
+				_dsResHor.setInt(i, SELECCION_RESUMEN_FLAG, 0);
 			}
 		}
-		
+
 		// Find
-		if (e.getComponent() == _buscarBUT16) {			
+		if (e.getComponent() == _buscarBUT16) {
 			_dsResHor.reset();
-			_dsResHor.retrieve(_dsQBEResHor.generateSQLFilter(_dsResHor)
-					+ " and " + whereFecha);
-			if (_dsResHor.getRowCount() > 0) 
+			_dsResHor.retrieve(_dsQBEResHor.generateSQLFilter(_dsResHor) + " and "
+					+ whereFecha);
+			if (_dsResHor.getRowCount() > 0)
 				seteaBotones(_estadoTE19.getSelectedIndex());
 			else {
 				displayErrorMessage("No se encontraron resumenes de partes");
 				return false;
 			}
 		}
-		
+
+		if (e.getComponent() == _corregirPartesBUT) {
+			String partes_ids = "";
+			String parte_ids = null;
+			for (int row = 0; row < _dsResHor.getRowCount(); row++) {
+				parte_ids = _dsResHor.getResumenHorasRelojParteIds(row);
+				if (parte_ids != null) {
+					partes_ids += partes_ids != "" ? "," : "";
+					partes_ids += _dsResHor.getResumenHorasRelojParteIds(row);
+				}
+			}
+			sendRedirect(getSiteMapURL("ConsultaPartes")+"?p_grp_parte_id="+partes_ids);
+			System.out.println(partes_ids);
+		}
+
 		// Validar partes seleccionados
 		if (e.getComponent() == _validarParteBUT10) {
 			try {
@@ -265,47 +306,49 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				// validacion manual
 				ValidarTotalRelojPartesMo autorizarPartesMo = new ValidarTotalRelojPartesMo();
 
-				conexion = DBConnection.getConnection(getApplicationName(),"partesmo");
+				conexion = DBConnection.getConnection(getApplicationName(),
+						"partesmo");
 				conexion.beginTransaction();
-				// actualiza el estado de resumenes seleccionados 
-				autorizarPartesMo.esValido(_dsResHor, null, conexion);			
+				// actualiza el estado de resumenes seleccionados
+				autorizarPartesMo.esValido(_dsResHor, null, conexion);
 
 				_dsResHor.gotoFirst();
-				_dsPartes.retrieve(whereFecha);	// intervalo de partes a validar
+				_dsPartes.retrieve(whereFecha); // intervalo de partes a validar
 				_dsPartes.setBatchInserts(true);
 				_dsPartes.doValidarPartes(false);
 
-				// cambiamos el estado de los partes a valido				
-				for (int i = 0; i < _dsResHor.getRowCount(); i++ ) {
+				// cambiamos el estado de los partes a valido
+				for (int i = 0; i < _dsResHor.getRowCount(); i++) {
 					if (_dsResHor.getResumenHorasRelojParteIds(i) != null) {
-						String[] pids = _dsResHor.getResumenHorasRelojParteIds(i).split(",");
+						String[] pids = _dsResHor.getResumenHorasRelojParteIds(i)
+								.split(",");
 						for (String p : pids) {
 							_dsPartes.setFindExpression("partes_mo.parte_id == " + p);
 							_dsPartes.findFirst();
 							_dsPartes.ejecutaAccion(11, "0003", getCurrentRequest()
 									.getRemoteAddr(), getSessionManager()
 									.getWebSiteUser().getUserID(), "partes_mo",
-									conexion,true);
+									conexion, true);
 						}
 					}
 				}
-				conexion.commit();	
+				conexion.commit();
 				_dsPartes.doValidarPartes(true);
-				
+
 				// deseleccionamos los resumenes
 				for (int i = 0; i < _dsResHor.getRowCount(); i++) {
-					_dsResHor.setInt(i, SELECCION_RESUMEN_FLAG,0);
+					_dsResHor.setInt(i, SELECCION_RESUMEN_FLAG, 0);
 				}
-				
+
 				int idx = _estadoTE19.findOptionIndexOf(String
 						.valueOf(ResumenHorasRelojModel.PARTES_VAL));
 				seteaBotones(idx);
 				_estadoTE19.setSelectedIndex(idx);
-			} catch (DataStoreException ex) {				
+			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, this);
 				displayErrorMessage("Error Autorizando Partes: " + ex.getMessage());
 				return false;
-			} catch (Exception ex) {				
+			} catch (Exception ex) {
 				MessageLog.writeErrorMessage(ex, this);
 				displayErrorMessage("Error Autorizando Partes: " + ex.getMessage());
 				return false;
@@ -316,18 +359,21 @@ public class ControlRelojesPartesController extends BaseController implements Va
 				}
 			}
 		}
-		
+
 		// genera el resumen
 		if (e.getComponent() == _generaResumenBUT) {
 			try {
-				conexion = DBConnection.getConnection(getApplicationName(),"partesmo");
-				_dsResHor.generaResumenRelojes(_dsPeriodo.getDate("desde"), _dsPeriodo.getDate("hasta"), conexion);
+				conexion = DBConnection.getConnection(getApplicationName(),
+						"partesmo");
+				_dsResHor.generaResumenRelojes(_dsPeriodo.getDate("desde"),
+						_dsPeriodo.getDate("hasta"), conexion);
 
-				_dsResHor.reset();				
-				_dsResHor.retrieve(whereFecha + " and estado in (" + _dsResHor.conErroresInClause() +")");
-				_estadoTE19.setSelectedIndex(0);				
+				_dsResHor.reset();
+				_dsResHor.retrieve(whereFecha + " and estado in ("
+						+ _dsResHor.conErroresInClause() + ")");
+				_estadoTE19.setSelectedIndex(0);
 				seteaBotones(SHOWBUTTONS);
-			} catch(DataStoreException ex) {
+			} catch (DataStoreException ex) {
 				MessageLog.writeErrorMessage(ex, this);
 				displayErrorMessage("Error Controlando Relojes: " + ex.getMessage());
 				return false;
@@ -336,45 +382,47 @@ public class ControlRelojesPartesController extends BaseController implements Va
 					conexion.rollback();
 					conexion.freeConnection();
 				}
-			}			
+			}
 		}
-		
+
 		return super.submitPerformed(e);
 	}
-	
+
 	public boolean valueChanged(ValueChangedEvent e) throws Exception {
 		// TextEdits para fechas de vigencia
-		if (e.getComponent() == _fechadesdeTE1) {			
+		if (e.getComponent() == _fechadesdeTE1) {
 			if (!_dsPeriodo.isFormattedStringValid(e.getColumn(), e.getNewValue())) {
-				// No movemos el nuevo valor al dataStore,pero evitamos 
-				// que sea eliminado la proxima vez que la pagina sea mostrada					
+				// No movemos el nuevo valor al dataStore,pero evitamos
+				// que sea eliminado la proxima vez que la pagina sea mostrada
 				e.setAcceptValue(ValueChangedEvent.PROCESSING_KEEP_CHANGE_IN_QUEUE);
 				displayErrorMessage("Error Controlando Relojes: fecha o formato de fecha inválido");
-				return false;				
+				return false;
 			}
 		}
-		
-		if (e.getComponent() == _fechahastaTE2) {			
+
+		if (e.getComponent() == _fechahastaTE2) {
 			if (!_dsPeriodo.isFormattedStringValid(e.getColumn(), e.getNewValue())) {
-				// No movemos el nuevo valor al dataStore,pero evitamos 
-				// que sea eliminado la proxima vez que la pagina sea mostrada					
+				// No movemos el nuevo valor al dataStore,pero evitamos
+				// que sea eliminado la proxima vez que la pagina sea mostrada
 				e.setAcceptValue(ValueChangedEvent.PROCESSING_KEEP_CHANGE_IN_QUEUE);
-				displayErrorMessage("Error Controlando Relojes: fecha o formato de fecha inválido");					
-				return false;				
+				displayErrorMessage("Error Controlando Relojes: fecha o formato de fecha inválido");
+				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see infraestructura.controllers.BaseController#pageSubmitEnd(com.salmonllc.html.events.PageEvent)
 	 */
 	@Override
 	public void pageSubmitEnd(PageEvent p) {
 		super.pageSubmitEnd(p);
 	}
-	
+
 	public void seteaBotones(int opcion) {
 		DBConnection conn = null;
 		Statement st = null;
@@ -386,6 +434,7 @@ public class ControlRelojesPartesController extends BaseController implements Va
 		boolean activarVal = true;
 
 		if (opcion == HIDEBUTTONS) {
+			_corregirPartesBUT.setVisible(false);
 			_validarParteBUT10.setVisible(false);
 			_seleccionaTodoBUT13.setVisible(false);
 			_desSeleccionaTodoBUT14.setVisible(false);
@@ -394,36 +443,39 @@ public class ControlRelojesPartesController extends BaseController implements Va
 					String.valueOf(ResumenHorasRelojModel.PARTES_VAL))
 					|| _estadoTE19.getOptionKey(opcion).equals(
 							String.valueOf(ResumenHorasRelojModel.FICHADA_SIN_PARTES))
-					|| _estadoTE19.getOptionKey(opcion).equals(_dsResHor.todosInClause())) {
+					|| _estadoTE19.getOptionKey(opcion).equals(
+							_dsResHor.todosInClause())) {
 				activarVal = false;
 			}
 			_seleccionParte.setEnabled(activarVal);
+			_corregirPartesBUT.setVisible(true);
 			_validarParteBUT10.setVisible(activarVal);
 			_seleccionaTodoBUT13.setVisible(true);
 			_desSeleccionaTodoBUT14.setVisible(true);
-		
+
 			try {
 				conn = DBConnection.getConnection(getApplicationName());
 
-				// recorro los estados  y seteo los botones
+				// recorro los estados y seteo los botones
 				SQL = " SELECT prompt_accion,accion "
-					+ " FROM infraestructura.transicion_estados t "
-					+ " left join infraestructura.estados e on t.estado_origen = e.estado "
-					+ " where e.circuito = '0003' "
-					+ " and t.estado_origen = '" + estado + "'";
+						+ " FROM infraestructura.transicion_estados t "
+						+ " left join infraestructura.estados e on t.estado_origen = e.estado "
+						+ " where e.circuito = '0003' " + " and t.estado_origen = '"
+						+ estado + "'";
 				st = conn.createStatement();
 				r = st.executeQuery(SQL);
 
 				while (r.next()) {
 					prompt = r.getString(1);
 					accion = r.getInt(2);
-					
+
 					if (prompt.equalsIgnoreCase("validar")) {
-						_validarParteBUT10.setDisplayNameLocaleKey(Integer.toString(accion));
+						_validarParteBUT10.setDisplayNameLocaleKey(Integer
+								.toString(accion));
 						_validarParteBUT10.setVisible(true);
 					}
 				}
-				
+
 			} catch (SQLException e) {
 				MessageLog.writeErrorMessage(e, null);
 				displayErrorMessage("Error SQL armando botonera: " + e.getMessage());
