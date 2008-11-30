@@ -4,6 +4,10 @@ package partesMO.controllers;
 //Salmon import statements
 import infraestructura.controllers.BaseController;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
@@ -49,10 +53,14 @@ public class ConsultaPartesMoController extends BaseController {
 	public com.salmonllc.jsp.JspSearchFormDisplayBox _searchformdisplaybox1;
 	public com.salmonllc.html.HtmlLookUpComponent _proyectoTE3;
 	public com.salmonllc.html.HtmlDropDownList _tarea_proyecto1;
+	public com.salmonllc.html.HtmlTextEdit _fechahastaTE2;
+	public com.salmonllc.html.HtmlTextEdit _fechadesdeTE1;
+	public com.salmonllc.html.HtmlLookUpComponent _proyecto2;
 
 	// DataSources
 	public com.salmonllc.sql.QBEBuilder _dsQBE;
 	public partesMO.models.PartesMoModel _dsPartes;
+	public com.salmonllc.sql.DataStore _dsPeriodo;
 
 	// DataSource Column Constants
 	public static final String DSPARTES_PARTES_MO_PARTE_ID = "partes_mo.parte_id";
@@ -105,10 +113,16 @@ public class ConsultaPartesMoController extends BaseController {
 		addPageListener(this);
 		_buscarBUT16.addSubmitListener(this);
 		_guardarButton.addSubmitListener(this);
+
+		_dsPeriodo.reset();
+		_dsPeriodo.insertRow();
+		seteaPeriodo(); // valores por defecto para el periodo de fechas
+		_dsPeriodo.gotoFirst();
 		
-		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");		
-		_tarea_proyecto1.setOnFocus("llenarLista(false);");		
-		setOnFocus("llenarLista(false);");		
+		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");
+		_proyectoTE3.getEditField().setOnChange("llenarLista(true);");
+		_tarea_proyecto1.setOnFocus("llenarLista(false);");
+		setOnFocus("llenarLista(false);");
 	}
 
 	/**
@@ -120,20 +134,50 @@ public class ConsultaPartesMoController extends BaseController {
 	 *         events
 	 */
 	public boolean submitPerformed(SubmitEvent event) throws Exception {
+		String whereFecha = "";
+
+		Date desde = _dsPeriodo.getDate("desde");
+		Date hasta = _dsPeriodo.getDate("hasta");
+		// chequeo las fechas
+		if(desde != null && hasta != null)
+		if (desde.compareTo(hasta) > 0) {
+			displayErrorMessage("Error Controlando Relojes: combinación de fechas inválida");
+			return false;
+		} else {
+			whereFecha = " fecha between '"
+					+ desde.toString() + "' and '"
+					+ hasta.toString() + "'";
+		}
 
 		// Buscar
 		if (event.getComponent() == _buscarBUT16) {
 			// solicita buscar partes
 			String whereClause = _dsQBE.generateSQLFilter(_dsPartes);
+			if (whereClause == "" || whereClause == null)
+				whereClause = whereFecha;
+			else
+				whereClause += whereFecha != "" ? " and " + whereFecha : "";
+			
+			if (_proyecto2.getValue() != null
+					&& _proyecto2.getValue().trim().length() > 0) {
+					if (whereClause != null && whereClause.trim().length() != 0)
+						whereClause += " AND ";
+					else
+						whereClause = "";
+					whereClause += "proyectos.proyecto ="
+							+ _proyecto2.getValue();				
+			}
 			_dsPartes.retrieve(whereClause);
 		}
 
 		if (event.getComponent() == _guardarButton) {
 			// solicita buscar partes
 			try {
+				_dsPartes.setCorrige(true);
+				_dsPartes.validarPartes();
 				_dsPartes.update();
 			} catch (DataStoreException e) {
-				displayErrorMessage("Error guardando parte: "+e.getMessage());
+				displayErrorMessage("Error guardando parte: " + e.getMessage());
 			}
 
 		}
@@ -145,6 +189,7 @@ public class ConsultaPartesMoController extends BaseController {
 	public void pageRequested(PageEvent p) throws Exception {
 		int v_nro_legajo = -1;
 		String v_fecha = null;
+		String v_grp_parte_id = null;
 		StringBuilder whereClause = new StringBuilder(50);
 
 		// si la pagina no es referida por si misma
@@ -164,11 +209,28 @@ public class ConsultaPartesMoController extends BaseController {
 				_dsPartes.reset();
 				_dsPartes.retrieve(whereClause.toString());
 				_dsPartes.gotoFirst();
+			}
+			// Varios partes
+			v_grp_parte_id = getParameter("p_grp_parte_id");
+			if (v_grp_parte_id != null) {
+				if (v_grp_parte_id.trim().length() > 0) {
+					// resetea todos los datasource
+					_dsPartes.reset();
+
+					// recupera toda la informacion del parte
+					_dsPartes.retrieve("partes_mo.parte_id IN (" + v_grp_parte_id
+							+ ")");
+					_dsPartes.gotoFirst();
+				}
+			}
+			if (v_fecha != null || v_grp_parte_id != null || v_nro_legajo != -1) {
 				_tarea_proyecto1.setEnabled(true);
 				_proyectoTE3.setEnabled(true);
 				_horaDesdeTE26.setEnabled(true);
 				_horaHastaTE26.setEnabled(true);
 				_guardarButton.setEnabled(true);
+				_dsPartes.completaHorasFichadas();
+				_proyectoTE3.getEditField().setFocus(true);
 			} else {
 				_tarea_proyecto1.setEnabled(false);
 				_proyectoTE3.setEnabled(false);
@@ -176,7 +238,26 @@ public class ConsultaPartesMoController extends BaseController {
 				_horaHastaTE26.setEnabled(false);
 				_guardarButton.setEnabled(false);
 			}
+
 		}
 		super.pageRequested(p);
 	}
+	
+	/**
+	 * Setea el periodo por defecto para el rango de fechas
+	 * 
+	 * @throws DataStoreException
+	 */
+	public void seteaPeriodo() throws DataStoreException {
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.set(Calendar.HOUR_OF_DAY, 0);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+
+		java.sql.Date today = new java.sql.Date(cal.getTimeInMillis());
+		_dsPeriodo.setDate("hasta", today);
+		_dsPeriodo.setDate("desde", today);
+	}
+	
 }
