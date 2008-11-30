@@ -151,7 +151,7 @@ public class CargarPartesPlanoController extends BaseController implements
 		_refrescarBUT5.addSubmitListener(this);
 
 		// Listener para validar fecha antes de ser enviada al DataStore
-		//_fechaTE3.addValueChangedListener(this);
+		// _fechaTE3.addValueChangedListener(this);
 
 		_dsPartes.setAutoValidate(true);
 
@@ -168,18 +168,17 @@ public class CargarPartesPlanoController extends BaseController implements
 
 		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");
 		_proyectoTE3.getEditField().setOnChange("llenarLista(true);");
-		_tarea_proyecto1.setOnFocus("llenarLista(false);");		
-		setOnFocus("llenarLista(false);");		
-		
+		_tarea_proyecto1.setOnFocus("llenarLista(false);");
+		setOnFocus("llenarLista(false);");
+
 		// refresca la pantalla de partes
 		refrescaPartes();
 
 		// completa la poplist de categorías
-		try {
-			completaCategorias();
-		} catch (DataStoreException e) {
-			displayErrorMessage("Error cargando categorias: " + e.getMessage());
-		}
+		/*
+		 * try { completaCategorias(); } catch (DataStoreException e) {
+		 * displayErrorMessage("Error cargando categorias: " + e.getMessage()); }
+		 */
 	}
 
 	public void refrescaPartes() throws SQLException, DataStoreException {
@@ -206,7 +205,7 @@ public class CargarPartesPlanoController extends BaseController implements
 			try {
 				_dsPartes.update();
 			} catch (DataStoreException ex) {
-				displayErrorMessage("Error guardando parte: "+ex.getMessage());
+				displayErrorMessage("Error guardando parte: " + ex.getMessage());
 				return false;
 			}
 		}
@@ -217,34 +216,64 @@ public class CargarPartesPlanoController extends BaseController implements
 			int rowActual = _dsPartes.getRow();
 			// si existe row anterior, le copia los valores
 			if (rowActual != -1) {
+				// obtengo todos los legajos indicados separados por comas para
+				// copia masiva, si los hay
+				String[] legajos = _legajoTE1.getEditField().getValue(rowActual)
+						.split(",");
+				_dsPartes.setPartesMoNroLegajo(rowActual, legajos[0]);
 				// valido el parte que estoy copiando
 				try {
 					_dsPartes.completaUnParte(rowActual);
 				} catch (DataStoreException ex) {
 					// muestro mensaje pero sigo sin problemas
-					displayErrorMessage("Error copiando parte: "+ex.getMessage());
+					displayErrorMessage("Error copiando parte: " + ex.getMessage());
 					_fechaTE3.setFocus(rowActual, true);
 					return false;
 				}
-				int row = _dsPartes.insertRow(0);
+				int row = 0;
+				// Si se indicaron varios legajos separados por comas procedemos a
+				// la copia masiva de partes
+				if (legajos.length > 1)
+					for (int i = 1; i < legajos.length; i++) {
+						row = _dsPartes.insertRow(0);
 
-				_dsPartes.setPartesMoFecha(row, _dsPartes
-						.getPartesMoFecha(rowActual + 1));
-				_dsPartes.setPartesMoHoraDesde(row, _dsPartes
-						.getPartesMoHoraDesde(rowActual + 1));
-				_dsPartes.setPartesMoHoraHasta(row, _dsPartes
-						.getPartesMoHoraHasta(rowActual + 1));
-				_dsPartes.setPartesMoNroLegajo(row, _dsPartes
-						.getPartesMoNroLegajo(rowActual + 1));
-				_dsPartes.setPartesMoProyecto(row, _dsPartes
-						.getPartesMoProyecto(rowActual + 1));
-				_dsPartes.setPartesMoProyectoNombre(row, _dsPartes
-						.getPartesMoProyectoNombre(rowActual + 1));
-				_dsPartes.setPartesMoSectorId(row, _dsPartes
-						.getPartesMoSectorId(rowActual + 1));
-				_dsPartes.setPartesMoSupervisor(row, _dsPartes
-						.getPartesMoSupervisor(rowActual + 1));
+						_dsPartes.setPartesMoFecha(row, _dsPartes
+								.getPartesMoFecha(rowActual + 1));
+						_dsPartes.setPartesMoHoraDesde(row, _dsPartes
+								.getPartesMoHoraDesde(rowActual + 1));
+						_dsPartes.setPartesMoHoraHasta(row, _dsPartes
+								.getPartesMoHoraHasta(rowActual + 1));
+						_dsPartes.setPartesMoNroLegajo(row, legajos[i]);
+						_dsPartes.setPartesMoProyecto(row, _dsPartes
+								.getPartesMoProyecto(rowActual + 1));
+						_dsPartes.setPartesMoProyectoNombre(row, _dsPartes
+								.getPartesMoProyectoNombre(rowActual + 1));
+						_dsPartes.setPartesMoSectorId(row, _dsPartes
+								.getPartesMoSectorId(rowActual + 1));
+						_dsPartes.setPartesMoSupervisor(row, _dsPartes
+								.getPartesMoSupervisor(rowActual + 1));
+					}
+				// sino, copio el parte actual
+				else {
+					row = _dsPartes.insertRow(0);
 
+					_dsPartes.setPartesMoFecha(row, _dsPartes
+							.getPartesMoFecha(rowActual + 1));
+					_dsPartes.setPartesMoHoraDesde(row, _dsPartes
+							.getPartesMoHoraDesde(rowActual + 1));
+					_dsPartes.setPartesMoHoraHasta(row, _dsPartes
+							.getPartesMoHoraHasta(rowActual + 1));
+					_dsPartes.setPartesMoNroLegajo(row, _dsPartes
+							.getPartesMoNroLegajo(rowActual));
+					_dsPartes.setPartesMoProyecto(row, _dsPartes
+							.getPartesMoProyecto(rowActual + 1));
+					_dsPartes.setPartesMoProyectoNombre(row, _dsPartes
+							.getPartesMoProyectoNombre(rowActual + 1));
+					_dsPartes.setPartesMoSectorId(row, _dsPartes
+							.getPartesMoSectorId(rowActual + 1));
+					_dsPartes.setPartesMoSupervisor(row, _dsPartes
+							.getPartesMoSupervisor(rowActual + 1));
+				}
 				// hace foco en el registro
 				int nroPagerow = _datatable1.getPage(row);
 				int nroPageActual = _datatable1.getPage(_dsPartes.getRow());
@@ -449,15 +478,15 @@ public class CargarPartesPlanoController extends BaseController implements
 					_dsPartes.retrieve("partes_mo.parte_id IN (" + v_grp_parte_id
 							+ ")");
 					_dsPartes.gotoFirst();
-					_fechaTE3.setFocus(true);					
+					_fechaTE3.setFocus(true);
 				}
 			} else {
 				refrescaPartes();
 			}
-		}		
+		}
 		_proyectoTE3.get_browsePopupImageLink().setTabIndex(-1);
 		_legajoTE1.get_browsePopupImageLink().setTabIndex(-1);
-		super.pageRequested(p);		
+		super.pageRequested(p);
 	}
 
 }
