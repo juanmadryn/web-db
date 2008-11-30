@@ -100,7 +100,7 @@
 						<salmon:td>
 							<salmon:lookup browseimage="%ImageDirectory/Browse.gif"
 								lookupurl="%LkpLegajoLegajo" name="legajoTE1" size="6"
-								maxlength="10" displayformat="##########0"
+								maxlength="200" displayformat="##########0"
 								datasource="dsPartes:partes_mo.nro_legajo" popupheight="450"
 								popupwidth="500" usepopup="true" showdescription="False"></salmon:lookup>
 							<salmon:text name="apeynomTEX1" text="apeynom goes here"

@@ -1,7 +1,7 @@
 <%@ taglib uri="/WEB-INF/taglib.tld" prefix="salmon"%>
 <%@ page errorPage="ErrorPage.jsp"
 	extends="com.salmonllc.jsp.JspServlet"%>
-	<script src="javascripts/prototype.js" type="text/javascript"></script>
+<script src="javascripts/prototype.js" type="text/javascript"></script>
 <script src="javascripts/scriptaculous.js" type="text/javascript"></script>
 <script src="javascripts/utils.js" type="text/javascript"></script>
 <salmon:page
@@ -12,13 +12,20 @@
 	</td>
 	<!-- ********************************************************************************************* -->
 	<!-- Agregar definicián de DataSource aquá -->
+	<salmon:datasource name="dsPeriodo" type="SQL" autoretrieve="Never">
+		<salmon:datasourcedef>
+			<salmon:bucket name="desde" datatype="DATE" />
+			<salmon:bucket name="hasta" datatype="DATE" />
+		</salmon:datasourcedef>
+	</salmon:datasource>
 	<salmon:datasource name="dsQBE" type="QBE">
-		<salmon:qbecriteria name="buscar" type="complex" columns="*" />
+		<salmon:qbecriteria name="buscar" type="complex"
+			columns="parte_id,nro_legajo,apeynom,proyectos.proyecto,proyectos.nombre,tareas_proyecto.nombre" />
 	</salmon:datasource>
 	<salmon:datasource name="dsPartes" type="MODEL" dbprofile="partesmo"
 		model="partesMO.models.PartesMoModel" autoretrieve="Never">
 	</salmon:datasource>
-		<salmon:datasource name="dsTareas" type="MODEL" dbprofile="proyectos"
+	<salmon:datasource name="dsTareas" type="MODEL" dbprofile="proyectos"
 		model="proyectos.models.TareasProyectoModel" autoretrieve="Always">
 	</salmon:datasource>
 	<!-- ********************************************************************************************* -->
@@ -34,9 +41,29 @@
 						<table width="100%">
 							<tr>
 								<td><salmon:text name="buscarCAP1" text="Buscar"
-									font="ColumnCaptionFont" /></td>
-								<td><salmon:input type="text" name="buscarTE3" size="60"
+									font="TableHeadingFont" /></td>
+								<td colspan=3"><salmon:input type="text" name="buscarTE3" size="60"
 									maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="fechadesdeCAP1" text="Fecha desde"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechadesdeTE1"
+									size="10" displayformat="dd/MM/yyyy"
+									datasource="dsPeriodo:desde" maxlength="10"></salmon:input></td>
+								<td><salmon:text name="fechahastaCAP2" text="Fecha hasta"
+									font="TableHeadingFont" /></td>
+								<td><salmon:input type="text" name="fechahastaTE2"
+									size="10" displayformat="dd/MM/yyyy"
+									datasource="dsPeriodo:hasta" maxlength="10"></salmon:input></td>
+							</tr>
+							<tr>
+								<td><salmon:text name="proyecto1" text="Proyecto"
+									font="TableHeadingFont" /></td>
+								<td colspan="3"><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+									lookupurl="%LkpProyectos" name="proyecto2" size="15"
+									maxlength="15" popupheight="450" popupwidth="500"
+									usepopup="TRUE" showdescription="TRUE"></salmon:lookup></td>									
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
@@ -68,8 +95,7 @@
 								font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td name="tareaProyectoHeaderTD">
-							<salmon:text name="tarea1" text="Tarea"
-								font="TableHeadingFont" />
+							<salmon:text name="tarea1" text="Tarea" font="TableHeadingFont" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="horarioCAP27" text="Horario"
@@ -91,7 +117,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="fechaTE22" text="fecha" font="DefaultFont"
-								displayformat="dd/MM/yyyy" datasource="dsPartes:partes_mo.fecha"/>
+								displayformat="dd/MM/yyyy" datasource="dsPartes:partes_mo.fecha" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="nroLegajoTE23" text="nro_legajo"
@@ -115,7 +141,7 @@
 							</salmon:input>
 							<salmon:input type="text" name="tareaId" style="display:none"
 								font="DefaultFont" datasource="dsPartes:partes_mo.tarea_id" />
-						</salmon:td>									
+						</salmon:td>
 						<salmon:td>
 							<salmon:input name="horaDesdeTE26" type="text" value=""
 								font="DefaultFont" size="5"
@@ -127,10 +153,13 @@
 							<salmon:text name="horaGuionTE26" text=" - " font="DefaultFont" />
 							<salmon:text name="horasTE26" text="horas" font="DefaultFont"
 								datasource="dsPartes:partes_mo.horas" />
+							<salmon:text name="horaGuionTE27" text=" - " font="DefaultFont" />
+							<salmon:text name="horario" text="horas" font="DefaultFont"
+								datasource="dsPartes:horarios" />
 						</salmon:td>
 						<salmon:td>
 							<salmon:text name="mensaje" text="Mensaje"
-								font="TableHeadingFont" datasource="dsPartes:mensaje_error"/>
+								font="TableHeadingFont" datasource="dsPartes:mensaje_error" />
 						</salmon:td>
 					</salmon:tr>
 				</salmon:datatablerows>
