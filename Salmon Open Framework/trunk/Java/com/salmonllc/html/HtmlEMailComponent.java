@@ -8,12 +8,16 @@ import java.util.Hashtable;
  */
 public class HtmlEMailComponent extends HtmlFormComponent
 {
-    protected HtmlTextEdit _email;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6813645228572404071L;
+	protected HtmlTextEdit _email;
     private String _EMail;
     private int _size = 20 ;
     private int _maxlength = 50 ;
     private int _minlength = 7 ;
-
+    
 /**
  * EMailComponent constructor.
  *
@@ -97,7 +101,7 @@ public HtmlComponent getFocus () {
 	    return false;
 	  return true; 
 	}
-public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+public boolean processParms(Hashtable<String, Object> parms, int rowNo) throws Exception {
 
 	if (!getVisible() || !getEnabled())
 		return false;
@@ -256,5 +260,27 @@ public void setReadOnly(boolean val) {
  */
 public void setTabIndex(int val) {
 	_email.setTabIndex(val);
+}
+
+//Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+/**
+ * This method adds javascript code to be executed when the component gains focus.
+ *
+ * @param value DOCUMENT ME!
+ */
+public void addOnFocus(String value)
+{
+	_email.addOnFocus(value);
+}
+
+//Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+/**
+ * This method adds the javascript to be executed when the component loses focus.
+ *
+ * @param value DOCUMENT ME!
+ */
+public void addOnLoseFocus(String value)
+{
+	_email.addOnLoseFocus(value);
 }
 }

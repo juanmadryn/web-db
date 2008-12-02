@@ -37,7 +37,11 @@ import com.salmonllc.util.Util;
  * This class is used for multi line text input in a page.
  */
 public class HtmlMultiLineTextEdit extends HtmlFormComponent {
-    public static final int WRAP_OFF = 0;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2236760701108046410L;
+	public static final int WRAP_OFF = 0;
     public static final int WRAP_HARD = 1;
     public static final int WRAP_SOFT = 2;
 
@@ -306,7 +310,7 @@ public class HtmlMultiLineTextEdit extends HtmlFormComponent {
         return _wrap;
     }
 
-    public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+    public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
         if (!getVisible() || !getEnabled())
             return false;
 
@@ -400,8 +404,8 @@ public class HtmlMultiLineTextEdit extends HtmlFormComponent {
      */
     public void setOnFocus(String value) {
         _onFocus = value;
-    }
-
+    }    
+    
     /**
      * This method sets the javascript to be executed when the component loses focus.
      */
@@ -497,4 +501,31 @@ public void setStyle(String string)
 	_style = string;
 }
 
+//Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+/**
+ * This method adds javascript code to be executed when the component gains focus.
+ *
+ * @param value DOCUMENT ME!
+ */
+public void addOnFocus(String value)
+{
+   if(_onFocus == null) 
+  	 _onFocus = value;
+   else
+  	 _onFocus += value;
+}
+
+//Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+/**
+ * This method adds the javascript to be executed when the component loses focus.
+ *
+ * @param value DOCUMENT ME!
+ */
+public void addOnLoseFocus(String value)
+{
+	 if(_onLoseFocus == null)
+		 _onLoseFocus = value;
+	 else
+		 _onLoseFocus += value;
+}
 }

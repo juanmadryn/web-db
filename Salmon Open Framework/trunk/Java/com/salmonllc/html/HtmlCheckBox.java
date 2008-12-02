@@ -47,7 +47,9 @@ public class HtmlCheckBox extends HtmlFormComponent {
 	private String _imageOn;
 	private String _imageOff;
 	private Integer _tabIndex;
-	private String _accessKey;
+	private String _accessKey;	
+	private String _onFocus;
+	private String _onLoseFocus;
 /**
  * Constructs a new HTMLTextEdit component.
  * @param name The name of the component
@@ -122,7 +124,16 @@ public HtmlCheckBox(String name, String theme, com.salmonllc.html.HtmlPage p, St
 		
 	if (_accessKey != null)
 		tag += " accesskey=\"" + _accessKey + "\"";
-			
+	
+   if (_onFocus != null)
+   {
+       tag += (" onFocus=\"" + _onFocus + "\"");
+   }
+
+   if (_onLoseFocus != null)
+   {
+       tag += (" onBlur=\"" + _onLoseFocus + "\"");
+   }
 
 	tag += ">";	
 			
@@ -162,7 +173,7 @@ public String getOnClick() {
 public String getTrueValue() {
 	return _trueValue;
 }
-public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+public boolean processParms(Hashtable<String, Object> parms, int rowNo) throws Exception {
 // fc: 10/18/02 Commented out the below lines as they are no longer required,
 //        since a better approach is to check to see if the field is contained in
 //        the form when submitted. see other change below
