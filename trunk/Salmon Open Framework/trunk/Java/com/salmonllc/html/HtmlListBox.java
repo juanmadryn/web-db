@@ -29,6 +29,10 @@ import java.util.Hashtable;
  * This class is used to allow for the selection of items from a list.
  */
 public class HtmlListBox extends HtmlFormComponent {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2150385952542060676L;
 	private OptionsSort _options = new OptionsSort();
 	private String _fontTagEnd;
 	private String _fontTagStart;
@@ -402,6 +406,7 @@ public class HtmlListBox extends HtmlFormComponent {
 	 * @param disp The value to be displayed on the list.
 	 * @param selected DOCUMENT ME!
 	 */
+	@SuppressWarnings("unchecked")
 	public void addOption(String key, String disp, boolean selected) {
 		HtmlOption opt = new HtmlOption(key, disp, selected);
 		_options.addElement(opt);
@@ -642,7 +647,7 @@ public class HtmlListBox extends HtmlFormComponent {
 		}
 	}
 
-	public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+	public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
 		Object oldValue = _value;
 		String name = getFullName();
 
@@ -839,5 +844,32 @@ public class HtmlListBox extends HtmlFormComponent {
 	public String getStyle() {
 		return _style;
 	}
+	
+// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+	/**
+	 * This method adds javascript code to be executed when the component gains focus.
+	 *
+	 * @param value DOCUMENT ME!
+	 */
+	public void addOnFocus(String value)
+	{
+	   if(_onFocus == null) 
+	  	 _onFocus = value;
+	   else
+	  	 _onFocus += value;
+	}
 
+// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+	/**
+	 * This method adds the javascript to be executed when the component loses focus.
+	 *
+	 * @param value DOCUMENT ME!
+	 */
+	public void addOnLoseFocus(String value)
+	{
+		 if(_onLoseFocus == null)
+			 _onLoseFocus = value;
+		 else
+			 _onLoseFocus += value;
+	}
 }

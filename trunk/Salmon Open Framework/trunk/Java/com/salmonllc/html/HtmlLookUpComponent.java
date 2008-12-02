@@ -698,22 +698,21 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener,
 		super.generateHTML(p, rowNo);
 		getEditField().setReadOnly(editReadOnly);
 		generateDivHtml(p, rowNo);
-
 	}
 
 	private boolean setEditReadOnly(int rowNo) {
 		boolean ret = getEditField().getReadOnly();
 		if (_editDescription)
-			getEditField().setOnChange(
+			getEditField().addOnChange(
 					getFormString() + _hiddenKeyHandle.getFullName()
 							+ (rowNo != -1 ? "_" + rowNo : "") + ".value=''");
 		return ret;
 	}
 
 	private void generateDivHtml(PrintWriter p, int rowNo)
-			throws DataStoreException {
+			throws DataStoreException {		
 		if (!_showDescription)
-			return;
+			return;		
 		if (_editDescription)
 			return;
 		p.print(_fontStartTag);
@@ -749,6 +748,7 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener,
 							+ getFullName() + rowNo
 							+ "'); if (theSpan) theSpan.innerHTML=''; "
 							+ getHiddenDescrFieldFullName(row) + ".value='';");
+			//((HtmlTextEdit) _editHandle).setHighlightOnFocus(_highlightOnFocus);			
 		}
 
 		if (_usePopup) {
@@ -1269,4 +1269,5 @@ public class HtmlLookUpComponent extends HtmlComposite implements PageListener,
 	public void set_browsePopupImageLink(HtmlLink popupImageLink) {
 		_browsePopupImageLink = popupImageLink;
 	}
+
 }

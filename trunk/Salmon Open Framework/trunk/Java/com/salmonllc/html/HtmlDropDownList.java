@@ -51,6 +51,8 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
     private boolean     _reloadDropDownInEveryPageRequest;
     private boolean     _toUpper;
     private boolean     _trimResults;
+    
+    
 
     /**
      * Constructs a new HTMLDropDownList component.
@@ -220,6 +222,20 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
         return _onClick;
     }
 
+ // Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+    /**
+     * This method adds javascript code to be executed when the component gains focus.
+     *
+     * @param value DOCUMENT ME!
+     */
+    public void addOnFocus(String value)
+    {
+       if(_onFocus == null) 
+      	 _onFocus = value;
+       else
+      	 _onFocus += value;
+    }
+
     /**
      * This method sets the javascript to be executed when the component gains focus.
      *
@@ -240,6 +256,20 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
         return _onFocus;
     }
 
+ // Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+    /**
+     * This method sets the javascript to be executed when the component loses focus.
+     *
+     * @param value DOCUMENT ME!
+     */
+    public void addOnLoseFocus(String value)
+    {
+   	 if(_onLoseFocus == null)
+   		 _onLoseFocus = value;
+   	 else
+   		 _onLoseFocus += value; 
+    }
+    
     /**
      * This method sets the javascript to be executed when the component loses focus.
      *
@@ -648,6 +678,7 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
     public void generateHTML(java.io.PrintWriter p, int rowNo)
                       throws Exception
     {
+   	 
         if (!_visible)
         {
             return;

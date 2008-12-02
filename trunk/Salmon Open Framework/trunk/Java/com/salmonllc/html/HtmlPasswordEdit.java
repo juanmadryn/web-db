@@ -17,14 +17,20 @@ import com.salmonllc.properties.Props;
  * This class is used for password style text input in a page.
  */
 public class HtmlPasswordEdit extends HtmlFormComponent {
-    private String _fontTagStart;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6509785411668288901L;
+	private String _fontTagStart;
     private String _fontTagEnd;
     private int _maxLength = 20;
     private int _size = 10;
 	private Boolean _readOnly;
 	private Integer _tabIndex;
 	private String _accessKey;
-
+   private String _onFocus;
+   private String _onLoseFocus;
+   
     /**
      * Constructs a new HTMLPasswordEdit component.
      * @param name The name of the component
@@ -93,6 +99,16 @@ public class HtmlPasswordEdit extends HtmlFormComponent {
         if (value != null)
             tag += " VALUE=\"" + value + "\"";
 
+        if (_onFocus != null)
+        {
+            tag += (" onFocus=\"" + _onFocus + "\"");
+        }
+
+        if (_onLoseFocus != null)
+        {
+            tag += (" onBlur=\"" + _onLoseFocus + "\"");
+        }
+        
         if (_class != null)
             tag += " class=\"" + _class + "\"";
 
@@ -142,7 +158,7 @@ public class HtmlPasswordEdit extends HtmlFormComponent {
         return _size;
     }
 
-    public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+    public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
         if (!getEnabled())
             return false;
         Object oldValue = _value;
@@ -271,4 +287,73 @@ public class HtmlPasswordEdit extends HtmlFormComponent {
 			_tabIndex = new Integer(val);
 	}
 
+// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+	 /**
+    * This method adds javascript code to be executed when the component gains focus.
+    *
+    * @param value DOCUMENT ME!
+    */
+   public void addOnFocus(String value)
+   {
+      if(_onFocus == null) 
+     	 _onFocus = value;
+      else
+     	 _onFocus += value;
+   }
+   
+// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+   /**
+    * This method sets the javascript to be executed when the component gains focus.
+    *
+    * @param value DOCUMENT ME!
+    */
+   public void setOnFocus(String value)
+   {
+       _onFocus = value;
+   }
+
+   /**
+    * This method gets the javascript to be executed when the component gets focus.
+    *
+    * @return DOCUMENT ME!
+    */
+   public String getOnFocus()
+   {
+       return _onFocus;
+   }
+   
+// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+   /**
+    * This method sets the javascript to be executed when the component loses focus.
+    *
+    * @param value DOCUMENT ME!
+    */
+   public void addOnLoseFocus(String value)
+   {
+  	 if(_onLoseFocus == null)
+  		 _onLoseFocus = value;
+  	 else
+  		 _onLoseFocus += value;
+   }
+   
+// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+   /**
+    * This method sets the javascript to be executed when the component loses focus.
+    *
+    * @param value DOCUMENT ME!
+    */
+   public void setOnLoseFocus(String value)
+   {
+       _onLoseFocus = value;
+   }
+
+   /**
+    * This method gets the javascript to be executed when the component loses focus.
+    *
+    * @return DOCUMENT ME!
+    */
+   public String getOnLoseFocus()
+   {
+       return _onLoseFocus;
+   }
 }

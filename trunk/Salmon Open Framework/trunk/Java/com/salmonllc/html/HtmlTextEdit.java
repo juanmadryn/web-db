@@ -52,6 +52,7 @@ public class HtmlTextEdit extends HtmlFormComponent
     private String _onFocus;
     private String _onKeyUp;
     private String _onLoseFocus;
+    private String _onDoubleClick;
     private String _style;
     private int    _maxLength = 10;
     private int    _size      = 10;
@@ -161,6 +162,19 @@ public class HtmlTextEdit extends HtmlFormComponent
     }
 
     /**
+     * This method adds javascript code to be executed when the value of the text in the component changes.
+     *
+     * @param value DOCUMENT ME!
+     */
+    public void addOnChange(String value)
+    {
+       if(_onChange == null) 
+      	 _onChange = value;
+       else
+      	 _onChange += value;
+    }
+    
+    /**
      * This method sets the javascript to be executed when the value of the text in the component changes.
      *
      * @param value DOCUMENT ME!
@@ -180,6 +194,20 @@ public class HtmlTextEdit extends HtmlFormComponent
         return _onChange;
     }
 
+ // Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+    /**
+     * This method adds javascript code to be executed when the component gains focus.
+     *
+     * @param value DOCUMENT ME!
+     */
+    public void addOnFocus(String value)
+    {
+       if(_onFocus == null) 
+      	 _onFocus = value;
+       else
+      	 _onFocus += value;
+    }
+    
     /**
      * This method sets the javascript to be executed when the component gains focus.
      *
@@ -210,6 +238,20 @@ public class HtmlTextEdit extends HtmlFormComponent
         _onKeyUp = value;
     }
 
+ // Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+    /**
+     * This method adds the javascript to be executed when the component loses focus.
+     *
+     * @param value DOCUMENT ME!
+     */
+    public void addOnLoseFocus(String value)
+    {
+   	 if(_onLoseFocus == null)
+   		 _onLoseFocus = value;
+   	 else
+   		 _onLoseFocus += value;
+    }
+    
     /**
      * This method sets the javascript to be executed when the component loses focus.
      *
@@ -230,6 +272,26 @@ public class HtmlTextEdit extends HtmlFormComponent
         return _onLoseFocus;
     }
 
+    /**
+     * This method sets the javascript to be executed when the component gets double-clicked.
+     *
+     * @param value DOCUMENT ME!
+     */
+    public void setOnDoubleClick(String value)
+    {
+        _onDoubleClick = value;
+    }
+
+    /**
+     * This method gets the javascript to be executed when the component gets double-clicked.
+     *
+     * @return DOCUMENT ME!
+     */
+    public String getOnDoubleClick()
+    {
+        return _onDoubleClick;
+    }
+    
     /**
      * DOCUMENT ME!
      *
@@ -364,13 +426,11 @@ public class HtmlTextEdit extends HtmlFormComponent
         {
             name += ("_" + rowNo);
         }
-        
-        String row = "";
-        if (rowNo != -1) {
-			row = "_" + row + new Integer(rowNo).toString();
-		}
 
-        String tag = "<INPUT TYPE=\"TEXT\" NAME=\"" + name + "\" ID=\"" + getParent().getName()+getName()+ row + "\"";        
+        String id = getParent().getName()+getName();
+        id += rowNo!=-1?"_" + rowNo:"";
+        
+        String tag = "<INPUT TYPE=\"TEXT\" NAME=\"" + name + "\" ID=\"" + id + "\"";        
 
         if (_onKeyUp != null)
         {
@@ -452,7 +512,7 @@ public class HtmlTextEdit extends HtmlFormComponent
         {
             tag += (" onChange=\"" + _onChange + "\"");
         }
-
+        
         if (_onFocus != null)
         {
             tag += (" onFocus=\"" + _onFocus + "\"");
@@ -461,6 +521,11 @@ public class HtmlTextEdit extends HtmlFormComponent
         if (_onLoseFocus != null)
         {
             tag += (" onBlur=\"" + _onLoseFocus + "\"");
+        }
+        
+        if (_onDoubleClick != null)
+        {
+            tag += (" ondblclick=\"" + _onDoubleClick + "\"");
         }
 
         if (_class != null)
@@ -494,7 +559,7 @@ public class HtmlTextEdit extends HtmlFormComponent
         {
             //tag = _fontTagStart + tag + _fontTagEnd;
         }
-
+        
         if (_generateNewline)
         {
             p.println(tag);
@@ -507,7 +572,7 @@ public class HtmlTextEdit extends HtmlFormComponent
         writeFocusScript(p, rowNo);
     }
 
-    public boolean processParms(Hashtable parms, int rowNo)
+    public boolean processParms(Hashtable<String, Object>parms, int rowNo)
                          throws Exception
     {
         // fc: 07/17/02 Commented out the below lines as they are no longer required,
