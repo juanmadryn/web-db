@@ -36,6 +36,7 @@ public class LookupTag extends BaseEmptyTag {
 	private String _useDiv;
 	private String _divBorderStyle;
 	private String _divScrolling;
+	
 
 
     /*Claudio Pi - 5/25/04 Added for modal popup windows*/
@@ -46,8 +47,9 @@ public class LookupTag extends BaseEmptyTag {
     private String _popupTop = null;
     private String _popupPosition  = null;
 
-
-
+    // Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+    private String _highlightonfocus  = null;
+    
 	/**
 	 * This method creates a HtmlLookUpComponent.
 	 */
@@ -126,6 +128,10 @@ public class LookupTag extends BaseEmptyTag {
 		if (_useDiv != null)
 			comp.setUseDiv(BaseTagHelper.stringToBoolean(_useDiv));
 
+		if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+			comp.getEditField().addOnFocus("event.target.className='selected';");
+			comp.getEditField().addOnLoseFocus("event.target.className='';");
+		}
 		
 		return comp;
 	}
@@ -190,6 +196,8 @@ public class LookupTag extends BaseEmptyTag {
 		_divScrolling=null;	
 		/*Claudio Pi - 5/25/04 Added for modal popup windows*/
 		_useModal=null;
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+		_highlightonfocus = null;
 	}
 	/**
 	 * Sets the image name used by Lookup component.
@@ -359,5 +367,9 @@ public class LookupTag extends BaseEmptyTag {
 	 */
 	public void setUsediv(String useDiv) {
 		_useDiv = useDiv;
+	}
+	
+	public void setHighlightonfocus(String highlightOnFocus) {
+		this._highlightonfocus = highlightOnFocus;
 	}
 }

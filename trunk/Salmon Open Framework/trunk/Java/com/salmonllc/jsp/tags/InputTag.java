@@ -100,6 +100,9 @@ public class InputTag extends BaseBodyTag {
 	private String _accessKey;
 	private String _tabIndex;
 	private String _listType;
+	
+	// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+	private String _highlightonfocus;
 
 	/**
 	 * Creates the component to be used by the tag.
@@ -149,7 +152,6 @@ public class InputTag extends BaseBodyTag {
 				cbx.setAccessKey(_accessKey);
 			if (_tabIndex != null)
 				cbx.setTabIndex(BaseTagHelper.stringToInt(_tabIndex));
-
 			return cbx;
 		} else if (type.equals("FILE")) {
 			HtmlFileUpload fileUpLoad = new HtmlFileUpload(getName(), _theme, getHelper().getController());
@@ -244,6 +246,11 @@ public class InputTag extends BaseBodyTag {
 				pass.setTabIndex(BaseTagHelper.stringToInt(_tabIndex));
 			if (_readOnly != null)
 				pass.setReadOnly(BaseTagHelper.stringToBoolean(_readOnly));
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+				pass.addOnFocus("event.target.className='selected';");
+				pass.addOnLoseFocus("event.target.className='';");
+			}
 			return pass;
 		} else if (type.equals("RADIO") || type.equals("RADIOBUTTON")) {
 
@@ -270,6 +277,11 @@ public class InputTag extends BaseBodyTag {
 				rb.setAccessKey(_accessKey);
 			if (_tabIndex != null)
 				rb.setTabIndex(BaseTagHelper.stringToInt(_tabIndex));
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+				rb.addOnFocus("event.target.className='selected';");
+				rb.addOnLoseFocus("event.target.className='';");
+			}
 			return rb;
 		} else if (type.equals("RADIOGROUP") || type.equals("RADIOBUTTONGROUP")) {
 			HtmlRadioButtonGroup rbGroup = new HtmlRadioButtonGroup(getName(), _theme, getHelper().getController());
@@ -325,6 +337,11 @@ public class InputTag extends BaseBodyTag {
 				lbx.setAccessKey(_accessKey);
 			if (_tabIndex != null)
 				lbx.setTabIndex(BaseTagHelper.stringToInt(_tabIndex));
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+				lbx.addOnFocus("event.target.className='selected';");
+				lbx.addOnLoseFocus("event.target.className='';");
+			}
 
 			return lbx;
 		} else if (type.equals("SELECT")) {
@@ -339,10 +356,15 @@ public class InputTag extends BaseBodyTag {
 			dd.setVisible(BaseTagHelper.stringToBoolean(getVisible(), true));
 			if (getEnabled() != null)
 				dd.setEnabled(BaseTagHelper.stringToBoolean(getEnabled(), true));
-
+			
 			dd.setFontStartTag(fontStartTag);
 			dd.setFontEndTag(fontEndTag);
 			dd.setValue(_value);
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+				dd.addOnFocus("event.target.className='selected';");
+				dd.addOnLoseFocus("event.target.className='';");
+			}
 
 			if (Util.isFilled(getDisabledfont())) {
 				String disabledFontStartTag = getHelper().getController().getPageProperties().getProperty(getDisabledfont() + ".StartTag");
@@ -390,6 +412,11 @@ public class InputTag extends BaseBodyTag {
 			edit.setOnLoseFocus(_onBlur);
 			edit.setOnKeyUp(_onKeyUp);
 			edit.setStyle(_style);
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+				edit.addOnFocus("event.target.className='selected';");
+				edit.addOnLoseFocus("event.target.className='';");
+			}
 
 			if (Util.isFilled(getDisabledfont())) {
 				String disabledFontStartTag = getHelper().getController().getPageProperties().getProperty(getDisabledfont() + ".StartTag");
@@ -428,6 +455,11 @@ public class InputTag extends BaseBodyTag {
 			edit.setOnFocus(_onFocus);
 			edit.setOnLoseFocus(_onBlur);
 			edit.setStyle(_style);
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+				edit.addOnFocus("event.target.className='selected';");
+				edit.addOnLoseFocus("event.target.className='';");
+			}
 
 			if (getEnabled() != null)
 				edit.setEnabled(BaseTagHelper.stringToBoolean(getEnabled(), true));
@@ -461,6 +493,11 @@ public class InputTag extends BaseBodyTag {
 			email.setMaxLength(BaseTagHelper.stringToInt(getMaxlength()));
 			email.setSize(BaseTagHelper.stringToInt(getSize()));
 			email.setEnabled(BaseTagHelper.stringToBoolean(getEnabled()));
+		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
+				email.addOnFocus("event.target.className='selected';");
+				email.addOnLoseFocus("event.target.className='';");
+			}
 
 			if (Util.isFilled(getDisabledfont())) {
 				String disabledFontStartTag = getHelper().getController().getPageProperties().getProperty(getDisabledfont() + ".StartTag");
@@ -1281,6 +1318,7 @@ public class InputTag extends BaseBodyTag {
 		_listType = null;
 		_onKeyUp = null;
 		_title = null;
+		_highlightonfocus = null;
 	}
 
 	/**
@@ -1832,5 +1870,13 @@ public class InputTag extends BaseBodyTag {
 	 */
 	public void setTitle(String string) {
 		this._title = string;
+	}
+
+	public void setHighlightonfocus(String highlightOnFocus) {
+		this._highlightonfocus = highlightOnFocus;
+	}
+
+	public String getHighlightonfocus() {
+		return _highlightonfocus;
 	}
 }
