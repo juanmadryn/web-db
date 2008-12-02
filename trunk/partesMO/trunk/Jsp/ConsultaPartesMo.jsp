@@ -4,6 +4,25 @@
 <script src="javascripts/prototype.js" type="text/javascript"></script>
 <script src="javascripts/scriptaculous.js" type="text/javascript"></script>
 <script src="javascripts/utils.js" type="text/javascript"></script>
+<script type="text/javascript">
+function copiarHora(event) {
+	var element = event.target; 
+	for (var j=0;$('datatable1TDRow5horaDesdeTE26_'+j) != null;j++) {
+		if(element.id.match('datatable1TDRow5horaDesdeTE26_'))
+			$('datatable1TDRow5horaDesdeTE26_'+j).value = element.value;
+		else
+			$('datatable1TDRow5horaHastaTE26_'+j).value = element.value;
+	}
+}
+function resaltar(event) {
+	var element = event.target; 
+	element.className='selected';
+}
+function desResaltar(event) {
+	var element = event.target; 
+	element.className='';
+}
+</script>
 <salmon:page
 	controller="partesMO.controllers.ConsultaPartesMoController" />
 <jsp:include page="templateBefore.jsp" flush="true"></jsp:include>
@@ -54,7 +73,7 @@
 								<td><salmon:text name="fechahastaCAP2" text="Fecha hasta"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="fechahastaTE2"
-									size="10" displayformat="dd/MM/yyyy"
+								size="10" displayformat="dd/MM/yyyy"
 									datasource="dsPeriodo:hasta" maxlength="10"></salmon:input></td>
 							</tr>
 							<tr>
@@ -153,7 +172,7 @@
 							<salmon:text name="horaGuionTE26" text=" - " font="DefaultFont" />
 							<salmon:text name="horasTE26" text="horas" font="DefaultFont"
 								datasource="dsPartes:partes_mo.horas" />
-							<salmon:text name="horaGuionTE27" text=" - " font="DefaultFont" />
+							<salmon:text name="horaGuionTE27" text=" | " font="DefaultFont" />
 							<salmon:text name="horario" text="horas" font="DefaultFont"
 								datasource="dsPartes:horarios" />
 						</salmon:td>
