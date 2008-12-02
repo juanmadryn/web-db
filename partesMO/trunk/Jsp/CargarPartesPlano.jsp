@@ -135,7 +135,7 @@
 						</salmon:td>
 						<salmon:td>
 							<salmon:input type="text" name="horasTE6" size="5" maxlength="5"
-								displayformat="##0.00" datasource="dsPartes:partes_mo.horas" onfocus="ver();">
+								displayformat="##0.00" datasource="dsPartes:partes_mo.horas">
 							</salmon:input>
 						</salmon:td>
 						<salmon:td>
