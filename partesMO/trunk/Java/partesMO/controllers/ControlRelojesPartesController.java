@@ -143,7 +143,7 @@ public class ControlRelojesPartesController extends BaseController implements
 	private DBConnection conexion = null;
 	private static int HIDEBUTTONS = -1;
 	private static int SHOWBUTTONS = 1;
-
+	
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
 	 * activities.
@@ -285,6 +285,7 @@ public class ControlRelojesPartesController extends BaseController implements
 		}
 
 		if (e.getComponent() == _corregirPartesBUT) {
+			_dsResHor.filter(SELECCION_RESUMEN_FLAG + " != null");
 			String partes_ids = "";
 			String parte_ids = null;
 			for (int row = 0; row < _dsResHor.getRowCount(); row++) {
@@ -295,7 +296,6 @@ public class ControlRelojesPartesController extends BaseController implements
 				}
 			}
 			sendRedirect(getSiteMapURL("ConsultaPartes")+"?p_grp_parte_id="+partes_ids);
-			System.out.println(partes_ids);
 		}
 
 		// Validar partes seleccionados
