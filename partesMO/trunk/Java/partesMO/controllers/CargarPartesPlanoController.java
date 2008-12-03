@@ -175,10 +175,11 @@ public class CargarPartesPlanoController extends BaseController implements
 		refrescaPartes();
 
 		// completa la poplist de categorías
-		/*
-		 * try { completaCategorias(); } catch (DataStoreException e) {
-		 * displayErrorMessage("Error cargando categorias: " + e.getMessage()); }
-		 */
+		try {
+			completaCategorias();
+		} catch (DataStoreException e) {
+			displayErrorMessage("Error cargando categorias: " + e.getMessage());
+		}
 	}
 
 	public void refrescaPartes() throws SQLException, DataStoreException {
