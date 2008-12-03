@@ -2088,10 +2088,10 @@ public class PartesMoModel extends BaseModel {
 
 		// Verifica que la fecha del parte coincida con un periodo de vigencia del
 		// legajo
-		if (/*
-				 * !controlaFechaIngresoEgreso(this.getPartesMoFecha(row),
-				 * personal_id)
-				 */false) {
+		if (
+				 !controlaFechaIngresoEgreso(this.getPartesMoFecha(row),
+				  personal_id)
+				 ) {
 			setMensajeError(row, "Legajo dado de baja durante la fecha del parte");
 			hubo_errores = true;
 		}
@@ -2338,7 +2338,6 @@ public class PartesMoModel extends BaseModel {
 		// si no ingresó horas, calculo las horas según desde y hasta,
 		// siempre y cuando no haya errores
 		// de paso se chequea que el rango horario sea correcto
-		System.out.println(hubo_errores + " - " + horas + " - " + isCorrige());
 		if (!hubo_errores && (horas <= 0 || isCorrige())) {
 			// si es límite de 24 o 0 horas suma a la hora hasta 24
 			// horas para los cálculos
@@ -2839,7 +2838,7 @@ public class PartesMoModel extends BaseModel {
 					controlaHorario(i);
 					parteDuplicado(i);
 				} else {
-					// hubo_errores_legajo = controlaLegajoTango(i);
+				hubo_errores_legajo = controlaLegajoTango(i);
 					getCategoriaLegajo(i);
 					hubo_errores_proyecto = (getDatosProyecto(i) == -1);
 					hubo_errores_tarea = (getDatosTarea(i) == -1);
@@ -2853,7 +2852,7 @@ public class PartesMoModel extends BaseModel {
 
 				DBConnection con = DBConnection.getDirectConnection(
 						"jdbc:mysql://localhost:3306/tango", "com.mysql.jdbc.Driver",
-						"root", "root");
+						"root", "gedospe");
 				Statement st = con.createStatement();
 				ResultSet rs = st
 						.executeQuery("SELECT ID_LEGAJO, APELLIDO, NOMBRE FROM legajo WHERE NRO_LEGAJO = '"
