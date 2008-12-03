@@ -119,10 +119,15 @@ public class ConsultaPartesMoController extends BaseController {
 		seteaPeriodo(); // valores por defecto para el periodo de fechas
 		_dsPeriodo.gotoFirst();
 		
-		_proyectoTE3.getEditField().setOnLoseFocus("llenarLista(true);");
-		_proyectoTE3.getEditField().setOnChange("llenarLista(true);");
-		_tarea_proyecto1.setOnFocus("llenarLista(false);");
+		_proyectoTE3.getEditField().addOnLoseFocus("llenarLista(true);");
+		_proyectoTE3.getEditField().addOnChange("llenarLista(true);");
+		_tarea_proyecto1.addOnFocus("llenarLista(false);");
 		setOnFocus("llenarLista(false);");
+		
+		_horaDesdeTE26.setOnDoubleClick("copiarHora(event);");
+		
+		_horaHastaTE26.setOnDoubleClick("copiarHora(event);");
+		
 	}
 
 	/**
