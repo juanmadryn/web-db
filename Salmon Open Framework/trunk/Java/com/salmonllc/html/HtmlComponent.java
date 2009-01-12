@@ -14,6 +14,7 @@ import com.salmonllc.personalization.Nameable;
 import com.salmonllc.sitemap.SiteMap;
 import java.io.*;
 import java.util.*;
+
 import javax.servlet.http.*;
 
 /**
@@ -349,7 +350,7 @@ public abstract class HtmlComponent implements Serializable, Nameable {
      * @param rowNo - int row number to act on
      * @return true if this component or a child is the one that submitted the page and false if not.
      */
-    public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+    public boolean processParms(Hashtable<String, Object> parms, int rowNo) throws Exception {
         return false;
     }
 
