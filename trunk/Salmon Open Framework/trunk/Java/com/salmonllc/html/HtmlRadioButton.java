@@ -40,6 +40,10 @@ import com.salmonllc.properties.Props;
  * give each one the same name.
  */
 public class HtmlRadioButton extends HtmlFormComponent  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -860052252573118511L;
 	public static final int CAPTIONS_ON_LEFT = 0;
 	public static final int CAPTIONS_ON_RIGHT = 1;
 	
@@ -59,6 +63,9 @@ public class HtmlRadioButton extends HtmlFormComponent  {
 	private String _group = null;
 	private Integer _tabIndex;
 	private String _accessKey;
+	
+	private String _onFocus;
+	private String _onLoseFocus;
 	
 /**
  * Constructs a new HtmlRadioButton component.
@@ -244,7 +251,13 @@ private String getRadioButtonTag(int rowNo, String val) {
 		tag += " tabindex=\"" + _tabIndex + "\"";
 	if (_accessKey != null)
 		tag += " accesskey=\"" + _accessKey + "\"";
-			
+	if (_onFocus != null) {
+		tag += (" onFocus=\"" + _onFocus + "\"");
+	}
+	if (_onLoseFocus != null) {
+		tag += (" onBlur=\"" + _onLoseFocus + "\"");
+	}
+	
 	tag += ">";	
 			
 	if (_fontTagStart != null) 
@@ -258,7 +271,7 @@ private String getRadioButtonTag(int rowNo, String val) {
 public boolean getUseProportions() {
 	return _useProportions;
 }
-public boolean processParms(Hashtable parms, int rowNo) throws Exception {
+public boolean processParms(Hashtable<String, Object>parms, int rowNo) throws Exception {
 	if (!getEnabled())
 		return false;
 	Object oldValue = _value;
@@ -373,5 +386,33 @@ public void setTabIndex(int val) {
 		_tabIndex = null;
 	else	
 		_tabIndex = new Integer(val);
+}
+
+//Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+/**
+ * This method adds javascript code to be executed when the component gains focus.
+ *
+ * @param value DOCUMENT ME!
+ */
+public void addOnFocus(String value)
+{
+   if(_onFocus == null) 
+  	 _onFocus = value;
+   else
+  	 _onFocus += value;
+}
+
+//Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
+/**
+ * This method adds the javascript to be executed when the component loses focus.
+ *
+ * @param value DOCUMENT ME!
+ */
+public void addOnLoseFocus(String value)
+{
+	 if(_onLoseFocus == null)
+		 _onLoseFocus = value;
+	 else
+		 _onLoseFocus += value;
 }
 }
