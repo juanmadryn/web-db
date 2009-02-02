@@ -5,23 +5,15 @@
 <script src="javascripts/scriptaculous.js" type="text/javascript"></script>
 <script src="javascripts/utils.js" type="text/javascript"></script>
 <script type="text/javascript">
-function copiarHora(event) {
-	var element = event.target; 
-	for (var j=0;$('datatable1TDRow5horaDesdeTE26_'+j) != null;j++) {
-		if(element.id.match('datatable1TDRow5horaDesdeTE26_'))
-			$('datatable1TDRow5horaDesdeTE26_'+j).value = element.value;
-		else
-			$('datatable1TDRow5horaHastaTE26_'+j).value = element.value;
+	function copiarHora(event) {
+		var element = event.target;
+		for ( var j = 0; $('datatable1TDRow5horaDesdeTE26_' + j) != null; j++) {
+			if (element.id.match('datatable1TDRow5horaDesdeTE26_'))
+				$('datatable1TDRow5horaDesdeTE26_' + j).value = element.value;
+			else
+				$('datatable1TDRow5horaHastaTE26_' + j).value = element.value;
+		}
 	}
-}
-function resaltar(event) {
-	var element = event.target; 
-	element.className='selected';
-}
-function desResaltar(event) {
-	var element = event.target; 
-	element.className='';
-}
 </script>
 <salmon:page
 	controller="partesMO.controllers.ConsultaPartesMoController" />
@@ -39,7 +31,7 @@ function desResaltar(event) {
 	</salmon:datasource>
 	<salmon:datasource name="dsQBE" type="QBE">
 		<salmon:qbecriteria name="buscar" type="complex"
-			columns="parte_id,nro_legajo,apeynom,proyectos.proyecto,proyectos.nombre,tareas_proyecto.nombre" />
+			columns="parte_id,nro_legajo,apeynom,tareas_proyecto.nombre" />
 	</salmon:datasource>
 	<salmon:datasource name="dsPartes" type="MODEL" dbprofile="partesmo"
 		model="partesMO.models.PartesMoModel" autoretrieve="Never">
@@ -61,8 +53,8 @@ function desResaltar(event) {
 							<tr>
 								<td><salmon:text name="buscarCAP1" text="Buscar"
 									font="TableHeadingFont" /></td>
-								<td colspan=3"><salmon:input type="text" name="buscarTE3" size="60"
-									maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
+								<td colspan=3"><salmon:input type="text" name="buscarTE3"
+									size="60" maxlength="90" datasource="dsQBE:buscar"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="fechadesdeCAP1" text="Fecha desde"
@@ -73,16 +65,17 @@ function desResaltar(event) {
 								<td><salmon:text name="fechahastaCAP2" text="Fecha hasta"
 									font="TableHeadingFont" /></td>
 								<td><salmon:input type="text" name="fechahastaTE2"
-								size="10" displayformat="dd/MM/yyyy"
+									size="10" displayformat="dd/MM/yyyy"
 									datasource="dsPeriodo:hasta" maxlength="10"></salmon:input></td>
 							</tr>
 							<tr>
 								<td><salmon:text name="proyecto1" text="Proyecto"
 									font="TableHeadingFont" /></td>
-								<td colspan="3"><salmon:lookup browseimage="%ImageDirectory/Browse.gif"
+								<td colspan="3"><salmon:lookup
+									browseimage="%ImageDirectory/Browse.gif"
 									lookupurl="%LkpProyectos" name="proyecto2" size="15"
 									maxlength="15" popupheight="450" popupwidth="500"
-									usepopup="TRUE" showdescription="TRUE"></salmon:lookup></td>									
+									usepopup="TRUE" showdescription="TRUE"></salmon:lookup></td>
 							</tr>
 						</table>
 					</salmon:searchformdisplaybox>
@@ -98,6 +91,8 @@ function desResaltar(event) {
 				datasource="dsPartes">
 				<salmon:datatableheader>
 					<salmon:tr>
+						<salmon:td>
+						</salmon:td>
 						<salmon:td>
 							<salmon:text name="parteIdCAP2" text="ID" font="TableHeadingFont" />
 						</salmon:td>
@@ -126,6 +121,10 @@ function desResaltar(event) {
 				</salmon:datatableheader>
 				<salmon:datatablerows>
 					<salmon:tr>
+						<salmon:td>
+							<salmon:input type="checkbox" name="seleccionParte"
+								checkedtruevalue="1"></salmon:input>
+						</salmon:td>
 						<salmon:td>
 							<salmon:a href="none" name="lnkpartes1"
 								onclick="document.forms['bannerForm'].submit();"
