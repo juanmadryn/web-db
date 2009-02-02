@@ -100,7 +100,7 @@ public class PartesMoModel extends BaseModel {
 	 * Create a new PartesMoModel object.
 	 * 
 	 * @param appName
-	 *           The SOFIA application name
+	 *            The SOFIA application name
 	 */
 	public PartesMoModel(String appName) {
 		this(appName, null);
@@ -110,9 +110,9 @@ public class PartesMoModel extends BaseModel {
 	 * Create a new PartesMoModel object.
 	 * 
 	 * @param appName
-	 *           The SOFIA application name
+	 *            The SOFIA application name
 	 * @param profile
-	 *           The database profile to use
+	 *            The database profile to use
 	 */
 	public PartesMoModel(String appName, String profile) {
 		super(appName, profile);
@@ -125,9 +125,11 @@ public class PartesMoModel extends BaseModel {
 					"lote_carga_partes_mo");
 			addTableAlias(computeTableName("sector_trabajo"), "sector_trabajo");
 			addTableAlias(computeTableName("supervisores"), "supervisores");
-			addTableAlias(computeTableName("infraestructura.estados"), "estados");
+			addTableAlias(computeTableName("infraestructura.estados"),
+					"estados");
 			addTableAlias(computeTableName("proyectos.proyectos"), "proyectos");
-			addTableAlias(computeTableName("proyectos.tareas_proyecto"), "tareas");
+			addTableAlias(computeTableName("proyectos.tareas_proyecto"),
+					"tareas");
 
 			// add columns
 			addColumn(computeTableName("partes_mo"), "parte_id",
@@ -135,9 +137,11 @@ public class PartesMoModel extends BaseModel {
 			addColumn(computeTableName("partes_mo"), "fecha",
 					DataStore.DATATYPE_DATE, false, true, PARTES_MO_FECHA);
 			addColumn(computeTableName("partes_mo"), "hora_desde",
-					DataStore.DATATYPE_STRING, false, true, PARTES_MO_HORA_DESDE);
+					DataStore.DATATYPE_STRING, false, true,
+					PARTES_MO_HORA_DESDE);
 			addColumn(computeTableName("partes_mo"), "hora_hasta",
-					DataStore.DATATYPE_STRING, false, true, PARTES_MO_HORA_HASTA);
+					DataStore.DATATYPE_STRING, false, true,
+					PARTES_MO_HORA_HASTA);
 			addColumn(computeTableName("partes_mo"), "horas",
 					DataStore.DATATYPE_DOUBLE, false, true, PARTES_MO_HORAS);
 			addColumn(computeTableName("partes_mo"), "lote_id",
@@ -147,7 +151,8 @@ public class PartesMoModel extends BaseModel {
 			addColumn(computeTableName("partes_mo"), "categoria",
 					DataStore.DATATYPE_STRING, false, true, PARTES_MO_CATEGORIA);
 			addColumn(computeTableName("partes_mo"), "desc_categoria",
-					DataStore.DATATYPE_STRING, false, true, PARTES_MO_DESC_CATEGORIA);
+					DataStore.DATATYPE_STRING, false, true,
+					PARTES_MO_DESC_CATEGORIA);
 			addColumn(computeTableName("partes_mo"), "sector_id",
 					DataStore.DATATYPE_INT, false, true, PARTES_MO_SECTOR_ID);
 			addColumn(computeTableName("partes_mo"), "proyecto_id",
@@ -157,17 +162,21 @@ public class PartesMoModel extends BaseModel {
 			addColumn(computeTableName("partes_mo"), "personal_id",
 					DataStore.DATATYPE_INT, false, true, PARTES_MO_PERSONAL_ID);
 			addColumn(computeTableName("partes_mo"), "nro_legajo",
-					DataStore.DATATYPE_STRING, false, true, PARTES_MO_NRO_LEGAJO);
+					DataStore.DATATYPE_STRING, false, true,
+					PARTES_MO_NRO_LEGAJO);
 			addColumn(computeTableName("partes_mo"), "apeynom",
 					DataStore.DATATYPE_STRING, false, true, PARTES_MO_APEYNOM);
 			addColumn(computeTableName("partes_mo"), "estado",
 					DataStore.DATATYPE_STRING, false, true, PARTES_MO_ESTADO);
 			addColumn(computeTableName("partes_mo"), "ultima_mod",
-					DataStore.DATATYPE_DATETIME, false, true, PARTES_MO_ULTIMA_MOD);
+					DataStore.DATATYPE_DATETIME, false, true,
+					PARTES_MO_ULTIMA_MOD);
 			addColumn(computeTableName("sector_trabajo"), "nombre",
-					DataStore.DATATYPE_STRING, false, false, SECTOR_TRABAJO_NOMBRE);
+					DataStore.DATATYPE_STRING, false, false,
+					SECTOR_TRABAJO_NOMBRE);
 			addColumn(computeTableName("supervisores"), "apeynom",
-					DataStore.DATATYPE_STRING, true, false, SUPERVISORES_APEYNOM);
+					DataStore.DATATYPE_STRING, true, false,
+					SUPERVISORES_APEYNOM);
 			addColumn(computeTableName("infraestructura.estados"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, ESTADOS_NOMBRE);
 			addColumn(computeTableName("lote_carga_partes_mo"), "estado",
@@ -184,7 +193,8 @@ public class PartesMoModel extends BaseModel {
 			addColumn(computeTableName("proyectos.proyectos"), "nombre",
 					DataStore.DATATYPE_STRING, false, false, PROYECTOS_NOMBRE);
 			addColumn(computeTableName("tareas"), "nombre",
-					DataStore.DATATYPE_STRING, false, false, TAREAS_PROYECTO_NOMBRE);
+					DataStore.DATATYPE_STRING, false, false,
+					TAREAS_PROYECTO_NOMBRE);
 			addColumn(computeTableName("tareas"), "descripcion",
 					DataStore.DATATYPE_STRING, false, false,
 					TAREAS_PROYECTOS_DESCRIPCION);
@@ -195,10 +205,11 @@ public class PartesMoModel extends BaseModel {
 
 			// add joins
 			addJoin(computeTableAndFieldName("partes_mo.lote_id"),
-					computeTableAndFieldName("lote_carga_partes_mo.lote_id"), true);
+					computeTableAndFieldName("lote_carga_partes_mo.lote_id"),
+					true);
 			addJoin(computeTableAndFieldName("partes_mo.supervisor"),
 					computeTableAndFieldName("supervisores.nro_legajo"), true); // antes
-																									// personal_id
+			// personal_id
 			addJoin(computeTableAndFieldName("partes_mo.sector_id"),
 					computeTableAndFieldName("sector_trabajo.sector_id"), true);
 			addJoin(computeTableAndFieldName("partes_mo.estado"),
@@ -209,7 +220,8 @@ public class PartesMoModel extends BaseModel {
 					computeTableAndFieldName("tareas.tarea_id"), true);
 
 			// add validations
-			addRequiredRule(PARTES_MO_FECHA, "La fecha del partes es obligatoria");
+			addRequiredRule(PARTES_MO_FECHA,
+					"La fecha del partes es obligatoria");
 			addRequiredRule(PARTES_MO_HORA_DESDE,
 					"Hora desde es obligatoria para el parte");
 			addRequiredRule(PARTES_MO_HORA_HASTA,
@@ -235,10 +247,11 @@ public class PartesMoModel extends BaseModel {
 					"estado", "lote_carga_partes_mo.estado", "Lote inexistente");
 			addLookupRule(PARTES_MO_SUPERVISOR, "supervisores",
 					"'supervisores.nro_legajo = ' + partes_mo.supervisor",
-					"apeynom", "sector_trabajo.nombre", "Supervisor inexistente");
+					"apeynom", "sector_trabajo.nombre",
+					"Supervisor inexistente");
 			addLookupRule(PARTES_MO_SECTOR_ID, "sector_trabajo",
-					"'sector_trabajo.sector_id = ' + partes_mo.sector_id", "nombre",
-					"sector_trabajo.nombre", "Sector inexistente");
+					"'sector_trabajo.sector_id = ' + partes_mo.sector_id",
+					"nombre", "sector_trabajo.nombre", "Sector inexistente");
 			addLookupRule(
 					PARTES_MO_ESTADO,
 					"infraestructura.estados",
@@ -271,10 +284,11 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the partes_mo.parte_id column for the specified row.
+	 * Retrieve the value of the partes_mo.parte_id column for the specified
+	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -286,7 +300,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.parte_id column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoParteId(int newValue) throws DataStoreException {
@@ -297,9 +311,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.parte_id column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoParteId(int row, int newValue)
@@ -321,7 +335,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the partes_mo.fecha column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -333,7 +347,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.fecha column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoFecha(java.sql.Date newValue)
@@ -345,9 +359,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.fecha column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoFecha(int row, java.sql.Date newValue)
@@ -356,7 +370,8 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the partes_mo.hora_desde column for the current row.
+	 * Retrieve the value of the partes_mo.hora_desde column for the current
+	 * row.
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -370,7 +385,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -382,7 +397,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.hora_desde column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoHoraDesde(String newValue) throws DataStoreException {
@@ -393,9 +408,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.hora_desde column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoHoraDesde(int row, String newValue)
@@ -404,7 +419,8 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the partes_mo.hora_hasta column for the current row.
+	 * Retrieve the value of the partes_mo.hora_hasta column for the current
+	 * row.
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -418,7 +434,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -430,7 +446,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.hora_hasta column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoHoraHasta(String newValue) throws DataStoreException {
@@ -441,9 +457,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.hora_hasta column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoHoraHasta(int row, String newValue)
@@ -465,7 +481,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the partes_mo.horas column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return double
 	 * @throws DataStoreException
 	 */
@@ -477,7 +493,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.horas column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoHoras(double newValue) throws DataStoreException {
@@ -488,9 +504,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.horas column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoHoras(int row, double newValue)
@@ -512,7 +528,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the partes_mo.lote_id column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -524,7 +540,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.lote_id column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoLoteId(int newValue) throws DataStoreException {
@@ -535,9 +551,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.lote_id column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoLoteId(int row, int newValue)
@@ -546,7 +562,8 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the partes_mo.supervisor column for the current row.
+	 * Retrieve the value of the partes_mo.supervisor column for the current
+	 * row.
 	 * 
 	 * @return int
 	 * @throws DataStoreException
@@ -560,7 +577,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -572,7 +589,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.supervisor column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoSupervisor(int newValue) throws DataStoreException {
@@ -583,9 +600,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.supervisor column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoSupervisor(int row, int newValue)
@@ -608,7 +625,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -620,7 +637,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.categoria column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoCategoria(String newValue) throws DataStoreException {
@@ -631,9 +648,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.categoria column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoCategoria(int row, String newValue)
@@ -657,7 +674,7 @@ public class PartesMoModel extends BaseModel {
 	 * specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -669,7 +686,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.desc_categoria column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoDescCategoria(String newValue)
@@ -682,9 +699,9 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoDescCategoria(int row, String newValue)
@@ -707,7 +724,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -719,7 +736,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.sector_id column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoSectorId(int newValue) throws DataStoreException {
@@ -730,9 +747,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.sector_id column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoSectorId(int row, int newValue)
@@ -756,7 +773,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -768,7 +785,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.proyecto_id column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoProyectoId(int newValue) throws DataStoreException {
@@ -779,9 +796,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.proyecto_id column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoProyectoId(int row, int newValue)
@@ -800,10 +817,11 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the partes_mo.tarea_id column for the specified row.
+	 * Retrieve the value of the partes_mo.tarea_id column for the specified
+	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -815,7 +833,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.tarea_id column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoTareaId(int newValue) throws DataStoreException {
@@ -826,9 +844,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.tarea_id column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoTareaId(int row, int newValue)
@@ -847,10 +865,11 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the proyectos.proyecto column for the specified row.
+	 * Retrieve the value of the proyectos.proyecto column for the specified
+	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -862,7 +881,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the proyectos.proyecto column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoProyecto(String newValue) throws DataStoreException {
@@ -873,9 +892,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the proyectos.proyecto column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoProyecto(int row, String newValue)
@@ -897,7 +916,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the proyectos.Nombre column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -909,7 +928,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the proyectos.Nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoProyectoNombre(String newValue)
@@ -921,9 +940,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the proyectos.Nombre column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoProyectoNombre(int row, String newValue)
@@ -947,7 +966,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -959,7 +978,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.personal_id column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoPersonalId(int newValue) throws DataStoreException {
@@ -970,9 +989,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.personal_id column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoPersonalId(int row, int newValue)
@@ -981,7 +1000,8 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the partes_mo.nro_legajo column for the current row.
+	 * Retrieve the value of the partes_mo.nro_legajo column for the current
+	 * row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -995,7 +1015,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1007,7 +1027,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.nro_legajo column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoNroLegajo(String newValue) throws DataStoreException {
@@ -1018,9 +1038,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.nro_legajo column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoNroLegajo(int row, String newValue)
@@ -1042,7 +1062,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the partes_mo.apeynom column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1054,7 +1074,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.apeynom column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoApeynom(String newValue) throws DataStoreException {
@@ -1065,9 +1085,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.apeynom column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoApeynom(int row, String newValue)
@@ -1089,7 +1109,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the partes_mo.estado column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1101,7 +1121,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.estado column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoEstado(String newValue) throws DataStoreException {
@@ -1112,9 +1132,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.estado column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoEstado(int row, String newValue)
@@ -1138,7 +1158,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1150,7 +1170,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the sector_trabajo.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSectorTrabajoNombre(String newValue)
@@ -1162,9 +1182,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the sector_trabajo.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSectorTrabajoNombre(int row, String newValue)
@@ -1173,7 +1193,8 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the supervisores.apeynom column for the current row.
+	 * Retrieve the value of the supervisores.apeynom column for the current
+	 * row.
 	 * 
 	 * @return String
 	 * @throws DataStoreException
@@ -1187,7 +1208,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1199,7 +1220,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the supervisores.apeynom column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSupervisoresApeynom(String newValue)
@@ -1211,9 +1232,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the supervisores.apeynom column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setSupervisoresApeynom(int row, String newValue)
@@ -1235,7 +1256,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the estados.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1247,7 +1268,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the estados.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEstadosNombre(String newValue) throws DataStoreException {
@@ -1258,9 +1279,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the estados.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setEstadosNombre(int row, String newValue)
@@ -1284,7 +1305,7 @@ public class PartesMoModel extends BaseModel {
 	 * specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1297,7 +1318,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setLoteCargaPartesMoEstado(String newValue)
@@ -1310,9 +1331,9 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setLoteCargaPartesMoEstado(int row, String newValue)
@@ -1337,7 +1358,7 @@ public class PartesMoModel extends BaseModel {
 	 * specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -1351,7 +1372,7 @@ public class PartesMoModel extends BaseModel {
 	 * current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setLoteCargaPartesMoFechaAlta(java.sql.Date newValue)
@@ -1364,9 +1385,9 @@ public class PartesMoModel extends BaseModel {
 	 * specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setLoteCargaPartesMoFechaAlta(int row, java.sql.Date newValue)
@@ -1375,8 +1396,8 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the lote_carga_partes_mo.fecha_cierre column for the
-	 * current row.
+	 * Retrieve the value of the lote_carga_partes_mo.fecha_cierre column for
+	 * the current row.
 	 * 
 	 * @return java.sql.Date
 	 * @throws DataStoreException
@@ -1387,11 +1408,11 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Retrieve the value of the lote_carga_partes_mo.fecha_cierre column for the
-	 * specified row.
+	 * Retrieve the value of the lote_carga_partes_mo.fecha_cierre column for
+	 * the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return java.sql.Date
 	 * @throws DataStoreException
 	 */
@@ -1405,7 +1426,7 @@ public class PartesMoModel extends BaseModel {
 	 * current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setLoteCargaPartesMoFechaCierre(java.sql.Date newValue)
@@ -1418,9 +1439,9 @@ public class PartesMoModel extends BaseModel {
 	 * specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setLoteCargaPartesMoFechaCierre(int row, java.sql.Date newValue)
@@ -1442,7 +1463,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the mensaje_error bucket for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1454,7 +1475,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the mensaje_error bucket for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMensajeError(String newValue) throws DataStoreException {
@@ -1465,9 +1486,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the mensaje_error bucket for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setMensajeError(int row, String newValue)
@@ -1489,7 +1510,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the horarios bucket for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return String
 	 * @throws DataStoreException
 	 */
@@ -1501,7 +1522,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the horarios bucket for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setHorarios(String newValue) throws DataStoreException {
@@ -1512,9 +1533,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the horarios bucket for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setHorarios(int row, String newValue) throws DataStoreException {
@@ -1539,7 +1560,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -1551,7 +1572,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the tareas_proyecto.nombre column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoNombre(String newValue)
@@ -1563,9 +1584,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the tareas_proyecto.nombre column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoNombre(int row, String newValue)
@@ -1591,7 +1612,7 @@ public class PartesMoModel extends BaseModel {
 	 * specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return int
 	 * @throws DataStoreException
 	 */
@@ -1605,7 +1626,7 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoDescripcion(String newValue)
@@ -1618,9 +1639,9 @@ public class PartesMoModel extends BaseModel {
 	 * row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setTareasProyectoDescripcion(int row, String newValue)
@@ -1647,7 +1668,8 @@ public class PartesMoModel extends BaseModel {
 	 * correspondientes deben ser invocados manualmente.
 	 * 
 	 * @param validar
-	 *           true para controlar los atributos, false para saltar el control.
+	 *            true para controlar los atributos, false para saltar el
+	 *            control.
 	 */
 	public void doValidarPartes(boolean validar) {
 		_validarPartes = validar;
@@ -1708,7 +1730,8 @@ public class PartesMoModel extends BaseModel {
 			// horas y minutos extraigo solo las horas
 			try {
 				tmpMinutos = Integer.parseInt(hora.substring(index2Puntos + 1));
-				// si los minutos están expresados con una sola cifra la llevo a dos
+				// si los minutos están expresados con una sola cifra la llevo a
+				// dos
 				if (hora.substring(index2Puntos + 1).length() == 1)
 					tmpMinutos = tmpMinutos * 10;
 			} catch (Exception e) {
@@ -1742,10 +1765,11 @@ public class PartesMoModel extends BaseModel {
 
 		if (_estado_inicial == null || _estado_inicial.trim().length() == 0) {
 			try {
-				conexion = DBConnection
-						.getConnection("partesMO", "infraestructura");
+				conexion = DBConnection.getConnection("partesMO",
+						"infraestructura");
 
-				// ahora busco el primer estado posible según la máquina de estados
+				// ahora busco el primer estado posible según la máquina de
+				// estados
 				SQL = "select estado_origen "
 						+ " from transicion_estados "
 						+ " where estado_origen in (select estado from estados where circuito = '0003')"
@@ -1804,7 +1828,8 @@ public class PartesMoModel extends BaseModel {
 			} catch (ClassNotFoundException e) {
 				MessageLog.writeErrorMessage(e, null);
 				throw new DataStoreException(
-						"Imposible cargar el driver para Tango: " + e.getMessage());
+						"Imposible cargar el driver para Tango: "
+								+ e.getMessage());
 			}
 
 			try {
@@ -1840,8 +1865,9 @@ public class PartesMoModel extends BaseModel {
 				// primero busco el circuito y la columna asociada a los partes
 				// Agregamos vigencia_hasta para controlar vigencia del proyecto
 				SQL = "select proyecto_id, nombre, vigencia_desde, vigencia_hasta "
-						+ "  from proyectos " + " where proyecto = '" + proyecto
-						+ "'";
+						+ "  from proyectos "
+						+ " where proyecto = '"
+						+ proyecto + "'";
 				st = conexion.createStatement();
 				r = st.executeQuery(SQL);
 
@@ -1883,8 +1909,8 @@ public class PartesMoModel extends BaseModel {
 			// setea las columnas
 			if (proyecto_id != -1) {
 				// controlamos la fecha de vigencia del proyecto
-				int f = verificaFechaPeriodo(getPartesMoFecha(row), vigenciaDesde,
-						vigenciaHasta);
+				int f = verificaFechaPeriodo(getPartesMoFecha(row),
+						vigenciaDesde, vigenciaHasta);
 				if (f == 0) {
 					setPartesMoProyectoId(row, proyecto_id);
 					setPartesMoProyectoNombre(row, nombre);
@@ -1915,7 +1941,7 @@ public class PartesMoModel extends BaseModel {
 	 * related to the project.
 	 * 
 	 * @param row
-	 *           The datastore row
+	 *            The datastore row
 	 * @return The task id
 	 * @throws DataStoreException
 	 */
@@ -1932,14 +1958,16 @@ public class PartesMoModel extends BaseModel {
 			// disabled
 			if ((tareaProyectoNombre != null)
 					&& (tareaProyectoNombre.trim().length() > 0)
-					&& ("true".equalsIgnoreCase(Props.getProps("partesmo", null)
-							.getProperty("ShowTareaLookup")))) {
+					&& ("true".equalsIgnoreCase(Props
+							.getProps("partesmo", null).getProperty(
+									"ShowTareaLookup")))) {
 				whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_NOMBRE
 						+ " = '" + tareaProyectoNombre + "' and ");
 			}
 			whereClause.append(TareasProyectoModel.TAREAS_PROYECTO_PROYECTO_ID
 					+ " = " + proyectoId);
-			// the first task added to the project on top (useful when no task was
+			// the first task added to the project on top (useful when no task
+			// was
 			// specified)
 			dsTareasProyecto
 					.setOrderBy(TareasProyectoModel.TAREAS_PROYECTO_TAREA_ID
@@ -1951,7 +1979,8 @@ public class PartesMoModel extends BaseModel {
 
 			// set the retrieved task as the unit-of-work's one
 			if (tareaId != -1) {
-				setPartesMoTareaId(row, dsTareasProyecto.getTareasProyectoTareaId());
+				setPartesMoTareaId(row, dsTareasProyecto
+						.getTareasProyectoTareaId());
 				setTareasProyectoNombre(row, dsTareasProyecto
 						.getTareasProyectoNombre());
 				setTareasProyectoDescripcion(row, dsTareasProyecto
@@ -1977,23 +2006,25 @@ public class PartesMoModel extends BaseModel {
 	 * fin de vigencia dadas
 	 * 
 	 * @param fechaParte
-	 *           fecha del parte de mano de obra a ingresar
+	 *            fecha del parte de mano de obra a ingresar
 	 * @param vigenciaDesde
-	 *           fecha de inicio de vigencia del proyecto al que este parte
-	 *           corresponde
+	 *            fecha de inicio de vigencia del proyecto al que este parte
+	 *            corresponde
 	 * @param vigenciaHasta
-	 *           fecha de fin de vigencia del proyecto al que este parte
-	 *           corresponde
-	 * @return 0 si la fecha del parte se encuentra entras las fechas dadas, 1 si
-	 *         es posterior, -1 si es anterior
+	 *            fecha de fin de vigencia del proyecto al que este parte
+	 *            corresponde
+	 * @return 0 si la fecha del parte se encuentra entras las fechas dadas, 1
+	 *         si es posterior, -1 si es anterior
 	 */
 	private int verificaFechaPeriodo(java.sql.Date fechaParte,
 			java.sql.Date vigenciaDesde, java.sql.Date vigenciaHasta) {
 		if (fechaParte == null)
 			return (-1);
-		if ((vigenciaDesde != null) && (fechaParte.compareTo(vigenciaDesde) < 0))
+		if ((vigenciaDesde != null)
+				&& (fechaParte.compareTo(vigenciaDesde) < 0))
 			return (-1);
-		if ((vigenciaHasta != null) && (fechaParte.compareTo(vigenciaHasta) > 0))
+		if ((vigenciaHasta != null)
+				&& (fechaParte.compareTo(vigenciaHasta) > 0))
 			return 1;
 		return 0;
 	}
@@ -2041,8 +2072,9 @@ public class PartesMoModel extends BaseModel {
 
 				personal_id = getPartesMoPersonalId(row);
 
-				SQL = "select L.NRO_LEGAJO,L.NOMBRE,L.APELLIDO" + " from LEGAJO L"
-						+ " where L.ID_LEGAJO = " + Integer.toString(personal_id);
+				SQL = "select L.NRO_LEGAJO,L.NOMBRE,L.APELLIDO"
+						+ " from LEGAJO L" + " where L.ID_LEGAJO = "
+						+ Integer.toString(personal_id);
 				debug = "CreateStatement";
 				st = connTango.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
 						ResultSet.CONCUR_READ_ONLY);
@@ -2086,12 +2118,13 @@ public class PartesMoModel extends BaseModel {
 
 		}
 
-		// Verifica que la fecha del parte coincida con un periodo de vigencia del
+		// Verifica que la fecha del parte coincida con un periodo de vigencia
+		// del
 		// legajo
 		if (
-				 !controlaFechaIngresoEgreso(this.getPartesMoFecha(row),
-				  personal_id)
-				 ) {
+			  !controlaFechaIngresoEgreso(this.getPartesMoFecha(row),
+			   personal_id)
+			  ) {
 			setMensajeError(row, "Legajo dado de baja durante la fecha del parte");
 			hubo_errores = true;
 		}
@@ -2105,8 +2138,8 @@ public class PartesMoModel extends BaseModel {
 	}
 
 	/**
-	 * Controla que la fecha del parte corresponda con el periodo de vigencia del
-	 * puesto de supervisor
+	 * Controla que la fecha del parte corresponda con el periodo de vigencia
+	 * del puesto de supervisor
 	 * 
 	 * @param row
 	 * @return true si no corresponde a un periodo valido
@@ -2192,9 +2225,9 @@ public class PartesMoModel extends BaseModel {
 	 * en que el legajo haya o este dado de alta.
 	 * 
 	 * @param fechaparte
-	 *           Fecha del parte de mano de obra
+	 *            Fecha del parte de mano de obra
 	 * @param legajoid
-	 *           Id del legajo
+	 *            Id del legajo
 	 * @return true si la fecha del parte corresponde a algun periodo valido del
 	 *         legajo
 	 * @throws DataStoreException
@@ -2306,7 +2339,8 @@ public class PartesMoModel extends BaseModel {
 			}
 			if ((minuto_d = parserMinutos(hora_desde)) == -1) {
 				if (getMensajeError(row) == null)
-					setMensajeError(row, "Error en los minutos de la hora desde");
+					setMensajeError(row,
+							"Error en los minutos de la hora desde");
 				else
 					setMensajeError(row, getMensajeError(row)
 							+ " - Error en los minutos de la hora desde");
@@ -2326,7 +2360,8 @@ public class PartesMoModel extends BaseModel {
 				}
 				if ((minuto_h = parserMinutos(hora_hasta)) == -1) {
 					if (getMensajeError(row) == null)
-						setMensajeError(row, "Error en los minutos de la hora hasta");
+						setMensajeError(row,
+								"Error en los minutos de la hora hasta");
 					else
 						setMensajeError(row, getMensajeError(row)
 								+ " - Error en los minutos de la hora hasta");
@@ -2345,7 +2380,8 @@ public class PartesMoModel extends BaseModel {
 				hora_h = hora_h + 24;
 			if (hora_d > hora_h) {
 				if (getMensajeError(row) == null)
-					setMensajeError(row, "Hora desde es mayor que la hora hasta");
+					setMensajeError(row,
+							"Hora desde es mayor que la hora hasta");
 				else
 					setMensajeError(row, getMensajeError(row)
 							+ " - Hora desde es mayor que la hora hasta");
@@ -2354,7 +2390,8 @@ public class PartesMoModel extends BaseModel {
 
 			if (hora_d == hora_h && minuto_d > minuto_h) {
 				if (getMensajeError(row) == null)
-					setMensajeError(row, "Hora desde es mayor que la hora hasta");
+					setMensajeError(row,
+							"Hora desde es mayor que la hora hasta");
 				else
 					setMensajeError(row, getMensajeError(row)
 							+ " - Hora desde es mayor que la hora hasta");
@@ -2364,7 +2401,8 @@ public class PartesMoModel extends BaseModel {
 			int tmpHoras = hora_h - (hora_d + 1);
 			int tmpMinutosRemanentesDesde = 60 - minuto_d;
 			int tmpMinutosRemanentesHasta = minuto_h;
-			int tmpMinutos = tmpMinutosRemanentesDesde + tmpMinutosRemanentesHasta;
+			int tmpMinutos = tmpMinutosRemanentesDesde
+					+ tmpMinutosRemanentesHasta;
 			if (tmpMinutos > 59) {
 				tmpMinutos = tmpMinutos - 60;
 				tmpHoras = tmpHoras + 1;
@@ -2415,7 +2453,8 @@ public class PartesMoModel extends BaseModel {
 							+ e.getMessage());
 				else
 					setMensajeError(row, getMensajeError(row)
-							+ " - problemas calculando hora hasta: " + e.getMessage());
+							+ " - problemas calculando hora hasta: "
+							+ e.getMessage());
 				hubo_errores = true;
 			}
 		}
@@ -2523,8 +2562,8 @@ public class PartesMoModel extends BaseModel {
 					st.close();
 					SQL = " insert into lote_carga_partes_mo "
 							+ " (estado,fecha_alta,descripcion) VALUES "
-							+ "('0004.0002','" + hoy.toString() + "','" + quincena
-							+ "')";
+							+ "('0004.0002','" + hoy.toString() + "','"
+							+ quincena + "')";
 					st = conexion.createStatement();
 					st.executeUpdate(SQL);
 
@@ -2553,8 +2592,9 @@ public class PartesMoModel extends BaseModel {
 			} catch (SQLException e) {
 				MessageLog.writeErrorMessage(e, null);
 				if (getMensajeError(row) == null)
-					setMensajeError(row, "Error determinando lote para el parte: "
-							+ e.getMessage());
+					setMensajeError(row,
+							"Error determinando lote para el parte: "
+									+ e.getMessage());
 				else
 					setMensajeError(row, getMensajeError(row)
 							+ " - Error determinando lote para el parte: "
@@ -2627,7 +2667,8 @@ public class PartesMoModel extends BaseModel {
 				MessageLog.writeErrorMessage(e, null);
 				// además de escribir en el log mando mensaje a la página
 				throw new DataStoreException(
-						"Error determinando categoria en tango: " + e.getMessage());
+						"Error determinando categoria en tango: "
+								+ e.getMessage());
 			} finally {
 				if (r != null) {
 					try {
@@ -2686,11 +2727,15 @@ public class PartesMoModel extends BaseModel {
 				int minuto_h_i = parserMinutos(horaHastaI);
 				int hora_d_abs_i = hora_d_i * 100 + minuto_d_i;
 				int hora_h_abs_i = hora_h_i * 100 + minuto_h_i;
-
 				// si es misma fecha y legajo, es candidato
-				if (fechaRow.equals(fechaI) && nroLegajoRow == nroLegajoI) {
-					if ((hora_d_abs < hora_h_abs_i) && (hora_h_abs_i <= hora_h_abs)) {
-						if (getMensajeError(row) == null)
+
+				if (fechaRow.toString().equals(fechaI.toString())
+						&& nroLegajoRow.equalsIgnoreCase(
+								nroLegajoI)) {
+					if ((hora_d_abs < hora_h_abs_i)
+							&& (hora_h_abs_i <= hora_h_abs)) {
+						if (getMensajeError(row) == null
+								|| getMensajeError(row) == "")
 							setMensajeError(
 									row,
 									"Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
@@ -2701,8 +2746,10 @@ public class PartesMoModel extends BaseModel {
 											+ " - Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
 						return true;
 					}
-					if ((hora_d_abs_i < hora_h_abs) && (hora_h_abs <= hora_h_abs_i)) {
-						if (getMensajeError(row) == null)
+					if ((hora_d_abs_i < hora_h_abs)
+							&& (hora_h_abs <= hora_h_abs_i)) {
+						if (getMensajeError(row) == null
+								|| getMensajeError(row) == "")
 							setMensajeError(
 									row,
 									"Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
@@ -2737,9 +2784,13 @@ public class PartesMoModel extends BaseModel {
 				int hora_h_abs_i = hora_h_i * 100 + minuto_h_i;
 
 				// si es misma fecha y legajo, es candidato
-				if (fechaRow.equals(fechaI) && nroLegajoRow == nroLegajoI) {
-					if ((hora_d_abs < hora_h_abs_i) && (hora_h_abs_i <= hora_h_abs)) {
-						if (getMensajeError(row) == null)
+				if (fechaRow.toString().equals(fechaI.toString())
+						&& nroLegajoRow.equalsIgnoreCase(
+								nroLegajoI)) {
+					if ((hora_d_abs < hora_h_abs_i)
+							&& (hora_h_abs_i <= hora_h_abs)) {
+						if (getMensajeError(row) == null
+								|| getMensajeError(row) == "")
 							setMensajeError(
 									row,
 									"Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
@@ -2750,8 +2801,10 @@ public class PartesMoModel extends BaseModel {
 											+ " - Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
 						return true;
 					}
-					if ((hora_d_abs_i < hora_h_abs) && (hora_h_abs <= hora_h_abs_i)) {
-						if (getMensajeError(row) == null)
+					if ((hora_d_abs_i < hora_h_abs)
+							&& (hora_h_abs <= hora_h_abs_i)) {
+						if (getMensajeError(row) == null
+								|| getMensajeError(row) == "")
 							setMensajeError(
 									row,
 									"Ya existe un parte para el legajo fecha con mismo horario o superposición de horario");
@@ -2769,7 +2822,8 @@ public class PartesMoModel extends BaseModel {
 		return false;
 	}
 
-	public void completaUnParte(int row) throws DataStoreException, SQLException {
+	public void completaUnParte(int row) throws DataStoreException,
+			SQLException {
 		boolean hubo_errores_legajo = false;
 		boolean hubo_errores_horario = false;
 		boolean hubo_errores_proyecto = false;
@@ -2788,8 +2842,9 @@ public class PartesMoModel extends BaseModel {
 		hubo_errores_horario = controlaHorario(row);
 		hubo_errores_dup = parteDuplicado(row);
 
-		if (hubo_errores_legajo || hubo_errores_horario || hubo_errores_proyecto
-				|| hubo_errores_tarea || hubo_errores_lote || hubo_errores_dup) {
+		if (hubo_errores_legajo || hubo_errores_horario
+				|| hubo_errores_proyecto || hubo_errores_tarea
+				|| hubo_errores_lote || hubo_errores_dup) {
 			throw new DataStoreException(
 					"Hubo errores procesando partes. Corríjalos y grabe nuevamente");
 		}
@@ -2838,7 +2893,7 @@ public class PartesMoModel extends BaseModel {
 					controlaHorario(i);
 					parteDuplicado(i);
 				} else {
-				hubo_errores_legajo = controlaLegajoTango(i);
+					hubo_errores_legajo = controlaLegajoTango(i);
 					getCategoriaLegajo(i);
 					hubo_errores_proyecto = (getDatosProyecto(i) == -1);
 					hubo_errores_tarea = (getDatosTarea(i) == -1);
@@ -2848,26 +2903,30 @@ public class PartesMoModel extends BaseModel {
 					hubo_errores_dup = parteDuplicado(i);
 				}
 
-				setPartesMoUltimaMod(i, new Timestamp(System.currentTimeMillis()));
+				setPartesMoUltimaMod(i, new Timestamp(System
+						.currentTimeMillis()));
 
 				DBConnection con = DBConnection.getDirectConnection(
-						"jdbc:mysql://localhost:3306/tango", "com.mysql.jdbc.Driver",
-						"root", "gedospe");
+						"jdbc:mysql://localhost:3306/tango",
+						"com.mysql.jdbc.Driver", "root", "gedospe");
 				Statement st = con.createStatement();
 				ResultSet rs = st
 						.executeQuery("SELECT ID_LEGAJO, APELLIDO, NOMBRE FROM legajo WHERE NRO_LEGAJO = '"
 								+ getPartesMoNroLegajo(i) + "'");
 				if (rs.first()) {
 					setPartesMoPersonalId(i, rs.getInt(1));
-					setPartesMoApeynom(i, rs.getString(2) + ", " + rs.getString(3));
-					System.out.println(rs.getString(2) + ", " + rs.getString(3));
+					setPartesMoApeynom(i, rs.getString(2) + ", "
+							+ rs.getString(3));
+					System.out
+							.println(rs.getString(2) + ", " + rs.getString(3));
 				}
 			}
 		}
 
-		if (hubo_errores_legajo || hubo_errores_horario || hubo_errores_proyecto
-				|| hubo_errores_tarea || hubo_errores_lote
-				|| hubo_errores_supervisor || hubo_errores_dup) {
+		if (hubo_errores_legajo || hubo_errores_horario
+				|| hubo_errores_proyecto || hubo_errores_tarea
+				|| hubo_errores_lote || hubo_errores_supervisor
+				|| hubo_errores_dup) {
 			throw new DataStoreException(
 					"Hubo errores procesando partes. Corríjalos y grabe nuevamente");
 		}
@@ -2881,7 +2940,8 @@ public class PartesMoModel extends BaseModel {
 	 * @param p_anio
 	 * @throws DataStoreException
 	 */
-	public void liquidarPeriodo(int p_mes, int p_anio) throws DataStoreException {
+	public void liquidarPeriodo(int p_mes, int p_anio)
+			throws DataStoreException {
 		DBConnection conexion = null;
 		Statement st = null;
 		ResultSet r = null;
@@ -2907,9 +2967,10 @@ public class PartesMoModel extends BaseModel {
 			_dsFeriados.retrieve();
 
 			// elimino los detalles de resumen para el período
-			SQL = " delete from detalle_resumen_horas " + " where fecha between '"
-					+ Integer.toString(p_anio) + "-" + Integer.toString(p_mes)
-					+ "-01' " + "                and last_day('"
+			SQL = " delete from detalle_resumen_horas "
+					+ " where fecha between '" + Integer.toString(p_anio) + "-"
+					+ Integer.toString(p_mes) + "-01' "
+					+ "                and last_day('"
 					+ Integer.toString(p_anio) + "-" + Integer.toString(p_mes)
 					+ "-01')";
 			st = conexion.createStatement();
@@ -2932,12 +2993,13 @@ public class PartesMoModel extends BaseModel {
 			// limpio (por si las moscas el datastore
 			reset();
 
-			// recupero todos los partes a resumir. todos los que tienen fecha del
+			// recupero todos los partes a resumir. todos los que tienen fecha
+			// del
 			// periodo
-			retrieve("partes_mo.fecha between '" + Integer.toString(p_anio) + "-"
-					+ Integer.toString(p_mes) + "-01' " + "and last_day('"
-					+ Integer.toString(p_anio) + "-" + Integer.toString(p_mes)
-					+ "-01')");
+			retrieve("partes_mo.fecha between '" + Integer.toString(p_anio)
+					+ "-" + Integer.toString(p_mes) + "-01' "
+					+ "and last_day('" + Integer.toString(p_anio) + "-"
+					+ Integer.toString(p_mes) + "-01')");
 
 			// itero por todos los partes recuperados procesando el resumen
 
@@ -3006,13 +3068,13 @@ public class PartesMoModel extends BaseModel {
 
 				// recupera o inserta las cabeceras para dia1 y dia2 (sólo si
 				// corresponde)
-				int resumen_id1 = getResumenHoras(1, dia1, mes1, anio1, quincena1,
-						Integer.valueOf(nro_legajo), apeynom);
+				int resumen_id1 = getResumenHoras(1, dia1, mes1, anio1,
+						quincena1, Integer.valueOf(nro_legajo), apeynom);
 				int resumen_id2 = -1;
 				if (dia2 != -1
 						&& (mes2 != mes1 || anio2 != anio1 || quincena2 != quincena1)) {
-					resumen_id2 = getResumenHoras(2, dia2, mes2, anio2, quincena2,
-							Integer.valueOf(nro_legajo), apeynom);
+					resumen_id2 = getResumenHoras(2, dia2, mes2, anio2,
+							quincena2, Integer.valueOf(nro_legajo), apeynom);
 				}
 
 				// calcula horas y su tipo
@@ -3053,7 +3115,8 @@ public class PartesMoModel extends BaseModel {
 						tmpHoras2 = tmpHoras2 + 1;
 					}
 					tmpMinutos2 = (tmpMinutos2 * 100 / 60);
-					horas2 = (double) tmpHoras2 + ((double) tmpMinutos2) / 100.00;
+					horas2 = (double) tmpHoras2 + ((double) tmpMinutos2)
+							/ 100.00;
 					if (tmpMinutosRemanentesDesde2 == 60)
 						tmpMinutosRemanentesDesde2 = 0;
 				}
@@ -3063,7 +3126,8 @@ public class PartesMoModel extends BaseModel {
 				if (hora_h >= 21 || hora_d < 6) {
 					if (hora_h >= 21)
 						if (hora_d > 21)
-							_nocturnas1 = _nocturnas1 + (double) (hora_h - hora_d)
+							_nocturnas1 = _nocturnas1
+									+ (double) (hora_h - hora_d)
 									+ ((double) tmpMinutos1) / 100.00;
 						else
 							_nocturnas1 = _nocturnas1
@@ -3075,11 +3139,13 @@ public class PartesMoModel extends BaseModel {
 									+ (double) (6 - hora_d)
 									+ ((double) (tmpMinutosRemanentesDesde1 * 100 / 60) / 100.00);
 						else
-							_nocturnas1 = _nocturnas1 + (double) (hora_h - hora_d)
+							_nocturnas1 = _nocturnas1
+									+ (double) (hora_h - hora_d)
 									+ ((double) tmpMinutos1) / 100.00;
 				}
 
-				// determina si es feriado y/o domingo o sábado despues de las 13
+				// determina si es feriado y/o domingo o sábado despues de las
+				// 13
 				if (_dsFeriados.esFeriado(new Date(cal.getTimeInMillis()))
 						|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
 					_al_100_1 = _al_100_1 + horas1;
@@ -3130,13 +3196,15 @@ public class PartesMoModel extends BaseModel {
 										+ ((double) tmpMinutos2) / 100.00;
 					}
 
-					// determina si es feriado y/o domingo o sábado despues de las 13
+					// determina si es feriado y/o domingo o sábado despues de
+					// las 13
 					if (_dsFeriados.esFeriado(new Date(cal2.getTimeInMillis()))
 							|| cal2.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY)
 						_al_100_2 = _al_100_2 + horas2;
 					else if (cal2.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY
 							&& hora_h2 > 13)
-						_al_100_2 = _al_100_2 + (double) (hora_h2 - 13)
+						_al_100_2 = _al_100_2
+								+ (double) (hora_h2 - 13)
 								+ ((double) tmpMinutosRemanentesHasta2 * 100 / 60)
 								/ 100.00;
 
@@ -3165,8 +3233,8 @@ public class PartesMoModel extends BaseModel {
 			// además de escribir en el log mando mensaje a la página
 			throw new DataStoreException(
 					"Error generando la liquidación del periodo "
-							+ Integer.toString(p_mes) + "/" + Integer.toString(p_anio)
-							+ ": " + e.getMessage());
+							+ Integer.toString(p_mes) + "/"
+							+ Integer.toString(p_anio) + ": " + e.getMessage());
 		} finally {
 			if (r != null) {
 				try {
@@ -3212,10 +3280,17 @@ public class PartesMoModel extends BaseModel {
 
 			// elimino los detalles de resumen para el período
 			SQL = " select resumen_id, horas, normales, al_50, al_100, nocturnas "
-					+ " from resumen_horas " + " where resumen_horas.periodo = '"
-					+ Integer.toString(anio) + "-" + Integer.toString(mes) + "-"
-					+ Integer.toString(dia) + "' " + " and quincena = "
-					+ Integer.toString(quincena) + " and nro_legajo = "
+					+ " from resumen_horas "
+					+ " where resumen_horas.periodo = '"
+					+ Integer.toString(anio)
+					+ "-"
+					+ Integer.toString(mes)
+					+ "-"
+					+ Integer.toString(dia)
+					+ "' "
+					+ " and quincena = "
+					+ Integer.toString(quincena)
+					+ " and nro_legajo = "
 					+ Integer.toString(nro_legajo);
 			st = conexion.createStatement();
 			r = st.executeQuery(SQL);
@@ -3252,8 +3327,7 @@ public class PartesMoModel extends BaseModel {
 						+ Integer.toString(nro_legajo)
 						+ ",'"
 						+ apeynom
-						+ "',"
-						+ Integer.toString(quincena) + ")";
+						+ "'," + Integer.toString(quincena) + ")";
 				st = conexion.createStatement();
 				st.executeUpdate(SQL);
 				st.close();
@@ -3269,8 +3343,7 @@ public class PartesMoModel extends BaseModel {
 						+ "' "
 						+ " and quincena = "
 						+ Integer.toString(quincena)
-						+ " and nro_legajo = "
-						+ Integer.toString(nro_legajo);
+						+ " and nro_legajo = " + Integer.toString(nro_legajo);
 				st = conexion.createStatement();
 				r = st.executeQuery(SQL);
 
@@ -3299,7 +3372,8 @@ public class PartesMoModel extends BaseModel {
 
 			if (resumen_id == -1)
 				// no recuperó nada, por lo tanto es error
-				throw new DataStoreException("Imposible recuperar resumen de horas");
+				throw new DataStoreException(
+						"Imposible recuperar resumen de horas");
 
 			return resumen_id;
 
@@ -3359,8 +3433,8 @@ public class PartesMoModel extends BaseModel {
 			conexion.freeConnection();
 			MessageLog.writeErrorMessage(SQL, e, null);
 			// además de escribir en el log mando mensaje a la página
-			throw new DataStoreException("Error actualizando resumen de horas: "
-					+ e.getMessage());
+			throw new DataStoreException(
+					"Error actualizando resumen de horas: " + e.getMessage());
 		} finally {
 			if (r != null) {
 				try {
@@ -3402,7 +3476,7 @@ public class PartesMoModel extends BaseModel {
 	 * Retrieve the value of the partes_mo.fecha column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @return java.sql.Timestamp
 	 * @throws DataStoreException
 	 */
@@ -3415,7 +3489,7 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.fecha column for the current row.
 	 * 
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoUltimaMod(java.sql.Timestamp newValue)
@@ -3427,9 +3501,9 @@ public class PartesMoModel extends BaseModel {
 	 * Set the value of the partes_mo.fecha column for the specified row.
 	 * 
 	 * @param row
-	 *           which row in the table
+	 *            which row in the table
 	 * @param newValue
-	 *           the new item value
+	 *            the new item value
 	 * @throws DataStoreException
 	 */
 	public void setPartesMoUltimaMod(int row, java.sql.Timestamp newValue)
@@ -3468,12 +3542,13 @@ public class PartesMoModel extends BaseModel {
 			for (int row = 0; row < getRowCount(); row++) {
 				parte_id = getPartesMoParteId(row);
 
-				// busco el horario en el resumen, donde en la columna de parte_ids
+				// busco el horario en el resumen, donde en la columna de
+				// parte_ids
 				// aparezca el id al principio, al final, o entre comillas.
 				SQL = "SELECT horarios" + " FROM resumen_horas_reloj "
-						+ " WHERE parte_ids REGEXP(CONCAT('\\'','^'," + parte_id
-						+ ",'|'," + parte_id + ",'$','|',','," + parte_id
-						+ ",',\\''));";
+						+ " WHERE parte_ids REGEXP(CONCAT('\\'','^',"
+						+ parte_id + ",'|'," + parte_id + ",'$','|',',',"
+						+ parte_id + ",',\\''));";
 
 				r = st.executeQuery(SQL);
 
