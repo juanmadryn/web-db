@@ -129,8 +129,8 @@ public class LookupTag extends BaseEmptyTag {
 			comp.setUseDiv(BaseTagHelper.stringToBoolean(_useDiv));
 
 		if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-			comp.getEditField().addOnFocus("event.target.className='selected';");
-			comp.getEditField().addOnLoseFocus("event.target.className='';");
+			comp.getEditField().addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+			comp.getEditField().addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 		}
 		
 		return comp;
