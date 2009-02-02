@@ -117,7 +117,8 @@ public class CargarPartesPlanoController extends BaseController implements
 		_nuevoParteCopiarBUT1.setAccessKey("C");
 		_listFormDisplayBox1.addButton(_nuevoParteCopiarBUT1);
 
-		_grabarParteBUT3 = new HtmlSubmitButton("grabarParteBUT3", "Grabar", this);
+		_grabarParteBUT3 = new HtmlSubmitButton("grabarParteBUT3", "Grabar",
+				this);
 		_grabarParteBUT3.setAccessKey("G");
 		_listFormDisplayBox1.addButton(_grabarParteBUT3);
 
@@ -126,8 +127,8 @@ public class CargarPartesPlanoController extends BaseController implements
 		_nuevoParteNuevoBUT2.setAccessKey("N");
 		_listFormDisplayBox1.addButton(_nuevoParteNuevoBUT2);
 
-		_eliminaParteBUT4 = new HtmlSubmitButton("eliminaParteBUT4", "Eliminar",
-				this);
+		_eliminaParteBUT4 = new HtmlSubmitButton("eliminaParteBUT4",
+				"Eliminar", this);
 		_eliminaParteBUT4.setAccessKey("E");
 		_listFormDisplayBox1.addButton(_eliminaParteBUT4);
 
@@ -135,7 +136,7 @@ public class CargarPartesPlanoController extends BaseController implements
 		_refrescarBUT5.setAccessKey("R");
 		_listFormDisplayBox1.addButton(_refrescarBUT5);
 
-		// Agrega columna de seleccion al datasource de informes
+		// Agrega columna de seleccion al datasource de partes
 		_dsPartes.addBucket(SELECCION_PARTE_FLAG, DataStore.DATATYPE_INT);
 		_seleccionParte.setColumn(_dsPartes, SELECCION_PARTE_FLAG);
 		_seleccionParte.setFalseValue(null);
@@ -204,6 +205,11 @@ public class CargarPartesPlanoController extends BaseController implements
 
 		if (e.getComponent() == _grabarParteBUT3) {
 			try {
+				for (int row = 0; row < _dsPartes.getRowCount(); row++) {
+					if (_dsPartes.getRowStatus(row) == DataStore.STATUS_NEW
+							|| _dsPartes.getRowStatus(row) == DataStore.STATUS_NEW_MODIFIED)
+						_dsPartes.completaUnParte(row);
+				}
 				_dsPartes.update();
 			} catch (DataStoreException ex) {
 				displayErrorMessage("Error guardando parte: " + ex.getMessage());
@@ -219,20 +225,22 @@ public class CargarPartesPlanoController extends BaseController implements
 			if (rowActual != -1) {
 				// obtengo todos los legajos indicados separados por comas para
 				// copia masiva, si los hay
-				String[] legajos = _legajoTE1.getEditField().getValue(rowActual)
-						.split(",");
+				String[] legajos = _legajoTE1.getEditField()
+						.getValue(rowActual).split(",");
 				_dsPartes.setPartesMoNroLegajo(rowActual, legajos[0]);
 				// valido el parte que estoy copiando
 				try {
 					_dsPartes.completaUnParte(rowActual);
 				} catch (DataStoreException ex) {
 					// muestro mensaje pero sigo sin problemas
-					displayErrorMessage("Error copiando parte: " + ex.getMessage());
+					displayErrorMessage("Error copiando parte: "
+							+ ex.getMessage());
 					_fechaTE3.setFocus(rowActual, true);
 					return false;
 				}
 				int row = 0;
-				// Si se indicaron varios legajos separados por comas procedemos a
+				// Si se indicaron varios legajos separados por comas procedemos
+				// a
 				// la copia masiva de partes
 				if (legajos.length > 1)
 					for (int i = 1; i < legajos.length; i++) {
@@ -249,6 +257,8 @@ public class CargarPartesPlanoController extends BaseController implements
 								.getPartesMoProyecto(rowActual + 1));
 						_dsPartes.setPartesMoProyectoNombre(row, _dsPartes
 								.getPartesMoProyectoNombre(rowActual + 1));
+						_dsPartes.setTareasProyectoNombre(row, _dsPartes
+								.getTareasProyectoNombre(rowActual + 1));
 						_dsPartes.setPartesMoSectorId(row, _dsPartes
 								.getPartesMoSectorId(rowActual + 1));
 						_dsPartes.setPartesMoSupervisor(row, _dsPartes
@@ -270,6 +280,8 @@ public class CargarPartesPlanoController extends BaseController implements
 							.getPartesMoProyecto(rowActual + 1));
 					_dsPartes.setPartesMoProyectoNombre(row, _dsPartes
 							.getPartesMoProyectoNombre(rowActual + 1));
+					_dsPartes.setTareasProyectoNombre(row, _dsPartes
+							.getTareasProyectoNombre(rowActual + 1));
 					_dsPartes.setPartesMoSectorId(row, _dsPartes
 							.getPartesMoSectorId(rowActual + 1));
 					_dsPartes.setPartesMoSupervisor(row, _dsPartes
@@ -333,7 +345,9 @@ public class CargarPartesPlanoController extends BaseController implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.salmonllc.html.events.ValueChangedListener#valueChanged(com.salmonllc.html.events.ValueChangedEvent)
+	 * @see
+	 * com.salmonllc.html.events.ValueChangedListener#valueChanged(com.salmonllc
+	 * .html.events.ValueChangedEvent)
 	 */
 	public boolean valueChanged(ValueChangedEvent e) throws Exception {
 		// TextEdits para fechas de vigencia
@@ -342,7 +356,8 @@ public class CargarPartesPlanoController extends BaseController implements
 				if (!_dsPartes.isFormattedStringValid(e.getColumn(), e
 						.getNewValue())) {
 					// No movemos el nuevo valor al dataStore,pero evitamos
-					// que sea eliminado la proxima vez que la pagina sea mostrada
+					// que sea eliminado la proxima vez que la pagina sea
+					// mostrada
 					e
 							.setAcceptValue(ValueChangedEvent.PROCESSING_KEEP_CHANGE_IN_QUEUE);
 
@@ -378,8 +393,8 @@ public class CargarPartesPlanoController extends BaseController implements
 		String desc_categoria = null;
 
 		p = Props.getProps("partesMO", null);
-		driverTango = p
-				.getProperty("driverTango", "sun.jdbc.odbc.JdbcOdbcDriver");
+		driverTango = p.getProperty("driverTango",
+				"sun.jdbc.odbc.JdbcOdbcDriver");
 		urlTango = p.getProperty("urlTango", "jdbc:odbc:tango");
 		userTango = p.getProperty("userTango", "tango");
 		passWordTango = p.getProperty("passWordTango", "tango");
@@ -390,8 +405,8 @@ public class CargarPartesPlanoController extends BaseController implements
 			Class.forName(driverTango);
 		} catch (ClassNotFoundException e) {
 			MessageLog.writeErrorMessage(e, null);
-			throw new DataStoreException("Imposible cargar el driver para Tango: "
-					+ e.getMessage());
+			throw new DataStoreException(
+					"Imposible cargar el driver para Tango: " + e.getMessage());
 		}
 
 		try {
@@ -476,8 +491,8 @@ public class CargarPartesPlanoController extends BaseController implements
 					_dsPartes.reset();
 
 					// recupera toda la informacion del parte
-					_dsPartes.retrieve("partes_mo.parte_id IN (" + v_grp_parte_id
-							+ ")");
+					_dsPartes.retrieve("partes_mo.parte_id IN ("
+							+ v_grp_parte_id + ")");
 					_dsPartes.gotoFirst();
 					_fechaTE3.setFocus(true);
 				}
