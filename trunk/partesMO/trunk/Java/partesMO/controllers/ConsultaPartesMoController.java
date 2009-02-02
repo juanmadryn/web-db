@@ -11,6 +11,7 @@ import java.util.GregorianCalendar;
 import com.salmonllc.html.HtmlSubmitButton;
 import com.salmonllc.html.events.PageEvent;
 import com.salmonllc.html.events.SubmitEvent;
+import com.salmonllc.sql.DataStore;
 import com.salmonllc.sql.DataStoreException;
 
 /**
@@ -94,6 +95,11 @@ public class ConsultaPartesMoController extends BaseController {
 	// Componentes visuales custom
 	public com.salmonllc.html.HtmlSubmitButton _buscarBUT16;
 	public com.salmonllc.html.HtmlSubmitButton _guardarButton;
+	public com.salmonllc.html.HtmlSubmitButton _eliminarButton;
+	
+	public com.salmonllc.html.HtmlCheckBox _seleccionParte;
+	private String SELECCION_PARTE_FLAG = "SELECCION_PARTE_FLAG";
+	
 
 	/**
 	 * Initialize the page. Set up listeners and perform other initialization
@@ -109,11 +115,20 @@ public class ConsultaPartesMoController extends BaseController {
 		_guardarButton = new HtmlSubmitButton("guardarButton", "Guardar", this);
 		_guardarButton.setAccessKey("G");
 		_listformdisplaybox1.addButton(_guardarButton);
+		
+		_eliminarButton = new HtmlSubmitButton("eliminarButton", "Eliminar", this);
+		_eliminarButton.setAccessKey("E");
+		_listformdisplaybox1.addButton(_eliminarButton);
 
 		addPageListener(this);
 		_buscarBUT16.addSubmitListener(this);
 		_guardarButton.addSubmitListener(this);
+		_eliminarButton.addSubmitListener(this);
 
+		// Agrega columna de seleccion al datasource de partes
+		_dsPartes.addBucket(SELECCION_PARTE_FLAG, DataStore.DATATYPE_INT);
+		_seleccionParte.setColumn(_dsPartes, SELECCION_PARTE_FLAG);
+		
 		_dsPeriodo.reset();
 		_dsPeriodo.insertRow();
 		seteaPeriodo(); // valores por defecto para el periodo de fechas
@@ -186,6 +201,18 @@ public class ConsultaPartesMoController extends BaseController {
 			}
 
 		}
+		
+		if (event.getComponent() == _eliminarButton) {
+			// elimina todos los partes seleccionados
+			for (int i = 0; i < _dsPartes.getRowCount(); i++) {
+				if (_dsPartes.getInt(i, SELECCION_PARTE_FLAG) == 1) {
+					// Rol marcado para seleccián
+					_dsPartes.deleteRow(i);
+				}
+			}
+
+			_dsPartes.update();
+		}
 
 		return super.submitPerformed(event);
 	}
@@ -234,6 +261,7 @@ public class ConsultaPartesMoController extends BaseController {
 				_horaDesdeTE26.setEnabled(true);
 				_horaHastaTE26.setEnabled(true);
 				_guardarButton.setEnabled(true);
+				_eliminarButton.setEnabled(true);
 				_dsPartes.completaHorasFichadas();
 				_proyectoTE3.getEditField().setFocus(true);
 			} else {
@@ -242,6 +270,7 @@ public class ConsultaPartesMoController extends BaseController {
 				_horaDesdeTE26.setEnabled(false);
 				_horaHastaTE26.setEnabled(false);
 				_guardarButton.setEnabled(false);
+				_eliminarButton.setEnabled(false);
 			}
 
 		}
