@@ -685,13 +685,15 @@ public class HtmlDropDownList extends HtmlFormComponent implements PageListener
         }
 
         String name = getFullName();
+        String rowN = "";
 
         if (rowNo > -1)
         {
             name += ("_" + rowNo);
+            rowN += ("_" + rowNo);
         }
 
-        StringBuffer tag = new StringBuffer("<SELECT NAME=\"" + name + "\" ID=\"" + getName()+"_"+rowNo + "\"");
+        StringBuffer tag = new StringBuffer("<SELECT NAME=\"" + name + "\" ID=\"" + getName()+rowN + "\"");
 
         if (!_enabled)
         {
