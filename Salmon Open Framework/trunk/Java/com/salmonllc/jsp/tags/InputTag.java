@@ -248,8 +248,8 @@ public class InputTag extends BaseBodyTag {
 				pass.setReadOnly(BaseTagHelper.stringToBoolean(_readOnly));
 		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
 			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-				pass.addOnFocus("event.target.className='selected';");
-				pass.addOnLoseFocus("event.target.className='';");
+				pass.addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+				pass.addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 			}
 			return pass;
 		} else if (type.equals("RADIO") || type.equals("RADIOBUTTON")) {
@@ -279,8 +279,8 @@ public class InputTag extends BaseBodyTag {
 				rb.setTabIndex(BaseTagHelper.stringToInt(_tabIndex));
 		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
 			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-				rb.addOnFocus("event.target.className='selected';");
-				rb.addOnLoseFocus("event.target.className='';");
+				rb.addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+				rb.addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 			}
 			return rb;
 		} else if (type.equals("RADIOGROUP") || type.equals("RADIOBUTTONGROUP")) {
@@ -339,8 +339,8 @@ public class InputTag extends BaseBodyTag {
 				lbx.setTabIndex(BaseTagHelper.stringToInt(_tabIndex));
 		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
 			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-				lbx.addOnFocus("event.target.className='selected';");
-				lbx.addOnLoseFocus("event.target.className='';");
+				lbx.addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+				lbx.addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 			}
 
 			return lbx;
@@ -362,8 +362,8 @@ public class InputTag extends BaseBodyTag {
 			dd.setValue(_value);
 		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
 			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-				dd.addOnFocus("event.target.className='selected';");
-				dd.addOnLoseFocus("event.target.className='';");
+				dd.addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+				dd.addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 			}
 
 			if (Util.isFilled(getDisabledfont())) {
@@ -414,8 +414,8 @@ public class InputTag extends BaseBodyTag {
 			edit.setStyle(_style);
 		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
 			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-				edit.addOnFocus("event.target.className='selected';");
-				edit.addOnLoseFocus("event.target.className='';");
+				edit.addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+				edit.addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 			}
 
 			if (Util.isFilled(getDisabledfont())) {
@@ -457,8 +457,8 @@ public class InputTag extends BaseBodyTag {
 			edit.setStyle(_style);
 		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
 			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-				edit.addOnFocus("event.target.className='selected';");
-				edit.addOnLoseFocus("event.target.className='';");
+				edit.addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+				edit.addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 			}
 
 			if (getEnabled() != null)
@@ -495,8 +495,8 @@ public class InputTag extends BaseBodyTag {
 			email.setEnabled(BaseTagHelper.stringToBoolean(getEnabled()));
 		// Juan Manuel Cortez - 01/12/2008 - Added for highlight on focus behavior
 			if(BaseTagHelper.stringToBoolean(_highlightonfocus, true)) {
-				email.addOnFocus("event.target.className='selected';");
-				email.addOnLoseFocus("event.target.className='';");
+				email.addOnFocus("if(event.target == null ) {window.event.srcElement.className='selected';} else {event.target.className='selected';}");
+				email.addOnLoseFocus("if(event.target == null ) {window.event.srcElement.className='';} else {event.target.className='';}");
 			}
 
 			if (Util.isFilled(getDisabledfont())) {
