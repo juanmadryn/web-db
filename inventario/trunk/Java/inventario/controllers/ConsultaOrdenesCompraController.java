@@ -332,7 +332,8 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 		if (!isReferredByCurrentPage()) {
 			int userId = getIntParameter("user_id");
 			int mode = getIntParameter("mode");
-
+			String orden_compra_id = ""+getIntParameter("orden_compra_id");
+			
 			if ((userId > 0)) {
 				// verifica si cambión el contexto
 				try {
@@ -360,6 +361,10 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 				}
 				setListFormTitle(MODO_TITULO_NORMAL);
 			}
+			if (orden_compra_id.length() > 0) {
+				_dsOrdenes.retrieve("ordenes_compra.orden_compra_id = "+orden_compra_id);
+			}
+			
 		}
 
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
