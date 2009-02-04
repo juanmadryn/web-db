@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.2.2.r222_v20071226 Build &lt;2.2.2.v20080226-1155></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.1.v20080911 Build &lt;2.3.1.v20080917-1340></property>
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
@@ -57,23 +57,13 @@
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="param_mostrar_detalles" id="1386">
-            <property name="valueType">static</property>
-            <property name="dataType">boolean</property>
-            <property name="paramType">simple</property>
-            <property name="isRequired">false</property>
-            <property name="controlType">check-box</property>
-            <property name="defaultValue">true</property>
-            <property name="distinct">true</property>
-            <structure name="format"/>
-        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source - partesmo" id="1215">
             <property name="odaDriverClass">com.mysql.jdbc.Driver</property>
-            <property name="odaURL">jdbc:mysql://localhost:3306/partesmo</property>
-            <property name="odaUser">partesmo</property>
-            <encrypted-property name="odaPassword" encryptionID="base64">cGFydGVzbW8=</encrypted-property>
+            <property name="odaURL">jdbc:mysql://localhost:3306/gerencia</property>
+            <property name="odaUser">gerencia</property>
+            <encrypted-property name="odaPassword" encryptionID="base64">Z2VyZW5jaWE=</encrypted-property>
         </oda-data-source>
     </data-sources>
     <data-sets>
@@ -140,12 +130,96 @@
                     <property name="displayName">apeynom</property>
                 </structure>
                 <structure>
+                    <property name="columnName">estado</property>
+                    <property name="displayName">estado</property>
+                </structure>
+                <structure>
+                    <property name="columnName">ultima_mod</property>
+                    <property name="displayName">ultima_mod</property>
+                </structure>
+                <structure>
+                    <property name="columnName">estado_lote</property>
+                    <property name="displayName">estado_lote</property>
+                </structure>
+                <structure>
+                    <property name="columnName">fecha_alta</property>
+                    <property name="displayName">fecha_alta</property>
+                </structure>
+                <structure>
+                    <property name="columnName">fecha_cierre</property>
+                    <property name="displayName">fecha_cierre</property>
+                </structure>
+                <structure>
+                    <property name="columnName">descripcion</property>
+                    <property name="displayName">descripcion</property>
+                </structure>
+                <structure>
+                    <property name="columnName">nombre</property>
+                    <property name="displayName">nombre</property>
+                </structure>
+                <structure>
+                    <property name="columnName">descripcion_sector</property>
+                    <property name="displayName">descripcion_sector</property>
+                </structure>
+                <structure>
+                    <property name="columnName">observaciones_sector</property>
+                    <property name="displayName">observaciones_sector</property>
+                </structure>
+                <structure>
                     <property name="columnName">proyecto</property>
                     <property name="displayName">proyecto</property>
                 </structure>
                 <structure>
+                    <property name="columnName">tipo_proyecto</property>
+                    <property name="displayName">tipo_proyecto</property>
+                </structure>
+                <structure>
                     <property name="columnName">nombre_proyecto</property>
                     <property name="displayName">nombre_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">descripcion_proyecto</property>
+                    <property name="displayName">descripcion_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">observaciones_proyecto</property>
+                    <property name="displayName">observaciones_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">estado_id_proyecto</property>
+                    <property name="displayName">estado_id_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">estado_proyecto</property>
+                    <property name="displayName">estado_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">cliente_id</property>
+                    <property name="displayName">cliente_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">cliente_codigo</property>
+                    <property name="displayName">cliente_codigo</property>
+                </structure>
+                <structure>
+                    <property name="columnName">cliente_nombre</property>
+                    <property name="displayName">cliente_nombre</property>
+                </structure>
+                <structure>
+                    <property name="columnName">cliente_descripcion</property>
+                    <property name="displayName">cliente_descripcion</property>
+                </structure>
+                <structure>
+                    <property name="columnName">vigencia_desde_proyecto</property>
+                    <property name="displayName">vigencia_desde_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">vigencia_hasta_proyecto</property>
+                    <property name="displayName">vigencia_hasta_proyecto</property>
+                </structure>
+                <structure>
+                    <property name="columnName">duracion_proyecto</property>
+                    <property name="displayName">duracion_proyecto</property>
                 </structure>
                 <structure>
                     <property name="columnName">nombre_tarea</property>
@@ -154,6 +228,26 @@
                 <structure>
                     <property name="columnName">descripcion_tarea</property>
                     <property name="displayName">descripcion_tarea</property>
+                </structure>
+                <structure>
+                    <property name="columnName">observaciones_tarea</property>
+                    <property name="displayName">observaciones_tarea</property>
+                </structure>
+                <structure>
+                    <property name="columnName">estado_id_tarea</property>
+                    <property name="displayName">estado_id_tarea</property>
+                </structure>
+                <structure>
+                    <property name="columnName">estado_tarea</property>
+                    <property name="displayName">estado_tarea</property>
+                </structure>
+                <structure>
+                    <property name="columnName">clase_tarea_id</property>
+                    <property name="displayName">clase_tarea_id</property>
+                </structure>
+                <structure>
+                    <property name="columnName">clase_tarea_nombre</property>
+                    <property name="displayName">clase_tarea_nombre</property>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -191,7 +285,7 @@
                     <structure>
                         <property name="position">7</property>
                         <property name="name">supervisor</property>
-                        <property name="dataType">integer</property>
+                        <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">8</property>
@@ -235,22 +329,152 @@
                     </structure>
                     <structure>
                         <property name="position">16</property>
-                        <property name="name">proyecto</property>
+                        <property name="name">estado</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">17</property>
-                        <property name="name">nombre_proyecto</property>
-                        <property name="dataType">string</property>
+                        <property name="name">ultima_mod</property>
+                        <property name="dataType">date-time</property>
                     </structure>
                     <structure>
                         <property name="position">18</property>
-                        <property name="name">nombre_tarea</property>
+                        <property name="name">estado_lote</property>
                         <property name="dataType">string</property>
                     </structure>
                     <structure>
                         <property name="position">19</property>
+                        <property name="name">fecha_alta</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">fecha_cierre</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">descripcion_sector</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">observaciones_sector</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">tipo_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">nombre_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">descripcion_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">observaciones_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">estado_id_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">31</property>
+                        <property name="name">estado_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">32</property>
+                        <property name="name">cliente_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">33</property>
+                        <property name="name">cliente_codigo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">34</property>
+                        <property name="name">cliente_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">35</property>
+                        <property name="name">cliente_descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">36</property>
+                        <property name="name">vigencia_desde_proyecto</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">37</property>
+                        <property name="name">vigencia_hasta_proyecto</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">38</property>
+                        <property name="name">duracion_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">39</property>
+                        <property name="name">nombre_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">40</property>
                         <property name="name">descripcion_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">41</property>
+                        <property name="name">observaciones_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">42</property>
+                        <property name="name">estado_id_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">43</property>
+                        <property name="name">estado_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">44</property>
+                        <property name="name">clase_tarea_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">45</property>
+                        <property name="name">clase_tarea_nombre</property>
                         <property name="dataType">string</property>
                     </structure>
                 </list-property>
@@ -337,8 +561,8 @@
                     <property name="position">7</property>
                     <property name="name">supervisor</property>
                     <property name="nativeName">supervisor</property>
-                    <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
@@ -398,42 +622,319 @@
                 </structure>
                 <structure>
                     <property name="position">16</property>
+                    <property name="name">estado</property>
+                    <property name="nativeName">estado</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">ultima_mod</property>
+                    <property name="nativeName">ultima_mod</property>
+                    <property name="dataType">date-time</property>
+                    <property name="nativeDataType">93</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">estado_lote</property>
+                    <property name="nativeName">estado_lote</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">fecha_alta</property>
+                    <property name="nativeName">fecha_alta</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">fecha_cierre</property>
+                    <property name="nativeName">fecha_cierre</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">descripcion</property>
+                    <property name="nativeName">descripcion</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">nombre</property>
+                    <property name="nativeName">nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">descripcion_sector</property>
+                    <property name="nativeName">descripcion_sector</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">observaciones_sector</property>
+                    <property name="nativeName">observaciones_sector</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
                     <property name="name">proyecto</property>
                     <property name="nativeName">proyecto</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">17</property>
+                    <property name="position">26</property>
+                    <property name="name">tipo_proyecto</property>
+                    <property name="nativeName">tipo_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
                     <property name="name">nombre_proyecto</property>
                     <property name="nativeName">nombre_proyecto</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">18</property>
+                    <property name="position">28</property>
+                    <property name="name">descripcion_proyecto</property>
+                    <property name="nativeName">descripcion_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">29</property>
+                    <property name="name">observaciones_proyecto</property>
+                    <property name="nativeName">observaciones_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">30</property>
+                    <property name="name">estado_id_proyecto</property>
+                    <property name="nativeName">estado_id_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">31</property>
+                    <property name="name">estado_proyecto</property>
+                    <property name="nativeName">estado_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">32</property>
+                    <property name="name">cliente_id</property>
+                    <property name="nativeName">cliente_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">33</property>
+                    <property name="name">cliente_codigo</property>
+                    <property name="nativeName">cliente_codigo</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">34</property>
+                    <property name="name">cliente_nombre</property>
+                    <property name="nativeName">cliente_nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">35</property>
+                    <property name="name">cliente_descripcion</property>
+                    <property name="nativeName">cliente_descripcion</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">36</property>
+                    <property name="name">vigencia_desde_proyecto</property>
+                    <property name="nativeName">vigencia_desde_proyecto</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">37</property>
+                    <property name="name">vigencia_hasta_proyecto</property>
+                    <property name="nativeName">vigencia_hasta_proyecto</property>
+                    <property name="dataType">date</property>
+                    <property name="nativeDataType">91</property>
+                </structure>
+                <structure>
+                    <property name="position">38</property>
+                    <property name="name">duracion_proyecto</property>
+                    <property name="nativeName">duracion_proyecto</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">39</property>
                     <property name="name">nombre_tarea</property>
                     <property name="nativeName">nombre_tarea</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
-                    <property name="position">19</property>
+                    <property name="position">40</property>
                     <property name="name">descripcion_tarea</property>
                     <property name="nativeName">descripcion_tarea</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">12</property>
                 </structure>
+                <structure>
+                    <property name="position">41</property>
+                    <property name="name">observaciones_tarea</property>
+                    <property name="nativeName">observaciones_tarea</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">42</property>
+                    <property name="name">estado_id_tarea</property>
+                    <property name="nativeName">estado_id_tarea</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">43</property>
+                    <property name="name">estado_tarea</property>
+                    <property name="nativeName">estado_tarea</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">44</property>
+                    <property name="name">clase_tarea_id</property>
+                    <property name="nativeName">clase_tarea_id</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+                <structure>
+                    <property name="position">45</property>
+                    <property name="name">clase_tarea_nombre</property>
+                    <property name="nativeName">clase_tarea_nombre</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
             </list-property>
-            <property name="queryText">select partes_mo.parte_id,partes_mo.fecha,partes_mo.hora_desde,partes_mo.hora_hasta,partes_mo.horas,partes_mo.lote_id,partes_mo.supervisor,partes_mo.categoria,partes_mo.desc_categoria,partes_mo.sector_id,partes_mo.proyecto_id,partes_mo.tarea_id,partes_mo.personal_id,partes_mo.nro_legajo,partes_mo.apeynom, proyectos.proyecto, proyectos.nombre nombre_proyecto, tareas.nombre nombre_tarea, tareas.descripcion descripcion_tarea
+            <property name="queryText">select partes_mo.parte_id,partes_mo.fecha,partes_mo.hora_desde,partes_mo.hora_hasta,partes_mo.horas,partes_mo.lote_id,partes_mo.supervisor,partes_mo.categoria,partes_mo.desc_categoria,partes_mo.sector_id,partes_mo.proyecto_id,partes_mo.tarea_id,partes_mo.personal_id,partes_mo.nro_legajo,partes_mo.apeynom,partes_mo.estado,partes_mo.ultima_mod,partes_mo.estado_lote,partes_mo.fecha_alta,partes_mo.fecha_cierre,partes_mo.descripcion,partes_mo.nombre,partes_mo.descripcion_sector,partes_mo.observaciones_sector,partes_mo.proyecto,partes_mo.tipo_proyecto,partes_mo.nombre_proyecto,partes_mo.descripcion_proyecto,partes_mo.observaciones_proyecto,partes_mo.estado_id_proyecto,partes_mo.estado_proyecto,partes_mo.cliente_id,partes_mo.cliente_codigo,partes_mo.cliente_nombre,partes_mo.cliente_descripcion,partes_mo.vigencia_desde_proyecto,partes_mo.vigencia_hasta_proyecto,partes_mo.duracion_proyecto,partes_mo.nombre_tarea,partes_mo.descripcion_tarea,partes_mo.observaciones_tarea,partes_mo.estado_id_tarea,partes_mo.estado_tarea,partes_mo.clase_tarea_id,partes_mo.clase_tarea_nombre
 from partes_mo
-inner join proyectos.proyectos proyectos ON proyectos.proyecto_id = partes_mo.proyecto_id
-inner join proyectos.tareas_proyecto tareas ON tareas.tarea_id = partes_mo.tarea_id
 where fecha between ? and ?
-AND proyectos.proyecto LIKE ?
-AND tareas.nombre LIKE ?</property>
+AND proyecto LIKE ?
+AND nombre_tarea LIKE ?</property>
         </oda-data-set>
     </data-sets>
+    <cubes>
+        <tabular-cube name="partesmo-DC" id="1389">
+            <property name="defaultMeasureGroup">Summary Field</property>
+            <property name="dimensions">
+                <tabular-dimension name="FechaGroup" id="1390">
+                    <property name="isTimeType">true</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="1391">
+                            <property name="levels">
+                                <tabular-level name="year" id="1392">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">year</property>
+                                    <property name="dateTimeFormat">yyyy</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">fecha</property>
+                                </tabular-level>
+                                <tabular-level name="quarter" id="1393">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">quarter</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">fecha</property>
+                                </tabular-level>
+                                <tabular-level name="month" id="1394">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">month</property>
+                                    <property name="dateTimeFormat">MMMM</property>
+                                    <property name="interval">none</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">fecha</property>
+                                </tabular-level>
+                                <tabular-level name="day-of-month" id="1395">
+                                    <property name="dataType">integer</property>
+                                    <property name="dateTimeLevelType">day-of-month</property>
+                                    <property name="dateTimeFormat">dd</property>
+                                    <list-property name="attributes">
+                                        <structure>
+                                            <property name="name">DateTime</property>
+                                            <property name="dataType">date-time</property>
+                                        </structure>
+                                    </list-property>
+                                    <property name="columnName">fecha</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="ProyectoGroup" id="1398">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="1399">
+                            <property name="levels">
+                                <tabular-level name="proyecto" id="1400">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">proyecto</property>
+                                    <expression name="displayColumnName">dataSetRow["proyecto"] + " - " + dataSetRow["nombre_proyecto"]</expression>
+                                </tabular-level>
+                                <tabular-level name="nombre_tarea" id="1446">
+                                    <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
+                                    <property name="columnName">nombre_tarea</property>
+                                    <expression name="displayColumnName">dataSetRow["nombre_tarea"] + " - " +dataSetRow["descripcion_tarea"]</expression>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="1396">
+                    <property name="measures">
+                        <tabular-measure name="horas" id="1404">
+                            <expression name="measureExpression">dataSetRow["horas"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set - partesmo</property>
+        </tabular-cube>
+    </cubes>
     <styles>
         <style name="crosstab-cell" id="4">
             <property name="borderBottomColor">#CCCCCC</property>
@@ -467,39 +968,41 @@ AND tareas.nombre LIKE ?</property>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
             <property name="type">a4</property>
-            <property name="orientation">auto</property>
+            <property name="orientation">landscape</property>
             <property name="topMargin">0cm</property>
-            <property name="leftMargin">1cm</property>
+            <property name="leftMargin">1.5cm</property>
             <property name="bottomMargin">0cm</property>
             <property name="rightMargin">1cm</property>
-            <property name="headerHeight">3cm</property>
+            <property name="headerHeight">2cm</property>
             <property name="footerHeight">2cm</property>
             <page-header>
                 <grid id="142">
                     <property name="fontFamily">"Arial"</property>
+                    <property name="borderBottomColor">#000000</property>
+                    <property name="borderBottomStyle">solid</property>
+                    <property name="borderBottomWidth">medium</property>
                     <property name="canShrink">true</property>
                     <property name="height">2.1875in</property>
-                    <property name="width">7.40625in</property>
+                    <property name="width">100%</property>
                     <column id="143"/>
+                    <column id="1498"/>
                     <row id="144">
                         <cell id="145">
                             <image id="925">
-                                <property name="height">60px</property>
-                                <property name="width">356px</property>
+                                <property name="height">2cm</property>
+                                <property name="width">10cm</property>
                                 <property name="source">embed</property>
                                 <property name="imageName">banner_logo.png</property>
                             </image>
                         </cell>
-                    </row>
-                    <row id="926">
-                        <property name="height">1cm</property>
-                        <cell id="927">
-                            <property name="fontSize">14pt</property>
-                            <property name="fontWeight">bold</property>
-                            <property name="paddingTop">1pt</property>
-                            <property name="paddingBottom">1pt</property>
+                        <cell id="1495">
+                            <property name="colSpan">1</property>
+                            <property name="rowSpan">2</property>
                             <property name="textAlign">center</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="whiteSpace">normal</property>
                             <label id="1199">
+                                <property name="fontSize">20pt</property>
                                 <text-property name="text">PARTES DE MANO DE OBRA</text-property>
                             </label>
                         </cell>
@@ -641,393 +1144,401 @@ AND tareas.nombre LIKE ?</property>
         </simple-master-page>
     </page-setup>
     <body>
-        <table id="1221">
-            <property name="fontFamily">"Arial"</property>
-            <property name="fontSize">8pt</property>
-            <property name="marginTop">0pt</property>
+        <extended-item extensionName="Crosstab" extensionVersion="2.3.0" id="1405">
+            <property name="measures">
+                <extended-item extensionName="MeasureView" id="1433">
+                    <property name="measure">horas</property>
+                    <property name="detail">
+                        <extended-item extensionName="AggregationCell" id="1494">
+                            <property name="aggregationOnRow">ProyectoGroup/nombre_tarea</property>
+                            <property name="aggregationOnColumn">FechaGroup/month</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="whiteSpace">normal</property>
+                            <property name="content">
+                                <data name="horas" id="1436">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="resultSetColumn">horas_ProyectoGroup/nombre_tarea_FechaGroup/month</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="aggregations">
+                        <extended-item extensionName="AggregationCell" id="1475">
+                            <property name="aggregationOnRow">ProyectoGroup/proyecto</property>
+                            <property name="aggregationOnColumn">FechaGroup/month</property>
+                            <property name="fontSize">small</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="content">
+                                <data id="1476">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_ProyectoGroup/proyecto_FechaGroup/month</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="1479">
+                            <property name="aggregationOnColumn">FechaGroup/month</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="content">
+                                <data id="1480">
+                                    <property name="fontSize">10pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_FechaGroup/month</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="1483">
+                            <property name="aggregationOnRow">ProyectoGroup/proyecto</property>
+                            <property name="fontSize">small</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="orphans">2</property>
+                            <property name="content">
+                                <data id="1484">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_ProyectoGroup/proyecto</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="1485">
+                            <property name="aggregationOnRow">ProyectoGroup/nombre_tarea</property>
+                            <property name="fontSize">8pt</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="content">
+                                <data id="1486">
+                                    <property name="fontWeight">normal</property>
+                                    <property name="resultSetColumn">horas_ProyectoGroup/nombre_tarea</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="1487">
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="content">
+                                <data id="1488">
+                                    <property name="fontSize">10pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="verticalAlign">middle</property>
+                                    <property name="widows">2</property>
+                                    <property name="resultSetColumn">horas_1</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="1500">
+                            <property name="aggregationOnRow">ProyectoGroup/proyecto</property>
+                            <property name="aggregationOnColumn">FechaGroup/year</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="content">
+                                <data id="1501">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_ProyectoGroup/proyecto_FechaGroup/year</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="1502">
+                            <property name="aggregationOnRow">ProyectoGroup/nombre_tarea</property>
+                            <property name="aggregationOnColumn">FechaGroup/year</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="content">
+                                <data id="1503">
+                                    <property name="fontSize">8pt</property>
+                                    <property name="resultSetColumn">horas_ProyectoGroup/nombre_tarea_FechaGroup/year</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="AggregationCell" id="1504">
+                            <property name="aggregationOnColumn">FechaGroup/year</property>
+                            <property name="textAlign">right</property>
+                            <property name="verticalAlign">middle</property>
+                            <property name="content">
+                                <data id="1505">
+                                    <property name="fontSize">10pt</property>
+                                    <property name="fontWeight">bold</property>
+                                    <property name="resultSetColumn">horas_FechaGroup/year</property>
+                                </data>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="1435"/>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="rows">
+                <extended-item extensionName="CrosstabView" id="1406">
+                    <property name="grandTotal">
+                        <extended-item extensionName="CrosstabCell" id="1478">
+                            <property name="content">
+                                <label id="1481">
+                                    <property name="fontSize">10pt</property>
+                                    <text-property name="text">Total horas por periodo</text-property>
+                                </label>
+                            </property>
+                            <property name="fontWeight">bold</property>
+                        </extended-item>
+                    </property>
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="1447">
+                            <property name="dimension">ProyectoGroup</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View" id="1448">
+                                    <property name="level">ProyectoGroup/proyecto</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="1449">
+                                            <property name="content">
+                                                <data name="proyecto" id="1450">
+                                                    <property name="fontSize">10pt</property>
+                                                    <property name="textTransform">none</property>
+                                                    <property name="resultSetColumn">proyecto</property>
+                                                </data>
+                                            </property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="borderBottomStyle">solid</property>
+                                            <property name="canShrink">true</property>
+                                            <property name="width">15%</property>
+                                        </extended-item>
+                                    </property>
+                                    <property name="aggregationHeader">
+                                        <extended-item extensionName="CrosstabCell" id="1474">
+                                            <property name="content">
+                                                <label id="1477">
+                                                    <property name="fontSize">8pt</property>
+                                                    <property name="fontWeight">bold</property>
+                                                    <text-property name="text">Total proyecto</text-property>
+                                                </label>
+                                            </property>
+                                            <property name="fontSize">small</property>
+                                            <property name="width">15%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View1" id="1461">
+                                    <property name="level">ProyectoGroup/nombre_tarea</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="1462">
+                                            <property name="content">
+                                                <data name="nombre_tarea" id="1463">
+                                                    <property name="resultSetColumn">nombre_tarea</property>
+                                                </data>
+                                            </property>
+                                            <property name="fontSize">8pt</property>
+                                            <property name="width">15%</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="columns">
+                <extended-item extensionName="CrosstabView" id="1415">
+                    <property name="grandTotal">
+                        <extended-item extensionName="CrosstabCell" id="1482">
+                            <property name="content">
+                                <label id="1489">
+                                    <property name="fontSize">10pt</property>
+                                    <text-property name="text">Total horas por proyecto</text-property>
+                                </label>
+                            </property>
+                            <property name="fontWeight">bold</property>
+                            <property name="textAlign">center</property>
+                        </extended-item>
+                    </property>
+                    <property name="views">
+                        <extended-item extensionName="DimensionView" id="1470">
+                            <property name="dimension">FechaGroup</property>
+                            <property name="levels">
+                                <extended-item extensionName="LevelView" name="NewLevel View3" id="1490">
+                                    <property name="level">FechaGroup/year</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="1491">
+                                            <property name="content">
+                                                <data name="year" id="1492">
+                                                    <property name="fontSize">10pt</property>
+                                                    <structure name="dateTimeFormat">
+                                                        <property name="category">Custom</property>
+                                                        <property name="pattern">yyyy</property>
+                                                    </structure>
+                                                    <property name="resultSetColumn">year</property>
+                                                </data>
+                                            </property>
+                                            <property name="fontSize">large</property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">center</property>
+                                        </extended-item>
+                                    </property>
+                                    <property name="aggregationHeader">
+                                        <extended-item extensionName="CrosstabCell" id="1499">
+                                            <property name="content">
+                                                <data name="year_TOTAL" id="1506">
+                                                    <property name="fontSize">10pt</property>
+                                                    <structure name="dateTimeFormat">
+                                                        <property name="category">Custom</property>
+                                                        <property name="pattern">yyyy</property>
+                                                    </structure>
+                                                    <property name="resultSetColumn">year_TOTAL</property>
+                                                </data>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="LevelView" name="NewLevel View2" id="1471">
+                                    <property name="level">FechaGroup/month</property>
+                                    <property name="member">
+                                        <extended-item extensionName="CrosstabCell" id="1472">
+                                            <property name="content">
+                                                <data name="month" id="1473">
+                                                    <property name="fontSize">10pt</property>
+                                                    <structure name="dateTimeFormat">
+                                                        <property name="category">Custom</property>
+                                                        <property name="pattern">MMM yyyy</property>
+                                                    </structure>
+                                                    <property name="resultSetColumn">month</property>
+                                                </data>
+                                            </property>
+                                            <property name="fontWeight">bold</property>
+                                            <property name="textAlign">center</property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                </extended-item>
+            </property>
+            <property name="header">
+                <extended-item extensionName="CrosstabCell" id="1493"/>
+            </property>
+            <property name="backgroundAttachment">scroll</property>
             <property name="masterPage">Simple MasterPage</property>
-            <property name="pageBreakAfter">auto</property>
-            <property name="pageBreakBefore">auto</property>
+            <property name="pageBreakAfter">always</property>
             <property name="pageBreakInside">auto</property>
-            <property name="width">100%</property>
-            <property name="dataSet">Data Set - partesmo</property>
+            <property name="canShrink">true</property>
+            <property name="cube">partesmo-DC</property>
             <list-property name="boundDataColumns">
                 <structure>
-                    <property name="name">apeynom</property>
-                    <expression name="expression">dataSetRow["apeynom"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">supervisor</property>
-                    <expression name="expression">dataSetRow["supervisor"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">desc_categoria</property>
-                    <expression name="expression">dataSetRow["desc_categoria"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">proyecto_completo</property>
-                    <expression name="expression">dataSetRow["proyecto"] + " - " +dataSetRow["nombre_proyecto"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">tarea_completa</property>
-                    <expression name="expression">dataSetRow["nombre_tarea"]+" - "+dataSetRow["descripcion_tarea"]</expression>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="name">proyecto_id</property>
-                    <expression name="expression">dataSetRow["proyecto_id"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">tarea_id</property>
-                    <expression name="expression">dataSetRow["tarea_id"]</expression>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="name">total_horas_proyecto</property>
-                    <expression name="expression">dataSetRow["horas"]</expression>
-                    <property name="dataType">any</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>TableGroup_proyectos</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
-                    <property name="name">total_horas_tarea</property>
-                    <expression name="expression">dataSetRow["horas"]</expression>
-                    <property name="dataType">any</property>
-                    <simple-property-list name="aggregateOn">
-                        <value>TableGroup_tarea</value>
-                    </simple-property-list>
-                    <property name="aggregateFunction">SUM</property>
-                </structure>
-                <structure>
                     <property name="name">horas</property>
-                    <expression name="expression">dataSetRow["horas"]</expression>
+                    <expression name="expression">measure["horas"]</expression>
                     <property name="dataType">float</property>
                 </structure>
                 <structure>
-                    <property name="name">fecha</property>
-                    <expression name="expression">dataSetRow["fecha"]</expression>
-                    <property name="dataType">date</property>
+                    <property name="name">proyecto</property>
+                    <expression name="expression">dimension["ProyectoGroup"]["proyecto"]["DisplayName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">nombre_tarea</property>
+                    <expression name="expression">dimension["ProyectoGroup"]["nombre_tarea"]["DisplayName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">month</property>
+                    <expression name="expression">dimension["FechaGroup"]["month"]["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_ProyectoGroup/proyecto_FechaGroup/month</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>ProyectoGroup/proyecto</value>
+                        <value>FechaGroup/month</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_FechaGroup/month</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>FechaGroup/month</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_ProyectoGroup/proyecto</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>ProyectoGroup/proyecto</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_ProyectoGroup/nombre_tarea</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>ProyectoGroup/nombre_tarea</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_1</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">year</property>
+                    <expression name="expression">dimension["FechaGroup"]["year"]["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_ProyectoGroup/proyecto_FechaGroup/year</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>ProyectoGroup/proyecto</value>
+                        <value>FechaGroup/year</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_ProyectoGroup/nombre_tarea_FechaGroup/year</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>ProyectoGroup/nombre_tarea</value>
+                        <value>FechaGroup/year</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_FechaGroup/year</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>FechaGroup/year</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">horas_ProyectoGroup/nombre_tarea_FechaGroup/month</property>
+                    <expression name="expression">measure["horas"]</expression>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>ProyectoGroup/nombre_tarea</value>
+                        <value>FechaGroup/month</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">year_TOTAL</property>
+                    <expression name="expression">dimension["FechaGroup"]["year"]["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
                 </structure>
             </list-property>
-            <property name="pageBreakInterval">10000000</property>
-            <column id="23">
-                <property name="width">7%</property>
-            </column>
-            <column id="24">
-                <property name="width">24%</property>
-                <property name="repeat">1</property>
-            </column>
-            <column id="1293">
-                <property name="width">7%</property>
-                <property name="backgroundAttachment">scroll</property>
-                <property name="marginLeft">0pt</property>
-                <property name="canShrink">false</property>
-            </column>
-            <column id="1288">
-                <property name="width">11%</property>
-            </column>
-            <column id="103">
-                <property name="width">11%</property>
-            </column>
-            <header>
-                <row id="1375">
-                    <property name="fontFamily">"Arial"</property>
-                    <property name="fontWeight">normal</property>
-                    <property name="borderBottomColor">#000000</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">1px</property>
-                    <property name="borderTopColor">#000000</property>
-                    <property name="borderTopStyle">solid</property>
-                    <property name="borderTopWidth">medium</property>
-                    <property name="textAlign">center</property>
-                    <cell id="1376">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">left</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1382">
-                            <text-property name="text">PROYECTO</text-property>
-                        </label>
-                    </cell>
-                    <cell id="1377"/>
-                    <cell id="1378">
-                        <property name="fontWeight">bold</property>
-                        <property name="paddingTop">1pt</property>
-                        <property name="textAlign">center</property>
-                        <property name="orphans">2</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1387">
-                            <property name="marginTop">0pt</property>
-                            <property name="paddingTop">1pt</property>
-                            <text-property name="text">Horas proyecto</text-property>
-                        </label>
-                    </cell>
-                    <cell id="1379">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
-                    <cell id="1380">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
-                </row>
-                <row id="1368">
-                    <property name="fontFamily">"Arial"</property>
-                    <property name="fontWeight">bold</property>
-                    <property name="fontStyle">italic</property>
-                    <property name="borderBottomColor">#000000</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">1px</property>
-                    <property name="textAlign">center</property>
-                    <cell id="1369">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">left</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1383">
-                            <property name="fontWeight">bold</property>
-                            <property name="paddingTop">1pt</property>
-                            <text-property name="text">TAREA</text-property>
-                        </label>
-                    </cell>
-                    <cell id="1370"/>
-                    <cell id="1371">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1388">
-                            <text-property name="text">Horas tarea</text-property>
-                        </label>
-                    </cell>
-                    <cell id="1372">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
-                    <cell id="1373">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                    </cell>
-                </row>
-                <row id="11">
-                    <property name="fontFamily">"Arial"</property>
-                    <property name="fontWeight">bold</property>
-                    <property name="borderBottomColor">#000000</property>
-                    <property name="borderBottomStyle">solid</property>
-                    <property name="borderBottomWidth">medium</property>
-                    <property name="textAlign">center</property>
-                    <list-property name="visibility">
-                        <structure>
-                            <property name="format">all</property>
-                            <expression name="valueExpr">params["param_mostrar_detalles"]==true?false:true</expression>
-                        </structure>
-                    </list-property>
-                    <cell id="12">
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">left</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1247">
-                            <text-property name="text">Fecha</text-property>
-                        </label>
-                    </cell>
-                    <cell id="13">
-                        <label id="1298">
-                            <text-property name="text">Apellido y nombre</text-property>
-                        </label>
-                    </cell>
-                    <cell id="1290">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1252">
-                            <text-property name="text">Horas parte</text-property>
-                        </label>
-                    </cell>
-                    <cell id="1285">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1289">
-                            <text-property name="text">Supervisor</text-property>
-                        </label>
-                    </cell>
-                    <cell id="140">
-                        <property name="fontWeight">bold</property>
-                        <property name="textAlign">center</property>
-                        <property name="verticalAlign">middle</property>
-                        <label id="1248">
-                            <text-property name="text">Categoría</text-property>
-                        </label>
-                    </cell>
-                </row>
-            </header>
-            <group id="1333">
-                <property name="groupName">TableGroup_proyectos</property>
-                <property name="interval">none</property>
-                <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["proyecto_id"]</expression>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
-                <property name="pageBreakAfter">auto</property>
-                <property name="pageBreakBefore">auto</property>
-                <property name="pageBreakInside">auto</property>
-                <header>
-                    <row id="1334">
-                        <property name="backgroundColor">#A8B3FF</property>
-                        <property name="fontStyle">normal</property>
-                        <cell id="1335">
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
-                            <data id="1307">
-                                <property name="fontWeight">bold</property>
-                                <property name="resultSetColumn">proyecto_completo</property>
-                            </data>
-                        </cell>
-                        <cell id="1337">
-                            <property name="textAlign">right</property>
-                            <data id="1350">
-                                <property name="fontWeight">bold</property>
-                                <property name="resultSetColumn">total_horas_proyecto</property>
-                            </data>
-                        </cell>
-                        <cell id="1338"/>
-                        <cell id="1339"/>
-                    </row>
-                </header>
-                <footer>
-                    <row id="1342">
-                        <cell id="1343"/>
-                        <cell id="1344"/>
-                        <cell id="1345"/>
-                        <cell id="1346"/>
-                        <cell id="1347"/>
-                    </row>
-                </footer>
-            </group>
-            <group id="1351">
-                <property name="groupName">TableGroup_tarea</property>
-                <property name="interval">none</property>
-                <property name="sortDirection">asc</property>
-                <expression name="keyExpr">row["tarea_id"]</expression>
-                <structure name="toc">
-                    <expression name="expressionValue">row["tarea_id"]</expression>
-                </structure>
-                <property name="repeatHeader">true</property>
-                <property name="hideDetail">false</property>
-                <property name="pageBreakAfter">auto</property>
-                <property name="pageBreakBefore">auto</property>
-                <property name="pageBreakInside">auto</property>
-                <header>
-                    <row id="1352">
-                        <property name="backgroundColor">#D7E1FF</property>
-                        <property name="fontStyle">italic</property>
-                        <cell id="1353">
-                            <property name="colSpan">2</property>
-                            <property name="rowSpan">1</property>
-                            <data id="1308">
-                                <property name="resultSetColumn">tarea_completa</property>
-                            </data>
-                        </cell>
-                        <cell id="1355">
-                            <property name="textAlign">right</property>
-                            <data id="1367">
-                                <property name="resultSetColumn">total_horas_tarea</property>
-                            </data>
-                        </cell>
-                        <cell id="1356"/>
-                        <cell id="1357"/>
-                    </row>
-                </header>
-                <footer>
-                    <row id="1359">
-                        <cell id="1360"/>
-                        <cell id="1361"/>
-                        <cell id="1362"/>
-                        <cell id="1363"/>
-                        <cell id="1364"/>
-                    </row>
-                </footer>
-            </group>
-            <detail>
-                <row id="15">
-                    <property name="verticalAlign">middle</property>
-                    <list-property name="visibility">
-                        <structure>
-                            <property name="format">all</property>
-                            <expression name="valueExpr">params["param_mostrar_detalles"]==true?false:true</expression>
-                        </structure>
-                    </list-property>
-                    <cell id="16">
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <data id="1279">
-                            <property name="dataSet">Data Set - partesmo</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">fecha</property>
-                                    <expression name="expression">row._outer["fecha"]</expression>
-                                    <property name="dataType">date</property>
-                                </structure>
-                            </list-property>
-                            <property name="resultSetColumn">fecha</property>
-                        </data>
-                    </cell>
-                    <cell id="17">
-                        <property name="colSpan">1</property>
-                        <property name="rowSpan">1</property>
-                        <property name="textAlign">left</property>
-                        <data id="1304">
-                            <property name="resultSetColumn">apeynom</property>
-                        </data>
-                    </cell>
-                    <cell id="1291">
-                        <property name="textAlign">right</property>
-                        <data id="1282">
-                            <property name="dataSet">Data Set - partesmo</property>
-                            <list-property name="boundDataColumns">
-                                <structure>
-                                    <property name="name">horas</property>
-                                    <expression name="expression">row._outer["horas"]</expression>
-                                    <property name="dataType">float</property>
-                                </structure>
-                            </list-property>
-                            <property name="resultSetColumn">horas</property>
-                        </data>
-                    </cell>
-                    <cell id="1286">
-                        <data id="1305">
-                            <property name="resultSetColumn">supervisor</property>
-                        </data>
-                    </cell>
-                    <cell id="100">
-                        <property name="textAlign">left</property>
-                        <data id="1306">
-                            <property name="resultSetColumn">desc_categoria</property>
-                        </data>
-                    </cell>
-                </row>
-            </detail>
-            <footer>
-                <row id="1274">
-                    <property name="masterPage">Simple MasterPage</property>
-                    <cell id="1275"/>
-                    <cell id="1278"/>
-                    <cell id="1292"/>
-                    <cell id="1287"/>
-                    <cell id="1276"/>
-                </row>
-            </footer>
-        </table>
+        </extended-item>
     </body>
     <list-property name="images">
         <structure>
