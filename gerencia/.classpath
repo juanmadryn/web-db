@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Java"/>
+	<classpathentry kind="src" path="/Salmon Open Framework"/>
+	<classpathentry kind="lib" path="C:/Tomcat/common/lib/servlet-api.jar"/>
+	<classpathentry kind="lib" path="C:/Tomcat/common/lib/portlet-api-1.0.jar"/>
+	<classpathentry kind="lib" path="C:/Tomcat/common/lib/jsp-api.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/infraestructura"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/Apache Software Foundation/Tomcat 5.5/webapps/birt/WEB-INF/lib/com.ibm.icu_3.8.1.v20080530.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/Apache Software Foundation/Tomcat 5.5/webapps/birt/WEB-INF/lib/coreapi.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/Apache Software Foundation/Tomcat 5.5/webapps/birt/WEB-INF/lib/engineapi.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/Apache Software Foundation/Tomcat 5.5/webapps/birt/WEB-INF/lib/modelapi.jar"/>
+	<classpathentry kind="lib" path="C:/Archivos de programa/Apache Software Foundation/Tomcat 5.5/webapps/birt/WEB-INF/lib/viewservlets.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
