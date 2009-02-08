@@ -129,6 +129,20 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">ne</property>
+                    <expression name="expr">row["estado_oc"]</expression>
+                    <simple-property-list name="value1">
+                        <value>"RECHAZADA"</value>
+                    </simple-property-list>
+                </structure>
+                <structure>
+                    <property name="operator">is-not-null</property>
+                    <expression name="expr">row["estado_oc"]</expression>
+                    <simple-property-list name="value1"/>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData"/>
             <property name="dataSource">Data Source - gerencia</property>
             <list-property name="parameters">
