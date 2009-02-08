@@ -21,7 +21,9 @@
     <method name="initialize"><![CDATA[importPackage(Packages.java.util);
 var cal = Calendar.getInstance();
 cal.add(Calendar.MONTH, -6);
+if(reportContext.getParameterValue("param_fecha_desde") == null)
 reportContext.setParameterValue("param_fecha_desde",cal.getTime());
+if(reportContext.getParameterValue("param_fecha_hasta") == null)
 reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -131,7 +133,409 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData"/>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">ne</property>
+                    <expression name="expr">row["estado_oc"]</expression>
+                    <simple-property-list name="value1">
+                        <value>"RECHAZADA"</value>
+                    </simple-property-list>
+                </structure>
+                <structure>
+                    <property name="operator">is-not-null</property>
+                    <expression name="expr">row["estado_oc"]</expression>
+                    <simple-property-list name="value1"/>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">tipo_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">nombre_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">descripcion_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">observacioens_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">estado_id_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">estado_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">cliente_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">cliente_codigo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">cliente_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">cliente_descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">vigencia_desde_proyecto</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">vigencia_hasta_proyecto</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">duracion_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">tarea_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">nombre_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">descripcion_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">observaciones_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">estado_id_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">estado_tarea</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">clase_tarea_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">clase_tarea_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">detalle_SC_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">articulo_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">articulo_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">articulo_descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">articulo_descripcion_completa</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">articulo_clase</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">observaciones</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">31</property>
+                        <property name="name">articulo_id_solicitado</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">32</property>
+                        <property name="name">articulo_nombre_sol</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">33</property>
+                        <property name="name">articulo_descripcion_sol</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">34</property>
+                        <property name="name">articulo_clase_sol</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">35</property>
+                        <property name="name">solicitud_compra_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">36</property>
+                        <property name="name">solicitante_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">37</property>
+                        <property name="name">solicitante_legajo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">38</property>
+                        <property name="name">solicitante_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">39</property>
+                        <property name="name">estado_id_sm</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">40</property>
+                        <property name="name">estado_sm</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">41</property>
+                        <property name="name">fecha_solicitud</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">42</property>
+                        <property name="name">fecha_aprobacion_sm</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">43</property>
+                        <property name="name">orden_compra_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">44</property>
+                        <property name="name">proveedor_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">45</property>
+                        <property name="name">proveedor_codigo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">46</property>
+                        <property name="name">proveedor_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">47</property>
+                        <property name="name">comprador_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">48</property>
+                        <property name="name">comprador_legajo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">49</property>
+                        <property name="name">comprador_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">50</property>
+                        <property name="name">estado_id_oc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">51</property>
+                        <property name="name">estado_oc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">52</property>
+                        <property name="name">fecha_oc</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">53</property>
+                        <property name="name">fecha_aprobacion_oc</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">54</property>
+                        <property name="name">fecha_estimada_entrega</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">55</property>
+                        <property name="name">fecha_entrega_completa</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">56</property>
+                        <property name="name">fecha_emision_oc</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">57</property>
+                        <property name="name">descripcion_oc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">58</property>
+                        <property name="name">observaciones_oc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">59</property>
+                        <property name="name">observaciones2_oc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">60</property>
+                        <property name="name">condicion_compra_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">61</property>
+                        <property name="name">condicion_compra_codigo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">62</property>
+                        <property name="name">condicion_compra_descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">63</property>
+                        <property name="name">descuento_oc</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">64</property>
+                        <property name="name">cantidad_solicitada</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">65</property>
+                        <property name="name">cantidad_pedida</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">66</property>
+                        <property name="name">cantidad_recibida</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">67</property>
+                        <property name="name">monto_unitario</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">68</property>
+                        <property name="name">monto_ultima_compra</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">69</property>
+                        <property name="name">fecha_ultima_compra</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">70</property>
+                        <property name="name">um_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">71</property>
+                        <property name="name">um</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">72</property>
+                        <property name="name">um_descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">73</property>
+                        <property name="name">unidad_medida_id_pedida</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">74</property>
+                        <property name="name">iva</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">75</property>
+                        <property name="name">descuento</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">76</property>
+                        <property name="name">cotizacion_compra_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">77</property>
+                        <property name="name">total_articulo</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
             <property name="dataSource">Data Source - gerencia</property>
             <list-property name="parameters">
                 <structure>
@@ -173,6 +577,464 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                     <property name="position">5</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">proyecto</property>
+                    <property name="nativeName">proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">tipo_proyecto</property>
+                    <property name="nativeName">tipo_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">nombre_proyecto</property>
+                    <property name="nativeName">nombre_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">descripcion_proyecto</property>
+                    <property name="nativeName">descripcion_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">observacioens_proyecto</property>
+                    <property name="nativeName">observacioens_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">estado_id_proyecto</property>
+                    <property name="nativeName">estado_id_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">estado_proyecto</property>
+                    <property name="nativeName">estado_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">cliente_id</property>
+                    <property name="nativeName">cliente_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">cliente_codigo</property>
+                    <property name="nativeName">cliente_codigo</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">cliente_nombre</property>
+                    <property name="nativeName">cliente_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">cliente_descripcion</property>
+                    <property name="nativeName">cliente_descripcion</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">vigencia_desde_proyecto</property>
+                    <property name="nativeName">vigencia_desde_proyecto</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">vigencia_hasta_proyecto</property>
+                    <property name="nativeName">vigencia_hasta_proyecto</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">duracion_proyecto</property>
+                    <property name="nativeName">duracion_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">tarea_id</property>
+                    <property name="nativeName">tarea_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">nombre_tarea</property>
+                    <property name="nativeName">nombre_tarea</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">descripcion_tarea</property>
+                    <property name="nativeName">descripcion_tarea</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">observaciones_tarea</property>
+                    <property name="nativeName">observaciones_tarea</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">estado_id_tarea</property>
+                    <property name="nativeName">estado_id_tarea</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">estado_tarea</property>
+                    <property name="nativeName">estado_tarea</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">clase_tarea_id</property>
+                    <property name="nativeName">clase_tarea_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">clase_tarea_nombre</property>
+                    <property name="nativeName">clase_tarea_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">detalle_SC_id</property>
+                    <property name="nativeName">detalle_SC_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">articulo_id</property>
+                    <property name="nativeName">articulo_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">articulo_nombre</property>
+                    <property name="nativeName">articulo_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">articulo_descripcion</property>
+                    <property name="nativeName">articulo_descripcion</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">articulo_descripcion_completa</property>
+                    <property name="nativeName">articulo_descripcion_completa</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">28</property>
+                    <property name="name">articulo_clase</property>
+                    <property name="nativeName">articulo_clase</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">29</property>
+                    <property name="name">descripcion</property>
+                    <property name="nativeName">descripcion</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">30</property>
+                    <property name="name">observaciones</property>
+                    <property name="nativeName">observaciones</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">31</property>
+                    <property name="name">articulo_id_solicitado</property>
+                    <property name="nativeName">articulo_id_solicitado</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">32</property>
+                    <property name="name">articulo_nombre_sol</property>
+                    <property name="nativeName">articulo_nombre_sol</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">33</property>
+                    <property name="name">articulo_descripcion_sol</property>
+                    <property name="nativeName">articulo_descripcion_sol</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">34</property>
+                    <property name="name">articulo_clase_sol</property>
+                    <property name="nativeName">articulo_clase_sol</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">35</property>
+                    <property name="name">solicitud_compra_id</property>
+                    <property name="nativeName">solicitud_compra_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">36</property>
+                    <property name="name">solicitante_id</property>
+                    <property name="nativeName">solicitante_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">37</property>
+                    <property name="name">solicitante_legajo</property>
+                    <property name="nativeName">solicitante_legajo</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">38</property>
+                    <property name="name">solicitante_nombre</property>
+                    <property name="nativeName">solicitante_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">39</property>
+                    <property name="name">estado_id_sm</property>
+                    <property name="nativeName">estado_id_sm</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">40</property>
+                    <property name="name">estado_sm</property>
+                    <property name="nativeName">estado_sm</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">41</property>
+                    <property name="name">fecha_solicitud</property>
+                    <property name="nativeName">fecha_solicitud</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">42</property>
+                    <property name="name">fecha_aprobacion_sm</property>
+                    <property name="nativeName">fecha_aprobacion_sm</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">43</property>
+                    <property name="name">orden_compra_id</property>
+                    <property name="nativeName">orden_compra_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">44</property>
+                    <property name="name">proveedor_id</property>
+                    <property name="nativeName">proveedor_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">45</property>
+                    <property name="name">proveedor_codigo</property>
+                    <property name="nativeName">proveedor_codigo</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">46</property>
+                    <property name="name">proveedor_nombre</property>
+                    <property name="nativeName">proveedor_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">47</property>
+                    <property name="name">comprador_id</property>
+                    <property name="nativeName">comprador_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">48</property>
+                    <property name="name">comprador_legajo</property>
+                    <property name="nativeName">comprador_legajo</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">49</property>
+                    <property name="name">comprador_nombre</property>
+                    <property name="nativeName">comprador_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">50</property>
+                    <property name="name">estado_id_oc</property>
+                    <property name="nativeName">estado_id_oc</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">51</property>
+                    <property name="name">estado_oc</property>
+                    <property name="nativeName">estado_oc</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">52</property>
+                    <property name="name">fecha_oc</property>
+                    <property name="nativeName">fecha_oc</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">53</property>
+                    <property name="name">fecha_aprobacion_oc</property>
+                    <property name="nativeName">fecha_aprobacion_oc</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">54</property>
+                    <property name="name">fecha_estimada_entrega</property>
+                    <property name="nativeName">fecha_estimada_entrega</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">55</property>
+                    <property name="name">fecha_entrega_completa</property>
+                    <property name="nativeName">fecha_entrega_completa</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">56</property>
+                    <property name="name">fecha_emision_oc</property>
+                    <property name="nativeName">fecha_emision_oc</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">57</property>
+                    <property name="name">descripcion_oc</property>
+                    <property name="nativeName">descripcion_oc</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">58</property>
+                    <property name="name">observaciones_oc</property>
+                    <property name="nativeName">observaciones_oc</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">59</property>
+                    <property name="name">observaciones2_oc</property>
+                    <property name="nativeName">observaciones2_oc</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">60</property>
+                    <property name="name">condicion_compra_id</property>
+                    <property name="nativeName">condicion_compra_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">61</property>
+                    <property name="name">condicion_compra_codigo</property>
+                    <property name="nativeName">condicion_compra_codigo</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">62</property>
+                    <property name="name">condicion_compra_descripcion</property>
+                    <property name="nativeName">condicion_compra_descripcion</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">63</property>
+                    <property name="name">descuento_oc</property>
+                    <property name="nativeName">descuento_oc</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">64</property>
+                    <property name="name">cantidad_solicitada</property>
+                    <property name="nativeName">cantidad_solicitada</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">65</property>
+                    <property name="name">cantidad_pedida</property>
+                    <property name="nativeName">cantidad_pedida</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">66</property>
+                    <property name="name">cantidad_recibida</property>
+                    <property name="nativeName">cantidad_recibida</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">67</property>
+                    <property name="name">monto_unitario</property>
+                    <property name="nativeName">monto_unitario</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">68</property>
+                    <property name="name">monto_ultima_compra</property>
+                    <property name="nativeName">monto_ultima_compra</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">69</property>
+                    <property name="name">fecha_ultima_compra</property>
+                    <property name="nativeName">fecha_ultima_compra</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">70</property>
+                    <property name="name">um_id</property>
+                    <property name="nativeName">um_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">71</property>
+                    <property name="name">um</property>
+                    <property name="nativeName">um</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">72</property>
+                    <property name="name">um_descripcion</property>
+                    <property name="nativeName">um_descripcion</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">73</property>
+                    <property name="name">unidad_medida_id_pedida</property>
+                    <property name="nativeName">unidad_medida_id_pedida</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">74</property>
+                    <property name="name">iva</property>
+                    <property name="nativeName">iva</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">75</property>
+                    <property name="name">descuento</property>
+                    <property name="nativeName">descuento</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">76</property>
+                    <property name="name">cotizacion_compra_id</property>
+                    <property name="nativeName">cotizacion_compra_id</property>
+                    <property name="dataType">integer</property>
                 </structure>
             </list-property>
             <property name="queryText">select material_comprado.proyecto,material_comprado.tipo_proyecto,material_comprado.nombre_proyecto,material_comprado.descripcion_proyecto,material_comprado.observacioens_proyecto,material_comprado.estado_id_proyecto,material_comprado.estado_proyecto,material_comprado.cliente_id,material_comprado.cliente_codigo,material_comprado.cliente_nombre,material_comprado.cliente_descripcion,material_comprado.vigencia_desde_proyecto,material_comprado.vigencia_hasta_proyecto,material_comprado.duracion_proyecto,material_comprado.tarea_id,material_comprado.nombre_tarea,material_comprado.descripcion_tarea,material_comprado.observaciones_tarea,material_comprado.estado_id_tarea,material_comprado.estado_tarea,material_comprado.clase_tarea_id,material_comprado.clase_tarea_nombre,material_comprado.detalle_SC_id,material_comprado.articulo_id,material_comprado.articulo_nombre,material_comprado.articulo_descripcion,material_comprado.articulo_descripcion_completa,material_comprado.articulo_clase,material_comprado.descripcion,material_comprado.observaciones,material_comprado.articulo_id_solicitado,material_comprado.articulo_nombre_sol,material_comprado.articulo_descripcion_sol,material_comprado.articulo_clase_sol,material_comprado.solicitud_compra_id,material_comprado.solicitante_id,material_comprado.solicitante_legajo,material_comprado.solicitante_nombre,material_comprado.estado_id_sm,material_comprado.estado_sm,material_comprado.fecha_solicitud,material_comprado.fecha_aprobacion_sm,material_comprado.orden_compra_id,material_comprado.proveedor_id,material_comprado.proveedor_codigo,material_comprado.proveedor_nombre,material_comprado.comprador_id,material_comprado.comprador_legajo,material_comprado.comprador_nombre,material_comprado.estado_id_oc,material_comprado.estado_oc,material_comprado.fecha_oc,material_comprado.fecha_aprobacion_oc,material_comprado.fecha_estimada_entrega,material_comprado.fecha_entrega_completa,material_comprado.fecha_emision_oc,material_comprado.descripcion_oc,material_comprado.observaciones_oc,material_comprado.observaciones2_oc,material_comprado.condicion_compra_id,material_comprado.condicion_compra_codigo,material_comprado.condicion_compra_descripcion,material_comprado.descuento_oc,material_comprado.cantidad_solicitada,material_comprado.cantidad_pedida,material_comprado.cantidad_recibida,material_comprado.monto_unitario,material_comprado.monto_ultima_compra,material_comprado.fecha_ultima_compra,material_comprado.um_id,material_comprado.um,material_comprado.um_descripcion,material_comprado.unidad_medida_id_pedida,material_comprado.iva,material_comprado.descuento,material_comprado.cotizacion_compra_id

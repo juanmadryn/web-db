@@ -21,7 +21,9 @@
     <method name="initialize"><![CDATA[importPackage(Packages.java.util);
 var cal = Calendar.getInstance();
 cal.add(Calendar.MONTH, -6);
+if(reportContext.getParameterValue("param_fecha_desde") == null)
 reportContext.setParameterValue("param_fecha_desde",cal.getTime());
+if(reportContext.getParameterValue("param_fecha_hasta") == null)
 reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -52,6 +54,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="param_proyecto" id="1609">
+            <property name="hidden">true</property>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
@@ -66,6 +69,22 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="distinct">true</property>
             <expression name="sortByColumn">dataSetRow["proyecto"]</expression>
             <property name="sortDirection">asc</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="proyecto" id="1630">
+            <property name="valueType">dynamic</property>
+            <property name="dataType">string</property>
+            <property name="paramType">multi-value</property>
+            <property name="isRequired">false</property>
+            <property name="controlType">list-box</property>
+            <property name="dataSetName">Data Set - proyectos</property>
+            <expression name="valueExpr">dataSetRow["proyecto"]</expression>
+            <expression name="labelExpr">dataSetRow["proyecto_completo"]</expression>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -117,6 +136,27 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                     <property name="name">total_articulo</property>
                     <expression name="expression">row["cantidad_pedida"]*row["monto_unitario"]</expression>
                     <property name="dataType">float</property>
+                </structure>
+            </list-property>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">ne</property>
+                    <expression name="expr">row["estado_oc"]</expression>
+                    <simple-property-list name="value1">
+                        <value>"RECHAZADA"</value>
+                    </simple-property-list>
+                </structure>
+                <structure>
+                    <property name="operator">is-not-null</property>
+                    <expression name="expr">row["estado_oc"]</expression>
+                    <simple-property-list name="value1"/>
+                </structure>
+                <structure>
+                    <property name="operator">in</property>
+                    <expression name="expr">row["proyecto"]</expression>
+                    <simple-property-list name="value1">
+                        <value>params["proyecto"].value</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -1130,7 +1170,9 @@ from articulos</property>
                             <property name="levels">
                                 <tabular-level name="proyecto" id="1615">
                                     <property name="dataType">string</property>
+                                    <property name="levelType">dynamic</property>
                                     <property name="columnName">proyecto</property>
+                                    <expression name="displayColumnName">"["+dataSetRow["proyecto"] + " ]- "+dataSetRow["nombre_proyecto"]</expression>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
@@ -1698,44 +1740,6 @@ from articulos</property>
     </Background>
     <Visible>true</Visible>
     <Triggers>
-      <Condition>onclick</Condition>
-      <Action>
-        <Type>URL_Redirect</Type>
-        <Value xsi:type="attribute:URLValue">
-          <BaseUrl>&lt;structure name=&quot;action&quot;>
-    &lt;property name=&quot;linkType&quot;>drill-through&lt;/property>
-    &lt;property name=&quot;toolTip&quot;>Ver detalle de compras para el proyecto&lt;/property>
-    &lt;property name=&quot;reportName&quot;>C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado_art.rptdesign&lt;/property>
-    &lt;property name=&quot;targetBookmarkType&quot;>bookmark&lt;/property>
-    &lt;property name=&quot;targetWindow&quot;>_blank&lt;/property>
-    &lt;property name=&quot;targetFileType&quot;>report-design&lt;/property>
-    &lt;list-property name=&quot;paramBindings&quot;>
-        &lt;structure>
-            &lt;property name=&quot;paramName&quot;>param_fecha_desde&lt;/property>
-            &lt;expression name=&quot;expression&quot;>params[&quot;param_fecha_desde&quot;].value&lt;/expression>
-        &lt;/structure>
-        &lt;structure>
-            &lt;property name=&quot;paramName&quot;>param_fecha_hasta&lt;/property>
-            &lt;expression name=&quot;expression&quot;>params[&quot;param_fecha_hasta&quot;].value&lt;/expression>
-        &lt;/structure>
-        &lt;structure>
-            &lt;property name=&quot;paramName&quot;>param_articulo&lt;/property>
-            &lt;expression name=&quot;expression&quot;>params[&quot;param_articulo&quot;].value&lt;/expression>
-        &lt;/structure>
-        &lt;structure>
-            &lt;property name=&quot;paramName&quot;>param_proyecto&lt;/property>
-            &lt;expression name=&quot;expression&quot;>params[&quot;param_proyecto&quot;].value&lt;/expression>
-        &lt;/structure>
-    &lt;/list-property>
-&lt;/structure>
-</BaseUrl>
-          <BaseParameterName></BaseParameterName>
-          <ValueParameterName></ValueParameterName>
-          <SeriesParameterName></SeriesParameterName>
-        </Value>
-      </Action>
-    </Triggers>
-    <Triggers>
       <Condition>onmouseover</Condition>
       <Action>
         <Type>Show_Tooltip</Type>
@@ -2092,6 +2096,48 @@ from articulos</property>
           </DataPoint>
           <LabelPosition>Outside</LabelPosition>
           <Stacked>false</Stacked>
+          <Triggers>
+            <Condition>onmouseover</Condition>
+            <Action>
+              <Type>Show_Tooltip</Type>
+              <Value xsi:type="attribute:TooltipValue">
+                <Text>&quot;Proyecto: &quot;+dimension[&quot;GroupProyecto&quot;][&quot;proyecto&quot;][&quot;DisplayName&quot;] + &quot; | Total: $ &quot;+data[&quot;Summary Field/total_articulo&quot;].toFixed(2)</Text>
+                <Delay>200</Delay>
+              </Value>
+            </Action>
+          </Triggers>
+          <Triggers>
+            <Condition>onclick</Condition>
+            <Action>
+              <Type>URL_Redirect</Type>
+              <Value xsi:type="attribute:URLValue">
+                <BaseUrl>&lt;structure name=&quot;action&quot;>
+    &lt;property name=&quot;linkType&quot;>drill-through&lt;/property>
+    &lt;property name=&quot;reportName&quot;>C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado_art.rptdesign&lt;/property>
+    &lt;property name=&quot;targetWindow&quot;>_blank&lt;/property>
+    &lt;property name=&quot;targetFileType&quot;>report-design&lt;/property>
+    &lt;list-property name=&quot;paramBindings&quot;>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>param_fecha_desde&lt;/property>
+            &lt;expression name=&quot;expression&quot;>(new Date(data[&quot;GroupFecha/year&quot;]-1900,data[&quot;GroupFecha/month&quot;]-1,&quot;01&quot;))&lt;/expression>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>param_fecha_hasta&lt;/property>
+            &lt;expression name=&quot;expression&quot;>(new Date(data[&quot;GroupFecha/year&quot;]-1900,data[&quot;GroupFecha/month&quot;]-1,&quot;31&quot;))&lt;/expression>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>param_proyecto&lt;/property>
+            &lt;expression name=&quot;expression&quot;>data[&quot;GroupProyecto/proyecto&quot;]&lt;/expression>
+        &lt;/structure>
+    &lt;/list-property>
+&lt;/structure>
+</BaseUrl>
+                <BaseParameterName></BaseParameterName>
+                <ValueParameterName></ValueParameterName>
+                <SeriesParameterName></SeriesParameterName>
+              </Value>
+            </Action>
+          </Triggers>
           <Riser>Rectangle</Riser>
         </Series>
         <Grouping>
@@ -2563,28 +2609,22 @@ from articulos</property>
 ]]></xml-property>
                         <property name="outputFormat">SVG</property>
                         <structure name="action">
-                            <property name="toolTip">Ver detalle de compras para el proyecto</property>
                             <property name="targetWindow">_blank</property>
                             <property name="linkType">drill-through</property>
                             <property name="targetFileType">report-design</property>
-                            <property name="targetBookmarkType">bookmark</property>
                             <property name="reportName">C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado_art.rptdesign</property>
                             <list-property name="paramBindings">
                                 <structure>
                                     <property name="paramName">param_fecha_desde</property>
-                                    <expression name="expression">params["param_fecha_desde"].value</expression>
+                                    <expression name="expression">(new Date(data["GroupFecha/year"]-1900,data["GroupFecha/month"]-1,"01"))</expression>
                                 </structure>
                                 <structure>
                                     <property name="paramName">param_fecha_hasta</property>
-                                    <expression name="expression">params["param_fecha_hasta"].value</expression>
-                                </structure>
-                                <structure>
-                                    <property name="paramName">param_articulo</property>
-                                    <expression name="expression">params["param_articulo"].value</expression>
+                                    <expression name="expression">(new Date(data["GroupFecha/year"]-1900,data["GroupFecha/month"]-1,"31"))</expression>
                                 </structure>
                                 <structure>
                                     <property name="paramName">param_proyecto</property>
-                                    <expression name="expression">params["param_proyecto"].value</expression>
+                                    <expression name="expression">data["GroupProyecto/proyecto"]</expression>
                                 </structure>
                             </list-property>
                         </structure>
@@ -2622,6 +2662,11 @@ from articulos</property>
                                 <expression name="expression">measure["total_articulo"]</expression>
                                 <property name="dataType">float</property>
                                 <property name="aggregateFunction">sum</property>
+                            </structure>
+                            <structure>
+                                <property name="name">proyecto_completo</property>
+                                <expression name="expression">dimension["GroupProyecto"]["proyecto"]</expression>
+                                <property name="dataType">string</property>
                             </structure>
                         </list-property>
                     </extended-item>
