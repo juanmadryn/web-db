@@ -21,7 +21,9 @@
     <method name="initialize"><![CDATA[importPackage(Packages.java.util);
 var cal = Calendar.getInstance();
 cal.add(Calendar.MONTH, -6);
+if(reportContext.getParameterValue("param_fecha_desde") == null)
 reportContext.setParameterValue("param_fecha_desde",cal.getTime());
+if(reportContext.getParameterValue("param_fecha_hasta") == null)
 reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -30,7 +32,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">static</property>
             <property name="dataType">date</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese la fecha de comienzo de la consulta (dd/mm/yyyy):</text-property>
+            <text-property name="promptText">Ingrese la fecha de comienzo de la consulta (dd/mm/yyyy)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="distinct">true</property>
@@ -42,7 +44,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">static</property>
             <property name="dataType">date</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese la fecha de finalización de la consulta:</text-property>
+            <text-property name="promptText">Ingrese la fecha de finalización de la consulta</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="distinct">true</property>
@@ -54,7 +56,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Seleccione el proyecto para la consulta:</text-property>
+            <text-property name="promptText">Seleccione el proyecto para la consulta (o 'Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - proyectos</property>
@@ -73,7 +75,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">static</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese la tarea:</text-property>
+            <text-property name="promptText">Ingrese la tarea</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
             <property name="distinct">true</property>
@@ -85,6 +87,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese el artículo a consultar (o 'Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - articulos</property>
@@ -140,7 +143,6 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                 <structure>
                     <property name="operator">is-not-null</property>
                     <expression name="expr">row["estado_oc"]</expression>
-                    <simple-property-list name="value1"/>
                 </structure>
             </list-property>
             <structure name="cachedMetaData"/>
