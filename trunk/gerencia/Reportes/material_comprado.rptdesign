@@ -40,7 +40,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el articulo a consultar</text-property>
+            <text-property name="promptText">Ingrese el articulo a consultar (o 'Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - articulos</property>
@@ -59,17 +59,29 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">static</property>
             <property name="dataType">boolean</property>
             <property name="paramType">simple</property>
-            <property name="isRequired">false</property>
-            <property name="controlType">check-box</property>
+            <text-property name="promptText">Desea ver los detalles de cada compra?</text-property>
+            <property name="isRequired">true</property>
+            <property name="controlType">radio-button</property>
+            <property name="fixedOrder">true</property>
             <property name="defaultValue">true</property>
             <property name="distinct">true</property>
             <structure name="format"/>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">true</property>
+                    <property name="label">Detallado</property>
+                </structure>
+                <structure>
+                    <property name="value">false</property>
+                    <property name="label">Resumido</property>
+                </structure>
+            </list-property>
         </scalar-parameter>
         <scalar-parameter name="param_proyecto" id="1610">
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el proyecto</text-property>
+            <text-property name="promptText">Ingrese el proyecto (o 'Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - proyectos</property>
@@ -98,12 +110,18 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             </structure>
         </scalar-parameter>
         <scalar-parameter name="param_comprador" id="1612">
-            <property name="hidden">true</property>
-            <property name="valueType">static</property>
+            <property name="hidden">false</property>
+            <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
+            <text-property name="promptText">Seleccione el comprador para el cual desea generar el reporte ('Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
-            <property name="controlType">text-box</property>
+            <property name="controlType">list-box</property>
+            <property name="dataSetName">Data Set - compradores</property>
+            <expression name="valueExpr">dataSetRow["comprador_legajo"]</expression>
+            <expression name="labelExpr">dataSetRow["comprador_nombre"]</expression>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
             <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -150,7 +168,6 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                 <structure>
                     <property name="operator">is-not-null</property>
                     <expression name="expr">row["estado_oc"]</expression>
-                    <simple-property-list name="value1"/>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
@@ -1182,6 +1199,39 @@ from articulos</property>
 FROM proyectos_tareas_all
 ORDER BY proyecto</property>
         </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set - compradores" id="1613">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">comprador_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">comprador_legajo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source - gerencia</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">comprador_nombre</property>
+                    <property name="nativeName">comprador_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">comprador_legajo</property>
+                    <property name="nativeName">comprador_legajo</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+            <property name="queryText">select DISTINCT material_comprado.comprador_nombre, material_comprado.comprador_legajo
+from material_comprado</property>
+        </oda-data-set>
     </data-sets>
     <styles>
         <style name="crosstab-cell" id="4">
@@ -1334,7 +1384,7 @@ ORDER BY proyecto</property>
                                     <list-property name="visibility">
                                         <structure>
                                             <property name="format">all</property>
-                                            <expression name="valueExpr">if(params["param_proyecto"] != null) {false}else {true}</expression>
+                                            <expression name="valueExpr">if(params["param_proyecto"].value != null){false}else{true};</expression>
                                         </structure>
                                     </list-property>
                                     <cell id="1459">
@@ -1993,7 +2043,7 @@ ORDER BY proyecto</property>
                             <property name="resultSetColumn">orden_compra_tango</property>
                             <structure name="action">
                                 <property name="linkType">hyperlink</property>
-                                <expression name="uri">"http://localhost:8080/inventario/Jsp/ConsultaOrdenesCompra.jsp?orden_compra_id="+row["orden_compra_id"]</expression>
+                                <expression name="uri">"http://localhost:8080/inventario/Jsp/ConsultaOrdenesCompra.jsp?orden_compra_id="+row["orden_compra_id"].replace("\.","")</expression>
                                 <property name="targetWindow">_blank</property>
                             </structure>
                         </data>

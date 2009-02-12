@@ -88,7 +88,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el articulo a consultar</text-property>
+            <text-property name="promptText">Ingrese el articulo a consultar (o 'Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - articulos</property>
@@ -144,7 +144,6 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                 <structure>
                     <property name="operator">is-not-null</property>
                     <expression name="expr">row["estado_oc"]</expression>
-                    <simple-property-list name="value1"/>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">

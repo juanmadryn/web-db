@@ -53,30 +53,32 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
-        <scalar-parameter name="param_proyecto" id="1609">
-            <property name="hidden">true</property>
-            <property name="valueType">dynamic</property>
-            <property name="dataType">string</property>
+        <scalar-parameter name="total" id="1632">
+            <property name="valueType">static</property>
+            <property name="dataType">boolean</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el proyecto</text-property>
-            <property name="isRequired">false</property>
-            <property name="controlType">list-box</property>
-            <property name="dataSetName">Data Set - proyectos</property>
-            <expression name="valueExpr">dataSetRow["proyecto"]</expression>
-            <expression name="labelExpr">dataSetRow["proyecto_completo"]</expression>
-            <property name="mustMatch">true</property>
-            <property name="fixedOrder">false</property>
+            <text-property name="promptText">Desea ver el total de compras o segregado por proyecto?</text-property>
+            <property name="controlType">radio-button</property>
+            <property name="fixedOrder">true</property>
+            <property name="defaultValue">false</property>
             <property name="distinct">true</property>
-            <expression name="sortByColumn">dataSetRow["proyecto"]</expression>
-            <property name="sortDirection">asc</property>
-            <structure name="format">
-                <property name="category">Unformatted</property>
-            </structure>
+            <structure name="format"/>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">true</property>
+                    <property name="label">Totalizado</property>
+                </structure>
+                <structure>
+                    <property name="value">false</property>
+                    <property name="label">Por proyecto</property>
+                </structure>
+            </list-property>
         </scalar-parameter>
         <scalar-parameter name="proyecto" id="1630">
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">multi-value</property>
+            <text-property name="promptText">Seleccione el/los proyectos a consultar (o 'Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - proyectos</property>
@@ -93,7 +95,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el articulo a consultar</text-property>
+            <text-property name="promptText">Ingrese el articulo a consultar ('Null Value' para verlos todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - articulos</property>
@@ -149,405 +151,16 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                 <structure>
                     <property name="operator">is-not-null</property>
                     <expression name="expr">row["estado_oc"]</expression>
-                    <simple-property-list name="value1"/>
                 </structure>
                 <structure>
                     <property name="operator">in</property>
-                    <expression name="expr">row["proyecto"]</expression>
+                    <expression name="expr">if(params["proyecto"].value!=null){row["proyecto"]}else{}</expression>
                     <simple-property-list name="value1">
                         <value>params["proyecto"].value</value>
                     </simple-property-list>
                 </structure>
             </list-property>
-            <structure name="cachedMetaData">
-                <list-property name="resultSet">
-                    <structure>
-                        <property name="position">1</property>
-                        <property name="name">proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">2</property>
-                        <property name="name">tipo_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">3</property>
-                        <property name="name">nombre_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">4</property>
-                        <property name="name">descripcion_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">5</property>
-                        <property name="name">observacioens_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">6</property>
-                        <property name="name">estado_id_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">7</property>
-                        <property name="name">estado_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">8</property>
-                        <property name="name">cliente_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">9</property>
-                        <property name="name">cliente_codigo</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">10</property>
-                        <property name="name">cliente_nombre</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">11</property>
-                        <property name="name">cliente_descripcion</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">12</property>
-                        <property name="name">vigencia_desde_proyecto</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">13</property>
-                        <property name="name">vigencia_hasta_proyecto</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">14</property>
-                        <property name="name">duracion_proyecto</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">15</property>
-                        <property name="name">tarea_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">16</property>
-                        <property name="name">nombre_tarea</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">17</property>
-                        <property name="name">descripcion_tarea</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">18</property>
-                        <property name="name">observaciones_tarea</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">19</property>
-                        <property name="name">estado_id_tarea</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">20</property>
-                        <property name="name">estado_tarea</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">21</property>
-                        <property name="name">clase_tarea_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">22</property>
-                        <property name="name">clase_tarea_nombre</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">23</property>
-                        <property name="name">detalle_SC_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">24</property>
-                        <property name="name">articulo_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">25</property>
-                        <property name="name">articulo_nombre</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">26</property>
-                        <property name="name">articulo_descripcion</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">27</property>
-                        <property name="name">articulo_descripcion_completa</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">28</property>
-                        <property name="name">articulo_clase</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">29</property>
-                        <property name="name">descripcion</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">30</property>
-                        <property name="name">observaciones</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">31</property>
-                        <property name="name">articulo_id_solicitado</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">32</property>
-                        <property name="name">articulo_nombre_sol</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">33</property>
-                        <property name="name">articulo_descripcion_sol</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">34</property>
-                        <property name="name">articulo_clase_sol</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">35</property>
-                        <property name="name">solicitud_compra_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">36</property>
-                        <property name="name">solicitante_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">37</property>
-                        <property name="name">solicitante_legajo</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">38</property>
-                        <property name="name">solicitante_nombre</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">39</property>
-                        <property name="name">estado_id_sm</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">40</property>
-                        <property name="name">estado_sm</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">41</property>
-                        <property name="name">fecha_solicitud</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">42</property>
-                        <property name="name">fecha_aprobacion_sm</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">43</property>
-                        <property name="name">orden_compra_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">44</property>
-                        <property name="name">proveedor_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">45</property>
-                        <property name="name">proveedor_codigo</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">46</property>
-                        <property name="name">proveedor_nombre</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">47</property>
-                        <property name="name">comprador_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">48</property>
-                        <property name="name">comprador_legajo</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">49</property>
-                        <property name="name">comprador_nombre</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">50</property>
-                        <property name="name">estado_id_oc</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">51</property>
-                        <property name="name">estado_oc</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">52</property>
-                        <property name="name">fecha_oc</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">53</property>
-                        <property name="name">fecha_aprobacion_oc</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">54</property>
-                        <property name="name">fecha_estimada_entrega</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">55</property>
-                        <property name="name">fecha_entrega_completa</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">56</property>
-                        <property name="name">fecha_emision_oc</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">57</property>
-                        <property name="name">descripcion_oc</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">58</property>
-                        <property name="name">observaciones_oc</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">59</property>
-                        <property name="name">observaciones2_oc</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">60</property>
-                        <property name="name">condicion_compra_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">61</property>
-                        <property name="name">condicion_compra_codigo</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">62</property>
-                        <property name="name">condicion_compra_descripcion</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">63</property>
-                        <property name="name">descuento_oc</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">64</property>
-                        <property name="name">cantidad_solicitada</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">65</property>
-                        <property name="name">cantidad_pedida</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">66</property>
-                        <property name="name">cantidad_recibida</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">67</property>
-                        <property name="name">monto_unitario</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">68</property>
-                        <property name="name">monto_ultima_compra</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">69</property>
-                        <property name="name">fecha_ultima_compra</property>
-                        <property name="dataType">date</property>
-                    </structure>
-                    <structure>
-                        <property name="position">70</property>
-                        <property name="name">um_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">71</property>
-                        <property name="name">um</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">72</property>
-                        <property name="name">um_descripcion</property>
-                        <property name="dataType">string</property>
-                    </structure>
-                    <structure>
-                        <property name="position">73</property>
-                        <property name="name">unidad_medida_id_pedida</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">74</property>
-                        <property name="name">iva</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">75</property>
-                        <property name="name">descuento</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                    <structure>
-                        <property name="position">76</property>
-                        <property name="name">cotizacion_compra_id</property>
-                        <property name="dataType">integer</property>
-                    </structure>
-                    <structure>
-                        <property name="position">77</property>
-                        <property name="name">total_articulo</property>
-                        <property name="dataType">float</property>
-                    </structure>
-                </list-property>
-            </structure>
+            <structure name="cachedMetaData"/>
             <property name="dataSource">Data Source - gerencia</property>
             <list-property name="parameters">
                 <structure>
@@ -567,484 +180,17 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                     <property name="isOutput">false</property>
                 </structure>
                 <structure>
-                    <property name="name">param_proyecto</property>
-                    <property name="paramName">param_proyecto</property>
-                    <property name="dataType">string</property>
-                    <property name="position">3</property>
-                    <property name="isInput">true</property>
-                    <property name="isOutput">false</property>
-                </structure>
-                <structure>
                     <property name="name">param_articulo</property>
                     <property name="paramName">param_articulo</property>
                     <property name="dataType">string</property>
-                    <property name="position">4</property>
+                    <property name="position">3</property>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
-                </structure>
-            </list-property>
-            <list-property name="resultSet">
-                <structure>
-                    <property name="position">1</property>
-                    <property name="name">proyecto</property>
-                    <property name="nativeName">proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">2</property>
-                    <property name="name">tipo_proyecto</property>
-                    <property name="nativeName">tipo_proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">3</property>
-                    <property name="name">nombre_proyecto</property>
-                    <property name="nativeName">nombre_proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">4</property>
-                    <property name="name">descripcion_proyecto</property>
-                    <property name="nativeName">descripcion_proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">5</property>
-                    <property name="name">observacioens_proyecto</property>
-                    <property name="nativeName">observacioens_proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">6</property>
-                    <property name="name">estado_id_proyecto</property>
-                    <property name="nativeName">estado_id_proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">7</property>
-                    <property name="name">estado_proyecto</property>
-                    <property name="nativeName">estado_proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">8</property>
-                    <property name="name">cliente_id</property>
-                    <property name="nativeName">cliente_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">9</property>
-                    <property name="name">cliente_codigo</property>
-                    <property name="nativeName">cliente_codigo</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">10</property>
-                    <property name="name">cliente_nombre</property>
-                    <property name="nativeName">cliente_nombre</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">11</property>
-                    <property name="name">cliente_descripcion</property>
-                    <property name="nativeName">cliente_descripcion</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">12</property>
-                    <property name="name">vigencia_desde_proyecto</property>
-                    <property name="nativeName">vigencia_desde_proyecto</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">13</property>
-                    <property name="name">vigencia_hasta_proyecto</property>
-                    <property name="nativeName">vigencia_hasta_proyecto</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">14</property>
-                    <property name="name">duracion_proyecto</property>
-                    <property name="nativeName">duracion_proyecto</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">15</property>
-                    <property name="name">tarea_id</property>
-                    <property name="nativeName">tarea_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">16</property>
-                    <property name="name">nombre_tarea</property>
-                    <property name="nativeName">nombre_tarea</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">17</property>
-                    <property name="name">descripcion_tarea</property>
-                    <property name="nativeName">descripcion_tarea</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">18</property>
-                    <property name="name">observaciones_tarea</property>
-                    <property name="nativeName">observaciones_tarea</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">19</property>
-                    <property name="name">estado_id_tarea</property>
-                    <property name="nativeName">estado_id_tarea</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">20</property>
-                    <property name="name">estado_tarea</property>
-                    <property name="nativeName">estado_tarea</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">21</property>
-                    <property name="name">clase_tarea_id</property>
-                    <property name="nativeName">clase_tarea_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">22</property>
-                    <property name="name">clase_tarea_nombre</property>
-                    <property name="nativeName">clase_tarea_nombre</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">23</property>
-                    <property name="name">detalle_SC_id</property>
-                    <property name="nativeName">detalle_SC_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">24</property>
-                    <property name="name">articulo_id</property>
-                    <property name="nativeName">articulo_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">25</property>
-                    <property name="name">articulo_nombre</property>
-                    <property name="nativeName">articulo_nombre</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">26</property>
-                    <property name="name">articulo_descripcion</property>
-                    <property name="nativeName">articulo_descripcion</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">27</property>
-                    <property name="name">articulo_descripcion_completa</property>
-                    <property name="nativeName">articulo_descripcion_completa</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">28</property>
-                    <property name="name">articulo_clase</property>
-                    <property name="nativeName">articulo_clase</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">29</property>
-                    <property name="name">descripcion</property>
-                    <property name="nativeName">descripcion</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">30</property>
-                    <property name="name">observaciones</property>
-                    <property name="nativeName">observaciones</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">31</property>
-                    <property name="name">articulo_id_solicitado</property>
-                    <property name="nativeName">articulo_id_solicitado</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">32</property>
-                    <property name="name">articulo_nombre_sol</property>
-                    <property name="nativeName">articulo_nombre_sol</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">33</property>
-                    <property name="name">articulo_descripcion_sol</property>
-                    <property name="nativeName">articulo_descripcion_sol</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">34</property>
-                    <property name="name">articulo_clase_sol</property>
-                    <property name="nativeName">articulo_clase_sol</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">35</property>
-                    <property name="name">solicitud_compra_id</property>
-                    <property name="nativeName">solicitud_compra_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">36</property>
-                    <property name="name">solicitante_id</property>
-                    <property name="nativeName">solicitante_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">37</property>
-                    <property name="name">solicitante_legajo</property>
-                    <property name="nativeName">solicitante_legajo</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">38</property>
-                    <property name="name">solicitante_nombre</property>
-                    <property name="nativeName">solicitante_nombre</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">39</property>
-                    <property name="name">estado_id_sm</property>
-                    <property name="nativeName">estado_id_sm</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">40</property>
-                    <property name="name">estado_sm</property>
-                    <property name="nativeName">estado_sm</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">41</property>
-                    <property name="name">fecha_solicitud</property>
-                    <property name="nativeName">fecha_solicitud</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">42</property>
-                    <property name="name">fecha_aprobacion_sm</property>
-                    <property name="nativeName">fecha_aprobacion_sm</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">43</property>
-                    <property name="name">orden_compra_id</property>
-                    <property name="nativeName">orden_compra_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">44</property>
-                    <property name="name">proveedor_id</property>
-                    <property name="nativeName">proveedor_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">45</property>
-                    <property name="name">proveedor_codigo</property>
-                    <property name="nativeName">proveedor_codigo</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">46</property>
-                    <property name="name">proveedor_nombre</property>
-                    <property name="nativeName">proveedor_nombre</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">47</property>
-                    <property name="name">comprador_id</property>
-                    <property name="nativeName">comprador_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">48</property>
-                    <property name="name">comprador_legajo</property>
-                    <property name="nativeName">comprador_legajo</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">49</property>
-                    <property name="name">comprador_nombre</property>
-                    <property name="nativeName">comprador_nombre</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">50</property>
-                    <property name="name">estado_id_oc</property>
-                    <property name="nativeName">estado_id_oc</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">51</property>
-                    <property name="name">estado_oc</property>
-                    <property name="nativeName">estado_oc</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">52</property>
-                    <property name="name">fecha_oc</property>
-                    <property name="nativeName">fecha_oc</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">53</property>
-                    <property name="name">fecha_aprobacion_oc</property>
-                    <property name="nativeName">fecha_aprobacion_oc</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">54</property>
-                    <property name="name">fecha_estimada_entrega</property>
-                    <property name="nativeName">fecha_estimada_entrega</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">55</property>
-                    <property name="name">fecha_entrega_completa</property>
-                    <property name="nativeName">fecha_entrega_completa</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">56</property>
-                    <property name="name">fecha_emision_oc</property>
-                    <property name="nativeName">fecha_emision_oc</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">57</property>
-                    <property name="name">descripcion_oc</property>
-                    <property name="nativeName">descripcion_oc</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">58</property>
-                    <property name="name">observaciones_oc</property>
-                    <property name="nativeName">observaciones_oc</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">59</property>
-                    <property name="name">observaciones2_oc</property>
-                    <property name="nativeName">observaciones2_oc</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">60</property>
-                    <property name="name">condicion_compra_id</property>
-                    <property name="nativeName">condicion_compra_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">61</property>
-                    <property name="name">condicion_compra_codigo</property>
-                    <property name="nativeName">condicion_compra_codigo</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">62</property>
-                    <property name="name">condicion_compra_descripcion</property>
-                    <property name="nativeName">condicion_compra_descripcion</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">63</property>
-                    <property name="name">descuento_oc</property>
-                    <property name="nativeName">descuento_oc</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">64</property>
-                    <property name="name">cantidad_solicitada</property>
-                    <property name="nativeName">cantidad_solicitada</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">65</property>
-                    <property name="name">cantidad_pedida</property>
-                    <property name="nativeName">cantidad_pedida</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">66</property>
-                    <property name="name">cantidad_recibida</property>
-                    <property name="nativeName">cantidad_recibida</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">67</property>
-                    <property name="name">monto_unitario</property>
-                    <property name="nativeName">monto_unitario</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">68</property>
-                    <property name="name">monto_ultima_compra</property>
-                    <property name="nativeName">monto_ultima_compra</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">69</property>
-                    <property name="name">fecha_ultima_compra</property>
-                    <property name="nativeName">fecha_ultima_compra</property>
-                    <property name="dataType">date</property>
-                </structure>
-                <structure>
-                    <property name="position">70</property>
-                    <property name="name">um_id</property>
-                    <property name="nativeName">um_id</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">71</property>
-                    <property name="name">um</property>
-                    <property name="nativeName">um</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">72</property>
-                    <property name="name">um_descripcion</property>
-                    <property name="nativeName">um_descripcion</property>
-                    <property name="dataType">string</property>
-                </structure>
-                <structure>
-                    <property name="position">73</property>
-                    <property name="name">unidad_medida_id_pedida</property>
-                    <property name="nativeName">unidad_medida_id_pedida</property>
-                    <property name="dataType">integer</property>
-                </structure>
-                <structure>
-                    <property name="position">74</property>
-                    <property name="name">iva</property>
-                    <property name="nativeName">iva</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">75</property>
-                    <property name="name">descuento</property>
-                    <property name="nativeName">descuento</property>
-                    <property name="dataType">float</property>
-                </structure>
-                <structure>
-                    <property name="position">76</property>
-                    <property name="name">cotizacion_compra_id</property>
-                    <property name="nativeName">cotizacion_compra_id</property>
-                    <property name="dataType">integer</property>
                 </structure>
             </list-property>
             <property name="queryText">select material_comprado.proyecto,material_comprado.tipo_proyecto,material_comprado.nombre_proyecto,material_comprado.descripcion_proyecto,material_comprado.observacioens_proyecto,material_comprado.estado_id_proyecto,material_comprado.estado_proyecto,material_comprado.cliente_id,material_comprado.cliente_codigo,material_comprado.cliente_nombre,material_comprado.cliente_descripcion,material_comprado.vigencia_desde_proyecto,material_comprado.vigencia_hasta_proyecto,material_comprado.duracion_proyecto,material_comprado.tarea_id,material_comprado.nombre_tarea,material_comprado.descripcion_tarea,material_comprado.observaciones_tarea,material_comprado.estado_id_tarea,material_comprado.estado_tarea,material_comprado.clase_tarea_id,material_comprado.clase_tarea_nombre,material_comprado.detalle_SC_id,material_comprado.articulo_id,material_comprado.articulo_nombre,material_comprado.articulo_descripcion,material_comprado.articulo_descripcion_completa,material_comprado.articulo_clase,material_comprado.descripcion,material_comprado.observaciones,material_comprado.articulo_id_solicitado,material_comprado.articulo_nombre_sol,material_comprado.articulo_descripcion_sol,material_comprado.articulo_clase_sol,material_comprado.solicitud_compra_id,material_comprado.solicitante_id,material_comprado.solicitante_legajo,material_comprado.solicitante_nombre,material_comprado.estado_id_sm,material_comprado.estado_sm,material_comprado.fecha_solicitud,material_comprado.fecha_aprobacion_sm,material_comprado.orden_compra_id,material_comprado.proveedor_id,material_comprado.proveedor_codigo,material_comprado.proveedor_nombre,material_comprado.comprador_id,material_comprado.comprador_legajo,material_comprado.comprador_nombre,material_comprado.estado_id_oc,material_comprado.estado_oc,material_comprado.fecha_oc,material_comprado.fecha_aprobacion_oc,material_comprado.fecha_estimada_entrega,material_comprado.fecha_entrega_completa,material_comprado.fecha_emision_oc,material_comprado.descripcion_oc,material_comprado.observaciones_oc,material_comprado.observaciones2_oc,material_comprado.condicion_compra_id,material_comprado.condicion_compra_codigo,material_comprado.condicion_compra_descripcion,material_comprado.descuento_oc,material_comprado.cantidad_solicitada,material_comprado.cantidad_pedida,material_comprado.cantidad_recibida,material_comprado.monto_unitario,material_comprado.monto_ultima_compra,material_comprado.fecha_ultima_compra,material_comprado.um_id,material_comprado.um,material_comprado.um_descripcion,material_comprado.unidad_medida_id_pedida,material_comprado.iva,material_comprado.descuento,material_comprado.cotizacion_compra_id
 from material_comprado
 where fecha_emision_oc between ? and ?
-AND material_comprado.proyecto LIKE IFNULL(?,'%%')
 AND material_comprado.articulo_nombre LIKE IFNULL(?,'%%')</property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set - proyectos" id="1602">
@@ -1172,7 +318,7 @@ from articulos</property>
                                     <property name="dataType">string</property>
                                     <property name="levelType">dynamic</property>
                                     <property name="columnName">proyecto</property>
-                                    <expression name="displayColumnName">"["+dataSetRow["proyecto"] + " ]- "+dataSetRow["nombre_proyecto"]</expression>
+                                    <expression name="displayColumnName">"["+dataSetRow["proyecto"] + "] - "+dataSetRow["nombre_proyecto"]</expression>
                                 </tabular-level>
                             </property>
                         </tabular-hierarchy>
@@ -1336,6 +482,14 @@ from articulos</property>
                                 <property name="textAlign">left</property>
                                 <property name="verticalAlign">bottom</property>
                                 <property name="width">50%</property>
+                                <property name="dataSet">Data Set - gerencia</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">articulo</property>
+                                        <expression name="expression">params["param_articulo"].value</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                </list-property>
                                 <column id="1201">
                                     <property name="width">20%</property>
                                 </column>
@@ -1480,8 +634,11 @@ from articulos</property>
                     <property name="textAlign">center</property>
                     <property name="verticalAlign">middle</property>
                     <property name="whiteSpace">normal</property>
-                    <extended-item extensionName="Chart" name="NewChart" id="1625">
-                        <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+                </cell>
+            </row>
+        </grid>
+        <extended-item extensionName="Chart" name="Tendencia_compra_proyecto" id="1631">
+            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
   <Block>
@@ -1516,7 +673,7 @@ from articulos</property>
       <Visible>true</Visible>
       <Label>
         <Caption>
-          <Value>Tendencia de compra por proyecto</Value>
+          <Value>Tendencia de compra</Value>
           <Font>
             <Size>16.0</Size>
             <Bold>true</Bold>
@@ -1701,15 +858,16 @@ from articulos</property>
           <Bottom>0.0</Bottom>
           <Right>3.0</Right>
         </Insets>
-        <Visible>false</Visible>
+        <Visible>true</Visible>
       </Title>
       <TitlePosition>Above</TitlePosition>
+      <ShowValue>false</ShowValue>
     </Children>
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>750.0</Width>
-      <Height>400.0</Height>
+      <Width>771.0</Width>
+      <Height>330.75</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -1739,26 +897,6 @@ from articulos</property>
       <Blue>255</Blue>
     </Background>
     <Visible>true</Visible>
-    <Triggers>
-      <Condition>onmouseover</Condition>
-      <Action>
-        <Type>Show_Tooltip</Type>
-        <Value xsi:type="attribute:TooltipValue">
-          <Text></Text>
-          <Delay>200</Delay>
-        </Value>
-      </Action>
-    </Triggers>
-    <Triggers>
-      <Condition>onmousemove</Condition>
-      <Action>
-        <Type>Show_Tooltip</Type>
-        <Value xsi:type="attribute:TooltipValue">
-          <Text></Text>
-          <Delay>200</Delay>
-        </Value>
-      </Action>
-    </Triggers>
   </Block>
   <Dimension>Two_Dimensional</Dimension>
   <Units>Points</Units>
@@ -1768,18 +906,23 @@ from articulos</property>
       <DataSetRepresentation>'A','B','C','D','E'</DataSetRepresentation>
     </BaseSampleData>
     <OrthogonalSampleData>
-      <DataSetRepresentation>5,4,12</DataSetRepresentation>
+      <DataSetRepresentation>6,4,12,8,10</DataSetRepresentation>
       <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
     </OrthogonalSampleData>
+    <AncillarySampleData>
+      <DataSetRepresentation>Series 1</DataSetRepresentation>
+    </AncillarySampleData>
   </SampleData>
-  <Interactivity/>
+  <Interactivity>
+    <LegendBehavior>ToggleSerieVisibility</LegendBehavior>
+  </Interactivity>
   <Axes>
     <Type>Text</Type>
     <Title>
       <Caption>
-        <Value>Meses</Value>
+        <Value>Períodos</Value>
         <Font>
-          <Size>14.0</Size>
+          <Size>10.0</Size>
           <Bold>true</Bold>
           <Alignment>
             <horizontalAlignment>Center</horizontalAlignment>
@@ -1818,7 +961,7 @@ from articulos</property>
         <Caption>
           <Value>Monto</Value>
           <Font>
-            <Size>14.0</Size>
+            <Size>10.0</Size>
             <Bold>true</Bold>
             <Alignment>
               <horizontalAlignment>Center</horizontalAlignment>
@@ -2087,21 +1230,21 @@ from articulos</property>
           <DataDefinition>
             <Definition>data[&quot;Summary Field/total_articulo&quot;]</Definition>
           </DataDefinition>
-          <SeriesIdentifier>Series 1</SeriesIdentifier>
+          <SeriesIdentifier>Total</SeriesIdentifier>
           <DataPoint>
             <Components>
               <Type>Orthogonal_Value</Type>
             </Components>
             <Separator>, </Separator>
           </DataPoint>
-          <LabelPosition>Outside</LabelPosition>
+          <LabelPosition>Inside</LabelPosition>
           <Stacked>false</Stacked>
           <Triggers>
             <Condition>onmouseover</Condition>
             <Action>
               <Type>Show_Tooltip</Type>
               <Value xsi:type="attribute:TooltipValue">
-                <Text>&quot;Proyecto: &quot;+dimension[&quot;GroupProyecto&quot;][&quot;proyecto&quot;][&quot;DisplayName&quot;] + &quot; | Total: $ &quot;+data[&quot;Summary Field/total_articulo&quot;].toFixed(2)</Text>
+                <Text>data[&quot;GroupProyecto/proyecto&quot;]+&quot;: &quot;+data[&quot;Summary Field/total_articulo&quot;].toFixed(2)</Text>
                 <Delay>200</Delay>
               </Value>
             </Action>
@@ -2119,15 +1262,19 @@ from articulos</property>
     &lt;list-property name=&quot;paramBindings&quot;>
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>param_fecha_desde&lt;/property>
-            &lt;expression name=&quot;expression&quot;>(new Date(data[&quot;GroupFecha/year&quot;]-1900,data[&quot;GroupFecha/month&quot;]-1,&quot;01&quot;))&lt;/expression>
+            &lt;expression name=&quot;expression&quot;>new Date((data[&quot;GroupFecha/year&quot;]-1900),(data[&quot;GroupFecha/month&quot;]-1),&quot;01&quot;);&lt;/expression>
         &lt;/structure>
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>param_fecha_hasta&lt;/property>
-            &lt;expression name=&quot;expression&quot;>(new Date(data[&quot;GroupFecha/year&quot;]-1900,data[&quot;GroupFecha/month&quot;]-1,&quot;31&quot;))&lt;/expression>
+            &lt;expression name=&quot;expression&quot;>new Date((data[&quot;GroupFecha/year&quot;]-1900),data[&quot;GroupFecha/month&quot;],&quot;00&quot;);&lt;/expression>
         &lt;/structure>
         &lt;structure>
             &lt;property name=&quot;paramName&quot;>param_proyecto&lt;/property>
-            &lt;expression name=&quot;expression&quot;>data[&quot;GroupProyecto/proyecto&quot;]&lt;/expression>
+            &lt;expression name=&quot;expression&quot;>data[&quot;GroupProyecto/proyecto&quot;].substring(1,data[&quot;GroupProyecto/proyecto&quot;].lastIndexOf(&quot;]&quot;))&lt;/expression>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>param_articulo&lt;/property>
+            &lt;expression name=&quot;expression&quot;>(params[&quot;param_articulo&quot;].value!=null?params[&quot;param_articulo&quot;].value:&quot;&quot;)&lt;/expression>
         &lt;/structure>
     &lt;/list-property>
 &lt;/structure>
@@ -2138,6 +1285,7 @@ from articulos</property>
               </Value>
             </Action>
           </Triggers>
+          <Translucent>false</Translucent>
           <Riser>Rectangle</Riser>
         </Series>
         <Grouping>
@@ -2247,6 +1395,394 @@ from articulos</property>
       <PrimaryAxis>true</PrimaryAxis>
       <Percent>false</Percent>
     </AssociatedAxes>
+    <AncillaryAxes>
+      <Type>Text</Type>
+      <Title>
+        <Caption>
+          <Value>Z-Axis Title</Value>
+          <Font>
+            <Size>14.0</Size>
+            <Bold>true</Bold>
+            <Alignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
+            </Alignment>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Title>
+      <TitlePosition>Below</TitlePosition>
+      <SeriesDefinitions>
+        <Query>
+          <Definition></Definition>
+        </Query>
+        <SeriesPalette>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>166</Green>
+            <Blue>218</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>242</Red>
+            <Green>88</Green>
+            <Blue>106</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>232</Red>
+            <Green>172</Green>
+            <Blue>57</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>64</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>170</Red>
+            <Green>85</Green>
+            <Blue>85</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>192</Red>
+            <Green>192</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>192</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>7</Red>
+            <Green>146</Green>
+            <Blue>94</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>64</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>240</Green>
+            <Blue>120</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>0</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+        </SeriesPalette>
+        <Series>
+          <Visible>true</Visible>
+          <Label>
+            <Caption>
+              <Value></Value>
+              <Font>
+                <Alignment/>
+              </Font>
+            </Caption>
+            <Background xsi:type="attribute:ColorDefinition">
+              <Transparency>0</Transparency>
+              <Red>255</Red>
+              <Green>255</Green>
+              <Blue>255</Blue>
+            </Background>
+            <Outline>
+              <Style>Solid</Style>
+              <Thickness>1</Thickness>
+              <Color>
+                <Transparency>255</Transparency>
+                <Red>0</Red>
+                <Green>0</Green>
+                <Blue>0</Blue>
+              </Color>
+              <Visible>false</Visible>
+            </Outline>
+            <Insets>
+              <Top>0.0</Top>
+              <Left>2.0</Left>
+              <Bottom>0.0</Bottom>
+              <Right>3.0</Right>
+            </Insets>
+            <Visible>false</Visible>
+          </Label>
+          <SeriesIdentifier></SeriesIdentifier>
+          <DataPoint>
+            <Components>
+              <Type>Orthogonal_Value</Type>
+            </Components>
+            <Separator>, </Separator>
+          </DataPoint>
+          <LabelPosition>Outside</LabelPosition>
+          <Stacked>false</Stacked>
+        </Series>
+        <Grouping>
+          <Enabled>false</Enabled>
+          <GroupingInterval>1.0</GroupingInterval>
+          <GroupType>Text</GroupType>
+          <AggregateExpression>Sum</AggregateExpression>
+        </Grouping>
+      </SeriesDefinitions>
+      <Orientation>Horizontal</Orientation>
+      <LineAttributes>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Visible>true</Visible>
+      </LineAttributes>
+      <Label>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Label>
+      <LabelPosition>Below</LabelPosition>
+      <MajorGrid>
+        <LineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>196</Red>
+            <Green>196</Green>
+            <Blue>196</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </LineAttributes>
+        <TickStyle>Across</TickStyle>
+        <TickAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>196</Red>
+            <Green>196</Green>
+            <Blue>196</Blue>
+          </Color>
+          <Visible>true</Visible>
+        </TickAttributes>
+      </MajorGrid>
+      <MinorGrid>
+        <LineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>225</Red>
+            <Green>225</Green>
+            <Blue>225</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </LineAttributes>
+        <TickStyle>Across</TickStyle>
+        <TickAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>225</Red>
+            <Green>225</Green>
+            <Blue>225</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </TickAttributes>
+      </MinorGrid>
+      <Scale>
+        <MinorGridsPerUnit>5</MinorGridsPerUnit>
+      </Scale>
+      <Origin>
+        <Type>Min</Type>
+        <Value xsi:type="data:NumberDataElement">
+          <Value>0.0</Value>
+        </Value>
+      </Origin>
+      <PrimaryAxis>true</PrimaryAxis>
+      <Percent>false</Percent>
+    </AncillaryAxes>
     <SeriesDefinitions>
       <Query>
         <Definition></Definition>
@@ -2510,7 +2046,6 @@ from articulos</property>
         <Value></Value>
         <Font>
           <Alignment/>
-          <Rotation>0.0</Rotation>
         </Font>
       </Caption>
       <Background xsi:type="attribute:ColorDefinition">
@@ -2538,7 +2073,6 @@ from articulos</property>
       <Visible>true</Visible>
     </Label>
     <LabelPosition>Below</LabelPosition>
-    <Staggered>false</Staggered>
     <MajorGrid>
       <LineAttributes>
         <Style>Solid</Style>
@@ -2604,75 +2138,1672 @@ from articulos</property>
   </Axes>
   <Orientation>Vertical</Orientation>
   <UnitSpacing>50.0</UnitSpacing>
-  <Rotation/>
+  <Rotation>
+    <Angles>
+      <XAngle>-20.0</XAngle>
+      <YAngle>45.0</YAngle>
+      <ZAngle>0.0</ZAngle>
+      <Type>None</Type>
+    </Angles>
+  </Rotation>
 </model:ChartWithAxes>
 ]]></xml-property>
-                        <property name="outputFormat">SVG</property>
-                        <structure name="action">
-                            <property name="targetWindow">_blank</property>
-                            <property name="linkType">drill-through</property>
-                            <property name="targetFileType">report-design</property>
-                            <property name="reportName">C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado_art.rptdesign</property>
-                            <list-property name="paramBindings">
-                                <structure>
-                                    <property name="paramName">param_fecha_desde</property>
-                                    <expression name="expression">(new Date(data["GroupFecha/year"]-1900,data["GroupFecha/month"]-1,"01"))</expression>
-                                </structure>
-                                <structure>
-                                    <property name="paramName">param_fecha_hasta</property>
-                                    <expression name="expression">(new Date(data["GroupFecha/year"]-1900,data["GroupFecha/month"]-1,"31"))</expression>
-                                </structure>
-                                <structure>
-                                    <property name="paramName">param_proyecto</property>
-                                    <expression name="expression">data["GroupProyecto/proyecto"]</expression>
-                                </structure>
-                            </list-property>
-                        </structure>
-                        <property name="cube">material_comprado_DC</property>
-                        <property name="height">400pt</property>
-                        <property name="width">750pt</property>
-                        <list-property name="boundDataColumns">
-                            <structure>
-                                <property name="name">GroupProyecto/proyecto</property>
-                                <expression name="expression">dimension["GroupProyecto"]["proyecto"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                            <structure>
-                                <property name="name">GroupFecha/year</property>
-                                <expression name="expression">dimension["GroupFecha"]["year"]</expression>
-                                <property name="dataType">integer</property>
-                            </structure>
-                            <structure>
-                                <property name="name">GroupFecha/quarter</property>
-                                <expression name="expression">dimension["GroupFecha"]["quarter"]</expression>
-                                <property name="dataType">integer</property>
-                            </structure>
-                            <structure>
-                                <property name="name">GroupFecha/month</property>
-                                <expression name="expression">dimension["GroupFecha"]["month"]</expression>
-                                <property name="dataType">integer</property>
-                            </structure>
-                            <structure>
-                                <property name="name">GroupFecha/day-of-month</property>
-                                <expression name="expression">dimension["GroupFecha"]["day-of-month"]</expression>
-                                <property name="dataType">integer</property>
-                            </structure>
-                            <structure>
-                                <property name="name">Summary Field/total_articulo</property>
-                                <expression name="expression">measure["total_articulo"]</expression>
-                                <property name="dataType">float</property>
-                                <property name="aggregateFunction">sum</property>
-                            </structure>
-                            <structure>
-                                <property name="name">proyecto_completo</property>
-                                <expression name="expression">dimension["GroupProyecto"]["proyecto"]</expression>
-                                <property name="dataType">string</property>
-                            </structure>
-                        </list-property>
-                    </extended-item>
-                </cell>
-            </row>
-        </grid>
+            <property name="outputFormat">SVG</property>
+            <structure name="action">
+                <property name="targetWindow">_blank</property>
+                <property name="linkType">drill-through</property>
+                <property name="targetFileType">report-design</property>
+                <property name="reportName">C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado_art.rptdesign</property>
+                <list-property name="paramBindings">
+                    <structure>
+                        <property name="paramName">param_fecha_desde</property>
+                        <expression name="expression">new Date((data["GroupFecha/year"]-1900),(data["GroupFecha/month"]-1),"01");</expression>
+                    </structure>
+                    <structure>
+                        <property name="paramName">param_fecha_hasta</property>
+                        <expression name="expression">new Date((data["GroupFecha/year"]-1900),data["GroupFecha/month"],"00");</expression>
+                    </structure>
+                    <structure>
+                        <property name="paramName">param_proyecto</property>
+                        <expression name="expression">data["GroupProyecto/proyecto"].substring(1,data["GroupProyecto/proyecto"].lastIndexOf("]"))</expression>
+                    </structure>
+                    <structure>
+                        <property name="paramName">param_articulo</property>
+                        <expression name="expression">(params["param_articulo"].value!=null?params["param_articulo"].value:"")</expression>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="cube">material_comprado_DC</property>
+            <property name="height">4.59375in</property>
+            <property name="width">10.708333333333334in</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr">params["total"].value</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">GroupProyecto/proyecto</property>
+                    <expression name="expression">dimension["GroupProyecto"]["proyecto"]["DisplayName"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/year</property>
+                    <expression name="expression">dimension["GroupFecha"]["year"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/quarter</property>
+                    <expression name="expression">dimension["GroupFecha"]["quarter"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/month</property>
+                    <expression name="expression">dimension["GroupFecha"]["month"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/day-of-month</property>
+                    <expression name="expression">dimension["GroupFecha"]["day-of-month"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Summary Field/total_articulo</property>
+                    <expression name="expression">measure["total_articulo"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">total</property>
+                    <expression name="expression">measure["total_articulo"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">proyecto_completo</property>
+                    <expression name="expression">dimension["GroupProyecto"]["proyecto"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
+        </extended-item>
+        <extended-item extensionName="Chart" name="Tendencia_compra_total" id="1633">
+            <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
+  <Type>Bar Chart</Type>
+  <SubType>Side-by-side</SubType>
+  <Block>
+    <Children xsi:type="layout:TitleBlock">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <Label>
+        <Caption>
+          <Value>Tendencia de compra</Value>
+          <Font>
+            <Size>16.0</Size>
+            <Bold>true</Bold>
+            <Alignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
+            </Alignment>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Label>
+    </Children>
+    <Children xsi:type="layout:Plot">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <HorizontalSpacing>5</HorizontalSpacing>
+      <VerticalSpacing>5</VerticalSpacing>
+      <ClientArea>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>0.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>0.0</Right>
+        </Insets>
+      </ClientArea>
+    </Children>
+    <Children xsi:type="layout:Legend">
+      <Bounds>
+        <Left>0.0</Left>
+        <Top>0.0</Top>
+        <Width>0.0</Width>
+        <Height>0.0</Height>
+      </Bounds>
+      <Insets>
+        <Top>3.0</Top>
+        <Left>3.0</Left>
+        <Bottom>3.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Row>-1</Row>
+      <Column>-1</Column>
+      <Rowspan>-1</Rowspan>
+      <Columnspan>-1</Columnspan>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </Outline>
+      <Visible>true</Visible>
+      <ClientArea>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>0</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>2.0</Top>
+          <Left>2.0</Left>
+          <Bottom>2.0</Bottom>
+          <Right>2.0</Right>
+        </Insets>
+      </ClientArea>
+      <Text>
+        <Value></Value>
+        <Font>
+          <Alignment/>
+        </Font>
+      </Text>
+      <Orientation>Vertical</Orientation>
+      <Direction>Top_Bottom</Direction>
+      <Separator>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+        <Visible>true</Visible>
+      </Separator>
+      <Position>Right</Position>
+      <ItemType>Series</ItemType>
+      <Title>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Title>
+      <TitlePosition>Above</TitlePosition>
+      <ShowValue>false</ShowValue>
+    </Children>
+    <Bounds>
+      <Left>0.0</Left>
+      <Top>0.0</Top>
+      <Width>771.0</Width>
+      <Height>330.75</Height>
+    </Bounds>
+    <Insets>
+      <Top>3.0</Top>
+      <Left>3.0</Left>
+      <Bottom>3.0</Bottom>
+      <Right>3.0</Right>
+    </Insets>
+    <Row>-1</Row>
+    <Column>-1</Column>
+    <Rowspan>-1</Rowspan>
+    <Columnspan>-1</Columnspan>
+    <Outline>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Color>
+        <Transparency>255</Transparency>
+        <Red>0</Red>
+        <Green>0</Green>
+        <Blue>0</Blue>
+      </Color>
+      <Visible>false</Visible>
+    </Outline>
+    <Background xsi:type="attribute:ColorDefinition">
+      <Transparency>0</Transparency>
+      <Red>255</Red>
+      <Green>255</Green>
+      <Blue>255</Blue>
+    </Background>
+    <Visible>true</Visible>
+  </Block>
+  <Dimension>Two_Dimensional</Dimension>
+  <Units>Points</Units>
+  <SeriesThickness>10.0</SeriesThickness>
+  <SampleData>
+    <BaseSampleData>
+      <DataSetRepresentation>'A','B','C','D','E'</DataSetRepresentation>
+    </BaseSampleData>
+    <OrthogonalSampleData>
+      <DataSetRepresentation>6,4,12,8,10</DataSetRepresentation>
+      <SeriesDefinitionIndex>0</SeriesDefinitionIndex>
+    </OrthogonalSampleData>
+    <AncillarySampleData>
+      <DataSetRepresentation>Series 1</DataSetRepresentation>
+    </AncillarySampleData>
+  </SampleData>
+  <Interactivity>
+    <LegendBehavior>ToggleSerieVisibility</LegendBehavior>
+  </Interactivity>
+  <Axes>
+    <Type>Text</Type>
+    <Title>
+      <Caption>
+        <Value>Período</Value>
+        <Font>
+          <Size>10.0</Size>
+          <Bold>true</Bold>
+          <Alignment>
+            <horizontalAlignment>Center</horizontalAlignment>
+            <verticalAlignment>Center</verticalAlignment>
+          </Alignment>
+        </Font>
+      </Caption>
+      <Background xsi:type="attribute:ColorDefinition">
+        <Transparency>0</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Background>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+      </Outline>
+      <Insets>
+        <Top>0.0</Top>
+        <Left>2.0</Left>
+        <Bottom>0.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Visible>true</Visible>
+    </Title>
+    <TitlePosition>Below</TitlePosition>
+    <AssociatedAxes>
+      <Type>Linear</Type>
+      <Title>
+        <Caption>
+          <Value>Monto</Value>
+          <Font>
+            <Size>10.0</Size>
+            <Bold>true</Bold>
+            <Alignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
+            </Alignment>
+            <Rotation>90.0</Rotation>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Title>
+      <TitlePosition>Left</TitlePosition>
+      <SeriesDefinitions>
+        <Query>
+          <Definition></Definition>
+        </Query>
+        <SeriesPalette>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>166</Green>
+            <Blue>218</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>242</Red>
+            <Green>88</Green>
+            <Blue>106</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>232</Red>
+            <Green>172</Green>
+            <Blue>57</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>64</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>170</Red>
+            <Green>85</Green>
+            <Blue>85</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>192</Red>
+            <Green>192</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>192</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>7</Red>
+            <Green>146</Green>
+            <Blue>94</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>64</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>240</Green>
+            <Blue>120</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>0</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+        </SeriesPalette>
+        <Series xsi:type="type:BarSeries">
+          <Visible>true</Visible>
+          <Label>
+            <Caption>
+              <Value></Value>
+              <Font>
+                <Alignment/>
+              </Font>
+            </Caption>
+            <Background xsi:type="attribute:ColorDefinition">
+              <Transparency>0</Transparency>
+              <Red>255</Red>
+              <Green>255</Green>
+              <Blue>255</Blue>
+            </Background>
+            <Outline>
+              <Style>Solid</Style>
+              <Thickness>1</Thickness>
+              <Color>
+                <Transparency>255</Transparency>
+                <Red>0</Red>
+                <Green>0</Green>
+                <Blue>0</Blue>
+              </Color>
+              <Visible>false</Visible>
+            </Outline>
+            <Insets>
+              <Top>0.0</Top>
+              <Left>2.0</Left>
+              <Bottom>0.0</Bottom>
+              <Right>3.0</Right>
+            </Insets>
+            <Visible>false</Visible>
+          </Label>
+          <DataDefinition>
+            <Definition>data[&quot;Summary Field/total_articulo&quot;]</Definition>
+          </DataDefinition>
+          <SeriesIdentifier>Total</SeriesIdentifier>
+          <DataPoint>
+            <Components>
+              <Type>Orthogonal_Value</Type>
+            </Components>
+            <Separator>, </Separator>
+          </DataPoint>
+          <LabelPosition>Inside</LabelPosition>
+          <Stacked>false</Stacked>
+          <Triggers>
+            <Condition>onmouseover</Condition>
+            <Action>
+              <Type>Show_Tooltip</Type>
+              <Value xsi:type="attribute:TooltipValue">
+                <Text>&quot;Total: &quot;+data[&quot;Summary Field/total_articulo&quot;].toFixed(2)</Text>
+                <Delay>200</Delay>
+              </Value>
+            </Action>
+          </Triggers>
+          <Triggers>
+            <Condition>onclick</Condition>
+            <Action>
+              <Type>URL_Redirect</Type>
+              <Value xsi:type="attribute:URLValue">
+                <BaseUrl>&lt;structure name=&quot;action&quot;>
+    &lt;property name=&quot;linkType&quot;>drill-through&lt;/property>
+    &lt;property name=&quot;reportName&quot;>C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado_ot.rptdesign&lt;/property>
+    &lt;property name=&quot;targetBookmarkType&quot;>bookmark&lt;/property>
+    &lt;property name=&quot;targetWindow&quot;>_blank&lt;/property>
+    &lt;property name=&quot;targetFileType&quot;>report-design&lt;/property>
+    &lt;list-property name=&quot;paramBindings&quot;>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>param_fecha_desde&lt;/property>
+            &lt;expression name=&quot;expression&quot;>new Date(data[&quot;GroupFecha/year&quot;]-1900,data[&quot;GroupFecha/month&quot;]-1,&quot;01&quot;);&lt;/expression>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>param_fecha_hasta&lt;/property>
+            &lt;expression name=&quot;expression&quot;>new Date(data[&quot;GroupFecha/year&quot;]-1900,data[&quot;GroupFecha/month&quot;],&quot;00&quot;);&lt;/expression>
+        &lt;/structure>
+        &lt;structure>
+            &lt;property name=&quot;paramName&quot;>param_articulo&lt;/property>
+            &lt;expression name=&quot;expression&quot;>(params[&quot;param_articulo&quot;].value!=null?params[&quot;param_articulo&quot;].value:&quot;&quot;)&lt;/expression>
+        &lt;/structure>
+    &lt;/list-property>
+&lt;/structure>
+</BaseUrl>
+                <BaseParameterName></BaseParameterName>
+                <ValueParameterName></ValueParameterName>
+                <SeriesParameterName></SeriesParameterName>
+              </Value>
+            </Action>
+          </Triggers>
+          <Translucent>false</Translucent>
+          <Riser>Rectangle</Riser>
+        </Series>
+        <Grouping>
+          <Enabled>false</Enabled>
+          <GroupingInterval>1.0</GroupingInterval>
+          <GroupType>Text</GroupType>
+          <AggregateExpression>Sum</AggregateExpression>
+        </Grouping>
+      </SeriesDefinitions>
+      <Orientation>Vertical</Orientation>
+      <LineAttributes>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Visible>true</Visible>
+      </LineAttributes>
+      <Label>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Label>
+      <LabelPosition>Left</LabelPosition>
+      <MajorGrid>
+        <LineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>196</Red>
+            <Green>196</Green>
+            <Blue>196</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </LineAttributes>
+        <TickStyle>Across</TickStyle>
+        <TickAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>196</Red>
+            <Green>196</Green>
+            <Blue>196</Blue>
+          </Color>
+          <Visible>true</Visible>
+        </TickAttributes>
+      </MajorGrid>
+      <MinorGrid>
+        <LineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>225</Red>
+            <Green>225</Green>
+            <Blue>225</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </LineAttributes>
+        <TickStyle>Across</TickStyle>
+        <TickAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>225</Red>
+            <Green>225</Green>
+            <Blue>225</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </TickAttributes>
+      </MinorGrid>
+      <Scale>
+        <MinorGridsPerUnit>5</MinorGridsPerUnit>
+      </Scale>
+      <Origin>
+        <Type>Min</Type>
+        <Value xsi:type="data:NumberDataElement">
+          <Value>0.0</Value>
+        </Value>
+      </Origin>
+      <PrimaryAxis>true</PrimaryAxis>
+      <Percent>false</Percent>
+    </AssociatedAxes>
+    <AncillaryAxes>
+      <Type>Text</Type>
+      <Title>
+        <Caption>
+          <Value>Z-Axis Title</Value>
+          <Font>
+            <Size>14.0</Size>
+            <Bold>true</Bold>
+            <Alignment>
+              <horizontalAlignment>Center</horizontalAlignment>
+              <verticalAlignment>Center</verticalAlignment>
+            </Alignment>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>false</Visible>
+      </Title>
+      <TitlePosition>Below</TitlePosition>
+      <SeriesDefinitions>
+        <Query>
+          <Definition></Definition>
+        </Query>
+        <SeriesPalette>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>166</Green>
+            <Blue>218</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>242</Red>
+            <Green>88</Green>
+            <Blue>106</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>232</Red>
+            <Green>172</Green>
+            <Blue>57</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>64</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>170</Red>
+            <Green>85</Green>
+            <Blue>85</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>192</Red>
+            <Green>192</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>192</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>7</Red>
+            <Green>146</Green>
+            <Blue>94</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>192</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>64</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>80</Red>
+            <Green>240</Green>
+            <Blue>120</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>0</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>0</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>64</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>128</Red>
+            <Green>128</Green>
+            <Blue>128</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>64</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Entries>
+          <Entries xsi:type="attribute:ColorDefinition">
+            <Transparency>255</Transparency>
+            <Red>255</Red>
+            <Green>128</Green>
+            <Blue>0</Blue>
+          </Entries>
+        </SeriesPalette>
+        <Series>
+          <Visible>true</Visible>
+          <Label>
+            <Caption>
+              <Value></Value>
+              <Font>
+                <Alignment/>
+              </Font>
+            </Caption>
+            <Background xsi:type="attribute:ColorDefinition">
+              <Transparency>0</Transparency>
+              <Red>255</Red>
+              <Green>255</Green>
+              <Blue>255</Blue>
+            </Background>
+            <Outline>
+              <Style>Solid</Style>
+              <Thickness>1</Thickness>
+              <Color>
+                <Transparency>255</Transparency>
+                <Red>0</Red>
+                <Green>0</Green>
+                <Blue>0</Blue>
+              </Color>
+              <Visible>false</Visible>
+            </Outline>
+            <Insets>
+              <Top>0.0</Top>
+              <Left>2.0</Left>
+              <Bottom>0.0</Bottom>
+              <Right>3.0</Right>
+            </Insets>
+            <Visible>false</Visible>
+          </Label>
+          <SeriesIdentifier></SeriesIdentifier>
+          <DataPoint>
+            <Components>
+              <Type>Orthogonal_Value</Type>
+            </Components>
+            <Separator>, </Separator>
+          </DataPoint>
+          <LabelPosition>Outside</LabelPosition>
+          <Stacked>false</Stacked>
+        </Series>
+        <Grouping>
+          <Enabled>false</Enabled>
+          <GroupingInterval>1.0</GroupingInterval>
+          <GroupType>Text</GroupType>
+          <AggregateExpression>Sum</AggregateExpression>
+        </Grouping>
+      </SeriesDefinitions>
+      <Orientation>Horizontal</Orientation>
+      <LineAttributes>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Visible>true</Visible>
+      </LineAttributes>
+      <Label>
+        <Caption>
+          <Value></Value>
+          <Font>
+            <Alignment/>
+          </Font>
+        </Caption>
+        <Background xsi:type="attribute:ColorDefinition">
+          <Transparency>0</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Background>
+        <Outline>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>0</Red>
+            <Green>0</Green>
+            <Blue>0</Blue>
+          </Color>
+        </Outline>
+        <Insets>
+          <Top>0.0</Top>
+          <Left>2.0</Left>
+          <Bottom>0.0</Bottom>
+          <Right>3.0</Right>
+        </Insets>
+        <Visible>true</Visible>
+      </Label>
+      <LabelPosition>Below</LabelPosition>
+      <MajorGrid>
+        <LineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>196</Red>
+            <Green>196</Green>
+            <Blue>196</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </LineAttributes>
+        <TickStyle>Across</TickStyle>
+        <TickAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>196</Red>
+            <Green>196</Green>
+            <Blue>196</Blue>
+          </Color>
+          <Visible>true</Visible>
+        </TickAttributes>
+      </MajorGrid>
+      <MinorGrid>
+        <LineAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>225</Red>
+            <Green>225</Green>
+            <Blue>225</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </LineAttributes>
+        <TickStyle>Across</TickStyle>
+        <TickAttributes>
+          <Style>Solid</Style>
+          <Thickness>1</Thickness>
+          <Color>
+            <Transparency>255</Transparency>
+            <Red>225</Red>
+            <Green>225</Green>
+            <Blue>225</Blue>
+          </Color>
+          <Visible>false</Visible>
+        </TickAttributes>
+      </MinorGrid>
+      <Scale>
+        <MinorGridsPerUnit>5</MinorGridsPerUnit>
+      </Scale>
+      <Origin>
+        <Type>Min</Type>
+        <Value xsi:type="data:NumberDataElement">
+          <Value>0.0</Value>
+        </Value>
+      </Origin>
+      <PrimaryAxis>true</PrimaryAxis>
+      <Percent>false</Percent>
+    </AncillaryAxes>
+    <SeriesDefinitions>
+      <Query>
+        <Definition></Definition>
+      </Query>
+      <SeriesPalette>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>80</Red>
+          <Green>166</Green>
+          <Blue>218</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>242</Red>
+          <Green>88</Green>
+          <Blue>106</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>232</Red>
+          <Green>172</Green>
+          <Blue>57</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>64</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>170</Red>
+          <Green>85</Green>
+          <Blue>85</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>192</Red>
+          <Green>192</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>192</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>7</Red>
+          <Green>146</Green>
+          <Blue>94</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>192</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>64</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>80</Red>
+          <Green>240</Green>
+          <Blue>120</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>0</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>0</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>64</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>128</Red>
+          <Green>128</Green>
+          <Blue>128</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>64</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>255</Green>
+          <Blue>255</Blue>
+        </Entries>
+        <Entries xsi:type="attribute:ColorDefinition">
+          <Transparency>255</Transparency>
+          <Red>255</Red>
+          <Green>128</Green>
+          <Blue>0</Blue>
+        </Entries>
+      </SeriesPalette>
+      <Series>
+        <Visible>true</Visible>
+        <Label>
+          <Caption>
+            <Value></Value>
+            <Font>
+              <Alignment/>
+            </Font>
+          </Caption>
+          <Background xsi:type="attribute:ColorDefinition">
+            <Transparency>0</Transparency>
+            <Red>255</Red>
+            <Green>255</Green>
+            <Blue>255</Blue>
+          </Background>
+          <Outline>
+            <Style>Solid</Style>
+            <Thickness>1</Thickness>
+            <Color>
+              <Transparency>255</Transparency>
+              <Red>0</Red>
+              <Green>0</Green>
+              <Blue>0</Blue>
+            </Color>
+            <Visible>false</Visible>
+          </Outline>
+          <Insets>
+            <Top>0.0</Top>
+            <Left>2.0</Left>
+            <Bottom>0.0</Bottom>
+            <Right>3.0</Right>
+          </Insets>
+          <Visible>false</Visible>
+        </Label>
+        <DataDefinition>
+          <Definition>data[&quot;GroupFecha/month&quot;] +&quot;-&quot;+data[&quot;GroupFecha/year&quot;]</Definition>
+        </DataDefinition>
+        <SeriesIdentifier></SeriesIdentifier>
+        <DataPoint>
+          <Components>
+            <Type>Orthogonal_Value</Type>
+          </Components>
+          <Separator>, </Separator>
+        </DataPoint>
+        <LabelPosition>Outside</LabelPosition>
+        <Stacked>false</Stacked>
+      </Series>
+      <Grouping>
+        <Enabled>false</Enabled>
+        <GroupingInterval>1.0</GroupingInterval>
+        <GroupType>Text</GroupType>
+        <AggregateExpression>Sum</AggregateExpression>
+      </Grouping>
+    </SeriesDefinitions>
+    <Orientation>Horizontal</Orientation>
+    <LineAttributes>
+      <Style>Solid</Style>
+      <Thickness>1</Thickness>
+      <Visible>true</Visible>
+    </LineAttributes>
+    <Label>
+      <Caption>
+        <Value></Value>
+        <Font>
+          <Alignment/>
+        </Font>
+      </Caption>
+      <Background xsi:type="attribute:ColorDefinition">
+        <Transparency>0</Transparency>
+        <Red>255</Red>
+        <Green>255</Green>
+        <Blue>255</Blue>
+      </Background>
+      <Outline>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>0</Red>
+          <Green>0</Green>
+          <Blue>0</Blue>
+        </Color>
+      </Outline>
+      <Insets>
+        <Top>0.0</Top>
+        <Left>2.0</Left>
+        <Bottom>0.0</Bottom>
+        <Right>3.0</Right>
+      </Insets>
+      <Visible>true</Visible>
+    </Label>
+    <LabelPosition>Below</LabelPosition>
+    <MajorGrid>
+      <LineAttributes>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>196</Red>
+          <Green>196</Green>
+          <Blue>196</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </LineAttributes>
+      <TickStyle>Across</TickStyle>
+      <TickAttributes>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>196</Red>
+          <Green>196</Green>
+          <Blue>196</Blue>
+        </Color>
+        <Visible>true</Visible>
+      </TickAttributes>
+    </MajorGrid>
+    <MinorGrid>
+      <LineAttributes>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>225</Red>
+          <Green>225</Green>
+          <Blue>225</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </LineAttributes>
+      <TickStyle>Across</TickStyle>
+      <TickAttributes>
+        <Style>Solid</Style>
+        <Thickness>1</Thickness>
+        <Color>
+          <Transparency>255</Transparency>
+          <Red>225</Red>
+          <Green>225</Green>
+          <Blue>225</Blue>
+        </Color>
+        <Visible>false</Visible>
+      </TickAttributes>
+    </MinorGrid>
+    <Scale>
+      <MinorGridsPerUnit>5</MinorGridsPerUnit>
+    </Scale>
+    <Origin>
+      <Type>Min</Type>
+      <Value xsi:type="data:NumberDataElement">
+        <Value>0.0</Value>
+      </Value>
+    </Origin>
+    <PrimaryAxis>true</PrimaryAxis>
+    <CategoryAxis>true</CategoryAxis>
+    <Percent>false</Percent>
+  </Axes>
+  <Orientation>Vertical</Orientation>
+  <UnitSpacing>50.0</UnitSpacing>
+  <Rotation>
+    <Angles>
+      <XAngle>-20.0</XAngle>
+      <YAngle>45.0</YAngle>
+      <ZAngle>0.0</ZAngle>
+      <Type>None</Type>
+    </Angles>
+  </Rotation>
+</model:ChartWithAxes>
+]]></xml-property>
+            <property name="outputFormat">SVG</property>
+            <structure name="action">
+                <property name="targetWindow">_blank</property>
+                <property name="linkType">drill-through</property>
+                <property name="targetFileType">report-design</property>
+                <property name="targetBookmarkType">bookmark</property>
+                <property name="reportName">C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado_ot.rptdesign</property>
+                <list-property name="paramBindings">
+                    <structure>
+                        <property name="paramName">param_fecha_desde</property>
+                        <expression name="expression">new Date(data["GroupFecha/year"]-1900,data["GroupFecha/month"]-1,"01");</expression>
+                    </structure>
+                    <structure>
+                        <property name="paramName">param_fecha_hasta</property>
+                        <expression name="expression">new Date(data["GroupFecha/year"]-1900,data["GroupFecha/month"],"00");</expression>
+                    </structure>
+                    <structure>
+                        <property name="paramName">param_articulo</property>
+                        <expression name="expression">(params["param_articulo"].value!=null?params["param_articulo"].value:"")</expression>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="cube">material_comprado_DC</property>
+            <property name="height">4.59375in</property>
+            <property name="width">10.708333333333334in</property>
+            <list-property name="visibility">
+                <structure>
+                    <property name="format">all</property>
+                    <expression name="valueExpr">!(params["total"].value)</expression>
+                </structure>
+            </list-property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">GroupProyecto/proyecto</property>
+                    <expression name="expression">dimension["GroupProyecto"]["proyecto"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/year</property>
+                    <expression name="expression">dimension["GroupFecha"]["year"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/quarter</property>
+                    <expression name="expression">dimension["GroupFecha"]["quarter"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/month</property>
+                    <expression name="expression">dimension["GroupFecha"]["month"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">GroupFecha/day-of-month</property>
+                    <expression name="expression">dimension["GroupFecha"]["day-of-month"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Summary Field/total_articulo</property>
+                    <expression name="expression">measure["total_articulo"]</expression>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">sum</property>
+                </structure>
+                <structure>
+                    <property name="name">total</property>
+                    <expression name="expression">measure["total_articulo"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
+        </extended-item>
     </body>
     <list-property name="images">
         <structure>

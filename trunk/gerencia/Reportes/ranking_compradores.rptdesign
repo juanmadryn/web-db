@@ -40,7 +40,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el proyecto</text-property>
+            <text-property name="promptText">Ingrese el proyecto ('Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - proyectos</property>
@@ -72,7 +72,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el articulo a consultar</text-property>
+            <text-property name="promptText">Ingrese el articulo a consultar ('Null Value' para todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - articulos</property>
@@ -91,7 +91,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">dynamic</property>
             <property name="dataType">string</property>
             <property name="paramType">simple</property>
-            <text-property name="promptText">Ingrese el comprador</text-property>
+            <text-property name="promptText">Seleccione un comprador (o 'Null Value' par todos)</text-property>
             <property name="isRequired">false</property>
             <property name="controlType">list-box</property>
             <property name="dataSetName">Data Set - compradores</property>
@@ -110,11 +110,23 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <property name="valueType">static</property>
             <property name="dataType">boolean</property>
             <property name="paramType">simple</property>
-            <property name="isRequired">false</property>
-            <property name="controlType">check-box</property>
+            <text-property name="promptText">Desea ver el reporte detallado o resumido?</text-property>
+            <property name="isRequired">true</property>
+            <property name="controlType">radio-button</property>
+            <property name="fixedOrder">true</property>
             <property name="defaultValue">true</property>
             <property name="distinct">true</property>
             <structure name="format"/>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">true</property>
+                    <property name="label">Detallado</property>
+                </structure>
+                <structure>
+                    <property name="value">false</property>
+                    <property name="label">Resumido</property>
+                </structure>
+            </list-property>
         </scalar-parameter>
     </parameters>
     <data-sources>
@@ -157,7 +169,6 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
                 <structure>
                     <property name="operator">is-not-null</property>
                     <expression name="expr">row["estado_oc"]</expression>
-                    <simple-property-list name="value1"/>
                 </structure>
             </list-property>
             <structure name="cachedMetaData">
