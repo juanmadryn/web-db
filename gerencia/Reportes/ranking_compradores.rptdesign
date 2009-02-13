@@ -7,7 +7,9 @@
     <method name="initialize"><![CDATA[importPackage(Packages.java.util);
 var cal = Calendar.getInstance();
 cal.add(Calendar.MONTH, -6);
+if(reportContext.getParameterValue("param_fecha_desde") == null)
 reportContext.setParameterValue("param_fecha_desde",cal.getTime());
+if(reportContext.getParameterValue("param_fecha_hasta") == null)
 reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
     <text-property name="displayName">Blank Report</text-property>
     <property name="iconFile">/templates/blank_report.gif</property>
