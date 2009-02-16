@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <list-property name="configVars">
+        <structure>
+            <property name="name">__isnull_1219_0</property>
+            <property name="value">param_fecha_desde_1219</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_desde_1219_type_</property>
+            <property name="value">date</property>
+        </structure>
+        <structure>
+            <property name="name">__isnull_1220_1</property>
+            <property name="value">param_fecha_hasta_1220</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_hasta_1220_type_</property>
+            <property name="value">date</property>
+        </structure>
+        <structure>
+            <property name="name">__isnull_1609_2</property>
+            <property name="value">param_articulo_1609</property>
+        </structure>
+        <structure>
+            <property name="name">param_articulo_1609_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">param_articulo_1609_expr_</property>
+            <property name="value">dataSetRow["nombre"]</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_mostrar_detalles_1386_3</property>
+            <property name="value">Detallado</property>
+        </structure>
+        <structure>
+            <property name="name">__isnull_1610_4</property>
+            <property name="value">param_proyecto_1610</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1610_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1610_expr_</property>
+            <property name="value">dataSetRow["proyecto"]</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_comprador_1612_5</property>
+            <property name="value">Lic. Javier Villahoz</property>
+        </structure>
+        <structure>
+            <property name="name">param_comprador_1612_6</property>
+            <property name="value">6</property>
+        </structure>
+        <structure>
+            <property name="name">param_comprador_1612_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">param_comprador_1612_expr_</property>
+            <property name="value">dataSetRow["comprador_legajo"]</property>
+        </structure>
+        <structure>
+            <property name="name">param_mostrar_detalles_1386_7</property>
+            <property name="value">true</property>
+        </structure>
+        <structure>
+            <property name="name">param_mostrar_detalles_1386_type_</property>
+            <property name="value">boolean</property>
+        </structure>
+    </list-property>
+</report>
