@@ -5,6 +5,7 @@ package inventario.reglasNegocio;
 
 import infraestructura.reglasNegocio.ValidadorReglasNegocio;
 import inventario.models.DetalleRCModel;
+import inventario.models.DetalleSCModel;
 import inventario.models.RecepcionesComprasModel;
 
 import java.sql.ResultSet;
@@ -18,7 +19,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Francisco
  * 
- * Regla de negocio asociada al rechazo de una OC
+ * Regla de negocio asociada a completar una recepción
  * 
  */
 public final class ValRN_0212_1 extends ValidadorReglasNegocio {
@@ -35,6 +36,8 @@ public final class ValRN_0212_1 extends ValidadorReglasNegocio {
 			RecepcionesComprasModel ds = (RecepcionesComprasModel) obj;
 			DetalleRCModel detalles = new DetalleRCModel("inventario",
 					"inventario");
+			DetalleSCModel detallesSC = new DetalleSCModel("inventario",
+			"inventario");
 
 			int recepcionCompraId = ds.getRecepcionesComprasRecepcionCompraId();
 
@@ -78,9 +81,15 @@ public final class ValRN_0212_1 extends ValidadorReglasNegocio {
 											.getDetallesRcDetalleScId(row))
 									+ "\r");
 				}
+				detallesSC.retrieve("detalle_SC_id ="+detalles.getDetallesRcDetalleScId(row));
+				if(detallesSC.gotoFirst())
+					detallesSC.setDetalleScRecepcionCompraId(detalles.getDetallesRcRecepcionCompraId(row));
+				detallesSC.update(conn);
 			}
 			if (msg.length() > 0)
 				return false;
+			
+			
 
 		} catch (DataStoreException ex) {
 			msg

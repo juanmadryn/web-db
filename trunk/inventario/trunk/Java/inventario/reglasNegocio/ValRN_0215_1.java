@@ -24,7 +24,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Francisco
  * 
- * Regla de negocio asociada al rechazo de una OC
+ * Regla de negocio asociada a confirmar movimientos de almacén
  * 
  */
 public final class ValRN_0215_1 extends ValidadorReglasNegocio {

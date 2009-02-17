@@ -44,8 +44,8 @@ public final class ValRN_0220_1 extends ValidadorReglasNegocio {
 			}
 			
 			// Ejecutamos la replicación en tango			
-			OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
-			ordenesDeCompraTANGO.insertaCabeceraOC(ds, ds.isReplicadoEnTango());
+			//OrdenesDeCompraTANGO ordenesDeCompraTANGO = new OrdenesDeCompraTANGO();
+			//ordenesDeCompraTANGO.insertaCabeceraOC(ds, ds.isReplicadoEnTango());
 						
 			// Actualizamos el atributo monto ultima compra
 			DetalleSCModel detalleSCModel = new DetalleSCModel("inventario");
@@ -70,11 +70,11 @@ public final class ValRN_0220_1 extends ValidadorReglasNegocio {
 			msg.append("Ocurrió un error de SQL mientras se procesaba la emisión: " + ex.getMessage());
 			ex.printStackTrace();
 			return false;		
-		} catch (ParseException e) {
+		} /*catch (ParseException e) {
 			msg.append("Ocurrio un error mientras se procesaba la emisión: " + e.getMessage());
 			e.printStackTrace();
 			return false;
-		} catch (ValidationException ex) {
+		}*/ catch (ValidationException ex) {
 			for (String er : ex.getStackErrores()) {						
 				msg.append(er + '\n');
 			}										
