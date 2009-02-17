@@ -363,6 +363,7 @@ public class ConsultaOrdenesCompraController extends BaseController implements
 			}
 			if (orden_compra_id.length() > 0) {
 				_dsOrdenes.retrieve("ordenes_compra.orden_compra_id = "+orden_compra_id);
+				_dsOrdenes.gotoFirst();
 			}
 			
 		}

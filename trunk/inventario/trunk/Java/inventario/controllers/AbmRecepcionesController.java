@@ -305,7 +305,7 @@ public class AbmRecepcionesController extends BaseEntityController {
 
 		conn.beginTransaction();
 		HtmlComponent component = event.getComponent();
-
+		
 		setDatosBasicosRecepcion();
 
 		try {
@@ -766,7 +766,6 @@ public class AbmRecepcionesController extends BaseEntityController {
 		int currentUser = getSessionManager().getWebSiteUser().getUserID();
 
 		setRow_id(_dsRecepciones.getRecepcionesComprasRecepcionCompraId());
-
 		String titulo = "Recepcion de compra Nº" + getRow_id();
 		if (_dsRecepciones.getEstadosNombre() != null)
 			titulo += " (" + _dsRecepciones.getEstadosNombre() + ")";
