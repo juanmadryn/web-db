@@ -2917,8 +2917,6 @@ public class PartesMoModel extends BaseModel {
 					setPartesMoPersonalId(i, rs.getInt(1));
 					setPartesMoApeynom(i, rs.getString(2) + ", "
 							+ rs.getString(3));
-					System.out
-							.println(rs.getString(2) + ", " + rs.getString(3));
 				}
 			}
 		}
