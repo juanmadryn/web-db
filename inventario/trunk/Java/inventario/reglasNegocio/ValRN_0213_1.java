@@ -12,8 +12,10 @@ import inventario.models.ConversionesModel;
 import inventario.models.DetalleRCModel;
 import inventario.models.DetalleSCModel;
 import inventario.models.MovimientoArticuloModel;
+import inventario.models.OrdenesCompraModel;
 import inventario.models.RecepcionesComprasModel;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,7 +29,7 @@ import com.salmonllc.sql.DataStoreException;
 /**
  * @author Juan Manuel
  * 
- * Regla de negocio asociada a la confirmación de una recepción
+ *         Regla de negocio asociada a la confirmación de una recepción
  * 
  */
 public final class ValRN_0213_1 extends ValidadorReglasNegocio {
@@ -35,8 +37,9 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see infdev.reglasNegocio.validadorReglasNegocio#esValido(java.lang.Object,
-	 *      java.lang.String)
+	 * @see
+	 * infdev.reglasNegocio.validadorReglasNegocio#esValido(java.lang.Object,
+	 * java.lang.String)
 	 */
 	public boolean esValido(Object obj, StringBuilder msg, DBConnection conn) {
 		Statement st = null;
@@ -50,7 +53,8 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 
 			DetalleRCModel detalles = new DetalleRCModel("inventario");
 			DetalleSCModel detallesSC = new DetalleSCModel("inventario");
-
+			OrdenesCompraModel ordenes = new OrdenesCompraModel("inventario");
+			ordenes.retrieve(conn);
 			int recepcionCompraId = ds.getRecepcionesComprasRecepcionCompraId();
 
 			detalles.setOrderBy("detalles_rc.almacen_id");
@@ -61,15 +65,14 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 					"inventario");
 			MovimientoArticuloModel movimiento = new MovimientoArticuloModel(
 					"inventario");
-
 			int tipoMovimiento = Props.getProps("inventario", null)
 					.getIntProperty("TipoMovimientoRecepciones");
 			if (tipoMovimiento == -1) {
-				msg.append("No se encontro propiedad TipoMovimientoRecepciones en archivo de configuración");
+				msg
+						.append("No se encontro propiedad TipoMovimientoRecepciones en archivo de configuración");
 				return false;
 			}
-				
-			
+
 			int almacen_id = 0;
 
 			detallesSC.retrieve();
@@ -112,11 +115,42 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 				detallesSC.filter("detalle_sc.detalle_SC_id =="
 						+ detalles.getDetallesRcDetalleScId());
 				detallesSC.gotoFirst();
-
 				cantidad_recibida = detallesSC.getDetalleScCantidadRecibida()
 						+ (float) detalles.getDetallesRcCantidad();
 
 				detallesSC.setDetalleScCantidadRecibida(cantidad_recibida);
+
+				// a continuación, chequeo si todos los artículos de la OC han
+				// sido recibidos
+				boolean setFechaOCRecibidaCompleta = true;
+
+				// obtengo la tasa especificada para considerar recepcionado un
+				// artículo
+				float tasaRecepcionCompletaArticulo = Float.parseFloat(Props
+						.getProps("inventario", null).getProperty(
+								Constants.TASA_RECEPCION_COMPLETA_ARTICULO));
+
+				// chequeo los detalles de toda la OC
+				detallesSC.filter("detalle_SC.orden_compra_id == "
+						+ detallesSC.getDetalleScOrdenCompraId());				
+				for (int row1 = 0; row1 < detallesSC.getRowCount(); row1++) {
+					// si en un detalle la tasa de recepción es menor a la establecida, seteo el flag en false
+					if (detallesSC.getDetalleScCantidadRecibida(row1)
+							/ detallesSC.getDetalleScCantidadPedida(row1) < tasaRecepcionCompletaArticulo) {
+						setFechaOCRecibidaCompleta = false;
+					}
+				}
+
+				// si el flag está en 'true' es que todos los detalles están recibidos
+				if (setFechaOCRecibidaCompleta) {
+					ordenes.filter("ordenes_compra.orden_compra_id == "
+							+ detallesSC.getDetalleScOrdenCompraId());
+					ordenes.gotoFirst();
+					ordenes.setOrdenesCompraFechaEntregaCompleta(new Date(
+							Calendar.getInstance().getTimeInMillis()));
+					ordenes.update(conn);
+				}
+
 			}
 			detallesSC.filter(null);
 			detallesSC.update(conn);
@@ -181,7 +215,6 @@ public final class ValRN_0213_1 extends ValidadorReglasNegocio {
 			}
 			movimiento.update(conn);
 			movimiento.resetStatus();
-
 			int accion = Props.getProps("inventario", null).getIntProperty(
 					Constants.ACCION_CONFIRMA_MOVIMIENTO);
 
