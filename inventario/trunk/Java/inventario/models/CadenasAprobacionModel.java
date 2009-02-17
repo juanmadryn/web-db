@@ -389,7 +389,6 @@ public class CadenasAprobacionModel extends DataStore {
 		if (checkForMore) {
 			gotoFirst();
 			while(getCadenasAprobacionOrden() != orden && gotoNext())
-				System.out.println("distinto: "+getRow());
 				;
 			while(getCadenasAprobacionOrden() == orden)
 				if (!gotoNext())

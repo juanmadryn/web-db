@@ -720,7 +720,6 @@ public class InstanciasAprobacionModel extends DataStore {
 					&& getInstanciasAprobacionOrden(row) == orden)
 				setInstanciasAprobacionFechaAccion(row, new Timestamp((Calendar
 						.getInstance().getTimeInMillis())));
-			System.out.println(orden+ " "+ getInstanciasAprobacionOrden(row));
 		}
 		if (conn != null)
 			update(conn);

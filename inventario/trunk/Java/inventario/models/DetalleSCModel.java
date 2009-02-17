@@ -1706,8 +1706,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 		int proyecto_id = 0;
 
 		for (int row = 0; row < getRowCount(); row++) {
-			if (!isEnProcesoDeRecepcion(connection, row)) {
-
+			if (getDetalleScRecepcionCompraId(row) == 0 && getRowStatus() == DataStore.STATUS_NEW_MODIFIED) {			
 				solicitud.retrieve(connection, "solicitud_compra_id = "
 						+ getDetalleScSolicitudCompraId(row));
 				solicitud.gotoFirst();
@@ -1720,7 +1719,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 							+ "'"+ " && tareas_proyecto.proyecto_id =="+proyecto_id);
 					if (dsTareas.gotoFirst())
 						setDetalleScTareaId(row, dsTareas.getTareasProyectoTareaId());
-					else
+					else 
 						throw new DataStoreException(
 								"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
 				}
@@ -1736,7 +1735,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 						+ proyecto_id + " AND tareas_proyecto.tarea_id = "
 						+ getDetalleScTareaId(row)) == 0)
 					throw new DataStoreException(
-							"La tarea especificada no pertenece al proyecto al cual está imputada la solicitud");
+							proyecto_id+"2 - La tarea especificada no pertenece al proyecto al cual está imputada la solicitud" +getDetalleScTareaId(row));
 
 				ArticulosModel articulos;
 				// fills detalle_sc.articulo_id field through ArticulosNombre
@@ -2936,7 +2935,7 @@ public class DetalleSCModel extends DataStore implements Constants {
 	}
 
 	/**
-	 * Chequea si la fila especificida se encuentra en proceso de recepcion
+	 * Chequea si la fila especificada se encuentra en proceso de recepcion
 	 * 
 	 * @param conn
 	 *           la conexión dentro de la cual se enmarca la transaccion
@@ -2948,10 +2947,10 @@ public class DetalleSCModel extends DataStore implements Constants {
 	 */
 	public boolean isEnProcesoDeRecepcion(DBConnection conn, int row)
 			throws SQLException, DataStoreException {
-		DetalleRCModel detalleRCModel = new DetalleRCModel(getAppName());
+		DetalleRCModel detalleRCModel = new DetalleRCModel("inventario");
 
 		if (conn == null)
-			conn = DBConnection.getConnection(_appName);
+			conn = DBConnection.getConnection("inventario","inventario");
 
 		// recuperamos todos los detalles de recepcion que esten asociadas al
 		// detalle indicado
