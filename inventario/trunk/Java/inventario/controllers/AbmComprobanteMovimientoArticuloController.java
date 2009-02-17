@@ -825,7 +825,6 @@ public class AbmComprobanteMovimientoArticuloController extends
 					.getTipoMovimientoArticuloImpresion(),
 					"&param_comprobante_movimiento_id=" + getRow_id());
 			_imprimirComprobante2.setHref(URL);
-			System.out.println(URL);
 
 			if ("false".equalsIgnoreCase(getPageProperties().getProperty(
 					"ShowTareaLookup")))

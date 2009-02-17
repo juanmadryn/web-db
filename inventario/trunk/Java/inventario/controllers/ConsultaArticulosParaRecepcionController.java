@@ -230,7 +230,7 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 			try {
 				conn.beginTransaction();
 				RecepcionesComprasModel recepcion = new RecepcionesComprasModel(
-						"inventario");
+						"inventario","inventario");
 				DetalleRCModel detalleRCModel = new DetalleRCModel("inventario");
 				for (int row = 0; row < _dsArticulosComprados.getRowCount(); row++) {
 					if (_dsArticulosComprados.getInt(row,
@@ -252,12 +252,6 @@ public class ConsultaArticulosParaRecepcionController extends BaseController {
 											.getWebSiteUser().getUserID());
 							recepcion.update(conn);
 						}
-						System.out
-								.println(recepcion
-										.getRecepcionesComprasProveedorId()
-										+ " - "
-										+ _dsArticulosComprados
-												.getArticulosCompradosEntidadIdProveedor(row));
 						if (recepcion.getRecepcionesComprasProveedorId() != _dsArticulosComprados
 								.getArticulosCompradosEntidadIdProveedor(row))
 							throw new DataStoreException(
