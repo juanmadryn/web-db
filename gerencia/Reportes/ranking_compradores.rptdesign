@@ -1785,7 +1785,7 @@ from material_comprado</property>
                                 <structure name="action">
                                     <property name="linkType">drill-through</property>
                                     <property name="toolTip">Ver detalle de compras del comprador</property>
-                                    <property name="reportName">C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado.rptdesign</property>
+                                    <property name="reportName">C:\\Documents+and Settings\\Administrador\\workspace_SOFIA\\gerencia\\Reportes\\material_comprado.rptdesign</property>
                                     <property name="targetWindow">_blank</property>
                                     <property name="targetFileType">report-design</property>
                                     <list-property name="paramBindings">

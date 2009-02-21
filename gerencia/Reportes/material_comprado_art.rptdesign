@@ -1681,6 +1681,7 @@ ORDER BY proyecto</property>
                                                         <property name="linkType">drill-through</property>
                                                         <property name="toolTip">Ver detalle de compras para el artículo</property>
                                                         <property name="reportName">C:\Documents and Settings\Administrador\workspace_SOFIA\gerencia\Reportes\material_comprado.rptdesign</property>
+                                                        <property name="targetBookmarkType">bookmark</property>
                                                         <property name="targetWindow">_blank</property>
                                                         <property name="targetFileType">report-design</property>
                                                         <list-property name="paramBindings">
@@ -1703,6 +1704,10 @@ ORDER BY proyecto</property>
                                                             <structure>
                                                                 <property name="paramName">param_tarea</property>
                                                                 <expression name="expression">params["param_tarea"].value</expression>
+                                                            </structure>
+                                                            <structure>
+                                                                <property name="paramName">param_mostrar_detalles</property>
+                                                                <expression name="expression">true</expression>
                                                             </structure>
                                                         </list-property>
                                                     </structure>
