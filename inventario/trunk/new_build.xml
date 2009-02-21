@@ -1,0 +1,4 @@
+<project name="inventario" default="dist">
+	<property name="wpath" value="C:\Documents and Settings\Administrador\workspace_dev\infraestructura"/>
+	<import file="../infraestructura/AntBaseBuild.xml"/>	
+</project>
