@@ -114,16 +114,19 @@ AntBaseBuild.properties junto a los build.xml de cada proyecto.
 		<copy file="${dist.jar}/${jarfile}" todir="${deploy.jar.dir}" overwrite="yes"/>		
 	</target>	
 		
-	<target name="deploy" depends="backup.war,dist,deploy.jar" description="Copia el war en el directorio de deploy">		
-	  <!-- <deploy 
-	  	url="${deploy.url}" 
-	  	username="${deploy.user}" password="${deploy.pass}" 
-	  	path="/${webapp.name}" 
-	  	war="${dist.war}/${warfile}"
-	  	update="true"/> -->                   
-		<!-- Copia el WAR en el directorio de deploy -->
-		<delete dir="${deploy.war.dir}/${ant.project.name}"></delete>
-		<copy file="${dist.war}/${warfile}" todir="${deploy.war.dir}" overwrite="yes"/>
+	<target name="deploy.war" depends="backup.war,dist" description="Copia el war en el directorio de deploy">		
+		  <!-- <deploy 
+		  	url="${deploy.url}" 
+		  	username="${deploy.user}" password="${deploy.pass}" 
+		  	path="/${webapp.name}" 
+		  	war="${dist.war}/${warfile}"
+		  	update="true"/> -->                   
+			<!-- Copia el WAR en el directorio de deploy -->
+			<delete dir="${deploy.war.dir}/${ant.project.name}"></delete>
+			<copy file="${dist.war}/${warfile}" todir="${deploy.war.dir}" overwrite="yes"/>
+	</target>
+	
+	<target name="deploy" depends="backup.war,dist,deploy.jar,deploy.war" description="Copia el war en el directorio de deploy">		  
 	</target>
 	
 	<target name="avisoMantenimiento" description="Setea el aviso de mantenimiento">		
