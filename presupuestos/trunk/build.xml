@@ -20,9 +20,9 @@
 	<!-- directorio webapp -->
 	<property name="deploy.war.dir" value="${tomcat.path}/webapps"/>
 	<!-- directorio para backups jsp -->
-	<property name="backup.war.dir" value="${tomcat.path}/webapps"/>
+	<property name="backup.war.dir" value="${tomcat.path}/bkp"/>
 	<!-- directorio para backups jar -->
-	<property name="backup.jar.dir" value="${tomcat.commonlibs}"/>	
+	<property name="backup.jar.dir" value="${tomcat.path}/bkp"/>	
 	<!-- user, pass, url  para deploy de war -->
 	<property name="deploy.user" value="admin"/>
 	<property name="deploy.pass" value="admin"/>
@@ -72,7 +72,8 @@
 		</tstamp>
 		<property name="bkp.dir" value="Bkp${DSTAMP}"/>
 		<mkdir dir="${backup.war.dir}/${bkp.dir}"/>
-		<copy file="${deploy.war.dir}/${warfile}" todir="${backup.war.dir}/${bkp.dir}" failonerror="false"/>
+		<copy file="${deploy.war.dir}/${warfile}" todir="${backup.war.dir}/${bkp.dir}" failonerror="false"
+			preservelastmodified="true" overwrite="false"/>
 	</target>
 			
 	<target name="dist">				
