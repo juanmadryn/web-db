@@ -24,15 +24,15 @@ AntBaseBuild.properties junto a los build.xml de cada proyecto.
 	<!-- directorio en donde se copia el JAR -->
 	<property name="deploy.jar.dir" value="${tomcat.commonlibs}" />
 	<!-- directorio webapp -->
-	<property name="deploy.war.dir" value="${tomcat.base}/webapps" />
+	<property name="deploy.war.dir" value="${tomcat.base}\${instancia}/webapps" />
 	<!-- directorio para backups jsp -->
-	<property name="backup.war.dir" value="${tomcat.base}/bkp" />
+	<property name="backup.war.dir" value="${tomcat.base}\${instancia}/bkp" />
 	<!-- directorio para backups jar -->
-	<property name="backup.jar.dir" value="${tomcat.base}/bkp" />
+	<property name="backup.jar.dir" value="${tomcat.base}\${instancia}/bkp" />
 	<!-- directorio de reportes -->
 	<property name="report.base" value="${basedir}\Reportes" />
 	<!-- directorio de Birt Viewer -->
-	<property name="birt.base" value="${tomcat.base}\webapps\${birt}\${ant.project.name}" />
+	<property name="birt.base" value="${tomcat.base}\${instancia}\webapps\${birt}\${ant.project.name}" />
 	<!-- directorio de backups de reportes -->
 	<property name="backup.birt.dir" value="${birt.base}\bkp" />
 
@@ -103,9 +103,9 @@ AntBaseBuild.properties junto a los build.xml de cada proyecto.
 	</target>
 
 	<target name="dist" depends="dist.jar" description="Crea el war del proyecto">
-		<replace dir="${basedir}\Jsp" token="${birt.base}" value="${report.base}">
-			<include name="reporte*" />
-		</replace>
+		<replace dir="${basedir}\Jsp" token="C:\\Documents and Settings\\Administrador\\workspace_SOFIA\\${ant.project.name}\\Reportes\\" value="C:\\Archivos de programa\\Apache Software Foundation\\Tomcat 5.0\\Instancias\\${instancia}\\webapps\\${birt}\\${ant.project.name}\\" />
+		<replace dir="${basedir}\WEB-INF\properties\\" token="C:\\Documents and Settings\\Administrador\\workspace_SOFIA\\${ant.project.name}\\Reportes\\" value="C:\\Archivos de programa\\Apache Software Foundation\\Tomcat 5.0\\Instancias\\${instancia}\\webapps\\${birt}\\${ant.project.name}\\" />
+		<replace dir="${basedir}\WEB-INF\properties\\" token="/birt/" value="/${birt}/" />
 		<mkdir dir="${dist.war}" />
 		<antcall target="setProperties" />
 		<war destfile="${dist.war}/${warfile}" webxml="WEB-INF/web.xml">
@@ -114,9 +114,9 @@ AntBaseBuild.properties junto a los build.xml de cada proyecto.
 			<zipfileset dir="${jsp}" prefix="Jsp" />
 		</war>
 		<antcall target="restoreProperties" />
-		<replace dir="${basedir}/Jsp" token="${report.base}" value="${birt.base}">
-			<include name="reporte*" />
-		</replace>
+		<replace dir="${basedir}/Jsp" token="C:\\Archivos de programa\\Apache Software Foundation\\Tomcat 5.0\\Instancias\\${instancia}\\webapps\\${birt}\\${ant.project.name}\\" value="C:\\Documents and Settings\\Administrador\\workspace_SOFIA\\${ant.project.name}\\Reportes\\" />
+		<replace dir="${basedir}\WEB-INF\properties\\" token="C:\\Archivos de programa\\Apache Software Foundation\\Tomcat 5.0\\Instancias\\${instancia}\\webapps\\${birt}\\${ant.project.name}\\" value="C:\\Documents and Settings\\Administrador\\workspace_SOFIA\\${ant.project.name}\\Reportes\\" />
+		<replace dir="${basedir}\WEB-INF\properties\\" token="/${birt}/" value="/birt/" />
 	</target>
 
 	<target name="deploy.jar" depends="backup.jar,dist.jar" description="Copia el jar en el directorio de deploy">
