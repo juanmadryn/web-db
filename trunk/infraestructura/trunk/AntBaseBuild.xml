@@ -103,6 +103,9 @@ AntBaseBuild.properties junto a los build.xml de cada proyecto.
 	</target>
 
 	<target name="dist" depends="dist.jar" description="Crea el war del proyecto">
+		<replace dir="${basedir}\Jsp" token="${birt.base}" value="${report.base}">
+			<include name="reporte*" />
+		</replace>
 		<mkdir dir="${dist.war}" />
 		<antcall target="setProperties" />
 		<war destfile="${dist.war}/${warfile}" webxml="WEB-INF/web.xml">
@@ -111,6 +114,9 @@ AntBaseBuild.properties junto a los build.xml de cada proyecto.
 			<zipfileset dir="${jsp}" prefix="Jsp" />
 		</war>
 		<antcall target="restoreProperties" />
+		<replace dir="${basedir}/Jsp" token="${report.base}" value="${birt.base}">
+			<include name="reporte*" />
+		</replace>
 	</target>
 
 	<target name="deploy.jar" depends="backup.jar,dist.jar" description="Copia el jar en el directorio de deploy">
@@ -141,12 +147,10 @@ AntBaseBuild.properties junto a los build.xml de cada proyecto.
 	</target>
 
 	<target name="setReportPath" description="Reemplaza el path de reportes para Producción">
-		<replace dir="${basedir}/Jsp" token="${report.base}" value="${birt.base}" />
 		<replace dir="${basedir}/Reportes" token="${report.base}" value="${birt.base}" />
 	</target>
 
 	<target name="restoreReportPath" description="Reemplaza el path de reportes para Development">
-		<replace dir="${basedir}\Jsp" token="${birt.base}" value="${report.base}" />
 		<replace dir="${basedir}\Reportes" token="${birt.base}" value="${report.base}" />
 	</target>
 
