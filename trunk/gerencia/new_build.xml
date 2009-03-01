@@ -1,4 +1,5 @@
-<project name="gerencia" default="dist">
-	<property name="wpath" value="C:\Documents and Settings\Administrador\workspace_dev\infraestructura"/>
+<project name="gerencia" default="deploy">
+	<property name="wpath" value="C:\Documents and Settings\Administrador\workspace_SOFIA\infraestructura"/>
+	<property name="birt" value="birt"/>
 	<import file="../infraestructura/AntBaseBuild.xml"/>	
 </project>
