@@ -21,7 +21,6 @@
             <property name="fixedOrder">false</property>
             <property name="defaultValue">%</property>
             <property name="distinct">true</property>
-            <property name="sortBy">value</property>
             <expression name="sortByColumn">dataSetRow["proyecto"]</expression>
             <property name="sortDirection">asc</property>
             <structure name="format">
@@ -60,13 +59,11 @@ dataSetRow["nombre"]</expression>
             <property name="controlType">list-box</property>
             <property name="dataSetName">compradores</property>
             <expression name="valueExpr">dataSetRow["nombre_completo"]</expression>
-            <expression name="labelExpr">dataSetRow["nombre_completo"]
-dataSetRow["nro_legajo"]</expression>
+            <expression name="labelExpr">dataSetRow["nombre_completo"]</expression>
             <property name="mustMatch">false</property>
             <property name="fixedOrder">false</property>
             <property name="defaultValue">%</property>
             <property name="distinct">true</property>
-            <property name="sortBy">value</property>
             <expression name="sortByColumn">dataSetRow["nombre_completo"]</expression>
             <property name="sortDirection">asc</property>
             <structure name="format">
@@ -82,13 +79,11 @@ dataSetRow["nro_legajo"]</expression>
             <property name="controlType">list-box</property>
             <property name="dataSetName">solicitante</property>
             <expression name="valueExpr">dataSetRow["nombre_completo"]</expression>
-            <expression name="labelExpr">dataSetRow["nombre_completo"]
-dataSetRow["nro_legajo"]</expression>
+            <expression name="labelExpr">dataSetRow["nombre_completo"]</expression>
             <property name="mustMatch">false</property>
             <property name="fixedOrder">false</property>
             <property name="defaultValue">%</property>
             <property name="distinct">true</property>
-            <property name="sortBy">value</property>
             <expression name="sortByColumn">dataSetRow["nombre_completo"]</expression>
             <property name="sortDirection">asc</property>
             <structure name="format">
