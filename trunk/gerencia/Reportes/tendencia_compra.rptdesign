@@ -60,6 +60,7 @@ reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
             <text-property name="promptText">Desea ver el total de compras o segregado por proyecto?</text-property>
             <property name="controlType">radio-button</property>
             <property name="fixedOrder">true</property>
+            <property name="defaultValue">1</property>
             <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -435,6 +436,7 @@ from articulos</property>
                     <property name="borderBottomColor">#000000</property>
                     <property name="borderBottomStyle">solid</property>
                     <property name="borderBottomWidth">medium</property>
+                    <property name="marginTop">0pt</property>
                     <property name="canShrink">true</property>
                     <property name="height">100%</property>
                     <property name="width">100%</property>
