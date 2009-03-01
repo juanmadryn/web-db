@@ -3,6 +3,12 @@
 <siteMap>
 
 <entry>
+     <name>ReporteGestionCompra</name>
+     <uri>/Jsp/ReporteGestionCompra.jsp</uri>
+     <useForward>false</useForward>
+     <secure>false</secure>
+  </entry>
+<entry>
      <name>ReporteRankingCompradores</name>
      <uri>/Jsp/ReporteRankingCompradores.jsp</uri>
      <useForward>false</useForward>
