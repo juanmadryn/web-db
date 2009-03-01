@@ -1,0 +1,2 @@
+DROP VIEW IF EXISTS `inventario`.`promedio_fecha_recepcion_oc`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW  `inventario`.`promedio_fecha_recepcion_oc` AS select avg(`f`.`tasa_recepcion`) AS `promedio_recepcion_oc`,max(`f`.`fecha_ultima_recepcion`) AS `fecha_ultima_recepcion`,`d`.`orden_compra_id` AS `orden_compra_id` from (`detalle_sc` `d` join `fecha_ultima_recepcion` `f` on((`f`.`detalle_sc_id` = `d`.`detalle_SC_id`))) group by `d`.`orden_compra_id`;
