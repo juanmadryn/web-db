@@ -5,6 +5,13 @@
     <text-property name="title">Ranking de Gestión de Compras</text-property>
     <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Ranking por días de mayor gestión</html-property>
+    <method name="initialize"><![CDATA[importPackage(Packages.java.util);
+var cal = Calendar.getInstance();
+cal.add(Calendar.MONTH, -6);
+if(reportContext.getParameterValue("param_fecha_desde") == null)
+reportContext.setParameterValue("param_fecha_desde",cal.getTime());
+if(reportContext.getParameterValue("param_fecha_hasta") == null)
+reportContext.setParameterValue("param_fecha_hasta",new Date());]]></method>
     <text-property name="displayName">Ranking de gestión de compras</text-property>
     <parameters>
         <scalar-parameter name="proyecto" id="185">
@@ -90,6 +97,73 @@ dataSetRow["nombre"]</expression>
                 <property name="category">Unformatted</property>
             </structure>
         </scalar-parameter>
+        <scalar-parameter name="param_orden" id="1471">
+            <property name="valueType">static</property>
+            <property name="dataType">integer</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Orden:</text-property>
+            <property name="controlType">list-box</property>
+            <property name="mustMatch">true</property>
+            <property name="fixedOrder">true</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">0</property>
+                    <property name="label">Días por vencer</property>
+                </structure>
+                <structure>
+                    <property name="value">1</property>
+                    <property name="label">Total de días de gestión</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
+        <scalar-parameter name="param_fecha_desde" id="1472">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese la fecha de comienzo de la consulta</text-property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="param_fecha_hasta" id="1473">
+            <property name="valueType">static</property>
+            <property name="dataType">string</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ingrese la fecha de fin de la consulta</text-property>
+            <property name="isRequired">false</property>
+            <property name="controlType">text-box</property>
+            <property name="distinct">true</property>
+            <structure name="format">
+                <property name="category">Unformatted</property>
+            </structure>
+        </scalar-parameter>
+        <scalar-parameter name="param_pendiente_entrega" id="1474">
+            <property name="valueType">static</property>
+            <property name="dataType">boolean</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">Ver sólo lo pendiente?</text-property>
+            <property name="controlType">radio-button</property>
+            <property name="fixedOrder">true</property>
+            <property name="distinct">true</property>
+            <structure name="format"/>
+            <list-property name="selectionList">
+                <structure>
+                    <property name="value">true</property>
+                    <property name="label">Si</property>
+                </structure>
+                <structure>
+                    <property name="value">false</property>
+                    <property name="label">No</property>
+                </structure>
+            </list-property>
+        </scalar-parameter>
     </parameters>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="gerencia" id="6">
@@ -101,7 +175,166 @@ dataSetRow["nombre"]</expression>
     </data-sources>
     <data-sets>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="8">
-            <structure name="cachedMetaData"/>
+            <list-property name="filter">
+                <structure>
+                    <property name="operator">gt</property>
+                    <expression name="expr">if(params["param_pendiente_entrega"].value){row["pendiente_recepcion"]}else{row["orden_compra_id"]}</expression>
+                    <simple-property-list name="value1">
+                        <value>0</value>
+                    </simple-property-list>
+                </structure>
+                <structure>
+                    <property name="operator">ne</property>
+                    <expression name="expr">row["estado_oc"]</expression>
+                    <simple-property-list name="value1">
+                        <value>"RECHAZADA"</value>
+                    </simple-property-list>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">nombre_proyecto</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">solicitante_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">estado_sm</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">orden_compra_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">solicitud_compra_id</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">proveedor_codigo</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">proveedor_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">comprador_nombre</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">estado_oc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">observaciones_oc</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">condicion_compra_descripcion</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">total_compra</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">total_recibido</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">pendiente_recepcion</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">fecha_solicitud</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">fecha_aprobacion_sm</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">fecha_oc</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">fecha_aprobacion_oc</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">fecha_emision_oc</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">fecha_estimada_entrega</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">fecha_entrega_completa</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">total_dias_gestion</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">dias_gestion_aprobacion_sm</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">total_dias_cotizacion</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">total_dias_aprobacion_oc</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">total_dias_emision</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">dias_x_vencer</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
             <property name="dataSource">gerencia</property>
             <list-property name="parameters">
                 <structure>
@@ -136,6 +369,192 @@ dataSetRow["nombre"]</expression>
                     <property name="isInput">true</property>
                     <property name="isOutput">false</property>
                 </structure>
+                <structure>
+                    <property name="name">param_fecha_desde</property>
+                    <property name="paramName">param_fecha_desde</property>
+                    <property name="dataType">date</property>
+                    <property name="position">5</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+                <structure>
+                    <property name="name">param_fecha_hasta</property>
+                    <property name="paramName">param_fecha_hasta</property>
+                    <property name="dataType">date</property>
+                    <property name="position">6</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">proyecto</property>
+                    <property name="nativeName">proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">nombre_proyecto</property>
+                    <property name="nativeName">nombre_proyecto</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">solicitante_nombre</property>
+                    <property name="nativeName">solicitante_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">estado_sm</property>
+                    <property name="nativeName">estado_sm</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">orden_compra_id</property>
+                    <property name="nativeName">orden_compra_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">solicitud_compra_id</property>
+                    <property name="nativeName">solicitud_compra_id</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">proveedor_codigo</property>
+                    <property name="nativeName">proveedor_codigo</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">proveedor_nombre</property>
+                    <property name="nativeName">proveedor_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">comprador_nombre</property>
+                    <property name="nativeName">comprador_nombre</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">estado_oc</property>
+                    <property name="nativeName">estado_oc</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">observaciones_oc</property>
+                    <property name="nativeName">observaciones_oc</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">condicion_compra_descripcion</property>
+                    <property name="nativeName">condicion_compra_descripcion</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">total_compra</property>
+                    <property name="nativeName">total_compra</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">14</property>
+                    <property name="name">total_recibido</property>
+                    <property name="nativeName">total_recibido</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">15</property>
+                    <property name="name">pendiente_recepcion</property>
+                    <property name="nativeName">pendiente_recepcion</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">16</property>
+                    <property name="name">fecha_solicitud</property>
+                    <property name="nativeName">fecha_solicitud</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">17</property>
+                    <property name="name">fecha_aprobacion_sm</property>
+                    <property name="nativeName">fecha_aprobacion_sm</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">18</property>
+                    <property name="name">fecha_oc</property>
+                    <property name="nativeName">fecha_oc</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">19</property>
+                    <property name="name">fecha_aprobacion_oc</property>
+                    <property name="nativeName">fecha_aprobacion_oc</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">20</property>
+                    <property name="name">fecha_emision_oc</property>
+                    <property name="nativeName">fecha_emision_oc</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">21</property>
+                    <property name="name">fecha_estimada_entrega</property>
+                    <property name="nativeName">fecha_estimada_entrega</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">22</property>
+                    <property name="name">fecha_entrega_completa</property>
+                    <property name="nativeName">fecha_entrega_completa</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">23</property>
+                    <property name="name">total_dias_gestion</property>
+                    <property name="nativeName">total_dias_gestion</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">24</property>
+                    <property name="name">dias_gestion_aprobacion_sm</property>
+                    <property name="nativeName">dias_gestion_aprobacion_sm</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">25</property>
+                    <property name="name">total_dias_cotizacion</property>
+                    <property name="nativeName">total_dias_cotizacion</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">26</property>
+                    <property name="name">total_dias_aprobacion_oc</property>
+                    <property name="nativeName">total_dias_aprobacion_oc</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">27</property>
+                    <property name="name">total_dias_emision</property>
+                    <property name="nativeName">total_dias_emision</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">28</property>
+                    <property name="name">dias_x_vencer</property>
+                    <property name="nativeName">dias_x_vencer</property>
+                    <property name="dataType">integer</property>
+                </structure>
             </list-property>
             <property name="queryText">SELECT proyecto,nombre_proyecto,solicitante_nombre,estado_sm,
                  orden_compra_id,solicitud_compra_id,
@@ -156,13 +575,12 @@ WHERE proyecto like ?
   AND proveedor_codigo like ?
   AND comprador_nombre like ?
   AND solicitante_nombre like ?
+  AND fecha_emision_oc BETWEEN ? AND ?
 GROUP BY proyecto,nombre_proyecto,solicitante_nombre,estado_sm,
                  orden_compra_id,solicitud_compra_id,
                  proveedor_codigo,proveedor_nombre,comprador_nombre,estado_oc,observaciones_oc,
                  condicion_compra_descripcion,fecha_solicitud,	fecha_aprobacion_sm,fecha_oc,fecha_aprobacion_oc,fecha_emision_oc,fecha_estimada_entrega,
-                 fecha_entrega_completa 
-order by abs(total_dias_gestion) DESC
-</property>
+                 fecha_entrega_completa</property>
         </oda-data-set>
         <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="proyectos" id="182">
             <list-property name="columnHints">
@@ -559,6 +977,8 @@ from inventario.solicitantes as s</property>
     </styles>
     <page-setup>
         <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
             <property name="topMargin">0cm</property>
             <property name="leftMargin">1.5cm</property>
             <property name="bottomMargin">0cm</property>
@@ -722,7 +1142,7 @@ from inventario.solicitantes as s</property>
                 </structure>
                 <structure>
                     <property name="name">proveedor_nombre</property>
-                    <expression name="expression">dataSetRow["proveedor_nombre"]</expression>
+                    <expression name="expression">"["+dataSetRow["proveedor_codigo"]+"]"+" "+dataSetRow["proveedor_nombre"]</expression>
                     <property name="dataType">string</property>
                 </structure>
                 <structure>
@@ -833,6 +1253,12 @@ from inventario.solicitantes as s</property>
                 </structure>
             </list-property>
             <property name="pageBreakInterval">50</property>
+            <list-property name="sort">
+                <structure>
+                    <expression name="key">if(params["param_orden"].value == 0) {row["dias_x_vencer"]}else{row["total_dias_gestion"]}</expression>
+                    <property name="direction">desc</property>
+                </structure>
+            </list-property>
             <column id="115"/>
             <column id="118">
                 <property name="repeat">1</property>
@@ -845,7 +1271,6 @@ from inventario.solicitantes as s</property>
             <column id="122">
                 <property name="repeat">1</property>
             </column>
-            <column id="119"/>
             <column id="120"/>
             <column id="123"/>
             <column id="124"/>
@@ -987,23 +1412,6 @@ from inventario.solicitantes as s</property>
                             <text-property name="text">Estado OC</text-property>
                         </label>
                     </cell>
-                    <cell id="23">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">medium</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">medium</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">medium</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">medium</property>
-                        <label id="24">
-                            <text-property name="text">Código Proveedor</text-property>
-                        </label>
-                    </cell>
                     <cell id="25">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
@@ -1018,7 +1426,7 @@ from inventario.solicitantes as s</property>
                         <property name="borderTopStyle">solid</property>
                         <property name="borderTopWidth">medium</property>
                         <label id="26">
-                            <text-property name="text">Nombre Proveedor</text-property>
+                            <text-property name="text">Proveedor</text-property>
                         </label>
                     </cell>
                     <cell id="31">
@@ -1492,23 +1900,6 @@ from inventario.solicitantes as s</property>
                             <property name="resultSetColumn">estado_oc</property>
                         </data>
                     </cell>
-                    <cell id="64">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">medium</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">medium</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">medium</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">medium</property>
-                        <data id="65">
-                            <property name="resultSetColumn">proveedor_codigo</property>
-                        </data>
-                    </cell>
                     <cell id="66">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
@@ -1968,20 +2359,6 @@ from inventario.solicitantes as s</property>
                         <property name="borderTopWidth">medium</property>
                     </cell>
                     <cell id="102">
-                        <property name="borderBottomColor">#000000</property>
-                        <property name="borderBottomStyle">solid</property>
-                        <property name="borderBottomWidth">medium</property>
-                        <property name="borderLeftColor">#000000</property>
-                        <property name="borderLeftStyle">solid</property>
-                        <property name="borderLeftWidth">medium</property>
-                        <property name="borderRightColor">#000000</property>
-                        <property name="borderRightStyle">solid</property>
-                        <property name="borderRightWidth">medium</property>
-                        <property name="borderTopColor">#000000</property>
-                        <property name="borderTopStyle">solid</property>
-                        <property name="borderTopWidth">medium</property>
-                    </cell>
-                    <cell id="99">
                         <property name="borderBottomColor">#000000</property>
                         <property name="borderBottomStyle">solid</property>
                         <property name="borderBottomWidth">medium</property>
