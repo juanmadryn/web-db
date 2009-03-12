@@ -105,6 +105,7 @@ dataSetRow["nombre"]</expression>
             <property name="controlType">list-box</property>
             <property name="mustMatch">true</property>
             <property name="fixedOrder">true</property>
+            <property name="defaultValue">0</property>
             <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
@@ -151,6 +152,7 @@ dataSetRow["nombre"]</expression>
             <text-property name="promptText">Ver sólo lo pendiente?</text-property>
             <property name="controlType">radio-button</property>
             <property name="fixedOrder">true</property>
+            <property name="defaultValue">true</property>
             <property name="distinct">true</property>
             <structure name="format"/>
             <list-property name="selectionList">
