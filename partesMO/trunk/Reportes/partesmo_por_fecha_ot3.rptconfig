@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <list-property name="configVars">
+        <structure>
+            <property name="name">__isdisplay__param_fecha_desde_1219_0</property>
+            <property name="value">01/05/2012</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_fecha_hasta_1220_1</property>
+            <property name="value">31/07/2012</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_2</property>
+            <property name="value">0007 - CAMIONETA TOYOTA D/C 2000</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_3</property>
+            <property name="value">4505 - OBRAS MENORES II</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_4</property>
+            <property name="value">6070 - CHOFERES</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_5</property>
+            <property name="value">6081 - INFRAESTRUCTURA TALLERES</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_6</property>
+            <property name="value">6113 - PICK UP TOYOTA GRIS DOBLE CABINA</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_7</property>
+            <property name="value">7084 - WIEGER</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_8</property>
+            <property name="value">7501 - PALA CASE W 20 E</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_9</property>
+            <property name="value">7504 - ELECTROCOMPRESOR SULLAIR 7 M3</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_10</property>
+            <property name="value">7610 - SEMI RANDOM SRLT 03</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_11</property>
+            <property name="value">8002 - GENERADOR FENK</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_hasta_1220_12</property>
+            <property name="value">2012-07-31</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_hasta_1220_type_</property>
+            <property name="value">date</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_desde_1219_13</property>
+            <property name="value">2012-05-01</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_desde_1219_type_</property>
+            <property name="value">date</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_14</property>
+            <property name="value">0007</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_15</property>
+            <property name="value">4505</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_16</property>
+            <property name="value">6070</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_17</property>
+            <property name="value">6081</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_18</property>
+            <property name="value">6113</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_19</property>
+            <property name="value">7084</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_20</property>
+            <property name="value">7501</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_21</property>
+            <property name="value">7504</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_22</property>
+            <property name="value">7610</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_23</property>
+            <property name="value">8002</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_expr_</property>
+            <property name="value">dataSetRow["proyecto"]</property>
+        </structure>
+    </list-property>
+</report>

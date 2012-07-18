@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <list-property name="configVars">
+        <structure>
+            <property name="name">__isdisplay__param_fecha_desde_1219_0</property>
+            <property name="value">01/01/2007</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_fecha_hasta_1220_1</property>
+            <property name="value">31/10/2008</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_proyecto_1384_2</property>
+            <property name="value">%%</property>
+        </structure>
+        <structure>
+            <property name="name">__isdisplay__param_tarea_1385_3</property>
+            <property name="value">%%</property>
+        </structure>
+        <structure>
+            <property name="name">param_mostrar_detalles_1386_4</property>
+            <property name="value">true</property>
+        </structure>
+        <structure>
+            <property name="name">param_mostrar_detalles_1386_type_</property>
+            <property name="value">boolean</property>
+        </structure>
+        <structure>
+            <property name="name">param_tarea_1385_5</property>
+            <property name="value">%%</property>
+        </structure>
+        <structure>
+            <property name="name">param_tarea_1385_type_</property>
+            <property name="value">string</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_hasta_1220_6</property>
+            <property name="value">2008-10-31</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_hasta_1220_type_</property>
+            <property name="value">date</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_desde_1219_7</property>
+            <property name="value">2007-01-01</property>
+        </structure>
+        <structure>
+            <property name="name">param_fecha_desde_1219_type_</property>
+            <property name="value">date</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_8</property>
+            <property name="value">%%</property>
+        </structure>
+        <structure>
+            <property name="name">param_proyecto_1384_type_</property>
+            <property name="value">string</property>
+        </structure>
+    </list-property>
+</report>
